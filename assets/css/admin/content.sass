@@ -1,0 +1,268 @@
+div.admin-caja
+  display: flex
+  flex-direction: column
+  h2
+    margin-top: 100px
+    text-align: center
+    font-size: 70px
+    font-family: sourcesans-boldItalic
+  div.admin-contenedor
+    flex: auto
+    background: rgb(228, 228, 228)
+    +border-radius(15px)
+    margin: 20px
+    margin-top: 200px
+    display: flex
+    flex-direction: column
+  div.admin-menu
+    div.admin-mobi-m
+      display: none
+    div.fix-slideToggle
+      display: block
+      div.admin-m
+        display: flex
+        justify-content: center
+        background: #CACACA
+        font-size: 23px
+        transition: 0.5s
+        +border-radius(15px 15px 0px 0px)
+        span
+          padding: 15px
+          cursor: pointer
+          transition: 0.5s
+          +border-radius(15px 15px 0px 0px)
+          &:hover
+            background: rgb(228, 228, 228)
+            &:nth-child(2n)
+              background: rgb(128, 128, 128)
+        span.activo
+          background: rgb(228, 228, 228)
+          &:nth-child(2n)
+            background: rgb(128, 128, 128)
+  div.admin-contenido
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    +border-radius(15px)
+    margin: 20px
+    .popad_info_user
+            cursor: pointer
+            color: $blue
+            text-decoration: underline
+    /*-- Titulos --*/
+    span#admin-titulo1
+      background: #df5353
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #aa0f0f
+      p
+        margin: 10px 30px
+        text-align: justify
+        font-size: 25px
+    span#admin-titulo2
+      background: #91bfe4
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #19839f
+    span#admin-titulo3
+      background: #b891e4
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #775f98
+    span#admin-titulo4
+      background: #6cdf53
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #326527
+    span#admin-titulo5
+      background: #DF9C53
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #AA4C0F
+    span#admin-titulo6
+      background: #DF5392
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #AA0F88
+    span#admin-titulo7
+      background: #DF9053
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: #AA4E0F
+    /*CAJAS*/
+    div.admin-registros
+      margin: 40px 0px
+      background: $white
+      height: 200px
+      font-family: Consolas
+      overflow: auto
+      p
+        margin: 10px
+        text-align: justify
+      span
+        display: block
+        margin: 10px
+        margin-top: 0
+        font-size: 20px
+        text-align: center
+      div.admin-registros-datos
+        display: flex
+        justify-content: space-around
+        div.registro_cedula
+          text-align: center
+        div.registro_nombre
+          text-align: center
+          margin-bottom: 5px
+        div.registro_fecha
+          text-align: center
+          margin-bottom: 5px
+        div.registro_accion
+          text-align: center
+          margin-bottom: 5px
+    div.admin-upload
+      margin: 40px 0px
+      form
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        div.archivo
+          margin-bottom: 15px
+          span.max
+            display: block
+            text-align: center
+    div.admin-modify
+      margin: 40px 0px
+      div.menu-modify
+        width: 50%
+        margin: 15px auto
+      form
+        display: flex
+        flex-direction: column
+        align-items: center
+        div.seleccion
+          margin-bottom: 15px
+          text-align: center
+        div.datos
+          margin-bottom: 15px
+    div.admin-buscar
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      margin: 40px 0px
+      div#resultado-buscar
+        +border-radius(15px)
+        overflow: auto
+        display: flex
+        flex-direction: column
+        align-items: center
+        width: 200px
+        height: 200px
+        margin-top: 20px
+        background: $white
+        span
+          font-size: 18px
+          cursor: pointer
+          color: $blue
+          text-decoration: underline
+    div.admin-boletin
+      margin: 40px 0px
+      form
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        div.archivo
+          margin-bottom: 15px
+          span.max
+            display: block
+            text-align: center
+    div.admin-delete
+      margin: 40px 0px
+      div.seleccion
+        margin-bottom: 15px
+        width: 40%
+        margin: auto
+      form
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        .secciones-delete
+          margin-top: 10px
+          margin-bottom: 15px
+    div.admin-activar
+      margin: 40px 0px
+      div.seleccion
+        margin: auto
+        margin-bottom: 15px
+        width: 40%
+      form
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        text-align: center
+        .fix_admin_activar_sec_ok
+          margin: 10px
+        .secciones-estu
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          span
+            font-size: 20px
+          div
+            margin: 10px
+      form#admin-activar-sec
+        display: none
+    input[type="text"], input[type="password"]
+      text-align: center
+      font-size: 18px
+      margin: 0 8px
+      background: $white
+      border: solid 2px #4d4b4b
+      transition: 1s
+      +border-radius(5px)
+      margin-bottom: 10px
+      &:focus
+        border: solid 2px #4d4c4c
+        background: #fbfafa
+        box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5)
+        transition: 1s
