@@ -93,13 +93,8 @@ $(document).ready(function(){
 	//Rellenar div Content
 	$(".item-panel").on("click", function() {
 		var archivo = $(this).data("content");
-		$.ajax("assets/paginas/panel_admin/"+archivo+".html",{
-			type: "POST",
-			success: function(respuesta) {
-				$("#contenido").html(respuesta);
-				$("#contenido").find("div, span").hide().fadeIn(300);
-			}
-		});
+		$("#contenido").find(".c-caja").hide();
+		$("#contenido").find("span#c-titulo-"+archivo+", div#c-contenido-"+archivo).fadeIn(300);
 	});
 
 	//Botones de selección
