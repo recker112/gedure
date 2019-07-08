@@ -80,68 +80,6 @@ function verify_log($mysqli, $cedula, $accion){
   }
 }
 
-//Verificacion de usuario
-function verify_user($mysqli, $cedula){
-  $cedulaV = "V-".$cedula;
-  $consulta = $mysqli->prepare('SELECT login.user, login.cedula, login.password, cursos.curso, cursos.seccion, profesores_guia.user_pg, estudiantes.archivo, estudiantes.horario, estudiantes.nota
-    FROM estudiantes
-    INNER JOIN login ON login.estudi_id=estudiantes.e_id
-    INNER JOIN cursos ON cursos.id_c=estudiantes.curso_id
-    INNER JOIN profesores_guia ON profesores_guia.id_pg=estudiantes.profeGuia_id
-    WHERE login.cedula=?
-    LIMIT 1');
-  if (!$consulta) {
-    return "consulta error";
-  }
-  $consulta->bind_param("s", $cedulaV);
-  $consulta->execute();
-  $resultado = $consulta->get_result();
-
-  if ($resultado->num_rows == 1) {
-    $datos = $resultado->fetch_assoc();
-    $datos['privilegio'] = "V-";
-    return $datos;
-  }else {
-    $cedulaA = "A-".$cedula;
-    $consulta2 = $mysqli->prepare('SELECT cedula, user, password
-        FROM admins
-        WHERE cedula=?
-        LIMIT 1');
-    if (!$consulta2) {
-      return "consulta fallida";
-    }
-    $consulta2->bind_param("s", $cedulaA);
-    $consulta2->execute();
-    $resultado2 = $consulta2->get_result();
-
-    if ($resultado2->num_rows == 1) {
-      $datos2 = $resultado2->fetch_assoc();
-      $datos2['privilegio'] = "A-";
-      return $datos2;
-     }else {
-      $cedulaP = "P-".$cedula;
-      $consulta3 = $mysqli->prepare('SELECT cedula, user, password
-          FROM preinscripcion
-          WHERE cedula=?
-          LIMIT 1');
-      if (!$consulta3) {
-        return "consulta fallida";
-      }
-      $consulta3->bind_param("s", $cedulaP);
-      $consulta3->execute();
-      $resultado3 = $consulta3->get_result();
-
-      if ($resultado3->num_rows == 1) {
-        $datos3 = $resultado3->fetch_assoc();
-        $datos3['privilegio'] = "P-";
-        return $datos3;
-      }else {
-        return "no encontrado";
-      }
-     }
-  }
-}
-
 //Generar contraseña.
 function password_generate($cantidad) {
   $lista = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";

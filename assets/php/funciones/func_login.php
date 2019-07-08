@@ -1,4 +1,128 @@
 <?php
+//Login.
+function login($mysqli, $datos, $token, $checkbox, $cedula){
+  if (isset($checkbox) && $checkbox == "on") {
+    $reloginID = generate_reid($datos['cedula']);
+    $reloginID_user = password_generate(10);
+    setcookie("reloginID", generate_reid_local($datos['cedula']), time() + 31536000, "/", $_SERVER['HTTP_HOST']);
+    setcookie("reloginID_user", $reloginID_user, time() + 31536000, "/", $_SERVER['HTTP_HOST']);
+    $consulta = $mysqli->prepare("INSERT INTO reloginID
+      (relogin_encript, relogin_user, relogin_cedula)
+      VALUES
+      (?,?,?)");
+    if (!$consulta) {
+      return "consulta falida";
+    }
+    $consulta->bind_param("sss", $reloginID, $reloginID_user, $cedula);
+    $consulta->execute();
+  }
+  $accion = "Inicio de sesión exitoso.";
+    add_log($mysqli, $datos['cedula'], $datos['user'], $accion);
+  if ($datos['privilegio'] == "V-") {
+    $_SESSION['user'] = $datos['user'];
+    $_SESSION['cedula'] = $datos['cedula'];
+    $_SESSION['cedulaSin'] = $cedula;
+    $_SESSION['curso'] = $datos['curso'];
+    $_SESSION['seccion'] = $datos['seccion'];
+    $_SESSION['archivo'] = $datos['archivo'];
+    $_SESSION['nota'] = $datos['nota'];
+    $_SESSION['horario'] = $datos['horario'];
+    $_SESSION['profeGuia'] = $datos['user_pg'];
+    $_SESSION['privilegio'] = $datos['privilegio'];
+    $_SESSION['avatar'] = $datos['avatar'];
+    $_SESSION['token'] = $token;
+    $_SESSION['loginIs'] = "user";
+    $_SESSION['change_log'] = 0;
+    $_SESSION['change_lock'] = 0;
+    return "user";
+  }else if ($datos['privilegio'] == "A-") {
+    $_SESSION['user'] = $datos['user'];
+    $_SESSION['cedula'] = $datos['cedula'];
+    $_SESSION['cedulaSin'] = $cedula;
+    $_SESSION['privilegio'] = $datos['privilegio'];
+    $_SESSION['token'] = $token;
+    $_SESSION['loginIs'] = "admin";
+    $_SESSION['avatar'] = $datos['avatar'];
+    $_SESSION['change_log'] = 0;
+    $_SESSION['change_lock'] = 0;
+    $_SESSION['inser'] = 0;
+    $_SESSION['update'] = 0;
+    $_SESSION['error'] = 0;
+    return "admin";
+  }else if ($datos['privilegio'] == "CR-") {
+    $_SESSION['user'] = $datos['user'];
+    $_SESSION['cedula'] = $datos['cedula'];
+    $_SESSION['cedulaSin'] = $cedula;
+    $_SESSION['privilegio'] = $datos['privilegio'];
+    $_SESSION['avatar'] = $datos['avatar'];
+    $_SESSION['token'] = $token;
+    $_SESSION['loginIs'] = "creador";
+    return "creador";
+  }
+}
+
+//Verificacion de usuario
+function verify_user($mysqli, $cedula){
+  $cedulaV = "V-".$cedula;
+  $consulta = $mysqli->prepare('SELECT login.user, login.cedula, login.password, cursos.curso, cursos.seccion, profesores_guia.user_pg, estudiantes.archivo, estudiantes.horario, estudiantes.nota, login.avatar
+    FROM estudiantes
+    INNER JOIN login ON login.estudi_id=estudiantes.e_id
+    INNER JOIN cursos ON cursos.id_c=estudiantes.curso_id
+    INNER JOIN profesores_guia ON profesores_guia.id_pg=estudiantes.profeGuia_id
+    WHERE login.cedula=?
+    LIMIT 1');
+  if (!$consulta) {
+    return "consulta error";
+  }
+  $consulta->bind_param("s", $cedulaV);
+  $consulta->execute();
+  $resultado = $consulta->get_result();
+
+  if ($resultado->num_rows == 1) {
+    $datos = $resultado->fetch_assoc();
+    $datos['privilegio'] = "V-";
+    return $datos;
+  }else {
+    $cedulaA = "A-".$cedula;
+    $consulta2 = $mysqli->prepare('SELECT cedula, user, password, avatar
+        FROM admins
+        WHERE cedula=?
+        LIMIT 1');
+    if (!$consulta2) {
+      return "consulta fallida";
+    }
+    $consulta2->bind_param("s", $cedulaA);
+    $consulta2->execute();
+    $resultado2 = $consulta2->get_result();
+
+    if ($resultado2->num_rows == 1) {
+      $datos2 = $resultado2->fetch_assoc();
+      $datos2['privilegio'] = "A-";
+      return $datos2;
+     }else {
+      $cedulaP = "CR-".$cedula;
+      $consulta3 = $mysqli->prepare('SELECT cedula, user, password, avatar
+          FROM creadores
+          WHERE cedula=?
+          LIMIT 1');
+      if (!$consulta3) {
+        return "consulta fallida";
+      }
+      $consulta3->bind_param("s", $cedulaP);
+      $consulta3->execute();
+      $resultado3 = $consulta3->get_result();
+
+      if ($resultado3->num_rows == 1) {
+        $datos3 = $resultado3->fetch_assoc();
+        $datos3['privilegio'] = "CR-";
+        return $datos3;
+      }else {
+        return "no encontrado";
+      }
+     }
+  }
+}
+
 //Verificar lista de baneados
 function banlist($mysqli, $cedula){
   $consulta = $mysqli->prepare('SELECT time, attempts, locks
@@ -159,64 +283,6 @@ function login_clear($mysqli, $cedula){
 	WHERE ban_cedula=?');
 	$consulta->bind_param("s", $cedula);
 	$consulta->execute();
-}
-
-//Login.
-function login($mysqli, $datos, $token, $checkbox, $cedula){
-	if (isset($checkbox) && $checkbox == "on") {
-		$reloginID = generate_reid($datos['cedula']);
-		$reloginID_user = password_generate(10);
-		setcookie("reloginID", generate_reid_local($datos['cedula']), time() + 31536000, "/", $_SERVER['HTTP_HOST']);
-		setcookie("reloginID_user", $reloginID_user, time() + 31536000, "/", $_SERVER['HTTP_HOST']);
-		$consulta = $mysqli->prepare("INSERT INTO reloginID
-			(relogin_encript, relogin_user, relogin_cedula)
-			VALUES
-			(?,?,?)");
-		if (!$consulta) {
-			return "consulta falida";
-		}
-		$consulta->bind_param("sss", $reloginID, $reloginID_user, $cedula);
-		$consulta->execute();
-	}
-	$accion = "Inicio de sesión exitoso.";
-  	add_log($mysqli, $datos['cedula'], $datos['user'], $accion);
-	if ($datos['privilegio'] == "V-") {
-		$_SESSION['user'] = $datos['user'];
-		$_SESSION['cedula'] = $datos['cedula'];
-		$_SESSION['cedulaSin'] = $cedula;
-		$_SESSION['curso'] = $datos['curso'];
-		$_SESSION['seccion'] = $datos['seccion'];
-		$_SESSION['archivo'] = $datos['archivo'];
-		$_SESSION['nota'] = $datos['nota'];
-		$_SESSION['horario'] = $datos['horario'];
-		$_SESSION['profeGuia'] = $datos['user_pg'];
-		$_SESSION['privilegio'] = $datos['privilegio'];
-		$_SESSION['token'] = $token;
-		$_SESSION['loginIs'] = "user";
-		$_SESSION['change_log'] = 0;
-		$_SESSION['change_lock'] = 0;
-		return "user";
-	}else if ($datos['privilegio'] == "A-") {
-		$_SESSION['user'] = $datos['user'];
-		$_SESSION['cedula'] = $datos['cedula'];
-		$_SESSION['cedulaSin'] = $cedula;
-		$_SESSION['privilegio'] = $datos['privilegio'];
-		$_SESSION['token'] = $token;
-		$_SESSION['loginIs'] = "admin";
-		$_SESSION['change_log'] = 0;
-		$_SESSION['change_lock'] = 0;
-		$_SESSION['inser'] = 0;
-		$_SESSION['update'] = 0;
-		$_SESSION['error'] = 0;
-		return "admin";
-	}else if ($datos['privilegio'] == "P-") {
-		$_SESSION['user'] = $datos['user'];
-		$_SESSION['cedula'] = $datos['cedula'];
-		$_SESSION['privilegio'] = $datos['privilegio'];
-		$_SESSION['token'] = $token;
-		$_SESSION['loginIs'] = "p_i";
-		return "p_i";
-	}
 }
 
 //Generar reloginID sql.

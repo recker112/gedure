@@ -11,7 +11,7 @@ body
 	-o-background-size: cover
 	background-size: cover
 	font-family: sourcesans, Arial, Helvetica, Sans-serif
-	min-height: 100vh
+	height: 100vh
 	/*-- Flex --*/
 	display: flex
 	flex-direction: column
@@ -28,8 +28,6 @@ header
 	background: #295b85
 
 main
-	margin: auto
-	width: 70%
-	display: flex
-	flex-direction: column
-	flex: auto
+	+border_radius(20px)
+	background: $white
+	border: 8px solid #3074ab

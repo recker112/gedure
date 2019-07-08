@@ -1,0 +1,37 @@
+<span id="c-titulo-matricula" class="c-titulo"><span class="icon-file-text2"></span>Subir/Cargar matricula</span>
+<div id="c-contenido-matricula" class="c-contenido">
+	<form method="POST" id="form_matricula" enctype="multipart/form-data">
+		<div id="m-archivo">
+			<input type="file" id="m-archivo-id" name="archivo" />
+			<br>
+			<span>(Máximo: 10KB)</span>
+		</div>
+		<div id="m-curso">
+			<select class="grado" name="grado" id="grado">
+		        <option value="" selected="selected">Grado/Año</option>
+		        <option value="1G">1 grado</option>
+		        <option value="2G">2 grado</option>
+		        <option value="3G">3 grado</option>
+		        <option value="4G">4 grado</option>
+		        <option value="5G">5 grado</option>
+		        <option value="6G">6 grado</option>
+		        <option value="1">1 año</option>
+		        <option value="2">2 año</option>
+		        <option value="3">3 año</option>
+		        <option value="4">4 año</option>
+		        <option value="5">5 año</option>
+		        <option value="6">6 año</option>
+		    </select>
+		    <select class="seccion" name="seccion" id="seccion">
+		        <option value="" selected="selected">Sección</option>
+		        <option value="A">A</option>
+		        <option value="B">B</option>
+		        <option value="C">C</option>
+		        <option value="U">U</option>
+	    </select>
+	</div>
+	<div id="m-cargar">	
+		<button id="m-cargar-boton">Subir archivo</button>
+	</div>
+	</form>
+</div>
