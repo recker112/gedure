@@ -310,8 +310,7 @@ main div#contenido span#c-titulo-bienvenidos {
   margin-bottom: 10px;
 }
 main div#contenido span#c-titulo-registros {
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -327,8 +326,7 @@ main div#contenido span#c-titulo-registros span {
 }
 main div#contenido span#c-titulo-modificar {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -344,8 +342,7 @@ main div#contenido span#c-titulo-modificar span {
 }
 main div#contenido span#c-titulo-matricula {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -361,8 +358,7 @@ main div#contenido span#c-titulo-matricula span {
 }
 main div#contenido span#c-titulo-boletas {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -378,8 +374,7 @@ main div#contenido span#c-titulo-boletas span {
 }
 main div#contenido span#c-titulo-notas {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -395,8 +390,7 @@ main div#contenido span#c-titulo-notas span {
 }
 main div#contenido span#c-titulo-borrar {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -412,8 +406,7 @@ main div#contenido span#c-titulo-borrar span {
 }
 main div#contenido span#c-titulo-opciones {
   text-align: center;
-  display: flex;
-  align-items: center;
+  display: none;
   font-size: 30px;
   font-family: sourcesans-Bold;
   padding: 5px 15px;
@@ -426,6 +419,12 @@ main div#contenido span#c-titulo-opciones {
 }
 main div#contenido span#c-titulo-opciones span {
   margin-right: 10px;
+}
+main div#contenido span#c-titulo-notificaciones {
+  display: none;
+}
+main div#contenido span#c-titulo-manual {
+  display: none;
 }
 main div#contenido form {
   display: flex;
@@ -441,7 +440,7 @@ main div#contenido div#c-contenido-bienvenidos {
 }
 main div#contenido div#c-contenido-registros {
   text-align: center;
-  display: flex;
+  display: none;
   flex-direction: column;
   font-size: 20px;
   margin-top: 10px;
@@ -482,6 +481,7 @@ main div#contenido div#c-contenido-registros div.datos div span:nth-child(2n) {
 }
 main div#contenido div#c-contenido-modificar {
   flex: auto;
+  display: none;
   margin-top: 10px;
   width: 100%;
 }
@@ -528,16 +528,19 @@ main div#contenido div#c-contenido-modificar input:focus {
 }
 main div#contenido div#c-contenido-matricula {
   margin-top: 10px;
+  display: none;
   flex: auto;
   text-align: center;
 }
 main div#contenido div#c-contenido-boletas {
   margin-top: 10px;
+  display: none;
   flex: auto;
   text-align: center;
 }
 main div#contenido div#c-contenido-notas {
   margin-top: 10px;
+  display: none;
   flex: auto;
   text-align: center;
 }
@@ -568,11 +571,13 @@ main div#contenido div#c-contenido-notas input#n_afectado_user:focus {
 }
 main div#contenido div#c-contenido-borrar {
   flex: auto;
+  display: none;
   margin-top: 10px;
   text-align: center;
 }
 main div#contenido div#c-contenido-opciones {
   flex: auto;
+  display: none;
   margin-top: 10px;
   text-align: center;
   width: 100%;
@@ -614,6 +619,15 @@ main div#contenido div#c-contenido-opciones input:focus {
   background: #fbfafa;
   box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
   box-shadow-transition: 1s;
+}
+main div#contenido div#c-contenido-notificaciones {
+  display: none;
+  flex: auto;
+}
+main div#contenido div#c-contenido-manual {
+  display: none;
+  width: 100%;
+  flex: auto;
 }
 
 /*# sourceMappingURL=panel.css.map */
