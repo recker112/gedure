@@ -68,7 +68,6 @@ if ($verify_cs){
 					<div class="div-fix2" id="panel-content1">
 						<div class="panel-content">
 							<a href="admin/manual.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-file-word"></span>Manual</a>
-							<span class="item-panel" data-content="notificaciones">Notificaciones</span>
 							<span class="item-panel" data-content="registros"><span class="icon-terminal"></span>Registros</span>
 							<span class="item-panel" data-content="modificar"><span class="icon-user-circle"></span>Modificar</span>
 							<span class="item-panel" data-content="matricula"><span class="icon-file-text2"></span>Matricula</span>
@@ -116,11 +115,6 @@ if ($verify_cs){
 			<span class="c-caja" id="c-titulo-bienvenidos">Bienvenido</span>
 			<div class="c-caja" id="c-contenido-bienvenidos">Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: carga de matricula, carga de boletas, modificar usuarios, eliminar usuarios, ver los registros, borrar cursos o boletas, entre otras cosas. Se le recomienda leerse el manual para poder obtener información completa sobre las acciones que realizan cada función en la web.
 			</div>
-			<!-- Notificaciones -->
-			<span class="c-caja" id="c-titulo-notificaciones">Notificaciones</span>
-			<div class="c-caja" id="c-contenido-notificaciones">
-
-			</div>
 			<!-- Registros -->
 			<span class="c-caja" id="c-titulo-registros"><span class="icon-terminal"></span>Registros</span>
 			<div class="c-caja" id="c-contenido-registros">
@@ -131,16 +125,8 @@ if ($verify_cs){
 					</div>
 					<div class="datos">
 						<div id="cedula">
-							<span class="datos">12</span>
-							<span class="datos">12</span>
-							<span class="datos">12</span>
-							<span class="datos">12</span>
 						</div>
 						<div id="accion">
-							<span class="datos">14</span>
-							<span class="datos">14</span>
-							<span class="datos">14</span>
-							<span class="datos">14</span>
 						</div>
 					</div>
 				</div>
@@ -447,9 +433,21 @@ if ($verify_cs){
 		<span>Este sitio web utiliza cookies propias para que usted tenga una mejor experiencia de usuario. Si continúa navegando está dando su consentimiento para la aceptación de las mencionadas cookies y la aceptación de nuestra <a href="politica-cookies.php" class="link">política de cookies</a>.</span>
 		<a href="javascript:void(0)" class="ok" id="confirm_cookie">Aceptar politicas de cookies</a>
 	</div>
+	<div id="popad">
+			<div id="popad-caja">
+				<div id="popad-title">
+					<span id="popad-titulo"></span>
+					<span id="popad-cerrar">X</span>
+				</div>
+				<div id="popad-caja2">
+					<span id="popad-info"></span>
+				</div>
+			</div>
+		</div>
 	<script type="text/javascript" src="assets/new_js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="assets/new_js/func_global.js"></script>
 	<script type="text/javascript" src="assets/new_js/func_panel.js"></script>
+	<script type="text/javascript" src="assets/new_js/ajax_panel.js"></script>
 	<script type="text/javascript" src="assets/new_js/cookies.js"></script>
 </body>
 </html>

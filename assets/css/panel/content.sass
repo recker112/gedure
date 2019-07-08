@@ -207,7 +207,6 @@ main
 		div#c-contenido-registros
 			text-align: center
 			display: none
-			flex-direction: column
 			font-size: 20px
 			margin-top: 10px
 			width: 100%
@@ -223,13 +222,16 @@ main
 				display: flex
 				justify-content: space-around
 				min-height: 200px
-				max-height: 4s00px
+				max-height: 400px
 				overflow: auto
 				margin-bottom: 10px
 				div
 					width: 100%
 					display: flex
 					flex-direction: column
+					span.cedula
+						color: $blue
+						cursor: pointer
 					span
 						padding: 5px 0px
 						border: 1px solid rgba(0,0,0,0.2)

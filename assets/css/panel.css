@@ -441,7 +441,6 @@ main div#contenido div#c-contenido-bienvenidos {
 main div#contenido div#c-contenido-registros {
   text-align: center;
   display: none;
-  flex-direction: column;
   font-size: 20px;
   margin-top: 10px;
   width: 100%;
@@ -462,7 +461,7 @@ main div#contenido div#c-contenido-registros div.datos {
   display: flex;
   justify-content: space-around;
   min-height: 200px;
-  max-height: 4s00px;
+  max-height: 400px;
   overflow: auto;
   margin-bottom: 10px;
 }
@@ -470,6 +469,10 @@ main div#contenido div#c-contenido-registros div.datos div {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+main div#contenido div#c-contenido-registros div.datos div span.cedula {
+  color: #0074D9;
+  cursor: pointer;
 }
 main div#contenido div#c-contenido-registros div.datos div span {
   padding: 5px 0px;
@@ -628,6 +631,69 @@ main div#contenido div#c-contenido-manual {
   display: none;
   width: 100%;
   flex: auto;
+}
+
+/*--- Alert ---*/
+div#popad {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  flex-direction: colunm;
+  justify-content: center;
+  align-items: center;
+}
+div#popad div#popad-caja {
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 70px;
+  max-height: 370px;
+  background: #ecf0f1;
+  border-radius: 10px;
+}
+div#popad div#popad-caja div#popad-title {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px 10px 0px 0px;
+  text-align: center;
+  background: #2e86c1;
+  font-size: 20px;
+  font-family: sourcesans-bolditalic;
+}
+div#popad div#popad-caja div#popad-title span#popad-titulo {
+  width: 100%;
+  text-align: center;
+  margin-left: 45px;
+  margin-right: 15px;
+}
+div#popad div#popad-caja div#popad-title span#popad-cerrar {
+  margin-right: 20px;
+  padding: 0px 5px;
+}
+div#popad div#popad-caja div#popad-title span#popad-cerrar:hover {
+  cursor: pointer;
+}
+div#popad div#popad-caja div#popad-caja2 {
+  overflow: auto;
+  text-align: center;
+  min-height: 45px;
+  max-height: 345px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+div#popad div#popad-caja div#popad-caja2 span#popad-info {
+  width: 100%;
+  margin: 10px;
+}
+div#popad div#popad-caja div#popad-caja2 img {
+  width: 22px;
+  height: 22px;
 }
 
 /*# sourceMappingURL=panel.css.map */
