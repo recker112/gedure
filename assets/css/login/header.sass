@@ -1,7 +1,5 @@
 header
 	box-shadow: 0.1em 0.1em 0.4em #143b5c
-	div.m-menu
-		display: none
 	div.caja-menu
 		width: 94%
 		margin: auto
@@ -12,32 +10,11 @@ header
 			background: #d7dfe4
 			+border-radius(0px 15px 15px)
 			padding: 3px
-		img.m-logo
-			display: none
-		nav
-			margin: 4px
-			display: flex
-			a
-				margin: 0px 5px
-				padding: 13px 20px
-				font-size: 16px
-				color: $white
-				font-family: sourcesans
-				+border-radius(10px)
-				transition: 1s
-				&:hover
-					background: rgba(0, 0, 0, 0.2)
-					text-shadow: 0.1em 0.1em 0.2em $white
-				&:active
-					background: rgba(0, 0, 0, 0.1)
-					text-shadow: 0.1em 0.1em 0.2em $black
-					transition: 0.1s
-				span
-					margin-right: 10px
-					text-align: center
-			a.actual
-				background: rgba(0, 0, 0, 0.2)
-				&:active
-					background: rgba(0, 0, 0, 0.1)
-					text-shadow: 0.1em 0.1em 0.2em $black
-					transition: 0.1s
+		p
+			font-family: sourcesans-bold
+			font-size: 22px
+			background: rgba(0,0,0,0.2)
+			color: $white
+			padding: 8px 16px
+			margin: 5px 0px
+			+border_radius(10px)

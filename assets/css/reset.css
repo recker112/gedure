@@ -58,13 +58,6 @@ select {
 	margin: inherit;
 }
 
-button {
-	border: 0;
-	padding: 0;
-	background: transparent;
-	cursor: pointer;
-}
-
 /* Fixes incorrect placement of numbers in ol's in IE6/7 */
 ol { margin-left:2em; }
 
