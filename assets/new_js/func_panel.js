@@ -97,8 +97,63 @@ $(document).ready(function(){
 		$("#contenido").find("span#c-titulo-"+archivo+", div#c-contenido-"+archivo).fadeIn(300);
 	});
 
-	//Botones de selección
+	//Botones de selección modificar
 	$("#contenido").on("change", "#m_selector_id",function() {
-		var opcion = $("#m_selector_id").val();
+		$("#c-contenido-modificar").find("form").hide();
+		$("form#form_modificar_"+$(this).val()).fadeIn(300);
 	});
+
+	$("#contenido").on("change", "#m_selector_user", function() {
+		if ($(this).val() == "A-"){
+			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+			//Fix selector modificar
+			$(".m-options select#option").val("INSERT");
+			$("#m_pass_id").val("").fadeIn(300);
+			$("#m_name_id").val("").fadeIn(300);
+		}else if ($(this).val() == "CR-") {
+			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+			//Fix selector modificar
+			$(".m-options select#option").val("INSERT");
+			$("#m_pass_id").val("").fadeIn(300);
+			$("#m_name_id").val("").fadeIn(300);
+		}else if ($(this).val() == "V-") {
+			$("#form_modificar_user .m-options select").fadeIn(300);
+			//Fix selector modificar
+			$(".m-options select#option").val("INSERT");
+			$("#m_pass_id").val("").fadeIn(300);
+			$("#m_name_id").val("").fadeIn(300);
+			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+		}
+	});
+
+	$("#contenido").on("change", ".m-options #option", function() {
+		if ($(this).val() == "UPDATE" && $("#m_selector_user").val() == "V-") {
+			$("#m_pass_id").val("1234").fadeOut(300);
+			$("#m_name_id").val("").fadeIn(300);
+			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+		}else if ($(this).val() == "DELETE" && $("#m_selector_user").val() == "V-") {
+			$("#m_pass_id").val("1234").fadeOut(300);
+			$("#m_name_id").val("none").fadeOut(300);
+			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+		}else if ($(this).val() == "INSERT" && $("#m_selector_user").val() == "V-") {
+			$("#m_pass_id").val("").fadeIn(300);
+			$("#m_name_id").val("").fadeIn(300);
+			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+		}else if ($(this).val() == "UPDATE") {
+			$("#m_pass_id").val("1234").fadeOut(300);
+			$("#m_name_id").val("").fadeIn(300);
+		}else if ($(this).val() == "DELETE") {
+			$("#m_pass_id").val("1234").fadeOut(300);
+			$("#m_name_id").val("none").fadeOut(300);
+		}else if ($(this).val() == "INSERT") {
+			$("#m_pass_id").val("").fadeIn(300);
+			$("#m_name_id").val("").fadeIn(300);
+		}
+	});
+
+	//FIX FLEX!!! !Hace que las cajas regresen a flex con la funcion fadeIn y no a block, como lo hace normalmente
+	$("#form_modificar_prof, #form_modificar_block").hide();
+
+	//Fix selector modificar
+	$("#m_selector_id").val("user");
 });

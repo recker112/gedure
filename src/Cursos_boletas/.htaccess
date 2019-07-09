@@ -1,0 +1,7 @@
+AuthUserFile /localhost/Proyectos/ProyectosGit/candelariaweb/src/web-assets/.htpasswd
+
+AuthName "Necesita validarse"
+
+AuthType Basic
+
+require user recker
