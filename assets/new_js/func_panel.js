@@ -105,49 +105,49 @@ $(document).ready(function(){
 
 	$("#contenido").on("change", "#m_selector_user", function() {
 		if ($(this).val() == "A-"){
-			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+			$("#form_modificar_user .m-options select").not("select#m_option_user").val("1").fadeOut(300);
 			//Fix selector modificar
-			$(".m-options select#option").val("INSERT");
-			$("#m_pass_id").val("").fadeIn(300);
-			$("#m_name_id").val("").fadeIn(300);
+			$(".m-options select#m_option_user").val("INSERT");
+			$("#m_pass_user").val("").fadeIn(300);
+			$("#m_name_user").val("").fadeIn(300);
 		}else if ($(this).val() == "CR-") {
-			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+			$("#form_modificar_user .m-options select").not("select#m_option_user").val("1").fadeOut(300);
 			//Fix selector modificar
-			$(".m-options select#option").val("INSERT");
-			$("#m_pass_id").val("").fadeIn(300);
-			$("#m_name_id").val("").fadeIn(300);
+			$(".m-options select#m_option_user").val("INSERT");
+			$("#m_pass_user").val("").fadeIn(300);
+			$("#m_name_user").val("").fadeIn(300);
 		}else if ($(this).val() == "V-") {
-			$("#form_modificar_user .m-options select").fadeIn(300);
+			$("#form_modificar_user .m-options select").val("").fadeIn(300);
 			//Fix selector modificar
-			$(".m-options select#option").val("INSERT");
-			$("#m_pass_id").val("").fadeIn(300);
-			$("#m_name_id").val("").fadeIn(300);
-			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+			$(".m-options select#m_option_user").val("INSERT");
+			$("#m_pass_user").val("").fadeIn(300);
+			$("#m_name_user").val("").fadeIn(300);
 		}
 	});
 
-	$("#contenido").on("change", ".m-options #option", function() {
+	//Options User
+	$("#contenido").on("change", ".m-options #m_option_user", function() {
 		if ($(this).val() == "UPDATE" && $("#m_selector_user").val() == "V-") {
-			$("#m_pass_id").val("1234").fadeOut(300);
-			$("#m_name_id").val("").fadeIn(300);
-			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+			$("#m_pass_user").val("none").fadeOut(300);
+			$("#m_name_user").val("").fadeIn(300);
+			$("#form_modificar_user .m-options select").not("select#m_option_user").val("").fadeIn(300);
 		}else if ($(this).val() == "DELETE" && $("#m_selector_user").val() == "V-") {
-			$("#m_pass_id").val("1234").fadeOut(300);
-			$("#m_name_id").val("none").fadeOut(300);
-			$("#form_modificar_user .m-options select").not("select#option").fadeOut(300);
+			$("#m_pass_user").val("1234").fadeOut(300);
+			$("#m_name_user").val("none").fadeOut(300);
+			$("#form_modificar_user .m-options select").not("select#m_option_user").val("1").fadeOut(300);
 		}else if ($(this).val() == "INSERT" && $("#m_selector_user").val() == "V-") {
-			$("#m_pass_id").val("").fadeIn(300);
-			$("#m_name_id").val("").fadeIn(300);
-			$("#form_modificar_user .m-options select").not("select#option").fadeIn(300);
+			$("#m_pass_user").val("").fadeIn(300);
+			$("#m_name_user").val("").fadeIn(300);
+			$("#form_modificar_user .m-options select").not("select#m_option_user").val("").fadeIn(300);
 		}else if ($(this).val() == "UPDATE") {
-			$("#m_pass_id").val("1234").fadeOut(300);
-			$("#m_name_id").val("").fadeIn(300);
+			$("#m_pass_user").val("1234").fadeOut(300);
+			$("#m_name_user").val("").fadeIn(300);
 		}else if ($(this).val() == "DELETE") {
-			$("#m_pass_id").val("1234").fadeOut(300);
-			$("#m_name_id").val("none").fadeOut(300);
+			$("#m_pass_user").val("1234").fadeOut(300);
+			$("#m_name_user").val("none").fadeOut(300);
 		}else if ($(this).val() == "INSERT") {
-			$("#m_pass_id").val("").fadeIn(300);
-			$("#m_name_id").val("").fadeIn(300);
+			$("#m_pass_user").val("").fadeIn(300);
+			$("#m_name_user").val("").fadeIn(300);
 		}
 	});
 

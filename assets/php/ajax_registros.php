@@ -9,19 +9,20 @@ require 'funciones/func_registros.php';
 //Delay
 sleep(1);
 
+//Start session
 sec_session_start();
-if (isset($_SESSION['loginIs']) && $_SESSION['loginIs'] != "admin") {
-	header("location: ../../panel.php");
-}
 
 if (token($_SESSION['token'])) {
 	if ($_SESSION['loginIs'] == "admin") {
 		$datos = registros_log($mysqli);
-		echo json_encode($datos);
+		$respuesta = $datos;
+		//Cerrar conexion.
+		$mysqli->close();
 	}else {
-		echo "None.";
+		$respuesta = array('status' => 'error', 'description' => 'internal_error');
 	}
 }else {
-	echo "None.";
+	$respuesta = array('status' => 'error', 'description' => 'token');
 }
+echo json_encode($respuesta);
 ?>
