@@ -134,34 +134,33 @@ if ($verify_cs){
 			<!-- Modificar -->
 			<span class="c-caja" id="c-titulo-modificar"><span class="icon-user-circle"></span>Modificar y desbloquear</span>
 			<div class="c-caja" id="c-contenido-modificar">
+				<div id="m-selector">
+					<select id="m_selector_id">
+						<option value="user" selected="">Usuario</option>
+						<option value="prof">Profesores</option>
+						<option value="block">Desbloqueos</option>
+					</select>
+				</div>
 				<form method="POST" autocomplete="off" id="form_modificar_user">
-					<div id="m-selector">
-						<select id="m_selector_id">
-							<option value="user" selected="selected">Usuarios</option>
-							<option value="prof">Profesores</option>
-							<option value="block">Bloqueos</option>
-						</select>
-					</div>
-					<div id="m-div1">
-						<select id="m-selector-user">
+					<div class="m-div1">
+						<select id="m_selector_user" name="privilegio">
 							<option value="V-" selected="selected">V-</option>
 							<option value="A-">A-</option>
-							<option value="P-">p-</option>
+							<option value="CR-">CR-</option>
 						</select>
-						<input type="text" id="m-user-id" name="user" placeholder="Cédula" />
-						<input type="password" id="m-password-id" name="password" placeholder="Contraseña" />
+						<input type="text" id="m_cedula_id" name="cedula" placeholder="Cédula" />
+						<input type="password" id="m_pass_id" name="password" placeholder="Contraseña" />
 					</div>
-					<div id="m-div2">
-						<input type="text" id="m-name-id" name="name" placeholder="Nombre" />
+					<div class="m-div2">
+						<input type="text" id="m_name_id" name="name" placeholder="Nombre" />
 					</div>
-					<div id="m-options">
-						<select id="option" name="option" id="option">
-					        <option value="" selected="selected">Opción</option>
-					        <option value="INSERT">Insertar</option>
+					<div class="m-options">
+						<select id="option" name="option" id="m_op_id">
+					        <option value="INSERT" selected="selected">Insertar</option>
 					        <option value="UPDATE">Actualizar</option>
 					        <option value="DELETE">Eliminar</option>
 					      </select>
-					      <select class="grado" name="grado" id="grado">
+					      <select class="grado" name="grado" id="m_grado_id">
 					        <option value="" selected="selected">Grado/Año</option>
 					        <option value="1G">1 grado</option>
 					        <option value="2G">2 grado</option>
@@ -176,14 +175,14 @@ if ($verify_cs){
 					        <option value="5">5 año</option>
 					        <option value="6">6 año</option>
 					      </select>
-					      <select class="seccion" name="seccion" id="seccion">
+					      <select class="seccion" name="seccion" id="m_seccion_id">
 					        <option value="" selected="selected">Sección</option>
 					        <option value="A">A</option>
 					        <option value="B">B</option>
 					        <option value="C">C</option>
 					        <option value="U">U</option>
 					      </select>
-					      <select class="lista" name="lista" id="lista">
+					      <select class="lista" name="lista" id="m_lista_id">
 					        <option value="" selected="selected">Lista</option>
 					        <option value="1">1</option>
 					        <option value="2">2</option>
@@ -225,8 +224,53 @@ if ($verify_cs){
 					        <option value="38">38</option>
 					      </select>
 					</div>
-					<div id="m-submit">
-						<button id="m-button">Realizar</button>
+					<div class="m-submit">
+						<button id="m_button_user" disabled="">Realizar</button>
+					</div>
+				</form>
+				<form method="POST" id="form_modificar_prof" autocomplete="off">
+					<div class="m-div1">
+						<input type="text" name="name" id="m_name_prof" placeholder="Nombre">
+					</div>
+					<div class="m-options">
+					      <select class="grado" name="grado" id="m_grado_prof">
+					        <option value="" selected="selected">Grado/Año</option>
+					        <option value="1G">1 grado</option>
+					        <option value="2G">2 grado</option>
+					        <option value="3G">3 grado</option>
+					        <option value="4G">4 grado</option>
+					        <option value="5G">5 grado</option>
+					        <option value="6G">6 grado</option>
+					        <option value="1">1 año</option>
+					        <option value="2">2 año</option>
+					        <option value="3">3 año</option>
+					        <option value="4">4 año</option>
+					        <option value="5">5 año</option>
+					        <option value="6">6 año</option>
+					      </select>
+					      <select class="seccion" name="seccion" id="seccion">
+					        <option value="" selected="selected">Sección</option>
+					        <option value="A">A</option>
+					        <option value="B">B</option>
+					        <option value="C">C</option>
+					        <option value="U">U</option>
+					      </select>
+					</div>
+					<div class="m-submit">
+						<button id="m_button_prof" disabled="">Realizar</button>
+					</div>
+				</form>
+				<form method="POST" id="form_modificar_block" autocomplete="off">
+					<div class="m-div1">
+						<select id="m-selector-user" name="privilegio">
+							<option value="V-" selected="selected">V-</option>
+							<option value="A-">A-</option>
+							<option value="CR-">CR-</option>
+						</select>
+						<input type="text" id="m_button_block" placeholder="Cedula" name="cedula">
+					</div>
+					<div class="m-submit">
+						<button id="m_button_block" disabled="">Desbloquear</button>
 					</div>
 				</form>
 			</div>
@@ -262,16 +306,16 @@ if ($verify_cs){
 					        <option value="C">C</option>
 					        <option value="U">U</option>
 				    </select>
-				</div>
-				<div id="m-cargar">	
-					<button id="m-cargar-boton">Subir archivo</button>
-				</div>
+					</div>
+					<div id="m-cargar">	
+						<button id="m-cargar-boton">Subir archivo</button>
+					</div>
 				</form>
 			</div>
 			<!-- Boletas -->
 			<span class="c-caja" id="c-titulo-boletas"><span class="icon-newspaper"></span>Subir boletas</span>
 			<div class="c-caja" id="c-contenido-boletas">
-				<form method="POST" enctype="multipart/form-data" id="form_boletas">
+				<form id="form_boletas" method="POST" enctype="multipart/form-data">
 					<div id="b-archivo">
 						<input type="file" id="m-archivo-id" name="archivo" multiple="" />
 						<br>
@@ -309,7 +353,7 @@ if ($verify_cs){
 			<!-- Notas -->
 			<span class="c-caja" id="c-titulo-notas">Activar/Desactivar notas y horarios</span>
 			<div class="c-caja" id="c-contenido-notas">
-				<form method="POST" id="form_notas_estu">
+				<form id="form_notas_estu" method="POST">
 					<div class="n-seleccion">
 						<select id="n-selector">
 							<option selected="selected" value="estu">Estudiante</option>

@@ -490,9 +490,17 @@ main div#contenido div#c-contenido-modificar {
 }
 main div#contenido div#c-contenido-modificar div#m-selector {
   width: 100%;
-  margin-right: 200px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+}
+main div#contenido div#c-contenido-modificar div#m-selector select {
+  margin-left: 45px;
+}
+main div#contenido div#c-contenido-modificar form#form_modificar_prof {
+  display: flex;
+}
+main div#contenido div#c-contenido-modificar form#form_modificar_block {
+  display: flex;
 }
 main div#contenido div#c-contenido-modificar div#m-div1 {
   display: flex;
