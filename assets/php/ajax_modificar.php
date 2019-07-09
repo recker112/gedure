@@ -42,10 +42,13 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 			//Mensajes de status
 			if ($resultado == "insert_ok") {
 				$respuesta = array('status' => 'ok','description' => 'insert_ok');
+				add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], "Añadido: ".$privilegio.$cedula);
 			}else if ($resultado == "update_ok") {
 				$respuesta = array('status' => 'ok','description' => 'update_ok');
+				add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], "Acutalizado: ".$privilegio.$cedula);
 			}else if ($resultado == "delete_ok") {
 				$respuesta = array('status' => 'ok','description' => 'delete_ok');
+				add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], "Eliminado: ".$privilegio.$cedula);
 			}else if ($resultado == "insert_error") {
 				$respuesta = array('status' => 'error','description' => 'insert_error');
 			}else if ($resultado == "update_error") {
