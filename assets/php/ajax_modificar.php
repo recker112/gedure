@@ -58,9 +58,6 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 			}else {
 				$respuesta = array('status' => 'error','description' => 'consult_error');
 			}
-
-			//Cerrar conexion.
-			$mysqli->close();
 		}
 	}else {
 		$respuesta = array('status' => 'error','description' => 'internal_error');
@@ -71,4 +68,6 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 
 //Imprimir resultado
 echo json_encode($respuesta);
+//Cerrar conexion.
+$mysqli->close();
 ?>

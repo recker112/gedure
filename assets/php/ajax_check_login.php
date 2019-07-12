@@ -89,11 +89,10 @@ if (isset($_POST['token']) && token($_POST['token'])) {
 			$respuesta = array('status' => 'fallido', 'message' => 'block_perma');
 		}
 	}
-
-	//Cerrar conexion.
-	$mysqli->close();
 }else {
 	$respuesta = array('status' => 'fallido', 'message' => 'token');
 }
 echo json_encode($respuesta);
+//Cerrar conexion.
+$mysqli->close();
 ?>

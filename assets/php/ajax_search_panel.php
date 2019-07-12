@@ -22,4 +22,6 @@ if (token($_SESSION['token'])) {
 }else {
 	echo "None.";
 }
+//Cerrar conexion.
+$mysqli->close();
 ?>

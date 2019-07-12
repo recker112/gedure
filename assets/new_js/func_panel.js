@@ -43,8 +43,8 @@ $(document).ready(function(){
 					$("#search_status").html("");
 					var user;
 					var cedula;
-					if (resultado){	
-						for (var i = 0; i < 5; i++) {
+					if (resultado[0]){	
+						for (var i = 0; i < resultado.rows; i++) {
 							user = resultado[i].user;
 							cedula = resultado[i].cedula;
 							$("#search_status").append("<span class='datos' data-user='"+user+"' data-cedula='"+cedula+"'><span id='user1-nombre'>"+user+"</span><span id='user1-cedula'>"+cedula+"</span></span>");

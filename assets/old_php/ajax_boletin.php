@@ -1,5 +1,5 @@
 <?php
-sleep(2);
+sleep(1);
 //Realizar conexion
 require 'connect_db.php';
 

@@ -36,6 +36,7 @@ function search_panel($mysqli, $buscar){
 			$datos[$i]['user'] = $fila['user'];
 			$i++;
 		}
+		$datos['rows'] = $resultado->num_rows;
 		return $datos;
 	}else {
 		return false;
