@@ -151,8 +151,24 @@ $(document).ready(function(){
 		}
 	});
 
+	//Select Notas
+	$("#contenido").on("change", "#notas_selector", function() {
+		var option = $(this).val();
+		if (option == "sec") {
+			$("#n_user").hide().val("");
+			$("#n_grado").fadeIn(200);
+			$("#n_seccion").fadeIn(200);
+			$("#n_hidden").val("sec");
+		}else {
+			$("#n_grado").hide().val("");
+			$("#n_seccion").hide().val("");
+			$("#n_user").fadeIn(200);
+			$("#n_hidden").val("estu");
+		}
+	});
+
 	//FIX FLEX!!! !Hace que las cajas regresen a flex con la funcion fadeIn y no a block, como lo hace normalmente
-	$("#form_modificar_prof, #form_modificar_block").hide();
+	$("#form_modificar_prof, #form_modificar_block, #form_notas_secc").hide();
 
 	//Fix selector modificar
 	$("#m_selector_id").val("user");

@@ -502,17 +502,17 @@ main div#contenido div#c-contenido-modificar form#form_modificar_prof {
 main div#contenido div#c-contenido-modificar form#form_modificar_block {
   display: flex;
 }
-main div#contenido div#c-contenido-modificar div#m-div1 {
+main div#contenido div#c-contenido-modificar div.m-div1 {
   display: flex;
   justify-content: center;
   margin: 0px 10px;
   flex-wrap: wrap;
   width: 100%;
 }
-main div#contenido div#c-contenido-modificar div#m-div1 input {
+main div#contenido div#c-contenido-modificar div.m-div1 input {
   margin: 0px 10px;
 }
-main div#contenido div#c-contenido-modificar div#m-options {
+main div#contenido div#c-contenido-modificar div.m-options {
   margin: 5px;
 }
 main div#contenido div#c-contenido-modificar input {
@@ -555,10 +555,13 @@ main div#contenido div#c-contenido-notas {
   flex: auto;
   text-align: center;
 }
+main div#contenido div#c-contenido-notas form#form_notas_secc {
+  display: flex;
+}
 main div#contenido div#c-contenido-notas span {
   font-size: 20px;
 }
-main div#contenido div#c-contenido-notas input#n_afectado_user {
+main div#contenido div#c-contenido-notas input#n_user {
   height: 25px;
   align-self: center;
   text-align: center;
@@ -574,7 +577,7 @@ main div#contenido div#c-contenido-notas input#n_afectado_user {
   border-radius: 10px;
   transition: 1s;
 }
-main div#contenido div#c-contenido-notas input#n_afectado_user:focus {
+main div#contenido div#c-contenido-notas input#n_user:focus {
   border: solid 2px #4d4c4c;
   background: #fbfafa;
   box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);

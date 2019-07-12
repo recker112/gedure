@@ -364,6 +364,11 @@ $(document).ready(function() {
 			        	}
 			        	//Mostrar popad
 	        			$("#popad").fadeIn(200).css("display", "flex");
+			        },
+			        error: function (jqXHR, textStatus, errorThrown) {
+			          $("#popad").fadeIn(200).css("display", "flex");
+			          $("#popad-titulo").text("PETICION FALLIDA");
+			          $("#popad-info").html("El servidor arroja los siguientes datos: <br>jqXHR: "+ jqXHR.statusText +".</br>Type Error: "+ textStatus +".");               
 			        }
 						});
         	}else {
@@ -406,6 +411,59 @@ $(document).ready(function() {
 	    $("#popad-info").text("Debe rellenar todos los campos.");
 	    $("#popad").fadeIn(200).css("display", "flex");
 		}
+	});
+
+	//Notas
+	$("#c-contenido-notas").on("click", "#n_boton", function(e) {
+		e.preventDefault();
+		$("#popad-titulo").text("Notas");
+		var datos = $("#form_notas").serialize();
+		$.ajax("assets/php/ajax_notas.php", {
+			type: "POST",
+			dataType: "html",
+			data: datos,
+			cache: false,
+			beforeSend: function() {
+				//Efecto loading
+				$("#n_loading").fadeIn(200);
+				$("#n_boton").hide();
+			},
+			success: function(respuesta) {
+				//Efecto loading invertido
+				$("#n_boton").fadeIn(200);
+				$("#n_loading").hide();
+				var message;
+				var resultado = JSON.parse(respuesta);
+				if (resultado.message == "token") {
+					message = "Error: Ex000001.";
+				}else if (resultado.message == "consult_error"){
+					message = "Error: Ex000002";
+				}else if (resultado.message == "empty") {
+					message = "Debe rellenar todos los campos.";
+				}else	if (resultado.message == "no_found_sec") {
+					message = "La sección seleccionada no existe.";
+				}else if (resultado.message == "no_found_user") {
+					message = "El usuario no está registrado en la base datos.";
+				}else if (resultado.message == "no_changes"){
+					message = "No se han realizado cambios.";
+				}else if (resultado.message == "ok") {
+					message = "Se han cargado los cambios al servidor exitosamente.";
+				}else {
+					message = "Error: Ex000001";
+				}
+
+				//Mensajes
+				$("#popad-info").text(message);        
+
+				//Mostrar popad
+				$("#popad").fadeIn(200).css("display", "flex");
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+        $("#popad").fadeIn(200).css("display", "flex");
+        $("#popad-titulo").text("PETICION FALLIDA");
+        $("#popad-info").html("El servidor arroja los siguientes datos: <br>jqXHR: "+ jqXHR.statusText +".</br>Type Error: "+ textStatus +".");               
+      }
+		});
 	});
 
 	//Cerrar popad
