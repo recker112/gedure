@@ -361,9 +361,9 @@ if ($verify_cs){
 			<!-- Notas -->
 			<span class="c-caja" id="c-titulo-notas">Activar/Desactivar notas y horarios</span>
 			<div class="c-caja" id="c-contenido-notas">
-				<form id="form_notas_estu" method="POST">
+				<form id="form_notas" method="POST" autocomplete="off">
 					<div class="n-seleccion">
-						<select id="n-selector">
+						<select id="notas_selector">
 							<option selected="selected" value="estu">Estudiante</option>
 							<option value="sec">Seccion</option>
 						</select>
@@ -387,8 +387,8 @@ if ($verify_cs){
 						</div>
 					</div>
 					<div id="n-afectado">
-						<input type="text" id="n_afectado_user" name="cedula" placeholder="Cedula" />
-						<select class="grado" name="grado" id="grado" style="display: none">
+						<input type="text" id="n_user" name="cedula" placeholder="Cedula" />
+						<select class="grado" name="grado" id="n_grado" style="display: none">
 					        <option value="" selected="selected">Grado/Año</option>
 					        <option value="1G">1 grado</option>
 					        <option value="2G">2 grado</option>
@@ -403,16 +403,18 @@ if ($verify_cs){
 					        <option value="5">5 año</option>
 					        <option value="6">6 año</option>
 					    </select>
-					    <select class="seccion" name="seccion" id="seccion" style="display: none">
+					    <select class="seccion" name="seccion" id="n_seccion" style="display: none">
 					        <option value="" selected="selected">Sección</option>
 					        <option value="A">A</option>
 					        <option value="B">B</option>
 					        <option value="C">C</option>
 					        <option value="U">U</option>
 					    </select>
+					    <input type="hidden" name="option" value="estu" id="n_hidden">
 					</div>
 					<div id="n-submit">
-						<button>Realizar cambios</button>
+						<button id="n_boton">Realizar cambios</button>
+						<img id="n_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 			</div>
