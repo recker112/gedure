@@ -260,7 +260,7 @@ if ($verify_cs){
 					</div>
 					<div class="m-submit">
 						<button id="m_button_prof" data-modificar="prof">Realizar</button>
-						<img id="m_loading_prof" style="display: none;" src='assets/img/loading.svg' height='37' alt='imagen de carga' />
+						<img id="m_loading_prof" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 				<form method="POST" id="form_modificar_block" autocomplete="off">
@@ -274,7 +274,7 @@ if ($verify_cs){
 					</div>
 					<div class="m-submit">
 						<button id="m_button_block" data-modificar="block">Desbloquear</button>
-						<img id="m_loading_block" style="display: none;" src='assets/img/loading.svg' height='37' alt='imagen de carga' />
+						<img id="m_loading_block" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 			</div>
@@ -283,12 +283,12 @@ if ($verify_cs){
 			<div class="c-caja" id="c-contenido-matricula" class="c-contenido">
 				<form method="POST" id="form_matricula" enctype="multipart/form-data">
 					<div id="m-archivo">
-						<input type="file" id="m-archivo-id" name="archivo" />
+						<input type="file" id="matri_archivo" name="archivo" />
 						<br>
 						<span>(Máximo: 10KB)</span>
 					</div>
 					<div id="m-curso">
-						<select class="grado" name="grado" id="grado">
+						<select class="grado" name="curso" id="matri_curso">
 					        <option value="" selected="selected">Grado/Año</option>
 					        <option value="1G">1 grado</option>
 					        <option value="2G">2 grado</option>
@@ -303,7 +303,7 @@ if ($verify_cs){
 					        <option value="5">5 año</option>
 					        <option value="6">6 año</option>
 					    </select>
-					    <select class="seccion" name="seccion" id="seccion">
+					    <select class="seccion" name="seccion" id="matri_seccion">
 					        <option value="" selected="selected">Sección</option>
 					        <option value="A">A</option>
 					        <option value="B">B</option>
@@ -312,7 +312,9 @@ if ($verify_cs){
 				    </select>
 					</div>
 					<div id="m-cargar">	
-						<button id="m-cargar-boton">Subir archivo</button>
+						<button id="matri_boton">Subir archivo</button>
+						<img id="matri_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
+						<p></p>
 					</div>
 				</form>
 			</div>
@@ -321,12 +323,12 @@ if ($verify_cs){
 			<div class="c-caja" id="c-contenido-boletas">
 				<form id="form_boletas" method="POST" enctype="multipart/form-data">
 					<div id="b-archivo">
-						<input type="file" id="m-archivo-id" name="archivo" multiple="" />
+						<input type="file" id="b_archivo" name="archivo" multiple="" />
 						<br>
-						<span>(Máximo: 20 boletas por carga)</span>
+						<span>(Máximo: 2MB)</span>
 					</div>
 					<div id="b-curso">
-						<select class="grado" name="grado" id="grado">
+						<select class="grado" name="grado" id="b_grado">
 					        <option value="" selected="selected">Grado/Año</option>
 					        <option value="1G">1 grado</option>
 					        <option value="2G">2 grado</option>
@@ -341,7 +343,7 @@ if ($verify_cs){
 					        <option value="5">5 año</option>
 					        <option value="6">6 año</option>
 					    </select>
-					    <select class="seccion" name="seccion" id="seccion">
+					    <select class="seccion" name="seccion" id="b_seccion">
 					        <option value="" selected="selected">Sección</option>
 					        <option value="A">A</option>
 					        <option value="B">B</option>
@@ -350,7 +352,9 @@ if ($verify_cs){
 					    </select>
 					</div>
 					<div id="b-cargar">	
-						<button id="m-cargar-boton">Subir archivo</button>
+						<button id="b_boton">Subir archivo</button>
+						<img id="b_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
+						<p id="b_status"></p>
 					</div>
 				</form>
 			</div>

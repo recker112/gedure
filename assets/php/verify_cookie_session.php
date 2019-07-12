@@ -27,4 +27,6 @@ if (isset($_SESSION['token']) && isset($_SESSION['loginIs'])) {
 }else {
 	$verify_cs = false;
 }
+//Cerrar conexion.
+$mysqli->close();
  ?>

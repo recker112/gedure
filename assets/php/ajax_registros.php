@@ -16,8 +16,6 @@ if (token($_SESSION['token'])) {
 	if ($_SESSION['loginIs'] == "admin") {
 		$datos = registros_log($mysqli);
 		$respuesta = $datos;
-		//Cerrar conexion.
-		$mysqli->close();
 	}else {
 		$respuesta = array('status' => 'error', 'description' => 'internal_error');
 	}
@@ -25,4 +23,6 @@ if (token($_SESSION['token'])) {
 	$respuesta = array('status' => 'error', 'description' => 'token');
 }
 echo json_encode($respuesta);
+//Cerrar conexion.
+$mysqli->close();
 ?>
