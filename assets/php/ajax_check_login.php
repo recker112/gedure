@@ -5,7 +5,7 @@ require 'funciones/func_global.php';
 require 'funciones/func_login.php';
 
 //Scripts
-sleep(3);
+sleep(2);
 
 //Iniciar session segura
 sec_session_start();

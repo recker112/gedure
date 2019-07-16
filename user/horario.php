@@ -1,38 +1,29 @@
 <?php
-//Deprendencias
-require '../assets/php/funciones/func_global.php';
+//Dependencias
+require '../assets/php/connect_db.php';
+require '../assets/php/verify_cookie_session.php';
 
-//Scripts
-sec_session_start();
-
-if ($_SESSION['loginIs'] == "admin" || $_SESSION['loginIs'] == "p_i" || !isset($_SESSION['loginIs'])) {
-  header("location: ../user.php");
-}else {
-  if (token($_SESSION['token']) == true) {
-    //
-  }else {
-    echo "<script>alert('Debes inicar session antes de poder entrar.');window.location.href='login.php'</script>";
-    exit;
-  }
-
-  //Verificar notas activas.
+if ($verify_cs && $_SESSION['loginIs'] == "user") {
+  $dir = "../src/Cursos_boletas/".$_SESSION['curso']."/".$_SESSION['seccion'].".pdf";
   if ($_SESSION['horario'] == "1") {
-    //Variables
-    $seccion = $_SESSION['seccion'];
-    $curso = $_SESSION['curso'];
-    $dir = "../src/horarios/$curso/$seccion.docx";
     if (file_exists($dir)) {
       //Llamar archivo.
-      header("Content-disposition: attachment; filename=Mi_horario.pdf");
-      header("Content-type: application/pdf");
-      header ("Content-Length: ".filesize($dir));
+      header('Content-Type: application/pdf');
+      header('Expires: 0');
+      header('Cache-Control: must-revalidate');
+      header('Pragma: public');
+      ob_clean();
+      flush();
       readfile($dir);
     }else {
-      header("location: ../user.php?error=horarios_no_found");
+      echo "Horario no cargado.";
+      echo "<script>setTimeout(function (){window.close()}, 4000);</script>";
     }
   }else {
-    //Mensaje de advertencia.
-    header("location: ../user.php?error=horarios");
+    echo "Horario desactivado.";
+    echo "<script>setTimeout(function (){window.close()}, 4000);</script>";
   }
+}else {
+  header("location: ../panel.php");
 }
 ?>

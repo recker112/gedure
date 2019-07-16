@@ -64,7 +64,8 @@ function verify_log($mysqli, $cedula, $accion){
   $consulta = $mysqli->prepare('SELECT time
   FROM logs
   WHERE log_cedula=? AND accion=?
-  ORDER BY log_id DESC');
+  ORDER BY log_id DESC
+  LIMIT 1');
   if (!$consulta) {
     return false;
   }
