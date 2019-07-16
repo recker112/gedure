@@ -42,6 +42,8 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 					$respuesta = array('message' => 'no_changes');
 				}else if ($consulta == "ok") {
 					$respuesta = array('message' => 'ok');
+					$accion = "Configuracion cambiada: ".$cedula.".";
+					add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], $accion);
 				}else {
 					$respuesta = array('message' => 'internal_error');
 				}
@@ -88,9 +90,11 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 				}else if ($consulta == "no_found_sec") {
 					$respuesta = array('message' => 'no_found_sec');
 				}else if ($consulta == "no_change") {
-					$respuesta = array('message' => 'no_change');
+					$respuesta = array('message' => 'no_changes');
 				}else if ($consulta == "ok") {
 					$respuesta = array('message' => 'ok');
+					$accion = "Configuracion cambiada: ".$cedula.".";
+					add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], $accion);
 				}else {
 					$respuesta = array('message' => 'internal_error');
 				}

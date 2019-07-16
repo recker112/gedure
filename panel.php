@@ -11,7 +11,7 @@ if ($verify_cs){
 		$archivo = $_SESSION['archivo'];
 		$nota = $_SESSION['nota'];
 		$horario = $_SESSION['horario'];
-		$progeGuia = $_SESSION['profeGuia'];
+		$profeGuia = $_SESSION['profeGuia'];
 		$avatar = $_SESSION['avatar'];
 		$token = $_SESSION['token'];
 	}else if ($privilegio == "A-"){
@@ -62,47 +62,45 @@ if ($verify_cs){
 			<span id="user"><?php echo $user ?></span>
 			<nav id="panel">
 				<div class="div-fix">
-					<?php
-					if ($_SESSION['loginIs']=="admin" || $_SESSION['loginIs']=="creador"){?>
-					<p class="titulo-panel" data-selector="1" data-name="Gestión" data-open=">">Gestión ></p>
+					<?php if ($privilegio == "A-"){ ?>
+					<p class="titulo-panel" data-selector="1" data-name="Gestión" data-open=">">Gestión <span class="icon-chevron-right"></span></p>
 					<div class="div-fix2" id="panel-content1">
 						<div class="panel-content">
-							<a href="admin/manual.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-file-word"></span>Manual</a>
+							<a href="admin/manual.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-book"></span>Manual</a>
 							<span class="item-panel" data-content="registros"><span class="icon-terminal"></span>Registros</span>
 							<span class="item-panel" data-content="modificar"><span class="icon-user-circle"></span>Modificar</span>
-							<span class="item-panel" data-content="matricula"><span class="icon-file-text2"></span>Matricula</span>
-							<span class="item-panel" data-content="boletas"><span class="icon-newspaper"></span>Boletas</span>
-							<span class="item-panel" data-content="notas">Notas</span>
+							<span class="item-panel" data-content="matricula"><span class="icon-file-pdf"></span>Matricula</span>
+							<span class="item-panel" data-content="boletas"><span class="icon-file-excel"></span>Boletas</span>
+							<span class="item-panel" data-content="configuracion"><span class="icon-cogs"></span>Configuracion</span>
 							<span class="item-panel" data-content="borrar"><span class="icon-bin"></span>Borrar</span>
 						</div>
 					</div>
-					<p class="titulo-panel" data-selector="2" data-name="Cuenta" data-open=">">Cuenta ></p>
-					<div class="div-fix2" id="panel-content2">		
-					<div class="panel-content">
-						<span class="item-panel" data-content="opciones"><span class="icon-cog"></span>Opciones</span>
-						<a href="logout.php" class="item-panel"><span class="icon-power-off"></span>Salir</a>
-					</div>
-					</div>
-					<?php
-					}else if ($_SESSION['loginIs']=="user"){?>
-						<p class="titulo-panel" data-selector="1">Gestión</p>
+					<?php }else if ($privilegio == "V-"){ ?>
+						<p class="titulo-panel" data-selector="1" data-name="Gestión" data-open=">">Gestión <span class="icon-chevron-right"></span></p>
 						<div class="div-fix2" id="panel-content1">	
 							<div class="panel-content">
-								<span class="item-panel"><span class="icon-book"></span>Información</span>
-								<span class="item-panel"><span class="icon-newspaper"></span>Boleta</span>
-								<span class="item-panel"><span class="icon-clock"></span>Horario</span>
-								<span class="item-panel"><span class="icon-file-pdf"></span>Constancias</span>
+								<span class="item-panel" data-content="informacion"><span class="icon-book1"></span>Información</span>
+								<a href="user/boleta.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-edit"></span>Boleta</a>
+								<a href="user/horario.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-clock-o"></span>Horario</a>
+								<span class="item-panel" data-content="constancias"><span class="icon-file-word"></span>Constancias</span>
 							</div>
 						</div>
-						<p class="titulo-panel" data-selector="2">Cuenta</p>
-						<div class="div-fix2" id="panel-content2">
+					<?php }else if($privilegio == "CR-") { ?>
+						<p class="titulo-panel" data-selector="1" data-name="Gestión" data-open=">">Gestión <span class="icon-chevron-right"></span></p>
+						<div class="div-fix2" id="panel-content1">	
 							<div class="panel-content">
-								<span class="item-panel"><span class="icon-cog"></span>Opciones</span>
-								<span class="item-panel"><span class="icon-power-off"></span>Salir</span>
+								<span class="item-panel"><span class="icon-terminal"></span>Registros</span>
+								<span class="item-panel"><span class="icon-newspaper"></span>Subir contenido</span>
 							</div>
 						</div>
-					<?php
-					}?>
+					<?php } ?>
+					<p class="titulo-panel" data-selector="2" data-name="Cuenta" data-open=">">Cuenta <span class="icon-chevron-right"></span></p>
+					<div class="div-fix2" id="panel-content2">		
+						<div class="panel-content">
+							<span class="item-panel" data-content="opciones"><span class="icon-key"></span>Contraseña</span>
+							<a href="logout.php" class="item-panel"><span class="icon-power-off"></span>Salir</a>
+						</div>
+					</div>
 				</div>
 			</nav>
 			<span id="logo">
@@ -111,6 +109,7 @@ if ($verify_cs){
 		<!-- Contenido -->
 		</div>
 		<div id="contenido">
+			<?php if ($privilegio == "A-") { ?>
 			<!-- Bienvenidos -->
 			<span class="c-caja" id="c-titulo-bienvenidos">Bienvenido</span>
 			<div class="c-caja" id="c-contenido-bienvenidos">Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: carga de matricula, carga de boletas, modificar usuarios, eliminar usuarios, ver los registros, borrar cursos o boletas, entre otras cosas. Se le recomienda leerse el manual para poder obtener información completa sobre las acciones que realizan cada función en la web.
@@ -121,7 +120,7 @@ if ($verify_cs){
 				<div id="console">
 					<div class="titulos">
 						<span class="r-titulo">Cedula</span>
-						<span class="r-titulo">Acción</span>
+						<span class="r-titulo r-titulo-accion">Acción</span>
 					</div>
 					<div class="datos">
 						<div id="cedula">
@@ -235,7 +234,7 @@ if ($verify_cs){
 						<input type="text" name="name" id="m_name_prof" placeholder="Nombre">
 					</div>
 					<div class="m-options">
-					      <select class="grado" name="grado" id="m_grado_prof">
+					      <select class="grado" name="curso" id="m_curso_prof">
 					        <option value="" selected="selected">Grado/Año</option>
 					        <option value="1G">1 grado</option>
 					        <option value="2G">2 grado</option>
@@ -250,7 +249,7 @@ if ($verify_cs){
 					        <option value="5">5 año</option>
 					        <option value="6">6 año</option>
 					      </select>
-					      <select class="seccion" name="seccion" id="seccion">
+					      <select class="seccion" name="seccion" id="m_seccion_prof">
 					        <option value="" selected="selected">Sección</option>
 					        <option value="A">A</option>
 					        <option value="B">B</option>
@@ -265,12 +264,12 @@ if ($verify_cs){
 				</form>
 				<form method="POST" id="form_modificar_block" autocomplete="off">
 					<div class="m-div1">
-						<select id="m-selector-user" name="privilegio">
+						<select id="m_selector_block" name="privilegio">
 							<option value="V-" selected="selected">V-</option>
 							<option value="A-">A-</option>
 							<option value="CR-">CR-</option>
 						</select>
-						<input type="text" id="m_button_block" placeholder="Cedula" name="cedula">
+						<input type="text" id="m_cedula_block" placeholder="Cedula" name="cedula">
 					</div>
 					<div class="m-submit">
 						<button id="m_button_block" data-modificar="block">Desbloquear</button>
@@ -279,7 +278,7 @@ if ($verify_cs){
 				</form>
 			</div>
 			<!-- Matricula -->
-			<span class="c-caja" id="c-titulo-matricula" class="c-titulo"><span class="icon-file-text2"></span>Subir/Cargar matricula</span>
+			<span class="c-caja" id="c-titulo-matricula" class="c-titulo"><span class="icon-file-pdf"></span>Subir/Cargar matricula</span>
 			<div class="c-caja" id="c-contenido-matricula" class="c-contenido">
 				<form method="POST" id="form_matricula" enctype="multipart/form-data">
 					<div id="m-archivo">
@@ -319,7 +318,7 @@ if ($verify_cs){
 				</form>
 			</div>
 			<!-- Boletas -->
-			<span class="c-caja" id="c-titulo-boletas"><span class="icon-newspaper"></span>Subir boletas</span>
+			<span class="c-caja" id="c-titulo-boletas"><span class="icon-file-excel"></span>Subir boletas</span>
 			<div class="c-caja" id="c-contenido-boletas">
 				<form id="form_boletas" method="POST" enctype="multipart/form-data">
 					<div id="b-archivo">
@@ -358,12 +357,12 @@ if ($verify_cs){
 					</div>
 				</form>
 			</div>
-			<!-- Notas -->
-			<span class="c-caja" id="c-titulo-notas">Activar/Desactivar notas y horarios</span>
-			<div class="c-caja" id="c-contenido-notas">
-				<form id="form_notas" method="POST" autocomplete="off">
+			<!-- Configuracion -->
+			<span class="c-caja" id="c-titulo-configuracion"><span class="icon-cogs"></span>Configurar notas y horarios</span>
+			<div class="c-caja" id="c-contenido-configuracion">
+				<form id="form_configuracion" method="POST" autocomplete="off">
 					<div class="n-seleccion">
-						<select id="notas_selector">
+						<select id="conf_selector">
 							<option selected="selected" value="estu">Estudiante</option>
 							<option value="sec">Seccion</option>
 						</select>
@@ -423,68 +422,109 @@ if ($verify_cs){
 			<div class="c-caja" id="c-contenido-borrar">
 				<form id="form_borrar_seccion" method="POST">
 					<div id="borr-seleccion">
-						<select id="borr_selec">
+						<select id="borr_selec" name="select">
 							<option value="sec" selected="selected">Sección</option>
 							<option value="bol">Boletas</option>
 						</select>
 					</div>
 					<div class="borr-curso">
 						<select name="curso" id="borr_curso">
-					        <option value="" selected="selected">Grado/Año</option>
-					        <option value="1G">1 grado</option>
-					        <option value="2G">2 grado</option>
-					        <option value="3G">3 grado</option>
-					        <option value="4G">4 grado</option>
-					        <option value="5G">5 grado</option>
-					        <option value="6G">6 grado</option>
-					        <option value="1">1 año</option>
-					        <option value="2">2 año</option>
-					        <option value="3">3 año</option>
-					        <option value="4">4 año</option>
-					        <option value="5">5 año</option>
-					        <option value="6">6 año</option>
-				      	</select>
-				      	<select name="seccion" id="borr_seccion">
-				        	<option value="" selected="selected">Sección</option>
-				        	<option value="A">A</option>
-				        	<option value="B">B</option>
-				        	<option value="C">C</option>
-				        	<option value="U">U</option>
-				        	<option value="all">Todos</option>
-				      	</select>
+			        <option value="" selected="selected">Grado/Año</option>
+			        <option value="1G">1 grado</option>
+			        <option value="2G">2 grado</option>
+			        <option value="3G">3 grado</option>
+			        <option value="4G">4 grado</option>
+			        <option value="5G">5 grado</option>
+			        <option value="6G">6 grado</option>
+			        <option value="1">1 año</option>
+			        <option value="2">2 año</option>
+			        <option value="3">3 año</option>
+			        <option value="4">4 año</option>
+			        <option value="5">5 año</option>
+			        <option value="6">6 año</option>
+		      	</select>
+		      	<select name="seccion" id="borr_seccion">
+		        	<option value="" selected="selected">Sección</option>
+		        	<option value="A">A</option>
+		        	<option value="B">B</option>
+		        	<option value="C">C</option>
+		        	<option value="U">U</option>
+		        	<option value="all">Todos</option>
+		      	</select>
 					</div>
 					<div id="borr-submit">
-						<button>Borrar sección</button>
+						<button id="borr_boton">Borrar</button>
+						<img id="borr_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 			</div>
+			<?php }else if ($privilegio == "V-") {?>
+			<!-- Bienvenidos -->
+			<span class="c-caja" id="c-titulo-bienvenidos">Bienvenido</span>
+			<div class="c-caja" id="c-contenido-bienvenidos">Le damos la bienvenida al Panel de Administación, aquí usted prodrá ver información sobre el estudiante, algunos datos personales de su progreso, y descarga de constancias.
+			</div>
+			<span class="c-caja" id="c-titulo-informacion"><span class="icon-book"></span>Información</span>
+			<div class="c-caja" id="c-contenido-informacion">
+				<div id="informacion">
+					<span>Profesor Guia: <?php echo "$profeGuia." ?></span>
+					<span>Curso: <?php 
+					if ($curso[1]) {
+						echo "$curso[0] grado $seccion.";
+					}else {
+						echo "$curso[0] año $seccion.";
+					}
+					?></span>
+					<span>Número de lista: <?php echo "$archivo." ?></span>
+				</div>
+			</div>
+			<span class="c-caja" id="c-titulo-constancias"><span class="icon-file-pdf"></span>Constancias</span>
+			<div class="c-caja" id="c-contenido-constancias">
+				<div id="constancias">
+					<div class="row">
+						<a class="estu" href="user/file_download.php?file=c_estudio">Estudio</a>
+						<a class="assi" href="user/file_download.php?file=c_asistencia">Asistencia</a>
+						<a class="bn_con" href="user/file_download.php?file=c_buena_conducta">Buena conducta</a>
+					</div>
+					<div class="row">
+						<a class="acept_cup" href="user/file_download.php?file=c_aceptacion_cupo">Aceptación de cupo</a>
+						<a class="solici" href="user/file_download.php?file=c_nota_certificada">Solicitud de notas</a>
+					</div>
+				</div>
+			</div>
+			<?php }else if ($privilegio == "CR-") { ?>
+			<!-- Bienvenidos -->
+			<span class="c-caja" id="c-titulo-bienvenidos">Bienvenido</span>
+			<div class="c-caja" id="c-contenido-bienvenidos">Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: carga de matricula, carga de boletas, modificar usuarios, eliminar usuarios, ver los registros, borrar cursos o boletas, entre otras cosas. Se le recomienda leerse el manual para poder obtener información completa sobre las acciones que realizan cada función en la web.
+			</div>
+			<?php } ?>
 			<!-- Opciones -->
-			<span class="c-caja" id="c-titulo-opciones">Cambiar contraseña</span>
+			<span class="c-caja" id="c-titulo-opciones"><span class="icon-key"></span>Cambiar contraseña</span>
 			<div class="c-caja" id="c-contenido-opciones">
-				<form action="" id="form_opciones" method="POST">
+				<form action="" id="form_opciones" method="POST" autocomplete="off">
 					<div id="pass-actual">
 						<span>Contraseña actual</span>
-						<input type="text" id="pass_actual" name="pass_actual" placeholder="Contraseña actual" />
+						<input type="password" id="pass_actual" name="pass_actual" placeholder="Contraseña actual" />
 					</div>
 					<div id="pass-new">
 						<div class="pass-new-text">
 							<span>Nueva contraseña</span>
-							<span>Repetir contraseña</span>
+							<input type="password" id="pass_new" name="pass_new" placeholder="Nueva contraseña" />
 						</div>
 						<div class="pass-new-inputs">
-							<input type="text" id="pass_new" name="pass_new" placeholder="Nueva contraseña" />
-							<input type="text" id="pass_new_repit" name="pass_new_repit" placeholder="Repetir contraseña" />
+							<span>Repetir contraseña</span>
+							<input type="password" id="pass_new_repit" name="pass_new_repit" placeholder="Repetir contraseña" />
 						</div>
 					</div>
 					<div id="o-submit">
-						<button>Cambiar</button>
+						<button id="op_boton">Cambiar</button>
+						<img id="op_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 			</div>
 		</div>
 	</main>
 	<div id="cookies">
-		<span>Este sitio web utiliza cookies propias para que usted tenga una mejor experiencia de usuario. Si continúa navegando está dando su consentimiento para la aceptación de las mencionadas cookies y la aceptación de nuestra <a href="politica-cookies.php" class="link">política de cookies</a>.</span>
+		<span>Este sitio web utiliza cookies propias para que usted tenga una mejor experiencia de usuario. Si continúa navegando está dando su consentimiento para la aceptación de las mencionadas cookies y la aceptación de nuestra <span class="cookie_link">política de cookies</span>.</span>
 		<a href="javascript:void(0)" class="ok" id="confirm_cookie">Aceptar politicas de cookies</a>
 	</div>
 	<div id="popad">
@@ -498,11 +538,13 @@ if ($verify_cs){
 				</div>
 			</div>
 		</div>
-	<script type="text/javascript" src="assets/new_js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="assets/new_js/func_global.js"></script>
-	<script type="text/javascript" src="assets/new_js/func_panel.js"></script>
-	<script type="text/javascript" src="assets/new_js/ajax_panel.js"></script>
-	<script type="text/javascript" src="assets/new_js/cookies.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/func_global.js"></script>
+	<script type="text/javascript" src="assets/js/func_panel.js"></script>
+	<script type="text/javascript" src="assets/js/ajax_panel_admin.js"></script>
+	<script type="text/javascript" src="assets/js/ajax_panel_global.js"></script>
+	<script type="text/javascript" src="assets/js/tutorial.js"></script>
+	<script type="text/javascript" src="assets/js/cookies.js"></script>
 </body>
 </html>
 <?php

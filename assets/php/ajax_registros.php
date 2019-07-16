@@ -12,7 +12,7 @@ sleep(1);
 //Start session
 sec_session_start();
 
-if (token($_SESSION['token'])) {
+if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 	if ($_SESSION['loginIs'] == "admin") {
 		$datos = registros_log($mysqli);
 		$respuesta = $datos;

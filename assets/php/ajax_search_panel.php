@@ -11,7 +11,7 @@ if (isset($_SESSION['loginIs']) && $_SESSION['loginIs'] != "admin") {
 	header("location: ../../panel.php");
 }
 
-if (token($_SESSION['token'])) {
+if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 	if ($_SESSION['loginIs'] == "admin") {
 		$buscar = $_POST['buscar'];
 		$datos = search_panel($mysqli, $buscar);
