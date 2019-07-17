@@ -1,0 +1,88 @@
+/*-- Contenido --*/
+main
+  margin: 17vh auto
+  background: rgba(255, 255, 255, 1)
+  +border-radius(20px)
+  form
+    background: rgb(146, 176, 187)
+    margin: 15px
+    font-family: sourcesans-light
+    +border-radius(20px)
+    /*- Flex -*/
+    display: flex
+    flex-direction: column
+    flex: auto
+    h1
+      flex: auto
+      margin: 15px
+      text-align: center
+      font-size: 50px
+    div.pass_old_label
+      flex: auto
+      display: flex
+      justify-content: space-around
+      font-size: 25px
+      margin: 5px 0px
+    div.pass_old
+      flex: auto
+      display: flex
+      align-items: center
+      justify-content: center
+      margin: 5px 0px
+      input
+        font-size: 20px
+        text-align: center
+        width: 250px
+        height: 40px
+        background: rgba(231, 231, 231, 1)
+        border: solid 2px rgba(77, 75, 75, 1)
+        +border-radius(5px)
+        transition: 1s
+        &:focus
+          border: solid 2px #4d4c4c
+          background: rgba(251, 250, 250, 1)
+          box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5)
+          transition: 1s
+    div.pass_new_label
+      flex: auto
+      display: flex
+      align-items: center
+      justify-content: space-around
+      font-size: 20px
+      margin: 5px 0px
+    div.pass_new
+      flex: auto
+      display: flex
+      align-items: center
+      justify-content: space-around
+      input
+        font-size: 20px
+        text-align: center
+        width: 250px
+        height: 35px
+        background: rgba(231, 231, 231, 1)
+        border: solid 2px rgba(77, 75, 75, 1)
+        transition: 1s
+        &:focus
+          border: solid 2px #4d4c4c
+          background: rgba(251, 250, 250, 1)
+          box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5)
+          transition: 1s
+    div.submit
+      flex: auto
+      display: flex
+      justify-content: center
+      align-items: center
+      font-family: sourcesans
+      font-size: 18px
+      margin: 15px 0px
+      input
+        border: none
+        padding: 10px 40px
+        background: rgba(228, 228, 228, 1)
+        transition: 1s
+        +border-radius(15px)
+        &:hover
+          background: rgba(255, 255, 255, 1)
+          transform: scale(1.1)
+          transition: 1s

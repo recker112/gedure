@@ -1,0 +1,124 @@
+main
+  display: flex
+  flex-direction: column
+  div.user-contenedor
+    width: 90%
+    margin: auto
+    flex: auto
+    background: rgb(228, 228, 228)
+    border: 10px solid rgb(145, 191, 228)
+    +border-radius(15px)
+    margin-top: 100px
+    margin-bottom: 20px
+    display: flex
+    flex-direction: column
+  h2
+    font-size: 70px
+    margin: 100px
+    text-align: center
+    font-family: sourcesans-boldItalic
+  div.user-contenido
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    +border-radius(15px)
+    margin: 20px
+    h3
+      margin: 10px 0px
+      text-align: center
+      font-size: 30px
+      font-family: sourcesans-bold
+    p
+      margin: 10px 0px
+      text-align: center
+      font-size: 25px
+    h4
+      background: rgb(145, 191, 228)
+      padding: 5px 10px
+      margin-top: 40px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: rgb(25, 131, 159)
+    span.user-guia
+      margin-top: 40px
+      margin-bottom: 15px
+      text-align: center
+      font-size: 25px
+    span.user-curso
+      text-align: center
+      font-size: 25px
+      margin-bottom: 15px
+    span.user-n_lista
+      text-align: center
+      font-size: 25px
+      margin-bottom: 40px
+    h6
+      background: rgb(206, 105, 228)
+      padding: 5px 10px
+      margin: 10px 0px
+      align-self: center
+      font-size: 30px
+      +border-radius(15px)
+      span
+        margin-right: 10px
+        color: rgb(108, 17, 128)
+    div.user-archivos
+      margin: 40px
+      display: flex
+      flex-direction: column
+      align-items: center
+      div.column-1
+        display: flex
+        font-size: 20px
+        margin: 20px 0px
+        a
+          margin: 0px 40px
+        a.archivo1
+          padding: 10px 20px
+          +border-radius(15px)
+          transition: 1s
+          &:hover
+            transition: 1s
+            background: rgb(226, 164, 99)
+        a.archivo2
+          padding: 10px 20px
+          +border-radius(15px)
+          transition: 1s
+          &:hover
+            transition: 1s
+            background: rgb(22, 95, 179)
+        a.archivo3
+          padding: 10px 20px
+          +border-radius(15px)
+          transition: 1s
+          &:hover
+            transition: 1s
+            background: rgb(234, 117, 250)
+      .column-2
+        display: flex
+        font-size: 20px
+        margin: 20px 0px
+        a
+          margin: 0px 50px
+        a.archivo4
+          padding: 10px 20px
+          +border-radius(15px)
+          transition: 1s
+          &:hover
+            transition: 1s
+            background: rgb(120, 170, 57)
+        a.archivo5
+          padding: 10px 20px
+          +border-radius(15px)
+          transition: 1s
+          &:hover
+            transition: 1s
+            background: rgb(82, 176, 141)
+    p.warning
+      font-size: 12px
+      span.warning
+        color: rgb(255, 184, 0)
+        font-size: 15px
