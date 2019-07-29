@@ -35,7 +35,6 @@ if (isset($_POST['token']) && token($_POST['token'])) {
 		if ($banlist == "no_register") {
 			$credenciales = verify_password($password, $datos['password']);
 			if ($credenciales == true) {
-				login_clear($mysqli, $datos['cedula']);
 				$login_in = login($mysqli, $datos, $token, $checkbox, $cedula);
 				if ($login_in == "user") {
 					$respuesta = array('status' => 'exitoso', 'message' => 'user');

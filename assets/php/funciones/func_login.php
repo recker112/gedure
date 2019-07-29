@@ -72,7 +72,7 @@ function verify_user($mysqli, $cedula){
     WHERE login.cedula=?
     LIMIT 1');
   if (!$consulta) {
-    return "consulta error";
+    return "consulta fallida";
   }
   $consulta->bind_param("s", $cedulaV);
   $consulta->execute();
