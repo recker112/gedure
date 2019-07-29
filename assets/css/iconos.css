@@ -1,1 +1,179 @@
-@font-face {font-family: 'icomoon'; src:  url('../fonts/iconos/icomoon.eot?3zito6'); src:  url('../fonts/iconos/icomoon.eot?3zito6#iefix') format('embedded-opentype'), url('../fonts/iconos/icomoon.ttf?3zito6') format('truetype'), url('../fonts/iconos/icomoon.woff?3zito6') format('woff'), url('../fonts/iconos/icomoon.svg?3zito6#icomoon') format('svg'); font-weight: normal; font-style: normal; } [class^="icon-"], [class*=" icon-"] {/* use !important to prevent issues with browser extensions that change fonts */ font-family: 'icomoon' !important; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } .icon-power-off:before {content: "\f011"; } .icon-clock-o:before {content: "\f017"; } .icon-lock:before {content: "\f023"; } .icon-book1:before {content: "\f02d"; } .icon-image1:before {content: "\f03e"; } .icon-photo:before {content: "\f03e"; } .icon-picture-o:before {content: "\f03e"; } .icon-edit:before {content: "\f044"; } .icon-pencil-square-o:before {content: "\f044"; } .icon-chevron-left:before {content: "\f053"; } .icon-chevron-right:before {content: "\f054"; } .icon-bell:before {content: "\f0f3"; } .icon-unlock-alt:before {content: "\f13e"; } .icon-user-circle:before {content: "\f2bd"; } .icon-home3:before {content: "\e902"; } .icon-newspaper:before {content: "\e904"; } .icon-pencil:before {content: "\e905"; } .icon-pencil2:before {content: "\e906"; } .icon-quill:before {content: "\e907"; } .icon-image:before {content: "\e90d"; } .icon-images:before {content: "\e90e"; } .icon-headphones:before {content: "\e910"; } .icon-play:before {content: "\e912"; } .icon-book:before {content: "\e91f"; } .icon-books:before {content: "\e920"; } .icon-file-text:before {content: "\e922"; } .icon-file-empty:before {content: "\e924"; } .icon-file-text2:before {content: "\e926"; } .icon-file-zip:before {content: "\e92b"; } .icon-address-book:before {content: "\e944"; } .icon-database:before {content: "\e964"; } .icon-bubble:before {content: "\e96b"; } .icon-bubbles:before {content: "\e96c"; } .icon-user:before {content: "\e971"; } .icon-key:before {content: "\e98d"; } .icon-cog:before {content: "\e994"; } .icon-cogs:before {content: "\e995"; } .icon-pie-chart:before {content: "\e99a"; } .icon-stats-bars:before {content: "\e99c"; } .icon-stats-bars2:before {content: "\e99d"; } .icon-bin:before {content: "\e9ac"; } .icon-menu:before {content: "\e9bd"; } .icon-plus:before {content: "\ea0a"; } .icon-minus:before {content: "\ea0b"; } .icon-terminal:before {content: "\ea81"; } .icon-facebook2:before {content: "\ea91"; } .icon-steam:before {content: "\eaac"; } .icon-paypal:before {content: "\ead8"; } .icon-file-pdf:before {content: "\eadf"; } .icon-file-word:before {content: "\eae1"; } .icon-file-excel:before {content: "\eae2"; }
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/iconos/icomoon.eot?3zito6');
+  src:  url('../fonts/iconos/icomoon.eot?3zito6#iefix') format('embedded-opentype'),
+    url('../fonts/iconos/icomoon.ttf?3zito6') format('truetype'),
+    url('../fonts/iconos/icomoon.woff?3zito6') format('woff'),
+    url('../fonts/iconos/icomoon.svg?3zito6#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-power-off:before {
+  content: "\f011";
+}
+.icon-clock-o:before {
+  content: "\f017";
+}
+.icon-lock:before {
+  content: "\f023";
+}
+.icon-book1:before {
+  content: "\f02d";
+}
+.icon-image1:before {
+  content: "\f03e";
+}
+.icon-photo:before {
+  content: "\f03e";
+}
+.icon-picture-o:before {
+  content: "\f03e";
+}
+.icon-edit:before {
+  content: "\f044";
+}
+.icon-pencil-square-o:before {
+  content: "\f044";
+}
+.icon-chevron-left:before {
+  content: "\f053";
+}
+.icon-chevron-right:before {
+  content: "\f054";
+}
+.icon-bell:before {
+  content: "\f0f3";
+}
+.icon-unlock-alt:before {
+  content: "\f13e";
+}
+.icon-user-circle:before {
+  content: "\f2bd";
+}
+.icon-home3:before {
+  content: "\e902";
+}
+.icon-newspaper:before {
+  content: "\e904";
+}
+.icon-pencil:before {
+  content: "\e905";
+}
+.icon-pencil2:before {
+  content: "\e906";
+}
+.icon-quill:before {
+  content: "\e907";
+}
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-images:before {
+  content: "\e90e";
+}
+.icon-headphones:before {
+  content: "\e910";
+}
+.icon-play:before {
+  content: "\e912";
+}
+.icon-book:before {
+  content: "\e91f";
+}
+.icon-books:before {
+  content: "\e920";
+}
+.icon-file-text:before {
+  content: "\e922";
+}
+.icon-file-empty:before {
+  content: "\e924";
+}
+.icon-file-text2:before {
+  content: "\e926";
+}
+.icon-file-zip:before {
+  content: "\e92b";
+}
+.icon-address-book:before {
+  content: "\e944";
+}
+.icon-database:before {
+  content: "\e964";
+}
+.icon-bubble:before {
+  content: "\e96b";
+}
+.icon-bubbles:before {
+  content: "\e96c";
+}
+.icon-user:before {
+  content: "\e971";
+}
+.icon-key:before {
+  content: "\e98d";
+}
+.icon-cog:before {
+  content: "\e994";
+}
+.icon-cogs:before {
+  content: "\e995";
+}
+.icon-pie-chart:before {
+  content: "\e99a";
+}
+.icon-stats-bars:before {
+  content: "\e99c";
+}
+.icon-stats-bars2:before {
+  content: "\e99d";
+}
+.icon-bin:before {
+  content: "\e9ac";
+}
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-plus:before {
+  content: "\ea0a";
+}
+.icon-minus:before {
+  content: "\ea0b";
+}
+.icon-terminal:before {
+  content: "\ea81";
+}
+.icon-facebook2:before {
+  content: "\ea91";
+}
+.icon-steam:before {
+  content: "\eaac";
+}
+.icon-paypal:before {
+  content: "\ead8";
+}
+.icon-file-pdf:before {
+  content: "\eadf";
+}
+.icon-file-word:before {
+  content: "\eae1";
+}
+.icon-file-excel:before {
+  content: "\eae2";
+}

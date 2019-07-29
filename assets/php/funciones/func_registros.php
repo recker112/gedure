@@ -34,6 +34,7 @@ function registros_log($mysqli){
 			}else {
 				$datos[$i]['log_usuario'] = false;
 			}
+
 			//Guardar datos genericos
 			$datos[$i]['log_cedula'] = $fila['log_cedula'];
 			$datos[$i]['log_user'] = $fila['log_user'];
@@ -49,7 +50,9 @@ function registros_log($mysqli){
 
 			$resultadoB = $consultaB->get_result();
 			if ($resultadoB->num_rows >= 1) {
-				$datos[$i] = $resultadoB->fetch_assoc();
+				$fila3 = $resultadoB->fetch_assoc();
+				$datos[$i]['log_attemps'] = $fila3['log_attemps'];
+				$datos[$i]['log_locks'] = $fila3['log_locks'];
 				$datos[$i]['log_bans'] = true;
 			}else {
 				$datos[$i]['log_attemps'] = 0;
