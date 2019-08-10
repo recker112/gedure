@@ -809,9 +809,11 @@ div#popad div#popad-caja div#popad-caja2 span#popad-info {
   width: 100%;
   margin: 10px;
 }
-div#popad div#popad-caja div#popad-caja2 img {
-  width: 22px;
-  height: 22px;
+div#popad div#popad-caja div#popad-caja2 span#popad-info div#options {
+  margin: 5px;
+}
+div#popad div#popad-caja div#popad-caja2 span#popad-info div#options button {
+  margin: 2px;
 }
 
 /* Media 720px */

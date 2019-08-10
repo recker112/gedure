@@ -13,7 +13,6 @@ $(document).ready(function() {
       	},
       	success: function(respuesta) {
       		var resultado = JSON.parse(respuesta);
-      		console.log(resultado);
           if (resultado.status == "error") {
             $("#popad-titulo").text("Registros");
             if (resultado.description == "internal_error") {
