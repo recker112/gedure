@@ -13,7 +13,7 @@ sec_session_start();
 
 if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 	if ($_SESSION['loginIs'] == "admin") {
-		$cedula = $_POST['privilegio'].$_POST['cedula'];
+		$cedula = $_POST['cedula'];
 
 		if (desblock($mysqli, $cedula)) {
 			$respuesta = array("message" => "ok");

@@ -47,11 +47,25 @@ $(document).ready(function(){
 					$("#search_status").html("");
 					var user;
 					var cedula;
+					var user_ban;
+					var estudiante;
+					var curso;
+					var seccion;
+					var lista;
 					if (resultado[0]){	
 						for (var i = 0; i < resultado.rows; i++) {
 							user = resultado[i].user;
 							cedula = resultado[i].cedula;
-							$("#search_status").append("<span class='datos' data-user='"+user+"' data-cedula='"+cedula+"'><span id='user1-nombre'>"+user+"</span><span id='user1-cedula'>"+cedula+"</span></span>");
+							user_ban = resultado[i].user_ban;
+							estudiante = resultado[i].estu;
+							if (estudiante) {
+								curso = resultado[i].curso;
+								seccion = resultado[i].seccion;
+								lista = resultado[i].lista;
+								$("#search_status").append("<span class='datos' data-user='"+user+"' data-cedula='"+cedula+"' data-user_ban='"+user_ban+"' data-estu='"+estudiante+"' data-curso='"+curso+"' data-seccion='"+seccion+"' data-lista='"+lista+"'><span id='user1-nombre'>"+user+"</span><span id='user1-cedula'>"+cedula+"</span></span>");
+							}else {
+								$("#search_status").append("<span class='datos' data-user='"+user+"' data-cedula='"+cedula+"' data-user_ban='"+user_ban+"' data-estu='"+estudiante+"'><span id='user1-nombre'>"+user+"</span><span id='user1-cedula'>"+cedula+"</span></span>");
+							}
 						}
 						$("#search_status").slideDown(400);
 					}else {
@@ -67,15 +81,144 @@ $(document).ready(function(){
 
 	//Obtener datos del item
 	$("#search_status").on("click", "span.datos", function() {
+		//Seleccionar variable privilegio
+		if ($(this).data("cedula")[2] != "-") {
+			//Variable para los NO CR-
+			var privilegio = $(this).data("cedula")[0]+$(this).data("cedula")[1];
+		}else {
+			//Variable para los CR-
+			var privilegio = $(this).data("cedula")[0]+$(this).data("cedula")[1]+$(this).data("cedula")[2];
+		}
+
+		//Algoritmos del popad-view
 		if ($(this).data("user")) {
 			//Titulo popad
 			$("#popad-titulo").text("Buscar");
 
-			var message = "Nombre: "+ $(this).data("user")+".<br/>"+
-			"Cédula: "+$(this).data("cedula");
+			//Estructura principal
+			var message = "Nombre: "+$(this).data("user")+".<br/>"+
+			"Cédula: "+$(this).data("cedula")+".</br>";
 
-			//Popad Info
+			//Variables para el boton modificar
+			var m_cedula = $(this).data("cedula");
+			var m_user = $(this).data("user");
+
+			if ($(this).data("estu")) {
+				message += "Curso: "+$(this).data("curso")+".</br>";
+				message += "Seccion: "+$(this).data("seccion")+".</br>";
+				message += "N° lista: "+$(this).data("lista")+".</br>";
+
+				//Variables para el boton modificar
+				var m_curso = $(this).data("curso");
+				var m_seccion = $(this).data("seccion");
+				var m_lista = $(this).data("lista");
+			}
+
+			message += "<div id='options'></div>";
+			
+
+			//Popad Info texto
 			$("#popad-info").html(message);
+
+			//Añadir boton para desbloquear
+			if ($(this).data("user_ban")) {
+				$("#popad-info #options").append("<button id='pOpt-desbloquear'>Desbloquear</button>");
+			}
+
+			//Añadir boton para modificar
+			$("#popad-info #options").append("<button id='pOpt-modificar'>Modificar</button>");
+
+			//Añadir boton para generar nueva contraseña
+			$("#popad-info #options").append("<button id='pOpt-generar_contraseña'>Generar contraseña</button>");
+
+			//Algoritmos del boton desbloquear
+			$("#popad-info").on("click", "#pOpt-desbloquear", function() {
+				var datos = new FormData();
+				datos.append("cedula", m_cedula);
+				$.ajax("assets/php/ajax_desbloquear.php",{
+					type: "POST",
+					dataType: "html",
+					data: datos,
+					contentType: false,
+					processData: false,
+					cache: false,
+					beforeSend:function() {
+						$("#popad-info").html("<img id='m_loading_user' src='assets/img/loading.svg' height='32' alt='imagen de carga' /></br>Realizando cambios, por favor espere....");
+						$("#popad-info").css("display", "none");
+						$("#popad-info").fadeIn(200);
+					},
+					success:function(respuesta) {
+						var resultado = JSON.parse(respuesta);
+						if (resultado.message == "ok") {
+							$("#popad-info").html("La cedula "+m_cedula+" fue desbloqueada.");
+						}else {
+							$("#popad-info").html("La cedula "+m_cedula+" no está bloqueada actualmente.");
+						}
+						$("#popad-info").css("display", "none");
+						$("#popad-info").fadeIn(200);
+					}
+				})
+			});
+
+			//Algoritmos del boton modificar
+			$("#popad-info").on("click", "#pOpt-modificar", function() {
+				//Fix del menú al realizar click en el boton de modificar
+				if (contador == 1) {
+					contador = 0;
+				}else {
+					contador = 0;
+				}
+
+				//Cerrar ventana popad
+				cerrar_ventana();
+
+				//Click en el panel (el item modificar)
+				$("#nav_modificar").click();
+
+				//Cambiar valor del selector de usuario
+				$("#contenido #m_selector_user").val(privilegio);
+				$("#contenido #m_selector_user").change();//Ejecutar evento change
+				$("#contenido .m-options #m_option_user").val("UPDATE");
+				$("#contenido .m-options #m_option_user").change();//Ejecutar evento change
+
+				//Cambiar valores de los inputs
+				$("#contenido #m_cedula_user").val(m_cedula);
+				$("#contenido #m_name_user").val(m_user);
+
+				//Cambiar valores extras si el usuario es estudiante
+				if (privilegio == "V-") {
+					//Arreglar texto en la variable curso
+					if (m_curso[2] == "g") {
+						var fix_curso = m_curso[0]+"G";
+					}else {
+						var fix_curso = m_curso[0];
+					}
+					$("#contenido .m-options #m_grado_user").val(fix_curso);
+					$("#contenido .m-options #m_seccion_user").val(m_seccion);
+					$("#contenido .m-options #m_lista_user").val(m_lista);
+				}
+			});
+
+			//Algoritmos boton generar contraseña
+			var text_temp = $("#popad-info").html();//Guardar html en variable temporal
+			$("#popad-info").on("click", "#pOpt-generar_contraseña", function() {
+				//Efecto slow view y texto a insertar
+				$("#popad-info").css("display", "none");
+				$("#popad-info").html("Al generar una contraseña se perderá la contraseña anterior, reemplazandola por la generada a continuación. </br>¿Está seguro de realizar esta acción?</br><div id='options'><button id='GenNewPass_ok'>Si</button><button id='GenNewPass_nel'>No</button></div>");
+				$("#popad-info").fadeIn(200);
+
+				//Confirmación
+				$("#popad-info").on("click", "#GenNewPass_ok", function() {
+					$("#popad-info").html("<img id='m_loading_user' src='assets/img/loading.svg' height='32' alt='imagen de carga' /></br>Realizando cambios, por favor espere....");
+					$("#popad-info").css("display", "none");
+					$("#popad-info").fadeIn(200);
+				});
+				$("#popad-info").on("click", "#GenNewPass_nel", function() {
+					$("#popad-info").html(text_temp);
+					$("#popad-info").css("display", "none");
+					$("#popad-info").fadeIn(200);
+				});
+			});
 
 			//Mostrar popad
 			$("#popad").fadeIn(200).css("display", "flex");
