@@ -131,13 +131,12 @@ if ($verify_cs){
 				</div>
 			</div>
 			<!-- Modificar -->
-			<span class="c-caja" id="c-titulo-modificar"><span class="icon-user-circle"></span>Modificar y desbloquear</span>
+			<span class="c-caja" id="c-titulo-modificar"><span class="icon-user-circle"></span>Modificar</span>
 			<div class="c-caja" id="c-contenido-modificar">
 				<div id="m-selector">
 					<select id="m_selector_id">
 						<option value="user" selected="">Usuario</option>
 						<option value="prof">Profesores</option>
-						<option value="block">Desbloqueos</option>
 					</select>
 				</div>
 				<form method="POST" autocomplete="off" id="form_modificar_user">
@@ -260,20 +259,6 @@ if ($verify_cs){
 					<div class="m-submit">
 						<button id="m_button_prof" data-modificar="prof">Realizar</button>
 						<img id="m_loading_prof" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
-					</div>
-				</form>
-				<form method="POST" id="form_modificar_block" autocomplete="off">
-					<div class="m-div1">
-						<select id="m_selector_block" name="privilegio">
-							<option value="V-" selected="selected">V-</option>
-							<option value="A-">A-</option>
-							<option value="CR-">CR-</option>
-						</select>
-						<input type="text" id="m_cedula_block" placeholder="Cedula" name="cedula">
-					</div>
-					<div class="m-submit">
-						<button id="m_button_block" data-modificar="block">Desbloquear</button>
-						<img id="m_loading_block" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 				</form>
 			</div>
@@ -541,9 +526,12 @@ if ($verify_cs){
 	<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="assets/js/func_global.js"></script>
 	<script type="text/javascript" src="assets/js/func_panel.js"></script>
-	<script type="text/javascript" src="assets/js/ajax_panel_admin.js"></script>
-	<script type="text/javascript" src="assets/js/ajax_panel_global.js"></script>
-	<script type="text/javascript" src="assets/js/tutorial.js"></script>
+	<script type="text/javascript" src="assets/js/ajax_change_password.js"></script>
+	<?php if ($privilegio == "A-"){ ?>
+		<script type="text/javascript" src="assets/js/func_panel_admin.js"></script>
+		<script type="text/javascript" src="assets/js/ajax_panel_buscador.js"></script>
+		<script type="text/javascript" src="assets/js/ajax_panel_admin.js"></script>
+	<?php } ?>
 	<script type="text/javascript" src="assets/js/cookies.js"></script>
 </body>
 </html>
