@@ -24,7 +24,7 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 			$destino = "../../src/Cursos_boletas/".$curso." año/".$seccion."/";
 		}
 
-		//Scripts
+		//Foreach que recorre cada uno de los archivos encontrados en el array
 		foreach ($_FILES as $archivos) {
 			if (isset($archivos['name']) && $archivos['error'] == UPLOAD_ERR_OK) {
 				if ($archivos['size'] <= 2000000) {
