@@ -1,0 +1,3 @@
+<!-- Bienvenidos -->
+<span class="c-caja" id="c-titulo-bienvenidos">Bienvenido</span>
+<div class="c-caja" id="c-contenido-bienvenidos">Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: carga de matricula, carga de boletas, modificar usuarios, eliminar usuarios, ver los registros, borrar cursos o boletas, entre otras cosas. Se le recomienda leerse el manual para poder obtener información completa sobre las acciones que realizan cada función en la web.</div>
