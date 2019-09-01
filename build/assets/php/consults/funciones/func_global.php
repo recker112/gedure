@@ -108,18 +108,22 @@ function verifyEmpty($array){
     }
     return true;
   } catch (Exception $e) {
-    echo $e->getMessage();
+    return false;
   }
 }
 
 //Verificar usuario
 function veryfiUser($mysqli, $privilegio, $cedula){
 	//Cedula
-	$cedulaReady = $privilegio.$cedula;
+  $cedulaReady = $privilegio.$cedula;
+  
+  //Obtener
+  $obtener = 'user';
 
 	//Verificar privilegio
 	if ($privilegio === 'V-') {
-		$tabla = 'login';
+    $tabla = 'login';
+    $obtener = 'user, estudi_id';
 	}else if ($privilegio === 'A-') {
 		$tabla = 'admins';
 	}else if ($privilegio === 'CR-') {
@@ -127,7 +131,7 @@ function veryfiUser($mysqli, $privilegio, $cedula){
 	}
 
 	//Consulta
-	$consulta = $mysqli->prepare("SELECT user
+	$consulta = $mysqli->prepare("SELECT $obtener
 	FROM $tabla
 	WHERE cedula=?");
 	if (!$consulta) {
@@ -138,7 +142,8 @@ function veryfiUser($mysqli, $privilegio, $cedula){
 	$resultado = $consulta->get_result();
 
 	if ($resultado->num_rows == 1) {
-		return true;
+    $fila = $resultado->fetch_assoc();
+		return $fila;
 	}else {
 		return false;
 	}

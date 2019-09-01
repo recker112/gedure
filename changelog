@@ -1,0 +1,7 @@
+Build-2.4.2:
+
+Modificar y Matricula:
+-Se actualizaron los algoritmos internos del php para poder mover los estudiantes y que sus números de lista se organizen de forma acendente.
+
+Pendiente:
+-Actualizar algoritmos de las boletas para que se muevan junto con el estudiante.

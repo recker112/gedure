@@ -55,6 +55,7 @@ try {
 					//Mover archivo
 					$origen=$archivos["tmp_name"];
 					$upload=$destino.$archivos["name"];
+					$estudi_id="E_$curso$seccion_%";
 					if (@move_uploaded_file($origen, $upload)) {
 						$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "ok");
 						$cargados++;
@@ -94,4 +95,21 @@ $respuesta['archivos_total'] = $numero_archivo;
 echo json_encode($respuesta);
 //Cerrar conexion.
 $mysqli->close();
+// function reemplazeNameBoletas($mysqli, $estudi_id){
+// 	$consulta = $mysqli->prepare('SELECT cedula
+// 	FROM login
+// 	WHERE estudi_id LIKE ?');
+	
+// 	$consulta->bind_param("s", $estudi_id);
+// 	$consulta->execute();
+// 	$resultado = $consulta->get_result();
+
+// 	if ($resultado->num_rows >= 1) {
+// 		while ($fila = $resultado->fetch_assoc()) {
+
+// 		}
+// 	}else {
+// 		return false;
+// 	}
+// }
 ?>

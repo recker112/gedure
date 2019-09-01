@@ -33,27 +33,31 @@ btnMatricula.addEventListener('click', async e => {
     if (res !== 'no_connect_file_php') {
       let message;
       let color;
-      if (res.message === 'token') {
-        message = '<strong>Error:</strong> Ex000001';
-        color = 'danger';
-      }else if (res.message === 'no_found_file') {
-        message = '<strong>Error:</strong> No se encuentra el archivo!';
-        color = 'danger';
-      }else if (res.message === 'no_format_file') {
-        message = '<strong>Error:</strong> Solo archivos .csv!';
-        color = 'warning';
-      }else if (res.message === 'no_size') {
-        message = '<strong>Error:</strong> Tamaño máximo excedido!';
-        color = 'warning';
-      }else if (res.message === 'no_upload') {
-        message = '<strong>Error:</strong> Fallo al cargar el archivo!';
-        color = 'danger';
-      }else if (res.message === 'update_ok') {
-        message = `Estado del servidor: I${res.insert}/A${res.update}/E${res.error}!`;
-        color = 'success';
+      if (res.status === 'ok') {
+        if (res.message === 'update_ok') {
+          message = `Estado del servidor: I${res.insert}/A${res.update}/E${res.error}!`;
+          color = 'success';
+        }
       }else {
-        message = '<strong>Error:</strong> Ex000003';
-        color = 'danger';
+        if (res.message === 'token') {
+          message = '<strong>Error:</strong> Ex000001';
+          color = 'danger';
+        }else if (res.message === 'no_found_file') {
+          message = '<strong>Error:</strong> No se encuentra el archivo!';
+          color = 'danger';
+        }else if (res.message === 'no_format_file') {
+          message = '<strong>Error:</strong> Solo archivos .csv!';
+          color = 'warning';
+        }else if (res.message === 'no_size') {
+          message = '<strong>Error:</strong> Tamaño máximo excedido!';
+          color = 'warning';
+        }else if (res.message === 'no_upload') {
+          message = '<strong>Error:</strong> Fallo al cargar el archivo!';
+          color = 'danger';
+        }else {
+          message = '<strong>Error:</strong> Ex000003';
+          color = 'danger';
+        }
       }
       
       //Animación
