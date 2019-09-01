@@ -22,8 +22,10 @@ btnModify.addEventListener('click', async e => {
   const cedula = document.getElementById('m_cedula_user').value;
   const pass = document.getElementById('m_pass_user').value;
   const name = document.getElementById('m_name_user').value;
+  const grado = document.getElementById('m_grado_user').value;
+  const seccion = document.getElementById('m_seccion_user').value;
   //Verificar variables vacias
-  if (verifyVar(cedula, pass, name)) {
+  if (verifyVar(cedula, pass, name, grado, seccion)) {
     //Animación
     loadingAnimation($, btnModify, loadingModify);
     //Data
@@ -34,6 +36,7 @@ btnModify.addEventListener('click', async e => {
       let message;
       let color;
       if (res.status !== 'error') {
+        console.log(res);
         //Mensajes OK
         if (res.message === 'insert_ok') {
           message = "Usuario insertado!";
@@ -43,6 +46,10 @@ btnModify.addEventListener('click', async e => {
           color = 'success';
         }else if (res.message === 'delete_ok') {
           message = "Usuario eliminado!";
+          color = 'success';
+        }else {
+          let sub = res.message.substring(7,9);//Obtener datos de actualizados
+          message = `Usuario actualizado!`;
           color = 'success';
         }
       }else {
@@ -69,7 +76,7 @@ btnModify.addEventListener('click', async e => {
           message = 'No se han realizado cambios!';
           color = 'warning';
         }else if (res.message === 'delete_error') {
-          message = 'Error al insertar usuario!';
+          message = 'El usuario no se encuentra en esa sección!';
           color = 'danger';
         }
       }
@@ -88,3 +95,21 @@ btnModify.addEventListener('click', async e => {
     alerts('Debe rellenar todos los campos!', "warning");
   }
 });
+
+// let array = ["V-2", "V-3214", "V-15"];
+// let newArray= [];
+// let open=0;
+// for (let i = 0; i < array.length; i++) {
+//   const number = array[i];
+//   newArray[i]='';
+//   for (let index = 0; index < (number.length - 1); index++) {
+//     const element = number[index];
+//     if (element === '-' || open === 1) {
+//       newArray[i] += number[index+1];
+//       open = 1;
+//     }
+//   }
+//   open = 0;
+// }
+
+// console.log(newArray.sort((a,b)=>b-a));

@@ -36,11 +36,10 @@ try {
 	$option = $_POST['option'];
 	$curso = $_POST['grado'];
 	$seccion = $_POST['seccion'];
-	$lista = $_POST['lista'];
 
 	//Verificar que exista en la base de datos
 	if ($option === 'UPDATE' || $option === 'DELETE') {
-		if (!veryfiUser($mysqli, $privilegio, $cedula)) {
+		if (!($datos = veryfiUser($mysqli, $privilegio, $cedula))) {
 			throw new Exception('no_found');
 		}
 	}
@@ -52,9 +51,14 @@ try {
 		}
 	}
 
-	$modify = modificarUser($mysqli, $privilegio, $cedula, $password, $name, $option, $curso, $seccion, $lista);
+	//Verificar si existen el viejo estudi_id
+	if (!isset($datos['estudi_id'])) {
+		$datos['estudi_id']=false;
+	}
 
-	if ($modify !== 'ok') {
+	$modify = modificarUser($mysqli, $privilegio, $cedula, $password, $name, $option, $curso, $seccion, $datos['estudi_id']);
+
+	if (substr($modify, 0, 2) !== 'ok') {
 		throw new Exception($modify.'_error');
 	}
 
@@ -67,6 +71,11 @@ try {
 		$optionMessage = 'Eliminado:';
 	}
 	$optionFix = mb_strtolower($option);
+
+	//Mostrar cantidad total de estudiantes actualizados
+	if (substr($modify, 0, 2) === 'ok' && $modify !== 'ok') {
+		$optionFix = "update".substr($modify, 2);
+	}
 
 	add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], "$optionMessage ".$privilegio.$cedula.".");
 	$respuesta = array('status' => 'ok','message' => $optionFix.'_ok');

@@ -80,32 +80,20 @@ selectOption.addEventListener('change', () => {
       $(user).fadeIn(300);
       $(pass).fadeOut(300);
       user.value = '';
-      select.forEach(element => {
-        if (element !== selectOption) {
-          element.value = '';
-          $(element).fadeIn(300);
-        }
-      });
     }else if (selectOp === 'INSERT') {
       $(user).fadeIn(300);
       $(pass).fadeIn(300);
       user.value = '';
       pass.value = '';
-      select.forEach(element => {
-        if (element !== selectOption) {
-          element.value = '';
-          $(element).fadeIn(300);
-        }
-      });
     }else if (selectOp === 'DELETE') {
       $(user).fadeOut(300);
       $(pass).fadeOut(300);
-      select.forEach(element => {
-        if (element !== selectOption) {
-          element.value = '1';
-          $(element).fadeOut(300);
-        }
-      });
+      // select.forEach(element => {
+      //   if (element !== selectOption) {
+      //     element.value = '';
+      //     $(element).fadeIn(300);
+      //   }
+      // }); Cambiar valor de los select
     }
   }else {
     //Obtener selects

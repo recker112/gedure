@@ -51,4 +51,45 @@ function add_matricula($mysqli, $user, $aula, $cedulaSin, $password) {
       return $consulta;
     }
 }
+
+function insertMatricula($mysqli, $cedula, $user, $password, $estudi_id){
+  $cedulaReady = "V-".$cedula;
+  $estudi_id = $estudi_id."_38";
+  //Consulta
+  $consulta = $mysqli->prepare('INSERT INTO login
+  (cedula, user, password, estudi_id)
+  VALUES
+  (?,?,?,?)');
+  if (!$consulta) {
+    return false;
+  }
+  $consulta->bind_param("ssss", $cedulaReady, $user, $password, $estudi_id);
+  $consulta->execute();
+
+  if ($consulta->affected_rows >= 1) {
+    return true;
+  }else {
+    return false;
+  }
+}
+
+function updateMatricula($mysqli, $cedula, $user, $estudi_id){
+  $cedulaReady = "V-".$cedula;
+  $estudi_id = $estudi_id."_38";
+  //Consulta
+  $consulta = $mysqli->prepare('UPDATE login SET
+	user=?, estudi_id=?
+	WHERE cedula=?');
+  if (!$consulta) {
+    return false;
+  }
+  $consulta->bind_param("sss", $user, $estudi_id, $cedulaReady);
+  $consulta->execute();
+
+  if ($consulta->affected_rows >= 1) {
+    return true;
+  }else {
+    return false;
+  }
+}
 ?>
