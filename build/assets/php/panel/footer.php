@@ -17,7 +17,13 @@
   </div>
   <!-- Alerts -->
   <div id="areaAlert">
-    </div>
-	<script type="text/javascript" src="assets/js/panel.bundle.js"></script>
+  </div>
+  <?php if ($privilegio == "A-") { ?>
+	<script type="text/javascript" src="assets/js/panelAdmin.bundle.js"></script>
+  <?php }else if ($privilegio == "V-") { ?>
+    <script type="text/javascript" src="assets/js/panelUser.bundle.js"></script>
+  <?php }else if ($privilegio == "CR-") { ?>
+    <script type="text/javascript" src="assets/js/panelCreador.bundle.js"></script>
+  <?php } ?>
 </body>
 </html>

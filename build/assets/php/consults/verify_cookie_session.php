@@ -14,8 +14,8 @@ if (isset($_SESSION['token']) && isset($_SESSION['loginIs'])) {
 		$verify_cs = true;
 	}else {
 		session_unset();//Remueve la session.
-  		session_destroy();//Destruye la session.
-  		$verify_cs = false;
+		session_destroy();//Destruye la session.
+		$verify_cs = false;
 	}
 }else if (isset($_COOKIE['reloginID']) && isset($_COOKIE['reloginID_user'])) {
 	$verify = verify_reloginID($mysqli, $_COOKIE['reloginID'], $_COOKIE['reloginID_user']);

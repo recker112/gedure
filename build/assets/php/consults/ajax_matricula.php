@@ -110,7 +110,7 @@ try {
 				$texto = "$cedulaCSV[$o];$nombreCSV[$o];Ya generada";
 				fputs($createCsv, $texto.PHP_EOL);
 				//Ordenar las seccion vieja y nueva
-				estudiFixUpdate($mysqli, $estudi_id, $datos['estudi_id']);
+				estudiFixUpdate($mysqli, $estudi_id, $datos['estudi_id'], "V-".$cedulaCSV[$o]);
 				$actualizados++;
 			}else {
 				$errores++;

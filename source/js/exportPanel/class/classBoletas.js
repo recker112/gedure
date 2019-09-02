@@ -16,13 +16,15 @@ export class insertTextHTML {
         message = "El archivo no está en formato pdf.";
       }else if (boleta.message === 'no_move') {
         message = "No se ha podido mover el archivo al servidor.";
+      }else if (boleta.message === 'user_no_found') {
+        message = "No se pudo encontrar a un estudiante con ese número de lista.";
       }else if (boleta.message === 'ok') {
         message = "El archivo se cargó correctamente.";
       }else {
         message = "Ex000003.";
       }
 
-      this.texto += `Nombre: ${boleta.name}.</br>
+      this.texto += `<strong>Nombre:</strong> ${boleta.name}.</br>
       <strong>Estado:</strong> ${message}</br></br>`;
     }
 

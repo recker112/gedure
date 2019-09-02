@@ -184,7 +184,6 @@ function addEventToButtonSearch() {
       let fix_curso;
       const m_grado = document.getElementById('m_grado_user');
       const m_seccion = document.getElementById('m_seccion_user');
-      const m_lista = document.getElementById('m_lista_user');
 
       //Arreglar texto en la variable curso
       if (dataHTML.curso[2] == "g") {
@@ -196,7 +195,6 @@ function addEventToButtonSearch() {
       //Insertar extras
       m_grado.value = fix_curso;
       m_seccion.value = dataHTML.seccion;
-      m_lista.value = dataHTML.lista;
     }
   });
 

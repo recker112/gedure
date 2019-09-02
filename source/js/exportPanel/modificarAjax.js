@@ -36,7 +36,6 @@ btnModify.addEventListener('click', async e => {
       let message;
       let color;
       if (res.status !== 'error') {
-        console.log(res);
         //Mensajes OK
         if (res.message === 'insert_ok') {
           message = "Usuario insertado!";
