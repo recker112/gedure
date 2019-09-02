@@ -1,0 +1,57 @@
+#areaAlert
+  position: fixed
+  display: flex
+  flex-direction: column
+  bottom: 0
+  right: 0
+  margin: 25px 10px
+  .alert
+    max-height: 50px
+    max-width: 300px
+    background: $success
+    border: 1px solid $borderSuccess
+    +border-radius(5px)
+    margin: 5px 0
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 9px
+    .aMessage
+      text-align: justify
+      width: 100%
+      height: 100%
+      color: $colorSuccess
+      font-family: sourcesans-light
+      font-size: 15px
+      margin-right: 30px
+      overflow: auto
+    .aClose
+      cursor: pointer
+      font-family: sourcesans-bold
+      opacity: 0.4
+      padding: 5px
+      +border-radius(2px)
+      transition: 0.5s
+      &:hover
+        opacity: 0.7
+  /*-- Colores de alerta ---*/
+  .success
+    background: $success
+    border: 1px solid $borderSuccess
+    .aMessage
+      color: $colorSuccess
+  .danger
+    background: $error
+    border: 1px solid $borderError
+    .aMessage
+      color: $colorError
+  .warning
+    background: $warning
+    border: 1px solid $borderWarning
+    .aMessage
+      color: $colorWarning
+  .info
+    background: $info
+    border: 1px solid $borderInfo
+    .aMessage
+      color: $colorInfo
