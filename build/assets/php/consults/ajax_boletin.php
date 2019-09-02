@@ -6,6 +6,7 @@ require 'connect_db.php';
 
 //Dependencias
 require 'funciones/func_global.php';
+require 'funciones/func_boletas.php';
 
 sec_session_start();
 
@@ -42,6 +43,8 @@ try {
 	//Foreach que recorre cada uno de los archivos encontrados en el array
 	foreach ($_FILES as $archivos) {
 		if (isset($archivos['name']) && $archivos['error'] == UPLOAD_ERR_OK) {
+			$nombreArchivo = $archivos['name'];//Guardar nombre completo
+			$archivos['name'] = explode(".", $archivos['name']);//Obtener el número de lista
 			if ($archivos['size'] <= 2000000) {
 				if ($archivos['type'] == "application/pdf") {
 					//Verificar destino
@@ -52,40 +55,32 @@ try {
 						}
 					}
 
-					//Mover archivo
-					$origen=$archivos["tmp_name"];
-					$upload=$destino.$archivos["name"];
-					$estudi_id="E_$curso$seccion_%";
-					if (@move_uploaded_file($origen, $upload)) {
-						$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "ok");
-						$cargados++;
-					}else {
-						$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "no_move");
+					//Verificar si existe el estudiante en esa sección con ese número de lista
+					$estudi_id="E_".$curso.$seccion."_".$archivos['name'][0];
+					if ($cedula = replaceNameBoletas($mysqli, $estudi_id)) {
+						//Mover archivo
+						$origen=$archivos["tmp_name"];
+						$upload=$destino.$cedula.".pdf";
+
+						if (@move_uploaded_file($origen, $upload)) {
+							$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "ok");
+							$cargados++;
+						}else {
+							$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "no_move");
+						}
+					} else {
+						$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "user_no_found");
 					}
 				}else {
-					$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "no_format");
+					$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "no_format");
 				}
 			}else {
-				$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "no_size");
+				$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "no_size");
 			}
 		}else {
-			$respuesta[$numero_archivo] = array("name" => $archivos['name'], "message" => "error_upload");
+			$respuesta[$numero_archivo] = array("name" => $nombreArchivo, "message" => "error_upload");
 		}
 		$numero_archivo++;
-	}
-	if (isset($_POST['lote']) && $_POST['lote'] == 1) {
-		$lote = true;
-	}else if (isset($_POST['lote']) && $_POST['lote'] == 2) {
-		$num_lote = 20 + $numero_archivo;
-		$accion = "Boletas subidas: $num_lote boletas de $curso $seccion.";
-		$lote = false;
-	}else {
-		$accion = "Boletas subidas: $numero_archivo boletas de $curso $seccion.";
-		$lote = false;
-	}
-
-	if ($lote != true) {
-		add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], $accion);
 	}
 } catch (\Throwable $e) {
 	$respuesta = array('status' => 'error','message' => $e->getMessage());
@@ -95,21 +90,4 @@ $respuesta['archivos_total'] = $numero_archivo;
 echo json_encode($respuesta);
 //Cerrar conexion.
 $mysqli->close();
-// function reemplazeNameBoletas($mysqli, $estudi_id){
-// 	$consulta = $mysqli->prepare('SELECT cedula
-// 	FROM login
-// 	WHERE estudi_id LIKE ?');
-	
-// 	$consulta->bind_param("s", $estudi_id);
-// 	$consulta->execute();
-// 	$resultado = $consulta->get_result();
-
-// 	if ($resultado->num_rows >= 1) {
-// 		while ($fila = $resultado->fetch_assoc()) {
-
-// 		}
-// 	}else {
-// 		return false;
-// 	}
-// }
 ?>

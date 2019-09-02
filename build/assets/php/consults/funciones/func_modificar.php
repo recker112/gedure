@@ -1,4 +1,6 @@
 <?php
+require 'func_boletas.php';
+
 function modificarUser($mysqli, $privilegio, $cedula, $password, $name, $option, $curso, $seccion, $old_estudi){
 	//Cedula
 	$cedulaReady = $privilegio.$cedula;
@@ -71,7 +73,7 @@ function modificarUser($mysqli, $privilegio, $cedula, $password, $name, $option,
 	if ($consulta->affected_rows === 1) {
 		if ($privilegio === 'V-') {
 			if ($option === 'UPDATE') {
-				return estudiFixUpdate($mysqli, $estudi_id, $old_estudi);
+				return estudiFixUpdate($mysqli, $estudi_id, $old_estudi, $cedulaReady);
 			}else {
 				return estudiFix($mysqli, $estudi_id);
 			}
@@ -143,7 +145,7 @@ function estudiFix($mysqli, $estudi_id){
 	}
 }
 
-function estudiFixUpdate($mysqli, $estudi_id, $old_estudi){
+function estudiFixUpdate($mysqli, $estudi_id, $old_estudi, $cedula){
 	try {
 		//Fix estudiID
 		$old_estudi = substr($old_estudi,0, 4).'_%';//Formato para poder realizar algoritmos
@@ -152,6 +154,9 @@ function estudiFixUpdate($mysqli, $estudi_id, $old_estudi){
 		if ($estudi_id === $old_estudi) {
 			throw new Exception('ok');
 		}
+
+		//Mover boleta
+		moveBoletas($cedula, $estudi_id, $old_estudi);
 
 		//Seleccionar seccion vieja
 		$param = $old_estudi;
@@ -173,7 +178,7 @@ function estudiFixUpdate($mysqli, $estudi_id, $old_estudi){
 			$result = $consulta->get_result();
 
 			//Minimo de estudiantes para verificar las listas
-			if (!($result->num_rows >= 0)) {
+			if (!($result->num_rows >= 1)) {
 				throw new Exception('ok');
 			}
 

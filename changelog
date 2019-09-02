@@ -1,7 +1,18 @@
-Build-2.4.2:
+Build-2.5:
 
 Modificar y Matricula:
--Se actualizaron los algoritmos internos del php para poder mover los estudiantes y que sus números de lista se organizen de forma acendente.
+-Añadido al sistema de número de lista la boleta, ahora al mover a un estudiante también se mueve la boleta.
 
-Pendiente:
--Actualizar algoritmos de las boletas para que se muevan junto con el estudiante.
+Boletas:
+-Se agregaron algunas funciones para poder manejar los archivos.
+-Ye actualizó el manejamiento de las boletas, ahora se manejan con la cedula en vez del número de lista.
+
+WebPack:
+-Se separaron los archivos de js para el panel, debido algunos problemas ocacionados al tener todos los scripts de cada tipo de usuario en 1 solo archivo.
+
+Otros:
+-Añadidas carpetas "user" y "admin" en la build, servirán para almacenar archivos visibles y únicos para cada tipo de usuario.
+-Añadidos ,htaccess y .htpassword en la carpeta "src" para proteger los archivos como: Boletas, horarios, manual, matricula cargada, entre otros.
+
+Issues solucionados:
+En este commit se solucionan los issues #8 y #11.
