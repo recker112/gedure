@@ -17,7 +17,6 @@ if ($verify_cs && $_SESSION['loginIs'] == "user") {
 			readfile($dir);
 		}else {
 			echo "Boleta no cargada.";
-			echo $dir;
 			echo "<script>setTimeout(function (){window.close()}, 4000);</script>";
 		}
 	}else {

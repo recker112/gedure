@@ -1,3 +1,28 @@
+Build-2.5.7:
+    
+    Js:
+    -Correjido el alert mostrado en el
+    login, el cual al no colocar nada en
+    el formulario mostraba cosas que no
+    era lo esperado.
+
+    WebPack:
+    -Cambiada estructura de archivos
+    eliminando la carpeta "build" y
+    reemplazandola por "testing".
+    -Configurado los archivos para poder
+    compilar las builds.
+    -Añadido nuevos comandos para poder
+    compilar los archivos.
+
+    Css/Sass:
+    -Corregido vista de alert en firefox.
+
+    README:
+    -Acualización de estilos y correcion
+    en algunos textos.
+
+
 Build-2.5:
 
     Modificar y Matricula:

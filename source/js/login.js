@@ -98,10 +98,10 @@ btnLogin.addEventListener('click', async e => {
     }else {
       //Error al conectar con el servidor
       loadingAnimation($, btnLogin, loading, "invert");
-      alerts($, "¡Error al conectar con el servidor!", "danger");
+      alerts("¡Error al conectar con el servidor!", "danger");
     }
   }else {
-    alerts($, "¡Debe rellenar todos los campos!", "warning");
+    alerts("¡Debe rellenar todos los campos!", "warning");
   }
 });
 
