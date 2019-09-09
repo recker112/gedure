@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-08-2019 a las 21:13:03
--- Versión del servidor: 5.6.42-log
--- Versión de PHP: 5.6.40
+-- Tiempo de generación: 09-09-2019 a las 16:42:55
+-- Versión del servidor: 10.4.6-MariaDB
+-- Versión de PHP: 7.2.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `c1540841_candedb`
+-- Base de datos: `candeDB`
 --
 
 -- --------------------------------------------------------
@@ -40,8 +40,29 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`cedula`, `user`, `password`, `avatar`) VALUES
-('A-recker', 'José Ortiz', '$2y$10$q5YZTNXWs8bvH6VvnIYR0eWKE6mH57XWspobgpmZb7RwUNUipdQSq', 'admin/avatars/Recker.jpg'),
+('A-recker', 'Recker', '$2y$10$KoGARgTOcxqoF2Mg5pWKnOAvDWFRGB8RI1nNpDm0sSyO/aQ/yVVeG', 'admin/avatars/Recker.jpg'),
 ('A-rhadys', 'Rhadys Garcia', '$2y$10$9es00juSUmEKflI0rKmy3uo34UYTdlHBbpVSPvZDQe5c8yKf38GjW', 'admin/avatars/default.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `anuncios`
+--
+
+CREATE TABLE `anuncios` (
+  `id` int(10) NOT NULL,
+  `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `byUser` varchar(60) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `anuncios`
+--
+
+INSERT INTO `anuncios` (`id`, `title`, `content`, `byUser`) VALUES
+(1, 'Testing1', 'Hola compatriotas, hoy se me dio por actualizar el sistema y pos tejo. Bienvenidos al capitalismo!! :UUUU', 'A-recker'),
+(2, 'Testing2', 'Hola compatriotas, hoy se me dio por actualizar el sistema y pos tejo. Bienvenidos al capitalismo!! :UUUU\r\n\r\nPD: Tengo hambre.', 'A-recker');
 
 -- --------------------------------------------------------
 
@@ -53,8 +74,8 @@ CREATE TABLE `baneos` (
   `ban_cedula` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `ban_user` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `time` int(16) NOT NULL,
-  `attempts` int(1) NOT NULL DEFAULT '0',
-  `locks` int(1) NOT NULL DEFAULT '0'
+  `attempts` int(1) NOT NULL DEFAULT 0,
+  `locks` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -62,7 +83,6 @@ CREATE TABLE `baneos` (
 --
 
 INSERT INTO `baneos` (`ban_cedula`, `ban_user`, `time`, `attempts`, `locks`) VALUES
-('A-rhadys', 'Rhadys Garcia', 1563757745, 5, 0),
 ('V-28731140', 'Rojo Diego ', 1563757351, 5, 0),
 ('V-29744615', 'Aguero Juan ', 1565893657, 3, 0),
 ('V-29837844', 'Arevalo Pedro ', 1566248812, 3, 0),
@@ -85,6 +105,13 @@ CREATE TABLE `creadores` (
   `password` varchar(75) COLLATE utf8_unicode_ci NOT NULL,
   `avatar` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'admin/avatars/default.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `creadores`
+--
+
+INSERT INTO `creadores` (`cedula`, `user`, `password`, `avatar`) VALUES
+('CR-1', '1', '$2y$10$mv2d6aFqyG/OU7Ngdm2Z4ecLsQij557XZ9y/z15qaTeJtROVAdU3a', 'admin/avatars/default.jpg');
 
 -- --------------------------------------------------------
 
@@ -1627,10 +1654,10 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
-('V-10411976276', 'Jimenez Jorge', '$2y$10$0eYsTj/x7EKwzuwX0h9gruuBIyZvW8tnpICW91BO5NndYSFXSabVa', 'E_2A_32', 'user/avatars/default.jpg'),
-('V-10514665343', 'Flores Genesis', '$2y$10$3pFxYs1hchzFke4k353YI.RCzV7ekHgN.oc5rMQc9vPFaCmi9wsWa', 'E_2A_33', 'user/avatars/default.jpg'),
-('V-106190326', 'Linares Edgardo', '$2y$10$zAcZXw5hJlH6IyoI/WScmOhZ2UQowQe0pK3dqgs4KWM.9W6veRQWa', 'E_1C_32', 'user/avatars/default.jpg'),
-('V-106200576', 'Chirino Christian ', '$2y$10$7LouNpnXbdVhNwyO8u6HfO7LnL0YEFEoZQQ9JIsmGaNNeHkY1fy1S', 'E_1C_33', 'user/avatars/default.jpg'),
+('V-10514665343', 'Flores Genesis', '$2y$10$3pFxYs1hchzFke4k353YI.RCzV7ekHgN.oc5rMQc9vPFaCmi9wsWa', 'E_2A_32', 'user/avatars/default.jpg'),
+('V-12', 'Ñez Tles', '$2y$10$DthzSMpw3N8tnMbxV3letuj7Af3ClIc5eZq/0sxYX5lUDofi4YwVG', 'E_1B_1', 'user/avatars/default.jpg'),
+('V-13', 'É Es', '$2y$10$xA5KCr4d3hKFQ1AIXvdBHuot.PfuTA.1550ssiegYzHliTXsY9YTW', 'E_1B_2', 'user/avatars/default.jpg'),
+('V-14', 'Hpñla', '$2y$10$NZVBUsHmN3nsj9iELcuoFe5d5bgk4cNtWmv6IQg2x8MeCbtgRdMmG', 'E_1B_3', 'user/avatars/default.jpg'),
 ('V-27646615', 'Bello Samuel ', '$2y$10$n9YA2TOzimHMZVLNFlPIC.d.PhSzkmHRVrgQyX0Aa5u0CaYCegXHu', 'E_6U_1', 'user/avatars/default.jpg'),
 ('V-27654587', 'Graterol Elias ', '$2y$10$af/aAMDbbzubWM3cCoPnP.yCodslF48zMezbWTM2fdnmTNmaCTPuS', 'E_5A_1', 'user/avatars/default.jpg'),
 ('V-27712853', 'Cortez Elizabeth ', '$2y$10$nRj0BoA0W5iXZtwxYErBZeVsC6s0WICdKRU9zeJSEzM3IR.oyNTCK', 'E_6U_2', 'user/avatars/default.jpg'),
@@ -1734,7 +1761,7 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-30247241', 'Tovar Eloy ', '$2y$10$rJXVRaLuGYuHTI/7u4LPwuBzWxjMmLjF7lhXbQeSYj291qW.CVIk2', 'E_4A_15', 'user/avatars/default.jpg'),
 ('V-30247353', 'Blanco Ismelis ', '$2y$10$xq0SEKwvxufHXgdPgcKFw.7hBHx43g/W27Kz0aufpQz46AJw6GcTS', 'E_4A_16', 'user/avatars/default.jpg'),
 ('V-30288576', 'Liendo Rosswer ', '$2y$10$oBFcJ1Tw/gEYI4jJz8cNYekZRn3lgbWOcAZtzGJJAdH0wWb2nk7IO', 'E_3A_1', 'user/avatars/default.jpg'),
-('V-30288707', 'Ocampo David ', '$2y$10$KVuxirWY22JOo2DgiwecU.aXGbM6lfmvn0vzx3aCYTwZ9bxJdIcqK', 'E_3B_1', 'user/avatars/default.jpg'),
+('V-30288707', 'Ocampo David ', '$2y$10$KVuxirWY22JOo2DgiwecU.aXGbM6lfmvn0vzx3aCYTwZ9bxJdIcqK', 'E_3B_2', 'user/avatars/default.jpg'),
 ('V-30292098', 'Torres Yudelcris ', '$2y$10$B3cOBid3O/Uz/Mtmumy3j.Pe8cdxqGKrT7TFlgWqmVK4Lncm1of0O', 'E_3A_2', 'user/avatars/default.jpg'),
 ('V-30294414', 'Gutierrez Anibal ', '$2y$10$Priwg0UWPJ0ID6WdybZHvO3u6/uybI6bXyXdNNERU.w7EnWLrykH2', 'E_4C_8', 'user/avatars/default.jpg'),
 ('V-30322309', 'Dance Eddyliannys ', '$2y$10$pd4KsETaT1.3TGjMZ62nUugmyfjjvsgxXAjoN.DZcUjQnHEgP95MS', 'E_3C_1', 'user/avatars/default.jpg'),
@@ -1744,10 +1771,10 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-30322909', 'Montañez Franyini ', '$2y$10$gUvD09i.e6Ka9q/J2UwsIuDMovI5R12V9bGtyWt2I1.c4S4xrZS3y', 'E_4B_16', 'user/avatars/default.jpg'),
 ('V-30325634', 'Silva Carlos ', '$2y$10$TWPZ.cvfe1BovNtRuXhBJuARkbWjtEQOLumyIOU.o3XJllh0tWic.', 'E_3A_3', 'user/avatars/default.jpg'),
 ('V-30327405', 'Trejo Daniela ', '$2y$10$jsnVloI.hVo/D0MDijFeAOpZLXHQ3Ym6I6sXkaSvC7ExZRvZAAoKi', 'E_3A_4', 'user/avatars/default.jpg'),
-('V-30358971', 'Forero Kevin ', '$2y$10$1bnt.oFYyM1oNIvOoNawbOKhIqkhBfAGePeYWHMcgKdGdiLEyzNC2', 'E_2B_1', 'user/avatars/default.jpg'),
+('V-30358971', 'Forero Kevin', '$2y$10$1bnt.oFYyM1oNIvOoNawbOKhIqkhBfAGePeYWHMcgKdGdiLEyzNC2', 'E_2B_1', 'user/avatars/default.jpg'),
 ('V-30381658', 'Mota Flor ', '$2y$10$hCLbtjIlFLzjHcJfX9m13ehUIFAVTZVWSAi3z971PeCEpbfC2SiWq', 'E_4A_18', 'user/avatars/default.jpg'),
-('V-30406176', 'Prieto Johanays ', '$2y$10$HQRZTNCi9ci.54V2s.HXeOMvYQyk2Ad9KngJ/ylqwvgnF66S..yii', 'E_3B_2', 'user/avatars/default.jpg'),
-('V-30406261', 'Rojas Wilfred ', '$2y$10$YvjgEvUMyfXLQ2q57a6GE.iu8IIsLG9Pb94UuLE4Cpcy9UccpgLoy', 'E_3B_3', 'user/avatars/default.jpg'),
+('V-30406176', 'Prieto Johanays ', '$2y$10$HQRZTNCi9ci.54V2s.HXeOMvYQyk2Ad9KngJ/ylqwvgnF66S..yii', 'E_3B_3', 'user/avatars/default.jpg'),
+('V-30406261', 'Rojas Wilfred ', '$2y$10$YvjgEvUMyfXLQ2q57a6GE.iu8IIsLG9Pb94UuLE4Cpcy9UccpgLoy', 'E_3B_4', 'user/avatars/default.jpg'),
 ('V-30406314', 'Aular Pablo ', '$2y$10$ELclv134N0tijxFRh213EuuEIohS4CWDZd6WqPJ7dfwJfhKTyPR7O', 'E_4C_9', 'user/avatars/default.jpg'),
 ('V-30406354', 'Gutierrez Eliana ', '$2y$10$AcB4A6lvN.KtmYnePJ0rmeMdYY8DeBocGS/cD.d5/EWXDaKWwCbEa', 'E_3A_5', 'user/avatars/default.jpg'),
 ('V-30406483', 'Pulido Delsymar ', '$2y$10$CIBlny/GB36PTNMg8Hlla.hLgrRTJOfSizvOkbTG66PP52PxyizwW', 'E_5A_16', 'user/avatars/default.jpg'),
@@ -1757,7 +1784,7 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-30406855', 'Briceño Fabian ', '$2y$10$QawTw/hdeKffFDMTRHCAoedHZInuALoeso/33zN8XbCSt8Yu0pa9.', 'E_4B_17', 'user/avatars/default.jpg'),
 ('V-30406987', 'Pimentel Efrain ', '$2y$10$WELfVX5WadWBiB3yMtetT.ohw6i83x3ip78.ahO1l5IuC2WiUcYNy', 'E_4C_10', 'user/avatars/default.jpg'),
 ('V-30415200', 'Peña Juana ', '$2y$10$KE4nEbI9Ru94Er0dWi6gre4Z7SpjodWcOD816WoBexpngxoQXpvNq', 'E_3C_3', 'user/avatars/default.jpg'),
-('V-30428292', 'Salas Adaluz ', '$2y$10$i09aHfnCuTlqwCv.WCveWuSkcZ5l1NaYQh/PzXZTclVNPyRT9PlRG', 'E_3B_4', 'user/avatars/default.jpg'),
+('V-30428292', 'Salas Adaluz ', '$2y$10$i09aHfnCuTlqwCv.WCveWuSkcZ5l1NaYQh/PzXZTclVNPyRT9PlRG', 'E_3B_5', 'user/avatars/default.jpg'),
 ('V-30451983', 'Garcia Darcy ', '$2y$10$XfDgpO9FkumeOCJVuaHTn.BA9i9lJ/348oIlK1SYhn2iFnOMtinRO', 'E_4A_20', 'user/avatars/default.jpg'),
 ('V-30452806', 'Hernandez Krisneidys ', '$2y$10$MAXkunYCD6cpyMuqInKOKO/7/n2oV2CptVoYPr07YizPtKvtHgPyG', 'E_4B_18', 'user/avatars/default.jpg'),
 ('V-30470546', 'Sabalza Willianis ', '$2y$10$TXFn758B5U.HIBITYsWT7OGxcqu18zBvVcquiXGG0.jwCcAD5.YIq', 'E_4B_19', 'user/avatars/default.jpg'),
@@ -1771,9 +1798,9 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-30500706', 'Angulo Juan ', '$2y$10$Mng/lPyJJZ0vplB9PpNzoO7xsTmBoks7kXN5Q2zAjio3TzQojOUem', 'E_3A_9', 'user/avatars/default.jpg'),
 ('V-30524485', 'Quiñones Yeniskia ', '$2y$10$/D8siWi1N9BakyJ175IYPOkNsmby7bUj5QbcMf.4LtPak5qzDSt5e', 'E_4C_11', 'user/avatars/default.jpg'),
 ('V-30555711', 'Montes Marianny ', '$2y$10$9MJXFO6C6piYCuFvsk8U1.A32M4bnZkW4Q/QYFKpx/AegCr688ElO', 'E_3C_7', 'user/avatars/default.jpg'),
-('V-30595885', 'Bestard Armando ', '$2y$10$wxzeG4qrx24btVEnlIEq2eGBq22uvl77OWMd6SAGr/okS8vFm/WWe', 'E_3B_5', 'user/avatars/default.jpg'),
+('V-30595885', 'Bestard Armando ', '$2y$10$wxzeG4qrx24btVEnlIEq2eGBq22uvl77OWMd6SAGr/okS8vFm/WWe', 'E_3B_6', 'user/avatars/default.jpg'),
 ('V-30595919', 'Matute Johenny ', '$2y$10$NMjSuDtAO.1G7WIxiPECbOKP8Vqb2DFEmbgv2.5zIteVg0nnIzJUC', 'E_5A_17', 'user/avatars/default.jpg'),
-('V-30596231', 'Caceres Luis ', '$2y$10$t4RLTZmCOP0K0v2YWdlB7uOkh0hterqQtYAgAZcnGtV9F5ho9UmbO', 'E_3B_6', 'user/avatars/default.jpg'),
+('V-30596231', 'Caceres Luis ', '$2y$10$t4RLTZmCOP0K0v2YWdlB7uOkh0hterqQtYAgAZcnGtV9F5ho9UmbO', 'E_3B_7', 'user/avatars/default.jpg'),
 ('V-30596446', 'Marin Dahian ', '$2y$10$N0fqYQZENGmyA0zirq8cWO2SN2fbNkP2NHQYISDU1ppSdNGBnOtsS', 'E_4C_12', 'user/avatars/default.jpg'),
 ('V-30596474', 'Hernandez Anyuleski ', '$2y$10$DHUHUT2u89K3yctWfzqUL.OFXt94ek9ptqAkq7050Yp.sSFbE0Aci', 'E_4B_20', 'user/avatars/default.jpg'),
 ('V-30644632', 'Rubianes Jesse ', '$2y$10$Njt/c7VIRXLMTU/gdJSQ2OZZho16ziI7JeEAqu.CeN2Ivt6LBQKaq', 'E_3A_10', 'user/avatars/default.jpg'),
@@ -1781,54 +1808,54 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-30644963', 'Serrano Barbara ', '$2y$10$Tl7EoxHpFt96DHuZfCcoCeQ/KPpdenWDGdxMt8IEWBxjKz.zzh4Q6', 'E_4C_13', 'user/avatars/default.jpg'),
 ('V-30645078', 'Perez Hecmar ', '$2y$10$8eTZOuY8H4uy3mP40WKRyO6vGQw9C.DENg7.giJoAHaUDa9bYZLsC', 'E_4B_21', 'user/avatars/default.jpg'),
 ('V-30645158', 'Castro Andreina ', '$2y$10$U2aWqdKVRcIj9PwYH.TG3Oiz4Sue94ZT8efEyCjGwW4JVvYH7z2uG', 'E_3A_12', 'user/avatars/default.jpg'),
-('V-30645265', 'Mendoza Luis ', '$2y$10$FAksNXkF75LoCq8nr8A9XOnPyC8JEPvCDfIDqRQd243yxFpDq2GW.', 'E_3B_7', 'user/avatars/default.jpg'),
-('V-30655441', 'Milla Francys ', '$2y$10$NRpDFz5XEOvAls1y8hjEc.hqWY/.hy0AoJq.psIWcYqwoQF58DasW', 'E_3B_8', 'user/avatars/default.jpg'),
+('V-30645265', 'Mendoza Luis ', '$2y$10$FAksNXkF75LoCq8nr8A9XOnPyC8JEPvCDfIDqRQd243yxFpDq2GW.', 'E_3B_8', 'user/avatars/default.jpg'),
+('V-30655441', 'Milla Francys ', '$2y$10$NRpDFz5XEOvAls1y8hjEc.hqWY/.hy0AoJq.psIWcYqwoQF58DasW', 'E_3B_9', 'user/avatars/default.jpg'),
 ('V-30655541', 'Morales Maria ', '$2y$10$8wCDxXQQArjModQfp1kZtee1Dm6gk.dIqdnYj4M3rUXAvIwBO/V/y', 'E_2C_1', 'user/avatars/default.jpg'),
 ('V-30658454', 'Bacalau Jorge ', '$2y$10$r8gIDW81Xs5jB/xKre/E6e8jEr4tcTC/6sY1tNNTsvGj1teFCbTVS', 'E_3C_8', 'user/avatars/default.jpg'),
 ('V-30658457', 'Gutierrez Luismary ', '$2y$10$hrbiJTS91XpnIAdxq2HgAeJ07wYkVT9laTl8/0ehrin46WxwxXgay', 'E_3C_9', 'user/avatars/default.jpg'),
 ('V-30658643', 'Colmenares Deximar ', '$2y$10$67EknPnV5ovN3OfD5bI7gO5oGN2pEHmjomcXrz2YA41jEP7Prbo1y', 'E_3C_10', 'user/avatars/default.jpg'),
 ('V-30658870', 'Castañeda Genesis ', '$2y$10$mBjhuwefov/2H977Uv.6zO/Y4MR.o7201xm35e4c4U.cgkkVsXpG6', 'E_3A_13', 'user/avatars/default.jpg'),
-('V-30658879', 'Lopez Desiree ', '$2y$10$muEQMWh0tSDvQze.cE3dcu8WiH.cCPk3c.W1XRUR7z3IH1GePw7fO', 'E_3B_9', 'user/avatars/default.jpg'),
+('V-30658879', 'Lopez Desiree ', '$2y$10$muEQMWh0tSDvQze.cE3dcu8WiH.cCPk3c.W1XRUR7z3IH1GePw7fO', 'E_3B_10', 'user/avatars/default.jpg'),
 ('V-30658910', 'Martinez Rafmary ', '$2y$10$tOPdd.yKMFtlyUWcT99TmOYRFpzHWuzl4MznuvN4q4TI4M/MdYwqO', 'E_5A_18', 'user/avatars/default.jpg'),
 ('V-30659084', 'Jimenez Viannelly', '$2y$10$Upm0pJDNSQ5D03BtlZXQgeriqrlRM54hfC4Bi0MUcOEseRaVIUq7u', 'E_4B_22', 'user/avatars/default.jpg'),
 ('V-30659114', 'Olivo Oriana ', '$2y$10$KINyxa9b6THhobn9zbo5YOXoft/iakd/HBOfe.qufeFbmx2O.xPx6', 'E_4B_23', 'user/avatars/default.jpg'),
 ('V-30705694', 'Molina Yean ', '$2y$10$A.QZqM6frMjPuZ14QCZr2.zcifr3bxtysZBW5QZUFeRrXT7UFFe6S', 'E_4C_14', 'user/avatars/default.jpg'),
 ('V-30705719', 'Yepez Irvyn ', '$2y$10$13cxokgVlMgROlkvAhx6GeIBDDngFNu7Kqi5DYWITCoRTwNVyKHfO', 'E_5C_15', 'user/avatars/default.jpg'),
-('V-30705745', 'Osuna Eleximar ', '$2y$10$JmoRUilosR1d1wRwZkzP4.pf6XzBmKs6lcVujtiPfVW0njJNqk3Cm', 'E_3B_10', 'user/avatars/default.jpg'),
-('V-30705897', 'Sanchez Jose ', '$2y$10$vM.1pTDPsO41XagppLs4j.Ig8eHVyA4maICzayee4YsVWsvymFakm', 'E_2B_2', 'user/avatars/default.jpg'),
+('V-30705745', 'Osuna Eleximar ', '$2y$10$JmoRUilosR1d1wRwZkzP4.pf6XzBmKs6lcVujtiPfVW0njJNqk3Cm', 'E_3B_11', 'user/avatars/default.jpg'),
+('V-30705897', 'Sanchez Jose', '$2y$10$vM.1pTDPsO41XagppLs4j.Ig8eHVyA4maICzayee4YsVWsvymFakm', 'E_2B_2', 'user/avatars/default.jpg'),
 ('V-30725329', 'Perales Diego ', '$2y$10$X7JPB/iRcKDTBKuJnmZc..HhKJIqiN3PEEmC04IQ2OWtqCLdiyhI6', 'E_2B_3', 'user/avatars/default.jpg'),
-('V-30730000', 'Machado Karelys ', '$2y$10$kgVWxZERTk0PV6nQsHlcfO0iPILNFt5FRYElV9ylEfcJKN3qH3jn2', 'E_3B_11', 'user/avatars/default.jpg'),
-('V-30730001', 'Sanz Eyleen ', '$2y$10$3xtTGtvIz5AatdI.dl6mOOtU45t6n6xMw8N11xFA2j3TuU2tV9N46', 'E_3B_12', 'user/avatars/default.jpg'),
+('V-30730000', 'Machado Karelys ', '$2y$10$kgVWxZERTk0PV6nQsHlcfO0iPILNFt5FRYElV9ylEfcJKN3qH3jn2', 'E_3B_12', 'user/avatars/default.jpg'),
+('V-30730001', 'Sanz Eyleen ', '$2y$10$3xtTGtvIz5AatdI.dl6mOOtU45t6n6xMw8N11xFA2j3TuU2tV9N46', 'E_3B_13', 'user/avatars/default.jpg'),
 ('V-30743378', 'Hidalgo Kevin ', '$2y$10$vuIxKI1Hdfa0IHUcrDCkf.NQ2Hs9s3Yks.6g2l1IjI2sHnid/HyVS', 'E_2B_4', 'user/avatars/default.jpg'),
-('V-30743588', 'Ruiz Oliver ', '$2y$10$9DHbbYWToQPAb2PLrQV4ROgbLPyms/Cq4vucy2jqs.QeagO/5G8aK', 'E_3B_13', 'user/avatars/default.jpg'),
+('V-30743588', 'Ruiz Oliver ', '$2y$10$9DHbbYWToQPAb2PLrQV4ROgbLPyms/Cq4vucy2jqs.QeagO/5G8aK', 'E_3B_14', 'user/avatars/default.jpg'),
 ('V-30743590', 'Casadiego Mariangel ', '$2y$10$lO3V25augZm5dCWQ2XR6j.CL0Q4SgBRbMam7w9gFFsyD9QDZlrJzG', 'E_4C_15', 'user/avatars/default.jpg'),
 ('V-30743684', 'Ibarra Jean ', '$2y$10$fGQ9iig495CypRXZe1enROP/QTInE/XfvFl1p3fH4EJ/PrsIUwb/m', 'E_3A_14', 'user/avatars/default.jpg'),
 ('V-30754825', 'Yanez Jenairet ', '$2y$10$..MSDBKqQRqtX57FGTBMSOV9GagxYE5pqPt2Q8sBMVdHYBafcNQbi', 'E_3C_11', 'user/avatars/default.jpg'),
 ('V-30754890', 'Rodriguez Jesus ', '$2y$10$y91JKUbY8.DjkpBbSnu5d.eUCmAE43YkNQkA3/JcOJXLE/Qtcy5yW', 'E_3A_15', 'user/avatars/default.jpg'),
 ('V-30754899', 'Gil Yosely ', '$2y$10$GWDEBMYrSkyAXqZDL/X5gOECKwYrggODKTce4j26t59IxnRnN5LXy', 'E_5A_19', 'user/avatars/default.jpg'),
 ('V-30755164', 'Dudamel Eduardo ', '$2y$10$sJbQxpeWRMT0n6v8dGYZluR/.i3gfTlm4Si3Facltl2BOptZWpuIm', 'E_4A_24', 'user/avatars/default.jpg'),
-('V-30755172', 'Hurtado Shantal ', '$2y$10$O1nSyyWiJkcbGmoEVrkQDOHjd9A5qiwT2onBq2h5BgsAZk8rRgUku', 'E_3B_14', 'user/avatars/default.jpg'),
+('V-30755172', 'Hurtado Shantal ', '$2y$10$O1nSyyWiJkcbGmoEVrkQDOHjd9A5qiwT2onBq2h5BgsAZk8rRgUku', 'E_3B_15', 'user/avatars/default.jpg'),
 ('V-30755179', 'Pacheco Melani ', '$2y$10$xn.GgPzX40UyZgvn8/p9uuxBFBtUKDra.0D7bSLVbDiVZFdpXo/.m', 'E_2A_1', 'user/avatars/default.jpg'),
 ('V-30755279', 'Perez Jose ', '$2y$10$Qs1hcNMc7i9.Wx7hB9QjQeRPQIf4h8o1jWhM4bZNnz0MO.42Znz/6', 'E_3C_12', 'user/avatars/default.jpg'),
-('V-30755389', 'Nieves Oranyuri ', '$2y$10$Owbe2HP8NgdvhLVssAZda.OZIXe9b4jeCkxYbxkQPslLeUUpYVRna', 'E_3B_15', 'user/avatars/default.jpg'),
-('V-30755439', 'Linares Brigny ', '$2y$10$WVQQtECygKY2GDvyJjwBG.5kckLMQcmWmpYdB7eULea60RYn6L7zG', 'E_3B_16', 'user/avatars/default.jpg'),
+('V-30755389', 'Nieves Oranyuri ', '$2y$10$Owbe2HP8NgdvhLVssAZda.OZIXe9b4jeCkxYbxkQPslLeUUpYVRna', 'E_3B_16', 'user/avatars/default.jpg'),
+('V-30755439', 'Linares Brigny ', '$2y$10$WVQQtECygKY2GDvyJjwBG.5kckLMQcmWmpYdB7eULea60RYn6L7zG', 'E_3B_17', 'user/avatars/default.jpg'),
 ('V-30755444', 'D\' Alvano Gigliolla ', '$2y$10$X8iwdhGTGlcRU0XD50PxB.5MW.2Gf62o23LAGbRdaXTtU22MCNmga', 'E_2A_2', 'user/avatars/default.jpg'),
 ('V-30755485', 'Gonzalez Maria ', '$2y$10$/oK6ZU2VNXOHOrLM92QGY.IT6BUN2flEE9lYg5CBiGxY0P6p3xkm.', 'E_3C_13', 'user/avatars/default.jpg'),
 ('V-30764444', 'Seijas Karla ', '$2y$10$flBcTi8SkyIZiAmB19E5rOrjUmEh8FvLwkYasYuidAWwj1b9W3b6e', 'E_3C_14', 'user/avatars/default.jpg'),
-('V-30772210', 'Luna Carla ', '$2y$10$PRuMMsQRe2gbF7xxm65oPO4UzxSXke2iwGBX4Y13MZTWnA2ynLs56', 'E_3B_17', 'user/avatars/default.jpg'),
+('V-30772210', 'Luna Carla ', '$2y$10$PRuMMsQRe2gbF7xxm65oPO4UzxSXke2iwGBX4Y13MZTWnA2ynLs56', 'E_3B_18', 'user/avatars/default.jpg'),
 ('V-30772394', 'Valderrama Yenifer ', '$2y$10$YlciQ5g.S7uMNLuZYzp/E.T1YQ/rfimq0gzk/lmafRCo6tGBpwunW', 'E_4A_25', 'user/avatars/default.jpg'),
 ('V-30800722', 'Guanipa Paola ', '$2y$10$7FNz1JCXMK5EeloOEa1FGONtqZQFD70Y4rpfcFo815Sv.YxpYAdy2', 'E_3A_16', 'user/avatars/default.jpg'),
 ('V-30800923', 'Angel Zara ', '$2y$10$r8UZiBnl2bt3yuBr/ZjSsOI/H0OEYDLuZG3jlMmBZzRFchrA8jEzm', 'E_3C_15', 'user/avatars/default.jpg'),
-('V-30801156', 'Mendoza Enyerber ', '$2y$10$g0/iy5LsOjwJ6.dSHUCMKetM73YMngBBP8iv8RHhAZJZRBnGJbd42', 'E_3B_18', 'user/avatars/default.jpg'),
+('V-30801156', 'Mendoza Enyerber ', '$2y$10$g0/iy5LsOjwJ6.dSHUCMKetM73YMngBBP8iv8RHhAZJZRBnGJbd42', 'E_3B_19', 'user/avatars/default.jpg'),
 ('V-30801475', 'Matos Victor ', '$2y$10$VnmMtQTgz0mtSXmpp03pM.zGg7Lrufd.KkvIBBzeOQGWEO5bLGqU.', 'E_3A_17', 'user/avatars/default.jpg'),
 ('V-30825777', 'Alfaro Escarlethzabeth ', '$2y$10$j7bECELlpsW28gCk6a2d.eWR.w6wqqRUaj./alVO/LUK.94qOFL6i', 'E_3A_18', 'user/avatars/default.jpg'),
 ('V-30836500', 'Rodriguez Josneilyn ', '$2y$10$RJJ9YGVzQ.WY52xKnleWQO0pXlcE7LdJ4ww5l/8y9KE6h1bPT3rB6', 'E_3C_16', 'user/avatars/default.jpg'),
 ('V-30836540', 'Liendo David ', '$2y$10$Rnq2enor65UXHvwBNWvoFu1aINz25N1vzi/wXGrnCQWFXm8BOHg2C', 'E_4C_16', 'user/avatars/default.jpg'),
 ('V-30852021', 'Lopez Silvany ', '$2y$10$325A8c8ZeVGWIZnS.zM38.6E8c42LKOadPZg1F2mblmmd7pY9NPIC', 'E_2A_3', 'user/avatars/default.jpg'),
 ('V-30852037', 'Betancourt Yoneidy ', '$2y$10$8Jv408s11.2bMFkG/sE1EepaSjuVhunCUEDQ0Y7P.S4WwNddV46Gm', 'E_2A_4', 'user/avatars/default.jpg'),
-('V-30852298', 'Gutierrez Brayan ', '$2y$10$cHfDarOPJl9TIPh1R1KRuOWtpymKn5nvk4qfrj.GyKsSf4QI./EMq', 'E_3B_19', 'user/avatars/default.jpg'),
+('V-30852298', 'Gutierrez Brayan ', '$2y$10$cHfDarOPJl9TIPh1R1KRuOWtpymKn5nvk4qfrj.GyKsSf4QI./EMq', 'E_3B_20', 'user/avatars/default.jpg'),
 ('V-30852524', 'Peraza Enrrique ', '$2y$10$uQN9m6BCZe4ZACZReE2P3u6lrctHkf4W6zgURSWNFOjREjmqCUbjG', 'E_3C_17', 'user/avatars/default.jpg'),
-('V-30852567', 'Leon Luisiany ', '$2y$10$pJQ1O4Lxswsp6aGrPUQcEOHMS7q7Vxc0i/Z6oa7mmSwcJamrE7xgS', 'E_3B_20', 'user/avatars/default.jpg'),
+('V-30852567', 'Leon Luisiany ', '$2y$10$pJQ1O4Lxswsp6aGrPUQcEOHMS7q7Vxc0i/Z6oa7mmSwcJamrE7xgS', 'E_3B_21', 'user/avatars/default.jpg'),
 ('V-30852614', 'Aguero Doriana ', '$2y$10$fZig0DF6ibOYuJdoXMi9b.5ueNuNl7UpH7QSvap7nwbCCrRMP0c16', 'E_3C_18', 'user/avatars/default.jpg'),
 ('V-30863465', 'Carpio Jhorgelys ', '$2y$10$gS.wIp/Rf8xcfFk6igvyFOs1Z2GDNJCfT52ChRwmjYAzP3PIkNX4W', 'E_2B_5', 'user/avatars/default.jpg'),
 ('V-30865764', 'Pinto Rosbelin ', '$2y$10$p41W/5B2SEUvKs91.Zyh1.Q5u6boJzB.D1XBQuGH5MJDHDbeTdGCy', 'E_3A_19', 'user/avatars/default.jpg'),
@@ -1896,165 +1923,67 @@ INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-31182321', 'Chirinos Leomar ', '$2y$10$93WGB7MPzykO5LsYE9iPh.HmzRrmbd7YucxR7ZCVumIpVRrxos7QW', 'E_2A_16', 'user/avatars/default.jpg'),
 ('V-31182878', 'Hernandez Anyerson ', '$2y$10$SZvJCncDr54e8hGbYQkNzu0jz010E7zeJfTPsFaTI/O.fPpJWKl46', 'E_2A_17', 'user/avatars/default.jpg'),
 ('V-31195549', 'Gotto Geniber ', '$2y$10$3BA90LzCu0.IwA1hJ3H5sOogQMkbhX9pYlABEkYbWQFyBad81J7se', 'E_2C_12', 'user/avatars/default.jpg'),
-('V-31222735', 'Mejias Edimar ', '$2y$10$mQc8CxaWS3Vjzw5CJVnegOtgF9C60paKFZBHaXFLyYn6zxkS5x7g2', 'E_1B_1', 'user/avatars/default.jpg'),
 ('V-31232446', 'Quiroz Gleisys ', '$2y$10$GYB08QWcBEI4q9GljMQNlOdhzRWXqs.RwW89sUBQzza34EqmovZiS', 'E_4B_25', 'user/avatars/default.jpg'),
 ('V-31232594', 'Linares Mayren ', '$2y$10$y8AMIFhGcCsNW5fXDyMt2Oj6CdQxZh3DV2M1u.czsomF6YDJqdI.m', 'E_2B_16', 'user/avatars/default.jpg'),
-('V-31265768', 'Leon Eduardo ', '$2y$10$lD2iObp.CF73KXzbULsoH.ED2XFxMMgnvlfUhTuT1f7M2UuAul7zS', 'E_1A_1', 'user/avatars/default.jpg'),
 ('V-31302752', 'Silvestre Carelbis ', '$2y$10$n5baxcl6AiXlOnQL3v4tz.XsIxb/zeR2dHSKk9924tMm.Aj2pLB1G', 'E_2A_18', 'user/avatars/default.jpg'),
 ('V-31303901', 'Rodriguez Rosangel ', '$2y$10$Og4yM9d7QMdSjyHwBPE8leiGOSoxre9kYgrBwDPVuOd5Y7Qfmvuli', 'E_3C_27', 'user/avatars/default.jpg'),
-('V-31303951', 'Puente Valeria ', '$2y$10$W0eUAAsPvq.ygr9hbt4Mku2qFA4Y2VO3cruDW.0cNCxGZuN6tLF0K', 'E_1B_2', 'user/avatars/default.jpg'),
 ('V-31338948', 'Cisneros Victor ', '$2y$10$Rnvu6YjMfuQpigdSvi2aEuwEtPdURcsvlEoaZG7.bbXoQ0EsIyOom', 'E_2B_17', 'user/avatars/default.jpg'),
 ('V-31341662', 'Martinez Raynel ', '$2y$10$SN2KPLoUxPgwLyrif7R8LeT7KQo9q.CjUr9/LI2gHkUD.TrWuVl16', 'E_2C_13', 'user/avatars/default.jpg'),
 ('V-31358253', 'Avila Yohanny ', '$2y$10$ucp9JBCU5oXK3fe.kSnyM.D8yn6fa8.7zrl4FHK5w2T59yiPUfFxu', 'E_2B_18', 'user/avatars/default.jpg'),
-('V-31363702', 'Gonzalez Ana ', '$2y$10$UVpdddjXHF8KCzzcICfYSehV606HPx2g981xvvmWDwJDNwpDtO3uC', 'E_1A_2', 'user/avatars/default.jpg'),
-('V-31381919', 'Correa Nismar ', '$2y$10$V.GvgzQqsAaE6cXPyWJlD.gCNxC2lCzKWwr0EhKpU6IhvB3dCbsrm', 'E_1C_1', 'user/avatars/default.jpg'),
 ('V-31392142', 'Gutierrez Sinay ', '$2y$10$y3BWOGWYOuF9w5fnV45HXeld7J6zG8DvVoLWHOEiDxNYatRWbLYim', 'E_2B_19', 'user/avatars/default.jpg'),
-('V-31397614', 'Rodriguez Barbara ', '$2y$10$UQUOzgoBZg/qoarvLzRGI.DQnkhs8eGx9wE9ndGfh4F9S1XSfQ7iW', 'E_1B_3', 'user/avatars/default.jpg'),
 ('V-31409172', 'Reyes Favian De ', '$2y$10$Dgsf9UTa0CeLD1TS6tVsP./w6J7hOeWOYBnX6p3NqsHt.NhDOiWaK', 'E_2B_20', 'user/avatars/default.jpg'),
 ('V-31409303', 'Briceño Lissett ', '$2y$10$Xg31.yf1A5QA.ncSUK3bv.TjwzC.6DxSnoQaiRd2PDm7zHXbl7D3W', 'E_2A_19', 'user/avatars/default.jpg'),
 ('V-31409349', 'Flores Bryan ', '$2y$10$dPzznN4VN9ATMtKv4BYtJe7dBHGhiETEViXohO8tzkxwjcpt85z9C', 'E_2C_14', 'user/avatars/default.jpg'),
-('V-31411245', 'Tinoco Katrina ', '$2y$10$F5Lw3rB6iMjSqtyQQsEVIuHEG8bpTTqbUQq/B2Bt0DxrtcQmpowC2', 'E_1A_3', 'user/avatars/default.jpg'),
 ('V-31424128', 'Narcise Barbara ', '$2y$10$H/GQZ34a8TsWKm9tkrGtBuY0MLatlR4YSrtqr99mRXnQ6UgMyz0Cu', 'E_2C_15', 'user/avatars/default.jpg'),
 ('V-31433361', 'Rodriguez Jhorgelis ', '$2y$10$nA5N6hDJAwSibKq6YCz74ef3hvOcFHi9lRoW2d0sGhsJ17WEOBRpy', 'E_2C_16', 'user/avatars/default.jpg'),
-('V-31447286', 'Juarez Keinner ', '$2y$10$E/JNj7/JgTYhHtxINYY0T.917ZUlVwB9rOMFVJGdF56pNaGbx.gEW', 'E_1A_4', 'user/avatars/default.jpg'),
 ('V-31447684', 'Aponte Kleverson ', '$2y$10$5qSWS/ruJdHF4w6Mh1iSi.I7XT7nimqjpLjdq79Vxtj2koLca2V8O', 'E_3A_32', 'user/avatars/default.jpg'),
 ('V-31447971', 'Mujica Orianny ', '$2y$10$3W67W8cEOV5sfl0zFAhKauwZiYJF5dROZP3X.ZjHthKnZdadhYRpi', 'E_2A_20', 'user/avatars/default.jpg'),
-('V-31466439', 'Lara Willjaiver ', '$2y$10$59/nRsq6nVXYCQxq1IKePeYmmCzP4HLQTvU.dgCwXXaGuMTmP/x0q', 'E_1C_2', 'user/avatars/default.jpg'),
 ('V-31478530', 'Rodriguez Daniela ', '$2y$10$G8z.lDsX.lQKVltpOYwW.uNyHTsBd79Hq4EhDtL29iU/uoN56/nmq', 'E_2A_21', 'user/avatars/default.jpg'),
-('V-31478566', 'Mota Katherine ', '$2y$10$z9Wztv0lhcfr2trKenY2mOmRK0X2xAa8jrOy6peNS9YOKI/pqBZIO', 'E_1B_4', 'user/avatars/default.jpg'),
-('V-31480856', 'Mendez Leonardo ', '$2y$10$KvmFnJjivO25AZctZUUh/.OKY87x0a4vO2uKgEea2CqXXBTs0S6CW', 'E_1A_5', 'user/avatars/default.jpg'),
-('V-31481090', 'Diaz Brayan ', '$2y$10$9.YQxNHuXRVX8slw8QIXzOL2HWUeeIv3QOGU4zNcT74Sfl0mpmyKm', 'E_1B_5', 'user/avatars/default.jpg'),
 ('V-31488159', 'Doubront Angel ', '$2y$10$HhakruatPbFQ6wduYWFGkO.Cvy93/SHSoLQC6XCQrZcbLpcwdOz7W', 'E_2B_21', 'user/avatars/default.jpg'),
 ('V-31488405', 'Latan Melvimar ', '$2y$10$zIcozn9kzD4S9dWu1H/pT.RX/6jwpxd.GJFrcLlfdtZlKlpsyQbDG', 'E_3A_33', 'user/avatars/default.jpg'),
-('V-31496966', 'Granadillo Jesus ', '$2y$10$gSO0SD79wc4WewLHrl/nMOewRHhAfHE0rMMgTHZuQP29msnw9qCAi', 'E_1A_6', 'user/avatars/default.jpg'),
-('V-31506556', 'Perez Daniel ', '$2y$10$QowkfiRascVxuN8fWg/crOLp/hdt.uixauRn79BIHxSWFsTKRHicG', 'E_1C_3', 'user/avatars/default.jpg'),
-('V-31506614', 'Salas Luisangel ', '$2y$10$1K3FvZ8jMjxVbQnaPAWOK.FwqAW9gB4nvGWwQ5KfQOV7twqRwtXQa', 'E_1A_7', 'user/avatars/default.jpg'),
 ('V-31512587', 'Mendoza Dubrazka ', '$2y$10$dOTmVT3nE6gS/5MsnBti4ewSE/GmT0pbfEyi3e3EcH1b0rEXM6zxC', 'E_2B_22', 'user/avatars/default.jpg'),
-('V-31512800', 'Cornieles Yosnaibert ', '$2y$10$NuF9zeb1OMuMaP9MmbqCceaVSst0VmJ2j/HxwyOWOz.6ykrVlNGkW', 'E_1C_4', 'user/avatars/default.jpg'),
 ('V-31519071', 'Noguera Andres ', '$2y$10$HhZNbo3YCYG8p35dpoLmM.Qz/mTH5cjVWAJJcdPxa.nkHHAB/RVZq', 'E_2B_23', 'user/avatars/default.jpg'),
-('V-31529400', 'Rivas Josniel ', '$2y$10$cBWeZ2aKUrx151HdEs/eG.w6Q6M41pe/nsOE6CUQzZrQpQ0t4FihK', 'E_1A_8', 'user/avatars/default.jpg'),
-('V-31529441', 'Acevedo Anyuli ', '$2y$10$DaFjOhw9k6I0lYQJ.1S.9.MLwjaoZX1ooYFhEXZOx7xQvI95P/LqC', 'E_2C_18', 'user/avatars/default.jpg'),
-('V-31529478', 'Marquez Alieska ', '$2y$10$pKcMzg8RTmRKtEuSq7hlB.iGoBj2LwJeabdJzCQ7T9dcoQEVtWn96', 'E_1B_6', 'user/avatars/default.jpg'),
+('V-31529441', 'Acevedo Anyuli ', '$2y$10$DaFjOhw9k6I0lYQJ.1S.9.MLwjaoZX1ooYFhEXZOx7xQvI95P/LqC', 'E_2C_17', 'user/avatars/default.jpg'),
 ('V-31529485', 'Sialer Barbara Saome', '$2y$10$C1X9pFrmygUs6FUiXZ4JK.JRGWrTvXKAWvUvJeAH6HvB5Xd6hUEHW', 'E_2A_22', 'user/avatars/default.jpg'),
-('V-31538146', 'Arteaga Marisabel ', '$2y$10$DdF0o5OBI61TwWXijh3ltugQXQspDS0OsMXTm7dO4DUtvJ6UEr8PG', 'E_1A_9', 'user/avatars/default.jpg'),
-('V-31540606', 'Ochoa Daniela ', '$2y$10$toJYoqCpeCLNGcsLjcKKOeazM6XDGyPrFk8cAlA0KaU19FQYUEWAS', 'E_2C_19', 'user/avatars/default.jpg'),
+('V-31540606', 'Ochoa Daniela ', '$2y$10$toJYoqCpeCLNGcsLjcKKOeazM6XDGyPrFk8cAlA0KaU19FQYUEWAS', 'E_2C_18', 'user/avatars/default.jpg'),
 ('V-31547303', 'Castro Nikolle ', '$2y$10$bKyblkXMlsU6JtMOtxmno./qdyBbYUK777iP2l/M9kwg7AR2GnuWa', 'E_3C_28', 'user/avatars/default.jpg'),
-('V-31547304', 'Romero Raquel ', '$2y$10$m9VeVLuS.7pjdBnR8HcN8.Bf1uP3dqYq7Z3dqx7xOYe3uwd8vBKii', 'E_1B_7', 'user/avatars/default.jpg'),
 ('V-31548529', 'Montoya Denys ', '$2y$10$ARsfIC1tZbw.k6sXTEVmGu9eBOLS3rOJ4g.HGIu7xbYLPF5.7kXFu', 'E_2A_23', 'user/avatars/default.jpg'),
 ('V-31553238', 'Veliz Veronica ', '$2y$10$iBQoaHV26f1KC244PFHv5umoez3zYXS59PI5irT1dqAQCGTagxxbS', 'E_2B_24', 'user/avatars/default.jpg'),
-('V-31562506', 'Gallardo Eglixmar ', '$2y$10$Onkx63ln.eFJp5Ey/8fTE.a3HmrDH0gujAUt9BPI5aEmF4BvZzmRC', 'E_2C_20', 'user/avatars/default.jpg'),
-('V-31563929', 'Montañez Dixbrianny ', '$2y$10$P18/OIT9lrKtNl84b3fY0ujfgC2kpV3iN5d0X7lN.2QxsaHCg0exS', 'E_1C_5', 'user/avatars/default.jpg'),
-('V-31569781', 'Gil Mical ', '$2y$10$X18xkfO5wFKogkwRTOlKfuIFTThCSY.L1sifErJ4Agja/ZnEw0O8.', 'E_1A_10', 'user/avatars/default.jpg'),
-('V-31573723', 'Perez Alexander ', '$2y$10$vehMBgXXoav78UwBWnZrJOsg2SO0lGEvijaGc98n9YWDjOcskxKbq', 'E_2C_21', 'user/avatars/default.jpg'),
-('V-31573793', 'Oropeza Vanessa ', '$2y$10$f94CiDBRke7EORI1TYv1qeIBMpIaKYu8iP2LOEUdt3iGwCzExp/2a', 'E_1A_11', 'user/avatars/default.jpg'),
-('V-31582893', 'Medina Eliannis ', '$2y$10$48lLo.m2JVd3k0dkfYcGAeV6IPkIj.NrSPq96Zc3aDVnXt.9bFZ42', 'E_1C_6', 'user/avatars/default.jpg'),
-('V-31585652', 'Ortega Gabriel ', '$2y$10$d6ME0CT.1RpdCJIBzQf4Vu.AapUWaFVtAmPjMofNxZYzxIt7Bkr5G', 'E_2C_22', 'user/avatars/default.jpg'),
+('V-31562506', 'Gallardo Eglixmar ', '$2y$10$Onkx63ln.eFJp5Ey/8fTE.a3HmrDH0gujAUt9BPI5aEmF4BvZzmRC', 'E_2C_19', 'user/avatars/default.jpg'),
+('V-31573723', 'Perez Alexander ', '$2y$10$vehMBgXXoav78UwBWnZrJOsg2SO0lGEvijaGc98n9YWDjOcskxKbq', 'E_2C_20', 'user/avatars/default.jpg'),
+('V-31585652', 'Ortega Gabriel ', '$2y$10$d6ME0CT.1RpdCJIBzQf4Vu.AapUWaFVtAmPjMofNxZYzxIt7Bkr5G', 'E_2C_21', 'user/avatars/default.jpg'),
 ('V-31585717', 'Rodriguez Alejandro ', '$2y$10$ocPf9z6KM1NR5p0zC9lhJONFViZTK2j71yW57n5EXidcCwIZ9bwE.', 'E_3C_29', 'user/avatars/default.jpg'),
 ('V-31602030', 'Macedo Johannes ', '$2y$10$u7tK7fdwWD9ZG9N/Gq8xceOcqOEhkNNeQvUVQIqEQIW5dc3.0jdUy', 'E_3B_26', 'user/avatars/default.jpg'),
-('V-31602270', 'Contreras Yubiry ', '$2y$10$.40u7jQnfDRyO9Ecxg/q.uzcbT17yrkdRgXA5uZfoaFBQO3IdMENm', 'E_1B_8', 'user/avatars/default.jpg'),
-('V-31602315', 'Vargas Jhosep ', '$2y$10$Ih80Ut.p56gBsSvfUgPJJuODNcLGM4q4iY1gVAquEjsiAUEEtzVrm', 'E_1C_7', 'user/avatars/default.jpg'),
-('V-31607843', 'Leal Jose ', '$2y$10$RHZS3qMxwqBuDnjk5zBaEuoevp8xcYvsBLUY.ghbr7OqOgPvjgHjK', 'E_2C_23', 'user/avatars/default.jpg'),
-('V-31607858', 'Angulo Yuskelvis ', '$2y$10$lNc1HefXC08rhk8woB0H4OeABmq8OhgBUiyW1YKpRzWeoe7KHKgFK', 'E_2C_24', 'user/avatars/default.jpg'),
-('V-31616408', 'Reyes Adriana ', '$2y$10$trIoDWsJ8SIEB0ZmTlB5rOgJ2YtLChxRXaR1CgTxBV0ujmaYhQzz6', 'E_2C_25', 'user/avatars/default.jpg'),
+('V-31607843', 'Leal Jose ', '$2y$10$RHZS3qMxwqBuDnjk5zBaEuoevp8xcYvsBLUY.ghbr7OqOgPvjgHjK', 'E_2C_22', 'user/avatars/default.jpg'),
+('V-31607858', 'Angulo Yuskelvis ', '$2y$10$lNc1HefXC08rhk8woB0H4OeABmq8OhgBUiyW1YKpRzWeoe7KHKgFK', 'E_2C_23', 'user/avatars/default.jpg'),
+('V-31616408', 'Reyes Adriana ', '$2y$10$trIoDWsJ8SIEB0ZmTlB5rOgJ2YtLChxRXaR1CgTxBV0ujmaYhQzz6', 'E_2C_24', 'user/avatars/default.jpg'),
 ('V-31625841', 'Osuna Elexiveth ', '$2y$10$m2iH7pRAXytV6CDad1zBzeSnPm4TfSHQZqDMkUOGbK6W4ihGKrp7q', 'E_2B_25', 'user/avatars/default.jpg'),
-('V-31627669', 'Ron Rivas, Nohemi ', '$2y$10$SoLtAuN3jHJLW6YTovCmS.CLyCxbj/NsOjuLin6EQXA0EgC3Bs8yG', 'E_2C_26', 'user/avatars/default.jpg'),
+('V-31627669', 'Ron Rivas, Nohemi ', '$2y$10$SoLtAuN3jHJLW6YTovCmS.CLyCxbj/NsOjuLin6EQXA0EgC3Bs8yG', 'E_2C_25', 'user/avatars/default.jpg'),
 ('V-31627730', 'Quintero Carlina ', '$2y$10$cT05bFGvP7rLyGhzAly5n.kQC6Rejm3orVmf5JU6VIraHxswAKr3m', 'E_4C_19', 'user/avatars/default.jpg'),
-('V-31644340', 'Contrras Yordeliz ', '$2y$10$bgmjcc2jvhxLIAIy2BPKMuPYv5E7mHoo0UK.eHTw5MAfgs5dImbMy', 'E_1A_12', 'user/avatars/default.jpg'),
-('V-31645324', 'Garcia Maria ', '$2y$10$gmq3L2jpDiWvhsGk9p70f.Cyhp2GkPWDqC4Gye/5JDe2Gt1VmCx5G', 'E_1C_8', 'user/avatars/default.jpg'),
-('V-31645335', 'Espidea Yelimar ', '$2y$10$bGZ45iIKhhrpRgQ0M.4WWuRdSFosSF2zfWcAYSwgwjJAe8jA22KLq', 'E_1A_13', 'user/avatars/default.jpg'),
-('V-31645336', 'Plazas Wilmar ', '$2y$10$pzb1pSj4poieyDnC67YSReZipj6H16HwtbUt0gfoehzdL/VA7pEIe', 'E_1B_9', 'user/avatars/default.jpg'),
-('V-31651950', 'Peñaloza Sebastian ', '$2y$10$bm/RDkodGOhLlH9YD/o32.9PshRILEEbIZtEPc2G.W5/e46SStKYO', 'E_2C_27', 'user/avatars/default.jpg'),
-('V-31652041', 'Liscano Victor ', '$2y$10$2kGl7.FEs6vT5GcWYTKHjOo0W9NOFvhznKPd8q3dfHcOIKEQYW3cO', 'E_1A_14', 'user/avatars/default.jpg'),
+('V-31651950', 'Peñaloza Sebastian ', '$2y$10$bm/RDkodGOhLlH9YD/o32.9PshRILEEbIZtEPc2G.W5/e46SStKYO', 'E_2C_26', 'user/avatars/default.jpg'),
 ('V-31652042', 'Berroteran Anais ', '$2y$10$EPNP37GnI2uV2rPP39id4O/6369HYl/hC81CZlACEv7hFDsCL6b8u', 'E_2A_24', 'user/avatars/default.jpg'),
 ('V-31660597', 'Ocanto Angel ', '$2y$10$GWOjOYS3HyjP/F2HpwYWreznxDa6Bf7smdJtlgAI3XEngVsllYWfS', 'E_2B_26', 'user/avatars/default.jpg'),
 ('V-31660631', 'Ochoa Daniela ', '$2y$10$Ww2SlDpTKIGyZGx8nHS6UOYiku8UG5DzoWhSgdzV6cjlSlEtDu3Tu', 'E_2A_25', 'user/avatars/default.jpg'),
-('V-31695322', 'Contreras Marielix ', '$2y$10$7PR4WR818pEZAA6OQKjOKuJVSPwyQVEZixZ8UF5J3lX0YQi6hQ4ji', 'E_1A_15', 'user/avatars/default.jpg'),
 ('V-31695345', 'Paez Enyer ', '$2y$10$0ovU/AKxpBRGXq2CzK49z.ziVEf.dSqjYiWY4/xH/MG6IbfnNZ44e', 'E_2B_27', 'user/avatars/default.jpg'),
-('V-31719835', 'Machuca Angela ', '$2y$10$Uwt4pESJpWK1RBCuwUvHWeYKNmojhzmB3aHd.VKKXR4GtHwPkA6eG', 'E_2C_28', 'user/avatars/default.jpg'),
+('V-31719835', 'Machuca Angela ', '$2y$10$Uwt4pESJpWK1RBCuwUvHWeYKNmojhzmB3aHd.VKKXR4GtHwPkA6eG', 'E_2C_27', 'user/avatars/default.jpg'),
 ('V-31722136', 'Castro La Michel ', '$2y$10$2fZDxmVbewe6HRNHCTZhF.FSMsXd9mwQ7DqV9zYrDZZHOtHhcbrBy', 'E_3B_27', 'user/avatars/default.jpg'),
-('V-31725743', 'Torres Gabriela ', '$2y$10$aWwUUfWMt1UW67s0Q4gfc.DKKlVQ8FgAuhkKrtJVsh04z.8fWzrha', 'E_1A_16', 'user/avatars/default.jpg'),
-('V-31738057', 'Mendoza Diosmerly ', '$2y$10$GqMLtx9UI1aSfLpQvIgqruvjmV8NRTv/LDS4t9DHcnkpivLnu6awe', 'E_1C_9', 'user/avatars/default.jpg'),
-('V-31738067', 'Oleizola David ', '$2y$10$DQ.Xexxu0jU.qe2vXZ5SEOuN2OkJM37gXKUkv3UbszRTd2VggOQjO', 'E_1B_10', 'user/avatars/default.jpg'),
-('V-31744213', 'Castellanos Barbara ', '$2y$10$gnqVihVGeVJGOf9bUY6AIeYMhWnblNAFsN89jLvjprPG9dC7DZLEe', 'E_1A_17', 'user/avatars/default.jpg'),
-('V-31744367', 'Perez Maryanyely ', '$2y$10$tBLqaPEO.Tg3nV6Ec8APvu/e7xpNN8JB1pP7tq9wNPNqzOdXaOU4K', 'E_1C_10', 'user/avatars/default.jpg'),
-('V-31749256', 'Herrera Shemira ', '$2y$10$DDgHVMxO4ismntHp2Z23Ee/jbe73JmRM0uMZXY3zXaLZ5GQUBiZzC', 'E_1B_11', 'user/avatars/default.jpg'),
-('V-31755455', 'Luna Ysabel ', '$2y$10$jK1XMnsxHHlFBnx7/hYrTe8pGMe.pZxSD3l20mLusnuHEKxKsn0ku', 'E_2C_29', 'user/avatars/default.jpg'),
-('V-31756489', 'Tovar Valery ', '$2y$10$r.0LM5s4f9jN3sSt0ZRrzetANiLDxv14IhFSIn49YRug0drnecIa2', 'E_1C_11', 'user/avatars/default.jpg'),
-('V-31758618', 'Trejo Victor ', '$2y$10$YTQnG.MfiZJVtxFUiYQckubMC/C5NNEcR/YmwOUYx.ueGVw0Z7LCm', 'E_1B_12', 'user/avatars/default.jpg'),
-('V-31758689', 'Senatore Wendys ', '$2y$10$VsOzMiaHJgVrsWaPGr74mOxbJrqWOCmZ/.PA/PXS7I0M4DMWoq7cS', 'E_2C_30', 'user/avatars/default.jpg'),
+('V-31755455', 'Luna Ysabel ', '$2y$10$jK1XMnsxHHlFBnx7/hYrTe8pGMe.pZxSD3l20mLusnuHEKxKsn0ku', 'E_2C_28', 'user/avatars/default.jpg'),
+('V-31758689', 'Senatore Wendys ', '$2y$10$VsOzMiaHJgVrsWaPGr74mOxbJrqWOCmZ/.PA/PXS7I0M4DMWoq7cS', 'E_2C_29', 'user/avatars/default.jpg'),
 ('V-31762280', 'Rengel Jonas ', '$2y$10$IGUuF2AkXgncOjFp42FxFOcm5G27ZcSCU/qLkoCIM.wl8Iu8KDvl2', 'E_2B_28', 'user/avatars/default.jpg'),
-('V-31762313', 'Monrroy Nicole ', '$2y$10$FDo029rmme9fKV.NlA8M5udg4I6ZMgzc/e.HH0f2D2ZlTYYr3IR.m', 'E_1B_13', 'user/avatars/default.jpg'),
-('V-31762353', 'Osorio Andrea ', '$2y$10$T.YIYMwx0.kcMXgDYqevAeXZF6q9ldmSrMYEh82J2v/XemYo3Asfu', 'E_1B_14', 'user/avatars/default.jpg'),
-('V-31766555', 'Pereira Elvis ', '$2y$10$LIrZ5EDpYzn.2nYLFYol0.Nso5mGXyB8fGF2kV1JqzSvY8kNk8HDy', 'E_1A_19', 'user/avatars/default.jpg'),
-('V-31772107', 'Alfaro Escarlianys ', '$2y$10$IKZphFrebcdfHE.ia/d40Ol6weVBuN6V.JGUClYMUR17zy3OljblC', 'E_1A_20', 'user/avatars/default.jpg'),
-('V-31786187', 'Vasquez Isabel ', '$2y$10$/3X2qtlPjIW3YET2cKxmr.Cbpc9hzBvovNamOZzoCQYP/1S7Rc27S', 'E_1B_15', 'user/avatars/default.jpg'),
-('V-31786301', 'Rojas Yeimilyz ', '$2y$10$cskxmsR.LkHK2drRXPHKCOWJYBxENs171.Acp1aeiE5OQzEU0RxyC', 'E_1C_12', 'user/avatars/default.jpg'),
 ('V-31792341', 'Zambrano Elias ', '$2y$10$Vxq3ECgHPGLFXiWHkWOCbuuPnzl4G.fEsjWiMDJ77JOtjHwo8Bw.C', 'E_3C_30', 'user/avatars/default.jpg'),
-('V-31813074', 'Mujica Marianyeli ', '$2y$10$d2ynGmbId5nClJ57gOM00e9/i1SYpF4Z01roPVaBP0hrwt2ZuRZ7O', 'E_1A_21', 'user/avatars/default.jpg'),
-('V-31835224', 'Garcia Albany ', '$2y$10$1NboD8YC0xmS9vlIn8kTKeHwSx1QADr4uhb3fxCJiue2GusCkM0Di', 'E_1C_13', 'user/avatars/default.jpg'),
-('V-31842163', 'Cadinale Johara ', '$2y$10$ZFXkgjBmlNpuR5mk7IEGh.XK/XfVO7HcvoY4wmXh/jdGpkBy4xnuq', 'E_1C_14', 'user/avatars/default.jpg'),
-('V-31842301', 'Quintana Williannys ', '$2y$10$ZFOIVIl7vWHAyyI7KguitO7OJeBrT5laH9SlZj3lZFZh7Xwoj8nHa', 'E_1B_16', 'user/avatars/default.jpg');
-INSERT INTO `login` (`cedula`, `user`, `password`, `estudi_id`, `avatar`) VALUES
 ('V-31842368', 'Martinez Yaritza ', '$2y$10$Cy/p1akMlXMGbb6MkD15quQhyIBAWI1mF7FGtq9Gw5AcWgKvx.GA6', 'E_2B_29', 'user/avatars/default.jpg'),
-('V-31855864', 'Medina Jose ', '$2y$10$yUt8qkw157Ku7nFAq0/PZevUVyiEZTU9UEwqJj0Q/n43RTOT7bTN6', 'E_1B_17', 'user/avatars/default.jpg'),
-('V-31855866', 'Tortolero Brajean ', '$2y$10$FSiTvaP3F8aFa/wBPIBuSuR6xhb6YOSATqWnnAtMgp66MtCPrsu.a', 'E_1A_22', 'user/avatars/default.jpg'),
-('V-31862242', 'Lopez Daniela ', '$2y$10$W/bkgIctXRYztF9jLjtljO7fQLdSdnxUht4c86vBusmwlnu96gobS', 'E_1C_15', 'user/avatars/default.jpg'),
 ('V-31862247', 'Perez Denyerbi ', '$2y$10$4L2i95IZPjgqHCJYZqKlyuXamNmpqSYakng0Zwz3nv1tEPJnA4P7W', 'E_2A_26', 'user/avatars/default.jpg'),
-('V-31880170', 'Leoni Luis ', '$2y$10$CR5FmXek2FcF0alLhcSUr.E8cwAuGMiyHToc7t7lKUeCPJr3vS1be', 'E_1C_16', 'user/avatars/default.jpg'),
 ('V-31917444', 'Sandoval Eliana ', '$2y$10$m8bykhM5atbQ6QnVBq0a3.h5MN1Y1VjDcvLKSfedNjvWJH5n52wVW', 'E_2B_30', 'user/avatars/default.jpg'),
-('V-31924859', 'Marcano Mileoscaris ', '$2y$10$jX1/6AGSWxoThwcbbVAiwu1UY0jSiuSOoHth8xp.ejbMqz3LW2q6G', 'E_1A_24', 'user/avatars/default.jpg'),
-('V-31931735', 'Garcia Gabriela ', '$2y$10$SW79KDgPK.eJppIQUss4yuJmvWg2goecTE.DScbfi..lQ0LRyf7gG', 'E_1C_17', 'user/avatars/default.jpg'),
-('V-31941072', 'Lopez Karleydis ', '$2y$10$uXKnKS8avmHrXrC7B0u2ZeWiKHKVhmWyv/BhHAq6ncL6WfCa2ECVC', 'E_1A_25', 'user/avatars/default.jpg'),
-('V-31941139', 'Marquez Legny ', '$2y$10$UK44h7JPVRpeRdpzJfAdp.fFcO9JNtndtzQFEx.swNoPdwb1ADVSu', 'E_1A_26', 'user/avatars/default.jpg'),
-('V-31941151', 'Carbonell Jose ', '$2y$10$0NLNsQ3X8dl4f9Q/4L0b7.gjEnOATUVwtIZRw3FZip6oLIiHlp4XW', 'E_1B_18', 'user/avatars/default.jpg'),
-('V-31948290', 'Luna Mariangel ', '$2y$10$9XaCf156PDds52knjhnkWOzdqbIQlBgT57upbzJ9eQedGMSt3m8hC', 'E_1B_19', 'user/avatars/default.jpg'),
-('V-31950415', 'Yepez Rodrigo ', '$2y$10$XheEPc8jUlUboJA.2I3.7.9LhYYv25YqGv0eRUZ8UoEIc2SsJcVC2', 'E_1C_18', 'user/avatars/default.jpg'),
-('V-31951225', 'Pulido Deynismar ', '$2y$10$R2F3caIhp6iDufqoAYg62.QUAdClqbOHsQo5rMiBwj9SfE5H1Cp1C', 'E_1B_20', 'user/avatars/default.jpg'),
-('V-31951241', 'Rugeles Jesus ', '$2y$10$cyO/Xvwv4/hpt7U9N0u9gufBRYdq2aJqfRumTuvOahSmWXQZEUzzW', 'E_1C_19', 'user/avatars/default.jpg'),
-('V-31955315', 'Hernandez Jose ', '$2y$10$I25gcTGkYH.4ckhLx68pd.WJS4ZduNF.QbCVTc6UrKji9Ux6llDkm', 'E_1B_21', 'user/avatars/default.jpg'),
-('V-31958060', 'Ascanio Ibheet ', '$2y$10$lMRq6YzHq3lyEh6/PbbfNuJnA3X/f.A16q4AaWtgQwu1m7oFLd1xi', 'E_2C_31', 'user/avatars/default.jpg'),
-('V-31970279', 'Suarez Ariadnis ', '$2y$10$qlNtQ3jUOizU5Pn3Svh7gupkLdfG7ikOPCAk8IXD9e.MVp1g3kQP.', 'E_1B_22', 'user/avatars/default.jpg'),
-('V-31984093', 'Verenzuela Rosmary ', '$2y$10$LfQoouKKfH5kIrCNOhDsd.1Vi88v.5ej0/njUwH8GAv5TlEhvxvVa', 'E_1C_20', 'user/avatars/default.jpg'),
-('V-31997108', 'Zurita Ana ', '$2y$10$IF7icyNjdwWlTKCDP7gRMOv1raaVmxxIhHVUVthjuv93XDrdqu5Am', 'E_1C_21', 'user/avatars/default.jpg'),
-('V-31997180', 'Alvarez Rafael ', '$2y$10$HsSTQHY0KgUL89um/Jhu.uI2XJQCU4gaCiX.P1y.cc2AM/1tMMB8W', 'E_1B_23', 'user/avatars/default.jpg'),
+('V-31958060', 'Ascanio Ibheet ', '$2y$10$lMRq6YzHq3lyEh6/PbbfNuJnA3X/f.A16q4AaWtgQwu1m7oFLd1xi', 'E_2C_30', 'user/avatars/default.jpg'),
 ('V-32001250', 'Pedra Barbara ', '$2y$10$d58V9Ea0yMYzp2CvM0A.vOVtlwQNsmss5lRUVBFcWVGwKZ14Xdu6i', 'E_2A_27', 'user/avatars/default.jpg'),
 ('V-32016726', 'Gudiño Juan ', '$2y$10$B7ChLylLC9l4cBSzHRkPpux5SVM8V.gGqJzWiF90xBZadWqJTESqS', 'E_2A_28', 'user/avatars/default.jpg'),
-('V-32037576', 'Rivero Nerymar ', '$2y$10$y0zz9g9XXdwr5TnJCl2MjO5WhzVhZaf2xh.cMTsDn/T8ccrhv0CKm', 'E_1B_24', 'user/avatars/default.jpg'),
 ('V-32046509', 'Ashley Monterola ', '$2y$10$SxofihnQ3px9HNQgc5wknuz46YvSqpjGfvN/fWKC8WFxER9m7NceG', 'E_2A_29', 'user/avatars/default.jpg'),
-('V-32046573', 'Tovar Jusleandry ', '$2y$10$DekbV16UdnYvmSarw9TBJOzu1wWOW0B7fnGcb6pWaFQ6wVu7b0Wde', 'E_1A_28', 'user/avatars/default.jpg'),
-('V-32046590', 'Castillo Leonard ', '$2y$10$GZdPBMWgUznv3bANc3MNVuiL4z./VlAg8zgC57kbvfvEgmG2RPwCC', 'E_1B_25', 'user/avatars/default.jpg'),
-('V-32056382', 'Cancine Adriana ', '$2y$10$dHUT30wv5JN3Dk1/YoPe7.vKbhNm3GCkWvQh8jYcSm29W4uTRZMnu', 'E_1C_22', 'user/avatars/default.jpg'),
-('V-32080288', 'Valero Maria ', '$2y$10$xEWAIpZv4SrWmL45w7IshO/3neCVhz34X6RXwHeTmvkr3TWrx.TvG', 'E_1B_26', 'user/avatars/default.jpg'),
-('V-32080289', 'Valero Gabriel ', '$2y$10$Ok7UWnkuYGulQQUOdSJy6u/UsuiiwnnVHX4FtoduFse509mlHv7OS', 'E_1B_27', 'user/avatars/default.jpg'),
-('V-32097224', 'Peña Willennys ', '$2y$10$saL3BMy00XMoT1ZM9HP7seE.ezAuePJ5wiEK3rnK399fZRtjbAV8O', 'E_1B_28', 'user/avatars/default.jpg'),
-('V-32105561', 'Santiago Yennyfer ', '$2y$10$1QkfMhB8Qx8pt/uFTXF.m.WS2AxerVIG8aAbs9xa23tukr63VebXe', 'E_1A_29', 'user/avatars/default.jpg'),
-('V-32112349', 'Castaño Yetzibel ', '$2y$10$r3gTY6k2bx6cDsptB/Sa3uFRoNUiHprMENqiD9tTTj8PjLrXPHFmW', 'E_1C_23', 'user/avatars/default.jpg'),
-('V-32126329', 'Morales Diego ', '$2y$10$pj1H71/oWoXwOEqWBupX5us9Qy8zHx/NWgjLAgNBdnWRNTsuYX11i', 'E_1B_29', 'user/avatars/default.jpg'),
-('V-32134304', 'Leal Yoneiker ', '$2y$10$fhLCmfC8805RHaiC3iv8ROhmLuyPuwl5CttVtW0HodVXWynunv4vC', 'E_1C_24', 'user/avatars/default.jpg'),
-('V-32136437', 'De Jesus Luis ', '$2y$10$U6JYAGegIAsShvv3I0bz/eutqC6o5obIGQixQomu2AVniSEiZeSlG', 'E_1C_25', 'user/avatars/default.jpg'),
-('V-32139621', 'Sandoval Eudimar ', '$2y$10$B/ywEVeg5kLk3rSdJGo.7.4BG8ZZtne66A7pfvgdZWygEdvk/VqNq', 'E_1C_26', 'user/avatars/default.jpg'),
-('V-32140092', 'Font Albanys ', '$2y$10$gtwv2bnfgYictCOhqynFMODUo4V3DMvNuMJYMfOlYR3X0gqgqwg8q', 'E_1A_30', 'user/avatars/default.jpg'),
-('V-32165630', 'Quintero Josibel ', '$2y$10$EYBQF.v0x6OQpAKfFm2dh.T/SKshC0i9SNZJDIW8jCy/axsAmDLRK', 'E_1C_27', 'user/avatars/default.jpg'),
 ('V-32168956', 'Liendo Yerson ', '$2y$10$rUzIE/P9g4BNuaIjsQTDf.o4XD9eaaqdLGTpO6GEfUP8e17UrvukO', 'E_2B_31', 'user/avatars/default.jpg'),
-('V-32195721', 'Barreto Oriana ', '$2y$10$p9y72Rk6W41xHshsOYV9zu3p8sGzYtxuS2rdW11goVdAHv1Y4oy.y', 'E_1A_31', 'user/avatars/default.jpg'),
-('V-32195808', 'Santana Maria ', '$2y$10$jfLlCEjjKKRgt87BVVU4nulqxXKTI0fuMiE64WtZTiiWuf28uadui', 'E_1B_30', 'user/avatars/default.jpg'),
-('V-32201567', 'Liendo Lisbeily ', '$2y$10$KTv2Y/YpI2tao1a7CcaW9eW1cmW0pKA1ll3IumlCJxBj57sz0PEPi', 'E_1B_31', 'user/avatars/default.jpg'),
 ('V-32237779', 'Montilla Thomas ', '$2y$10$TCfRY4RYlnJTgvxDssYTceY6fH58Kt9Akyb.mzlJ9kRv5zVaAXJmu', 'E_2A_30', 'user/avatars/default.jpg'),
-('V-32237800', 'Montilla Helena ', '$2y$10$046VHP/gTpJPl2mbxSv/P.yCxHad5/oW/tJklNHw5UhjdULiZyRoG', 'E_1C_28', 'user/avatars/default.jpg'),
-('V-32244712', 'Morales Javier ', '$2y$10$EUF10FWgd9xics6lXptCtuilnIjgNNHfnnG.06HH8sKE.GVkgK2HK', 'E_1A_32', 'user/avatars/default.jpg'),
-('V-32251818', 'Farrera Misel ', '$2y$10$OfO9Ob3HnhObDsAPoPbRyO.9ozamorgn9AY0JJXToCV3zy9hy8B2K', 'E_1B_32', 'user/avatars/default.jpg'),
-('V-32268068', 'Carapaica Jose ', '$2y$10$bTYVzEeATP9n5/uMvZkrgO6qzRB1E3at5wG7dKODL8K54TL2Y9yhq', 'E_1C_29', 'user/avatars/default.jpg'),
 ('V-32356083', 'Gonzalez Jean ', '$2y$10$rAH1PvpRiRTa2SCS7TS1behKv3KpiEVHGrYVYU1KQOyDDfyHQjCiy', 'E_3B_28', 'user/avatars/default.jpg'),
-('V-32358934', 'Avila Yonaibel ', '$2y$10$ChX3OtCREVlU7vrDzjpsWOhjOk2eDdpvPKhcH9S4CtUAB0UoewTgq', 'E_1A_33', 'user/avatars/default.jpg'),
-('V-32369329', 'Martinez Maikel ', '$2y$10$YkJYTGplh9gx3IZgBlhLh.ESZb22k3vA1apW6NwlORjEoj3rlaDje', 'E_1A_34', 'user/avatars/default.jpg'),
-('V-32380110', 'Herrera Veruska ', '$2y$10$Uklpytg9VTnAFmGUj/ZgxON8mUaCoMzjdiWTJNxTpobxykcDMtoOe', 'E_1C_30', 'user/avatars/default.jpg'),
 ('V-32446460', 'Ortega Eibert ', '$2y$10$1cGQQic8w.3aP/4gxB7.1OJf4NFORfLvEhpWsdPgmtcmzzp1qIZb2', 'E_2A_31', 'user/avatars/default.jpg'),
-('V-32494930', 'Valderrama Johangel ', '$2y$10$brfWeaOvQVbHBoKRiWTok.AMKHFTT4yCFywMnTmSveJlKQK3v/j7K', 'E_1B_33', 'user/avatars/default.jpg'),
-('V-32545781', 'Vera Jose ', '$2y$10$MT4KOvGuhh4E6VGHTXtAKe5ATUqTIjkdD98jiXwREh1HC.Nt3yFFm', 'E_2B_32', 'user/avatars/default.jpg'),
-('V-32619222', 'Briceño Cristhian ', '$2y$10$s3IB2BAb5ymfvZxLO6e44uBVjIvHjlDfadXOY8lREzjt199ugiba6', 'E_1A_35', 'user/avatars/default.jpg'),
-('V-32627180', 'Aguilar Maria ', '$2y$10$QCCRqLuOyoiXrmG8Gfjd/e1/SjjyzR5wgr7raXLhejNDX07z85enC', 'E_1C_31', 'user/avatars/default.jpg'),
-('V-32746959', 'Alvarez Jesus ', '$2y$10$7g2w0bU5U0uLcGALM754BeRLGSKDoRKytbZJ7zvwTHW35okDGcq8u', 'E_1B_34', 'user/avatars/default.jpg'),
-('V-32746960', 'Alvarez Jhon ', '$2y$10$zIrRQ4Ia4iOklwTZse1nWOMg7h6IQaOggPWbcPwh8ccpGzkNVpUEe', 'E_1B_35', 'user/avatars/default.jpg');
+('V-32545781', 'Vera Jose', '$2y$10$7XH3ZJ14O7hTjVXUBuqnqeP678iFtbP8UzS/o7He0IWIfYNalbEVi', 'E_2B_32', 'user/avatars/default.jpg'),
+('V-test', 'Testing', '$2y$10$YiYwYPl9hpOXv/QvKTKDr.jB1YvhquWqJfTgg9XWkp/cOuZuAVHHq', 'E_2C_31', 'user/avatars/default.jpg');
 
 -- --------------------------------------------------------
 
@@ -2971,7 +2900,211 @@ INSERT INTO `logs` (`log_id`, `log_cedula`, `log_user`, `fecha`, `time`, `accion
 (892, 'V-31424128', 'Narcise Barbara ', '2019-08-19 08:47:24', '1566218844', 'Inicio de sesión exitoso.'),
 (893, 'V-29772206', 'De La Hoz William ', '2019-08-19 10:09:54', '1566223794', 'Inicio de sesión exitoso.'),
 (894, 'V-31749256', 'Herrera Shemira ', '2019-08-19 13:27:25', '1566235645', 'Inicio de sesión exitoso.'),
-(895, 'V-31303951', 'Puente Valeria ', '2019-08-19 14:10:46', '1566238246', 'Inicio de sesión exitoso.');
+(895, 'V-31303951', 'Puente Valeria ', '2019-08-19 14:10:46', '1566238246', 'Inicio de sesión exitoso.'),
+(896, 'A-recker', 'José Ortiz', '2019-08-20 10:53:56', '1566312836', 'Cuenta bloqueada 1/5.'),
+(897, 'A-recker', 'José Ortiz', '2019-08-20 10:59:51', '1566313191', 'Inicio de sesión exitoso.'),
+(898, 'A-recker', 'José Ortiz', '2019-08-20 11:01:46', '1566313306', 'Inicio de sesión exitoso.'),
+(899, 'A-recker', 'José Ortiz', '2019-08-20 11:02:04', '1566313324', 'Inicio de sesión exitoso.'),
+(900, 'A-recker', 'José Ortiz', '2019-08-20 11:03:11', '1566313391', 'Inicio de sesión exitoso.'),
+(901, 'A-recker', 'José Ortiz', '2019-08-20 11:04:39', '1566313479', 'Inicio de sesión exitoso.'),
+(902, 'A-recker', 'José Ortiz', '2019-08-20 14:27:17', '1566325637', 'Inicio de sesión exitoso.'),
+(903, 'A-recker', 'José Ortiz', '2019-08-20 14:29:02', '1566325742', 'Inicio de sesión exitoso.'),
+(904, 'A-recker', 'José Ortiz', '2019-08-20 14:30:39', '1566325839', 'Inicio de sesión exitoso.'),
+(905, 'A-recker', 'José Ortiz', '2019-08-20 14:31:28', '1566325888', 'Inicio de sesión exitoso.'),
+(906, 'A-recker', 'José Ortiz', '2019-08-20 14:31:49', '1566325909', 'Inicio de sesión exitoso.'),
+(907, 'A-recker', 'José Ortiz', '2019-08-20 14:32:33', '1566325953', 'Inicio de sesión exitoso.'),
+(908, 'A-recker', 'José Ortiz', '2019-08-20 14:33:31', '1566326011', 'Inicio de sesión exitoso.'),
+(909, 'A-recker', 'José Ortiz', '2019-08-20 14:34:51', '1566326091', 'Inicio de sesión exitoso.'),
+(910, 'A-recker', 'José Ortiz', '2019-08-20 14:35:44', '1566326144', 'Inicio de sesión exitoso.'),
+(911, 'A-recker', 'José Ortiz', '2019-08-21 09:14:09', '1566393249', 'Inicio de sesión exitoso.'),
+(912, 'A-recker', 'José Ortiz', '2019-08-21 09:36:55', '1566394615', 'Inicio de sesión exitoso.'),
+(913, 'A-recker', 'José Ortiz', '2019-08-21 23:05:20', '1566443120', 'Inicio de sesión exitoso.'),
+(914, 'A-recker', 'José Ortiz', '2019-08-22 19:00:48', '1566514848', 'Inicio de sesión exitoso.'),
+(915, 'A-recker', 'José Ortiz', '2019-08-22 20:45:35', '1566521135', 'Inicio de sesión exitoso.'),
+(916, 'A-recker', 'José Ortiz', '2019-08-23 10:34:18', '1566570858', 'Inicio de sesión exitoso.'),
+(917, 'A-recker', 'José Ortiz', '2019-08-23 12:25:32', '1566577532', 'Inicio de sesión exitoso.'),
+(918, 'A-recker', 'José Ortiz', '2019-08-23 12:45:20', '1566578720', 'Inicio de sesión exitoso.'),
+(919, 'A-recker', 'José Ortiz', '2019-08-23 16:45:08', '1566593108', 'Inicio de sesión exitoso.'),
+(920, 'A-recker', 'José Ortiz', '2019-08-23 19:48:08', '1566604088', 'Añadido: V-'),
+(921, 'A-recker', 'José Ortiz', '2019-08-23 19:48:46', '1566604126', 'Eliminado: V-'),
+(922, 'A-recker', 'José Ortiz', '2019-08-23 20:38:26', '1566607106', 'Añadido: V-1'),
+(923, 'A-recker', 'José Ortiz', '2019-08-23 20:59:42', '1566608382', 'Eliminado: V-1'),
+(924, 'A-recker', 'José Ortiz', '2019-08-23 21:00:37', '1566608437', 'Añadido: V-1'),
+(925, 'A-recker', 'José Ortiz', '2019-08-23 21:00:44', '1566608444', 'Eliminado: V-1'),
+(926, 'A-recker', 'José Ortiz', '2019-08-23 21:01:17', '1566608477', 'Añadido: CR-1'),
+(927, 'A-recker', 'José Ortiz', '2019-08-23 21:01:55', '1566608515', 'Acutalizado: CR-1'),
+(928, 'A-recker', 'José Ortiz', '2019-08-23 21:02:03', '1566608523', 'Eliminado: CR-1'),
+(929, 'A-recker', 'José Ortiz', '2019-08-23 21:02:22', '1566608542', 'Añadido: CR-1'),
+(930, 'A-recker', 'José Ortiz', '2019-08-23 21:02:27', '1566608547', 'Eliminado: CR-1'),
+(931, 'A-recker', 'José Ortiz', '2019-08-23 21:05:25', '1566608725', 'Añadido: A-1'),
+(932, 'A-recker', 'José Ortiz', '2019-08-23 21:06:27', '1566608787', 'Eliminado: A-1'),
+(933, 'A-recker', 'José Ortiz', '2019-08-23 21:39:19', '1566610759', 'Prof modificado: 1G A.'),
+(934, 'A-recker', 'José Ortiz', '2019-08-23 21:39:53', '1566610793', 'Prof modificado: 1G A.'),
+(935, 'A-recker', 'José Ortiz', '2019-08-26 11:24:15', '1566833055', 'Inicio de sesión exitoso.'),
+(936, 'A-recker', 'José Ortiz', '2019-08-26 12:28:50', '1566836930', 'Boletas subidas: 20 boletas de 4 A.'),
+(937, 'A-recker', 'José Ortiz', '2019-08-26 12:31:37', '1566837097', 'Boletas subidas: 20 boletas de 5 A.'),
+(938, 'A-recker', 'José Ortiz', '2019-08-26 12:33:34', '1566837214', 'Boletas subidas: 5 boletas de 4 A.'),
+(939, 'A-recker', 'José Ortiz', '2019-08-26 12:35:23', '1566837323', 'Boletas subidas: 5 boletas de 4 A.'),
+(940, 'A-recker', 'José Ortiz', '2019-08-26 12:38:21', '1566837501', 'Boletas subidas: 20 boletas de 2 A.'),
+(941, 'A-recker', 'José Ortiz', '2019-08-26 12:39:26', '1566837566', 'Boletas subidas: 20 boletas de 4 A.'),
+(942, 'A-recker', 'José Ortiz', '2019-08-26 12:40:30', '1566837630', 'Boletas subidas: 20 boletas de 5 A.'),
+(943, 'A-recker', 'José Ortiz', '2019-08-26 12:43:08', '1566837788', 'Boletas subidas: 20 boletas de 1 A.'),
+(944, 'A-recker', 'José Ortiz', '2019-08-26 12:45:07', '1566837907', 'Boletas subidas: 18 boletas de 4 C.'),
+(945, 'A-recker', 'José Ortiz', '2019-08-26 13:09:39', '1566839379', 'Boletas subidas: 5 boletas de 1G A.'),
+(946, 'A-recker', 'José Ortiz', '2019-08-26 13:13:42', '1566839622', 'Boletas subidas: 16 boletas de 5 A.'),
+(947, 'A-recker', 'José Ortiz', '2019-08-26 13:14:58', '1566839698', 'Boletas subidas: 36 boletas de 2 B.'),
+(948, 'A-recker', 'José Ortiz', '2019-08-26 13:16:52', '1566839812', 'Boletas subidas: 40 boletas de 2 B.'),
+(949, 'A-recker', 'José Ortiz', '2019-08-26 13:18:21', '1566839901', 'Boletas subidas: 40 boletas de 2 B.'),
+(950, 'A-recker', 'José Ortiz', '2019-08-26 13:20:28', '1566840028', 'Boletas subidas: 40 boletas de 2 B.'),
+(951, 'A-recker', 'José Ortiz', '2019-08-26 13:21:40', '1566840100', 'Boletas subidas: 40 boletas de 3 A.'),
+(952, 'A-recker', 'José Ortiz', '2019-08-26 13:22:56', '1566840176', 'Boletas subidas: 40 boletas de 3 B.'),
+(953, 'A-recker', 'José Ortiz', '2019-08-26 13:32:39', '1566840759', 'Inicio de sesión exitoso.'),
+(954, 'A-recker', 'José Ortiz', '2019-08-26 13:58:21', '1566842301', 'Boletas subidas: 10 boletas de 5G A.'),
+(955, 'A-recker', 'José Ortiz', '2019-08-26 14:01:34', '1566842494', 'Boletas subidas: 31 boletas de 4 B.'),
+(956, 'A-recker', 'José Ortiz', '2019-08-26 15:11:23', '1566846683', 'Configuracion cambiada: .'),
+(957, 'A-recker', 'José Ortiz', '2019-08-26 15:12:04', '1566846724', 'Configuracion cambiada: .'),
+(958, 'A-recker', 'José Ortiz', '2019-08-26 15:12:25', '1566846745', 'Configuracion cambiada: .'),
+(959, 'A-recker', 'José Ortiz', '2019-08-26 15:13:04', '1566846784', 'Configuracion cambiada: .'),
+(960, 'A-recker', 'José Ortiz', '2019-08-26 15:17:35', '1566847055', 'Configuracion cambiada: .'),
+(961, 'A-recker', 'José Ortiz', '2019-08-26 15:18:08', '1566847088', 'Configuracion cambiada: .'),
+(962, 'A-recker', 'José Ortiz', '2019-08-26 15:18:59', '1566847139', 'Configuracion cambiada: .'),
+(963, 'A-recker', 'José Ortiz', '2019-08-26 15:21:57', '1566847317', 'Configuracion cambiada: .'),
+(964, 'A-recker', 'José Ortiz', '2019-08-26 15:25:02', '1566847502', 'Configuracion cambiada: 1 A.'),
+(965, 'A-recker', 'José Ortiz', '2019-08-26 15:29:44', '1566847784', 'Configuracion cambiada: 1 año A.'),
+(966, 'A-recker', 'José Ortiz', '2019-08-27 19:16:45', '1566947805', 'Borrar: 32 estudiantes borrados.'),
+(967, 'A-recker', 'José Ortiz', '2019-08-27 19:20:36', '1566948036', 'Borrar: 35 estudiantes borrados.'),
+(968, 'A-recker', 'José Ortiz', '2019-08-27 19:20:42', '1566948042', 'Borrar: 33 estudiantes borrados.');
+INSERT INTO `logs` (`log_id`, `log_cedula`, `log_user`, `fecha`, `time`, `accion`) VALUES
+(969, 'A-recker', 'José Ortiz', '2019-08-27 19:22:40', '1566948160', 'Boletas subidas: 25 boletas de 1 B.'),
+(970, 'A-recker', 'José Ortiz', '2019-08-27 19:22:59', '1566948179', 'Boletas subidas: 25 boletas de 1 U.'),
+(971, 'A-recker', 'José Ortiz', '2019-08-27 19:23:09', '1566948189', 'Boletas subidas: 25 boletas de 1 A.'),
+(972, 'A-recker', 'José Ortiz', '2019-08-27 19:23:21', '1566948201', 'Borrar: 75 boletas borradas.'),
+(973, 'A-recker', 'José Ortiz', '2019-08-27 19:25:43', '1566948343', 'Boletas subidas: 7 boletas de 1 A.'),
+(974, 'A-recker', 'José Ortiz', '2019-08-27 19:26:02', '1566948362', 'Borrar: 7 boletas borradas.'),
+(975, 'A-recker', 'José Ortiz', '2019-08-27 19:28:00', '1566948480', 'Boletas subidas: 4 boletas de 1 A.'),
+(976, 'A-recker', 'José Ortiz', '2019-08-27 19:28:06', '1566948486', 'Boletas subidas: 4 boletas de 1 B.'),
+(977, 'A-recker', 'José Ortiz', '2019-08-27 19:28:19', '1566948499', 'Borrar: 8 boletas borradas.'),
+(978, 'A-recker', 'José Ortiz', '2019-08-27 19:31:06', '1566948666', 'Actualización de contraseña.'),
+(979, 'A-recker', 'José Ortiz', '2019-08-27 19:55:02', '1566950102', 'Actualización de contraseña.'),
+(980, 'A-recker', 'José Ortiz', '2019-08-28 15:24:58', '1567020298', 'Inicio de sesión exitoso.'),
+(981, 'A-recker', 'José Ortiz', '2019-08-28 16:08:34', '1567022914', 'Usuario desbloqueado: A-rhadys.'),
+(982, 'A-recker', 'José Ortiz', '2019-08-28 19:45:34', '1567035934', 'Añadido: A-recke'),
+(983, 'A-recker', 'José Ortiz', '2019-08-28 19:46:05', '1567035965', 'Eliminado: A-recker'),
+(984, 'A-recker', 'José Ortiz', '2019-08-28 19:55:36', '1567036536', 'Añadido: A-testing'),
+(985, 'A-recker', 'José Ortiz', '2019-08-28 19:56:18', '1567036578', 'Actualizado: A-testing'),
+(986, 'A-recker', 'José Ortiz', '2019-08-28 19:56:30', '1567036590', 'Eliminado: A-testing'),
+(987, 'A-recker', 'José Ortiz', '2019-08-28 20:14:36', '1567037676', 'Actualizado: A-recker'),
+(988, 'A-recker', 'José Ortiz', '2019-08-28 20:16:25', '1567037785', 'Añadido: CR-recketdoyp'),
+(989, 'A-recker', 'José Ortiz', '2019-08-28 20:16:37', '1567037797', 'Actualizado: CR-recketdoyp'),
+(990, 'A-recker', 'José Ortiz', '2019-08-28 20:16:47', '1567037807', 'Eliminado: CR-recketdoyp'),
+(991, 'A-recker', 'José Ortiz', '2019-08-28 20:30:04', '1567038604', 'Añadido: CR-recketdoyp'),
+(992, 'A-recker', 'José Ortiz', '2019-08-28 20:31:28', '1567038688', 'Eliminado: CR-recketdoyp'),
+(993, 'A-recker', 'José Ortiz', '2019-08-28 20:36:24', '1567038984', 'Añadido: CR-testing'),
+(994, 'A-recker', 'José Ortiz', '2019-08-28 20:36:48', '1567039008', 'Actualizado: CR-testing'),
+(995, 'A-recker', 'José Ortiz', '2019-08-28 20:36:52', '1567039012', 'Eliminado: CR-testing'),
+(996, 'A-recker', 'José Ortiz', '2019-08-28 20:37:53', '1567039073', 'Actualizado: V-32545781.'),
+(997, 'A-recker', 'José Ortiz', '2019-08-28 21:57:26', '1567043846', 'Boletas subidas: 1 boletas de 2G A.'),
+(998, 'A-recker', 'José Ortiz', '2019-08-28 22:19:09', '1567045149', 'Configuracion cambiada: 1 año B.'),
+(999, 'A-recker', 'José Ortiz', '2019-08-28 22:19:13', '1567045153', 'Configuracion cambiada: 1 año B.'),
+(1000, 'A-recker', 'José Ortiz', '2019-08-28 22:30:59', '1567045859', 'Borrar: 1 boletas borradas.'),
+(1001, 'A-recker', 'José Ortiz', '2019-08-28 23:45:37', '1567050337', 'Contraseña generada para V-32545781'),
+(1002, 'V-32545781', 'Vera Jose', '2019-08-28 23:46:30', '1567050390', 'Inicio de sesión exitoso.'),
+(1003, 'A-recker', 'Recker', '2019-08-28 23:47:07', '1567050427', 'Inicio de sesión exitoso.'),
+(1004, 'A-recker', 'Recker', '2019-08-31 13:41:30', '1567273290', 'Añadido: CR-1.'),
+(1005, 'A-recker', 'Recker', '2019-08-31 13:41:41', '1567273301', 'Contraseña generada para CR-1'),
+(1006, 'A-recker', 'Recker', '2019-08-31 16:18:14', '1567282694', 'Añadido: V-1.'),
+(1007, 'A-recker', 'Recker', '2019-08-31 16:18:34', '1567282714', 'Eliminado: V-1.'),
+(1008, 'A-recker', 'Recker', '2019-08-31 17:03:57', '1567285437', 'Añadido: V-1.'),
+(1009, 'A-recker', 'Recker', '2019-08-31 17:04:30', '1567285470', 'Eliminado: V-1.'),
+(1010, 'A-recker', 'Recker', '2019-08-31 17:05:25', '1567285525', 'Añadido: V-1.'),
+(1011, 'A-recker', 'Recker', '2019-08-31 17:07:57', '1567285677', 'Añadido: V-1.'),
+(1012, 'A-recker', 'Recker', '2019-08-31 17:10:38', '1567285838', 'Añadido: V-1.'),
+(1013, 'A-recker', 'Recker', '2019-08-31 17:38:28', '1567287508', 'Eliminado: V-1.'),
+(1014, 'A-recker', 'Recker', '2019-08-31 18:26:41', '1567290401', 'Actualizado: V-1.'),
+(1015, 'A-recker', 'Recker', '2019-08-31 18:41:03', '1567291263', 'Añadido: V-1.'),
+(1016, 'A-recker', 'Recker', '2019-08-31 19:05:36', '1567292736', 'Actualizado: V-1.'),
+(1017, 'A-recker', 'Recker', '2019-08-31 19:32:38', '1567294358', 'Actualizado: V-1.'),
+(1018, 'A-recker', 'Recker', '2019-08-31 19:41:46', '1567294906', 'Actualizado: V-1.'),
+(1019, 'A-recker', 'Recker', '2019-08-31 19:41:57', '1567294917', 'Actualizado: V-1.'),
+(1020, 'A-recker', 'Recker', '2019-08-31 19:44:19', '1567295059', 'Actualizado: V-1.'),
+(1021, 'A-recker', 'Recker', '2019-08-31 19:46:17', '1567295177', 'Actualizado: V-1.'),
+(1022, 'A-recker', 'Recker', '2019-08-31 19:54:04', '1567295644', 'Añadido: V-1.'),
+(1023, 'A-recker', 'Recker', '2019-08-31 19:54:37', '1567295677', 'Eliminado: V-1.'),
+(1024, 'A-recker', 'Recker', '2019-08-31 19:56:22', '1567295782', 'Añadido: V-1.'),
+(1025, 'A-recker', 'Recker', '2019-08-31 19:56:47', '1567295807', 'Actualizado: V-1.'),
+(1026, 'A-recker', 'Recker', '2019-08-31 20:03:18', '1567296198', 'Eliminado: V-1.'),
+(1027, 'A-recker', 'Recker', '2019-08-31 20:05:44', '1567296344', 'Añadido: V-1.'),
+(1028, 'A-recker', 'Recker', '2019-08-31 20:06:05', '1567296365', 'Eliminado: V-1.'),
+(1029, 'A-recker', 'Recker', '2019-08-31 20:35:19', '1567298119', 'Añadido: V-1.'),
+(1030, 'A-recker', 'Recker', '2019-08-31 20:38:01', '1567298281', 'Actualizado: V-1.'),
+(1031, 'A-recker', 'Recker', '2019-08-31 20:42:31', '1567298551', 'Actualizado: V-1.'),
+(1032, 'A-recker', 'Recker', '2019-08-31 20:43:37', '1567298617', 'Actualizado: V-1.'),
+(1033, 'A-recker', 'Recker', '2019-08-31 20:45:15', '1567298715', 'Actualizado: V-1.'),
+(1034, 'A-recker', 'Recker', '2019-08-31 20:47:51', '1567298871', 'Actualizado: V-1.'),
+(1035, 'A-recker', 'Recker', '2019-08-31 20:48:01', '1567298881', 'Actualizado: V-1.'),
+(1036, 'A-recker', 'Recker', '2019-08-31 20:52:52', '1567299172', 'Actualizado: V-1.'),
+(1037, 'A-recker', 'Recker', '2019-08-31 20:53:01', '1567299181', 'Actualizado: V-1.'),
+(1038, 'A-recker', 'Recker', '2019-08-31 20:54:52', '1567299292', 'Actualizado: V-1.'),
+(1039, 'A-recker', 'Recker', '2019-08-31 20:56:00', '1567299360', 'Actualizado: V-1.'),
+(1040, 'A-recker', 'Recker', '2019-08-31 20:57:18', '1567299438', 'Actualizado: V-1.'),
+(1041, 'A-recker', 'Recker', '2019-08-31 20:58:01', '1567299481', 'Actualizado: V-1.'),
+(1042, 'A-recker', 'Recker', '2019-08-31 21:10:36', '1567300236', 'Actualizado: V-1.'),
+(1043, 'A-recker', 'Recker', '2019-08-31 21:10:50', '1567300250', 'Actualizado: V-1.'),
+(1044, 'A-recker', 'Recker', '2019-08-31 21:13:09', '1567300389', 'Eliminado: V-1.'),
+(1045, 'A-recker', 'Recker', '2019-08-31 21:13:20', '1567300400', 'Añadido: V-1.'),
+(1046, 'A-recker', 'Recker', '2019-08-31 21:13:51', '1567300431', 'Eliminado: V-1.'),
+(1047, 'A-recker', 'Recker', '2019-09-01 01:51:29', '1567317089', 'Borrar: 3 estudiantes borrados.'),
+(1048, 'A-recker', 'Recker', '2019-09-01 02:10:27', '1567318227', 'Matricula subida: 3 alumnos de 6 B.'),
+(1049, 'A-recker', 'Recker', '2019-09-01 02:11:04', '1567318264', 'Matricula subida: 3 alumnos de 6 B.'),
+(1050, 'A-recker', 'Recker', '2019-09-01 02:13:32', '1567318412', 'Matricula subida: 3 alumnos de 6 B.'),
+(1051, 'A-recker', 'Recker', '2019-09-01 02:17:05', '1567318625', 'Matricula subida: 3 alumnos de 6 C.'),
+(1052, 'A-recker', 'Recker', '2019-09-01 03:08:34', '1567321714', 'Matricula subida: 3 alumnos de 6 C.'),
+(1053, 'A-recker', 'Recker', '2019-09-01 03:10:55', '1567321855', 'Matricula subida: 3 alumnos de 6 C.'),
+(1054, 'A-recker', 'Recker', '2019-09-01 03:16:22', '1567322182', 'Matricula subida: 3 alumnos de 6 C.'),
+(1055, 'A-recker', 'Recker', '2019-09-01 03:18:51', '1567322331', 'Matricula subida: 3 alumnos de 1 B.'),
+(1056, 'A-recker', 'Recker', '2019-09-01 23:26:47', '1567394807', 'Actualizado: V-30358971.'),
+(1057, 'A-recker', 'Recker', '2019-09-01 23:27:15', '1567394835', 'Actualizado: V-30358971.'),
+(1058, 'A-recker', 'Recker', '2019-09-01 23:37:02', '1567395422', 'Matricula subida: 2 alumnos de 2 B.'),
+(1059, 'A-recker', 'Recker', '2019-09-01 23:38:34', '1567395514', 'Matricula subida: 2 alumnos de 2 C.'),
+(1060, 'A-recker', 'Recker', '2019-09-01 23:40:20', '1567395620', 'Matricula subida: 2 alumnos de 5 C.'),
+(1061, 'A-recker', 'Recker', '2019-09-01 23:40:43', '1567395643', 'Matricula subida: 2 alumnos de 2 B.'),
+(1062, 'A-recker', 'Recker', '2019-09-01 23:42:06', '1567395726', 'Matricula subida: 2 alumnos de 2 B.'),
+(1063, 'A-recker', 'Recker', '2019-09-01 23:48:33', '1567396113', 'Inicio de sesión exitoso.'),
+(1064, 'A-recker', 'Recker', '2019-09-01 23:49:12', '1567396152', 'Añadido: V-test.'),
+(1065, 'V-test', 'Testing', '2019-09-01 23:49:31', '1567396171', 'Inicio de sesión exitoso.'),
+(1066, 'A-recker', 'Recker', '2019-09-02 00:17:21', '1567397841', 'Inicio de sesión exitoso.'),
+(1067, 'V-test', 'Testing', '2019-09-02 00:40:47', '1567399247', 'Inicio de sesión exitoso.'),
+(1068, 'A-recker', 'Recker', '2019-09-02 00:46:16', '1567399576', 'Inicio de sesión exitoso.'),
+(1069, 'A-recker', 'Recker', '2019-09-02 00:46:55', '1567399615', 'Configuracion cambiada: V-test.'),
+(1070, 'A-recker', 'Recker', '2019-09-02 00:47:02', '1567399622', 'Configuracion cambiada: V-test.'),
+(1071, 'A-recker', 'Recker', '2019-09-03 00:57:21', '1567486641', 'Inicio de sesión exitoso.'),
+(1072, 'A-recker', 'Recker', '2019-09-03 01:11:42', '1567487502', 'Inicio de sesión exitoso.'),
+(1073, 'V-test', 'Testing', '2019-09-03 01:11:49', '1567487509', 'Inicio de sesión exitoso.'),
+(1074, 'A-recker', 'Recker', '2019-09-03 01:12:30', '1567487550', 'Inicio de sesión exitoso.'),
+(1075, 'V-test', 'Testing', '2019-09-03 01:52:41', '1567489961', 'Inicio de sesión exitoso.'),
+(1076, 'A-recker', 'Recker', '2019-09-03 01:54:32', '1567490072', 'Inicio de sesión exitoso.'),
+(1077, 'A-recker', 'Recker', '2019-09-03 01:54:47', '1567490087', 'Contraseña generada para V-test'),
+(1078, 'V-test', 'Testing', '2019-09-03 01:55:04', '1567490104', 'Inicio de sesión exitoso.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `title` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `img` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
+) ;
+
+--
+-- Volcado de datos para la tabla `news`
+--
+
+INSERT INTO `news` (`id`, `title`, `content`, `img`, `owner`) VALUES
+(1, 'Testing1', 'Hola', '[\"admin\\/avatars\\/default.jpg\",\"admin\\/avatars\\/Recker.jpg\",\"admin\\/avatars\\/default.jpg\",\"admin\\/avatars\\/Recker.jpg\"]', 'A-recker');
 
 -- --------------------------------------------------------
 
@@ -3108,7 +3241,18 @@ INSERT INTO `reloginID` (`relogin_id`, `relogin_encript`, `relogin_user`, `relog
 (132, '$2y$10$cpQOov72qRR.rR3tn9lxY.Dq6.W0R2n2fhcAuIeMhOUMKVWqqXesC', 'AQ4BGADZ1VB', '31081098'),
 (133, '$2y$10$0pOjUSPIK0Ut9ksL5mJG1eiqh5BEQxc7DCz6.iwyVnGuleFvwUs4a', 'YTZP9VFE75Y', '30801156'),
 (136, '$2y$10$z2sPU70aQ8KP5oGe1vXh0.lCe54NvWxZJt4Hpw7f0/6vJBXad/uaG', 'NMNPFFB3DIP', '30852567'),
-(137, '$2y$10$VZtINh7qD22uZSuvurBTZ.7afgn72/NS5NC/ObCUWMHLNqsED38Ya', 'J2IUKDN3W3G', '29915997');
+(137, '$2y$10$VZtINh7qD22uZSuvurBTZ.7afgn72/NS5NC/ObCUWMHLNqsED38Ya', 'J2IUKDN3W3G', '29915997'),
+(138, '$2y$10$6QvaGnaNpLa.TMyHoMNV7.c/IhGeV849XdaEByenHQ05ce2bJEOhu', 'S2RHIQ1MHBV', 'recker'),
+(139, '$2y$10$0bMnXhDO2D1fIiS1MrdGsuwKTZYHoXl34xWbH9cnU/7W6ACtvH.hS', 'BYSAILXNLGV', 'recker'),
+(140, '$2y$10$XCGNVlJu0EixOh90O10mPuG96AES9pabmSLId31KIOu0rA6zB/pkS', 'T7HV7EW3R28', 'recker'),
+(141, '$2y$10$iLekKa2CP7nMWoaYHGXHzucUmvbkciZ4CxQqzyRCmcrJ9F0zqn/ja', '6A5CXISKZRJ', 'recker'),
+(142, '$2y$10$CnRmykoxVDE3TBoYYj9j1ui0ihw6COLsqUuEiKBXSNbn9cHt6IawO', 'TYNR44N8UFC', 'recker'),
+(143, '$2y$10$XWh8v01dxoBUloizapQhTOxpPkoi93pty99erF7ykF9jV3xdwQoVe', '8Q2RJLKMPSQ', 'recker'),
+(144, '$2y$10$XGGyd6r5I5ggGG/R93vpOujxpjcpeG9RwRui4dmH8zg5TxGmSuCZm', 'PLKXH9MKQTM', 'recker'),
+(145, '$2y$10$pgCngUTj53fZZpkBBpcYh.qQ74rvCQPYhSV0sIyuo9Q2rnxsfLBGq', 'NWUKFJXYKKD', 'recker'),
+(146, '$2y$10$tSmb7aeXuRnMAOQhs1BEWO9Ub6ESI6EHoiA1JL2KeIN5qWcrIY1ry', '9X3ZN6Y8F27', 'recker'),
+(164, '$2y$10$z6nRprz/Y8dnZMHtpc7a7.AvsjXq7hG38PeoTkhtZTF.H070HXpIK', 'D9EHILLN4I1', 'recker'),
+(166, '$2y$10$yUHUAlgUrN86CjPnp7Hkq.p6CWeW1axx1/WGBOZCETSYnCwH9zVVe', 'ZKS8LIPBFPX', 'recker');
 
 --
 -- Índices para tablas volcadas
@@ -3119,6 +3263,13 @@ INSERT INTO `reloginID` (`relogin_id`, `relogin_encript`, `relogin_user`, `relog
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`cedula`);
+
+--
+-- Indices de la tabla `anuncios`
+--
+ALTER TABLE `anuncios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `byUser` (`byUser`);
 
 --
 -- Indices de la tabla `baneos`
@@ -3183,16 +3334,28 @@ ALTER TABLE `reloginID`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `anuncios`
+--
+ALTER TABLE `anuncios`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=896;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1079;
+
+--
+-- AUTO_INCREMENT de la tabla `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reloginID`
 --
 ALTER TABLE `reloginID`
-  MODIFY `relogin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `relogin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- Restricciones para tablas volcadas

@@ -1,0 +1,71 @@
+main
+	flex: 1
+	display: flex
+	margin-top: 60px
+	width: 
+	aside
+		width: 30%
+		margin: 10px
+		section
+			+border-radius(20px)
+			background: #e4e4e4
+			margin-bottom: 20px
+			header
+				+border-radius(20px 20px 0px 0px)
+				background: #4c4c4c
+				padding: 2px
+				color: $white
+				font-family: sourcesans-bold
+				text-align: center
+				font-size: 20px
+			.contenido
+				padding: 15px
+				text-align: justify
+			footer
+				padding: 5px
+				border-top: 3px solid #808080
+				text-align: center
+	article
+		width: 70%
+		margin: 10px
+		section
+			+border-radius(20px)
+			background: #e4e4e4
+			margin-bottom: 20px
+			header 
+				+border-radius(20px 20px 0px 0px)
+				background: #4c4c4c
+				padding: 2px
+				color: $white
+				font-family: sourcesans-bold
+				text-align: center
+				font-size: 25px
+			.avatar
+				margin-top: 10px
+				display: flex
+				flex-direction: column
+				align-items: center
+				img
+					+border-radius(100px)
+					border: 4px solid $borderInfo
+				.nombre
+					font-family: sourcesans-italic
+					font-size: 18px
+					border-bottom: 1px solid #808080
+			.contenido
+				margin: 30px 20px
+				text-align: justify
+			footer
+				padding: 10px
+				border-top: 3px solid #808080
+				display: flex
+				justify-content: space-around
+				align-items: center
+				flex-wrap: wrap
+				img, span
+					cursor: pointer
+				.more
+					background: #808080
+					padding: 30px
+				.noShowImg
+					display: none
