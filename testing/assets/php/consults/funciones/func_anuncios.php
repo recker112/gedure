@@ -16,7 +16,7 @@ function listAnnounce($mysqli){
     $result = $consult->get_result();
 
     if ($result->num_rows === 0) {
-      throw new Exception('noNews');
+      throw new Exception('noAnnounce');
     }
 
     $i=0;
@@ -45,7 +45,7 @@ function listNews($mysqli){
         INNER JOIN admins ON news.owner=admins.cedula
     ) Noticias
     ORDER BY id DESC
-    LIMIT 10');
+    LIMIT 6');
 
     //Verificar consulta
     if (!$consult) {
@@ -65,6 +65,29 @@ function listNews($mysqli){
       $i++;
     }
     return $array;
+  } catch (\Throwable $e) {
+    return $e->getMessage();
+  }
+}
+
+function addNewsInDB($mysqli, $title, $content, $img, $owner){
+  try {
+    $consult = $mysqli->prepare('INSERT INTO news
+    (title, content, img, owner)
+    VALUES
+    (?,?,?,?)');
+    if (!$consult) {
+      throw new Exception('consultError');
+    }
+
+    $consult->bind_param("ssss", $title, $content, $img, $owner);
+    $consult->execute();
+
+    if ($consult->affected_rows < 1) {
+      throw new Exception("errorInsert");
+    }
+
+    return "ok";
   } catch (\Throwable $e) {
     return $e->getMessage();
   }

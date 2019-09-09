@@ -10,6 +10,7 @@ module.exports = {
     login: './js/login.js',
     panelAdmin: './js/panelAdmin.js',
     panelUser: './js/panelUser.js',
+    panelCreator: './js/panelCreator.js',
     news: './js/news.js'
   },
   output: {

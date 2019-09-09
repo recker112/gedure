@@ -23,7 +23,7 @@
   <?php }else if ($privilegio == "V-") { ?>
     <script type="text/javascript" src="assets/js/panelUser.bundle.js"></script>
   <?php }else if ($privilegio == "CR-") { ?>
-    <script type="text/javascript" src="assets/js/panelCreador.bundle.js"></script>
+    <script type="text/javascript" src="assets/js/panelCreator.bundle.js"></script>
   <?php } ?>
 </body>
 </html>

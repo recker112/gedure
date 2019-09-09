@@ -1,3 +1,29 @@
+commit #1
+    Añadida funcionalidad a creadores para
+    que puedan publicar noticias.
+
+    Implementaciones:
+    -Añadido caja para "Publicar noticia".
+    -Añadida funcionalidad de contador de
+    caracteres para el textarea ubicado en
+    "Publicar noticia".
+    -Añadida sección para cambiar el avatar,
+    aún sin funcionalidad alguna.
+    
+    SQL:
+    -Modificado añadiendo las tablas "news"
+    y "anuncios", los cuales almacenan todos
+    esta información para ser manipulada.
+
+    Fix:
+    -Corregido tamaño por defecto en el
+    visor de imágenes, ahora las imágenes
+    no se desvordan de la caja, permitiendo
+    que mantengan todas un tamaño predefinido.
+
+commit #0
+    Diseño e implementación de los anuncios y noticias
+
 Build-2.5.7:
     
     Js:
