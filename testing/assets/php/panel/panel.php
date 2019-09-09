@@ -32,14 +32,18 @@
 						<p class="titulo-panel" data-selector="1" data-name="Gestión" data-open=">">Gestión <span class="icon-chevron-right"></span></p>
 						<div class="div-fix2" id="panel-content1">	
 							<div class="panel-content">
-								<span class="item-panel"><span class="icon-terminal"></span>Registros</span>
-								<span class="item-panel"><span class="icon-newspaper"></span>Subir contenido</span>
+								<span class="item-panel" data-content="noticias"><span class="icon-newspaper"></span>Publicar noticia</span>
 							</div>
 						</div>
 					<?php } ?>
 					<p class="titulo-panel" data-selector="2" data-name="Cuenta" data-open=">">Cuenta <span class="icon-chevron-right"></span></p>
 					<div class="div-fix2" id="panel-content2">		
 						<div class="panel-content">
+							<? if ($privilegio !== "V-") {
+								?>
+								<span class="item-panel" data-content="avatar"><span class="icon-photo"></span>Avatar</span>
+								<?
+							} ?>
 							<span class="item-panel" data-content="opciones"><span class="icon-key"></span>Contraseña</span>
 							<a href="logout.php" class="item-panel"><span class="icon-power-off"></span>Salir</a>
 						</div>

@@ -14,7 +14,8 @@
         require 'contentStudent/informacion.php';
         require 'contentStudent/constancias.php';
       }elseif ($privilegio == "CR-") {
-        require 'contentCreator/welcome.php';
+				require 'contentCreator/welcome.php';
+				require 'contentCreator/noticias.php';
       }
       ?>
 			<!-- Opciones -->

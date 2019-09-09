@@ -581,6 +581,9 @@ div#popad {
   align-items: center;
   justify-content: space-around;
   color: #FFFFFF; }
+  #showImg #show img {
+    width: 500px;
+    height: 400px; }
   #showImg #showImgControl {
     user-select: none;
     background: rgba(255, 255, 255, 0.6);

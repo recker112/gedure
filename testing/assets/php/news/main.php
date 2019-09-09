@@ -4,6 +4,10 @@
   <aside>
     <?php
     $anuncios = listAnnounce($mysqli);
+
+    if ($anuncios === 'noAnnounce') {
+      $anuncios = null;
+    }
     $i=0;
     while (isset($anuncios[$i])){
       $aActual = $anuncios[$i];
@@ -22,6 +26,9 @@
     <?php
     $noticias = listNews($mysqli);
 
+    if ($noticias === 'noNews') {
+      $noticias = null;
+    }
     $i=0;
     while (isset($noticias[$i])){
       $nActual = $noticias[$i];

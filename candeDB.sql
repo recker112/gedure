@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-09-2019 a las 16:42:55
+-- Tiempo de generación: 09-09-2019 a las 21:54:21
 -- Versión del servidor: 10.4.6-MariaDB
 -- Versión de PHP: 7.2.21
 
@@ -56,14 +56,6 @@ CREATE TABLE `anuncios` (
   `byUser` varchar(60) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `anuncios`
---
-
-INSERT INTO `anuncios` (`id`, `title`, `content`, `byUser`) VALUES
-(1, 'Testing1', 'Hola compatriotas, hoy se me dio por actualizar el sistema y pos tejo. Bienvenidos al capitalismo!! :UUUU', 'A-recker'),
-(2, 'Testing2', 'Hola compatriotas, hoy se me dio por actualizar el sistema y pos tejo. Bienvenidos al capitalismo!! :UUUU\r\n\r\nPD: Tengo hambre.', 'A-recker');
-
 -- --------------------------------------------------------
 
 --
@@ -111,7 +103,7 @@ CREATE TABLE `creadores` (
 --
 
 INSERT INTO `creadores` (`cedula`, `user`, `password`, `avatar`) VALUES
-('CR-1', '1', '$2y$10$mv2d6aFqyG/OU7Ngdm2Z4ecLsQij557XZ9y/z15qaTeJtROVAdU3a', 'admin/avatars/default.jpg');
+('CR-1', 'Test', '$2y$10$V6I1/UYHVFQzfTrB6GhbY.q8okCXfPkqoXnuPltVvx7XDOOQu6hSG', 'admin/avatars/default.jpg');
 
 -- --------------------------------------------------------
 
@@ -3084,7 +3076,15 @@ INSERT INTO `logs` (`log_id`, `log_cedula`, `log_user`, `fecha`, `time`, `accion
 (1075, 'V-test', 'Testing', '2019-09-03 01:52:41', '1567489961', 'Inicio de sesión exitoso.'),
 (1076, 'A-recker', 'Recker', '2019-09-03 01:54:32', '1567490072', 'Inicio de sesión exitoso.'),
 (1077, 'A-recker', 'Recker', '2019-09-03 01:54:47', '1567490087', 'Contraseña generada para V-test'),
-(1078, 'V-test', 'Testing', '2019-09-03 01:55:04', '1567490104', 'Inicio de sesión exitoso.');
+(1078, 'V-test', 'Testing', '2019-09-03 01:55:04', '1567490104', 'Inicio de sesión exitoso.'),
+(1079, 'A-recker', 'Recker', '2019-09-09 10:54:52', '1568040892', 'Inicio de sesión exitoso.'),
+(1080, 'A-recker', 'Recker', '2019-09-09 10:56:38', '1568040998', 'Actualizado: CR-1.'),
+(1081, 'A-recker', 'Recker', '2019-09-09 10:56:51', '1568041011', 'Contraseña generada para CR-1'),
+(1082, 'CR-1', 'Test', '2019-09-09 10:57:38', '1568041058', 'Inicio de sesión exitoso.'),
+(1083, 'A-recker', 'Recker', '2019-09-09 11:21:46', '1568042506', 'Inicio de sesión exitoso.'),
+(1084, 'A-recker', 'Recker', '2019-09-09 11:25:31', '1568042731', 'Inicio de sesión exitoso.'),
+(1085, 'A-recker', 'Recker', '2019-09-09 11:25:46', '1568042746', 'Contraseña generada para CR-1'),
+(1086, 'CR-1', 'Test', '2019-09-09 11:26:06', '1568042766', 'Inicio de sesión exitoso.');
 
 -- --------------------------------------------------------
 
@@ -3098,13 +3098,6 @@ CREATE TABLE `news` (
   `content` longtext COLLATE utf8_unicode_ci NOT NULL,
   `img` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
 ) ;
-
---
--- Volcado de datos para la tabla `news`
---
-
-INSERT INTO `news` (`id`, `title`, `content`, `img`, `owner`) VALUES
-(1, 'Testing1', 'Hola', '[\"admin\\/avatars\\/default.jpg\",\"admin\\/avatars\\/Recker.jpg\",\"admin\\/avatars\\/default.jpg\",\"admin\\/avatars\\/Recker.jpg\"]', 'A-recker');
 
 -- --------------------------------------------------------
 
@@ -3252,7 +3245,8 @@ INSERT INTO `reloginID` (`relogin_id`, `relogin_encript`, `relogin_user`, `relog
 (145, '$2y$10$pgCngUTj53fZZpkBBpcYh.qQ74rvCQPYhSV0sIyuo9Q2rnxsfLBGq', 'NWUKFJXYKKD', 'recker'),
 (146, '$2y$10$tSmb7aeXuRnMAOQhs1BEWO9Ub6ESI6EHoiA1JL2KeIN5qWcrIY1ry', '9X3ZN6Y8F27', 'recker'),
 (164, '$2y$10$z6nRprz/Y8dnZMHtpc7a7.AvsjXq7hG38PeoTkhtZTF.H070HXpIK', 'D9EHILLN4I1', 'recker'),
-(166, '$2y$10$yUHUAlgUrN86CjPnp7Hkq.p6CWeW1axx1/WGBOZCETSYnCwH9zVVe', 'ZKS8LIPBFPX', 'recker');
+(166, '$2y$10$yUHUAlgUrN86CjPnp7Hkq.p6CWeW1axx1/WGBOZCETSYnCwH9zVVe', 'ZKS8LIPBFPX', 'recker'),
+(174, '$2y$10$Ldr94rVH.6vSxMSErUjLzON9oZfUoC.0XfEfjB05B6xdGB6ArBAvW', 'M5LIEJIR2EG', '1');
 
 --
 -- Índices para tablas volcadas
@@ -3337,13 +3331,13 @@ ALTER TABLE `reloginID`
 -- AUTO_INCREMENT de la tabla `anuncios`
 --
 ALTER TABLE `anuncios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1079;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1087;
 
 --
 -- AUTO_INCREMENT de la tabla `news`
@@ -3355,7 +3349,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT de la tabla `reloginID`
 --
 ALTER TABLE `reloginID`
-  MODIFY `relogin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `relogin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- Restricciones para tablas volcadas

@@ -38,7 +38,6 @@ document.querySelectorAll('article section').forEach(section => {
         showDiv.innerHTML = `<img src='${spanImg.src}'/>`;
         //Bindear opciones
         src=[img, parseInt(spanImg.dataset.actual)];
-        console.log(spanImg.dataset.actual);
       })
     } else {
       element.addEventListener('click', () => {
@@ -49,7 +48,6 @@ document.querySelectorAll('article section').forEach(section => {
         showDiv.innerHTML = `<img src='${element.src}'/>`;
         //Bindear opciones
         src=[img, parseInt(element.dataset.actual)];
-        console.log(element.dataset.actual);
         
       });
     }
