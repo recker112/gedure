@@ -15,7 +15,8 @@ module.exports = {
   entry: {
     login: './js/login.js',
     panelAdmin: './js/panelAdmin.js',
-    panelUser: './js/panelUser.js'
+    panelUser: './js/panelUser.js',
+    news: './js/news.js'
   },
   output: {
     filename: './assets/js/[name].bundle.js',
