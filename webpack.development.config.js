@@ -7,11 +7,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   context: path.join(__dirname, 'source'),
   entry: {
-    login: './js/login.js',
-    panelAdmin: './js/panelAdmin.js',
-    panelUser: './js/panelUser.js',
-    panelCreator: './js/panelCreator.js',
-    news: './js/news.js'
+    //login: './js/login.js',
+    //panelAdmin: './js/panelAdmin.js',
+    //panelUser: './js/panelUser.js',
+    //panelCreator: './js/panelCreator.js',
+    //news: './js/news.js',
+    index: './js/index.js'
   },
   output: {
     filename: './assets/js/[name].bundle.js',
