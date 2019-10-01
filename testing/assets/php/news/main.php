@@ -29,6 +29,7 @@
     if ($noticias === 'noNews') {
       $noticias = null;
     }
+    
     $i=0;
     while (isset($noticias[$i])){
       $nActual = $noticias[$i];
