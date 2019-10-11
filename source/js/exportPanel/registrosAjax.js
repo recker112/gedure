@@ -6,14 +6,19 @@ import $ from 'jquery';
 //Ajax
 import {consultAjax} from './../exports/ajaxPromise';
 
-//Boton de registros en el panel
+/* ************************ */
+/* Scripts
+/* ************************ */
+
 const btnRegistros = document.getElementById('registrosShow');
 btnRegistros.addEventListener('click', async () => {
   //Animación de carga
-  const divShow = document.querySelectorAll('#console tbody tr');
-  divShow.forEach(element => {
-    element.innerHTML = '<td>Cargando...</td><td>Cargando...</td>';
-  });
+  const divShow = document.querySelector('#tregistros tbody');
+  divShow.innerHTML = `</tr>
+  <td>Cargando...</td>
+  <td>Cargando...</td>
+  <td>Cargando...</td>
+  </tr>`;
 
   //Consulta
   let res = await consultAjax('assets/php/consults/ajax_registros.php');
@@ -21,16 +26,29 @@ btnRegistros.addEventListener('click', async () => {
   //Verificar consulta
   if (res !== 'no_connect_file_php') {
     if (res.status !== 'error') {
-      const table = document.querySelector('#console tbody');
+      const table = document.querySelector('#tregistros tbody');
     
       //Preparar texto
       const text = prepareTextRegistros(res);
 
       //Insertar texto
       table.innerHTML = text;
+
+      /* ************************ */
+      /* Button table
+      /* ************************ */
+      const tableButton = document.querySelectorAll("#tregistros tbody button");
+      tableButton.forEach(element => {
+        element.addEventListener('click',() => {
+          alert(element.dataset.button);
+          btnRegistros.click();
+        });
+      });
       
-      //Popad table
-      const tableEvent = document.querySelectorAll('#console tbody tr .cedula');
+      /* ************************ */
+      /* Popad table
+      /* ************************ */
+      const tableEvent = document.querySelectorAll('#tregistros tbody tr .cedula');
       tableEvent.forEach(element => {
         element.addEventListener('click', () => {
           //Data
@@ -63,6 +81,9 @@ btnRegistros.addEventListener('click', async () => {
   }
 });
 
+/* ************************ */
+/* Funcion para preparar el texto de la tabla
+/* ************************ */
 function prepareTextRegistros(res) {
   let text = '';
   for (let i = 0; i < res.length; i++) {
@@ -91,7 +112,17 @@ function prepareTextRegistros(res) {
     //Texto a insertar
     text += `<tr>
     <td class="cedula" ${data}>${userData.log_cedula}</td>
-    <td>${userData.log_accion}</td>
+    <td>${userData.log_accion}</td>`;
+
+    //Botones
+    text += `<td>
+    <button data-button="search" data-cedula='${userData.log_cedula}'>Buscar</button>`
+    
+    //Verificar boton desbloquear
+    if (userData.log_bans) {
+      text += `<button data-button="desblock" data-cedula='${userData.log_cedula}'>Desbloquear</button>`;
+    }
+    text += `</td>
     </tr>`;
   }
 
@@ -99,6 +130,9 @@ function prepareTextRegistros(res) {
   return text;
 }
 
+/* ************************ */
+/* Funcion para preparar el texto del popad
+/* ************************ */
 function prepareTextRegistrosPopad(dataHTML) {
   let text = `Cedula: ${dataHTML.cedula}.</br>
   Usuario: ${dataHTML.user}.</br>
@@ -116,6 +150,5 @@ function prepareTextRegistrosPopad(dataHTML) {
     text += `</br>Errores Actuales: ${dataHTML.attemps}.</br>
     Bloqueos: ${dataHTML.locks}.`
   }
-
   return text;
 }

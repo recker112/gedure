@@ -5,11 +5,7 @@
 	box-sizing: boxer-box
 
 body
-	background: url(../../img/fondo.jpg) no-repeat center center fixed
-	-webkit-background-size: cover
-	-moz-background-size: cover
-	-o-background-size: cover
-	background-size: cover
+	background: #EAEAEA
 	font-family: sourcesans, Arial, Helvetica, Sans-serif
 	height: 100vh
 	/*-- Flex --*/
@@ -24,10 +20,17 @@ a
 		text-decoration: none
 
 /*-- Cajas --*/
-header
-	background: #295b85
-
 main
-	+border_radius(20px)
+	+border_radius(40px)
 	background: $white
-	border: 8px solid #3074ab
+	border: 3px solid #707070
+
+/*-------------------------------------------------*/
+/* Cajas */
+/*-------------------------------------------------*/
+main
+	width: 400px
+	max-width: 400px
+	max-height: 350px
+	flex: auto
+	margin: 40px auto

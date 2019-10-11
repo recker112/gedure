@@ -19,28 +19,30 @@
       }
       ?>
 			<!-- Opciones -->
-			<span class="c-caja" id="c-titulo-opciones"><span class="icon-key"></span>Cambiar contraseña</span>
-			<div class="c-caja" id="c-contenido-opciones">
-				<form action="" id="form_opciones" method="POST" autocomplete="off">
-					<div id="pass-actual">
-						<span>Contraseña actual</span>
-						<input type="password" id="pass_actual" name="pass_actual" placeholder="Contraseña actual" />
-					</div>
-					<div id="pass-new">
-						<div class="pass-new-text">
-							<span>Nueva contraseña</span>
-							<input type="password" id="pass_new" name="pass_new" placeholder="Nueva contraseña" />
+			<div class="c-caja" id="c-contenido-opciones" style="display: none">
+				<div class="box">
+					<span class="title">Opciones</span>
+					<form action="#" id="form_opciones" method="POST" autocomplete="off">
+						<div class="op-div1">
+							<span>Contraseña actual</span>
+							<input class="inputText" type="password" id="pass_actual" name="pass_actual" placeholder="Contraseña actual" />
 						</div>
-						<div class="pass-new-inputs">
-							<span>Repetir contraseña</span>
-							<input type="password" id="pass_new_repit" name="pass_new_repit" placeholder="Repetir contraseña" />
+						<div class="op-div2">
+							<div class="pass-new-text">
+								<span>Nueva contraseña</span>
+								<input class="inputText" type="password" id="pass_new" name="pass_new" placeholder="Nueva contraseña" />
+							</div>
+							<div class="pass-new-inputs">
+								<span>Repetir contraseña</span>
+								<input class="inputText" type="password" id="pass_new_repit" name="pass_new_repit" placeholder="Repetir contraseña" />
+							</div>
 						</div>
+						<div class="op-div3">
+							<button id="op_boton">Cambiar</button>
+							<img id="op_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
-					<div id="o-submit">
-						<button id="op_boton">Cambiar</button>
-						<img id="op_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
   </main>

@@ -1,0 +1,50 @@
+article
+	width: 70%
+	margin: 10px
+	animation: showArticle 1s both
+	section
+		+border-radius(20px)
+		background: #FDFDFD
+		border: 3px solid #909090
+		margin-bottom: 20px
+		.content
+			display: flex
+			color: #363636
+			.avatar
+				display: flex
+				flex-direction: column
+				align-items: center
+				margin: 20px
+				img
+					+border-radius(100px)
+				.nombre
+					font-family: sourcesans-semibolditalic
+					text-align: center
+			.contenido
+				flex: 1
+				margin: 20px
+				text-align: justify
+				&::first-line
+					font-size: 25px
+		footer
+			padding: 10px
+			border-top: 3px solid #808080
+			display: flex
+			justify-content: space-around
+			align-items: center
+			flex-wrap: wrap
+			img, span
+				cursor: pointer
+			.more
+				background: #808080
+				padding: 30px
+			.noShowImg
+				display: none
+
+@keyframes showArticle
+	0%
+		transform: translate(-200px)
+		opacity: 0
+	100%
+		transform: translate(0px)
+		opacity: 1

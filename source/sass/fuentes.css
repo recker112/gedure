@@ -14,6 +14,9 @@
 	font-family:sourcesans-italic; 
 	src: url('fonts/sourcesans/SourceSansPro-Italic.ttf'); 
 } @font-face {
-	font-family:sourcesans-bolditalic; 
+	font-family:sourcesans-semibolditalic; 
 	src: url('fonts/sourcesans/SourceSansPro-SemiBoldItalic.ttf'); 
+}@font-face {
+	font-family:sourcesans-bolditalic; 
+	src: url('fonts/sourcesans/SourceSansPro-BoldItalic.ttf'); 
 }

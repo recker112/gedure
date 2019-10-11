@@ -1,13 +1,13 @@
 <!-- Matricula -->
-<span class="c-caja" id="c-titulo-matricula" class="c-titulo"><span class="icon-file-pdf"></span>Subir/Cargar matricula</span>
-<div class="c-caja" id="c-contenido-matricula" class="c-contenido">
-  <form method="POST" id="form_matricula" enctype="multipart/form-data">
-    <div id="m-archivo">
+<div class="c-caja" id="c-contenido-matricula" class="c-contenido" style="display: none">
+  <div class="box">
+    <span class="title">Matricula</span>
+    <form action="#" method="POST" id="form_matricula" enctype="multipart/form-data">
+    <div class="ma-div1">
       <input type="file" id="matri_archivo" name="archivo" />
-      <br>
       <span>(Máximo: 10KB)</span>
     </div>
-    <div id="m-curso">
+    <div class="ma-div2">
       <select class="grado" name="curso" id="matri_curso">
           <option value="" selected="selected">Grado/Año</option>
           <option value="1G">1 grado</option>
@@ -31,10 +31,11 @@
           <option value="U">U</option>
       </select>
     </div>
-    <div id="m-cargar">	
+    <div class="ma-div3">	
       <button id="matri_boton">Subir archivo</button>
       <img id="matri_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
       <p></p>
     </div>
-  </form>
+    </form>
+  </div>
 </div>
