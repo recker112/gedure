@@ -1,33 +1,6 @@
 //Importar Jquery
 import $ from 'jquery';
 /*
-Botones del panel
-*/
-const btnTitlePanel = document.querySelectorAll(".titulo-panel");
-btnTitlePanel.forEach((element) => {
-  element.addEventListener('click', () => {
-    const selector = element.dataset.selector;
-    let open = element.dataset.open;
-    $(`#panel-content${selector}`).toggle(400);
-    if (open == '>') {
-      $(element).animate({
-				opacity: 1
-      }, 200);
-      element.querySelector('span').classList.add('icon-chevron-left');
-      element.querySelector('span').classList.remove('icon-chevron-right');
-      element.dataset.open = '<';
-    }else {
-      $(element).animate({
-				opacity: 0.7
-      }, 200);
-      element.querySelector('span').classList.remove('icon-chevron-left');
-      element.querySelector('span').classList.add('icon-chevron-right');
-      element.dataset.open = '>';
-    }
-  });
-});
-
-/*
 Ocultar panel
 */
 let contadorP = 0;
@@ -38,7 +11,7 @@ panelButton.addEventListener('click', () => {
       left: "-252px"
     }, 400, () => contadorP=1);
     $("#contenido").animate({
-      marginLeft: "18px"
+      marginLeft: "0px"
     }, 400);
   }else {
     $("#panel").animate({
@@ -46,7 +19,7 @@ panelButton.addEventListener('click', () => {
     }, 400, () => contadorP=0);
     if ($(window).width() > 720) {
       $("#contenido").animate({
-        marginLeft: "272px"
+        marginLeft: "248px"
       }, 400);
     }
   }
@@ -72,7 +45,7 @@ itemPanel.forEach(element => {
       $(element).hide();
     });
     //Mostrar caja actual
-    $("#contenido").find("span#c-titulo-"+archivo+", div#c-contenido-"+archivo).fadeIn(300);
+    $("#contenido").find("div#c-contenido-"+archivo).fadeIn(300);
     //Fix en mobil
     if ($(window).width() <= 720) {
 			$(panelButton).click();

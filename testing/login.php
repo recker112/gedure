@@ -8,12 +8,10 @@ if ($verify_cs){
 	<body>
 		<!-- Menu -->
 		<header>
-			<div class="caja-menu">
-				<!-- Logo -->
-				<img class="logo" src="assets/img/logo.png" alt="Logo" width="120" height="38" />
-				<!-- Menu -->
-				<p>Login</p>
-			</div>
+			<nav>
+				<a href="news.php">Noticias UEP APEP</a>
+				<a href="#">Entrar al SGI</a>
+			</nav>
 		</header>
 		<main>
 			<form id="form_login" action="#" method="POST">

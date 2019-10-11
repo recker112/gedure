@@ -1,18 +1,21 @@
 <!-- Registros -->
-<span class="c-caja" id="c-titulo-registros"><span class="icon-terminal"></span>Registros</span>
-<div class="c-caja" id="c-contenido-registros">
-  <div id="console">
-    <div class="contenedor">
+<div class="c-caja" id="c-contenido-registros" style="display: none">
+  <div class="box">
+    <span class="title">Registros</span>
+    <div id="tregistros">
       <table>
         <thead>
           <tr>
-            <td>Cedula</td>
+            <td>Cédula</td>
             <td>Acción</td>
+            <td>Opciones</td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            
+            <td>Cargando...</td>
+            <td>Cargando...</td>
+            <td>Cargando...</td>
           </tr>
         </tbody>
       </table>

@@ -14,8 +14,11 @@
 	font-family:sourcesans-italic; 
 	src: url(fonts/sourcesans/SourceSansPro-Italic.ttf); 
 } @font-face {
-	font-family:sourcesans-bolditalic; 
+	font-family:sourcesans-semibolditalic; 
 	src: url(fonts/sourcesans/SourceSansPro-SemiBoldItalic.ttf); 
+}@font-face {
+	font-family:sourcesans-bolditalic; 
+	src: url(fonts/sourcesans/SourceSansPro-BoldItalic.ttf); 
 }
 @font-face {
   font-family: 'icomoon';
@@ -310,7 +313,7 @@ header nav {
   justify-content: flex-end; }
   header nav a {
     font-size: 18px;
-    font-family: sourcesans-bold;
+    font-family: sourcesans-bolditalic;
     color: #d8d8d8;
     transition: 0.5s;
     margin: 0px 10px;
@@ -327,7 +330,7 @@ main {
   main h1 {
     text-align: center;
     font-size: 24px;
-    font-family: sourcesans-bolditalic;
+    font-family: sourcesans-semibolditalic;
     color: #FFFFFF; }
     main h1::first-line {
       font-size: 36px; }

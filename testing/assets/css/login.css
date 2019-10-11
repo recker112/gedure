@@ -14,8 +14,11 @@
 	font-family:sourcesans-italic; 
 	src: url(fonts/sourcesans/SourceSansPro-Italic.ttf); 
 } @font-face {
-	font-family:sourcesans-bolditalic; 
+	font-family:sourcesans-semibolditalic; 
 	src: url(fonts/sourcesans/SourceSansPro-SemiBoldItalic.ttf); 
+}@font-face {
+	font-family:sourcesans-bolditalic; 
+	src: url(fonts/sourcesans/SourceSansPro-BoldItalic.ttf); 
 }
 @font-face {
   font-family: 'icomoon';
@@ -282,11 +285,7 @@ ol { margin-left:2em; }
   box-sizing: boxer-box; }
 
 body {
-  background: url(../img/fondo.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background: #EAEAEA;
   font-family: sourcesans, Arial, Helvetica, Sans-serif;
   height: 100vh;
   /*-- Flex --*/
@@ -301,130 +300,110 @@ a {
     text-decoration: none; }
 
 /*-- Cajas --*/
-header {
-  background: #295b85; }
-
 main {
-  -moz-border-radius: 20px;
-  -wedkit-border-radius: 20px;
-  -ms-border-radius: 20px;
-  border-radius: 20px;
+  -moz-border-radius: 40px;
+  -wedkit-border-radius: 40px;
+  -ms-border-radius: 40px;
+  border-radius: 40px;
   background: #FFFFFF;
-  border: 8px solid #3074ab; }
+  border: 3px solid #707070; }
 
-header {
-  box-shadow: 0.1em 0.1em 0.4em #143b5c; }
-  header div.caja-menu {
-    width: 94%;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-    header div.caja-menu img.logo {
-      background: #d7dfe4;
-      -moz-border-radius: 0px 15px 15px;
-      -wedkit-border-radius: 0px 15px 15px;
-      -ms-border-radius: 0px 15px 15px;
-      border-radius: 0px 15px 15px;
-      padding: 3px; }
-    header div.caja-menu p {
-      font-family: sourcesans-bold;
-      font-size: 22px;
-      background: rgba(0, 0, 0, 0.2);
-      color: #FFFFFF;
-      padding: 8px 16px;
-      margin: 5px 0px;
-      -moz-border-radius: 10px;
-      -wedkit-border-radius: 10px;
-      -ms-border-radius: 10px;
-      border-radius: 10px; }
-
+/*-------------------------------------------------*/
+/* Cajas */
+/*-------------------------------------------------*/
 main {
   width: 400px;
   max-width: 400px;
   max-height: 350px;
   flex: auto;
   margin: 40px auto; }
-  main form {
+
+header {
+  height: 54px;
+  background: #404040; }
+  header nav {
     height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-family: sourcesans-light;
-    align-items: center; }
-    main form div#loginText {
-      font-size: 40px;
-      margin-top: 10px;
-      flex: auto; }
-    main form div#login-user {
-      flex: auto; }
-      main form div#login-user input {
-        margin-bottom: 15px;
-        text-align: center;
-        font-size: 18px;
-        min-width: 0px;
-        width: 300px;
-        max-width: 300px;
-        height: 40px;
-        background: #e7e7e7;
-        border: solid 2px #4d4b4b;
-        -moz-border-radius: 5px;
-        -wedkit-border-radius: 5px;
-        -ms-border-radius: 5px;
-        border-radius: 5px;
-        transition: 1s; }
-        main form div#login-user input:focus {
-          border: solid 2px #4d4c4c;
-          background: #fbfafa;
-          box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
-          transition: 1s; }
-    main form div#login-password {
-      flex: auto; }
-      main form div#login-password input {
-        text-align: center;
-        font-size: 18px;
-        min-width: 0px;
-        width: 300px;
-        max-width: 300px;
-        height: 40px;
-        background: #e7e7e7;
-        border: solid 2px #4d4b4b;
-        -moz-border-radius: 5px;
-        -wedkit-border-radius: 5px;
-        -ms-border-radius: 5px;
-        border-radius: 5px;
-        transition: 1s; }
-        main form div#login-password input:focus {
-          border: solid 2px #4d4c4c;
-          background: #fbfafa;
-          box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.5);
-          transition: 1s; }
-    main form div#login-remember {
-      flex: auto; }
-    main form div#login-submit {
-      flex: auto; }
-      main form div#login-submit button {
-        background: #c2c2c2;
-        border: none;
-        padding: 5px 40px;
-        font-size: 25px;
-        cursor: pointer;
-        -moz-border-radius: 15px;
-        -wedkit-border-radius: 15px;
-        -ms-border-radius: 15px;
-        border-radius: 15px;
-        transition: 1s; }
-        main form div#login-submit button:hover {
-          transform: scale(1.1); }
-        main form div#login-submit button:active {
-          transform: scale(0.9);
-          transition: 0s; }
-        main form div#login-submit button:disabled {
-          opacity: 0.5; }
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 50px; }
+    header nav a {
+      font-size: 18px;
+      font-family: sourcesans-bolditalic;
+      color: #d8d8d8;
+      transition: 0.5s;
+      border-bottom: 1px solid #d8d8d8;
+      margin: 0px 10px; }
+      header nav a:hover {
+        color: #FFFFFF; }
+
+form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; }
+  form div#loginText {
+    font-size: 36px;
+    font-family: sourcesans-italic;
+    margin-top: 10px;
+    color: #404040;
+    flex: auto; }
+  form div#login-user input, form div#login-password input {
+    text-align: center;
+    font-size: 24px;
+    min-width: 0px;
+    width: 300px;
+    max-width: 300px;
+    height: 40px;
+    background: #F9F9F9;
+    border: 3px solid #909090;
+    color: #1F1F1F;
+    transition: 0.5s;
+    -moz-border-radius: 5px;
+    -wedkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px; }
+    form div#login-user input:focus, form div#login-password input:focus {
+      color: #1F1F1F;
+      border-color: #505050; }
+  form div#login-user {
+    flex: auto; }
+    form div#login-user input {
+      margin-bottom: 15px; }
+  form div#login-password {
+    flex: auto; }
+  form div#login-remember {
+    flex: auto;
+    font-size: 18px;
+    color: #505050; }
+  form div#login-submit {
+    flex: auto; }
+    form div#login-submit button {
+      background: #DCDCDC;
+      border-style: none;
+      border: 2px solid #808080;
+      padding: 5px 40px;
+      font-size: 25px;
+      font-family: sourcesans-semibolditalic;
+      color: #505050;
+      cursor: pointer;
+      -moz-border-radius: 5px;
+      -wedkit-border-radius: 5px;
+      -ms-border-radius: 5px;
+      border-radius: 5px;
+      transition: 0.5s; }
+      form div#login-submit button:hover {
+        transform: scale(1.1); }
+      form div#login-submit button:active {
+        transform: scale(0.9);
+        transition: 0s; }
+      form div#login-submit button:disabled {
+        opacity: 0.5; }
 
 footer div.footer1 {
   text-align: center;
-  background: #39444e;
+  background: #414141;
   font-size: 11px; }
   footer div.footer1 a {
     color: #FFFFFF;
@@ -434,7 +413,7 @@ footer div.footer1 {
 
 footer div.footer2 {
   text-align: center;
-  background: #2e3941;
+  background: #303030;
   font-size: 10px; }
   footer div.footer2 a {
     color: #FFFFFF;
