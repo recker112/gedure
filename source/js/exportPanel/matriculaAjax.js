@@ -10,16 +10,16 @@ import {alerts} from './../exports/alerts';
 //VerifyVar
 import {verifyVar} from './../exports/funciones/verifyVar';
 
-const btnMatricula = document.getElementById('matri_boton');
-const loadingMatricula = document.getElementById('matri_loading');
+const btnMatricula = document.getElementById('ma-ok');
+const loadingMatricula = document.getElementById('ma-loading');
 btnMatricula.addEventListener('click', async e => {
   e.preventDefault();
   //Form
-  const form = document.getElementById('form_matricula');
+  const form = document.getElementById('ma-form');
   //Variables
-  let file = document.getElementById('matri_archivo').value;
-  let curso = document.getElementById('matri_curso').value;
-  let seccion = document.getElementById('matri_seccion').value;
+  let file = document.getElementById('ma-file').value;
+  let curso = document.getElementById('ma-grado').value;
+  let seccion = document.getElementById('ma-seccion').value;
 
   if (verifyVar(file, curso, seccion)) {
     //Animación
