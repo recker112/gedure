@@ -23,7 +23,7 @@
           <option value="5">5 año</option>
           <option value="6">6 año</option>
         </select>
-        <select class="seccion" name="seccion" id="ma-grado">
+        <select class="seccion" name="seccion" id="ma-seccion">
           <option value="" selected="selected">Sección</option>
           <option value="A">A</option>
           <option value="B">B</option>
