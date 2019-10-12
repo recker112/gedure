@@ -17,10 +17,10 @@ Funciones de los botones del panel
 */
 import './exportPanel/panelButton';
 
-// /*
-// Funciones de los botones del panel
-// */
-// import './exportPanel/contentButton';
+/*
+Funciones de los botones del panel
+*/
+import './exportPanel/contentButton';
 
 /*
 Ajax buscador
@@ -32,20 +32,20 @@ Ajax registros
 */
 import './exportPanel/registrosAjax';
 
-// /*
-// Ajax modificar
-// */
-// import './exportPanel/modificarAjax';
+/*
+Ajax modificar
+*/
+import './exportPanel/modificarAjax';
 
-// /*
-// Ajax modificar prof
-// */
-// import './exportPanel/modificarProfAjax';
+/*
+Ajax modificar prof
+*/
+import './exportPanel/modificarProfAjax';
 
-// /*
-// Ajax matricula
-// */
-// import './exportPanel/matriculaAjax';
+/*
+Ajax matricula
+*/
+import './exportPanel/matriculaAjax';
 
 // /*
 // Ajax boletas
