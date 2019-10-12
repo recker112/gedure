@@ -11,19 +11,19 @@ import {alerts} from './../exports/alerts';
 import {verifyVar} from './../exports/funciones/verifyVar';
 
 //Button del form
-const btnModify = document.getElementById('m_button_user');
-const loadingModify = document.getElementById('m_loading_user');
+const btnModify = document.getElementById('m-okU');
+const loadingModify = document.getElementById('m-loadingU');
 btnModify.addEventListener('click', async e => {
   e.preventDefault();
   //Form
-  const form = document.getElementById('form_modificar_user');
+  const form = document.getElementById('m-formU');
 
   //Variables
-  const cedula = document.getElementById('m_cedula_user').value;
-  const pass = document.getElementById('m_pass_user').value;
-  const name = document.getElementById('m_name_user').value;
-  const grado = document.getElementById('m_grado_user').value;
-  const seccion = document.getElementById('m_seccion_user').value;
+  const cedula = document.getElementById('m-CedulaU').value;
+  const pass = document.getElementById('m-PassU').value;
+  const name = document.getElementById('m-NombreU').value;
+  const grado = document.getElementById('m-gradoU').value;
+  const seccion = document.getElementById('m-seccionU').value;
   //Verificar variables vacias
   if (verifyVar(cedula, pass, name, grado, seccion)) {
     //Animación

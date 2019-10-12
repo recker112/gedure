@@ -475,6 +475,7 @@ div#contenido {
     animation: showbox 1s;
     display: flex; }
     div#contenido .window span {
+      cursor: pointer;
       padding: 10px;
       border: 1px solid #CBCBCB;
       background: #F1F1F1; }
@@ -766,61 +767,83 @@ div#contenido {
         color: #0074D9;
         cursor: pointer; }
 
-#form_modificar_user {
+#m-formU {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap; }
-  #form_modificar_user .m-div1 {
+  #m-formU .m-div1 {
     margin-top: 20px;
     display: flex; }
-    #form_modificar_user .m-div1 span {
+    #m-formU .m-div1 span {
       cursor: pointer;
       font-size: 18px;
       border: 1px solid #CBCBCB;
       padding: 10px;
       background: #DCDCDC; }
-    #form_modificar_user .m-div1 .active {
+    #m-formU .m-div1 .active {
       background: #59ADFF; }
-  #form_modificar_user .m-div2 {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; }
-    #form_modificar_user .m-div2 input {
+  #m-formU .m-div2 {
+    margin-top: 20px; }
+    #m-formU .m-div2 input {
       margin: 5px; }
-  #form_modificar_user .m-div3 {
+  #m-formU .m-div3 {
     margin-top: 20px;
     display: flex; }
-    #form_modificar_user .m-div3 span {
+    #m-formU .m-div3 span {
       cursor: pointer;
       font-size: 18px;
       border: 1px solid #CBCBCB;
       padding: 10px;
       background: #DCDCDC; }
-    #form_modificar_user .m-div3 .active {
+    #m-formU .m-div3 .active {
       background: #59ADFF; }
-  #form_modificar_user .m-div4 {
+  #m-formU .m-div4 {
     margin-top: 20px;
     display: flex;
-    justify-content: center; }
-  #form_modificar_user .m-div5 {
+    justify-content: center;
+    flex-wrap: wrap; }
+  #m-formU .m-div5 {
     display: flex;
     justify-content: center;
     margin-top: 30px;
     margin-bottom: 10px; }
 
-#form_matricula {
+#m-formP {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap; }
-  #form_matricula .ma-div1 {
+  #m-formP .m-div1 {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; }
+  #m-formP .m-div2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    justify-content: center; }
+  #m-formP .m-div3 {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 10px; }
+
+#ma-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; }
+  #ma-form .ma-div1 {
     display: flex;
     margin-top: 20px;
     flex-direction: column;
     align-items: center; }
-  #form_matricula .ma-div2 {
+  #ma-form .ma-div2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     margin-top: 20px; }
-  #form_matricula .ma-div3 {
+    #ma-form .ma-div2 select {
+      width: 400px; }
+  #ma-form .ma-div3 {
     margin-top: 30px;
     margin-bottom: 10px; }
 
