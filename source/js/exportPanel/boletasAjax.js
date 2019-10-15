@@ -11,19 +11,19 @@ import {verifyVar} from './../exports/funciones/verifyVar';
 /*
 Funciones boletas
 */
-const btnBoletas = document.getElementById('b_boton');
-const loadingBoneltas = document.getElementById('b_loading');
-const statusBoletas = document.getElementById('b_status');
+const btnBoletas = document.getElementById('b-ok');
+const loadingBoneltas = document.getElementById('b-loading');
+const statusBoletas = document.getElementById('b-status');
 btnBoletas.addEventListener('click', async e => {
   e.preventDefault();
 
   //Fomr
-  const filesBoletas = document.getElementById('b_archivo');
+  const filesBoletas = document.getElementById('b-file');
 
   //Variables
-  let file = document.getElementById('b_archivo').value;
-  let curso = document.getElementById('b_grado').value;
-  let seccion = document.getElementById('b_seccion').value;
+  let file = document.getElementById('b-file').value;
+  let curso = document.getElementById('b-grado').value;
+  let seccion = document.getElementById('b-seccion').value;
 
   //Verificar que las variables no estén vacias
   if (verifyVar(file, curso, seccion)) {

@@ -33,7 +33,7 @@ function moveBoletas($cedula, $estudi_id, $old_estudi){
 
     //Verificar si existe boleta cargada
     if (!file_exists($origen)) {
-      throw new Exception(false);
+      throw new Exception('no_origen');
     }
 
     //Verificar si existe la carpeta destino
@@ -47,10 +47,10 @@ function moveBoletas($cedula, $estudi_id, $old_estudi){
     //Mover archivo
     $destino = $destino.$cedula.".pdf";
     if (!@rename($origen, $destino)) {
-      throw new Exception(false);
+      throw new Exception('no_destino');
     }
 
-    return true;
+    return 'ok';
   } catch (\Throwable $e) {
     return $e->getMessage();
   }

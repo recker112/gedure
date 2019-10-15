@@ -36,6 +36,7 @@ btnModify.addEventListener('click', async e => {
       let message;
       let color;
       if (res.status !== 'error') {
+        console.log(res);
         //Mensajes OK
         if (res.message === 'insert_ok') {
           message = "Usuario insertado!";
@@ -47,7 +48,7 @@ btnModify.addEventListener('click', async e => {
           message = "Usuario eliminado!";
           color = 'success';
         }else {
-          let sub = res.message.substring(7,9);//Obtener datos de actualizados
+          let sub = res.message.substring(8,9);//Obtener datos de actualizados
           message = `Usuario actualizado!`;
           color = 'success';
         }
