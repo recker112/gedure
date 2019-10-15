@@ -4,23 +4,26 @@ import $ from 'jquery';
 import {alerts} from './../exports/alerts';
 //Ajax
 import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
+//VerifyVar
+import {verifyVar} from './../exports/funciones/verifyVar';
+
 /*
 Funciones de borrar
 */
-const btnBorrar = document.getElementById('borr_boton');
-const loadingBorrar = document.getElementById('borr_loading');
+const btnBorrar = document.getElementById('bo-ok');
+const loadingBorrar = document.getElementById('bo-loading');
 btnBorrar.addEventListener('click', async e => {
   e.preventDefault();
 
   //Form
-  const form = document.getElementById('form_borrar');
+  const form = document.getElementById('bo-form');
 
   //Variables
-  const select = document.getElementById('borr_selec').value;
-  const curso = document.getElementById('borr_curso').value;
-  const seccion = document.getElementById('borr_seccion').value;
+  const select = document.getElementById('bo-inputUser').value;
+  const curso = document.getElementById('bo-curso').value;
+  const seccion = document.getElementById('bo-seccion').value;
 
-  if (select !== '' && curso !== '' && seccion !== '') {
+  if (verifyVar(select, curso, seccion)) {
     //Animación
     loadingAnimation($, btnBorrar, loadingBorrar);
 

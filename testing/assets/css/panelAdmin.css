@@ -893,15 +893,26 @@ div#contenido {
     margin-top: 30px;
     margin-bottom: 10px; }
 
-#form_borrar {
+#bo-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap; }
-  #form_borrar .bo-div1 {
+  #bo-form .bo-div1 {
+    display: flex;
+    justify-content: center;
     margin-top: 20px; }
-  #form_borrar .bo-div2 {
+    #bo-form .bo-div1 span {
+      cursor: pointer;
+      font-size: 18px;
+      border: 1px solid #CBCBCB;
+      padding: 10px;
+      background: #DCDCDC;
+      transition: 0.5s; }
+    #bo-form .bo-div1 .active {
+      background: #59ADFF; }
+  #bo-form .bo-div2 {
     margin-top: 20px; }
-  #form_borrar .bo-div3 {
+  #bo-form .bo-div3 {
     margin-top: 30px;
     margin-bottom: 10px; }
 
