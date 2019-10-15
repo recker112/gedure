@@ -165,6 +165,27 @@ selectConfigOptionInput.addEventListener('change', () => {
   }
 });
 
+/* ************************ */
+/* Funcion para el selector de "Borrar".
+/* ************************ */
+const selectBorrarOption = document.querySelectorAll("#bo-selectOption span");
+selectBorrarOption.forEach(element => {
+  element.addEventListener('click', () => {
+    const value = element.dataset.select;
+    const input = document.querySelector("#bo-selectOption input");
+
+    input.value = value;
+
+    //Disparar evento change
+    const event = new Event('change');
+    input.dispatchEvent(event);
+
+    //Efecto activo/desactivo
+    selectBorrarOption.forEach(element => $(element).removeClass("active"));
+    $(element).toggleClass("active");
+  });
+});
+
 // /*
 // Funcion select configuracion
 // */

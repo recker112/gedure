@@ -1,6 +1,3 @@
-/*
-Funciones de modificar
-*/
 //Importar jquery
 import $ from 'jquery';
 //Ajax
@@ -9,6 +6,9 @@ import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
 import {alerts} from './../exports/alerts';
 //VerifyVar
 import {verifyVar} from './../exports/funciones/verifyVar';
+/*
+Funciones de modificar
+*/
 
 //Button del form
 const btnModify = document.getElementById('m-okU');

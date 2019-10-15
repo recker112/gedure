@@ -57,10 +57,10 @@ Ajax configuración
 */
 import './exportPanel/configuracionAjax';
 
-// /*
-// Ajax borrar
-// */
-// import './exportPanel/borrarAjax';
+/*
+Ajax borrar
+*/
+import './exportPanel/borrarAjax';
 
 // /*
 // Ajax cambiar contraeña

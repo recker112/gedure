@@ -7,6 +7,8 @@ import $ from 'jquery';
 import {alerts} from './../exports/alerts';
 //Ajax
 import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
+//VerifyVar
+import {verifyVar} from './../exports/funciones/verifyVar';
 
 const btnProfM = document.getElementById('m-okP');
 const loadingProfM = document.getElementById('m-loadingP');
@@ -22,7 +24,7 @@ btnProfM.addEventListener('click', async e => {
   const seccion = document.getElementById('m-seccionP').value;
 
   //Verificar variables vacias
-  if (nombre != "" && curso != "" && seccion != "") {
+  if (verifyVar(nombre,curso,seccion)) {
     //Animación
     loadingAnimation($, btnProfM, loadingProfM);
     //Data
