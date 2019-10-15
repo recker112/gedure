@@ -779,7 +779,8 @@ div#contenido {
       font-size: 18px;
       border: 1px solid #CBCBCB;
       padding: 10px;
-      background: #DCDCDC; }
+      background: #DCDCDC;
+      transition: 0.5s; }
     #m-formU .m-div1 .active {
       background: #59ADFF; }
   #m-formU .m-div2 {
@@ -794,7 +795,8 @@ div#contenido {
       font-size: 18px;
       border: 1px solid #CBCBCB;
       padding: 10px;
-      background: #DCDCDC; }
+      background: #DCDCDC;
+      transition: 0.5s; }
     #m-formU .m-div3 .active {
       background: #59ADFF; }
   #m-formU .m-div4 {
@@ -862,19 +864,32 @@ div#contenido {
     margin-top: 30px;
     margin-bottom: 10px; }
 
-#form_configuracion {
+#c-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap; }
-  #form_configuracion .c-div1 {
+  #c-form .c-div1 {
+    display: flex;
+    justify-content: center;
     margin-top: 20px; }
-  #form_configuracion .c-div2 {
+    #c-form .c-div1 span {
+      cursor: pointer;
+      font-size: 18px;
+      border: 1px solid #CBCBCB;
+      padding: 10px;
+      background: #DCDCDC;
+      transition: 0.5s; }
+    #c-form .c-div1 .active {
+      background: #59ADFF; }
+  #c-form .c-div2 {
     margin-top: 20px; }
-  #form_configuracion .c-div3 {
+  #c-form .c-div3 {
     margin-top: 20px; }
-  #form_configuracion .c-div4 {
+  #c-form .c-div4 {
     margin-top: 20px; }
-  #form_configuracion .c-div5 {
+  #c-form .c-div5 {
+    margin-top: 20px; }
+  #c-form .c-div6 {
     margin-top: 30px;
     margin-bottom: 10px; }
 

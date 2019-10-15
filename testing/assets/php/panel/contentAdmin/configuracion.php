@@ -2,12 +2,11 @@
 <div class="c-caja" id="c-contenido-configuracion" style="display: none">
   <div class="box">
     <span class="title">Configuracion de cuentas</span>
-    <form action="#" id="form_configuracion" method="POST" autocomplete="off">
-      <div class="c-div1">
-        <select id="conf_selector">
-          <option selected="selected" value="estu">Estudiante</option>
-          <option value="sec">Seccion</option>
-        </select>
+    <form action="#" id="c-form" method="POST" autocomplete="off">
+      <div id="c-selectOption" class="c-div1">
+        <span data-select="estu" class="active">Estudiante</span>
+        <span data-select="sec">Sección</span>
+        <input type="hidden" name="option" value="estu" />
       </div>
       <div class="c-div2">
         <span>Notas</span>
@@ -27,8 +26,10 @@
         </div>
       </div>
       <div class="c-div4">
-        <input class="inputText" type="text" id="n_user" name="cedula" placeholder="Cedula" />
-        <select class="grado" name="grado" id="n_grado" style="display: none">
+        <input class="inputText" type="text" id="c-user" name="cedula" placeholder="Cédula" />
+      </div>
+      <div id="c-secGra" class="c-div5" style="display: none">
+        <select class="grado" name="grado" id="c-grado">
           <option value="">Grado/Año</option>
           <option value="1G">1 grado</option>
           <option value="2G">2 grado</option>
@@ -43,18 +44,17 @@
           <option value="5">5 año</option>
           <option value="6">6 año</option>
         </select>
-        <select class="seccion" name="seccion" id="n_seccion" style="display: none">
+        <select class="seccion" name="seccion" id="c-seccion">
           <option value="">Sección</option>
           <option value="A" selected="selected">A</option>
           <option value="B">B</option>
           <option value="C">C</option>
           <option value="U">U</option>
         </select>
-        <input type="hidden" name="option" value="estu" id="n_hidden">
       </div>
-      <div class="c-div5">
-        <button id="n_boton">Realizar cambios</button>
-        <img id="n_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
+      <div class="c-div6">
+        <button id="c-ok">Realizar cambios</button>
+        <img id="c-loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
       </div>
     </form>
   </div>

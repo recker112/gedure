@@ -52,10 +52,10 @@ Ajax boletas
 */
 import './exportPanel/boletasAjax';
 
-// /*
-// Ajax configuración
-// */
-// import './exportPanel/configuracionAjax';
+/*
+Ajax configuración
+*/
+import './exportPanel/configuracionAjax';
 
 // /*
 // Ajax borrar

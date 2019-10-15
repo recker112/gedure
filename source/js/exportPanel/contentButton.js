@@ -94,7 +94,6 @@ selectorModifyOptions.forEach(element => {
 const selectorModifyOptionsInput = document.getElementById('m-selectOptionsU');
 selectorModifyOptionsInput.addEventListener('change', () => {
   const value = selectorModifyOptionsInput.value;
-  const privilegio = selectorModifyInput.value;
 
   //Obtener selects
   const pass = document.getElementById('m-PassU');
@@ -116,6 +115,53 @@ selectorModifyOptionsInput.addEventListener('change', () => {
     pass.value = 'none';
     $(name).fadeOut(200);
     $(pass).fadeOut(200);
+  }
+});
+
+/* ************************ */
+/* Funcion del selector estudiante/seccion de "configuración"
+/* ************************ */
+const selectConfigOption = document.querySelectorAll("#c-selectOption span");
+selectConfigOption.forEach(element => {
+  element.addEventListener('click', () => {
+    const value = element.dataset.select;
+    const input = document.querySelector("#c-selectOption input");
+    
+    input.value = value;
+
+    //Disparar evento change
+    const event = new Event('change');
+    input.dispatchEvent(event);
+
+    //Efecto activo/desactivo
+    selectConfigOption.forEach(element => $(element).removeClass("active"));
+    $(element).toggleClass("active");
+  });
+});
+
+/* ************************ */
+/* Funcion del evento change en el input hidden de "configuración"
+/* ************************ */
+const selectConfigOptionInput = document.querySelector("#c-selectOption input");
+selectConfigOptionInput.addEventListener('change', () => {
+  const value = selectConfigOptionInput.value;//Value
+  const user = document.getElementById('c-user');//Input user
+  const secGra = document.getElementById('c-secGra');//Input sección/grado
+  const sec = document.getElementById('c-seccion');
+  const grado = document.getElementById('c-grado');
+
+  if (value === 'sec') {
+    user.style.display = 'none';
+    $(secGra).fadeIn(200);
+    user.value = 'none';
+    sec.value = '';
+    grado.value = '';
+  }else {
+    secGra.style.display = 'none';
+    $(user).fadeIn(200);
+    user.value = '';
+    sec.value = 'A';
+    grado.value = '1';
   }
 });
 
