@@ -74,7 +74,7 @@ try {
 
 	//Mostrar cantidad total de estudiantes actualizados
 	if (substr($modify, 0, 2) === 'ok' && $modify !== 'ok') {
-		$optionFix = "update".substr($modify, 2);
+		$optionFix = "update_".substr($modify, 4,8);
 	}
 
 	add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], "$optionMessage ".$privilegio.$cedula.".");

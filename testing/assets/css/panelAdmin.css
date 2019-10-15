@@ -847,18 +847,18 @@ div#contenido {
     margin-top: 30px;
     margin-bottom: 10px; }
 
-#form_boletas {
+#b-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap; }
-  #form_boletas .b-div1 {
+  #b-form .b-div1 {
     display: flex;
     margin-top: 20px;
     flex-direction: column;
     align-items: center; }
-  #form_boletas .b-div2 {
+  #b-form .b-div2 {
     margin-top: 20px; }
-  #form_boletas .b-div3 {
+  #b-form .b-div3 {
     margin-top: 30px;
     margin-bottom: 10px; }
 

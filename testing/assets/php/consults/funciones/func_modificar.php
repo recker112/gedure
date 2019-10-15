@@ -148,7 +148,7 @@ function estudiFix($mysqli, $estudi_id){
 function estudiFixUpdate($mysqli, $estudi_id, $old_estudi, $cedula){
 	try {
 		//Fix estudiID
-		$old_estudi = substr($old_estudi,0, 4).'_%';//Formato para poder realizar algoritmos
+		$old_estudi = substr($old_estudi,0, 5).'_%';//Formato para poder realizar algoritmos
 
 		//Verificar sección actual con la sección nueva
 		if ($estudi_id === $old_estudi) {
@@ -156,7 +156,17 @@ function estudiFixUpdate($mysqli, $estudi_id, $old_estudi, $cedula){
 		}
 
 		//Mover boleta
-		moveBoletas($cedula, $estudi_id, $old_estudi);
+		$move = moveBoletas($cedula, $estudi_id, $old_estudi);
+
+		if ($move !== 'ok') {
+			if ($move === 'no_origen'){
+				$addInfoBol = "bolNoO";
+			}else if ($move == 'no_destino'){
+				$addInfoBol = "bolNoD";
+			}
+		}else {
+			$addInfoBol = "bolOkA";
+		}
 
 		//Seleccionar seccion vieja
 		$param = $old_estudi;
@@ -220,7 +230,7 @@ function estudiFixUpdate($mysqli, $estudi_id, $old_estudi, $cedula){
 			//Cambiar a la sección nueva
 			$param = $estudi_id;
 		}
-		return "ok_$add";
+		return "ok"."_".$addInfoBol;
 	} catch (\Throwable $e) {
 		return $e->getMessage();
 	}

@@ -47,10 +47,10 @@ Ajax matricula
 */
 import './exportPanel/matriculaAjax';
 
-// /*
-// Ajax boletas
-// */
-// import './exportPanel/boletasAjax';
+/*
+Ajax boletas
+*/
+import './exportPanel/boletasAjax';
 
 // /*
 // Ajax configuración
