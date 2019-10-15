@@ -9,18 +9,18 @@ import {verifyVar} from './../exports/funciones/verifyVar';
 /*
 Funciones de configuración
 */
-const btnNotas = document.getElementById('n_boton');
-const loadingNotas = document.getElementById('n_loading');
+const btnNotas = document.getElementById('c-ok');
+const loadingNotas = document.getElementById('c-loading');
 btnNotas.addEventListener('click', async e => {
   e.preventDefault();
 
   //Form
-  const form = document.getElementById('form_configuracion');
+  const form = document.getElementById('c-form');
 
   //Variables
-  const user = document.getElementById('n_user').value;
-  const curso = document.getElementById('n_grado').value;
-  const seccion = document.getElementById('n_seccion').value;
+  const user = document.getElementById('c-user').value;
+  const curso = document.getElementById('c-grado').value;
+  const seccion = document.getElementById('c-seccion').value;
 
   if (verifyVar(user, curso, seccion)) {
     //Animación

@@ -3,9 +3,6 @@ Importar archivos necesarios
 */
 //Importar CSS AND IMG
 import './../sass/login/main.sass';
-import './../img/farvicon.png';
-import './../img/logo.png';
-import './../img/loading.svg';
 //Importar jquery
 import $ from 'jquery';
 //Regenerator-Runtime async
