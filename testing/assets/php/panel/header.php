@@ -11,5 +11,8 @@
 			</div>
 		</div>
 		<?php endif ?>
-		<p>Panel</p>
+		<div class="avatar">
+			<p class="user"><?php echo $user ?></p>
+			<img src="<?php echo $avatar; ?>" width="48" height="48" alt="Vatar">
+		</div>
 	</header>

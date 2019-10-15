@@ -83,7 +83,7 @@ function addNewsInDB($mysqli, $title, $content, $img, $owner){
     $consult->bind_param("ssss", $title, $content, $img, $owner);
     $consult->execute();
 
-    if ($consult->affected_rows < 1) {
+    if ($consult->affected_rows > 1) {
       throw new Exception("errorInsert");
     }
 

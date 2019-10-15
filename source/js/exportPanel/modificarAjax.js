@@ -1,6 +1,3 @@
-/*
-Funciones de modificar
-*/
 //Importar jquery
 import $ from 'jquery';
 //Ajax
@@ -9,21 +6,24 @@ import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
 import {alerts} from './../exports/alerts';
 //VerifyVar
 import {verifyVar} from './../exports/funciones/verifyVar';
+/*
+Funciones de modificar
+*/
 
 //Button del form
-const btnModify = document.getElementById('m_button_user');
-const loadingModify = document.getElementById('m_loading_user');
+const btnModify = document.getElementById('m-okU');
+const loadingModify = document.getElementById('m-loadingU');
 btnModify.addEventListener('click', async e => {
   e.preventDefault();
   //Form
-  const form = document.getElementById('form_modificar_user');
+  const form = document.getElementById('m-formU');
 
   //Variables
-  const cedula = document.getElementById('m_cedula_user').value;
-  const pass = document.getElementById('m_pass_user').value;
-  const name = document.getElementById('m_name_user').value;
-  const grado = document.getElementById('m_grado_user').value;
-  const seccion = document.getElementById('m_seccion_user').value;
+  const cedula = document.getElementById('m-CedulaU').value;
+  const pass = document.getElementById('m-PassU').value;
+  const name = document.getElementById('m-NombreU').value;
+  const grado = document.getElementById('m-gradoU').value;
+  const seccion = document.getElementById('m-seccionU').value;
   //Verificar variables vacias
   if (verifyVar(cedula, pass, name, grado, seccion)) {
     //Animación
@@ -36,6 +36,7 @@ btnModify.addEventListener('click', async e => {
       let message;
       let color;
       if (res.status !== 'error') {
+        console.log(res);
         //Mensajes OK
         if (res.message === 'insert_ok') {
           message = "Usuario insertado!";
@@ -47,7 +48,7 @@ btnModify.addEventListener('click', async e => {
           message = "Usuario eliminado!";
           color = 'success';
         }else {
-          let sub = res.message.substring(7,9);//Obtener datos de actualizados
+          let sub = res.message.substring(8,9);//Obtener datos de actualizados
           message = `Usuario actualizado!`;
           color = 'success';
         }

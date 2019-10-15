@@ -7,22 +7,24 @@ import $ from 'jquery';
 import {alerts} from './../exports/alerts';
 //Ajax
 import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
+//VerifyVar
+import {verifyVar} from './../exports/funciones/verifyVar';
 
-const btnProfM = document.getElementById('m_button_prof');
-const loadingProfM = document.getElementById('m_loading_prof');
+const btnProfM = document.getElementById('m-okP');
+const loadingProfM = document.getElementById('m-loadingP');
 btnProfM.addEventListener('click', async e => {
   e.preventDefault();
 
   //Form
-  const form = document.getElementById('form_modificar_prof');
+  const form = document.getElementById('m-formP');
 
   //Variables
-  const nombre = document.getElementById('m_name_prof').value;
-  const curso = document.getElementById('m_curso_prof').value;
-  const seccion = document.getElementById('m_seccion_prof').value;
+  const nombre = document.getElementById('m-nameP').value;
+  const curso = document.getElementById('m-gradoP').value;
+  const seccion = document.getElementById('m-seccionP').value;
 
   //Verificar variables vacias
-  if (nombre != "" && curso != "" && seccion != "") {
+  if (verifyVar(nombre,curso,seccion)) {
     //Animación
     loadingAnimation($, btnProfM, loadingProfM);
     //Data

@@ -1,20 +1,18 @@
 header
-	box-shadow: 0.1em 0.1em 0.4em #143b5c
-	div.caja-menu
-		width: 94%
-		margin: auto
+	height: 54px
+	background: #404040
+	nav
+		height: 100%
 		display: flex
-		justify-content: space-between
+		justify-content: flex-end
 		align-items: center
-		img.logo
-			background: #d7dfe4
-			+border-radius(0px 15px 15px)
-			padding: 3px
-		p
-			font-family: sourcesans-bold
-			font-size: 22px
-			background: rgba(0,0,0,0.2)
-			color: $white
-			padding: 8px 16px
-			margin: 5px 0px
-			+border_radius(10px)
+		margin-right: 50px
+		a
+			font-size: 18px
+			font-family: sourcesans-bolditalic
+			color: #d8d8d8
+			transition: 0.5s
+			border-bottom: 1px solid #d8d8d8
+			margin: 0px 10px
+			&:hover
+				color: $white

@@ -14,8 +14,11 @@
 	font-family:sourcesans-italic; 
 	src: url(fonts/sourcesans/SourceSansPro-Italic.ttf); 
 } @font-face {
-	font-family:sourcesans-bolditalic; 
+	font-family:sourcesans-semibolditalic; 
 	src: url(fonts/sourcesans/SourceSansPro-SemiBoldItalic.ttf); 
+}@font-face {
+	font-family:sourcesans-bolditalic; 
+	src: url(fonts/sourcesans/SourceSansPro-BoldItalic.ttf); 
 }
 @font-face {
   font-family: 'icomoon';
@@ -282,11 +285,7 @@ ol { margin-left:2em; }
   box-sizing: boxer-box; }
 
 body {
-  background: url(../img/fondo.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background: #EAEAEA;
   font-family: sourcesans, Arial, Helvetica, Sans-serif;
   height: 100vh;
   /*-- Flex --*/
@@ -300,142 +299,134 @@ a {
   a:hover {
     text-decoration: none; }
 
-body header.nav {
-  background: #295b85;
-  position: fixed;
-  width: 100%;
-  box-shadow: 0.1em 0.1em 0.4em #143b5c; }
-  body header.nav div.caja-menu {
-    width: 94%;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; }
-    body header.nav div.caja-menu img.logo {
-      background: #d7dfe4;
-      -moz-border-radius: 0px 15px 15px;
-      -wedkit-border-radius: 0px 15px 15px;
-      -ms-border-radius: 0px 15px 15px;
-      border-radius: 0px 15px 15px;
-      padding: 3px; }
-    body header.nav div.caja-menu p {
-      font-family: sourcesans-bold;
-      font-size: 22px;
-      background: rgba(0, 0, 0, 0.2);
-      color: #FFFFFF;
-      padding: 8px 16px;
-      margin: 5px 0px;
-      -moz-border-radius: 10px;
-      -wedkit-border-radius: 10px;
-      -ms-border-radius: 10px;
-      border-radius: 10px; }
-    body header.nav div.caja-menu nav {
-      padding: 8px 16px;
-      margin: 9px 0px; }
-      body header.nav div.caja-menu nav a {
-        padding: 10px;
-        -moz-border-radius: 10px;
-        -wedkit-border-radius: 10px;
-        -ms-border-radius: 10px;
-        border-radius: 10px;
-        color: #FFFFFF;
-        font-family: sourcesans-bold;
-        transition: 0.5s; }
-        body header.nav div.caja-menu nav a:hover {
-          background: rgba(0, 0, 0, 0.3);
-          text-shadow: 1px 1px 1px #FFFFFF; }
-        body header.nav div.caja-menu nav a span {
-          margin-right: 10px; }
-
+/*-------------------------------------------------*/
+/* Cajas */
+/*-------------------------------------------------*/
 main {
   flex: 1;
   display: flex;
-  margin-top: 60px; }
-  main aside {
-    width: 30%;
-    margin: 10px; }
-    main aside section {
-      -moz-border-radius: 20px;
-      -wedkit-border-radius: 20px;
-      -ms-border-radius: 20px;
-      border-radius: 20px;
-      background: #e4e4e4;
-      margin-bottom: 20px; }
-      main aside section header {
-        -moz-border-radius: 20px 20px 0px 0px;
-        -wedkit-border-radius: 20px 20px 0px 0px;
-        -ms-border-radius: 20px 20px 0px 0px;
-        border-radius: 20px 20px 0px 0px;
-        background: #4c4c4c;
-        padding: 2px;
-        color: #FFFFFF;
-        font-family: sourcesans-bold;
-        text-align: center;
-        font-size: 20px; }
-      main aside section .contenido {
-        padding: 15px;
-        text-align: justify; }
-      main aside section footer {
-        padding: 5px;
-        border-top: 3px solid #808080;
-        text-align: center; }
-  main article {
-    width: 70%;
-    margin: 10px; }
-    main article section {
-      -moz-border-radius: 20px;
-      -wedkit-border-radius: 20px;
-      -ms-border-radius: 20px;
-      border-radius: 20px;
-      background: #e4e4e4;
-      margin-bottom: 20px; }
-      main article section header {
-        -moz-border-radius: 20px 20px 0px 0px;
-        -wedkit-border-radius: 20px 20px 0px 0px;
-        -ms-border-radius: 20px 20px 0px 0px;
-        border-radius: 20px 20px 0px 0px;
-        background: #4c4c4c;
-        padding: 2px;
-        color: #FFFFFF;
-        font-family: sourcesans-bold;
-        text-align: center;
-        font-size: 25px; }
-      main article section .avatar {
-        margin-top: 10px;
+  max-width: 1000px;
+  margin: auto;
+  margin-top: 70px; }
+
+header.nav {
+  height: 54px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background: #404040; }
+  header.nav nav {
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 50px; }
+    header.nav nav a {
+      font-size: 18px;
+      font-family: sourcesans-bolditalic;
+      color: #d8d8d8;
+      transition: 0.5s;
+      border-bottom: 1px solid #d8d8d8;
+      margin: 0px 10px; }
+      header.nav nav a:hover {
+        color: #FFFFFF; }
+
+aside {
+  width: 30%;
+  margin: 10px;
+  background: #FDFDFD;
+  display: flex;
+  flex-direction: column;
+  animation: testing 1s; }
+  aside .AsideTitle {
+    color: #363636;
+    font-family: sourcesans-bold;
+    font-size: 26px;
+    width: 85%;
+    margin: 10px auto;
+    border-bottom: 3px solid #404040;
+    text-align: center; }
+  aside section {
+    width: 85%;
+    margin: 0px auto;
+    margin-bottom: 15px; }
+    aside section .titulo {
+      font-size: 26px; }
+    aside section .contenido {
+      font-size: 16px;
+      text-align: justify; }
+    aside section .by {
+      font-size: 14px;
+      font-family: sourcesans-lightItalic; }
+
+@keyframes testing {
+  0% {
+    transform: translate(200px);
+    opacity: 0; }
+  100% {
+    transform: translate(0px);
+    opacity: 1; } }
+
+article {
+  width: 70%;
+  margin: 10px;
+  animation: showArticle 1s both; }
+  article section {
+    -moz-border-radius: 20px;
+    -wedkit-border-radius: 20px;
+    -ms-border-radius: 20px;
+    border-radius: 20px;
+    background: #FDFDFD;
+    border: 3px solid #909090;
+    margin-bottom: 20px; }
+    article section .content {
+      display: flex;
+      color: #363636; }
+      article section .content .avatar {
         display: flex;
         flex-direction: column;
-        align-items: center; }
-        main article section .avatar img {
+        align-items: center;
+        margin: 20px; }
+        article section .content .avatar img {
           -moz-border-radius: 100px;
           -wedkit-border-radius: 100px;
           -ms-border-radius: 100px;
-          border-radius: 100px;
-          border: 4px solid #c6c8ca; }
-        main article section .avatar .nombre {
-          font-family: sourcesans-italic;
-          font-size: 18px;
-          border-bottom: 1px solid #808080; }
-      main article section .contenido {
-        margin: 30px 20px;
+          border-radius: 100px; }
+        article section .content .avatar .nombre {
+          font-family: sourcesans-semibolditalic;
+          text-align: center; }
+      article section .content .contenido {
+        flex: 1;
+        margin: 20px;
         text-align: justify; }
-      main article section footer {
-        padding: 10px;
-        border-top: 3px solid #808080;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex-wrap: wrap; }
-        main article section footer img, main article section footer span {
-          cursor: pointer; }
-        main article section footer .more {
-          background: #808080;
-          padding: 30px; }
-        main article section footer .noShowImg {
-          display: none; }
+        article section .content .contenido::first-line {
+          font-size: 25px; }
+    article section footer {
+      padding: 10px;
+      border-top: 3px solid #808080;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap; }
+      article section footer img, article section footer span {
+        cursor: pointer; }
+      article section footer .more {
+        background: #808080;
+        padding: 30px; }
+      article section footer .noShowImg {
+        display: none; }
+
+@keyframes showArticle {
+  0% {
+    transform: translate(-200px);
+    opacity: 0; }
+  100% {
+    transform: translate(0px);
+    opacity: 1; } }
 
 footer div.footer1 {
   text-align: center;
-  background: #39444e;
+  background: #414141;
   font-size: 11px; }
   footer div.footer1 a {
     color: #FFFFFF;
@@ -445,7 +436,7 @@ footer div.footer1 {
 
 footer div.footer2 {
   text-align: center;
-  background: #2e3941;
+  background: #303030;
   font-size: 10px; }
   footer div.footer2 a {
     color: #FFFFFF;

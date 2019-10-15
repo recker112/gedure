@@ -1,0 +1,337 @@
+@font-face {
+	font-family:sourcesans; 
+	src: url(fonts/sourcesans/SourceSansPro-Regular.ttf); 
+} @font-face {
+	font-family:sourcesans-bold;
+ 	src: url(fonts/sourcesans/SourceSansPro-Bold.ttf); 
+} @font-face {
+	font-family:sourcesans-light; 
+	src: url(fonts/sourcesans/SourceSansPro-Light.ttf); 
+} @font-face {
+	font-family:sourcesans-lightItalic; 
+	src: url(fonts/sourcesans/SourceSansPro-LightItalic.ttf); 
+} @font-face {
+	font-family:sourcesans-italic; 
+	src: url(fonts/sourcesans/SourceSansPro-Italic.ttf); 
+} @font-face {
+	font-family:sourcesans-semibolditalic; 
+	src: url(fonts/sourcesans/SourceSansPro-SemiBoldItalic.ttf); 
+}@font-face {
+	font-family:sourcesans-bolditalic; 
+	src: url(fonts/sourcesans/SourceSansPro-BoldItalic.ttf); 
+}
+@font-face {
+  font-family: 'icomoon';
+  src:  url(fonts/iconos/icomoon.eot);
+  src:  url(fonts/iconos/icomoon.eot#iefix) format('embedded-opentype'),
+    url(fonts/iconos/icomoon.ttf) format('truetype'),
+    url(fonts/iconos/icomoon.woff) format('woff'),
+    url(../img/icomoon.svg#icomoon) format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-power-off:before {
+  content: "\f011";
+}
+.icon-clock-o:before {
+  content: "\f017";
+}
+.icon-lock:before {
+  content: "\f023";
+}
+.icon-book1:before {
+  content: "\f02d";
+}
+.icon-image1:before {
+  content: "\f03e";
+}
+.icon-photo:before {
+  content: "\f03e";
+}
+.icon-picture-o:before {
+  content: "\f03e";
+}
+.icon-edit:before {
+  content: "\f044";
+}
+.icon-pencil-square-o:before {
+  content: "\f044";
+}
+.icon-chevron-left:before {
+  content: "\f053";
+}
+.icon-chevron-right:before {
+  content: "\f054";
+}
+.icon-bell:before {
+  content: "\f0f3";
+}
+.icon-unlock-alt:before {
+  content: "\f13e";
+}
+.icon-user-circle:before {
+  content: "\f2bd";
+}
+.icon-home3:before {
+  content: "\e902";
+}
+.icon-newspaper:before {
+  content: "\e904";
+}
+.icon-pencil:before {
+  content: "\e905";
+}
+.icon-pencil2:before {
+  content: "\e906";
+}
+.icon-quill:before {
+  content: "\e907";
+}
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-images:before {
+  content: "\e90e";
+}
+.icon-headphones:before {
+  content: "\e910";
+}
+.icon-play:before {
+  content: "\e912";
+}
+.icon-book:before {
+  content: "\e91f";
+}
+.icon-books:before {
+  content: "\e920";
+}
+.icon-file-text:before {
+  content: "\e922";
+}
+.icon-file-empty:before {
+  content: "\e924";
+}
+.icon-file-text2:before {
+  content: "\e926";
+}
+.icon-file-zip:before {
+  content: "\e92b";
+}
+.icon-address-book:before {
+  content: "\e944";
+}
+.icon-database:before {
+  content: "\e964";
+}
+.icon-bubble:before {
+  content: "\e96b";
+}
+.icon-bubbles:before {
+  content: "\e96c";
+}
+.icon-user:before {
+  content: "\e971";
+}
+.icon-key:before {
+  content: "\e98d";
+}
+.icon-cog:before {
+  content: "\e994";
+}
+.icon-cogs:before {
+  content: "\e995";
+}
+.icon-pie-chart:before {
+  content: "\e99a";
+}
+.icon-stats-bars:before {
+  content: "\e99c";
+}
+.icon-stats-bars2:before {
+  content: "\e99d";
+}
+.icon-bin:before {
+  content: "\e9ac";
+}
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-plus:before {
+  content: "\ea0a";
+}
+.icon-minus:before {
+  content: "\ea0b";
+}
+.icon-terminal:before {
+  content: "\ea81";
+}
+.icon-facebook2:before {
+  content: "\ea91";
+}
+.icon-steam:before {
+  content: "\eaac";
+}
+.icon-paypal:before {
+  content: "\ead8";
+}
+.icon-file-pdf:before {
+  content: "\eadf";
+}
+.icon-file-word:before {
+  content: "\eae1";
+}
+.icon-file-excel:before {
+  content: "\eae2";
+}
+
+/* --
+CSS Reseter
+CSSLab � 2010 by Jorge Epu�an
+http://www.csslab.cl/2010/06/01/css-reseter-v2/
+-- */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, dialog, figure, header, footer, hgroup, menu, nav, section, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+}
+
+article, aside, nav, section, dialog, figure, header, footer, hgroup { 
+    display:block;
+}
+
+legend {
+	display:none;
+}
+
+:focus {
+	outline: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+a img, iframe {
+	border: none;
+}
+
+ul {
+	list-style: none;
+}
+
+input, textarea, select, button {
+	font-size: 100%;
+	font-family: inherit;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+select {
+	margin: inherit;
+}
+
+/* Fixes incorrect placement of numbers in ol's in IE6/7 */
+ol { margin-left:2em; }
+
+
+/* ========================================= clearfix == */
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* Links :3 */
+/*-- Estilos Generales --*/
+* {
+  -webkit-box-sizing: boxer-box;
+  -moz-box-sizing: boxer-box;
+  border-sizing: border-box; }
+
+body {
+  background: url(../img/fondo.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: sourcesans, Arial, Helvetica, Sans-serif;
+  height: 100vh; }
+
+a {
+  color: #111111;
+  text-decoration: none; }
+  a:hover {
+    text-decoration: none; }
+
+/*-- Cajas --*/
+.container {
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+header nav {
+  margin-right: 30px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end; }
+  header nav a {
+    font-size: 18px;
+    font-family: sourcesans-bolditalic;
+    color: #d8d8d8;
+    transition: 0.5s;
+    margin: 0px 10px;
+    border-bottom: 1px solid #d8d8d8; }
+    header nav a:hover {
+      color: #FFFFFF;
+      border-color: #FFFFFF; }
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: auto; }
+  main h1 {
+    text-align: center;
+    font-size: 24px;
+    font-family: sourcesans-semibolditalic;
+    color: #FFFFFF; }
+    main h1::first-line {
+      font-size: 36px; }
+
