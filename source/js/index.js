@@ -1,8 +1,10 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
+//SASS
 import './../sass/index/main.sass';
+
+//IMG
 import './../img/farvicon.png';
 import './../img/logo.png';
 import './../img/loading.svg';

@@ -4,7 +4,7 @@
   "description": "Página web de la UEP APEP La Candelaria",
   "main": "build/index.php",
   "scripts": {
-    "dev": "webpack --watch --mode=development",
+    "dev": "webpack --mode=development",
     "build": "webpack --mode=production"
   },
   "repository": {

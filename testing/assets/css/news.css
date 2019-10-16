@@ -305,6 +305,7 @@ a {
 main {
   flex: 1;
   display: flex;
+  width: 100%;
   max-width: 1000px;
   margin: auto;
   margin-top: 70px; }
@@ -565,17 +566,23 @@ div#popad {
 #showImg {
   display: none;
   position: fixed;
+  overflow: auto;
+  z-index: 200;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.6);
   align-items: center;
   justify-content: space-around;
   color: #FFFFFF; }
   #showImg #show img {
-    width: 500px;
-    height: 400px; }
+    width: 300px;
+    height: 300px;
+    max-width: 500px;
+    max-height: 400px; }
   #showImg #showImgControl {
+    position: fixed;
+    bottom: 0;
     user-select: none;
     background: rgba(255, 255, 255, 0.6);
     padding: 5px;
@@ -590,6 +597,9 @@ div#popad {
     #showImg #showImgControl #showImgControlSeparator {
       margin-left: 100px; }
   #showImg #showImgOptions {
+    position: fixed;
+    top: 0;
+    margin-top: 20px;
     user-select: none; }
     #showImg #showImgOptions span {
       cursor: pointer; }

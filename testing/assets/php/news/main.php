@@ -19,7 +19,9 @@
           <img src="<? echo $nActual['avatarOwner'] ?>" alt="" width="100" heigth="100"/>
           <span class="nombre"><? echo $nActual['owner']; ?></span>
         </div>
-        <p class="contenido"><? echo $nActual['title']; ?>:<br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium quia distinctio repudiandae. Voluptate esse eos unde. Ducimus culpa eveniet minima at sapiente tenetur doloribus odio facere ipsum? Consectetur, quibusdam. Harum, consectetur rem. Sapiente eaque nisi nemo voluptates sint eius vitae non eos delectus laudantium ab praesentium obcaecati alias assumenda a, est vero sed ad iure, expedita earum omnis atque! In ducimus sed fugit similique animi. Qui nostrum ut rerum provident, ea, odio nulla expedita harum, sapiente fugiat dolorem. Ducimus earum blanditiis expedita debitis rem alias atque, delectus enim ut veniam sunt vel laboriosam eum odio recusandae doloribus assumenda eius sint ea commodi, totam amet molestias eaque iste. Suscipit vitae eius, repellat minus soluta tempora reprehenderit inventore animi voluptatibus veniam illo, odit saepe vel, ullam maxime at tenetur provident nemo nihil pariatur similique. Quo, commodi voluptas! Inventore obcaecati provident illo, asperiores, temporibus blanditiis deserunt aspernatur necessitatibus sunt debitis beatae, ab ratione.</p>
+        <p class="contenido"><? echo $nActual['title']; ?>:
+        <br/><? echo $nActual['content']; ?>
+        <br/><? echo substr($nActual['fecha'], 0, 10) ?></p>
         </div>
       <footer>
         <?

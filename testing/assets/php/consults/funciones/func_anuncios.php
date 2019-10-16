@@ -32,15 +32,15 @@ function listAnnounce($mysqli){
 
 function listNews($mysqli){
   try {
-    $consult = $mysqli->prepare('SELECT title, content, img, owner, avatarOwner
+    $consult = $mysqli->prepare('SELECT title, content, img, owner, avatarOwner, fecha
     FROM (
-      SELECT news.id, news.title, news.content, news.img, creadores.user AS owner, creadores.avatar AS avatarOwner
+      SELECT news.id, news.title, news.content, news.img, news.fecha, creadores.user AS owner, creadores.avatar AS avatarOwner
         FROM news
         INNER JOIN creadores ON news.owner=creadores.cedula
 
       UNION ALL
 
-      SELECT news.id, news.title, news.content, news.img, admins.user AS owner, admins.avatar AS avatarOwner
+      SELECT news.id, news.title, news.content, news.img, news.fecha, admins.user AS owner, admins.avatar AS avatarOwner
         FROM news
         INNER JOIN admins ON news.owner=admins.cedula
     ) Noticias
@@ -73,14 +73,17 @@ function listNews($mysqli){
 function addNewsInDB($mysqli, $title, $content, $img, $owner){
   try {
     $consult = $mysqli->prepare('INSERT INTO news
-    (title, content, img, owner)
+    (title, content, img, fecha, owner)
     VALUES
-    (?,?,?,?)');
+    (?,?,?,?,?)');
     if (!$consult) {
       throw new Exception('consultError');
     }
 
-    $consult->bind_param("ssss", $title, $content, $img, $owner);
+    $setdate = date_default_timezone_set("America/Caracas");//Seleccionar zona para la hora.
+    $date = date("y")."-".date("m")."-".date("d")." ".date("H").":".date("i").":".date("s");//establecer fecha.
+
+    $consult->bind_param("sssss", $title, $content, $img, $date, $owner);
     $consult->execute();
 
     if ($consult->affected_rows > 1) {

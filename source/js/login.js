@@ -1,7 +1,7 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
+//SASS
 import './../sass/login/main.sass';
 //Importar jquery
 import $ from 'jquery';
