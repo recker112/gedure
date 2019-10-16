@@ -5,6 +5,8 @@ Importar archivos necesarios
 import $ from 'jquery';
 //Regenerator-Runtime async
 import 'regenerator-runtime';
+//TextAreaStuats
+import {textAreaStatus} from './exports/funciones/textAreaStatus';
 
 /*
 Funciones de los botones del panel
@@ -59,10 +61,29 @@ import './exportPanel/borrarAjax';
 /* ************************ */
 /* NOTICIAS
 /* ************************ */
+
 /*
-Ajax borrar
+Ajax Noticias
 */
-import './exportPanel/publicAnuncios';
+import './exportPanel/noticiasCRAjax';
+
+/*
+Efecto statusArea Noticias
+*/
+const textareaN = document.getElementById('cr-pnTextarea');
+const statusAreaN = document.getElementById('cr-pnstatusArea');
+textAreaStatus(textareaN, statusAreaN, 1200);
+
+/*
+Efecto statusArea Anuncios
+*/
+const textareaA = document.getElementById('an-textarea');
+const statusAreaA = document.getElementById('an-statusArea');
+textAreaStatus(textareaA, statusAreaA, 250);
+
+/* ************************ */
+/* OPCIONES
+/* ************************ */
 
 /*
 Ajax cambiar contraeña

@@ -86,6 +86,9 @@ btnNoticias.addEventListener('click',async e=>{
   }
 });
 
+/* ************************ */
+/* TEXTAREA
+/* ************************ */
 const textarea = document.getElementById('an-textarea');
 textarea.addEventListener('keyup', e=>{
   const actual = contar_caracteres(textarea.value);

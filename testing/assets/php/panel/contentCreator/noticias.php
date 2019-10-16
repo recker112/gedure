@@ -8,7 +8,7 @@
       </div>
       <div class="cr-pndiv2">
         <textarea name="content" class="inputText" id="cr-pnTextarea"></textarea>
-        <span id="statusArea">0/1200 caracteres.</span>
+        <span id="cr-pnstatusArea">0/1200 caracteres.</span>
       </div>
       <div class="cr-pndiv3">
         <input type="file" id="cr-pnImg" name="img" multiple="">
