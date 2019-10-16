@@ -8,7 +8,7 @@
       </div>
       <div class="an-div2">
         <textarea name="content" class="inputText" id="an-textarea"></textarea>
-        <span id="an-statusArea">0/1200 caracteres.</span>
+        <span id="an-statusArea">0/250 caracteres.</span>
       </div>
       <div class="an-div4">
         <button id="an-ok">Subir anuncio</button>
