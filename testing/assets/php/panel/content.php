@@ -7,8 +7,10 @@
         require 'contentAdmin/modificar.php';
         require 'contentAdmin/matricula.php';
         require 'contentAdmin/boletas.php';
-        require 'contentAdmin/configuracion.php';
-        require 'contentAdmin/borrar.php';
+				require 'contentAdmin/configuracion.php';
+				require 'contentAdmin/borrar.php';
+				require 'contentCreator/noticias.php';
+				require 'contentAdmin/anuncios.php';
       }elseif ($privilegio == "V-"){
         require 'contentStudent/welcome.php';
         require 'contentStudent/informacion.php';
@@ -19,27 +21,27 @@
       }
       ?>
 			<!-- Opciones -->
-			<div class="c-caja" id="c-contenido-opciones" style="display: none">
+			<div class="c-caja" id="c-contenido-passChange" style="display: none">
 				<div class="box">
 					<span class="title">Opciones</span>
-					<form action="#" id="form_opciones" method="POST" autocomplete="off">
-						<div class="op-div1">
+					<form action="#" id="pc-form" method="POST" autocomplete="off">
+						<div class="pc-div1">
 							<span>Contraseña actual</span>
-							<input class="inputText" type="password" id="pass_actual" name="pass_actual" placeholder="Contraseña actual" />
+							<input class="inputText" type="password" id="pc-actual" name="pass_actual" placeholder="Contraseña actual" />
 						</div>
-						<div class="op-div2">
+						<div class="pc-div2">
 							<div class="pass-new-text">
 								<span>Nueva contraseña</span>
-								<input class="inputText" type="password" id="pass_new" name="pass_new" placeholder="Nueva contraseña" />
+								<input class="inputText" type="password" id="pc-new" name="pass_new" placeholder="Nueva contraseña" />
 							</div>
 							<div class="pass-new-inputs">
 								<span>Repetir contraseña</span>
-								<input class="inputText" type="password" id="pass_new_repit" name="pass_new_repit" placeholder="Repetir contraseña" />
+								<input class="inputText" type="password" id="pc-newRepit" name="pass_new_repit" placeholder="Repetir contraseña" />
 							</div>
 						</div>
-						<div class="op-div3">
-							<button id="op_boton">Cambiar</button>
-							<img id="op_loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
+						<div class="pc-div3">
+							<button id="pc-ok">Cambiar</button>
+							<img id="pc-loading" style="display: none;" src='assets/img/loading.svg' height='28' alt='imagen de carga' />
 					</div>
 					</form>
 				</div>

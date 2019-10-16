@@ -1,16 +1,10 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
-import './../sass/panel/main.sass';
 //Importar jquery
 import $ from 'jquery';
 //Regenerator-Runtime async
 import 'regenerator-runtime';
-//Alertas
-import {alerts} from './exports/alerts';
-//Ajax
-import {consultAjax, loadingAnimation} from './exports/ajaxPromise';
 
 /*
 Funciones de los botones del panel
@@ -62,10 +56,18 @@ Ajax borrar
 */
 import './exportPanel/borrarAjax';
 
-// /*
-// Ajax cambiar contraeña
-// */
-// import './exportPanel/changePasswordAjax';
+/* ************************ */
+/* NOTICIAS
+/* ************************ */
+/*
+Ajax borrar
+*/
+import './exportPanel/publicAnuncios';
+
+/*
+Ajax cambiar contraeña
+*/
+import './exportPanel/changePasswordAjax';
 
 /*
 Cookies

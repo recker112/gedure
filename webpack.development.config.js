@@ -7,10 +7,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   context: path.join(__dirname, 'source'),
   entry: {
+    panel: './js/recursos.js',
     // login: './js/login.js',
-    panelAdmin: './js/panelAdmin.js'
-    //panelUser: './js/panelUser.js',
-    //panelCreator: './js/panelCreator.js',
+    panelAdmin: './js/panelAdmin.js',
+    // panelUser: './js/panelUser.js',
+    // panelCreator: './js/panelCreator.js',
     // news: './js/news.js',
     // index: './js/index.js'
   },
@@ -59,6 +60,7 @@ module.exports = {
       filename: '/assets/css/[name].css'
     })
   ],
+  watch: true,
   //Fix watch
   watchOptions: {
     poll: true,
