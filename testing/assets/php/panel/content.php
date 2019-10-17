@@ -11,10 +11,12 @@
 				require 'contentAdmin/borrar.php';
 				require 'contentCreator/noticias.php';
 				require 'contentAdmin/anuncios.php';
+				require 'contentAdmin/avatar.php';
       }elseif ($privilegio == "V-"){
         require 'contentStudent/welcome.php';
         require 'contentStudent/informacion.php';
-        require 'contentStudent/constancias.php';
+				require 'contentStudent/constancias.php';
+				require 'contentAdmin/avatar.php';
       }elseif ($privilegio == "CR-") {
 				require 'contentCreator/welcome.php';
 				require 'contentCreator/noticias.php';
