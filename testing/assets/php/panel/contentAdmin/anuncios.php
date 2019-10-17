@@ -1,8 +1,8 @@
-<!-- Noticias -->
+<!-- Anuncios -->
 <div class="c-caja" id="c-contenido-anuncios" style="display: none;">
   <div class="box">
     <span class="title">Publicar anuncio</span>
-    <form action="" id="an-form" enctype="multipart/form-data">
+    <form action="" id="an-form">
       <div class="an-div1">
         <input type="text" class="inputText" id="an-title" name="title" placeholder="Titulo"/>
       </div>

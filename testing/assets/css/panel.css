@@ -887,6 +887,27 @@ div#contenido {
     max-width: 600px;
     text-align: justify; }
 
+#ava-form .ava-div1 {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+#ava-form .ava-div2 {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  #ava-form .ava-div2 img {
+    -moz-border-radius: 100px;
+    -wedkit-border-radius: 100px;
+    -ms-border-radius: 100px;
+    border-radius: 100px; }
+
+#ava-form .ava-div3 {
+  margin-top: 30px;
+  margin-bottom: 10px; }
+
 #pc-form {
   display: flex;
   flex-direction: column;

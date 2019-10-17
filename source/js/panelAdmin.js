@@ -7,6 +7,8 @@ import $ from 'jquery';
 import 'regenerator-runtime';
 //TextAreaStuats
 import {textAreaStatus} from './exports/funciones/textAreaStatus';
+//ShowImgPreview
+import {imgRender} from './exports/funciones/imgPreview';
 
 /*
 Funciones de los botones del panel
@@ -89,6 +91,20 @@ textAreaStatus(textareaA, statusAreaA, 250);
 Ajax cambiar contraeña
 */
 import './exportPanel/changePasswordAjax';
+
+/*
+Ajax avatar
+*/
+import './exportPanel/avatarAjax';
+
+/*
+Preview IMG avatar
+*/
+const imgAvatarPreview = document.getElementById('ava-img');
+const imgAvatarPreviewInput = document.getElementById('ava-showPreview');
+imgAvatarPreview.addEventListener('change', () => {
+  imgRender(imgAvatarPreview, imgAvatarPreviewInput);
+});
 
 /*
 Cookies
