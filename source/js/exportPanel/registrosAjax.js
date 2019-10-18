@@ -16,7 +16,7 @@ btnRegistros.addEventListener('click', async () => {
   const divShow = document.querySelector('#tregistros tbody');
   divShow.innerHTML = `</tr>
   <td>Cargando...</td>
-  <td>Cargando...</td>
+  <td class="mobile-fixTable">Cargando...</td>
   <td>Cargando...</td>
   </tr>`;
 
@@ -112,7 +112,7 @@ function prepareTextRegistros(res) {
     //Texto a insertar
     text += `<tr>
     <td class="cedula" ${data}>${userData.log_cedula}</td>
-    <td>${userData.log_accion}</td>`;
+    <td class="mobile-fixTable">${userData.log_accion}</td>`;
 
     //Botones
     text += `<td>

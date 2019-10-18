@@ -7,14 +7,14 @@
         <thead>
           <tr>
             <td>Cédula</td>
-            <td>Acción</td>
+            <td class="mobile-fixTable">Acción</td>
             <td>Opciones</td>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Cargando...</td>
-            <td>Cargando...</td>
+            <td class="mobile-fixTable">Cargando...</td>
             <td>Cargando...</td>
           </tr>
         </tbody>

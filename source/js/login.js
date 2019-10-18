@@ -114,4 +114,4 @@ const cerrarPopad = document.getElementById('popad-cerrar');
 cerrarPopad.addEventListener('click', () => {
   const popad = document.getElementById('popad');
   $(popad).fadeOut(200);
-})
+});

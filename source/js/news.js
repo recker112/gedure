@@ -122,7 +122,10 @@ show.addEventListener('click', ()=>{
   $('#showImg').fadeOut(200);
 });
 
-
+/*
+MOBILE
+*/
+import './exports/mobileNewsButton';
 
 /*
 Cookies
