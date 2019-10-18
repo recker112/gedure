@@ -8,7 +8,6 @@
 				<a href="admin/manual.php" target="visor" class="item-panel" data-content="bienvenidos"><span class="icon-book"></span>Manual</a>
 				<span class="item-panel" data-content="registros" id="registrosShow"><span class="icon-terminal"></span>Registros</span>
 				<span id="nav_modificar" class="item-panel" data-content="modificar"><span class="icon-user-circle"></span>Modificar</span>
-				<span id="nav_modificar" class="item-panel" data-content="modificar"><span class="icon-user-circle"></span>Baneados</span>
 				<span class="item-panel" data-content="matricula"><span class="icon-file-pdf"></span>Matricula</span>
 				<span class="item-panel" data-content="boletas"><span class="icon-file-excel"></span>Boletas</span>
 				<span class="item-panel" data-content="configuracion"><span class="icon-cogs"></span>Configuracion</span>

@@ -18,7 +18,7 @@
         <div class="avatar">
           <img src="<? echo $nActual['avatarOwner'] ?>" alt="" width="100" height="100"/>
           <span class="nombre"><? echo $nActual['owner']; ?></span>
-          <span>#<? echo $nActual['id']; ?></span>
+          <span class="id">#<? echo $nActual['id']; ?></span>
         </div>
         <p class="contenido"><? echo $nActual['title']; ?>:
         <br/><? echo $nActual['content']; ?>
@@ -70,7 +70,7 @@
         <p><?php echo $aActual['title'] ?></p>
       </header>
       <p class="contenido"><?php echo $aActual['content'] ?></p>
-      <footer class="by">Escrito por: <?php echo $aActual['byUser'] ?><? echo substr($aActual['fecha'], 0, 10) ?></footer>
+      <footer class="by">Escrito por <?php echo $aActual['byUser'] ?> el <? echo substr($aActual['fecha'], 0, 10) ?></footer>
     </section>
     <?php $i++;} ?>
   </aside>
