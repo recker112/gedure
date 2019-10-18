@@ -23,9 +23,9 @@ import './exportPanel/noticiasCRAjax';
 /*
 Efecto statusArea
 */
-const textarea = document.getElementById('cr-pnTextarea');
-const statusArea = document.getElementById('cr-pnstatusArea');
-textAreaStatus(textarea, statusArea, 1200);
+const textareaN = document.getElementById('cr-pnTextarea');
+const statusAreaN = document.getElementById('cr-pnstatusArea');
+textAreaStatus(textareaN, statusAreaN, 1200);
 
 /*
 Cookies
