@@ -77,11 +77,21 @@ const statusAreaN = document.getElementById('cr-pnstatusArea');
 textAreaStatus(textareaN, statusAreaN, 1200);
 
 /*
+Ajax Anuncios
+*/
+import './exportPanel/anunciosAjax';
+
+/*
 Efecto statusArea Anuncios
 */
 const textareaA = document.getElementById('an-textarea');
 const statusAreaA = document.getElementById('an-statusArea');
 textAreaStatus(textareaA, statusAreaA, 250);
+
+/*
+Ajax Borrar Noticias
+*/
+import './exportPanel/borrarNoticiasAjax';
 
 /* ************************ */
 /* OPCIONES

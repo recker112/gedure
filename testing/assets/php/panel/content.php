@@ -11,6 +11,7 @@
 				require 'contentAdmin/borrar.php';
 				require 'contentCreator/noticias.php';
 				require 'contentAdmin/anuncios.php';
+				require 'contentAdmin/borrarNoticias.php';
 				require 'contentAdmin/avatar.php';
       }elseif ($privilegio == "V-"){
         require 'contentStudent/welcome.php';

@@ -402,6 +402,8 @@ article {
         text-align: justify; }
         article section .content .contenido::first-line {
           font-size: 25px; }
+      article section .content .fecha {
+        font-size: 10px; }
     article section footer {
       padding: 10px;
       border-top: 3px solid #808080;
@@ -449,6 +451,7 @@ footer div.footer2 {
 div#popad {
   display: none;
   position: fixed;
+  z-index: 200;
   top: 0;
   left: 0;
   width: 100%;
@@ -503,6 +506,7 @@ div#popad {
 #areaAlert {
   position: fixed;
   display: flex;
+  z-index: 300;
   flex-direction: column;
   bottom: 0;
   right: 0;

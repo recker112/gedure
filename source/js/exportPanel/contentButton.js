@@ -176,12 +176,46 @@ selectBorrarOption.forEach(element => {
 
     input.value = value;
 
+    //Efecto activo/desactivo
+    selectBorrarOption.forEach(element => $(element).removeClass("active"));
+    $(element).toggleClass("active");
+  });
+});
+
+/* ************************ */
+/* Funcion para el selector de "Borrar noticias".
+/* ************************ */
+const selectBorrarNoticiaOption = document.querySelectorAll("#boNot-selectOption span");
+selectBorrarNoticiaOption.forEach(element => {
+  element.addEventListener('click', () => {
+    const value = element.dataset.select;
+    const input = document.querySelector("#boNot-selectOption input");
+
+    input.value = value;
+
     //Disparar evento change
     const event = new Event('change');
     input.dispatchEvent(event);
 
     //Efecto activo/desactivo
-    selectBorrarOption.forEach(element => $(element).removeClass("active"));
+    selectBorrarNoticiaOption.forEach(element => $(element).removeClass("active"));
     $(element).toggleClass("active");
   });
+});
+
+/* ************************ */
+/* Función para el evento change del input de "Borrar noticias".
+/* ************************ */
+const selectBorrarNoticiaInput = document.getElementById('boNot-option');
+selectBorrarNoticiaInput.addEventListener('change', () => {
+  const value = selectBorrarNoticiaInput.value;
+  const inputID = document.getElementById('boNot-id');
+
+  if (value === 'unsee') {
+    $(inputID).fadeOut(200);
+    inputID.value = "none";
+  }else {
+    $(inputID).fadeIn(200);
+    inputID.value = "";
+  }
 });
