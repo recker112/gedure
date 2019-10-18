@@ -16,7 +16,7 @@
     <section>
       <div class="content">
         <div class="avatar">
-          <img src="<? echo $nActual['avatarOwner'] ?>" alt="" width="100" heigth="100"/>
+          <img src="<? echo $nActual['avatarOwner'] ?>" alt="" width="100" height="100"/>
           <span class="nombre"><? echo $nActual['owner']; ?></span>
         </div>
         <p class="contenido"><? echo $nActual['title']; ?>:
