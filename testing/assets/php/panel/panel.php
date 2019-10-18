@@ -16,7 +16,7 @@
 				<span class="titulo-panel">Noticias</span>
 				<span class="item-panel" data-content="noticias"><span class="icon-newspaper"></span>Publicar noticia</span>
 				<span class="item-panel" data-content="anuncios"><span class="icon-newspaper"></span>Publicar anuncio</span>
-				<span class="item-panel" data-content="borrar"><span class="icon-bin"></span>Borrar</span>
+				<span class="item-panel" data-content="borrarN"><span class="icon-bin"></span>Borrar noticias</span>
 				<?php }else if ($privilegio == "V-"){ ?>
 				<span class="titulo-panel">Gestión</span>
 				<span class="item-panel" data-content="informacion"><span class="icon-book1"></span>Información</span>

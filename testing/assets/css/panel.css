@@ -887,6 +887,29 @@ div#contenido {
     max-width: 600px;
     text-align: justify; }
 
+#boNot-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; }
+  #boNot-form .boNot-div1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; }
+    #boNot-form .boNot-div1 span {
+      cursor: pointer;
+      font-size: 18px;
+      border: 1px solid #CBCBCB;
+      padding: 10px;
+      background: #DCDCDC;
+      transition: 0.5s; }
+    #boNot-form .boNot-div1 .active {
+      background: #59ADFF; }
+  #boNot-form .boNot-div2 {
+    margin-top: 20px; }
+  #boNot-form .boNot-div3 {
+    margin-top: 30px;
+    margin-bottom: 10px; }
+
 #ava-form .ava-div1 {
   margin-top: 20px;
   display: flex;

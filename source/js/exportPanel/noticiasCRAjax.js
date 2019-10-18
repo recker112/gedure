@@ -23,7 +23,7 @@ btnNoticias.addEventListener('click',async e=>{
   const content = document.getElementById('cr-pnTextarea').value;
   const img = document.getElementById('cr-pnImg').value;
   if (verifyVar(title,content,img)) {
-    if (contar_caracteres(textarea.value) <= 1200) {
+    if (contar_caracteres(content) <= 1200) {
       //Animacion
       loadingAnimation($, btnNoticias, loadingNoticias);
 
@@ -47,7 +47,7 @@ btnNoticias.addEventListener('click',async e=>{
         //Animación
         loadingAnimation($, btnNoticias, loadingNoticias, 'Inverse');
 
-        //Variables
+        //Mensajes
         let message='';
         let color='';
         if (res.status === 'ok') {
