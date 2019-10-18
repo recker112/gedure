@@ -343,6 +343,7 @@ header {
     header .menu:hover {
       background: rgba(0, 0, 0, 0.3); }
   header #buscador {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -572,6 +573,7 @@ div#contenido {
       background: #FDFDFD;
       border: 1px solid #CBCBCB;
       display: flex;
+      align-items: center;
       animation: showbox 1s;
       /*-------------------------------------------------*/
       /* Colores de circulos */
@@ -1094,197 +1096,73 @@ div#popad {
     #areaAlert .info .aMessage {
       color: #1b1e21; }
 
-/* Media 720px */
+/*-------------------------------------------------*/
+/* 720px */
+/*-------------------------------------------------*/
 @media (max-width: 720px) {
-  header span.menu {
-    margin-left: 15px; }
-  header div#buscador input {
-    width: 45vw; }
-  header div#buscador div#search div#search_status {
-    width: 46vw; }
-    header div#buscador div#search div#search_status span.datos {
-      font-size: 0.7em;
-      height: 20px; }
-  header p {
-    font-size: 20px;
-    margin-right: 15px; }
-  main div#panel {
-    left: -252px; }
-    main div#panel img#avatar {
-      height: 80px;
-      width: 80px;
-      top: 0px; }
-    main div#panel span#user {
-      margin-top: 90px;
-      font-size: 20px; }
-  main div#contenido {
-    margin-left: 0px; }
-    main div#contenido span#c-titulo-bienvenidos {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-registros {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-modificar {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-matricula {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-boletas {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-configuracion {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-borrar {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-opciones {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-informacion {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-constancias {
-      font-size: 25px; }
-    main div#contenido div#c-contenido-bienvenidos {
-      font-size: 18px; }
-    main div#contenido div#c-contenido-modificar div#m-selector select {
+  main {
+    /*MOBILE PANEL*/ }
+    main div#panel {
+      left: -252px; }
+    main div#contenido {
       margin-left: 0px; }
-    main div#contenido div#c-contenido-modificar div.m-div1 input {
-      margin: 5px 0px; }
-    main div#contenido div#c-contenido-modificar input {
-      width: 60vw; }
-    main div#contenido div#c-contenido-modificar div.m-options {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 5px; }
-    main div#contenido div#c-contenido-modificar div.m-submit {
-      margin: 10px; }
-    main div#contenido div#c-contenido-matricula input#matri_archivo {
-      font-size: 15px;
-      width: 100%; }
-    main div#contenido div#c-contenido-boletas input#b_archivo {
-      font-size: 15px;
-      width: 100%; }
-    main div#contenido div#c-contenido-configuracion div#n-notas {
-      margin: 5px 0px; }
-    main div#contenido div#c-contenido-configuracion input#n_user {
-      width: 60vw; }
-    main div#contenido div#c-contenido-configuracion div#n-afectado {
-      margin: 10px 0px; }
-    main div#contenido div#c-contenido-opciones input {
-      width: 60vw; }
-    main div#contenido div#c-contenido-opciones div#pass-new {
-      margin-top: 10px; }
-      main div#contenido div#c-contenido-opciones div#pass-new div {
-        margin: 10px; } }
-
-@media (max-width: 674px) {
-  main div#contenido div#c-contenido-registros {
-    font-size: 20px; }
-    main div#contenido div#c-contenido-registros div#accion {
-      display: none; }
-    main div#contenido div#c-contenido-registros span.r-titulo-accion {
-      display: none; }
   div#cookies {
     font-size: 0.8em; } }
 
+@media (max-width: 600px) {
+  main div#contenido .mobile-fixTable {
+    display: none; }
+  main div#contenido .cedula {
+    padding: 10px; }
+  main div#contenido thead tr {
+    display: flex;
+    flex-direction: column;
+    width: 100%; }
+    main div#contenido thead tr td {
+      padding: 5px;
+      height: auto; }
+  main div#contenido tbody tr {
+    display: flex;
+    flex-direction: column; } }
+
 /* Media 320px */
-@media (max-width: 320px) {
+@media (max-width: 520px) {
+  /*Header*/
   header span.menu {
     margin-left: 15px; }
-  header div#buscador input {
-    width: 45vw; }
-  header div#buscador div#search div#search_status {
-    width: 46vw; }
-    header div#buscador div#search div#search_status span.datos {
-      font-size: 12px;
-      height: 20px; }
-  header p {
-    font-size: 20px;
-    margin-right: 15px; }
-  main div#panel {
-    left: -252px; }
-    main div#panel img#avatar {
-      height: 80px;
-      width: 80px;
-      top: 0px; }
-    main div#panel span#user {
-      margin-top: 90px;
-      font-size: 20px; }
-  main div#contenido {
-    margin-left: 18px; }
-    main div#contenido span#c-titulo-bienvenidos {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-registros {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-modificar {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-matricula {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-boletas {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-configuracion {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-borrar {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-opciones {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-informacion {
-      font-size: 25px; }
-    main div#contenido span#c-titulo-constancias {
-      font-size: 25px; }
-    main div#contenido div#c-contenido-bienvenidos {
-      font-size: 18px; }
-    main div#contenido div#c-contenido-registros {
-      font-size: 20px; }
-      main div#contenido div#c-contenido-registros div#accion {
-        display: none; }
-      main div#contenido div#c-contenido-registros span.r-titulo-accion {
-        display: none; }
-    main div#contenido div#c-contenido-modificar div#m-selector select {
-      margin-left: 0px; }
-    main div#contenido div#c-contenido-modificar div.m-div1 input {
-      margin: 5px 0px; }
-    main div#contenido div#c-contenido-modificar input {
-      width: 60vw; }
-    main div#contenido div#c-contenido-modificar div.m-options {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 5px; }
-    main div#contenido div#c-contenido-modificar div.m-submit {
-      margin: 10px; }
-    main div#contenido div#c-contenido-matricula input#matri_archivo {
-      font-size: 15px;
-      width: 100%; }
-    main div#contenido div#c-contenido-boletas input#b_archivo {
-      font-size: 15px;
-      width: 100%; }
-    main div#contenido div#c-contenido-configuracion div#n-notas {
-      margin: 5px 0px; }
-    main div#contenido div#c-contenido-configuracion input#n_user {
-      width: 60vw; }
-    main div#contenido div#c-contenido-configuracion div#n-afectado {
-      margin: 10px 0px; }
-    main div#contenido div#c-contenido-opciones input {
-      width: 60vw; }
-    main div#contenido div#c-contenido-opciones div#pass-new {
-      margin-top: 10px; }
-      main div#contenido div#c-contenido-opciones div#pass-new div {
-        margin: 10px; }
+  header div#buscador {
+    margin-left: 0px; }
+    header div#buscador input {
+      width: 45vw; }
+    header div#buscador div#search div#search_status {
+      width: 46vw; }
+      header div#buscador div#search div#search_status span.datos {
+        font-size: 12px;
+        height: 20px; }
+  header .avatar .user {
+    display: none; }
+  /*FIX DIVS*/
+  main div#contenido div.box {
+    padding: 16px 21px; }
+  main div#contenido div.m-div3 span {
+    font-size: 16px;
+    padding: 8px; }
+  main div#contenido div.ma-div1 input {
+    width: 200px; }
+  main div#contenido div.b-div1 input {
+    width: 200px; }
+  main div#contenido .cr-pndiv3 input {
+    width: 200px; }
+  main div#contenido #cr-pnTextarea {
+    width: 200px;
+    height: 250px; }
+  main div#contenido #an-textarea {
+    width: 200px;
+    height: 250px; }
+  main div#contenido .ava-div1 input {
+    width: 200px; }
   div#cookies {
     font-size: 0.6em; } }
-
-@media screen and (min-width: 0\0) {
-  div#contenido span#c-titulo-modificar {
-    width: 90%; }
-  div#contenido span#c-titulo-matricula {
-    width: 90%; }
-  div#contenido span#c-titulo-configuracion {
-    width: 90%; }
-  div#contenido span#c-titulo-borrar {
-    width: 90%; }
-  div#contenido span#c-titulo-opciones {
-    width: 90%; }
-  div#contenido span#c-titulo-informacion {
-    width: 90%; }
-  div#contenido span#c-titulo-constancias {
-    width: 90%; } }
 
 /*-------------------------------------------------*/
 /* Bootstrap */

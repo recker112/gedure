@@ -308,7 +308,31 @@ main {
   width: 100%;
   max-width: 1000px;
   margin: auto;
-  margin-top: 70px; }
+  margin-top: 70px;
+  flex-direction: column; }
+
+/*-------------------------------------------------*/
+/* FIX y MOBILE */
+/*-------------------------------------------------*/
+.FIXBOX {
+  display: flex; }
+
+#mobile-selectDiv {
+  user-select: none;
+  display: none;
+  justify-content: flex-start;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px; }
+  #mobile-selectDiv span {
+    cursor: pointer;
+    font-size: 18px;
+    border: 1px solid #CBCBCB;
+    padding: 10px;
+    background: #DCDCDC;
+    transition: 0.5s; }
+  #mobile-selectDiv .active {
+    background: #59ADFF; }
 
 header.nav {
   height: 54px;
@@ -350,9 +374,10 @@ aside {
   aside section {
     width: 85%;
     margin: 0px auto;
-    margin-bottom: 15px; }
+    margin-bottom: 15px;
+    color: #363636; }
     aside section .titulo {
-      font-size: 26px; }
+      font-size: 25px; }
     aside section .contenido {
       font-size: 16px;
       text-align: justify; }
@@ -417,6 +442,9 @@ article {
       flex-wrap: wrap; }
       article section footer img, article section footer span {
         cursor: pointer; }
+      article section footer img {
+        width: 160px;
+        height: 100px; }
       article section footer .more {
         background: #808080;
         padding: 30px; }
@@ -632,25 +660,107 @@ div#cookies {
     border-radius: 10px;
     text-align: center; }
 
-/* Media 720px */
-@media (max-width: 720px) {
+/*-------------------------------------------------*/
+/* 900px */
+/*-------------------------------------------------*/
+@media (max-width: 900px) {
+  /*Header*/
+  header.nav nav {
+    justify-content: center;
+    margin-right: 0px; }
+    header.nav nav a {
+      font-size: 16px; }
+  /*Main*/
   main {
     width: 100%; }
+  /*Article*/
+  article section .content .avatar {
+    margin-right: 10px; }
+    article section .content .avatar img {
+      width: 100px;
+      height: 100px; }
+  article section footer img {
+    width: 100px;
+    height: 90px; }
+  article section footer .more {
+    padding: 34px; }
   div#cookies {
     font-size: 0.8em; } }
 
-/* Media 320px */
-@media (max-width: 320px) {
+/*-------------------------------------------------*/
+/* 720px */
+/*-------------------------------------------------*/
+@media (max-width: 720px) {
+  /*Main*/
   main {
-    width: 85%; }
-    main form div#loginText {
-      font-size: 2em; }
-    main form div#login-user input {
-      width: 200px;
-      height: 30px; }
-    main form div#login-password input {
-      width: 200px;
-      height: 30px; }
-  div#cookies {
-    font-size: 0.6em; } }
+    width: 100%; }
+  /*Article*/
+  article section .content .avatar img {
+    width: 70px;
+    height: 70px; }
+  article section footer img {
+    width: 100px;
+    height: 90px; }
+  article section footer .more {
+    padding: 34px; }
+  /*Aside*/
+  aside section .titulo {
+    font-size: 23px; }
+  aside section .contenido {
+    font-size: 14px; } }
+
+/*-------------------------------------------------*/
+/* 650px */
+/*-------------------------------------------------*/
+@media (max-width: 650px) {
+  /*MOBILE*/
+  #mobile-selectDiv {
+    display: flex; }
+  /*Main*/
+  main {
+    width: 100%; }
+    main aside {
+      display: none;
+      width: 100%;
+      padding-bottom: 15px; }
+    main article {
+      width: 100%; }
+  /*Article*/
+  article section .content .avatar {
+    margin-right: 10px; }
+    article section .content .avatar img {
+      width: 70px;
+      height: 70px; }
+  article section footer img {
+    width: 100px;
+    height: 90px; }
+  article section footer .more {
+    padding: 34px; }
+  /*Aside*/
+  aside section .titulo {
+    font-size: 25px; }
+  aside section .contenido {
+    font-size: 16px; } }
+
+/*-------------------------------------------------*/
+/* 520px */
+/*-------------------------------------------------*/
+@media (max-width: 520px) {
+  /*Article*/
+  article section footer img {
+    width: 80px;
+    height: 70px; }
+  article section footer .more {
+    padding: 25px; } }
+
+/*-------------------------------------------------*/
+/* 360px */
+/*-------------------------------------------------*/
+@media (max-width: 360px) {
+  /*Article*/
+  article section footer img {
+    width: 60px;
+    height: 60px; }
+  article section footer .more {
+    padding: 20px; } }
 

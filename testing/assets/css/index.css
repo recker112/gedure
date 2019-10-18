@@ -335,3 +335,15 @@ main {
     main h1::first-line {
       font-size: 36px; }
 
+/* Media 320px */
+@media (max-width: 420px) {
+  header nav {
+    justify-content: center;
+    margin-right: 0px; }
+    header nav a {
+      font-size: 16px; }
+  main h1 {
+    font-size: 14px; }
+    main h1::first-line {
+      font-size: 26px; } }
+
