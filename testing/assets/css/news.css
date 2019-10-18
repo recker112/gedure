@@ -396,6 +396,9 @@ article {
         article section .content .avatar .nombre {
           font-family: sourcesans-semibolditalic;
           text-align: center; }
+        article section .content .avatar .id {
+          font-family: sourcesans-boldItalic;
+          font-size: 15px; }
       article section .content .contenido {
         flex: 1;
         margin: 20px;
@@ -403,7 +406,8 @@ article {
         article section .content .contenido::first-line {
           font-size: 25px; }
       article section .content .fecha {
-        font-size: 10px; }
+        font-size: 16px;
+        font-family: sourcesans-lightItalic; }
     article section footer {
       padding: 10px;
       border-top: 3px solid #808080;
