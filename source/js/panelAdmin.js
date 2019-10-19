@@ -1,16 +1,14 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
-import './../sass/panel/main.sass';
 //Importar jquery
 import $ from 'jquery';
 //Regenerator-Runtime async
 import 'regenerator-runtime';
-//Alertas
-import {alerts} from './exports/alerts';
-//Ajax
-import {consultAjax, loadingAnimation} from './exports/ajaxPromise';
+//TextAreaStuats
+import {textAreaStatus} from './exports/funciones/textAreaStatus';
+//ShowImgPreview
+import {imgRender} from './exports/funciones/imgPreview';
 
 /*
 Funciones de los botones del panel
@@ -62,10 +60,61 @@ Ajax borrar
 */
 import './exportPanel/borrarAjax';
 
-// /*
-// Ajax cambiar contraeña
-// */
-// import './exportPanel/changePasswordAjax';
+/* ************************ */
+/* NOTICIAS
+/* ************************ */
+
+/*
+Ajax Noticias
+*/
+import './exportPanel/noticiasCRAjax';
+
+/*
+Efecto statusArea Noticias
+*/
+const textareaN = document.getElementById('cr-pnTextarea');
+const statusAreaN = document.getElementById('cr-pnstatusArea');
+textAreaStatus(textareaN, statusAreaN, 1200);
+
+/*
+Ajax Anuncios
+*/
+import './exportPanel/anunciosAjax';
+
+/*
+Efecto statusArea Anuncios
+*/
+const textareaA = document.getElementById('an-textarea');
+const statusAreaA = document.getElementById('an-statusArea');
+textAreaStatus(textareaA, statusAreaA, 250);
+
+/*
+Ajax Borrar Noticias
+*/
+import './exportPanel/borrarNoticiasAjax';
+
+/* ************************ */
+/* OPCIONES
+/* ************************ */
+
+/*
+Ajax cambiar contraeña
+*/
+import './exportPanel/changePasswordAjax';
+
+/*
+Ajax avatar
+*/
+import './exportPanel/avatarAjax';
+
+/*
+Preview IMG avatar
+*/
+const imgAvatarPreview = document.getElementById('ava-img');
+const imgAvatarPreviewInput = document.getElementById('ava-showPreview');
+imgAvatarPreview.addEventListener('change', () => {
+  imgRender(imgAvatarPreview, imgAvatarPreviewInput);
+});
 
 /*
 Cookies

@@ -16,7 +16,7 @@ btnRegistros.addEventListener('click', async () => {
   const divShow = document.querySelector('#tregistros tbody');
   divShow.innerHTML = `</tr>
   <td>Cargando...</td>
-  <td>Cargando...</td>
+  <td class="mobile-fixTable">Cargando...</td>
   <td>Cargando...</td>
   </tr>`;
 
@@ -40,8 +40,12 @@ btnRegistros.addEventListener('click', async () => {
       const tableButton = document.querySelectorAll("#tregistros tbody button");
       tableButton.forEach(element => {
         element.addEventListener('click',() => {
-          alert(element.dataset.button);
-          btnRegistros.click();
+          const inputSearch =  document.getElementById('search_estudi');
+          inputSearch.value = element.dataset.cedula;
+          
+          //Disparar evento change
+          const event = new Event('keyup');
+          inputSearch.dispatchEvent(event);
         });
       });
       
@@ -112,7 +116,7 @@ function prepareTextRegistros(res) {
     //Texto a insertar
     text += `<tr>
     <td class="cedula" ${data}>${userData.log_cedula}</td>
-    <td>${userData.log_accion}</td>`;
+    <td class="mobile-fixTable">${userData.log_accion}</td>`;
 
     //Botones
     text += `<td>

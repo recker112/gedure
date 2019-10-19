@@ -25,6 +25,31 @@ a
 main
 	flex: 1
 	display: flex
+	width: 100%
 	max-width: 1000px
 	margin: auto
 	margin-top: 70px
+	flex-direction: column
+
+/*-------------------------------------------------*/
+/* FIX y MOBILE */
+/*-------------------------------------------------*/
+.FIXBOX
+	display: flex
+
+#mobile-selectDiv
+	user-select: none
+	display: none
+	justify-content: flex-start
+	margin-top: 10px
+	margin-bottom: 20px
+	margin-left: 10px
+	span
+		cursor: pointer
+		font-size: 18px
+		border: 1px solid #CBCBCB
+		padding: 10px
+		background: #DCDCDC
+		transition: 0.5s
+	.active
+		background: #59ADFF

@@ -13,6 +13,6 @@
 		<?php endif ?>
 		<div class="avatar">
 			<p class="user"><?php echo $user ?></p>
-			<img src="<?php echo $avatar; ?>" width="48" height="48" alt="Vatar">
+			<img id="WEB-avatar" src="<?php echo $avatar; ?>" width="48" height="48" alt="Vatar">
 		</div>
 	</header>

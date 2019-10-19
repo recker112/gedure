@@ -176,49 +176,46 @@ selectBorrarOption.forEach(element => {
 
     input.value = value;
 
-    //Disparar evento change
-    const event = new Event('change');
-    input.dispatchEvent(event);
-
     //Efecto activo/desactivo
     selectBorrarOption.forEach(element => $(element).removeClass("active"));
     $(element).toggleClass("active");
   });
 });
 
-// /*
-// Funcion select configuracion
-// */
-// const configSelector = document.getElementById('conf_selector');
-// configSelector.addEventListener('change', () => {
-//   //Selector
-//   const select = configSelector.value;
-//   //User
-//   const user = document.getElementById('n_user');
-//   //Grado
-//   const grado = document.getElementById('n_grado');
-//   //Seccion
-//   const seccion = document.getElementById('n_seccion');
-//   //Hidden
-//   const hiddenVal = document.getElementById('n_hidden');
-//   if (select === 'sec') {
-//     user.value = 'none';
-//     grado.value = '';
-//     seccion.value = '';
-//     $(user).hide();
-// 		$(grado).fadeIn(200);
-// 		$(seccion).fadeIn(200);
-//     hiddenVal.value = 'sec';
-//   }else {
-//     grado.value = '1G';
-//     seccion.value = 'A';
-//     user.value = '';
-//     $(grado).hide();
-// 		$(seccion).hide();
-// 		$(user).fadeIn(200);
-//     hiddenVal.value = 'estu';
-//   }
-// });
+/* ************************ */
+/* Funcion para el selector de "Borrar noticias".
+/* ************************ */
+const selectBorrarNoticiaOption = document.querySelectorAll("#boNot-selectOption span");
+selectBorrarNoticiaOption.forEach(element => {
+  element.addEventListener('click', () => {
+    const value = element.dataset.select;
+    const input = document.querySelector("#boNot-selectOption input");
 
-// //FIX FLEX!!! !Hace que las cajas regresen a flex con la funcion fadeIn y no a block, como lo hace normalmente
-// $("#form_modificar_prof, #form_modificar_block").hide();
+    input.value = value;
+
+    //Disparar evento change
+    const event = new Event('change');
+    input.dispatchEvent(event);
+
+    //Efecto activo/desactivo
+    selectBorrarNoticiaOption.forEach(element => $(element).removeClass("active"));
+    $(element).toggleClass("active");
+  });
+});
+
+/* ************************ */
+/* Función para el evento change del input de "Borrar noticias".
+/* ************************ */
+const selectBorrarNoticiaInput = document.getElementById('boNot-option');
+selectBorrarNoticiaInput.addEventListener('change', () => {
+  const value = selectBorrarNoticiaInput.value;
+  const inputID = document.getElementById('boNot-id');
+
+  if (value === 'unsee') {
+    $(inputID).fadeOut(200);
+    inputID.value = "none";
+  }else {
+    $(inputID).fadeIn(200);
+    inputID.value = "";
+  }
+});
