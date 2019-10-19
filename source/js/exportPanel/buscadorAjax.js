@@ -163,18 +163,22 @@ function addEventToButtonSearch() {
     const navModify = document.getElementById('nav_modificar');
     navModify.click();
 
+    //Elementos
+    const m_cedula = document.getElementById('m-CedulaU');
+    const m_user = document.getElementById('m-NombreU');
+
     //Rellenar datos
-    const m_selector = document.getElementById('m_selector_user');
-    const m_option = document.getElementById('m_option_user');
-    const m_cedula = document.getElementById('m_cedula_user');
-    const m_user = document.getElementById('m_name_user');
-    const event = new Event('change');
+    let select;
+    if (dataHTML.privilegio === 'V-'){
+      select = 'm-selectV';
+    }else if (dataHTML.privilegio === 'A-'){
+      select = 'm-selectA';
+    }else if (dataHTML.privilegio === 'CR-'){
+      select = 'm-selectCR';
+    }
 
-
-    m_selector.value = dataHTML.privilegio;
-    m_selector.dispatchEvent(event);//Ejecutar evento change
-    m_option.value = 'UPDATE';
-    m_option.dispatchEvent(event);//Ejecutar evento
+    document.getElementById(select).click();
+    document.getElementById('m-optionUpdate').click();
     m_cedula.value = dataHTML.cedula;
     m_user.value = dataHTML.user;
 

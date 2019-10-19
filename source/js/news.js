@@ -1,7 +1,7 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
+//SASS
 import './../sass/news/main.sass';
 //Importar jquery
 import $ from 'jquery';
@@ -122,7 +122,10 @@ show.addEventListener('click', ()=>{
   $('#showImg').fadeOut(200);
 });
 
-
+/*
+MOBILE
+*/
+import './exports/mobileNewsButton';
 
 /*
 Cookies

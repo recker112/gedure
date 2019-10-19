@@ -4,24 +4,26 @@ import $ from 'jquery';
 import {alerts} from './../exports/alerts';
 //Ajax
 import {consultAjax, loadingAnimation} from './../exports/ajaxPromise';
+//VerifyVar
+import {verifyVar} from './../exports/funciones/verifyVar';
 
 /*
 Funciones de cambiar contraseña
 */
-const btnChangePass = document.getElementById('op_boton');
-const loadingChangePass = document.getElementById('op_loading');
+const btnChangePass = document.getElementById('pc-ok');
+const loadingChangePass = document.getElementById('pc-loading');
 btnChangePass.addEventListener('click', async e => {
   e.preventDefault();
 
   //Form
-  const form = document.getElementById('form_opciones');
+  const form = document.getElementById('pc-form');
 
   //Variables
-  const passAct = document.getElementById('pass_actual').value;
-  const passNew = document.getElementById('pass_new').value;
-  const passRep = document.getElementById('pass_new_repit').value;
+  const passAct = document.getElementById('pc-actual').value;
+  const passNew = document.getElementById('pc-new').value;
+  const passRep = document.getElementById('pc-newRepit').value;
 
-  if (passAct !== '' && passNew !== '' && passRep !== '') {
+  if (verifyVar(passAct, passNew, passRep)) {
     if (passAct !== passNew && passAct !== passRep) {
       if (passNew === passRep) {
         //Animación

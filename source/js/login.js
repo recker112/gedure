@@ -1,7 +1,7 @@
 /*
 Importar archivos necesarios
 */
-//Importar CSS AND IMG
+//SASS
 import './../sass/login/main.sass';
 //Importar jquery
 import $ from 'jquery';
@@ -114,4 +114,4 @@ const cerrarPopad = document.getElementById('popad-cerrar');
 cerrarPopad.addEventListener('click', () => {
   const popad = document.getElementById('popad');
   $(popad).fadeOut(200);
-})
+});

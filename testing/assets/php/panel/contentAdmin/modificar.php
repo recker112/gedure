@@ -8,7 +8,7 @@
     <span class="title">Modificar</span>
     <form action="#" method="POST" autocomplete="off" id="m-formU">
       <div id="selectU" class="m-div1">
-        <span class="active" data-selector="V-">V-</span>
+        <span id="m-selectV" class="active" data-selector="V-">V-</span>
         <span id="m-selectA" data-selector="A-">A-</span>
         <span id="m-selectCR" data-selector="CR-">CR-</span>
         <input type="hidden" id="m-SeletorU" name="privilegio" value="V-" />
@@ -20,7 +20,7 @@
       </div>
       <div class="m-div3" id="m-selectsOp">
         <span class="active" data-selector='INSERT' id="m-selectInsert">Insertar</span>
-        <span data-selector='UPDATE'>Actualizar</span>
+        <span id="m-optionUpdate" data-selector='UPDATE'>Actualizar</span>
         <span data-selector='DELETE'>Eliminar</span>
         <input type="hidden" id="m-selectOptionsU" name="option" value="INSERT" />
       </div>

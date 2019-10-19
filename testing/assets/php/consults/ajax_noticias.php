@@ -31,6 +31,14 @@ try {
   $owner = $_SESSION['cedula'];
   $destino = "../../src/noticias/img/";
 
+  //Verificar destino
+  if (!file_exists($destino)) {
+    $oldumask = umask(0); 
+    if (mkdir($destino, 0777, true)) {
+      umask($oldumask); 
+    }
+  }
+
   //Verificar cantidad de archivos actuales
   $max=0;
   foreach (glob($destino."*") as $key => $value) {
@@ -55,13 +63,6 @@ try {
       throw new Exception('no_type');
     }
 
-    //Verificar destino
-    if (!file_exists($destino)) {
-      $oldumask = umask(0); 
-      if (mkdir($destino, 0777, true)) {
-        umask($oldumask); 
-      }
-    }
     $archivos['name'] = explode(".", $archivos['name']);//separar string
 
     //Mover archivo
@@ -79,11 +80,11 @@ try {
 
   //Realizar consulta
   $consult = addNewsInDB($mysqli, $title, $content, $imgUploaded, $owner);
-  if ($consult !== "ok") {
+  if ($consult != "ok") {
    throw new Exception($consult);
-   
   }
-  $respuesta = array('status' => 'success','message' => $consult);
+
+  $respuesta = array('status' => 'ok','message' => $consult);
 } catch (\Throwable $e) {
   $respuesta = array('status' => 'error','message' => $e->getMessage());
 }
