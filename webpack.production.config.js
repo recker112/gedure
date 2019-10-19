@@ -13,12 +13,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   context: path.join(__dirname, 'source'),
   entry: {
-    sass: './js/recursos.js',
+    panel: './js/recursos.js',
     login: './js/login.js',
     panelAdmin: './js/panelAdmin.js',
     panelUser: './js/panelUser.js',
     panelCreator: './js/panelCreator.js',
-    news: './js/news.js'
+    news: './js/news.js',
+    index: './js/index.js'
   },
   output: {
     filename: './assets/js/[name].bundle.js',
