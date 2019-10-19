@@ -40,8 +40,12 @@ btnRegistros.addEventListener('click', async () => {
       const tableButton = document.querySelectorAll("#tregistros tbody button");
       tableButton.forEach(element => {
         element.addEventListener('click',() => {
-          alert(element.dataset.button);
-          btnRegistros.click();
+          const inputSearch =  document.getElementById('search_estudi');
+          inputSearch.value = element.dataset.cedula;
+          
+          //Disparar evento change
+          const event = new Event('keyup');
+          inputSearch.dispatchEvent(event);
         });
       });
       
