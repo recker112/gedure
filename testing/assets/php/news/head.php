@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		<title>Login - UEP APEP "La Candelaria"</title>
+		<title>News - UEP APEP "La Candelaria"</title>
 		<meta name="description" content="Página web de la UEP APEP La Candelaria, lugar donde los estudiantes podrán ver sus notas y otras actividades" />
 		<meta name="author" content="Recker" />
 		<meta name="copyright" content="UEP APEP La Candelaria" />
