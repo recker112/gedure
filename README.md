@@ -5,7 +5,7 @@ _Web de la candelaria_
 _Este archivo mostrará alguna información relevante sobre el proyecto Candelaria Web que está siendo realizado por Recker_
 
 ## Instalar programa en la web
-1. Instalar la base de datos (c1540841_candedb.sql) ubicada en los archivos del código.
+1. Instalar la base de datos (CandeDB.sql) ubicada en los archivos del código.
 2. Configurar el config_mysqli.php para poder conectar la base de datos.
 
 
