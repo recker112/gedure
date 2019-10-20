@@ -12,6 +12,16 @@
     <link rel="stylesheet" type="text/css" href="assets/css/index.css" />
 </head>
 <body>
+    <div id="plaga">
+        <img src="assets/img/fondo1.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo2.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo3.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo4.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo5.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo6.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo7.jpg" alt="">
+        <img class="sliderShow-noview" src="assets/img/fondo8.jpg" alt="">
+    </div>
     <div class="container">
     <header>
         <nav>
