@@ -27,7 +27,7 @@ if (isset($_SESSION['token']) && token($_SESSION['token'])) {
 			$respuesta = array('message' => 'no_change');
 		}else if ($consulta == "ok") {
 			$respuesta = array('message' => 'ok');
-			$accion = "Prof modificado: ".$curso." ". $seccion".";
+			$accion = "Prof modificado: ".$curso." ". $seccion .".";
 			add_log($mysqli, $_SESSION['cedula'], $_SESSION['user'], $accion);
 		}else {
 			$respuesta = array('message' => 'internal_error');
