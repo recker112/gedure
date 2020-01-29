@@ -10,7 +10,7 @@ function InfoText() {
               <Link to="/login">Entrar al SGI</Link>
             </nav>
         </header>
-        <main>
+        <main className="Index">
           <h1>UEP APEP "LA CANDELARIA" <br/>
           Turmero - Edo. Aragua</h1>
         </main>
