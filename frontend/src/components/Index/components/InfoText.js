@@ -5,7 +5,7 @@ function InfoText() {
     return(
       <div className="PageIndexBox">
         <header>
-            <nav>
+            <nav className="index">
               <Link to="/news">Noticas UEP APEP</Link>
               <Link to="/login">Entrar al SGI</Link>
             </nav>

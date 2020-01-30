@@ -2,6 +2,23 @@
 @import 'reset';
 //Variables
 @import 'Variables';
+//mixins
+@import 'mixins';
 
 //Index
 @import 'index/main';
+
+//Login
+@import 'login/main';
+
+
+//Fixed basic
+a {
+  text-decoration: none;
+}
+
+* {
+	-webkit-box-sizing: boxer-box;
+	-moz-box-sizing: boxer-box;
+	box-sizing: boxer-box;
+}
