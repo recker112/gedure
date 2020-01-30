@@ -1,0 +1,26 @@
+header {
+  height: 54px;
+  background: #404040;
+  nav {
+    height: 100%;
+    width: 90%;
+    margin: auto;
+    /* Flex */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    a {
+      font-size: 18px;
+      color: #d8d8d8;
+      transition: 0.5s;
+      border-bottom: 1px solid #d8d8d8;
+      margin: 0px 10px;
+      font-weight: 500;
+      font-style: italic;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}

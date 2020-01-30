@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import NavRouter from './components/NavRouter';
+import NavRouter from '../reutilizar/NavRouter';
 import FormLogin from './components/FormLogin';
+import Footer from './Footer';
 
 export default class PageLogin extends Component {
   render() {
@@ -12,7 +13,7 @@ export default class PageLogin extends Component {
         <main>
           <FormLogin />
         </main>
-        <footer>Footer</footer>
+        <Footer />
       </div>
     )
   }

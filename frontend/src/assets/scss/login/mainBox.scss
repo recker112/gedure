@@ -1,0 +1,10 @@
+main {
+  @include border-radius(15px);
+  background: white;
+  border: 3px solid #707070;
+  width: 400px;
+  max-width: 400px;
+  max-height: 350px;
+  margin: 40px auto;
+  flex: auto;
+}
