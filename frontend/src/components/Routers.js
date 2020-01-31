@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PageIndex from './Index/PageIndex';
+import PageIndex from './NewIndex/PageIndex';
 import PageLogin from './Login/PageLogin';
 import PagePanel from './Panel/PagePanel';
 
