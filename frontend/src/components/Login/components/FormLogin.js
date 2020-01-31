@@ -61,30 +61,31 @@ class FormLogin extends Component {
       return(
         <form action="#" autoComplete="off" onSubmit={this.prepareConsult}>
           <div className="formTitle">
-            <span>Login</span>
+            <span>Ingresa tus datos</span>
           </div>
           <div className="formUser">
             <TextField 
               id="loginFormUser"
-              label="Usuario" 
-              variant="outlined" 
+              label="Usuario"
+              required
               fullWidth 
               value={this.state.user}
               onChange={this.handleChange} 
               name="user" 
+              size="small"
             />
           </div>
           <div>
             <TextField
               id="outlined-password-input"
               label="Contraseña"
+              required
               type="password"
-              autoComplete="current-password"
-              variant="outlined"
               onChange={this.handleChange}
               value={this.state.pass}
               fullWidth
               name="pass"
+              size="small"
             />
           </div>
           <div>

@@ -11,7 +11,7 @@ function InfoText() {
             </nav>
         </header>
         <main className="Index">
-          <h1>UEP APEP "LA CANDELARIA" <br/>
+          <h1>UEP APEP "La Candelaria" <br/>
           Turmero - Edo. Aragua</h1>
         </main>
       </div>
