@@ -7,4 +7,18 @@ main {
   max-height: 350px;
   margin: 40px auto;
   flex: auto;
+
+  form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    .formTitle {
+      font-size: 30px;
+      font-weight: 100;
+      font-style: italic;
+    }
+  }
 }
