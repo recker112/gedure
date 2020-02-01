@@ -1,60 +1,33 @@
-import React from 'react';
-import { Paper,
-  Button,
-  TextField, 
-  FormControlLabel,
-  Checkbox } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import HeaderNoPanel from '../reutilizar/HeaderNoPanel';
 import LockIcon from '@material-ui/icons/Lock';
+import Grow from '@material-ui/core/Grow';
+import Zoom from '@material-ui/core/Zoom';
+import { Form } from './components/Form';
 
 
-
-function PageLogin() {
+function PageIndex() {
+  useEffect(() => {
+    document.title = "La Candelaria - Login";
+  }, [])
   return(
     <div className="BoxPageIndex">
       <HeaderNoPanel />
-      <main>
-        <div className="HeadMain">
-          <span className="IconBoxIndex">
-            <LockIcon style={{ fontSize: 40 }} />
-          </span>
-          <span className="TitleIndex">La Candelaria</span>
-        </div>
-        <form>
-          <div className="space">
-            <TextField 
-              id="outlined-basic" 
-              label="Usuario" 
-              variant="outlined" 
-            />
+      <Grow in={true}>
+        <main>
+          <Zoom in={true} timeout={500}>
+          <div className="HeadMain">
+            <span className="IconBoxIndex">
+              <LockIcon style={{ fontSize: 40 }} />
+            </span>
+            <span className="TitleIndex">La Candelaria</span>
           </div>
-          <div className="space">
-            <TextField 
-              id="outlined-basic" 
-              label="Contraseña" 
-              variant="outlined" 
-              type="password"
-            />
-          </div>
-          <div className="space">
-            <FormControlLabel
-              value="end"
-              control={<Checkbox color="primary" />}
-              label="Recordar en este equipo"
-              labelPlacement="Recordar en este equipo"
-            />
-          </div>
-          <div className="space">
-            <Button variant="contained" color="primary">Acceder</Button>
-          </div>
-          <div className="Copyright">
-            <span>&copy; UEP APEP "La Candelaria" - 2020</span>
-            <span>Desarollado por Recker</span>
-          </div>
-        </form>
-      </main>
+          </Zoom>
+          <Form />
+        </main>
+      </Grow>
     </div>
   )
 }
 
-export default PageLogin;
+export default PageIndex;

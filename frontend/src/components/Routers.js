@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PageIndex from './Index/PageIndex';
-import PageLogin from './Login/PageLogin';
+import PageNews from './News/PageNews';
 import PagePanel from './Panel/PagePanel';
 
 
@@ -13,8 +13,9 @@ class Routers extends Component {
       la que más se asemeje, excepto si se coloca el atributo "exact" */
       <Switch>
         <Route exact path="/" component={PageIndex} />
-        <Route exact path="/login" component={PageLogin} />
-        <Route exact path="/panel" component={PagePanel} />
+        <Route exact path="/login" component={PageIndex} />
+        <Route eact path="/news" component={PageNews} />
+        <Route eact path="/panel" component={PagePanel} />
         <Route>No se ha encontrado una ruta.</Route>
       </Switch>
     )

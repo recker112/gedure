@@ -1,24 +1,10 @@
-header.headerNoPanel {
-  background: $primary;
-  height: 50px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-  nav{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
-    span.IconBoxButton {
-      padding-right: 5px
-    }
-  }
-}
+@import '../global/headerNoPanel';
 
 .BoxPageIndex {
   main {
+    margin: auto;
     margin-top: 80px;
+    max-width: 300px;
     .HeadMain {
       display: flex;
       flex-direction: column;
@@ -30,12 +16,15 @@ header.headerNoPanel {
         display: flex;
         align-items: center;
         justify-content: center;
+        animation: moveIcon 15s infinite;
+        transition: 0.5s;
       }
       .TitleIndex {
         margin-top: 10px;
         font-weight: 100;
         font-style: italic;
         font-size: 20px;
+        transition: 0.5s;
       }
     }
 
@@ -44,6 +33,7 @@ header.headerNoPanel {
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: 0.5s;
       div.space {
         margin-bottom: 40px;
         input {
@@ -59,5 +49,24 @@ header.headerNoPanel {
         text-align: center;
       }
     }
+  }
+}
+
+@keyframes moveIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+  30%{
+    transform: rotate(360deg);
+  }
+  40%{
+    transform: rotate(330deg);
+  }
+  50%{
+    transform: rotate(390deg);
+  }
+
+  80% {
+    transform: rotate(0deg);
   }
 }
