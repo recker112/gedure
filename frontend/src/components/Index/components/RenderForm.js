@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { TextField, FormControlLabel, Checkbox, Button, Grow } from '@material-ui/core';
+import React from 'react';
+import { TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import ButtonForm from './ButtonForm';
-import Alert from '@material-ui/lab/Alert';
+import { AlertsState } from './../../reutilizar/AlertsState';
 
 export function RenderForm(props) {
   //Destructurar datos
@@ -9,8 +9,6 @@ export function RenderForm(props) {
     handleChange, 
     handleSubmit,
     setDataForm } = props.options;
-  
-  const [alertOpeFix, setAlertOpeFix] = useState(DataForm.alertOpen)
 
   return (
   <form onSubmit={handleSubmit}>
@@ -40,17 +38,4 @@ export function RenderForm(props) {
   );
 }
 
-function AlertsState(props) {
-  const { DataForm, setDataForm } = props.options;
 
-  return <Grow in={DataForm.alertOpen}>
-    <Alert style={{
-    position: "fixed",
-      bottom: "10px",
-      right: "10px",
-      zIndex: 10
-    }} severity={DataForm.alertSeverity} onClose={() => {
-      setDataForm({ ...DataForm, alertOpen: false });
-    } }>{DataForm.alertText}</Alert>
-  </Grow>;
-}
