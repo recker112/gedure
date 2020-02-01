@@ -1,0 +1,17 @@
+header.headerNoPanel {
+  background: $primary;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  nav{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    span.IconBoxButton {
+      padding-right: 5px
+    }
+  }
+}

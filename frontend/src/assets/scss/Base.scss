@@ -9,6 +9,8 @@
 @import 'index/main';
 //Login
 @import 'login/main';
+//News
+@import 'news/main';
 
 
 //Fixed basic
@@ -20,4 +22,10 @@ a {
 	-webkit-box-sizing: boxer-box;
 	-moz-box-sizing: boxer-box;
 	box-sizing: boxer-box;
+}
+
+
+//Transition GLOBAL THEME
+body {
+  transition: 0.5s;
 }
