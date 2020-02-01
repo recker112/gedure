@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom'
 
+//Compoentes
 import { RenderForm } from './RenderForm';
+import { consultAjax } from '../../reutilizar/ajaxConsult';
 
 export function Form() {
   const [DataForm, setDataForm] = useState({
@@ -39,22 +40,38 @@ export function Form() {
     setTimeout(getConsult, 2000);
   }
 
-  const getConsult = () => {
-    if (DataForm.user === 'Recker' && DataForm.pass === '1234'){
-      setDataForm({...DataForm, alertOpen: true,
-      alertText: 'Login satisfactorio!!',
-      alertSeverity: "success",
-      alertTimeOut: true,
-      validating: false,
-      loginIs: true});
+  const getConsult = async () => {
+    let res = await consultAjax("http://echo.jsontest.com/pass/jenn/user/recker");
+    if (res !== 'no_connect'){
+      console.log(res);
+      if (res.user === DataForm.user && res.pass === DataForm.pass) {
+        if (DataForm.checkbox === true){
+          localStorage.setItem("loginIs", true);
+          localStorage.setItem("data", JSON.stringify(DataForm));
+        }
+        setDataForm({...DataForm, alertOpen: true,
+        alertText: 'Login Realizado correctamente!!',
+        alertSeverity: "success",
+        alertTimeOut: true,
+        validating: false,
+        loginIs: true});
+      }else {
+        setDataForm({...DataForm, alertOpen: true,
+        alertText: 'Usuario y/o contraseña incorrecta',
+        alertSeverity: "warning",
+        alertTimeOut: true,
+        validating: false,
+        loginIs: false});
+      }
     }else {
       setDataForm({...DataForm, alertOpen: true,
-      alertText: 'Usuario y/o contraseña incorrectos.',
-      alertSeverity: "warning",
+      alertText: 'No se pudo conectar con el servidor.',
+      alertSeverity: "error",
       alertTimeOut: true,
       validating: false,
       loginIs: false});
     }
+    
 
     //Reactivando botones.
     document.querySelectorAll('.headerNoPanel button').forEach((element) => {
