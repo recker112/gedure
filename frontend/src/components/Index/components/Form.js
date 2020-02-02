@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom'
 
 //Compoentes
@@ -6,6 +6,7 @@ import { RenderForm } from './RenderForm';
 import { consultAjax } from '../../reutilizar/ajaxConsult';
 
 export function Form() {
+  //State de TODOA los datos a enviar y recibir.
   const [DataForm, setDataForm] = useState({
     user: '',
     pass: '',
@@ -15,8 +16,11 @@ export function Form() {
     alertText: '',
     alertSeverity: 'success',
     alertTimeOut: false,
-    loginIs: false
+    loginIs: true
   });
+
+  //State para verificar si se inició sesión o NEL.
+  const [loginIs, setLoginIs] = useState(false);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -43,33 +47,31 @@ export function Form() {
   const getConsult = async () => {
     let res = await consultAjax("http://echo.jsontest.com/pass/jenn/user/recker");
     if (res !== 'no_connect'){
-      console.log(res);
       if (res.user === DataForm.user && res.pass === DataForm.pass) {
-        if (DataForm.checkbox === true){
-          localStorage.setItem("loginIs", true);
-          localStorage.setItem("data", JSON.stringify(DataForm));
-        }
         setDataForm({...DataForm, alertOpen: true,
-        alertText: 'Login Realizado correctamente!!',
-        alertSeverity: "success",
-        alertTimeOut: true,
-        validating: false,
-        loginIs: true});
+          alertText: 'Login Realizado correctamente!!',
+          alertSeverity: 'success',
+          alertTimeOut: true,
+          validating: false,
+          loginIs: true
+        });
+        //Recuerda poner las actualizaciones de los state al final,
+        //ya que con cada update esto referesca el render().
+        setLoginIs(true);
       }else {
         setDataForm({...DataForm, alertOpen: true,
-        alertText: 'Usuario y/o contraseña incorrecta',
-        alertSeverity: "warning",
-        alertTimeOut: true,
-        validating: false,
-        loginIs: false});
+          alertText: 'Usuario y/o contraseña incorrecta',
+          alertSeverity: 'warning',
+          alertTimeOut: true,
+          validating: false
+        });
       }
     }else {
       setDataForm({...DataForm, alertOpen: true,
       alertText: 'No se pudo conectar con el servidor.',
-      alertSeverity: "error",
+      alertSeverity: 'error',
       alertTimeOut: true,
-      validating: false,
-      loginIs: false});
+      validating: false});
     }
     
 
@@ -79,23 +81,14 @@ export function Form() {
     });
   }
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    return () => {
-      abortController.abort();
-    };
-  }, [])
-
   //Verificar si se redireccionará o no.
-  if (DataForm.loginIs) {
+  if (loginIs) {
     return (
       <Redirect to={{
         pathname: '/panel',
         state: {
           loginIs: true,
-          data: {
-            user: DataForm.user
-          }
+          data: DataForm
         }
       }} />
     )
@@ -105,5 +98,3 @@ export function Form() {
     )
   }
 }
-
-

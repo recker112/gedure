@@ -1,6 +1,8 @@
 .BoxPageNews {
   main {
+    margin: auto;
     margin-top: 80px;
+    max-width: 1250px;
     .SwitchOptionNews{
       margin-bottom: 15px;
       display: flex;
@@ -26,7 +28,7 @@
       margin: 0px 10px;
       flex: 70%;
       div {
-        margin-bottom: 10px;
+        margin-bottom: 25px;
       }
       .Noticia {
         display: flex;
@@ -85,10 +87,13 @@
     .BoxAnuncios {
       flex: 40%;
       margin: 0px 10px;
+      /*FIX paper*/
+      div.MuiPaper-root:first-child {
+        margin-bottom: 30px;
+      }
       .AHead {
         font-size: 20px;
         text-align: center;
-        margin-bottom: 10px;
         transition: 0.5s;
       }
       .Anuncio {
@@ -111,7 +116,7 @@
       /* Fix Material-ui */
       div {
         padding-top: 5px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
     }
   }
