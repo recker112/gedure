@@ -10,13 +10,14 @@ export function ShowContentButton(props) {
       {
         //Mostrar el contenido para la pantalla de escritorio.
         (contentData) => {
-          const { changeContent } = contentData;
+          const { changeContent, changeToggleDrawer } = contentData;
           return (<RenderButton options={{
             title,
             content,
             text,
             redirect,
-            changeContent
+            changeContent,
+            changeToggleDrawer
           }}>
             {props.children}
           </RenderButton>);
@@ -28,11 +29,12 @@ export function ShowContentButton(props) {
     //Mostrar el contenido para la pantalla de mobil.
     return (<ContentController.Consumer>
       {(contentData) => {
-        const { changeContent } = contentData;
+        const { changeContent, changeToggleDrawer  } = contentData;
         return (<RenderMobileButton options={{
           text,
           redirect,
-          changeContent
+          changeContent,
+          changeToggleDrawer
         }}>
           {props.children}
         </RenderMobileButton>);

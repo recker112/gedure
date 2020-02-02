@@ -25,6 +25,12 @@
   margin-top: 5px;
 }
 
-.BoxPageNews {
-
+.BoxPagePanel {
+  main {
+    margin: 10px;
+    margin-top: 80px;
+    .Status {
+      width: 100px;
+    }
+  }
 }

@@ -2,7 +2,12 @@ import React from 'react';
 import { ListItem, ListItemIcon, ListItemText, Divider, Tooltip } from '@material-ui/core';
 
 export function RenderButton(props) {
-  const { title, content, text, redirect, changeContent } = props.options;
+  const { title, 
+    content, 
+    text, 
+    redirect, 
+    changeContent, 
+    changeToggleDrawer } = props.options;
   
   //Regresar boton de MOBIL, es decir, con el tooltip.
   return (
@@ -17,7 +22,10 @@ export function RenderButton(props) {
       interactive 
       arrow
     >
-    <ListItem button key={text} onClick={() => changeContent(redirect)}>
+    <ListItem button key={text} onClick={() => {
+      changeContent(redirect);
+      changeToggleDrawer();
+    }}>
       <ListItemIcon>
         {props.children}
       </ListItemIcon>
