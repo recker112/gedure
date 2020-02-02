@@ -8,7 +8,7 @@ export function ShowComponentResponsive(props) {
     mas pequeña de lo recomendable y realizar el cambio.
     False = No recomendable.
     True = Recompendable. */}
-    {props.options.matches ? (<React.Fragment>
+    {props.options.resolution ? (<React.Fragment>
       <ListNoticias />
       <ListAnuncios />
     </React.Fragment>) :

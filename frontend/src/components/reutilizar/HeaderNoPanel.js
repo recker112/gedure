@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonTheme from './ButtonTheme';
 import { Link } from 'react-router-dom';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 
 //Icons
 import AnnouncementIcon from '@material-ui/icons/Announcement';
@@ -17,16 +17,20 @@ function HeaderNoPanel() {
         </span>
         <span className="IconBoxButton">
           <Link to="/news">
-            <IconButton>
-              <AnnouncementIcon />
-            </IconButton>
+            <Tooltip title="Noticias" arrow>
+              <IconButton>
+                <AnnouncementIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
         </span>
         <span className="IconBoxButton">
           <Link to="/login">
-            <IconButton>
-              <VpnKeyIcon />
-            </IconButton>
+          <Tooltip title="Login" arrow>
+              <IconButton>
+                <VpnKeyIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
         </span>
       </nav>

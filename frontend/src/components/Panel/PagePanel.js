@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom'
+import RenderPanel from './RenderPanel';
 
 
 function PagePanel() {
@@ -83,7 +84,7 @@ function PagePanel() {
 
   if (auth === true){
     return(
-      <h1>Bienvenido {data.user}</h1>
+        <RenderPanel data={data} />
     )
   }else {
     return(

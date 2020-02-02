@@ -1,0 +1,30 @@
+.drawerMenu {
+  height: 50px;
+  background: $primary;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .TextHead {
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 15px;
+    user-select: none;
+  }
+  //Fix style
+  button {
+    margin-right: 15px;
+  }
+}
+
+.ToolTipDrawerMenu-Title {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.ToolTipDrawerMenu-Content {
+  margin-top: 5px;
+}
+
+.BoxPageNews {
+
+}

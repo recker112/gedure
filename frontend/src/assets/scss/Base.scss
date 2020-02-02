@@ -1,16 +1,17 @@
-//Reset
-//@import 'reset';
 //Variables
 @import 'Variables';
 //mixins
 @import 'mixins';
 
+//Globales
+@import 'global/headerPanel';
+
 //Index
 @import 'index/main';
-//Login
-@import 'login/main';
 //News
 @import 'news/main';
+//Panel
+@import 'panel/main';
 
 
 //Fixed basic
