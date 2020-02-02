@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Grow } from '@material-ui/core';
 
 export function SwitchButton(props) {
   const handleClickSwitch = (e) => {
@@ -17,9 +17,11 @@ export function SwitchButton(props) {
     }
   };
   return (<div className="SwitchOptionNews">
+    <Grow in={true}> 
     <Paper variant="outlined">
       <span id="SONnoticias" className={`ItemSwitchNews active`} onClick={handleClickSwitch}>Noticias</span>
       <span id="SONanuncios" className="ItemSwitchNews" onClick={handleClickSwitch}>Anuncios</span>
     </Paper>
+    </Grow>
   </div>);
 }

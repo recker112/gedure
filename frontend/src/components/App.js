@@ -42,11 +42,14 @@ export default function App() {
   //Aplicar cambios de estilos.
   const useDarkMode = () => {
     //Verificar el estado del State y cambiarlo.
-    theme === 'light' ? setTheme('dark') : setTheme('light');
+    let changeThemeTo = theme === 'light' ? 'dark' : 'light';
+
+    //Cambiar el estado en el componente
+    setTheme(changeThemeTo);
 
     //Aplicar los cambios del State en el almacenamiento local para que
     //al recargar la página los cambios hechos se mantengan.
-    localStorage.setItem("theme", localStorage.getItem("theme") === "light" ? "dark": "light");
+    localStorage.setItem("theme", changeThemeTo);
   }
 
   return (
