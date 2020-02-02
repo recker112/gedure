@@ -13,5 +13,15 @@ header.headerNoPanel {
     span.IconBoxButton {
       padding-right: 5px
     }
+    //Fix button header PANEL
+    button{
+      margin-left: 5px;
+    }
+  }
+}
+
+header.fixPanel {
+  nav {
+    justify-content: space-between;
   }
 }

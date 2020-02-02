@@ -10,7 +10,7 @@ import { ShowComponentResponsive } from './components/ShowComponentResponsive';
 export default function PageNews() {
   const theme = useTheme();
   const [SwitchOption, setSwitchOption] = useState('noticias');
-  const matches = useMediaQuery(theme.breakpoints.up('sm'))
+  const resolution = useMediaQuery(theme.breakpoints.up('sm'));
 
   useEffect(() => {
     document.title = "La Candelaria - News";
@@ -26,7 +26,7 @@ export default function PageNews() {
           <Hidden smUp>
             <SwitchButton setestado={setSwitchOption} />
           </Hidden>
-          <ShowComponentResponsive options={{SwitchOption, matches}} />
+          <ShowComponentResponsive options={{SwitchOption, resolution}} />
         </main>
       </Grow>
     </div>

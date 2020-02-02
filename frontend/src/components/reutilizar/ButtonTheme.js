@@ -4,7 +4,7 @@ import { ThemeController } from './../App';
 
 //Icono
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 
 export default function ButtonTheme() {
   return (
@@ -14,8 +14,13 @@ export default function ButtonTheme() {
   */
   <ThemeController.Consumer>
     {(themeData) => {
+      const mode = themeData.theme === 'dark' ? 'Claro' : 'Nocturno';
       return (
-        <IconButton onClick={themeData.useDarkMode}><WbIncandescentIcon /></IconButton>
+        <Tooltip title={`Modo ${mode}`} arrow>
+          <IconButton onClick={themeData.useDarkMode}>
+            <WbIncandescentIcon />
+          </IconButton>
+        </Tooltip>
       );
     }}
   </ThemeController.Consumer>);
