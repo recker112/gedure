@@ -35,7 +35,7 @@ export default function RenderPanel(props) {
       resolution
     }}
     >
-    <div className="BoxPageIndex">
+    <div className="BoxPagePanel">
       <HeaderPanel data={data} />
       <DrawerMenu />
       <RenderContent />

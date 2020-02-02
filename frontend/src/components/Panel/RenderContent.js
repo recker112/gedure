@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContentController } from './RenderPanel';
+import { ContentHome } from './components/contentChange/ContentHome';
 
 export function RenderContent() {
   return (
@@ -9,7 +10,7 @@ export function RenderContent() {
           const { content } = contentData;
           console.log(content + " REvisa RenderContent para organizar los contenidos");
           if (content === "home") {
-            return (<h1>Home</h1>);
+            return (<ContentHome/>);
           }
           else if (content === "news") {
             return (<h1>News</h1>);
