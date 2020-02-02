@@ -14,9 +14,11 @@ function PageIndex() {
 
   useEffect(() => {
     document.title = "La Candelaria - Login";
-    let cancelar = false;
+    let cancelar = false;//Se crea una variable la cual cancele TODO
+    //el useEffect, esto es cuando para cuando se desmonte el componente
+    //y así evitar problemas.
 
-    if (!cancelar) {
+    if (!cancelar) {//Encierra todas las funciones.
       //Primero verifica si existe el ssesionStorage y después lo inserta
       //para ser transformado a JSON.
       const loginIsS = JSON.parse(
@@ -37,6 +39,8 @@ function PageIndex() {
       }
     }
     
+    //Return se usa para llamar la variable la cual cancelará toda la
+    //función. Para entenderlo mejor ver la documentación de los HOOKS.
     return () => {
       cancelar = true;
     }
