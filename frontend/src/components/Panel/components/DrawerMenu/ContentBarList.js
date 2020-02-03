@@ -23,9 +23,9 @@ export const ContentBarList = () => {
     </div>
     <List style={{ width: "250px" }} dense={true}>
       <BarListButton options={{
-        title: 'Registrar', 
+        title: 'Registros', 
         content: 'Muestra todos los movimientos realizados en toda la app, desde inicios de sesión hasta movimientos en la matrícula', 
-        text: 'Registrar', 
+        text: 'Registros', 
         redirect: 'registros'
       }}>
        <History/>
