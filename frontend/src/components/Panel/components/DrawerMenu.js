@@ -1,6 +1,5 @@
 import React from 'react';
-import {
-  Drawer} from '@material-ui/core';
+import { Drawer } from '@material-ui/core';
 
 //Componentes
 import { ContentController } from '../RenderPanel';

@@ -84,7 +84,9 @@ function PagePanel() {
 
   if (auth === true){
     return(
-        <RenderPanel data={data} />
+      //enviar data para poder usar la información en los demás
+      //componentes
+      <RenderPanel data={data} />
     )
   }else {
     return(
