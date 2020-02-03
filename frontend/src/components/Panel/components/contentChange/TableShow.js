@@ -1,20 +1,13 @@
 import React from 'react';
-import { Paper, Button, LinearProgress } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 
 export function TableShow(props) {
   //Destructurar props.
-  const options = props.options
-
-  if (!options.search) {
-    return (<h1>{options.Req.data.user}</h1>)
+  const {Req, search} = props.options;
+  console.log(Req);
+  if (!search && Req.data) {
+    return (<h1>YESS</h1>)
   }else {
-    return <h1>Buscando...</h1>
+    return <div>Buscando...</div>;
   }
 
   // if (dataReq && !search && dataReq.query.status) {
