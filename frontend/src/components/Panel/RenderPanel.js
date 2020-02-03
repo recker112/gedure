@@ -20,9 +20,6 @@ export default function RenderPanel(props) {
     setToggleDrawer(!toggleDrawe);
   }
 
-  React.useEffect(()=>{
-    console.log("x");
-  })
   return (
     <ContentController.Provider value={{
       content, 

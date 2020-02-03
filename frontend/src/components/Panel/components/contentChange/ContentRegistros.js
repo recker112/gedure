@@ -15,14 +15,6 @@ export function ContentRegistros() {
     setsSlectSearch(value);
   }
 
-  const verifyData = ()=>{
-    if (Req.data || Req.query){
-      return {Req, search}
-    }else {
-      return {search}
-    }
-  }
-
   useEffect(() => {
     setSearch(true);
     if (selectSearch === 'all'){
@@ -42,11 +34,8 @@ export function ContentRegistros() {
           }
         }
       ]
-
-      setTimeout(() => {
         setReq(res);
         setSearch(false);
-      }, 2000);
     }else {
       const res = [
         {
@@ -65,11 +54,9 @@ export function ContentRegistros() {
         }
       ]
 
-      setTimeout(() => {
         setReq(res);
-      }, 2000);
     }
-  }, [selectSearch])
+  }, [selectSearch, setSearch])
 
   return (
     <Grid container spacing={2}>
@@ -83,7 +70,7 @@ export function ContentRegistros() {
       <Grid item xs={12}>
         <div className="Box">
             <div className="content">
-              <TableShow options={verifyData()} />
+              <TableShow options={{ Req, search }} />
             </div>
         </div>
       </Grid>
