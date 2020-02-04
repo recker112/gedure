@@ -4,6 +4,7 @@ export function TableShow(props) {
   //Destructurar props.
   const {Req, search} = props.options;
   console.log(Req);
+  console.log(search);
   if (!search && Req.data) {
     return (<h1>YESS</h1>)
   }else {
