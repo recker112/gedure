@@ -7,7 +7,7 @@ import { TableShow } from './TableShow';
 export function ContentRegistros() {
   const [selectSearch, setsSlectSearch] = useState('all');
   const [Req, setReq] = useState([]);
-  const [search, setSearch] = useState(true);
+  const [search, setSearch] = useState(false);
 
   const handleChangeSelect = (e) => {
     const value = e.target.value;
@@ -53,10 +53,10 @@ export function ContentRegistros() {
           }
         }
       ]
-
-        setReq(res);
+      setReq(res);
+      setSearch(false);
     }
-  }, [selectSearch, setSearch])
+  }, [selectSearch])
 
   return (
     <Grid container spacing={2}>
