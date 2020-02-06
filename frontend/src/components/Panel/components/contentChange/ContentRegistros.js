@@ -6,7 +6,7 @@ import { TableShow } from './TableShow';
 
 export function ContentRegistros() {
   const [selectSearch, setsSlectSearch] = useState('all');
-  const [Req, setReq] = useState([]);
+  const [Req, setReq] = useState({});
   const [search, setSearch] = useState(false);
 
   const handleChangeSelect = (e) => {
@@ -17,45 +17,61 @@ export function ContentRegistros() {
 
   useEffect(() => {
     setSearch(true);
+    setReq({});
     if (selectSearch === 'all'){
-      const res = [
-        {
-          query: {
-            status: true
+      const res = {
+        "query": {
+          "status": true
+        },
+        "data": [
+          {
+          "cedula": "28438812",
+          "user": "Recker",
+          "accion": "Inicio de sesión",
+          "opciones": {
+              "desbloquear": false
+            }
+          },
+          {
+          "cedula": "12941274",
+          "user": "Luis",
+          "accion": "Baneo",
+          "opciones": {
+              "desbloquear": true
+            }
           }
-        },{
-          data: {
-            cedula: 'V-12471941',
-            user: 'Recker',
-            accion: 'Inicio de sesión',
-            opciones: [{
-              desbloquear: false
-            }]
-          }
-        }
-      ]
-        setReq(res);
-        setSearch(false);
-    }else {
-      const res = [
-        {
-          query: {
-            status: false
-          }
-        },{
-          data: {
-            cedula: 'V-12471941',
-            user: 'Recker',
-            accion: 'Inicio de sesión',
-            opciones: [{
-              desbloquear: false
-            }]
-          }
-        }
-      ]
+        ]
+      }
       setReq(res);
-      setSearch(false);
+    }else if(selectSearch === 'ban') {
+      const res = {
+        "query": {
+          "status": false
+        },
+        "data": [
+          {
+          "cedula": "20401247",
+          "user": "Fernando",
+          "accion": "Baneo",
+          "opciones": {
+              "desbloquear": true
+            }
+          },
+          {
+          "cedula": "12941274",
+          "user": "Luis",
+          "accion": "Baneo",
+          "opciones": {
+              "desbloquear": true
+            }
+          }
+        ]
+      }
+      setReq(res);
     }
+    setTimeout(() => {
+      setSearch(false)
+    }, 2000);
   }, [selectSearch])
 
   return (

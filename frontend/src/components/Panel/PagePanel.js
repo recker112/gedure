@@ -42,8 +42,6 @@ function PagePanel() {
   }
 
   const setDataLocal = (data) => {
-    console.log(data);
-    delete data.pass;
     if (data.checkbox){
       localStorage.setItem('loginIs', true);
       localStorage.setItem('data', JSON.stringify(data));
@@ -82,7 +80,7 @@ function PagePanel() {
     }
   }, [location])
 
-  if (auth === true){
+  if (auth && data){
     return(
       //enviar data para poder usar la información en los demás
       //componentes

@@ -47,7 +47,8 @@ export function Form() {
   const getConsult = async () => {
     let res = await consultAjax("http://echo.jsontest.com/pass/jenn/user/recker");
     if (res !== 'no_connect'){
-      if (res.user === DataForm.user && res.pass === DataForm.pass) {
+      if (true) {
+        //res.user === DataForm.user && res.pass === DataForm.pass
         setDataForm({...DataForm, alertOpen: true,
           alertText: 'Login Realizado correctamente!!',
           alertSeverity: 'success',
@@ -83,6 +84,7 @@ export function Form() {
 
   //Verificar si se redireccionará o no.
   if (loginIs) {
+    delete DataForm.pass;
     return (
       <Redirect to={{
         pathname: '/panel',

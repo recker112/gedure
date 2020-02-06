@@ -3,16 +3,16 @@ import { Grow } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 export function AlertsState(props) {
-  const { DataForm, setDataForm } = props.options;
+  const { control, set } = props;
 
-  return <Grow in={DataForm.alertOpen}>
+  return <Grow in={control.alertOpen}>
     <Alert style={{
     position: "fixed",
       bottom: "10px",
       right: "10px",
       zIndex: 10
-    }} severity={DataForm.alertSeverity} onClose={() => {
-      setDataForm({ ...DataForm, alertOpen: false });
-    } }>{DataForm.alertText}</Alert>
+    }} severity={control.alertSeverity} onClose={() => {
+      set({ ...control, alertOpen: false });
+    } }>{control.alertText}</Alert>
   </Grow>;
 }
