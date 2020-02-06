@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Routers from './Routers';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Provider } from 'react-redux';
+import store from './store';
+import Temita from './reutilizar/ButtonTheme';
 
 //Crear un contexto global
 //Para poder usar funciones y ver variables en otros componentes
@@ -54,6 +57,7 @@ export default function App() {
 
   return (
     /* Selecciona el tema en TODA la app, o en lo que encierra. xD  */
+    <Provider store={store}>
     <ThemeProvider theme={themeConfig}>
       {/* Controlador del tema actual. Selecciona el tema y coloca
       los colores esos. :u */}
@@ -61,8 +65,10 @@ export default function App() {
         {/* Sin el CssBaseLine el programa no aplica el tema correctamente
         debido a que necesita reinicar los css por defecto. */}
         <CssBaseline />
+        <Temita />
         <Routers useDarkMode={useDarkMode} />
       </ThemeController.Provider>
     </ThemeProvider>
+    </Provider>
   );
 }
