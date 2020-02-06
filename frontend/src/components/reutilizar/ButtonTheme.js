@@ -30,10 +30,10 @@ function ButtonTheme({setTheme, test}) {
   </ThemeController.Consumer>);
 }
 
-export const mapStateToProps = state => {
+const mapStateToProps = state => {
   return {
     test: selectTheme(state)
   }
 }
 
-export default connect(null, {setTheme})(ButtonTheme);
+export default connect(mapStateToProps, {setTheme})(ButtonTheme);
