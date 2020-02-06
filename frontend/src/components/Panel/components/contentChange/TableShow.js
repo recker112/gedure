@@ -1,14 +1,32 @@
 import React from 'react';
+import {
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  LinearProgress,
+  Button
+} from '@material-ui/core';
 
 export function TableShow(props) {
   //Destructurar props.
   const {Req, search} = props.options;
-  console.log(Req);
-  console.log(search);
-  if (!search && Req.data) {
-    return (<h1>YESS</h1>)
+  const {query, data} = Req;
+
+  //Verificar si existe query.status
+  let error = (query !== undefined && query.status) ? false : true;
+
+  if (!search && !error) {
+    return <div><RenderTableOk data={data} /></div>
   }else {
-    return <div>Buscando...</div>;
+    if (!search){
+      return <div><RenderTableError /></div>;
+    }else {
+      return <div><RenderTableSearch /></div>;
+    }
   }
 
   // if (dataReq && !search && dataReq.query.status) {
@@ -73,4 +91,98 @@ export function TableShow(props) {
   //     <LinearProgress style={{width: "100%"}} />
   //   </TableContainer>);
   // }
+}
+
+function RenderTableOk(props){
+  const {data} = props;
+  const table = (
+    <TableContainer component={Paper} style={{
+      maxHeight: '450px',
+      overflow: 'auto'
+    }}>
+      <Table aria-label="Tabla de Registros" size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">Cédula</TableCell>
+            <TableCell align="center">Usuario</TableCell>
+            <TableCell align="center">Acción</TableCell>
+            <TableCell align="center">Opciones</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Object.values(data).map((row, i)=>{
+            return (
+              <TableRow key={i}>
+                <TableCell align="center">
+                  <Button variant="outlined" color="primary">
+                    {row.cedula}
+                  </Button>
+                </TableCell>
+                <TableCell align="center">{row.user}</TableCell>
+                <TableCell align="center">{row.accion}</TableCell>
+                <TableCell align="center">
+                  {Object.values(row.opciones).map((options, i)=>{
+                    if (options){
+                      return (<div key={i}>
+                        <Button>Modificar</Button>
+                        <Button>Desbloquear</Button>
+                      </div>)
+                    }else {
+                      return (<Button key={i}>Modificar</Button>)
+                    }
+                  })}
+                </TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
+
+  return <React.Fragment>
+    {table}
+  </React.Fragment>
+}
+
+function RenderTableSearch() {
+  return (
+    <TableContainer component={Paper} style={{
+      maxHeight: '450px',
+      overflow: 'auto'
+    }}>
+      <Table aria-label="Tabla de Registros" size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Cédula</TableCell>
+            <TableCell align="right">Usuario</TableCell>
+            <TableCell align="right">Acción</TableCell>
+            <TableCell align="center">Opciones</TableCell>
+          </TableRow>
+        </TableHead>
+      </Table>
+      <LinearProgress style={{width: "100%"}} />
+    </TableContainer>
+  )
+}
+
+function RenderTableError() {
+  return (
+    <TableContainer component={Paper} style={{
+      maxHeight: '450px',
+      overflow: 'auto'
+    }}>
+      <Table aria-label="Tabla de Registros" size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Cédula</TableCell>
+            <TableCell align="right">Usuario</TableCell>
+            <TableCell align="right">Acción</TableCell>
+            <TableCell align="center">Opciones</TableCell>
+          </TableRow>
+        </TableHead>
+      </Table>
+      <LinearProgress variant="determinate" value={100} color="secondary" style={{width: "100%"}} />
+    </TableContainer>
+  )
 }

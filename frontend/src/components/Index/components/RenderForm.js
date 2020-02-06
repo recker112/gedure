@@ -12,7 +12,7 @@ export function RenderForm(props) {
 
   return (
   <form onSubmit={handleSubmit}>
-    <AlertsState options={ {setDataForm, DataForm} } />
+    <AlertsState control={DataForm} set={setDataForm} />
 
     <div className="space">
       <TextField id="outlined-basic" name="user" label="Usuario" variant="outlined" value={DataForm.user} onChange={handleChange} required autoFocus />
