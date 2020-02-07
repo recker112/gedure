@@ -54,5 +54,10 @@
 				"title": "Imagen47"
 			}
 		]
-	}]
+	}],
+	"login": {
+		"user": "recker",
+		"pass": "jenn",
+		"token": "asd",
+	},
 }
