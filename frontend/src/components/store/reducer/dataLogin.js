@@ -4,7 +4,8 @@ const initialState = {
   pass: '',
   checkbox: false,
   auth: false,
-  validating: false
+  validating: false,
+  loginSI: false,
 };
 
 // action es el valor devuelto por el action
@@ -34,7 +35,21 @@ export default (state = initialState, { type, payload }) => {
     case 'UPDATE_AUTH': {
       return {
         ...state,
+        auth: payload,
+        pass: '',
+      }
+    }
+    case 'UPDATE_BEFORE_AUTH_STORAGE': {
+      return {
+        ...payload,
+        pass: '',
         auth: true,
+      }
+    }
+    case 'LOGIN_SINCE_INDEX': {
+      return {
+        ...state,
+        loginSI: payload
       }
     }
     default: {

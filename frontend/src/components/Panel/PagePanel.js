@@ -1,47 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+//React
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
+
+//Componentes
 import RenderPanel from './RenderPanel';
 
+//redux
+import { connect } from 'react-redux';
+import updateAuth from '../store/action/updateAuth';
+import updateBeforeAuthStorage from '../store/action/updateBeforeAuthStorage';
+import loginSinceIndex from '../store/action/loginSinceIndex';
 
-function PagePanel() {
-  const [auth, setAuth] = useState(false);
-  const [data, setData] = useState({})
-  const location = useLocation();
+
+function PagePanel({
+  dataLogin, 
+  updateBeforeAuthStorage, 
+  updateAuth,
+  loginSinceIndex
+}) {
 
   const VerifyDataLocal = () => {
     //Verificar datos locales.
     //Primero verifica si existe el ssesionStorage y después lo inserta
     //para ser transformado a JSON.
     const loginIsS = JSON.parse(
-      sessionStorage.getItem("loginIs") !== "null" ? sessionStorage.getItem("loginIs") 
+      sessionStorage.getItem("loginIs") === "true" ? sessionStorage.getItem("loginIs") 
       : 
       false);
     const dataS = JSON.parse(sessionStorage.getItem("data"));
     const loginIsL = JSON.parse(
-      localStorage.getItem("loginIs") !== "null" ? 
+      localStorage.getItem("loginIs") === "true" ? 
       localStorage.getItem("loginIs") 
       : 
       false);
     const dataL = JSON.parse(localStorage.getItem("data"));
 
     //Verificar datos obtenidos.
-    if (loginIsS && dataS !== "null"){
-      setAuth(true);
-      setData(dataS);
+    if (loginIsS === true && dataS !== null){
+      //Actualizar state con los datos guardados en la sesión
+      updateBeforeAuthStorage(dataS)
       return true;
-    } else if (loginIsL && dataL !== "null"){
-      setAuth(true);
-      setData(dataL);
+    } else if (loginIsL === true && dataL !== null){
+      //Actualizar state con los datos guardados permanentes.
+      updateBeforeAuthStorage(dataL);
       return true;
     }else {
       //Regresar false si es que no se cumplen con los
-      //suficientes datos para inicar sesión.
+      //suficientes datos para inicar sesión por medio
+      //de los datos almacenados.
       return false;
     }
   }
 
   const setDataLocal = (data) => {
+    //SETEA DATOS BOYYYYYS
     if (data.checkbox){
       localStorage.setItem('loginIs', true);
       localStorage.setItem('data', JSON.stringify(data));
@@ -56,18 +68,25 @@ function PagePanel() {
   useEffect(() => {
     //Seleccionar titulo
     document.title = "La Candelaria - Panel";
-    const { state } = location;
     let CanselaSHION = false;
 
     if (!CanselaSHION){
       //Si no se verifica primero si "state" contiene algo,
       //todo el programa puede EXPLOTAR....
-      if (state !== undefined && state.loginIs === true){
+      if (dataLogin.loginSI){
         //Setear datos locales y de sesion.
-        if (!VerifyDataLocal() && state.data !== undefined){
-          setData(state.data);
-          setDataLocal(state.data);
-          setAuth(true);
+        if (!VerifyDataLocal() && dataLogin.auth){
+          setDataLocal(dataLogin);
+        }else {
+          //Verifica por última vez que el usuario este
+          //auntenticado desde el panel
+          if (!dataLogin.auth) {
+            updateAuth(false);
+          }else {
+            //En caso contrario, cambia el loginSINCE para que
+            //se verifiquen los datos locales.
+            loginSinceIndex(false);
+          }
         }
       }else {
         //Verificar datos locales.
@@ -78,22 +97,23 @@ function PagePanel() {
     return ()=>{
       CanselaSHION = true;
     }
-  }, [location])
+  })
 
-  if (auth && data){
+  if (dataLogin.auth){
     return(
       //enviar data para poder usar la información en los demás
       //componentes
-      <RenderPanel data={data} />
-    )
-  }else {
-    return(
-      <div>
-        <h1>Loading....</h1>
-        <p>Si tarda mucho es posible que haya ocurrido algún fallo en el sistema de login. Puede solucionar este inconveniente dando click <Link onClick={clearAllData} to="/">aquí</Link> y reintentar su login.</p>
-      </div>
+      <RenderPanel data={dataLogin} />
     )
   }
+
+  //Al no estar verificado.
+  return(
+    <div>
+      <h1>Loading....</h1>
+      <p>Si tarda mucho es posible que haya ocurrido algún fallo en el sistema de login. Puede solucionar este inconveniente dando click <Link onClick={clearAllData} to="/">aquí</Link> y reintentar su login.</p>
+    </div>
+  )
 }
 
 function clearAllData() {
@@ -107,4 +127,15 @@ function clearAllData() {
   localStorage.setItem("theme", theme);
 }
 
-export default PagePanel;
+//REDUX
+const mapStateToProps = (state) => ({
+  dataLogin: state.dataLogin
+})
+
+const mapDispatchToProps = {
+  updateBeforeAuthStorage,
+  updateAuth,
+  loginSinceIndex,
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(PagePanel);

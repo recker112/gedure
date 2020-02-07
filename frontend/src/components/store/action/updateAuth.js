@@ -1,8 +1,9 @@
 //Se crea una acción la cual será capturada
 //por el reducer correspondiente.
-const updateAuth = () => {
+const updateAuth = (status) => {
   return {
-    type: "UPDATE_AUTH"
+    type: "UPDATE_AUTH",
+    payload: status,
   }
 }
 
