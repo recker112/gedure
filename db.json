@@ -1,18 +1,6 @@
 {
-	"anuncios": [{
-		"title": "Hola, soy una prueba",
-		"content": "Test test tes test",
-		"by": "Recker"
-	}, {
-		"title": "TEST",
-		"content": "Test test tes test",
-		"by": "Recker"
-	}, {
-		"title": "TESTTITO",
-		"content": "Test test tes test",
-		"by": "Recker"
-	}],
-	"noticias": [{
+	
+"noticias": [{
 		"id": "1",
 		"name": "Henrry",
 		"title": "Ayer vi a un ave",
