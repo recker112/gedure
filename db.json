@@ -1,11 +1,3 @@
 {
-  "anuncios": [{
-    "title": "Hola soy, una prueba",
-    "content": "Test test tes test",
-    "by": "Recker"
-  },{
-    "title": "Test2 largo",
-    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-    "by": "Recker"
-  }]
+  "anuncios": []
 }
