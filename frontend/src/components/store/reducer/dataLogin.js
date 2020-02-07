@@ -3,9 +3,6 @@ const initialState = {
   user: '',
   pass: '',
   checkbox: false,
-  auth: false,
-  validating: false,
-  loginSI: false,
 };
 
 // action es el valor devuelto por el action
@@ -26,30 +23,10 @@ export default (state = initialState, { type, payload }) => {
         [name]: value,
       };
     }
-    case 'UPDATE_VALIDATING_FORM': {
-      return {
-        ...state,
-        validating: payload.validating,
-      }
-    }
-    case 'UPDATE_AUTH': {
-      return {
-        ...state,
-        auth: payload,
-        pass: '',
-      }
-    }
     case 'UPDATE_BEFORE_AUTH_STORAGE': {
       return {
         ...payload,
         pass: '',
-        auth: true,
-      }
-    }
-    case 'LOGIN_SINCE_INDEX': {
-      return {
-        ...state,
-        loginSI: payload
       }
     }
     default: {

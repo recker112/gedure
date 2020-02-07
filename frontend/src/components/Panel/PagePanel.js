@@ -38,7 +38,7 @@ function PagePanel({
     //Verificar datos obtenidos.
     if (loginIsS === true && dataS !== null){
       //Actualizar state con los datos guardados en la sesión
-      updateBeforeAuthStorage(dataS)
+      updateBeforeAuthStorage(dataS);
       return true;
     } else if (loginIsL === true && dataL !== null){
       //Actualizar state con los datos guardados permanentes.
@@ -71,12 +71,11 @@ function PagePanel({
     let CanselaSHION = false;
 
     if (!CanselaSHION){
-      //Si no se verifica primero si "state" contiene algo,
-      //todo el programa puede EXPLOTAR....
       if (dataLogin.loginSI){
         //Setear datos locales y de sesion.
         if (!VerifyDataLocal() && dataLogin.auth){
           setDataLocal(dataLogin);
+          loginSinceIndex(false);
         }else {
           //Verifica por última vez que el usuario este
           //auntenticado desde el panel
@@ -97,9 +96,18 @@ function PagePanel({
     return ()=>{
       CanselaSHION = true;
     }
-  })
+    /** LAS DEPENDENCIAS DEL HOOK ESTÁN ALGO ROTAS, AÚN QUEDA
+     * PENSAR COMO SE SOLVENTARÁN ESTOS ERRORES
+     * AUNQUE SOLAMENTE ES UNAS DEPENDENCIAS.
+     * SI SE QUITA EL dataLogin.auth EL PROGRAMA ENTRA EN
+     * UN BUCLE INFINITO, ASÍ COMO EL AMOR POR ELLA.
+     * Una de las soluciones puede ser separar los estados
+     * como auth y loginSI, pero el detalle es que es
+     */
+  }, [dataLogin.auth]);
 
   if (dataLogin.auth){
+    console.log("SI");
     return(
       //enviar data para poder usar la información en los demás
       //componentes
@@ -129,7 +137,8 @@ function clearAllData() {
 
 //REDUX
 const mapStateToProps = (state) => ({
-  dataLogin: state.dataLogin
+  dataLogin: state.dataLogin,
+  loginStatus: state.loginStatus,
 })
 
 const mapDispatchToProps = {

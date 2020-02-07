@@ -24,7 +24,7 @@ class ButtonForm extends Component {
 
 //REDUX
 const mapStateToProps = (state) => ({
-  validating: state.dataLogin.validating
+  validating: state.loginStatus.validating
 })
 
 export default connect(mapStateToProps)(ButtonForm);

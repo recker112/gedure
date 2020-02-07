@@ -85,7 +85,7 @@ function PageIndex({auth, updateAuth}) {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.dataLogin.auth
+  auth: state.loginStatus.auth
 })
 
 const mapDispatchToProps = {

@@ -6,13 +6,16 @@ import settings from './reducer/settings';
 import dataLogin from './reducer/dataLogin';
 import alertsStatus from './reducer/alertsStatus';
 import news from './reducer/news';
+import loginStatus from './reducer/loginStatus';
 
 const reducers = combineReducers({
     settings,
     dataLogin,
     alertsStatus,
     news,
+    loginStatus,
 });
+
 
 const store = createStore(
     reducers
