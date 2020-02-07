@@ -1,33 +1,41 @@
+//React
 import React from 'react';
-import { TextField, FormControlLabel, Checkbox } from '@material-ui/core';
-import ButtonForm from './ButtonForm';
-import { AlertsState } from './../../reutilizar/AlertsState';
 
-export function RenderForm(props) {
+//Material-UI
+import { TextField, FormControlLabel, Checkbox } from '@material-ui/core';
+
+//Componentes
+import ButtonForm from './ButtonForm';
+
+//Redux
+import { connect } from 'react-redux'
+
+function RenderForm(props) {
   //Destructurar datos
-  const { DataForm, 
+  const {
     handleChange, 
     handleSubmit,
-    setDataForm } = props.options;
+  } = props.options;
+
+  //REDUX
+  const {dataLogin} = props;
 
   return (
   <form onSubmit={handleSubmit}>
-    <AlertsState control={DataForm} set={setDataForm} />
-
     <div className="space">
-      <TextField id="outlined-basic" name="user" label="Usuario" variant="outlined" value={DataForm.user} onChange={handleChange} required autoFocus />
+      <TextField id="user-input" name="user" label="Usuario" variant="outlined" value={dataLogin.user} onChange={handleChange} required autoFocus />
     </div>
 
     <div className="space">
-      <TextField id="outlined-basic" name="pass" label="Contraseña" variant="outlined" type="password" value={DataForm.pass} onChange={handleChange} required />
+      <TextField id="pass-input" name="pass" label="Contraseña" variant="outlined" type="password" value={dataLogin.pass} onChange={handleChange} required />
     </div>
 
     <div className="space">
-      <FormControlLabel value={DataForm.checkbox} onChange={handleChange} control={<Checkbox name="checkbox" color="primary" />} label="Recordar en este equipo" labelPlacement="end" />
+      <FormControlLabel value={dataLogin.checkbox} onChange={handleChange} control={<Checkbox name="checkbox" color="primary" />} label="Recordar en este equipo" labelPlacement="end" />
     </div>
 
     <div className="space">
-      <ButtonForm validating={DataForm.validating} />
+      <ButtonForm />
     </div>
 
     <div className="Copyright">
@@ -38,4 +46,10 @@ export function RenderForm(props) {
   );
 }
 
+//REDUX
+const mapStateToProps = (state) => ({
+  dataLogin: state.dataLogin
+});
 
+
+export default connect(mapStateToProps)(RenderForm);

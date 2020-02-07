@@ -1,19 +1,25 @@
 import React from 'react';
+
+//Material-UI
 import { Paper, Grow } from '@material-ui/core';
 
-export function SwitchButton(props) {
+//redux
+import { connect } from 'react-redux';
+import changeContentNews from '../../store/action/changeContentNews';
+
+function SwitchButton({changeContentNews}) {
   const handleClickSwitch = (e) => {
     if (e.target.id === "SONnoticias") {
       //Cambiar background
       document.getElementById('SONnoticias').classList.add('active');
       document.getElementById('SONanuncios').classList.remove('active');
-      props.setestado('noticias');
+      changeContentNews('noticias');
     }
     else {
       //Cambiar background
       document.getElementById('SONnoticias').classList.remove('active');
       document.getElementById('SONanuncios').classList.add('active');
-      props.setestado('anuncios');
+      changeContentNews('anuncios');
     }
   };
   return (<div className="SwitchOptionNews">
@@ -25,3 +31,14 @@ export function SwitchButton(props) {
     </Grow>
   </div>);
 }
+
+//REDUX
+const mapStateToProps = (state) => ({
+  news: state.news,
+})
+
+const mapDispatchToProps = {
+  changeContentNews,
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SwitchButton);

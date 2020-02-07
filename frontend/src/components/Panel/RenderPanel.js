@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import HeaderPanel from './components/HeaderPanel'
 import DrawerMenu from './components/DrawerMenu';
 import { RenderContent } from './RenderContent';
-import { AlertsState } from '../reutilizar/AlertsState';
+import AlertsState from '../reutilizar/AlertsState';
 
 export const ContentController = React.createContext();
 

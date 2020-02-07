@@ -1,6 +1,5 @@
-//Se crea una acción la cual recibe como parámetro
-//un valor llamado "tema", siendo este el tema actual
-//a usar en la web.
+//Se crea una acción la cual será capturada
+//por el reducer correspondiente.
 const updateTheme = () => {
   return {
     type: "UPDATE_THEME"

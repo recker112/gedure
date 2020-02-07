@@ -1,46 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { Noticia } from './Noticia';
+//React
+import React, { useEffect } from 'react';
 
-export function ListNoticias() {
-  const [ListNoticias, setListNoticias] = useState([]);
+//Componentes
+import {Noticia} from './Noticia';
 
-  const test = [{
-    id: '2',
-    name: 'Henrry',
-    title: 'Ayer vi a un ave',
-    content: 'Yep, si la vi y no pude ver mas porque se fue. :u',
-    imgList: [{title: 'Imagen47'}, 
-      {title: 'Imagen47'},
-      {title: 'Imagen47'},
-      {title: 'Imagen47'},
-      {title: 'Imagen47'}
-    ],
-  },{
-    id: '2',
-    name: 'Henrry',
-    title: 'Ayer vi a un ave',
-    content: 'Yep, si la vi y no pude ver mas porque se fue. :u',
-    imgList: [{title: 'Imagen47'}, 
-      {title: 'Imagen47'},
-      {title: 'Imagen47'},
-      {title: 'Imagen47'},
-      {title: 'Imagen47'}
-    ],
-  },...ListNoticias];
+//Redux
+import { connect } from 'react-redux';
+import { updateNewsNoticias } from '../../store/action/updateNews';
 
-  const getReq = () => {
-    setListNoticias(test);
-  }
-
+export function ListNoticias({list, updateNewsNoticias}) {
   useEffect(() => {
-    setTimeout(() => {
-      setListNoticias(test);
+    const time =  setTimeout(() => {
+      updateNewsNoticias();
     }, 10000);
-  }, [test])
+    
+    //Al desmontar
+    return ()=> {
+      clearTimeout(time);
+    }
+  }, [updateNewsNoticias, list])
   
   return (
-  <article className="BoxNoticias" onClick={getReq}>
-    <Noticia options={ListNoticias} />
+  <article className="BoxNoticias">
+    <Noticia options={list} />
   </article>
   );
 }
+
+const mapStateToProps = (state) => ({
+  list: state.news.dataN,
+})
+
+const mapDispatchToProps = {
+  updateNewsNoticias,
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(ListNoticias);

@@ -1,20 +1,26 @@
+//React
 import React from 'react';
-import { ListNoticias } from './ListNoticias';
-import { ListAnuncios } from './ListAnuncios';
 
-export function ShowComponentResponsive(props) {
+//Componentes
+import ListNoticias from './ListNoticias';
+import ListAnuncios from './ListAnuncios';
+
+//redux
+import { connect } from 'react-redux';
+
+function ShowComponentResponsive({content, mobile}) {
   return (<div className="container">
     {/* Verificar matches para saber si la pantalla está
     mas pequeña de lo recomendable y realizar el cambio.
     False = No recomendable.
     True = Recompendable. */}
-    {props.options.resolution ? (<React.Fragment>
+    {!mobile ? (<React.Fragment>
       <ListNoticias />
       <ListAnuncios />
     </React.Fragment>) :
       /* Verificar el estado del switchNews de la app, para
       saber cual componente se debe mostrar. */
-      props.options.SwitchOption === "noticias" ? (
+      content === 'noticias' ? (
       <ListNoticias styles={{marginTop: "0px"}} />
       )
         :
@@ -23,3 +29,11 @@ export function ShowComponentResponsive(props) {
       )}
   </div>);
 }
+
+const mapStateToProps = (state) => ({
+  content: state.news.content,
+  mobile: state.settings.mobile,
+})
+
+
+export default connect(mapStateToProps)(ShowComponentResponsive);
