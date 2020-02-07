@@ -18,7 +18,6 @@ function AlertsState({alertsStatus, closeAlert}) {
     time = setTimeout(() => {
       closeAlert()
     }, 5000);
-    console.log("X");
   }
 
   //Al desmontar el componente

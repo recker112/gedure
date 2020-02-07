@@ -1,5 +1,5 @@
 //React
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 //Redux
@@ -11,16 +11,17 @@ import openAlert from '../../store/action/openAlerts';
 //Compoentes
 import RenderForm from './RenderForm';
 import { consultAjax } from '../../reutilizar/ajaxConsult';
+import updateAuth from '../../store/action/updateAuth';
+import loginSinceIndex from '../../store/action/loginSinceIndex';
 
 function Form({
   updateUserInfo, 
   updateValidating, 
   openAlert,
   dataLogin,
+  updateAuth,
+  loginSinceIndex,
 }) {
-  //State para verificar si se inició sesión o NEL.
-  const [loginIs, setLoginIs] = useState(false);
-
   const handleChange = (e) => {
     // enviar input al store para actualizar states
     updateUserInfo(e);
@@ -44,20 +45,24 @@ function Form({
 
   const getConsult = async () => {
     let res = await consultAjax("http://echo.jsontest.com/pass/jenn/user/recker");
-    if (res.user === dataLogin.user && res.pass === dataLogin.pass){
-      if (true) {
-        //res.user === DataForm.user && res.pass === DataForm.pass
+    if (res !== 'no_connect'){
+      if (res.user === dataLogin.user && res.pass === dataLogin.pass) {
         openAlert(
           'Login exitoso!!',
-          'success'
+          'success',
+          true
         )
+        //LoginSICEN sirve para idetificar que el login
+        //realizado viene desde el formulario.
+        loginSinceIndex(true);
+        updateAuth(true);
         //Recuerda poner las actualizaciones de los state al final,
         //ya que con cada update esto referesca el render().
-        setLoginIs(true);
       }else {
         openAlert(
           'Usuario y/o contraseña incorrecta',
-          'error'
+          'warning', 
+          true
         )
       }
     }else {
@@ -78,12 +83,12 @@ function Form({
   }
 
   //Verificar si se redireccionará o no.
-  if (loginIs) {
+  if (dataLogin.auth) {
     return (
       <Redirect to={{
         pathname: '/panel',
         state: {
-          loginIs: true
+          auth: true
         }
       }} />
     )
@@ -102,6 +107,8 @@ const mapDispatchToProps = {
   updateUserInfo,
   updateValidating,
   openAlert,
+  updateAuth,
+  loginSinceIndex,
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Form);

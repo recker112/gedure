@@ -27,21 +27,22 @@ function PageIndex({auth, updateAuth}) {
       //Primero verifica si existe el ssesionStorage y después lo inserta
       //para ser transformado a JSON.
       const loginIsS = JSON.parse(
-        sessionStorage.getItem("loginIs") !== "null" ? sessionStorage.getItem("loginIs") 
+        sessionStorage.getItem("loginIs") === "true" ? sessionStorage.getItem("loginIs") 
         : 
         false);
       const dataS = JSON.parse(sessionStorage.getItem("data"));
 
       const loginIsL = JSON.parse(
-        localStorage.getItem("loginIs") !== "null" ? 
+        localStorage.getItem("loginIs") !== "true" ? 
         localStorage.getItem("loginIs") 
         : 
         false);
       const dataL = JSON.parse(sessionStorage.getItem("data"));
 
       //Verificar datos
-      if ((loginIsS && dataS !== "null" ) || (loginIsL && dataL !== "null") ){
-        updateAuth();
+      if ((loginIsS && dataS !== null ) || (loginIsL && dataL !== null) ){
+        //ACtualizar AUTH para que redirija al panel
+        updateAuth(true);
       }
     }
     
@@ -57,9 +58,6 @@ function PageIndex({auth, updateAuth}) {
     return (
       <Redirect to={{
         pathname: '/panel',
-        state: {
-          loginIs: true
-        }
       }} />
     )
   }
@@ -91,8 +89,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  updateAuth
+  updateAuth,
 }
-
 
 export default connect(mapStateToProps,mapDispatchToProps)(PageIndex);
