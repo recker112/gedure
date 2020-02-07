@@ -1,9 +1,10 @@
 //Se crea una acción la cual será capturada
 //por el reducer correspondiente.
-const updateTheme = () => {
+const Mmobile = (valor) => {
   return {
-    type: "UPDATE_THEME"
+    type: "MOBILE_MODE",
+    payload: valor
   }
 }
 
-export default updateTheme;
+export default Mmobile;

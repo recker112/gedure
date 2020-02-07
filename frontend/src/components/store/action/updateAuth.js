@@ -1,9 +1,9 @@
 //Se crea una acción la cual será capturada
 //por el reducer correspondiente.
-const updateTheme = () => {
+const updateAuth = () => {
   return {
-    type: "UPDATE_THEME"
+    type: "UPDATE_AUTH"
   }
 }
 
-export default updateTheme;
+export default updateAuth;

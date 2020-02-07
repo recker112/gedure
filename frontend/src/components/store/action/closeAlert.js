@@ -1,9 +1,9 @@
 //Se crea una acción la cual será capturada
 //por el reducer correspondiente.
-const updateTheme = () => {
+const closeAlert = () => {
   return {
-    type: "UPDATE_THEME"
+    type: "CLOSE_ALERT"
   }
 }
 
-export default updateTheme;
+export default closeAlert;

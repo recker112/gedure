@@ -6,7 +6,8 @@ if (!localStorage.getItem("theme")){
 
 //Inicar valor del state.
 const initialState = {
-  tema: localStorage.getItem("theme")
+  tema: localStorage.getItem("theme"),
+  mobile: false,
 };
 
 // action es el valor devuelto por el action
@@ -29,6 +30,12 @@ export default (state = initialState, { type, payload }) => {
         tema: changeThemeTo
       };
     }
+    case 'MOBILE_MODE': {
+      return {
+        ...state,
+        mobile: payload
+      }
+    }
     default: {
       return state;
     }
@@ -36,4 +43,4 @@ export default (state = initialState, { type, payload }) => {
 };
 
 // Seleccionar estado del state.
-// export const selectTheme = state => state.updateData.tema;
+// export const selectTheme = state => state.settings.tema;
