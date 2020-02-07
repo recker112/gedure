@@ -1,16 +1,16 @@
 import React from 'react';
-//Controlador del thema
+
+//Redux
 import { ThemeController } from './../App';
 import { connect } from 'react-redux';
+import setTheme from '../store/action/updateTheme';
+import {selectTheme} from '../store/reducer/updateTheme';
 
 //Icono
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import { IconButton, Tooltip } from '@material-ui/core';
-import setTheme from '../store/themeChange/action';
-import {selectTheme} from '../store/themeChange/reducer';
 
 function ButtonTheme({setTheme, test}) {
-  console.log(test);
   return (
   /*ThemeController.Consumer permite renderizar un elemento
   usando las funciones y varialbes aplicadas en <ThemeController.Provider 
@@ -32,8 +32,8 @@ function ButtonTheme({setTheme, test}) {
 
 const mapStateToProps = state => {
   return {
-    test: selectTheme(state)
+    tema: state.tema
   }
 }
 
-export default connect(mapStateToProps, {setTheme})(ButtonTheme);
+export default connect(mapStateToProps, {setTheme});
