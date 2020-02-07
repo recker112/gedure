@@ -1,11 +1,10 @@
 //Se crea una acción la cual recibe como parámetro
 //un valor llamado "tema", siendo este el tema actual
 //a usar en la web.
-const setTema = tema => {
+const updateTheme = () => {
   return {
-    type: "UPDATE_THEME",
-    payload: tema
+    type: "UPDATE_THEME"
   }
 }
 
-export default setTema;
+export default updateTheme;
