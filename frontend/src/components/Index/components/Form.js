@@ -20,6 +20,7 @@ function Form({
   openAlert,
   dataLogin,
   updateAuth,
+  auth,
   loginSinceIndex,
 }) {
   const handleChange = (e) => {
@@ -83,7 +84,7 @@ function Form({
   }
 
   //Verificar si se redireccionará o no.
-  if (dataLogin.auth) {
+  if (auth) {
     return (
       <Redirect to={{
         pathname: '/panel',
@@ -101,6 +102,7 @@ function Form({
 
 const mapStateToProps = (state) => ({
   dataLogin: state.dataLogin,
+  auth: state.loginStatus.auth
 })
 
 const mapDispatchToProps = {
