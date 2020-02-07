@@ -6,10 +6,20 @@ import { BrowserRouter as Router } from 'react-router-dom';
 //Components
 import App from './components/App';
 
+
+//Redux
+import store from './components/store';
+import { Provider } from 'react-redux';
+
 //Styles
 import './assets/scss/Base.scss';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>, document.getElementById('root'));
 serviceWorker.unregister();

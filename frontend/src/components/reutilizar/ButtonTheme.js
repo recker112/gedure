@@ -1,39 +1,52 @@
 import React from 'react';
 
 //Redux
-import { ThemeController } from './../App';
 import { connect } from 'react-redux';
-import setTheme from '../store/action/updateTheme';
-import {selectTheme} from '../store/reducer/updateTheme';
+import updateTheme from '../store/action/updateTheme';
 
 //Icono
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import { IconButton, Tooltip } from '@material-ui/core';
 
-function ButtonTheme({setTheme, test}) {
+
+//Se agrega el state y actions del redux como un prop dentro del
+//componente
+function ButtonTheme({tema, updateTheme}) {
+
+  //Aplicar cambios de estilos.
+  const useDarkMode = () => {
+    //Verificar el estado del State y cambiarlo.
+    let changeThemeTo = tema === 'light' ? 'dark' : 'light';
+
+    //Cambiar el estado en el componente
+    updateTheme()
+
+    //Aplicar los cambios del State en el almacenamiento local 
+    //para que al recargar la página los cambios hechos se 
+    //mantengan.
+    localStorage.setItem("theme", changeThemeTo);
+  }
+
+  const mode = tema === 'dark' ? 'Claro' : 'Nocturno';
   return (
-  /*ThemeController.Consumer permite renderizar un elemento
-  usando las funciones y varialbes aplicadas en <ThemeController.Provider 
-  value={{useDarkMode, theme}}>
-  */
-  <ThemeController.Consumer>
-    {(themeData) => {
-      const mode = themeData.theme === 'dark' ? 'Claro' : 'Nocturno';
-      return (
-        <Tooltip title={`Modo ${mode}`} arrow>
-          <IconButton onClick={themeData.useDarkMode}>
-            <WbIncandescentIcon />
-          </IconButton>
-        </Tooltip>
-      );
-    }}
-  </ThemeController.Consumer>);
+  <Tooltip title={`Modo ${mode}`} arrow>
+    <IconButton onClick={useDarkMode}>
+      <WbIncandescentIcon />
+    </IconButton>
+  </Tooltip>);
 }
 
+//Mapeo del store de redux
 const mapStateToProps = state => {
   return {
-    tema: state.tema
+    tema: state.settings.tema
   }
 }
 
-export default connect(mapStateToProps, {setTheme});
+//Obtener acciones
+const mapDispatchToProps = {
+  updateTheme,
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonTheme);

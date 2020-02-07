@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import updateData from './reducer/updateData';
+import settings from './reducer/settings';
 
 const reducers = combineReducers({
-    updateData
+    settings,
 });
 
 const store = createStore(
