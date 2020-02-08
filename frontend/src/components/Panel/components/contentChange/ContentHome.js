@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper, Grid, Grow } from '@material-ui/core';
-import { AnnounceBox } from './AnnounceBox';
+import { AnnounceBox } from './home/AnnounceBox';
 
 export function ContentHome() {
   return (

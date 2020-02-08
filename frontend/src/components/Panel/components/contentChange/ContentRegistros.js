@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Paper  } from '@material-ui/core';
 
 import { SelectorRegistrosDisplay } from './registros/SelectorRegistrosDisplay';
-import { TableShow } from './TableShow';
+import { TableShow } from './registros/TableShow';
 
 export function ContentRegistros() {
   const [selectSearch, setsSlectSearch] = useState('all');
   const [Req, setReq] = useState({});
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(true);
 
   const handleChangeSelect = (e) => {
     const value = e.target.value;
@@ -46,7 +46,7 @@ export function ContentRegistros() {
     }else if(selectSearch === 'ban') {
       const res = {
         "query": {
-          "status": false
+          "status": true
         },
         "data": [
           {
@@ -70,7 +70,7 @@ export function ContentRegistros() {
       setReq(res);
     }
     setTimeout(() => {
-      setSearch(false)
+      setSearch(false);
     }, 2000);
   }, [selectSearch])
 
