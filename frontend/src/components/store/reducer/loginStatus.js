@@ -2,7 +2,8 @@
 const initialState = {
   auth: false,
   loginSI: false,
-  validating: false
+  validating: false,
+  redirect: false,
 };
 
 // action es el valor devuelto por el action
@@ -26,6 +27,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         auth: true,
+        redirect: payload,
       }
     }
     default: {

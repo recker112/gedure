@@ -6,9 +6,9 @@ import { ContentRegistros } from './components/contentChange/ContentRegistros';
 
 //Redux
 import { connect } from 'react-redux';
+import RenderNews from '../News/RenderNews';
 
 function RenderContent({content}) {
-  console.log(content);
   if (content === "home") {
     return (
       <main>
@@ -17,9 +17,7 @@ function RenderContent({content}) {
     );
   }else if (content === "news") {
     return (
-      <main>
-        <h1>News</h1>
-      </main>
+      <RenderNews />
     );
   }
   else if (content === "registros") {

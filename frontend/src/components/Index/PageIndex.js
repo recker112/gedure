@@ -29,7 +29,11 @@ function PageIndex({auth, reloginSuccess}) {
       const keyS = JSON.parse(sessionStorage.getItem("key"));
 
       if (keyL || keyS){
-        reloginSuccess()
+        //Al actualizar el AUTH, se le pasa el parámetro
+        //true para decirle a PANEL que está siendo redireccionado
+        //por la web, y así pueda revisar la key sin que
+        //entre en bucle.
+        reloginSuccess(true);
       }
     }
     
@@ -44,7 +48,7 @@ function PageIndex({auth, reloginSuccess}) {
   if (auth){
     return (
       <Redirect to={{
-        pathname: '/panel',
+        pathname: '/panel'
       }} />
     )
   }
