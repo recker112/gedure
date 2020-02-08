@@ -12,11 +12,10 @@ import MenuButtonOpen from './MenuButtonOpen';
 
 //Icons
 import MailIcon from '@material-ui/icons/Mail';
-import { ButtonUser } from './ButtonUser';
+import ButtonUser from './ButtonUser';
 
 
-function HeaderNoPanel(props) {
-  const { user } = props.data;
+function HeaderNoPanel() {
   return (
     <div>
       <header className="headerNoPanel fixPanel">
@@ -39,7 +38,7 @@ function HeaderNoPanel(props) {
                 <NoticiasChangeContent />
             </span>
             <span className="IconBoxButton">
-              <ButtonUser user={user} ></ButtonUser>
+              <ButtonUser></ButtonUser>
             </span>
           </div>
         </nav>

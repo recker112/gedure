@@ -9,7 +9,7 @@ const initialState = {
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "UPDATE_USER_INFO_FORM": {
+    case "UPDATE_INPUT_VALUE": {
       //Obtener input
       const e = payload.input;
 
@@ -22,12 +22,6 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         [name]: value,
       };
-    }
-    case 'UPDATE_BEFORE_AUTH_STORAGE': {
-      return {
-        ...payload,
-        pass: '',
-      }
     }
     default: {
       return state;

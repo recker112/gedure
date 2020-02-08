@@ -1,9 +1,14 @@
 import React from 'react';
+
+//Material-UI
 import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
+
+//Redux
+import { connect } from 'react-redux';
 
 //Boton con MENU INTERNO BOYYYYYYYYYYS
 
-export function ButtonUser(props) {
+function ButtonUser({name}) {
   //State la cual controlará el estado del menú.
   const [buttonItem, setButtonItem] = React.useState(null);
 
@@ -41,7 +46,7 @@ export function ButtonUser(props) {
         >
           {/*Mostrar el nombre del usuario en caso de que no tenga
           una foto*/}
-          {props.user.substring(0, 1).toUpperCase()}
+          {name.substring(0, 1).toUpperCase()}
         </Avatar>
       </IconButton>
     </Tooltip>
@@ -60,3 +65,11 @@ export function ButtonUser(props) {
     </Menu>
   </React.Fragment>);
 }
+
+//REDUX
+const mapStateToProps = (state) => ({
+  name: state.userData.name
+})
+
+
+export default connect(mapStateToProps)(ButtonUser);

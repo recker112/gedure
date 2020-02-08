@@ -13,7 +13,6 @@ import AlertsState from '../reutilizar/AlertsState';
 
 //redux
 import { connect } from 'react-redux';
-import updateAuth from '../store/action/updateAuth';
 
 function PageIndex({auth, updateAuth}) {
   useEffect(() => {
@@ -24,26 +23,7 @@ function PageIndex({auth, updateAuth}) {
     //y así evitar problemas.
 
     if (!cancelar) {//Encierra todas las funciones.
-      //Primero verifica si existe el ssesionStorage y después lo inserta
-      //para ser transformado a JSON.
-      const loginIsS = JSON.parse(
-        sessionStorage.getItem("loginIs") === "true" ? sessionStorage.getItem("loginIs") 
-        : 
-        false);
-      const dataS = JSON.parse(sessionStorage.getItem("data"));
-
-      const loginIsL = JSON.parse(
-        localStorage.getItem("loginIs") !== "true" ? 
-        localStorage.getItem("loginIs") 
-        : 
-        false);
-      const dataL = JSON.parse(sessionStorage.getItem("data"));
-
-      //Verificar datos
-      if ((loginIsS && dataS !== null ) || (loginIsL && dataL !== null) ){
-        //ACtualizar AUTH para que redirija al panel
-        updateAuth(true);
-      }
+      //Funcion para verificar el LOGIN
     }
     
     //Return se usa para llamar la variable la cual cancelará toda la
@@ -89,7 +69,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  updateAuth,
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(PageIndex);

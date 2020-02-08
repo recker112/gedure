@@ -7,6 +7,8 @@ import dataLogin from './reducer/dataLogin';
 import alertsStatus from './reducer/alertsStatus';
 import news from './reducer/news';
 import loginStatus from './reducer/loginStatus';
+import userData from './reducer/userData';
+import panelSettings from './reducer/panelSettings';
 
 const reducers = combineReducers({
     settings,
@@ -14,6 +16,8 @@ const reducers = combineReducers({
     alertsStatus,
     news,
     loginStatus,
+    userData,
+    panelSettings
 });
 
 

@@ -5,7 +5,7 @@ import { Paper, Grow } from '@material-ui/core';
 
 //redux
 import { connect } from 'react-redux';
-import { updateNewsAnuncios } from '../../store/action/updateNews';
+import { updateNewsAnuncios } from '../../store/action/news/updateNews';
 
 //Componentes
 import { Anuncio } from './Anuncio';
@@ -13,13 +13,26 @@ import { Anuncio } from './Anuncio';
 function ListAnuncios({list, updateNewsAnuncios}) {
 
   useEffect(() => {
-    const time = setTimeout(() => {
-      updateNewsAnuncios();
-    }, 10000);
+    const fetchData = async ()=>{
+      const res = await fetch('https://my-json-server.typicode.com/recker112/candelariaweb/anuncios')
+      .then(response => response.json())
+      .then(json => json)
+
+      if (res !== {}){
+        
+      }
+
+      updateNewsAnuncios(res);
+    }
+
+    let cancel = false;
+    if (!cancel){
+      fetchData();
+    }
 
     //Al desmontar
     return ()=> {
-      clearTimeout(time);
+      cancel = true;
     }
   }, [updateNewsAnuncios])
 
@@ -37,7 +50,7 @@ function ListAnuncios({list, updateNewsAnuncios}) {
 }
 
 const mapStateToProps = (state) => ({
-  list: state.news.dataN,
+  list: state.news.dataA,
 })
 
 const mapDispatchToProps = {

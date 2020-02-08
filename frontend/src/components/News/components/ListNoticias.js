@@ -6,19 +6,31 @@ import {Noticia} from './Noticia';
 
 //Redux
 import { connect } from 'react-redux';
-import { updateNewsNoticias } from '../../store/action/updateNews';
+import { updateNewsNoticias } from '../../store/action/news/updateNews';
 
 export function ListNoticias({list, updateNewsNoticias}) {
   useEffect(() => {
-    const time =  setTimeout(() => {
-      updateNewsNoticias();
-    }, 10000);
+    const fetchData = async ()=>{
+      const res = await fetch('https://my-json-server.typicode.com/recker112/candelariaweb/noticias')
+      .then(response => response.json())
+      .then(json => json)
+
+      if (res !== 'no_connect'){
+      }
+
+      updateNewsNoticias(res);
+    }
+
+    let cancel = false;
+    if (!cancel) {
+      fetchData();
+    }
     
     //Al desmontar
     return ()=> {
-      clearTimeout(time);
+      cancel=true;
     }
-  }, [updateNewsNoticias, list])
+  }, [updateNewsNoticias])
   
   return (
   <article className="BoxNoticias">

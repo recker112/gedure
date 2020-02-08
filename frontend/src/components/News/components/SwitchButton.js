@@ -5,7 +5,7 @@ import { Paper, Grow } from '@material-ui/core';
 
 //redux
 import { connect } from 'react-redux';
-import changeContentNews from '../../store/action/changeContentNews';
+import changeContentNews from '../../store/action/news/changeContentNews';
 
 function SwitchButton({changeContentNews}) {
   const handleClickSwitch = (e) => {
