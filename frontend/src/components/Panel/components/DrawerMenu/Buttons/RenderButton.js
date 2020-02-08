@@ -1,13 +1,21 @@
 import React from 'react';
 import { ListItem, ListItemIcon, ListItemText, Divider, Tooltip } from '@material-ui/core';
 
-export function RenderButton(props) {
+//Redux
+import { connect } from 'react-redux';
+import toggleDrawer from '../../../../store/action/panel/toggleDrawer';
+import updatePanelContent from '../../../../store/action/panel/updatePanelContent';
+
+function RenderButton({
+  options, 
+  toggleDrawer, 
+  updatePanelContent,
+  children
+}) {
   const { title, 
     content, 
     text, 
-    redirect, 
-    changeContent, 
-    changeToggleDrawer } = props.options;
+    redirect } = options;
   
   //Regresar boton de MOBIL, es decir, con el tooltip.
   return (
@@ -23,13 +31,20 @@ export function RenderButton(props) {
       arrow
     >
     <ListItem button key={text} onClick={() => {
-      changeContent(redirect);
-      changeToggleDrawer();
+      updatePanelContent(redirect);
+      toggleDrawer();
     }}>
       <ListItemIcon>
-        {props.children}
+        {children}
       </ListItemIcon>
       <ListItemText primary={text} />
     </ListItem>
   </Tooltip>);
 }
+
+const mapDispatchToProps = {
+  toggleDrawer,
+  updatePanelContent
+}
+
+export default connect(null,mapDispatchToProps)(RenderButton);

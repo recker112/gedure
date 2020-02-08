@@ -2,7 +2,7 @@ import React from 'react';
 import { List, Divider } from '@material-ui/core';
 
 //Componentes
-import { CloseDrawerMenu } from './CloseDrawerMenu';
+import CloseDrawerMenu from './CloseDrawerMenu';
 import { BarListButton } from "./BarListButton";
 
 //Iconos
