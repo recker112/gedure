@@ -16,9 +16,13 @@ function PagePanel({
   checkbox,
   loginSI,
   updateDataUser,
-  reloginSuccess
+  reloginSuccess,
+  redirect
 }) {
   useEffect(() => {
+    //Titulo
+    document.title = "La Candelaria - Panel";
+    
     //Lugar de petición hacia el servidor
     const fetchData = async (key)=>{
       //QUERY
@@ -39,7 +43,11 @@ function PagePanel({
         }
 
         updateDataUser(dataTest);
-        reloginSuccess();
+
+        //Se le pasa el parámetro false para evitar que vuelva
+        //a verificar la redirección si está activa. Así se
+        //evita que la app revise el usuario 2 veces o más.
+        reloginSuccess(false);
         return true;
       }else {
         return false;
@@ -75,18 +83,38 @@ function PagePanel({
           fetchData(keyL);
         }else if (keyS === true){
           fetchData(keyS);
+        }else {
+          //Redirecciona al usuario al LOGIN al no estar auth
+          //por la web y al no tener datos locales guardados.
+          document.getElementById('redirectToLogin').click();
         }
-      }else {
-        // console.log("No hacer nada");
+      }else if (auth) {
+        //Verificar la redirección SIN datos seteados.
+        if (redirect) {
+          //keys
+          const keyL = JSON.parse(localStorage.getItem("key"));
+          const keyS = JSON.parse(sessionStorage.getItem("key"));
+
+          //Verificar primero si existe key local.
+          if (keyL === true) {
+            fetchData(keyL);
+          }else if (keyS === true){
+            fetchData(keyS);
+          }
+        }
+        //El checkeo de la redirección es obligatorio si no se
+        //quiere que el programa entre en bucle. xD
       }
     }
 
+    //Al desmontar componente
     return ()=>{
       CanselaSHION = true;
     }
     
   });
 
+  //Verificar auth
   if (auth){
     return(
       //enviar data para poder usar la información en los demás
@@ -99,7 +127,7 @@ function PagePanel({
   return(
     <div>
       <h1>Loading....</h1>
-      <p>Si tarda mucho es posible que haya ocurrido algún fallo en el sistema de login. Puede solucionar este inconveniente dando click <Link onClick={clearAllData} to="/">aquí</Link> y reintentar su login.</p>
+      <p>Si tarda mucho es posible que haya ocurrido algún fallo en el sistema de login. Puede solucionar este inconveniente dando click <Link id="redirectToLogin" onClick={clearAllData} to="/">aquí</Link> y reintentar su login.</p>
     </div>
   )
 }
@@ -120,6 +148,7 @@ const mapStateToProps = (state) => ({
   auth: state.loginStatus.auth,
   checkbox: state.dataLogin.checkbox,
   loginSI: state.loginStatus.loginSI,
+  redirect: state.loginStatus.redirect,
 })
 
 const mapDispatchToProps = {

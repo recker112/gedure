@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderMobileButton } from "./RenderMobileButton";
+import RenderMobileButton from "./RenderMobileButton";
 import RenderButton from "./RenderButton";
 export function ShowContentButton(props) {
   //Verificar si existe contenido para el Tooltip.

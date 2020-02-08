@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import updatePanelContent from '../../../../store/action/panel/updatePanelContent';
 import toggleDrawer from '../../../../store/action/panel/toggleDrawer';
 
-export function RenderMobileButton({
+function RenderMobileButton({
   options, 
   children,
   updatePanelContent,

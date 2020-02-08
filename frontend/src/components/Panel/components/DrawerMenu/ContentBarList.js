@@ -14,6 +14,7 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import HomeIcon from '@material-ui/icons/Home';
 
 export const ContentBarList = () => {
   return (<div role="presentation">
@@ -22,6 +23,15 @@ export const ContentBarList = () => {
       <CloseDrawerMenu />
     </div>
     <List style={{ width: "250px" }} dense={true}>
+    <BarListButton options={{
+        title: 'Dashboard', 
+        content: 'Inicio del panel', 
+        redirect: 'home',
+        text: 'Dashboard'
+      }}>
+       <HomeIcon/>
+      </BarListButton>
+      <Divider/>
       <BarListButton options={{
         title: 'Registros', 
         content: 'Muestra todos los movimientos realizados en toda la app, desde inicios de sesión hasta movimientos en la matrícula', 
