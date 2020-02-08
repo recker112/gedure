@@ -6,10 +6,9 @@ import AlertsState from '../reutilizar/AlertsState';
 
 export const ContentController = React.createContext();
 
-export default function RenderPanel(props) {
+export default function RenderPanel() {
   const [content, setContent] = useState('home');
   const [toggleDrawe, setToggleDrawer] = useState(false);
-  const data = props.data;
 
   //Cambiar el contenido a mostrar
   const changeContent = (content) => {
@@ -23,14 +22,12 @@ export default function RenderPanel(props) {
 
   return (
     <ContentController.Provider value={{
-      content, 
-      changeContent, 
       toggleDrawe, 
       changeToggleDrawer
     }}
     >
     <div className="BoxPagePanel">
-      <HeaderPanel data={data} />
+      <HeaderPanel />
       <DrawerMenu />
       <RenderContent />
       <AlertsState />

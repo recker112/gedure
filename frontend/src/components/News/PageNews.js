@@ -7,7 +7,7 @@ import { useTheme } from '@material-ui/core/styles';
 
 //Redux
 import { connect } from 'react-redux';
-import Mmobile from '../store/action/mobile';
+import Mmobile from '../store/action/settings/mobile';
 
 //Componentes
 import HeaderNoPanel from '../reutilizar/HeaderNoPanel'

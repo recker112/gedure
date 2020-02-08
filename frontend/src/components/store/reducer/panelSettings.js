@@ -1,7 +1,7 @@
 //Inicar valor del state.
 const initialState = {
   content: 'home',
-  toggleDrawe: false,
+  toggleDrawer: false,
 };
 
 // action es el valor devuelto por el action
@@ -12,6 +12,12 @@ export default (state = initialState, { type, payload }) => {
       return ({
         ...state,
         content: payload
+      })
+    }
+    case 'TOGGLE_DRAWER': {
+      return ({
+        ...state,
+        toggleDrawer: !state.toggleDrawer
       })
     }
     default: {

@@ -1,27 +1,28 @@
 //Inicar valor del state.
 const initialState = {
-  user: '',
-  pass: '',
-  checkbox: false,
+  cedula: '',
+  cedulaSin: '',
+  name: '',
+  curso: '',
+  seccion: '',
+  nota: '',
+  horario: '',
+  profeGuia: '',
+  privilegio: '',
+  avatar: '',
+  token: '',
 };
 
 // action es el valor devuelto por el action
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "UPDATE_INPUT_VALUE": {
-      //Obtener input
-      const e = payload.input;
-
-      //Obtener valores del input
-      const name = e.target.name;
-      const value = name === 'checkbox' ? e.target.checked : e.target.value;
-
-      //Regresar state.
+    case 'UPDATE_DATA_USER': {
+      console.log(payload);
       return {
         ...state,
-        [name]: value,
-      };
+        ...payload,
+      }
     }
     default: {
       return state;

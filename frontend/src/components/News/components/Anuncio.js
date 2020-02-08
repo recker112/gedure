@@ -1,5 +1,6 @@
 import React from 'react';
 import { Paper, Grow } from '@material-ui/core';
+
 export function Anuncio(props) {
   const recorrerLista = props.option.map((anuncio, i) => <Grow in={true} key={i}>
     <Paper variant="outlined">

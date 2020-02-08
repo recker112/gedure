@@ -5,17 +5,15 @@ export const consultAjax = async (consult, data=false) => {
     if (data){
       initFetch = {
         method: 'POST',
-        body: data,
-        headers: new Headers()
+        body: data
       }
     }else {
       initFetch = {
-        method: 'POST',
-        headers: new Headers()
+        method: 'POST'
       }
     }
     //Realizar ajax
-    let resAjax = await fetch(consult, initFetch);
+    let resAjax = await fetch(consult);
     //Variable del resultado
     let res;
 

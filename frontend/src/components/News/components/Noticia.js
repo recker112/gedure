@@ -5,8 +5,8 @@ import { Paper, Grow } from '@material-ui/core';
 import { ImagenVisor } from "./ImagenVisor";
 
 export function Noticia(props) {
-  const recorrerList = props.options.map((element, i) =>
-  <div key={i}>
+  const recorrerList = props.options.map((element) =>
+  <div key={element.id}>
   <Grow in={true}> 
   <Paper variant="outlined">
     <section className="Noticia">

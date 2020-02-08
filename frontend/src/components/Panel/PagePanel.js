@@ -7,111 +7,91 @@ import RenderPanel from './RenderPanel';
 
 //redux
 import { connect } from 'react-redux';
-import updateAuth from '../store/action/updateAuth';
-import updateBeforeAuthStorage from '../store/action/updateBeforeAuthStorage';
-import loginSinceIndex from '../store/action/loginSinceIndex';
+import updateDataUser from '../store/action/login/updateDataUser';
+import reloginSuccess from '../store/action/login/reloginSuccess';
 
 
 function PagePanel({
-  dataLogin, 
-  updateBeforeAuthStorage, 
-  updateAuth,
-  loginSinceIndex
+  auth,
+  checkbox,
+  loginSI,
+  updateDataUser,
+  reloginSuccess
 }) {
-
-  const VerifyDataLocal = () => {
-    //Verificar datos locales.
-    //Primero verifica si existe el ssesionStorage y después lo inserta
-    //para ser transformado a JSON.
-    const loginIsS = JSON.parse(
-      sessionStorage.getItem("loginIs") === "true" ? sessionStorage.getItem("loginIs") 
-      : 
-      false);
-    const dataS = JSON.parse(sessionStorage.getItem("data"));
-    const loginIsL = JSON.parse(
-      localStorage.getItem("loginIs") === "true" ? 
-      localStorage.getItem("loginIs") 
-      : 
-      false);
-    const dataL = JSON.parse(localStorage.getItem("data"));
-
-    //Verificar datos obtenidos.
-    if (loginIsS === true && dataS !== null){
-      //Actualizar state con los datos guardados en la sesión
-      updateBeforeAuthStorage(dataS);
-      return true;
-    } else if (loginIsL === true && dataL !== null){
-      //Actualizar state con los datos guardados permanentes.
-      updateBeforeAuthStorage(dataL);
-      return true;
-    }else {
-      //Regresar false si es que no se cumplen con los
-      //suficientes datos para inicar sesión por medio
-      //de los datos almacenados.
-      return false;
-    }
-  }
-
-  const setDataLocal = (data) => {
-    //SETEA DATOS BOYYYYYS
-    if (data.checkbox){
-      localStorage.setItem('loginIs', true);
-      localStorage.setItem('data', JSON.stringify(data));
-      sessionStorage.setItem('loginIs', true);
-      sessionStorage.setItem('data', JSON.stringify(data));
-    }else { 
-      sessionStorage.setItem('loginIs', true);
-      sessionStorage.setItem('data', JSON.stringify(data));
-    }
-  }
-
   useEffect(() => {
-    //Seleccionar titulo
-    document.title = "La Candelaria - Panel";
-    let CanselaSHION = false;
+    //Lugar de petición hacia el servidor
+    const fetchData = async (key)=>{
+      //QUERY
+      const query = true;
+      if (query) {
+        const dataTest = {
+          cedula: 'A-28432441',
+          cedulaSin: '28432441',
+          name: 'José ortiz',
+          curso: '',
+          seccion: '',
+          nota: '',
+          horario: '',
+          profeGuia: '',
+          privilegio: 'A-',
+          avatar: 'reckerSITO',
+          token: 'testDATA47',
+        }
 
+        updateDataUser(dataTest);
+        reloginSuccess();
+        return true;
+      }else {
+        return false;
+      }
+    }
+
+    let CanselaSHION = false;
+    
     if (!CanselaSHION){
-      if (dataLogin.loginSI){
-        //Setear datos locales y de sesion.
-        if (!VerifyDataLocal() && dataLogin.auth){
-          setDataLocal(dataLogin);
-          loginSinceIndex(false);
+      // console.log("Contador los render");
+
+      //Verificar login desde el FORM
+      if (loginSI) {
+        //Verificar checkbox para guardar datos.
+        // console.log("KEY seteada");
+        if (checkbox){
+          //Datos permanentes.
+          localStorage.setItem("key", true);
+          sessionStorage.setItem("key", true);
         }else {
-          //Verifica por última vez que el usuario este
-          //auntenticado desde el panel
-          if (!dataLogin.auth) {
-            updateAuth(false);
-          }else {
-            //En caso contrario, cambia el loginSINCE para que
-            //se verifiquen los datos locales.
-            loginSinceIndex(false);
-          }
+          //Datos de SOLO sesión.
+          sessionStorage.setItem("key", true);
+        }
+      //Verificar si no viene de una redirección de la misma app
+      //y proviene entrando directamente al panel.
+      }else if (!auth) {
+        // console.log("verificando datos locales....");
+        const keyL = JSON.parse(localStorage.getItem("key"));
+        const keyS = JSON.parse(sessionStorage.getItem("key"));
+
+        //Verificar primero si existe key local.
+        if (keyL === true) {
+          fetchData(keyL);
+        }else if (keyS === true){
+          fetchData(keyS);
         }
       }else {
-        //Verificar datos locales.
-        VerifyDataLocal();
+        // console.log("No hacer nada");
       }
     }
 
     return ()=>{
       CanselaSHION = true;
     }
-    /** LAS DEPENDENCIAS DEL HOOK ESTÁN ALGO ROTAS, AÚN QUEDA
-     * PENSAR COMO SE SOLVENTARÁN ESTOS ERRORES
-     * AUNQUE SOLAMENTE ES UNAS DEPENDENCIAS.
-     * SI SE QUITA EL dataLogin.auth EL PROGRAMA ENTRA EN
-     * UN BUCLE INFINITO, ASÍ COMO EL AMOR POR ELLA.
-     * Una de las soluciones puede ser separar los estados
-     * como auth y loginSI, pero el detalle es que es
-     */
-  }, [dataLogin.auth]);
+    
+  });
 
-  if (dataLogin.auth){
-    console.log("SI");
+  if (auth){
     return(
       //enviar data para poder usar la información en los demás
       //componentes
-      <RenderPanel data={dataLogin} />
+      <RenderPanel />
     )
   }
 
@@ -137,14 +117,14 @@ function clearAllData() {
 
 //REDUX
 const mapStateToProps = (state) => ({
-  dataLogin: state.dataLogin,
-  loginStatus: state.loginStatus,
+  auth: state.loginStatus.auth,
+  checkbox: state.dataLogin.checkbox,
+  loginSI: state.loginStatus.loginSI,
 })
 
 const mapDispatchToProps = {
-  updateBeforeAuthStorage,
-  updateAuth,
-  loginSinceIndex,
+  updateDataUser,
+  reloginSuccess,
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(PagePanel);

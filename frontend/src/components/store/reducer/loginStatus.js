@@ -2,7 +2,7 @@
 const initialState = {
   auth: false,
   loginSI: false,
-  validating: false,
+  validating: false
 };
 
 // action es el valor devuelto por el action
@@ -15,16 +15,17 @@ export default (state = initialState, { type, payload }) => {
         validating: payload.validating,
       }
     }
-    case 'UPDATE_AUTH': {
+    case 'LOGIN_SUCCESS_FROM_LOGIN': {
       return {
         ...state,
-        auth: payload,
+        auth: true,
+        loginSI: true,
       }
     }
-    case 'LOGIN_SINCE_INDEX': {
+    case 'RELOGIN_SUCCESS': {
       return {
         ...state,
-        loginSI: payload
+        auth: true,
       }
     }
     default: {
