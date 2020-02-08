@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Paper, Grow, Zoom } from '@material-ui/core';
 
 export function AnnounceBox(props) {
-  //Estados
+  //Register mantiene la cantidad total a mostrar
   const [register, setRegister] = useState(0);
+
+  //porps
   const { text, background, data } = props.options;
+
+  //Al montar el componente
   useEffect(() => {
+    //Pedir datos a la DB
     setTimeout(() => {
       const res = {
         StudientsTotal: 4735,
@@ -14,9 +19,13 @@ export function AnnounceBox(props) {
         PublicNotice: 12,
         Likes: 312
       };
+
+      //Mostrar el dato necesitado.
       setRegister(res[data]);
     }, 1000);
   }, [data]);
+
+  //regresar
   return (<Grow in={true} timeout={500}>
     <Paper variant="outlined" className="Status">
       <Zoom in={true} timeout={800}>

@@ -13,8 +13,9 @@ import AlertsState from '../reutilizar/AlertsState';
 
 //redux
 import { connect } from 'react-redux';
+import reloginSuccess from '../store/action/login/reloginSuccess';
 
-function PageIndex({auth, updateAuth}) {
+function PageIndex({auth, reloginSuccess}) {
   useEffect(() => {
     document.title = "La Candelaria - Login";
 
@@ -23,7 +24,13 @@ function PageIndex({auth, updateAuth}) {
     //y así evitar problemas.
 
     if (!cancelar) {//Encierra todas las funciones.
-      //Funcion para verificar el LOGIN
+      //Algoritmos para verificar el LOGIN
+      const keyL = JSON.parse(localStorage.getItem("key"));
+      const keyS = JSON.parse(sessionStorage.getItem("key"));
+
+      if (keyL || keyS){
+        reloginSuccess()
+      }
     }
     
     //Return se usa para llamar la variable la cual cancelará toda la
@@ -69,6 +76,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
+  reloginSuccess,
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(PageIndex);
