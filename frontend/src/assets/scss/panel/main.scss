@@ -48,6 +48,9 @@
         p {
           margin-bottom: 0px;
         }
+        form {
+          margin-top: 20px
+        }
       }
     }
     .Status {
@@ -69,5 +72,32 @@
         font-size: 18px;
       }
     }
+  }
+}
+
+.searchSeccion {
+  display: flex;
+  justify-content: space-between
+}
+
+.searchUser{
+  transition: 0.5s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.09);
+  }
+}
+
+.searchBoxInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+//FIX LOADING IN DIALOG
+.MuiDialogContent-root {
+  display: flex;
+  flex-direction: column;
+  .MuiCircularProgress-root {
+    align-self: center;
   }
 }

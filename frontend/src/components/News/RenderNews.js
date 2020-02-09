@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import Mmobile from '../store/action/settings/mobile';
 
 //Componentes
-import HeaderNoPanel from '../reutilizar/HeaderNoPanel'
 import SwitchButton from './components/SwitchButton';
 import ShowComponentResponsive from './components/ShowComponentResponsive';
 
