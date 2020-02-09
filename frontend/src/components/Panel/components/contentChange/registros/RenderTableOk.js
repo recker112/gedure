@@ -38,7 +38,7 @@ function RenderTableOk({data}) {
                 return (
                   <div key={i}>
                     <UserModify data={row} />
-                    {options ? <UserUnlock data={row} /> : null}
+                    {options ? <UserUnlock cedula={row.cedula} /> : null}
                   </div>
                 )
               })}

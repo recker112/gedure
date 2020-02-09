@@ -16,6 +16,7 @@ import { useTheme } from '@material-ui/core/styles';
 //Componentes
 import SearchSeccionInput from './SearchSeccionInput';
 import TableShowInfoSecion from './TableShowInfoSecion';
+import ConverterCursoCode from '../../../../reutilizar/ConverterCursoCode';
 
 
 function SearchSeccion() {
@@ -40,26 +41,41 @@ function SearchSeccion() {
             cedula: 'V-28432441',
             name: 'Recker Ortiz',
             lista: '1',
+            curso: '6',
+            seccion: 'A',
+            privilegio: 'V-',
           },
            {
             cedula: 'V-94756213',
             name: 'Fernando Ortiz',
             lista: '2',
+            curso: '6',
+            seccion: 'A',
+            privilegio: 'V-',
           },
            {
             cedula: 'V-84759302',
             name: 'Castaño',
             lista: '3',
+            curso: '6',
+            seccion: 'A',
+            privilegio: 'V-',
           },
            {
             cedula: 'V-84750224',
             name: 'Luis Hernandez',
             lista: '4',
+            curso: '6',
+            seccion: 'A',
+            privilegio: 'V-',
           },
           {
             cedula: 'V-94750224',
             name: 'Maria ANTONIETA de las NIEVES',
             lista: '4',
+            curso: '6',
+            seccion: 'A',
+            privilegio: 'V-',
           }
         ];
         setLista(data);
@@ -83,7 +99,7 @@ function SearchSeccion() {
         aria-labelledby="popad-dialog-title"
         aria-describedby="popad-dialog-description"
       >
-        <DialogTitle id="popad-dialog-title">Test1</DialogTitle>
+        <DialogTitle id="popad-dialog-title">Lista de estudiantes</DialogTitle>
         <DialogContent dividers={true}>
           {loading ? 
           <DialogContentText id="popad-dialog-description">
@@ -97,10 +113,14 @@ function SearchSeccion() {
             <DialogContentText id="popad-dialog-description">
               <span>
                 A continuación se muestran los estudiates
-                encontrados en la sección:
+                encontrados en {()=>{
+                  return <React.Fragment>
+                    <ConverterCursoCode code={lista.curso} />
+                  </React.Fragment>
+                }}:
               </span>
             </DialogContentText>
-            <TableShowInfoSecion data={lista} />
+            <TableShowInfoSecion data={lista} changeOpen={setOpen} />
           </React.Fragment>
           }
           {loading ? 

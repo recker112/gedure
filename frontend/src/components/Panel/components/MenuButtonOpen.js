@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 function MenuButtonOpen({toggleDrawer}) {
   return (
     <Tooltip 
-      enterDelay={500} 
+      enterDelay={1000} 
       leaveDelay={200} 
       title='Mostrar menú' 
       arrow

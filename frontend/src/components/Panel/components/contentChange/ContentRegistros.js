@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper, Grow  } from '@material-ui/core';
+import { Grid, Paper  } from '@material-ui/core';
 
 import { SelectorRegistrosDisplay } from './registros/SelectorRegistrosDisplay';
 import { TableShow } from './registros/TableShow';
@@ -96,18 +96,14 @@ export function ContentRegistros() {
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={5} md={3}>
-        <Grow in={true}>
-          <Paper>
-            <SelectorRegistrosDisplay options={{selectSearch,
-              handleChangeSelect}}
-            />
-          </Paper>
-        </Grow>
+        <Paper>
+          <SelectorRegistrosDisplay options={{selectSearch,
+            handleChangeSelect}}
+          />
+        </Paper>
       </Grid>
       <Grid item xs={10}>
-        <Grow in={true}>
-          <TableShow options={{ Req, search }} />
-        </Grow>
+        <TableShow options={{ Req, search }} />
       </Grid>
     </Grid>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Grow, Zoom } from '@material-ui/core';
+import { Paper, Zoom } from '@material-ui/core';
 
 export function AnnounceBox(props) {
   //Register mantiene la cantidad total a mostrar
@@ -26,7 +26,7 @@ export function AnnounceBox(props) {
   }, [data]);
 
   //regresar
-  return (<Grow in={true} timeout={500}>
+  return (
     <Paper variant="outlined" className="Status">
       <Zoom in={true} timeout={800}>
         <div className="circulo" style={{ background: background }}>
@@ -37,5 +37,5 @@ export function AnnounceBox(props) {
         {text}
       </div>
     </Paper>
-  </Grow>);
+  );
 }
