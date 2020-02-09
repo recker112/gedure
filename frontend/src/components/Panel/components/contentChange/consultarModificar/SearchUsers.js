@@ -17,7 +17,9 @@ function SearchUsers() {
       if (loading && !cancel){
         setOptions([
           {cedula: 'X', name: 'luis'},
-          {cedula: '24', name: 'ale'}
+          {cedula: '24', name: 'ale'},
+          {cedula: '3029472', name: 'Fernando'}
+          {cedula: '3939484', name: 'Alverto'}
         ]);
       }
     }, 2000);
@@ -38,6 +40,9 @@ function SearchUsers() {
       <Autocomplete 
         //Verificar si está loading o no
         loading={loading} 
+        //Mensajes
+        loadingText='Cargando...'
+        noOptionsText='Sin resultados'
         //Data a usar para el autocompletado
         options={options} 
         //Texto a mostrar al seleccionar un resultado.
