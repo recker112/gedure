@@ -9,9 +9,9 @@ function RenderTableSearch() {
     <Table aria-label="Tabla de Registros" size="small">
       <TableHead>
         <TableRow>
-          <TableCell>Cédula</TableCell>
-          <TableCell align="right">Usuario</TableCell>
-          <TableCell align="right">Acción</TableCell>
+          <TableCell align="center">Cédula</TableCell>
+          <TableCell align="center">Usuario</TableCell>
+          <TableCell align="center">Acción</TableCell>
           <TableCell align="center">Opciones</TableCell>
         </TableRow>
       </TableHead>

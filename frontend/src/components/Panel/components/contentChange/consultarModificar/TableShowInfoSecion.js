@@ -4,6 +4,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 
 function TableShowInfoSecion({ data }) {
   return (<Table aria-label="table seccion info">
@@ -18,7 +19,9 @@ function TableShowInfoSecion({ data }) {
       {data.map(row => {
         return (<TableRow key={row.cedula}>
           <TableCell>
-            {row.cedula}
+            <Button>
+              {row.cedula}
+            </Button>
           </TableCell>
           <TableCell>
             {row.name}

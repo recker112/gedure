@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Grid, Grow } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import { AnnounceBox } from './home/AnnounceBox';
 
 export function ContentHome() {
@@ -35,16 +35,14 @@ export function ContentHome() {
       </Grid>
       <Grid container spacing={2} className="FixGrid">
         <Grid item xs={12}>
-          <Grow in={true} timeout={500}>
-            <Paper variant="outlined" className="Box">
-              <span className="title">Bienvenidos</span>
-              <div className="content">
-                <p>
-                  Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: cargar matricula, ver registros, consultar, modificar, cargar archivos, cargar boletas, entre otros. Para más información por favor mantenga el mouse encima de la opción que desea saber más información en el menú.
-                </p>
-              </div>
-            </Paper>
-            </Grow>
+          <Paper variant="outlined" className="Box">
+            <span className="title">Bienvenidos</span>
+            <div className="content">
+              <p>
+                Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: cargar matricula, ver registros, consultar, modificar, cargar archivos, cargar boletas, entre otros. Para más información por favor mantenga el mouse encima de la opción que desea saber más información en el menú.
+              </p>
+            </div>
+          </Paper>
         </Grid>
       </Grid>
     </React.Fragment>
