@@ -5,7 +5,7 @@ export function SelectorRegistrosDisplay(props) {
   const { handleChangeSelect, selectSearch } = props.options;
   
   return (<div className='Box'>
-    <span className='title'>Selector</span>
+    <span className='title'>Buscar Registros</span>
     <div className='content'>
       <Select className="select" onChange={handleChangeSelect} value={selectSearch}>
         <MenuItem value="all">

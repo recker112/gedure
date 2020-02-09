@@ -94,8 +94,8 @@ export function ContentRegistros() {
   }, [selectSearch])
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={10} sm={5} md={3}>
+    <Grid container spacing={2} justify="center">
+      <Grid item xs={12} sm={5} md={3}>
         <Grow in={true}>
           <Paper>
             <SelectorRegistrosDisplay options={{selectSearch,
@@ -104,7 +104,7 @@ export function ContentRegistros() {
           </Paper>
         </Grow>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={10}>
         <Grow in={true}>
           <TableShow options={{ Req, search }} />
         </Grow>

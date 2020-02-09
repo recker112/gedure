@@ -8,7 +8,7 @@ import ModifyForm from './registros/ModifyForm';
 
 function ContentConsultarModificar() {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={6}>
         <Grow in={true}>
           <Paper>
@@ -23,7 +23,7 @@ function ContentConsultarModificar() {
           </Paper>
         </Grow>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={10}>
         <Grow in={true}>
           <Paper className='Box'>
             <span className="title">Modificar</span>
