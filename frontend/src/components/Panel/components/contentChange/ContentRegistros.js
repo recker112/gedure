@@ -84,11 +84,7 @@ export function ContentRegistros() {
         </Paper>
       </Grid>
       <Grid item xs={12}>
-        <div className="Box">
-            <div className="content">
-              <TableShow options={{ Req, search }} />
-            </div>
-        </div>
+        <TableShow options={{ Req, search }} />
       </Grid>
     </Grid>
   );
