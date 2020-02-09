@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper  } from '@material-ui/core';
+import { Grid, Paper, Grow  } from '@material-ui/core';
 
 import { SelectorRegistrosDisplay } from './registros/SelectorRegistrosDisplay';
 import { TableShow } from './registros/TableShow';
@@ -26,18 +26,33 @@ export function ContentRegistros() {
         "data": [
           {
           "cedula": "28438812",
-          "user": "Recker",
+          "name": "Recker",
           "accion": "Inicio de sesión",
+          "curso": "6",
+          "privilegio": "V-",
+          "seccion": "A",
           "opciones": {
               "desbloquear": false
             }
           },
           {
           "cedula": "12941274",
-          "user": "Luis",
+          "name": "Luis",
+          "privilegio": "V-",
           "accion": "Baneo",
+          "curso": "1G",
+          "seccion": "A",
           "opciones": {
               "desbloquear": true
+            }
+          },
+          {
+          "cedula": "ADMIN",
+          "name": "Luis",
+          "privilegio": "A-",
+          "accion": "Inicio de session",
+          "opciones": {
+              "desbloquear": false
             }
           }
         ]
@@ -51,16 +66,20 @@ export function ContentRegistros() {
         "data": [
           {
           "cedula": "20401247",
-          "user": "Fernando",
+          "name": "Fernando",
           "accion": "Baneo",
+          "curso": "1G",
+          "seccion": "A",
           "opciones": {
               "desbloquear": true
             }
           },
           {
           "cedula": "12941274",
-          "user": "Luis",
+          "name": "Luis",
           "accion": "Baneo",
+          "curso": "5",
+          "seccion": "A",
           "opciones": {
               "desbloquear": true
             }
@@ -77,14 +96,18 @@ export function ContentRegistros() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={10} sm={5} md={3}>
-        <Paper>
-          <SelectorRegistrosDisplay options={{selectSearch,
-            handleChangeSelect}}
-          />
-        </Paper>
+        <Grow in={true}>
+          <Paper>
+            <SelectorRegistrosDisplay options={{selectSearch,
+              handleChangeSelect}}
+            />
+          </Paper>
+        </Grow>
       </Grid>
       <Grid item xs={12}>
-        <TableShow options={{ Req, search }} />
+        <Grow in={true}>
+          <TableShow options={{ Req, search }} />
+        </Grow>
       </Grid>
     </Grid>
   );

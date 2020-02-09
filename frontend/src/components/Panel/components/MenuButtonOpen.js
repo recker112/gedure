@@ -8,7 +8,12 @@ import { connect } from 'react-redux';
 
 function MenuButtonOpen({toggleDrawer}) {
   return (
-    <Tooltip title='Mostrar menú' arrow>
+    <Tooltip 
+      enterDelay={500} 
+      leaveDelay={200} 
+      title='Mostrar menú' 
+      arrow
+    >
       <IconButton onClick={toggleDrawer}>
         <MenuIcon />
       </IconButton>

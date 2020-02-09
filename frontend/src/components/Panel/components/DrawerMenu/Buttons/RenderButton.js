@@ -26,6 +26,8 @@ function RenderButton({
         <span className="ToolTipDrawerMenu-Content">{content}</span>
       </React.Fragment>
       } 
+      enterDelay={500} 
+      leaveDelay={200}
       placement="right" 
       interactive 
       arrow

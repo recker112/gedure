@@ -1,9 +1,13 @@
 import React from 'react';
 
-import { TableContainer, Paper, Table, TableHead, TableBody, TableRow, TableCell, Button } from '@material-ui/core';
+//Material-UI
+import { TableContainer, Paper, Table, TableHead, TableBody, TableRow, TableCell, Hidden } from '@material-ui/core';
 
-export function RenderTableOk(props) {
-  const { data } = props;
+//Componentes
+import UserUnlock from './UserUnlock';
+import UserModify from './UserModify';
+
+function RenderTableOk({data}) {
   const table = (<TableContainer component={Paper} style={{
     maxHeight: '450px',
     overflow: 'auto'
@@ -12,7 +16,9 @@ export function RenderTableOk(props) {
       <TableHead>
         <TableRow>
           <TableCell align="center">Cédula</TableCell>
-          <TableCell align="center">Usuario</TableCell>
+          <Hidden smDown>
+            <TableCell align="center">Usuario</TableCell>
+          </Hidden>
           <TableCell align="center">Acción</TableCell>
           <TableCell align="center">Opciones</TableCell>
         </TableRow>
@@ -21,23 +27,20 @@ export function RenderTableOk(props) {
         {Object.values(data).map((row, i) => {
           return (<TableRow key={i}>
             <TableCell align="center">
-              <Button variant="outlined" color="primary">
-                {row.cedula}
-              </Button>
+              {row.cedula}
             </TableCell>
-            <TableCell align="center">{row.user}</TableCell>
+            <Hidden smDown>
+              <TableCell align="center">{row.name}</TableCell>
+            </Hidden>
             <TableCell align="center">{row.accion}</TableCell>
             <TableCell align="center">
               {Object.values(row.opciones).map((options, i) => {
-                if (options) {
-                  return (<div key={i}>
-                    <Button>Modificar</Button>
-                    <Button>Desbloquear</Button>
-                  </div>);
-                }
-                else {
-                  return (<Button key={i}>Modificar</Button>);
-                }
+                return (
+                  <div key={i}>
+                    <UserModify data={row} />
+                    {options ? <UserUnlock data={row} /> : null}
+                  </div>
+                )
               })}
             </TableCell>
           </TableRow>);
@@ -49,3 +52,5 @@ export function RenderTableOk(props) {
     {table}
   </React.Fragment>;
 }
+
+export default RenderTableOk; 

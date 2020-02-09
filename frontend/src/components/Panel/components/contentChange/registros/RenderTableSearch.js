@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, LinearProgress } from '@material-ui/core';
-export function RenderTableSearch() {
+
+function RenderTableSearch() {
   return (<TableContainer component={Paper} style={{
     maxHeight: '450px',
     overflow: 'auto'
@@ -18,3 +19,5 @@ export function RenderTableSearch() {
     <LinearProgress style={{ width: "100%" }} />
   </TableContainer>);
 }
+
+export default RenderTableSearch;

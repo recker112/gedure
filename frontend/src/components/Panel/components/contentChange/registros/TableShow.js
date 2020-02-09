@@ -1,8 +1,8 @@
 import React from 'react';
 
 //Componentres
-import { RenderTableOk } from './RenderTableOk';
-import { RenderTableSearch } from './RenderTableSearch';
+import RenderTableOk from './RenderTableOk';
+import RenderTableSearch from './RenderTableSearch';
 import RenderTableError from './RenderTableError';
 
 export function TableShow(props) {
