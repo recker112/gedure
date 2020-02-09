@@ -18,7 +18,7 @@ function SearchUsers() {
         setOptions([
           {cedula: 'X', name: 'luis'},
           {cedula: '24', name: 'ale'},
-          {cedula: '3029472', name: 'Fernando'}
+          {cedula: '3029472', name: 'Fernando'},
           {cedula: '3939484', name: 'Alverto'}
         ]);
       }
