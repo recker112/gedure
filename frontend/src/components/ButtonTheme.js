@@ -2,7 +2,7 @@ import React from 'react';
 
 //Redux
 import { connect } from 'react-redux';
-import updateTheme from '../store/action/settings/updateTheme';
+import updateTheme from '../actions/settings/updateTheme';
 
 //Icono
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';

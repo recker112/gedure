@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Grow } from '@material-ui/core';
 
-export function Anuncio(props) {
+function Anuncio(props) {
   const recorrerLista = props.option.map((anuncio, i) => <Grow in={true} key={i}>
     <Paper variant="outlined">
       <section className="Anuncio">
@@ -14,3 +14,5 @@ export function Anuncio(props) {
   </Grow>);
   return recorrerLista;
 }
+
+export default Anuncio;

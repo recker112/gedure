@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 //Components
-import App from './components/App';
+import App from './views/App';
 
 
 //Redux
-import store from './components/store';
+import store from './store';
 import { Provider } from 'react-redux';
 
 //Styles

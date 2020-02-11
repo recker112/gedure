@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react';
 
 //Componentes
-import {Noticia} from './Noticia';
+import Noticia from './../../components/Noticia';
 
 //Redux
 import { connect } from 'react-redux';
-import { updateNewsNoticias } from '../../store/action/news/updateNews';
+import { updateNewsNoticias } from '../../actions/news/updateNews';
+import { Skeleton } from '@material-ui/lab';
 
 export function ListNoticias({list, updateNewsNoticias}) {
   useEffect(() => {
@@ -29,12 +30,16 @@ export function ListNoticias({list, updateNewsNoticias}) {
     //Al desmontar
     return ()=> {
       cancel=true;
+      updateNewsNoticias(null);
     }
   }, [updateNewsNoticias])
   
   return (
   <article className="BoxNoticias">
+    {list !== null ? 
     <Noticia options={list} />
+    :
+    <Skeleton variant="rect" height={354} />}
   </article>
   );
 }
