@@ -1,24 +1,23 @@
 //React
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
 //Material-UI
-import { Grow, Hidden, useMediaQuery } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Grow, Hidden, useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 
 //Redux
-import { connect } from 'react-redux';
-import Mmobile from '../store/action/settings/mobile';
+import { connect } from "react-redux";
+import Mmobile from "../../actions/settings/mobile";
 
 //Componentes
-import SwitchButton from './components/SwitchButton';
-import ShowComponentResponsive from './components/ShowComponentResponsive';
+import SwitchButton from "./SwitchButton";
+import ShowComponentResponsive from "./ShowComponentResponsive";
 
-function RenderNews({Mmobile}) {
-
+function RenderNews({ Mmobile }) {
   //SwitchButton modo responsive.
   const theme = useTheme();
   //True si la resolución es mayor a sm.
-  const resolution = useMediaQuery(theme.breakpoints.up('sm'));
+  const resolution = useMediaQuery(theme.breakpoints.up("sm"));
   //Cambiar setting
 
   useEffect(() => {
@@ -26,9 +25,9 @@ function RenderNews({Mmobile}) {
     //Al desmontar
     return () => {
       Mmobile(false);
-    }
+    };
   });
-  
+
   return (
     <div className="BoxPageNews">
       <Grow in={true}>
@@ -42,11 +41,11 @@ function RenderNews({Mmobile}) {
         </main>
       </Grow>
     </div>
-  )
+  );
 }
 
 const mapDispatchToProps = {
-  Mmobile,
-}
+  Mmobile
+};
 
-export default connect(null,mapDispatchToProps)(RenderNews);
+export default connect(null, mapDispatchToProps)(RenderNews);

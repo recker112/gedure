@@ -7,13 +7,13 @@ import { Grow, Zoom } from '@material-ui/core';
 
 
 //Componentes
-import HeaderNoPanel from '../reutilizar/HeaderNoPanel';
-import Form from './components/Form';
-import AlertsState from '../reutilizar/AlertsState';
+import HeaderNoPanel from '../../components/reutilizar/HeaderNoPanel';
+import Form from './Form';
+import AlertsState from '../../components/AlertsState';
 
 //redux
 import { connect } from 'react-redux';
-import reloginSuccess from '../store/action/login/reloginSuccess';
+import reloginSuccess from '../../actions/login/reloginSuccess';
 
 function PageIndex({auth, reloginSuccess}) {
   useEffect(() => {

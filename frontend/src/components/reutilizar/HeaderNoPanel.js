@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonTheme from './ButtonTheme';
+import ButtonTheme from '../ButtonTheme';
 import { Link } from 'react-router-dom';
 import { IconButton, Tooltip } from '@material-ui/core';
 

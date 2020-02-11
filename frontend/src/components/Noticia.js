@@ -4,7 +4,7 @@ import { Paper, Grow } from '@material-ui/core';
 //Componentes
 import { ImagenVisor } from "./ImagenVisor";
 
-export function Noticia(props) {
+function Noticia(props) {
   const recorrerList = props.options.map((element) =>
   <div key={element.id}>
   <Grow in={true}> 
@@ -27,3 +27,5 @@ export function Noticia(props) {
 
   return recorrerList;
 }
+
+export default Noticia;

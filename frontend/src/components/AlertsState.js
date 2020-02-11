@@ -7,7 +7,7 @@ import { Alert } from '@material-ui/lab';
 
 //Redux
 import { connect } from 'react-redux';
-import closeAlert from '../store/action/alerts/closeAlert';
+import closeAlert from '../actions/alerts/closeAlert';
 
 function AlertsState({alertsStatus, closeAlert}) {
   //Controlador del tiempo

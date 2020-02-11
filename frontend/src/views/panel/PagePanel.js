@@ -3,12 +3,12 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
 
 //Componentes
-import RenderPanel from './RenderPanel';
+import RenderPanel from '../../components/Panel/RenderPanel';
 
 //redux
 import { connect } from 'react-redux';
-import updateDataUser from '../store/action/login/updateDataUser';
-import reloginSuccess from '../store/action/login/reloginSuccess';
+import updateDataUser from '../../components/store/action/login/updateDataUser';
+import reloginSuccess from '../../components/store/action/login/reloginSuccess';
 
 
 function PagePanel({
