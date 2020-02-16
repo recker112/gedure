@@ -69,6 +69,7 @@
           }
           .NContentP {
             text-align: justify;
+						width: 100%;
           }
         }
         footer {
@@ -107,10 +108,12 @@
         }
         .AContent {
           text-align: justify;
+					width: 100%;
         }
         footer {
           font-style: italic;
-          text-align: center;
+          display: flex;
+					justify-content: center;
         }
       }
       /* Fix Material-ui */
