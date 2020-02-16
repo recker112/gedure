@@ -6,9 +6,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import { connect } from 'react-redux';
 import updatePanelContent from '../../../actions/panel/updatePanelContent';
 
-//Aplicando el método del contexto de react, se
-//cambia el estado del componente superior para así mostrar
-//el contenido deseado.
 function NoticiasChangeContent({updatePanelContent}) {
   return (
     <Tooltip title="Noticias" arrow>
