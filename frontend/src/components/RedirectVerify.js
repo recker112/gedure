@@ -8,10 +8,8 @@ import HeaderMenu from './HeaderMenu';
 import { connect } from 'react-redux';
 import reloginSuccess from '../actions/login/reloginSuccess';
 
-function ReloginVerify({auth, reloginSuccess, children}) {
+function RedirectVerify({auth, reloginSuccess, children}) {
   useEffect(() => {
-    document.title = "La Candelaria - News";
-		
 		let cancelar = false;//Se crea una variable la cual cancele TODO
     //el useEffect, esto es para cuando se desmonte el componente
     //y así evitar problemas.
@@ -62,4 +60,4 @@ const mapDispatchToProps = {
   reloginSuccess,
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ReloginVerify);
+export default connect(mapStateToProps,mapDispatchToProps)(RedirectVerify);

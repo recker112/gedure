@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
 
 //Material-UI
 import LockIcon from '@material-ui/icons/Lock';
 import { Zoom } from '@material-ui/core';
 
-
 //Componentes
 import Form from './Form';
 import AlertsState from '../../components/AlertsState';
-import ReloginVerify from '../../components/ReloginVerify';
+import RedirectVerify from '../../components/RedirectVerify';
 
-function PageIndex({auth, reloginSuccess}) {
-  //Regresar contenido del login
-  return(
-		<ReloginVerify>
+function PageIndex({ auth, reloginSuccess }) {
+	//Titulo
+	document.title = 'La Candelaria - Login';
+
+	//Regresar contenido del login
+	return (
+		<RedirectVerify>
 			<div className="BoxPageIndex">
 				<main>
 					<Zoom in={true} timeout={600}>
@@ -29,8 +30,8 @@ function PageIndex({auth, reloginSuccess}) {
 					<AlertsState />
 				</main>
 			</div>
-		</ReloginVerify>
-  )
+		</RedirectVerify>
+	);
 }
 
 export default PageIndex;
