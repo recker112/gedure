@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 function App({tema}) {
   // obtener el valor del tema de la store
 
-  //Creación de los estilos a aplicar en toda la WEB.
-  //Todo esto es material-ui, revisar documentación para más info.
+  //Creaciรณn de los estilos a aplicar en toda la WEB.
+  //Todo esto es material-ui, revisar documentaciรณn para mรกs info.
   const themeConfig = createMuiTheme({
     palette: {
       type: tema,
@@ -20,7 +20,7 @@ function App({tema}) {
         main: "#B46BD6"
       },
       background: {
-        default: tema === "light" ? '#F5F5F5':'#191919'
+        default: tema === "light" ? '#E9EBEE':'#191919'
       }
     },
   });
