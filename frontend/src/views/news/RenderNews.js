@@ -12,6 +12,7 @@ import Mmobile from "../../actions/settings/mobile";
 //Componentes
 import SwitchButton from "./SwitchButton";
 import ShowComponentResponsive from "./ShowComponentResponsive";
+import ReloginVerify from '../../components/ReloginVerify';
 
 function RenderNews({ Mmobile }) {
   //SwitchButton modo responsive.
@@ -29,16 +30,18 @@ function RenderNews({ Mmobile }) {
   });
 
   return (
-    <div className="BoxPageNews">
-			<main>
-				{/* Ocultar SwitchNews hasta que la pantalla entre en modo
-				celular. */}
-				<Hidden smUp>
-					<SwitchButton />
-				</Hidden>
-				<ShowComponentResponsive />
-			</main>
-    </div>
+		<ReloginVerify>
+			<div className="BoxPageNews">
+				<main>
+					{/* Ocultar SwitchNews hasta que la pantalla entre en modo
+					celular. */}
+					<Hidden smUp>
+						<SwitchButton />
+					</Hidden>
+					<ShowComponentResponsive />
+				</main>
+			</div>
+		</ReloginVerify>
   );
 }
 

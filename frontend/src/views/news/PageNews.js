@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
+import { Redirect } from 'react-router-dom';
 
 //Components
 import RenderNews from "./RenderNews";
-import HeaderNoPanel from "../../components/reutilizar/HeaderNoPanel";
 
 function PageNews() {
-  useEffect(() => {
-    document.title = "La Candelaria - News";
-  });
   return (
     <div>
-      <HeaderNoPanel />
       <RenderNews />
     </div>
   );
