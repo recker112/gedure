@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 //Material-UI
-import { Paper, Grow } from "@material-ui/core";
+import { Grow, Paper } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 //redux
@@ -40,13 +40,13 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
   return (
     <aside id="test" className="BoxAnuncios">
-      <Grow in={true}>
-        <Paper variant="outlined">
-          <div className="AHead">
-            <span>Anuncios</span>
-          </div>
-        </Paper>
-      </Grow>
+			<Grow in={true}>
+				<Paper variant="outlined">
+					<div className="AHead">
+						<span>Anuncios</span>
+					</div>
+				</Paper>
+			</Grow>
       {list !== null ?
       <Anuncio option={list} />
       :

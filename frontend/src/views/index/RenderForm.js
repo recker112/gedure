@@ -2,7 +2,7 @@
 import React from "react";
 
 //Material-UI
-import { TextField, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Grow, TextField, FormControlLabel, Checkbox } from "@material-ui/core";
 
 //Componentes
 import ButtonForm from "./ButtonForm";
@@ -18,6 +18,7 @@ function RenderForm(props) {
   const { dataLogin } = props;
 
   return (
+		<Grow in={true}>
     <form onSubmit={handleSubmit}>
       <div className="space">
         <TextField
@@ -64,6 +65,7 @@ function RenderForm(props) {
         <span>Desarollado por Recker</span>
       </div>
     </form>
+		</Grow>
   );
 }
 
