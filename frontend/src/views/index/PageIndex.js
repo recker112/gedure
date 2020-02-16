@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 //Material-UI
 import LockIcon from '@material-ui/icons/Lock';
-import { Grow, Zoom } from '@material-ui/core';
+import { Zoom } from '@material-ui/core';
 
 
 //Componentes
@@ -57,20 +57,18 @@ function PageIndex({auth, reloginSuccess}) {
   return(
     <div className="BoxPageIndex">
       <HeaderNoPanel />
-      <Grow in={true}>
-        <main>
-          <Zoom in={true} timeout={600}>
-          <div className="HeadMain">
-            <span className="IconBoxIndex">
-              <LockIcon style={{ fontSize: 40 }} />
-            </span>
-            <span className="TitleIndex">La Candelaria</span>
-          </div>
-          </Zoom>
-          <Form />
-          <AlertsState />
-        </main>
-      </Grow>
+			<main>
+				<Zoom in={true} timeout={600}>
+					<div className="HeadMain">
+						<span className="IconBoxIndex">
+							<LockIcon style={{ fontSize: 40 }} />
+						</span>
+						<span className="TitleIndex">La Candelaria</span>
+					</div>
+				</Zoom>
+				<Form />
+				<AlertsState />
+			</main>
     </div>
   )
 }

@@ -50,6 +50,7 @@ function Form({
     if (res !== "no_connect") {
       //Opciones de respuesta del servidor.
       if (true) {
+				console.log(res);
         openAlert("Login exitoso!!", "success", true);
 
         //Boceto de datos a guardar.
@@ -72,7 +73,7 @@ function Form({
         //"updateDataUser"
         updateDataUser(dataTest);
 
-        //Una vez terminado de actualizar losd atos, se procede a
+        //Una vez terminado de actualizar los datos, se procede a
         //decirle a la APP que se realizó un login correctamente.
         loginSinceFormSuccess();
       }
