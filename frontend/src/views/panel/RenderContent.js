@@ -7,7 +7,7 @@ import ContentConsultarModificar from './contentChange/ContentConsultarModificar
 
 //Redux
 import { connect } from 'react-redux';
-import RenderNews from '../news/RenderNews';
+import {RenderNews} from '../news/PageNews';
 
 
 function RenderContent({content, privilegio}) {

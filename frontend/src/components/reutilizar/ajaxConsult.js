@@ -1,6 +1,7 @@
 export const consultAjax = async (consult, data=false) => {
   try {
-    //Parametros del ajax
+    /*
+		//Parametros del ajax
     let initFetch;
     if (data){
       initFetch = {
@@ -12,6 +13,7 @@ export const consultAjax = async (consult, data=false) => {
         method: 'POST'
       }
     }
+		*/
     //Realizar ajax
     let resAjax = await fetch(consult);
     //Variable del resultado
