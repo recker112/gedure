@@ -1,8 +1,8 @@
 import React from 'react'
-import HeaderPanel from './components/HeaderPanel'
-import DrawerMenu from './components/DrawerMenu';
+import HeaderPanel from './HeaderPanel'
+import DrawerMenu from './DrawerMenu';
 import RenderContent from './RenderContent';
-import AlertsState from '../reutilizar/AlertsState';
+import AlertsState from '../../components/AlertsState';
 
 export default function RenderPanel() {
   return (

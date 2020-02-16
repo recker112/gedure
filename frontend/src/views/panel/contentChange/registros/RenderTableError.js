@@ -1,7 +1,19 @@
 import React from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, LinearProgress } from '@material-ui/core';
 
-function RenderTableSearch() {
+//Redux
+import { connect } from 'react-redux';
+import openAlert from '../../../../actions/alerts/openAlerts';
+
+function RenderTableError({openAlert}) {
+  //Alert
+  openAlert(
+    'Error al intentar pedir los datos.',
+    'error',
+    true,
+    )
+
+  //Regresar componente
   return (<TableContainer component={Paper} style={{
     maxHeight: '450px',
     overflow: 'auto'
@@ -16,8 +28,12 @@ function RenderTableSearch() {
         </TableRow>
       </TableHead>
     </Table>
-    <LinearProgress style={{ width: "100%" }} />
+    <LinearProgress variant="determinate" value={100} color="secondary" style={{ width: "100%" }} />
   </TableContainer>);
 }
 
-export default RenderTableSearch;
+const mapDispatchToProps = {
+  openAlert,
+}
+
+export default connect(null,mapDispatchToProps)(RenderTableError);

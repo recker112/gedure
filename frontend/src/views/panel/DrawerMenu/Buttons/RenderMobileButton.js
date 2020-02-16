@@ -3,8 +3,8 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
-import updatePanelContent from '../../../../store/action/panel/updatePanelContent';
-import toggleDrawer from '../../../../store/action/panel/toggleDrawer';
+import toggleDrawer from '../../../../actions/panel/toggleDrawer';
+import updatePanelContent from '../../../../actions/panel/updatePanelContent';
 
 function RenderMobileButton({
   options, 

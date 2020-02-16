@@ -6,8 +6,8 @@ import EditIcon from '@material-ui/icons/Edit';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoModify from '../../../../store/action/panel/registros/updateInfoModify';
-import updatePanelContent from '../../../../store/action/panel/updatePanelContent';
+import updateInfoModify from '../../../../actions/panel/registros/updateInfoModify';
+import updatePanelContent from '../../../../actions/panel/updatePanelContent';
 
 function UserModify({ data, updateInfoModify, updatePanelContent }) {
   function Modify() {

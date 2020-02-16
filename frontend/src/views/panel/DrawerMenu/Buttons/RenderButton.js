@@ -3,8 +3,8 @@ import { ListItem, ListItemIcon, ListItemText, Divider, Tooltip } from '@materia
 
 //Redux
 import { connect } from 'react-redux';
-import toggleDrawer from '../../../../store/action/panel/toggleDrawer';
-import updatePanelContent from '../../../../store/action/panel/updatePanelContent';
+import toggleDrawer from '../../../../actions/panel/toggleDrawer';
+import updatePanelContent from '../../../../actions/panel/updatePanelContent';
 
 function RenderButton({
   options, 

@@ -1,20 +1,23 @@
 import React from 'react';
 
 //Componentes
-import { ContentHome } from './components/contentChange/ContentHome';
-import { ContentRegistros } from './components/contentChange/ContentRegistros';
+import { ContentHome } from './contentChange/ContentHome';
+import { ContentRegistros } from './contentChange/ContentRegistros';
+import ContentConsultarModificar from './contentChange/ContentConsultarModificar';
 
 //Redux
 import { connect } from 'react-redux';
-import RenderNews from '../News/RenderNews';
-import ContentConsultarModificar from './components/contentChange/ContentConsultarModificar';
+import RenderNews from '../news/RenderNews';
+
 
 function RenderContent({content, privilegio}) {
   if (privilegio === 'A-'){
     return <RenderContentAdmin content={content}/>;
   }else if (privilegio === 'V-'){
     return <h1>USER</h1>;
-  }
+  }else {
+		return <h1>ERROR</h1>
+	}
 }
 
 function RenderContentAdmin({content}) {

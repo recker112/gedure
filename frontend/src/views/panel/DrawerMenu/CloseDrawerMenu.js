@@ -1,10 +1,10 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import toggleDrawer from '../../../store/action/panel/toggleDrawer';
 
 //Redux
 import { connect } from 'react-redux';
+import toggleDrawer from '../../../actions/panel/toggleDrawer';
 
 function CloseDrawerMenu({toggleDrawer}) {
   return (
