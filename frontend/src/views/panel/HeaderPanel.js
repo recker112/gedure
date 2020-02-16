@@ -6,13 +6,13 @@ import {
 } from '@material-ui/core';
 
 //Componentes
-import ButtonTheme from './../../reutilizar/ButtonTheme';
+import ButtonTheme from '../../components/ButtonTheme';
 import NoticiasChangeContent from './contentChange/NoticiasChangeContent';
-import MenuButtonOpen from './MenuButtonOpen';
+import MenuButtonOpen from './header/MenuButtonOpen';
+import ButtonUser from './header/ButtonUser';
 
 //Icons
 import MailIcon from '@material-ui/icons/Mail';
-import ButtonUser from './ButtonUser';
 
 
 function HeaderNoPanel() {

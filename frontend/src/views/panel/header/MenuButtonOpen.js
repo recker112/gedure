@@ -1,10 +1,10 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import toggleDrawer from '../../store/action/panel/toggleDrawer';
 
 //Redux
 import { connect } from 'react-redux';
+import toggleDrawer from '../../../actions/panel/toggleDrawer';
 
 function MenuButtonOpen({toggleDrawer}) {
   return (

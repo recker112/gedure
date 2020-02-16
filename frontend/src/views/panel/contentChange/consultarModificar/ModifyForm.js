@@ -5,7 +5,7 @@ import { Grid, TextField, Select, MenuItem, Radio, RadioGroup, FormControl, Form
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoInput from '../../../../store/action/panel/registros/updateInfoInput';
+import updateInfoInput from '../../../../actions/panel/registros/updateInfoInput';
 
 function ModifyForm({ modifySection, updateInfoInput }) {
   const { 

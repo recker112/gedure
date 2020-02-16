@@ -4,7 +4,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 
 //Redux
 import { connect } from 'react-redux';
-import updatePanelContent from '../../../store/action/panel/updatePanelContent';
+import updatePanelContent from '../../../actions/panel/updatePanelContent';
 
 //Aplicando el método del contexto de react, se
 //cambia el estado del componente superior para así mostrar

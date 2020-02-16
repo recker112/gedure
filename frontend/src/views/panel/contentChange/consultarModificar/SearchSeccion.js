@@ -16,7 +16,7 @@ import { useTheme } from '@material-ui/core/styles';
 //Componentes
 import SearchSeccionInput from './SearchSeccionInput';
 import TableShowInfoSecion from './TableShowInfoSecion';
-import ConverterCursoCode from '../../../../reutilizar/ConverterCursoCode';
+import ConverterCursoCode from '../../../../components/reutilizar/ConverterCursoCode';
 
 
 function SearchSeccion() {
@@ -24,6 +24,7 @@ function SearchSeccion() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lista, setLista] = useState([]);
+	const [curso, setCurso] = useState("none");
 
   //Resolution RESPONSIVE DIALOG
   const theme = useTheme();
@@ -31,6 +32,7 @@ function SearchSeccion() {
 
   function handleChange(e) {
     setSelect(e.target.value);
+		
     if (e.target.value !== ''){
       setOpen(true);
       setLoading(true);
@@ -78,7 +80,10 @@ function SearchSeccion() {
             privilegio: 'V-',
           }
         ];
+				
+				//Actualizar datos
         setLista(data);
+				setCurso(ConverterCursoCode(e.target.value));
         setLoading(false);
       }, 3000);
     }
@@ -113,11 +118,7 @@ function SearchSeccion() {
             <DialogContentText id="popad-dialog-description">
               <span>
                 A continuación se muestran los estudiates
-                encontrados en {()=>{
-                  return <React.Fragment>
-                    <ConverterCursoCode code={lista.curso} />
-                  </React.Fragment>
-                }}:
+                encontrados en {curso}:
               </span>
             </DialogContentText>
             <TableShowInfoSecion data={lista} changeOpen={setOpen} />
