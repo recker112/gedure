@@ -93,6 +93,13 @@
   width: 100%;
 }
 
+.VerifyReloginDiv {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
 //FIX LOADING IN DIALOG
 .MuiDialogContent-root {
   display: flex;
