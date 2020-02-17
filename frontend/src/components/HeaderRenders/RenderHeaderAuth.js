@@ -1,40 +1,49 @@
 import React from 'react';
+import { 
+  IconButton, 
+  Badge,
+  Tooltip
+} from '@material-ui/core';
+
+//Componentes
 import ButtonTheme from '../ButtonTheme';
-import { Link } from 'react-router-dom';
-import { IconButton, Tooltip } from '@material-ui/core';
+import NoticiasChangeContent from '../../views/panel/contentChange/NoticiasChangeContent';
+import MenuButtonOpen from './HeaderAuth/MenuButtonOpen';
+import ButtonUser from './HeaderAuth/ButtonUser';
 
 //Icons
-import AnnouncementIcon from '@material-ui/icons/Announcement';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 function RenderHeaderAuth() {
   return (
-    <header className="headerNoPanel">
-      <nav>
-        <span className="IconBoxButton">
-          <ButtonTheme />
-        </span>
-        <span className="IconBoxButton">
-          <Link to="/news">
-            <Tooltip title="Noticias" arrow>
-              <IconButton>
-                <AnnouncementIcon />
-              </IconButton>
-            </Tooltip>
-          </Link>
-        </span>
-        <span className="IconBoxButton">
-          <Link to="/login">
-          <Tooltip title="Login" arrow>
-              <IconButton>
-                <VpnKeyIcon />
-              </IconButton>
-            </Tooltip>
-          </Link>
-        </span>
-      </nav>
-    </header>
+    <div>
+      <header className="headerNoPanel fixPanel">
+        <nav>
+          <MenuButtonOpen />
+          <div className="Options">
+            <span className="IconBoxButton">
+              <ButtonTheme />
+            </span>
+            <span className="IconBoxButton">
+              <Tooltip title="Mensajes" arrow>
+                <IconButton>
+                  <Badge color="secondary" badgeContent={12} max={10}>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </span>
+            <span className="IconBoxButton">
+                <NoticiasChangeContent />
+            </span>
+            <span className="IconBoxButton">
+              <ButtonUser></ButtonUser>
+            </span>
+          </div>
+        </nav>
+      </header>
+    </div>
   )
 }
 
