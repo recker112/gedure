@@ -20,6 +20,6 @@ export function ImagenVisor({options}) {
 		return (<footer>{imagenes}</footer>);
 	}
 	
-	let SkeletonImg = [1,2,3,4].map(()=> <Skeleton variant="rect" width={70} height={60} />)
+	let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" width={70} height={60} />)
 	return (<footer>{SkeletonImg}</footer>);
 }

@@ -10,19 +10,28 @@ export function AnnounceBox(props) {
 
   //Al montar el componente
   useEffect(() => {
-    //Pedir datos a la DB
-    setTimeout(() => {
-      const res = {
-        StudientsTotal: 4735,
-        StudientsBlock: 47,
-        StudientsPermaBlock: 12,
-        PublicNotice: 12,
-        Likes: 312
-      };
+		let cancel = false;
+		
+    if (!cancel) {
+			//Pedir datos a la DB
+			setTimeout(() => {
+				const res = {
+					StudientsTotal: 4735,
+					StudientsBlock: 47,
+					StudientsPermaBlock: 12,
+					PublicNotice: 12,
+					Likes: 312
+				};
 
-      //Mostrar el dato necesitado.
-      setRegister(res[data]);
-    }, 1000);
+				//Mostrar el dato necesitado.
+				setRegister(res[data]);
+
+				//Al desmontar
+				return ()=>{
+					cancel=true;
+				}
+			}, 1000);
+		}
   }, [data]);
 
   //regresar
