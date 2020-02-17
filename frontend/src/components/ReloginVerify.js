@@ -146,7 +146,7 @@ function LoadingVerifyRelogin() {
 	);
 }
 
-function clearAllData() {
+export function clearAllData() {
 	//Limpiar toda la data para solventar errores.
 	const theme = localStorage.getItem('theme');
 
