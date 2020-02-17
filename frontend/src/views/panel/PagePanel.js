@@ -11,11 +11,11 @@ export default function RenderPanel() {
 	return (
 		<ReloginVerify>
 			<div className="BoxPagePanel">
-      <HeaderMenu />
-      <DrawerMenu />
-      <RenderContent />
-      <AlertsState />
-    </div>
+				<HeaderMenu />
+				<DrawerMenu />
+				<RenderContent />
+				<AlertsState />
+			</div>
 		</ReloginVerify>
 	);
 }
