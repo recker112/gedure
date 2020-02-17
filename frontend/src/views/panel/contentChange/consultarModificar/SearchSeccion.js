@@ -16,7 +16,7 @@ import { useTheme } from '@material-ui/core/styles';
 //Componentes
 import SearchSeccionInput from './SearchSeccionInput';
 import TableShowInfoSecion from './TableShowInfoSecion';
-import ConverterCursoCode from '../../../../components/reutilizar/ConverterCursoCode';
+import ConverterCursoCode from '../../../../components/ConverterCursoCode';
 
 
 function SearchSeccion() {
