@@ -5,10 +5,14 @@ import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
+import openAlert from '../../../actions/alerts/openAlerts';
+import logout from '../../../actions/login/logout';
+
+//Componentes
+import { clearAllData } from '../../ReloginVerify';
 
 //Boton con MENU INTERNO BOYYYYYYYYYYS
-
-function ButtonUser({ name }) {
+function ButtonUser({ name, openAlert, logout }) {
 	//State la cual controlará el estado del menú.
 	const [buttonItem, setButtonItem] = React.useState(null);
 
@@ -24,7 +28,13 @@ function ButtonUser({ name }) {
 
 	//Funcion del menú.
 	const handleSelected = e => {
-		console.log(e);
+		const option = e.target.dataset.option;
+		if (option === 'exit') {
+			clearAllData();
+			setButtonItem(null);
+			openAlert('Sección cerrada correctamente.', 'success', true);
+			logout();
+		}
 	};
 	return (
 		<React.Fragment>
@@ -50,26 +60,42 @@ function ButtonUser({ name }) {
 			</Tooltip>
 			{/* Recordar que el archoEl es simplemente el item en el cual
     se posicionará el menú. */}
-			<Menu
-				id="ButtonUser"
-				anchorEl={buttonItem}
-				keepMounted
-				open={Boolean(buttonItem)}
-				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'left'
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right'
-				}}
-			>
-				<MenuItem onClick={handleSelected}>Cambiar avatar</MenuItem>
-				<MenuItem onClick={handleSelected}>Cambiar contraseña</MenuItem>
-				<MenuItem onClick={handleSelected}>Salir</MenuItem>
-			</Menu>
+			<MenuAvatar
+				handleClose={handleClose}
+				buttonItem={buttonItem}
+				handleSelected={handleSelected}
+			/>
 		</React.Fragment>
+	);
+}
+
+function MenuAvatar({ buttonItem, handleClose, handleSelected }) {
+	return (
+		<Menu
+			id="ButtonUser"
+			anchorEl={buttonItem}
+			keepMounted
+			open={Boolean(buttonItem)}
+			onClose={handleClose}
+			anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'left'
+			}}
+			transformOrigin={{
+				vertical: 'top',
+				horizontal: 'right'
+			}}
+		>
+			<MenuItem data-option="avatar" onClick={handleSelected}>
+				Cambiar avatar
+			</MenuItem>
+			<MenuItem data-option="password" onClick={handleSelected}>
+				Cambiar contraseña
+			</MenuItem>
+			<MenuItem data-option="exit" onClick={handleSelected}>
+				Salir
+			</MenuItem>
+		</Menu>
 	);
 }
 
@@ -78,4 +104,9 @@ const mapStateToProps = state => ({
 	name: state.userData.name
 });
 
-export default connect(mapStateToProps)(ButtonUser);
+const mapDispatchToProps = {
+	openAlert,
+	logout
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(ButtonUser);
