@@ -5,16 +5,21 @@ import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
-import openAlert from '../../../actions/alerts/openAlerts';
 import logout from '../../../actions/login/logout';
 
 //Componentes
 import { clearAllData } from '../../ReloginVerify';
 
+//SnackBar
+import { useSnackbar } from 'notistack';
+
 //Boton con MENU INTERNO BOYYYYYYYYYYS
-function ButtonUser({ name, openAlert, logout }) {
+function ButtonUser({ name, logout }) {
 	//State la cual controlará el estado del menú.
 	const [buttonItem, setButtonItem] = React.useState(null);
+
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
 	//El que seteará el item en el cual debe aparecer el menú.
 	const handleClick = event => {
@@ -32,7 +37,9 @@ function ButtonUser({ name, openAlert, logout }) {
 		if (option === 'exit') {
 			clearAllData();
 			setButtonItem(null);
-			openAlert('Sección cerrada correctamente.', 'success', true);
+			enqueueSnackbar('Sección cerrada', {
+				variant: 'info'
+			});
 			logout();
 		}
 	};
@@ -105,8 +112,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	openAlert,
 	logout
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(ButtonUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonUser);

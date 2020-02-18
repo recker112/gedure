@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+//Material-UI
 import {
 	TableContainer,
 	Paper,
@@ -9,13 +11,18 @@ import {
 	LinearProgress
 } from '@material-ui/core';
 
-//Redux
-import { connect } from 'react-redux';
-import openAlert from '../../../../actions/alerts/openAlerts';
+//SnackBar
+import { useSnackbar } from 'notistack';
 
-function RenderTableError({ openAlert }) {
-	//Alert
-	openAlert('Error al intentar pedir los datos.', 'error', true);
+function RenderTableError() {
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
+
+	useEffect(() => {
+		enqueueSnackbar('No se ha podido relizar la petición', {
+			variant: 'error'
+		});
+	});
 
 	//Regresar componente
 	return (
@@ -47,26 +54,27 @@ function RenderTableError({ openAlert }) {
 }
 
 export function RenderTableSearch() {
-  return (<TableContainer component={Paper} style={{
-    maxHeight: '450px',
-    overflow: 'auto'
-  }}>
-    <Table aria-label="Tabla de Registros" size="small">
-      <TableHead>
-        <TableRow>
-          <TableCell align="center">Cédula</TableCell>
-          <TableCell align="center">Usuario</TableCell>
-          <TableCell align="center">Acción</TableCell>
-          <TableCell align="center">Opciones</TableCell>
-        </TableRow>
-      </TableHead>
-    </Table>
-    <LinearProgress variant="query" style={{ width: "100%" }} />
-  </TableContainer>);
+	return (
+		<TableContainer
+			component={Paper}
+			style={{
+				maxHeight: '450px',
+				overflow: 'auto'
+			}}
+		>
+			<Table aria-label="Tabla de Registros" size="small">
+				<TableHead>
+					<TableRow>
+						<TableCell align="center">Cédula</TableCell>
+						<TableCell align="center">Usuario</TableCell>
+						<TableCell align="center">Acción</TableCell>
+						<TableCell align="center">Opciones</TableCell>
+					</TableRow>
+				</TableHead>
+			</Table>
+			<LinearProgress variant="query" style={{ width: '100%' }} />
+		</TableContainer>
+	);
 }
 
-const mapDispatchToProps = {
-	openAlert
-};
-
-export default connect(null, mapDispatchToProps)(RenderTableError);
+export default RenderTableError;

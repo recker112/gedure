@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import updateInputValue from '../../actions/login/updateInputValue';
 import updateValidating from '../../actions/login/updateValidating';
-import openAlert from '../../actions/alerts/openAlerts';
 
 //Compoentes
 import RenderForm from './RenderForm';
@@ -14,14 +13,13 @@ import { consultAjax } from '../../components/reutilizar/ajaxConsult';
 import updateDataUser from '../../actions/login/updateDataUser';
 import loginSinceFormSuccess from '../../actions/login/loginSinceFormSuccess';
 
-function Form({
-	updateInputValue,
-	updateValidating,
-	openAlert,
-	auth,
-	updateDataUser,
-	loginSinceFormSuccess
-}) {
+//SnackBar
+import { useSnackbar } from 'notistack';
+
+function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginSinceFormSuccess }) {
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
+
 	const handleChange = e => {
 		// enviar input al store para actualizar states
 		updateInputValue(e);
@@ -51,7 +49,11 @@ function Form({
 			//Opciones de respuesta del servidor.
 			if (true) {
 				console.log(res);
-				openAlert('Login exitoso!!', 'success', true);
+
+				//Add SnackBar
+				enqueueSnackbar('Login exitoso', {
+					variant: 'success'
+				});
 
 				//Boceto de datos a guardar.
 				const dataTest = {
@@ -78,7 +80,9 @@ function Form({
 				loginSinceFormSuccess();
 			}
 		} else {
-			openAlert('No se pudo conectar con el servidor.', 'error', true);
+			enqueueSnackbar('No se pudo conectar con el servidor', {
+				variant: 'error'
+			});
 		}
 
 		//Reactivando botones.
@@ -110,7 +114,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	updateInputValue,
 	updateValidating,
-	openAlert,
 	updateDataUser,
 	loginSinceFormSuccess
 };

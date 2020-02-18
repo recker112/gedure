@@ -13,8 +13,9 @@ import { Provider } from 'react-redux';
 
 //Styles
 import './assets/scss/Base.scss';
-import * as serviceWorker from './serviceWorker';
 
+//ServiceWorker
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>

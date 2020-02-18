@@ -6,7 +6,6 @@ import { Zoom } from '@material-ui/core';
 
 //Componentes
 import Form from './Form';
-import AlertsState from '../../components/AlertsState';
 import RedirectVerify from '../../components/RedirectVerify';
 
 function PageIndex({ auth, reloginSuccess }) {
@@ -27,7 +26,6 @@ function PageIndex({ auth, reloginSuccess }) {
 						</div>
 					</Zoom>
 					<Form />
-					<AlertsState />
 				</main>
 			</div>
 		</RedirectVerify>
