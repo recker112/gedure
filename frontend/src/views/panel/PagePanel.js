@@ -5,7 +5,6 @@ import ReloginVerify from '../../components/ReloginVerify';
 import HeaderMenu from '../../components/HeaderMenu';
 import DrawerMenu from './DrawerMenu';
 import RenderContent from './RenderContent';
-import AlertsState from '../../components/AlertsState';
 
 export default function RenderPanel() {
 	return (
@@ -14,7 +13,6 @@ export default function RenderPanel() {
 				<HeaderMenu />
 				<DrawerMenu />
 				<RenderContent />
-				<AlertsState />
 			</div>
 		</ReloginVerify>
 	);
