@@ -4,10 +4,10 @@ import React from 'react';
 import RenderHome from './contentChange/home/RenderHome';
 import RenderRegistros from './contentChange/registros/RenderRegistros';
 import ContentConsultarModificar from './contentChange/ContentConsultarModificar';
+import { RenderNews } from '../news/PageNews';
 
 //Redux
 import { connect } from 'react-redux';
-import { RenderNews } from '../news/PageNews';
 
 function RenderContent({ content, privilegio }) {
 	if (privilegio === 'A-') {
@@ -28,13 +28,13 @@ function RenderContentAdmin({ content }) {
 		);
 	} else if (content === 'news') {
 		return <RenderNews />;
-	} else if (content === 'registros') {
+	} else if (content === 'reg') {
 		return (
 			<main>
 				<RenderRegistros />
 			</main>
 		);
-	} else if (content === 'consultar/modificar') {
+	} else if (content === 'co/mo') {
 		return (
 			<main>
 				<ContentConsultarModificar />

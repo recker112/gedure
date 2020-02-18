@@ -34,7 +34,7 @@ function RenderHome() {
 		<React.Fragment>
 			<Grid container spacing={2} justify="center">
 				{Estados.map((element, i) => (
-					<Grid item xs={12} sm={6} md={4}>
+					<Grid key={i} item xs={12} sm={6} md={4}>
 						<AnnounceBox
 							options={{
 								background: element.background,

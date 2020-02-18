@@ -1,9 +1,11 @@
 import React from 'react';
-import { List, Divider } from '@material-ui/core';
 
 //Componentes
 import CloseDrawerMenu from './CloseDrawerMenu';
-import { BarListButton } from './BarListButton';
+import RenderButtonList from './RenderButtonList';
+
+//Material-UI
+import { List, Divider } from '@material-ui/core';
 
 //Iconos
 import History from '@material-ui/icons/History';
@@ -24,101 +26,80 @@ export const ContentBarList = () => {
 				<CloseDrawerMenu />
 			</div>
 			<List style={{ width: '250px' }} dense={true}>
-				<BarListButton
+				<RenderButtonList
 					options={{
-						title: 'Dashboard',
-						content: 'Inicio del panel',
 						redirect: 'home',
 						text: 'Dashboard'
 					}}
 				>
 					<HomeIcon />
-				</BarListButton>
+				</RenderButtonList>
 				<Divider />
-				<BarListButton
+				<RenderButtonList
 					options={{
-						title: 'Registros',
-						content:
-							'Muestra todos los movimientos realizados en toda la app, desde inicios de sesión hasta movimientos en la matrícula',
 						text: 'Registros',
-						redirect: 'registros'
+						redirect: 'reg'
 					}}
 				>
 					<History />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Consultar/Modificar',
-						content:
-							'Permite realizar consultas para poder ver todos los estudiantes de una sección, ver los baneados, ver los baneados permanentes, añadir usuarios al sistema, entre otras funcionalidades.',
 						text: 'Consultar/Modificar',
-						redirect: 'consultar/modificar'
+						redirect: 'co/mo'
 					}}
 				>
 					<ReceiptIcon />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Cargar',
-						content:
-							'Permite cargar boletas o matricula en el servidor, modificando las ya existentes.',
 						text: 'Cargar',
-						redirect: 'cargar'
+						redirect: 'upload'
 					}}
 				>
 					<CloudUploadIcon />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Opciones',
-						content: 'Configura algunas opciones de un estudiante o una sección completa.',
 						text: 'Opciones',
-						redirect: 'opciones'
+						redirect: 'options'
 					}}
 				>
 					<BuildIcon />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Archivos',
-						content: 'Carga o elimina los archivos los descargables por el estudiante.',
 						text: 'Archivos',
-						redirect: 'archivos'
+						redirect: 'files'
 					}}
 				>
 					<ArchiveIcon />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Borrar',
-						content: 'Elimina boletas, estudiantes, o secciones del sistema.',
 						text: 'Borrar',
-						redirect: 'borrar'
+						redirect: 'delete'
 					}}
 				>
 					<DeleteIcon />
-				</BarListButton>
+				</RenderButtonList>
 				<Divider />
-				<BarListButton
+				<RenderButtonList
 					options={{
-						title: 'Publicar',
-						content: 'Publica un auncio o una noticia nueva.',
 						text: 'Publicar',
-						redirect: 'publicar'
+						redirect: 'notice'
 					}}
 				>
 					<NewReleasesIcon />
-				</BarListButton>
-				<BarListButton
+				</RenderButtonList>
+				<RenderButtonList
 					options={{
-						title: 'Borrar publicación',
-						content: 'Borra publicaciones, así de fácil.',
 						text: 'Borrar publicación.',
-						redirect: 'deletePublicacion.'
+						redirect: 'deleteNotices'
 					}}
 				>
 					<DeleteSweepIcon />
-				</BarListButton>
+				</RenderButtonList>
 			</List>
 		</div>
 	);
