@@ -5,17 +5,14 @@ import React from 'react';
 import { Grow, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 
 //Componentes
-import ButtonForm from './ButtonForm';
+import ButtonLoading from '../../components/ButtonLoading';
 
 //Redux
 import { connect } from 'react-redux';
 
-function RenderForm(props) {
+function RenderForm({ options, dataLogin, validating }) {
 	//Destructurar datos
-	const { handleChange, handleSubmit } = props.options;
-
-	//REDUX
-	const { dataLogin } = props;
+	const { handleChange, handleSubmit } = options;
 
 	return (
 		<Grow in={true}>
@@ -57,7 +54,7 @@ function RenderForm(props) {
 				</div>
 
 				<div className="space">
-					<ButtonForm />
+					<ButtonLoading estilo="contained" colorsito="primary" loading={validating} />
 				</div>
 
 				<div className="Copyright">
@@ -71,7 +68,8 @@ function RenderForm(props) {
 
 //REDUX
 const mapStateToProps = state => ({
-	dataLogin: state.dataLogin
+	dataLogin: state.dataLogin,
+	validating: state.loginStatus.validating
 });
 
 export default connect(mapStateToProps)(RenderForm);
