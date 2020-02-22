@@ -56,7 +56,7 @@ function UserModify({ data, updateInfoModify, updatePanelContent }) {
         updateInfoModify(MakeData);
       }
     }
-    updatePanelContent('consultar/modificar');
+    updatePanelContent('co/mo');
   }
   return (
     <Tooltip
