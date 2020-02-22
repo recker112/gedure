@@ -33,9 +33,9 @@ function RenderRegistros() {
 						cedula: '28438812',
 						name: 'Recker',
 						accion: 'Inicio de sesión',
-						curso: '6',
-						privilegio: 'V-',
-						seccion: 'A',
+						curso: '1',
+						privilegio: 'A-',
+						seccion: '1',
 						opciones: {
 							desbloquear: false
 						}

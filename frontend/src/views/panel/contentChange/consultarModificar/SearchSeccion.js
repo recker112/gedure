@@ -14,9 +14,10 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 
 //Componentes
-import SearchSeccionInput from './SearchSeccionInput';
 import TableShowInfoSecion from './TableShowInfoSecion';
 import ConverterCursoCode from '../../../../components/ConverterCursoCode';
+import { CursosList } from '../../../../components/ListDataGlobal';
+import { RenderSelect } from '../../../../components/RendersGlobal';
 
 
 function SearchSeccion() {
@@ -74,7 +75,7 @@ function SearchSeccion() {
           {
             cedula: 'V-94750224',
             name: 'Maria ANTONIETA de las NIEVES',
-            lista: '4',
+            lista: '5',
             curso: '6',
             seccion: 'A',
             privilegio: 'V-',
@@ -88,10 +89,24 @@ function SearchSeccion() {
       }, 3000);
     }
   }
+	
+	//Config de seccionSearch
+	const searchSelect = {
+		name: 'seachSeccion',
+		values: [
+			{
+				value: '',
+				name: 'Buscar Sección...'
+			},
+			...CursosList
+		]
+	};
   
   return (
     <React.Fragment>
-      <SearchSeccionInput options={{handleChange, select}} />
+      <div className="searchSeccion" style={{padding: "10px"}}>
+				<RenderSelect action={handleChange} val={select} data={searchSelect} />
+			</div>
       
       {/*DIALOG*/}
       <Dialog 
