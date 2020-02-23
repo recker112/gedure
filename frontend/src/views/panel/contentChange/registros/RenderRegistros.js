@@ -110,7 +110,7 @@ function TableShow(props) {
 		if (!search) {
 			return (
 				<div>
-					<RenderTableError />
+					<RenderTableError error={error} />
 				</div>
 			);
 		} else {

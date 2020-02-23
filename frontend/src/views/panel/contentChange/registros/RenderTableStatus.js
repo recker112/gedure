@@ -14,15 +14,15 @@ import {
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-function RenderTableError() {
+function RenderTableError({error}) {
 	//Crear un SnackBar
-	const { enqueueSnackbar } = useSnackbar();
-
+		const { enqueueSnackbar } = useSnackbar();
+	
 	useEffect(() => {
 		enqueueSnackbar('No se ha podido relizar la petición', {
 			variant: 'error'
 		});
-	});
+	},[enqueueSnackbar]);
 
 	//Regresar componente
 	return (
