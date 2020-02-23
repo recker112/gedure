@@ -3,20 +3,23 @@ import React from 'react';
 //Components
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
 import { RenderSelect, RenderRadios, RenderInputs } from '../../../../components/RendersGlobal';
+import ButtonLoading from '../../../../components/ButtonLoading';
 
 //Material-ui
-import { Grid, Zoom, Button } from '@material-ui/core';
+import { Grid, Zoom } from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoInput from '../../../../actions/panel/registros/updateInfoInput';
+import updateInfoInput from '../../../../actions/panel/modify/updateInfoInput';
+import updateModifyLoading from '../../../../actions/panel/modify/updateModifyLoading';
 
-function ModifyForm({ modifySection, updateInfoInput }) {
-	const { privilegio, cedula, name, option, curso, seccion, pass } = modifySection;
+function ModifyForm({ modifySection, updateInfoInput, updateModifyLoading }) {
+	const { privilegio, cedula, name, option, curso, seccion, pass, loading } = modifySection;
 
 	//Enviar datos
 	function handleSubmit(e) {
-		console.log(modifySection);
+		e.preventDefault();
+		updateModifyLoading();
 	}
 
 	function handleChange(e) {
@@ -134,11 +137,7 @@ function ModifyForm({ modifySection, updateInfoInput }) {
 
 			{/* BUTTON LOADING */}
 			<Grid container justify="center" style={{ marginTop: '20px' }}>
-				<Grid item xs={1}>
-					<Button type="submit" variant="outlined">
-						Realizar
-					</Button>
-				</Grid>
+					<ButtonLoading estilo="outlined" colorsito="inherit" text="Realizar" loading={loading} />
 			</Grid>
 		</form>
 	);
@@ -149,7 +148,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInfoInput
+	updateInfoInput,
+	updateModifyLoading
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModifyForm);

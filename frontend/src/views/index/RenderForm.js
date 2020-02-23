@@ -54,7 +54,7 @@ function RenderForm({ options, dataLogin, validating }) {
 				</div>
 
 				<div className="space">
-					<ButtonLoading estilo="contained" colorsito="primary" loading={validating} />
+					<ButtonLoading estilo="contained" colorsito="primary" text="Acceder" loading={validating} />
 				</div>
 
 				<div className="Copyright">

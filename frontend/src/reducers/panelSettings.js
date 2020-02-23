@@ -10,7 +10,8 @@ const initialState = {
 		pass: '',
 		privilegio: 'V-',
 		curso: '',
-		seccion: ''
+		seccion: '',
+		loading: false,
 	}
 };
 
@@ -76,6 +77,15 @@ export default (state = initialState, { type, payload }) => {
 				modifySection: {
 					...state.modifySection,
 					...payload
+				}
+			};
+		}
+		case 'UPDATE_MODIFY_LOADING': {
+			return {
+				...state,
+				modifySection: {
+					...state.modifySection,
+					loading: !state.modifySection.loading
 				}
 			};
 		}
