@@ -1,14 +1,20 @@
 //React
-import React, {lazy, Suspense} from 'react';
+import React, { lazy } from 'react';
 
 //Redux
 import { connect } from 'react-redux';
 
 //Componentes
 import { RenderNews } from '../news/PageNews';
-const RenderHome = lazy(() => import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome'));
-const RenderRegistros = lazy(() => import(/* webpackChunkName: "Registros" */ './contentChange/registros/RenderRegistros'));
-const ContentConsultarModificar = lazy(() => import(/* webpackChunkName: "Modificar" */ './contentChange/ContentConsultarModificar'));
+const RenderHome = lazy(() =>
+	import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome')
+);
+const RenderRegistros = lazy(() =>
+	import(/* webpackChunkName: "Registros" */ './contentChange/registros/RenderRegistros')
+);
+const ContentConsultarModificar = lazy(() =>
+	import(/* webpackChunkName: "Modificar" */ './contentChange/ContentConsultarModificar')
+);
 
 function RenderContent({ content, privilegio }) {
 	if (privilegio === 'A-') {

@@ -2,9 +2,6 @@
 import React, { useEffect } from "react";
 import { Redirect } from 'react-router-dom';
 
-//Components
-import HeaderMenu from './HeaderMenu';
-
 //redux
 import { connect } from 'react-redux';
 import reloginSuccess from '../actions/login/reloginSuccess';
@@ -47,7 +44,6 @@ function RedirectVerify({auth, reloginSuccess, children}) {
 	
   return (
     <div>
-			<HeaderMenu />
       {children}
     </div>
   );
