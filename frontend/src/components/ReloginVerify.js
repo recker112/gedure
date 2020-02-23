@@ -2,6 +2,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+//Components
+import HeaderMenu from './HeaderMenu';
+
 //Material-UI
 import { Backdrop, CircularProgress } from '@material-ui/core';
 
@@ -118,6 +121,7 @@ function ReloginVerify({
 		//Renderizar contenido
 		return (
 			<React.Fragment>
+				<HeaderMenu />
 				{ children }
 			</React.Fragment>
 		);

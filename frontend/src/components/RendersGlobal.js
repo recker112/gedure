@@ -26,12 +26,12 @@ export function RenderSelect({ val, action, data }) {
 			{data.values.map((element, i) => {
 				if (i === 0) {
 					return (
-						<MenuItem value={element.value}>
+						<MenuItem key={i} value={element.value}>
 							<em>{element.name}</em>
 						</MenuItem>
 					);
 				} else {
-					return <MenuItem value={element.value}>{element.name}</MenuItem>;
+					return <MenuItem key={i} value={element.value}>{element.name}</MenuItem>;
 				}
 			})}
 		</Select>
