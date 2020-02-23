@@ -2,6 +2,7 @@ import React from 'react';
 
 //Componentes
 import Routers from './Routers';
+import HeaderMenu from '../components/HeaderMenu';
 
 //Material-UI
 import { CssBaseline, IconButton } from '@material-ui/core';
@@ -63,6 +64,7 @@ function App({ tema }) {
 				}}
 				ref={alertRef}
 			>
+				<HeaderMenu />
 				<Routers />
 			</SnackbarProvider>
 		</ThemeProvider>
