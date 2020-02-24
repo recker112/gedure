@@ -11,7 +11,7 @@ const initialState = {
 		privilegio: 'V-',
 		curso: '',
 		seccion: '',
-		loading: false,
+		loading: false
 	}
 };
 
@@ -86,6 +86,24 @@ export default (state = initialState, { type, payload }) => {
 				modifySection: {
 					...state.modifySection,
 					loading: !state.modifySection.loading
+				}
+			};
+		}
+		case 'LOGOUT': {
+			//Reset State
+			return {
+				content: 'home',
+				infoDialog: false,
+				toggleDrawer: false,
+				modifySection: {
+					cedula: '',
+					name: '',
+					option: 'insert',
+					pass: '',
+					privilegio: 'V-',
+					curso: '',
+					seccion: '',
+					loading: false
 				}
 			};
 		}
