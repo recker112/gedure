@@ -36,7 +36,18 @@ function Loader(){
 }
 
 function noFound() {
-	return <main className="BoxPage">No se ha encontrado una ruta</main>;
+	return (
+		<main className="BoxPage" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+			<h1 style={{fontSize: 50, marginBottom: 0, marginTop: 0}}>
+				4<span color="primary">0</span>4
+			</h1>
+			<ReactLoading type="cylon" color="#6B8DD6" />
+			<p style={{marginTop: 0, textAlign: "center"}}>
+				La página solicitada no se ha podido encontrar, por favor intente 
+				con una diferente.
+			</p>
+		</main>
+	);
 }
 
 export default Routers;

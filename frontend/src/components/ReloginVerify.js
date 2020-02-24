@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 //Material-UI
-import { Backdrop, CircularProgress } from '@material-ui/core';
+import { Backdrop } from '@material-ui/core';
 
 //redux
 import { connect } from 'react-redux';
@@ -131,15 +131,14 @@ function LoadingVerifyRelogin() {
 	return (
 		<Backdrop open={true}>
 			<div className="VerifyReloginDiv">
-				<h1>Cargando</h1>
-				<CircularProgress color="inherit" />
+				<h1>Fallo al intentar loguear</h1>
 				<p>
-					Si tarda mucho es posible que haya ocurrido algún fallo en el sistema de login. Puede
-					solucionar este inconveniente dando click{' '}
+					A ocurrido un fallo al intertar acceder al panel, para
+					solucionar este inconveniente de click{' '}
 					<Link id="redirectToLogin" onClick={clearAllData} to="/">
 						aquí
 					</Link>{' '}
-					y reintentar su login.
+					si no es redirijido automáticamente.
 				</p>
 			</div>
 		</Backdrop>
@@ -149,12 +148,14 @@ function LoadingVerifyRelogin() {
 export function clearAllData() {
 	//Limpiar toda la data para solventar errores.
 	const theme = localStorage.getItem('theme');
+	const dialogList = localStorage.getItem('noListStorage');
 
 	localStorage.clear();
 	sessionStorage.clear();
 
 	//Para mantener la configuración del usuario.
 	localStorage.setItem('theme', theme);
+	localStorage.setItem('noListStorage', dialogList);
 }
 
 //REDUX

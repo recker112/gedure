@@ -122,14 +122,14 @@ function ModifyForm({ modifySection, updateInfoInput, updateModifyLoading }) {
 					<RenderRadios val={option} accion={handleChange} data={radioAcc} />
 				</Grid>
 
-				{/* SELECTS */}
+				{/* CURSO */}
 				<Zoom in={privilegio === 'V-' ? true : false}>
-					<Grid item xs={2}>
+					<Grid item xs={5} sm={4} md={3}>
 						<RenderSelect action={handleChange} val={curso} data={cursoSelect} />
 					</Grid>
 				</Zoom>
 				<Zoom in={privilegio === 'V-' ? true : false}>
-					<Grid item xs={2}>
+					<Grid item xs={5} sm={4} md={3}>
 						<RenderSelect action={handleChange} val={seccion} data={seccionSelect} />
 					</Grid>
 				</Zoom>
@@ -137,7 +137,7 @@ function ModifyForm({ modifySection, updateInfoInput, updateModifyLoading }) {
 
 			{/* BUTTON LOADING */}
 			<Grid container justify="center" style={{ marginTop: '20px' }}>
-					<ButtonLoading estilo="outlined" colorsito="inherit" text="Realizar" loading={loading} />
+				<ButtonLoading estilo="outlined" colorsito="inherit" text="Realizar" loading={loading} />
 			</Grid>
 		</form>
 	);

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 //Componentes
 import { RenderNews } from '../news/PageNews';
+
+//Lazy
 const RenderHome = lazy(() =>
 	import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome')
 );
