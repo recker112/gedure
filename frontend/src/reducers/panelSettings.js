@@ -2,7 +2,10 @@
 const initialState = {
 	content: 'home',
 	infoDialog: false,
-	toggleDrawer: false,
+	drawer: {
+		open: false,
+		index: 0
+	},
 	modifySection: {
 		cedula: '',
 		name: '',
@@ -58,7 +61,19 @@ export default (state = initialState, { type, payload }) => {
 		case 'TOGGLE_DRAWER': {
 			return {
 				...state,
-				toggleDrawer: !state.toggleDrawer
+				drawer: {
+					...state.drawer,
+					open: !state.drawer.open
+				}
+			};
+		}
+		case 'UPDATE_INDEX_DRAWER': {
+			return {
+				...state,
+				drawer: {
+					...state.drawer,
+					index: payload
+				}
 			};
 		}
 		case 'UPDATE_INFO_MODIFY': {

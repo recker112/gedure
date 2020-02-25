@@ -1,13 +1,14 @@
 //React
-import React, { lazy } from 'react';
+import React from 'react';
+
+//Loadable
+import { lazy } from "@loadable/component";
 
 //Redux
 import { connect } from 'react-redux';
 
 //Componentes
 import { RenderNews } from '../news/PageNews';
-
-//Lazy
 const RenderHome = lazy(() =>
 	import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome')
 );

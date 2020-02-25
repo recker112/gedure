@@ -18,7 +18,55 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import HomeIcon from '@material-ui/icons/Home';
 
-export const ContentBarList = () => {
+const ContentBarList = () => {
+	const dataList = [
+		{
+			redirect: 'home',
+			text: 'Dashboard',
+			icon: <HomeIcon />
+		},
+		{
+			redirect: 'reg',
+			text: 'Registros',
+			icon: <History />
+		},
+		{
+			redirect: 'co/mo',
+			text: 'Consultar/Modificar',
+			icon: <ReceiptIcon />
+		},
+		{
+			redirect: 'upload',
+			text: 'Cargar',
+			icon: <CloudUploadIcon />
+		},
+		{
+			redirect: 'options',
+			text: 'Opciones',
+			icon: <BuildIcon />
+		},
+		{
+			redirect: 'files',
+			text: 'Archivos',
+			icon: <ArchiveIcon />
+		},
+		{
+			redirect: 'delete',
+			text: 'Borrar',
+			icon: <DeleteIcon />
+		},
+		{
+			redirect: 'notice',
+			text: 'Publicar',
+			icon: <NewReleasesIcon />
+		},
+		{
+			redirect: 'deleteNotices',
+			text: 'Borrar publicación',
+			icon: <DeleteSweepIcon />
+		},
+	];
+
 	return (
 		<div role="presentation">
 			<div className="drawerMenu">
@@ -26,81 +74,26 @@ export const ContentBarList = () => {
 				<CloseDrawerMenu />
 			</div>
 			<List style={{ width: '250px' }} dense={true}>
-				<RenderButtonList
-					options={{
-						redirect: 'home',
-						text: 'Dashboard'
-					}}
-				>
-					<HomeIcon />
-				</RenderButtonList>
-				<Divider />
-				<RenderButtonList
-					options={{
-						text: 'Registros',
-						redirect: 'reg'
-					}}
-				>
-					<History />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Consultar/Modificar',
-						redirect: 'co/mo'
-					}}
-				>
-					<ReceiptIcon />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Cargar',
-						redirect: 'upload'
-					}}
-				>
-					<CloudUploadIcon />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Opciones',
-						redirect: 'options'
-					}}
-				>
-					<BuildIcon />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Archivos',
-						redirect: 'files'
-					}}
-				>
-					<ArchiveIcon />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Borrar',
-						redirect: 'delete'
-					}}
-				>
-					<DeleteIcon />
-				</RenderButtonList>
-				<Divider />
-				<RenderButtonList
-					options={{
-						text: 'Publicar',
-						redirect: 'notice'
-					}}
-				>
-					<NewReleasesIcon />
-				</RenderButtonList>
-				<RenderButtonList
-					options={{
-						text: 'Borrar publicación.',
-						redirect: 'deleteNotices'
-					}}
-				>
-					<DeleteSweepIcon />
-				</RenderButtonList>
+				{dataList.map((data, i) => {
+					return (
+						<React.Fragment key={i}>
+							<RenderButtonList
+								options={{
+									redirect: data.redirect,
+									text: data.text
+								}}
+								indexPass={i}
+							>
+								{data.icon}
+							</RenderButtonList>
+							{/*Poner dividers*/}
+							{(i === 0 || i === 6) ? (<Divider />) : null}
+						</React.Fragment>
+					);
+				})}
 			</List>
 		</div>
 	);
 };
+
+export default ContentBarList;

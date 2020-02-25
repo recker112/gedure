@@ -25,15 +25,34 @@ function App({ tema }) {
 		palette: {
 			type: tema,
 			primary: {
-				main: '#6B8DD6'
+				main: '#6B8DD6',
 			},
 			secondary: {
-				main: '#B46BD6'
+				main: '#B46BD6',
 			},
 			background: {
 				default: tema === 'light' ? '#E9EBEE' : '#191919'
 			}
-		}
+		},
+		overrides: {
+			MuiListItem: {
+				root: {
+					/*
+					&$: Pone estilos a Mui-Selected, clase interna
+					del Material-UI.
+					
+					& "clase" : Pone estilos a las clases nombradas
+					despues del "&".
+					*/
+					'&$selected': {
+						background: 'none',
+						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
+							color: '#6B8DD6',
+						},
+					}
+				}	
+			},
+  	},
 	});
 
 	//Añadir action a todos los snackbar

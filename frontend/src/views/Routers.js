@@ -1,5 +1,5 @@
 //React
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
