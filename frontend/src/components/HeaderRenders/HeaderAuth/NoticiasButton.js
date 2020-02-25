@@ -5,11 +5,15 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 //Redux
 import { connect } from 'react-redux';
 import updatePanelContent from '../../../actions/panel/updatePanelContent';
+import updateIndexDrawer from '../../../actions/panel/updateIndexDrawer';
 
-function NoticiasChangeContent({updatePanelContent}) {
+function NoticiasButton({updatePanelContent, updateIndexDrawer}) {
   return (
     <Tooltip title="Noticias" arrow>
-      <IconButton onClick={()=>{updatePanelContent("news")}}>
+      <IconButton onClick={()=>{
+				updatePanelContent("news");
+				updateIndexDrawer(null);
+			}}>
         <AnnouncementIcon />
       </IconButton>
     </Tooltip>
@@ -18,6 +22,7 @@ function NoticiasChangeContent({updatePanelContent}) {
 
 const mapDispatchToProps = {
   updatePanelContent,
+	updateIndexDrawer
 }
 
-export default connect(null,mapDispatchToProps)(NoticiasChangeContent);
+export default connect(null,mapDispatchToProps)(NoticiasButton);

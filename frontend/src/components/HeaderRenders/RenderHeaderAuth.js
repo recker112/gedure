@@ -7,7 +7,7 @@ import {
 
 //Componentes
 import ButtonTheme from '../ButtonTheme';
-import NoticiasChangeContent from '../../views/panel/contentChange/NoticiasChangeContent';
+import NoticiasButton from './HeaderAuth/NoticiasButton';
 import MenuButtonOpen from './HeaderAuth/MenuButtonOpen';
 import ButtonUser from './HeaderAuth/ButtonUser';
 
@@ -35,10 +35,10 @@ function RenderHeaderAuth() {
               </Tooltip>
             </span>
             <span className="IconBoxButton">
-                <NoticiasChangeContent />
+                <NoticiasButton />
             </span>
             <span className="IconBoxButton">
-              <ButtonUser></ButtonUser>
+              <ButtonUser />
             </span>
           </div>
         </nav>

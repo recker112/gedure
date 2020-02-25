@@ -1,19 +1,21 @@
 import React from 'react';
+
+//Material-UI
 import { Drawer } from '@material-ui/core';
 
 //Componentes
-import { ContentBarList } from './DrawerMenu/ContentBarList';
+import ContentBarList from './DrawerMenu/ContentBarList';
 
 //Redux
 import { connect } from 'react-redux';
 import toggleDrawer from '../../actions/panel/toggleDrawer';
 
-function DrawerMenu({openDrawer, toggleDrawer}) {
+function DrawerMenu({open, toggleDrawer}) {
   return (
     //Usar el controlador del contenido para cambiar
     //el estado del drawerMenu.
      <Drawer 
-      open={openDrawer} 
+      open={open} 
       onClose={toggleDrawer}
     >
       <ContentBarList />
@@ -22,7 +24,7 @@ function DrawerMenu({openDrawer, toggleDrawer}) {
 }
 
 const mapStateToProps = (state) => ({
-  openDrawer: state.panelSettings.toggleDrawer
+  open: state.panelSettings.drawer.open
 })
 const mapDispatchToProps = {
   toggleDrawer
