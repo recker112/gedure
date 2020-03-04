@@ -15,6 +15,13 @@ const initialState = {
 		curso: '',
 		seccion: '',
 		loading: false
+  },
+  uploadSection: {
+    uploadOption: 'matricula',
+    curso: '',
+    seccion: '',
+    files: [],
+		loading: false
 	}
 };
 
@@ -22,6 +29,7 @@ const initialState = {
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
+    //PANEL OPTIONS
 		case 'UPDATE_PANEL_CONTENT': {
 			const noInfo = ['home', 'news'];
 			let found = false;
@@ -75,7 +83,9 @@ export default (state = initialState, { type, payload }) => {
 					index: payload
 				}
 			};
-		}
+    }
+    
+    //MODIFY
 		case 'UPDATE_INFO_MODIFY': {
 			return {
 				...state,
@@ -86,7 +96,7 @@ export default (state = initialState, { type, payload }) => {
 				}
 			};
 		}
-		case 'UPDATE_INFO_INPUT': {
+		case 'UPDATE_INFO_INPUT_MODIFY': {
 			return {
 				...state,
 				modifySection: {
@@ -103,7 +113,20 @@ export default (state = initialState, { type, payload }) => {
 					loading: !state.modifySection.loading
 				}
 			};
+    }
+
+    //UPLOAD
+    case 'UPDATE_INFO_INPUT_UPLOAD': {
+			return {
+				...state,
+				uploadSection: {
+					...state.uploadSection,
+					...payload
+				}
+			};
 		}
+    
+    //LOGOUT
 		case 'LOGOUT': {
 			//Reset State
 			return {

@@ -2,7 +2,7 @@
 //por el reducer correspondiente.
 const updateInfoInput = (inputValue) => {
   return {
-    type: "UPDATE_INFO_INPUT",
+    type: "UPDATE_INFO_INPUT_MODIFY",
     payload: inputValue
   }
 }

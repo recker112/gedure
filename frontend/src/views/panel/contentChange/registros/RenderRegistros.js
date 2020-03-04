@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 //Material-UI
-import { Grid, Paper, Select, MenuItem } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 
 //Componentes
 import RenderTableOk from './RenderTableOk';
 import RenderTableError, { RenderTableSearch } from './RenderTableStatus';
+import { RenderSelect } from '../../../../components/RendersGlobal';
 
 function RenderRegistros() {
 	const [selectSearch, setsSlectSearch] = useState('all');
@@ -124,20 +125,36 @@ function TableShow(props) {
 }
 
 function SelectorRegistrosDisplay(props) {
-	const { handleChangeSelect, selectSearch } = props.options;
+  const { handleChangeSelect, selectSearch } = props.options;
+  
+  //Config de registros
+	const registSelect = {
+		name: 'registros',
+		values: [
+			{
+				value: 'all',
+				name: 'Todos'
+      },
+      {
+				value: 'ban',
+				name: 'Baneados'
+      },
+      {
+				value: 'login',
+				name: 'Inicio de sesión'
+      },
+      {
+				value: 'changePass',
+				name: 'Cambio de contraseña'
+			},
+		]
+	};
 
 	return (
 		<div className="Box">
 			<span className="title">Buscar Registros</span>
 			<div className="content">
-				<Select className="select" onChange={handleChangeSelect} value={selectSearch}>
-					<MenuItem value="all">
-						<em>Todos</em>
-					</MenuItem>
-					<MenuItem value="ban">Baneos</MenuItem>
-					<MenuItem value="login">Inicio de sesión</MenuItem>
-					<MenuItem value="changePass">Cambios de contraseña</MenuItem>
-				</Select>
+				<RenderSelect action={handleChangeSelect} val={selectSearch} data={registSelect} classNameSet="select" customWidth="auto" empty={false} />
 			</div>
 		</div>
 	);

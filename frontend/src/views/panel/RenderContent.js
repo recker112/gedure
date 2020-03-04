@@ -9,14 +9,17 @@ import { connect } from 'react-redux';
 
 //Componentes
 import { RenderNews } from '../news/PageNews';
-const RenderHome = lazy(() =>
+const Home = lazy(() =>
 	import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome')
 );
-const RenderRegistros = lazy(() =>
+const Registros = lazy(() =>
 	import(/* webpackChunkName: "Registros" */ './contentChange/registros/RenderRegistros')
 );
-const ContentConsultarModificar = lazy(() =>
-	import(/* webpackChunkName: "Modificar" */ './contentChange/ContentConsultarModificar')
+const Modificar = lazy(() =>
+	import(/* webpackChunkName: "Modificar" */ './contentChange/consultarModificar/RenderCO_MO')
+);
+const Cargar = lazy(() =>
+	import(/* webpackChunkName: "Modificar" */ './contentChange/cargar/RenderCargar')
 );
 
 function RenderContent({ content, privilegio }) {
@@ -33,7 +36,7 @@ function RenderContentAdmin({ content }) {
 	if (content === 'home') {
 		return (
 			<main>
-				<RenderHome />
+				<Home />
 			</main>
 		);
 	} else if (content === 'news') {
@@ -41,13 +44,19 @@ function RenderContentAdmin({ content }) {
 	} else if (content === 'reg') {
 		return (
 			<main>
-				<RenderRegistros />
+				<Registros />
 			</main>
 		);
 	} else if (content === 'co/mo') {
 		return (
 			<main>
-				<ContentConsultarModificar />
+				<Modificar />
+			</main>
+		);
+	} else if (content === 'upload') {
+		return (
+			<main>
+				<Cargar />
 			</main>
 		);
 	} else {

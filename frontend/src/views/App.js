@@ -43,15 +43,17 @@ function App({ tema }) {
 					
 					& "clase" : Pone estilos a las clases nombradas
 					despues del "&".
+
+          && "clase": Clase custom.
 					*/
-					'&$selected': {
-						background: 'none',
+					'&&.drawerSelect': {
+            background: 'none',
 						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
 							color: '#6B8DD6',
 						},
 					}
 				}	
-			},
+			}
   	},
 	});
 
