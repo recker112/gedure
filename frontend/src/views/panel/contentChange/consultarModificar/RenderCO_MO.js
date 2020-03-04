@@ -2,11 +2,13 @@ import React from 'react';
 
 //Material-UI
 import { Grid, Paper } from '@material-ui/core';
-import SearchUsers from './consultarModificar/SearchUsers';
-import SearchSeccion from './consultarModificar/SearchSeccion';
-import ModifyForm from './consultarModificar/ModifyForm';
 
-function ContentConsultarModificar() {
+//Components
+import SearchUsers from './SearchUsers';
+import SearchSeccion from './SearchSeccion';
+import ModifyForm from './ModifyForm';
+
+function RenderCO_MO() {
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={6}>
@@ -31,4 +33,4 @@ function ContentConsultarModificar() {
   );
 }
 
-export default ContentConsultarModificar;
+export default RenderCO_MO;
