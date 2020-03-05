@@ -23,7 +23,8 @@ function SearchUsers({updateInfoModify}) {
 				if (loading && !cancel) {
 					setOptions([
 						{
-							cedula: '213142',
+              cedula: '213142',
+              combiCedula: 'V-213142',
 							name: 'luis',
 							//AÑadir ESTO en caso de querer buscar la cedula
 							//con el privilegio incluido.
@@ -33,21 +34,24 @@ function SearchUsers({updateInfoModify}) {
 							seccion: 'C'
 						},
 						{
-							cedula: '2434144',
+              cedula: '2434144',
+              combiCedula: 'V-2434144',
 							name: 'ale',
 							privilegio: 'V-',
 							curso: '3G',
 							seccion: 'U'
 						},
 						{
-							cedula: '3029472',
+              cedula: '3029472',
+              combiCedula: 'CR-3029472',
 							name: 'Fernando',
 							privilegio: 'CR-',
 							curso: '',
 							seccion: ''
 						},
 						{
-							cedula: '3939484',
+              cedula: '3939484',
+              combiCedula: 'A-3939484',
 							name: 'Alverto',
 							privilegio: 'A-',
 							curso: '1',
@@ -89,7 +93,7 @@ function SearchUsers({updateInfoModify}) {
 				//Data a usar para el autocompletado
 				options={options}
 				//Texto a mostrar al seleccionar un resultado.
-				getOptionLabel={option => option.cedula}
+				getOptionLabel={option => option.combiCedula}
 				//Renderizar texto en la caja del autocompletado.
 				renderOption={option => (
 					<div
