@@ -31,7 +31,7 @@ function App({ tema }) {
 				main: '#B46BD6',
 			},
 			background: {
-				default: tema === 'light' ? '#E9EBEE' : '#191919'
+				default: tema === 'light' ? '#E9EBEE' : '#1d1d1d'
 			}
 		},
 		overrides: {
