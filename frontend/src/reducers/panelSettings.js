@@ -130,19 +130,7 @@ export default (state = initialState, { type, payload }) => {
 		case 'LOGOUT': {
 			//Reset State
 			return {
-				content: 'home',
-				infoDialog: false,
-				toggleDrawer: false,
-				modifySection: {
-					cedula: '',
-					name: '',
-					option: 'insert',
-					pass: '',
-					privilegio: 'V-',
-					curso: '',
-					seccion: '',
-					loading: false
-				}
+				...initialState
 			};
 		}
 		default: {
