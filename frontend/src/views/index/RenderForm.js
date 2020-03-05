@@ -32,8 +32,8 @@ function RenderForm({ options, dataLogin, validating, error }) {
             value={dataLogin.user}
             onChange={handleChange}
             autoFocus
-            error={error.inputs.user.status}
-            helperText={error.inputs.user.status && error.inputs.user.message}
+            error={error.user.status}
+            helperText={error.user.status && error.user.message}
           />
         </div>
 
@@ -46,8 +46,8 @@ function RenderForm({ options, dataLogin, validating, error }) {
             variant="outlined"
             value={dataLogin.pass}
             onChange={handleChange}
-            error={error.inputs.pass.status}
-            helperText={error.inputs.pass.status && error.inputs.pass.message}
+            error={error.pass.status}
+            helperText={error.pass.status && error.pass.message}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
