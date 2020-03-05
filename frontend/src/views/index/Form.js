@@ -17,7 +17,7 @@ import loginSinceFormSuccess from '../../actions/login/loginSinceFormSuccess';
 import { useSnackbar } from 'notistack';
 import errorEmptyLogin from '../../actions/login/errorEmptyLogin';
 
-function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginSinceFormSuccess, errorEmptyLogin, user, pass, error }) {
+function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginSinceFormSuccess, errorEmptyLogin, user, pass }) {
   //Crear un SnackBar
   const { enqueueSnackbar } = useSnackbar();
 
