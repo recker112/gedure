@@ -3,16 +3,13 @@ const initialState = {
   user: '',
   pass: '',
   error: {
-    status: true,
-    inputs: {
-      user: {
-        status: false,
-        message: ""
-      },
-      pass: {
-        status: false,
-        message: ""
-      }
+    user: {
+      status: false,
+      message: ""
+    },
+    pass: {
+      status: false,
+      message: ""
     }
   },
   checkbox: false,
@@ -36,12 +33,9 @@ export default (state = initialState, { type, payload }) => {
         [name]: value,
         error: {
           ...state.error,
-          inputs: {
-            ...state.error.inputs,
-            [name]: {
-              status: false,
-              message: ""
-            }
+          [name]: {
+            status: false,
+            message: ""
           }
         }
       };
@@ -51,12 +45,9 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         error: {
           ...state.error,
-          inputs: {
-            ...state.error.inputs,
-            [payload.input]: {
-              status: true,
-              message: payload.message
-            }
+          [payload.input]: {
+            status: true,
+            message: payload.message
           }
         }
       };

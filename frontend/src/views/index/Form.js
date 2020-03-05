@@ -39,25 +39,18 @@ function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginS
     });
 
     //Verificar datos
-    if (user.length === 0) {
-      //Empty
-      errorEmptyLogin("user", "Campo obligatorio");
-      error=true;
-    }else if (user.length < 4) {
-      //No valid cédula
-      errorEmptyLogin("user", "Cédula no válida");
-      error=true;
-    }
-
-    if (pass.length === 0) {
-      //Empty
-      errorEmptyLogin("pass", "Campo obligatorio");
-      error=true;
-    }else if (pass.length < 4) {
-      //No valid pass
-      errorEmptyLogin("pass", "Contraseña no válida");
-      error=true;
-    }
+    [{value: user, name: "user"},{value: pass, name: "pass"}].map((input)=>{
+      if (input.value.length === 0) {
+        //Empty
+        errorEmptyLogin(input.name, "Campo obligatorio");
+        error=true;
+      }else if (input.value.length < 4) {
+        //No valid cédula
+        errorEmptyLogin(input.name, "No válido");
+        error=true;
+      }
+      return null;
+    });
 
     //Verificar errores
     if (error) {
