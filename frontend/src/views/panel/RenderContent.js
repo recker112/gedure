@@ -19,7 +19,7 @@ const Modificar = lazy(() =>
 	import(/* webpackChunkName: "Modificar" */ './contentChange/consultarModificar/RenderCO_MO')
 );
 const Cargar = lazy(() =>
-	import(/* webpackChunkName: "Modificar" */ './contentChange/cargar/RenderCargar')
+	import(/* webpackChunkName: "Cargar" */ './contentChange/cargar/RenderCargar')
 );
 
 function RenderContent({ content, privilegio }) {
