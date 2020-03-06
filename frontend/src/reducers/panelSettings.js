@@ -57,13 +57,14 @@ const initialState = {
   },
   optionsSection: {
     option: 'estudiante',
-    nota: true,
-    horario: true,
-    cedula: '',
+    nota: 'activo',
+    horario: 'activo',
+    estudiante: '',
     seccion: '',
     curso: '',
+    loading: false,
     error: {
-      cedula: {
+      estudiante: {
         status: false,
         message: ''
       },
@@ -354,6 +355,30 @@ export default (state = initialState, { type, payload }) => {
               message: ""
             }
           }
+        }
+      };
+    }
+    case 'ERROR_INFO_OPTIONS': {
+      return {
+        ...state,
+        optionsSection: {
+          ...state.optionsSection,
+          error: {
+            ...state.optionsSection.error,
+            [payload.input]: {
+              status: true,
+              message: payload.message
+            }
+          }
+        }
+      };
+    }
+    case 'UPDATE_LOADING_OPTIONS': {
+      return {
+        ...state,
+        optionsSection: {
+          ...state.optionsSection,
+          loading: payload
         }
       };
     }

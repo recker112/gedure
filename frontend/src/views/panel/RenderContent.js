@@ -22,7 +22,10 @@ const Cargar = lazy(() =>
 	import(/* webpackChunkName: "Cargar" */ './contentChange/cargar/RenderCargar')
 );
 const Opciones = lazy(() =>
-	import(/* webpackChunkName: "Cargar" */ './contentChange/opciones/RenderOptions')
+	import(/* webpackChunkName: "Opciones" */ './contentChange/opciones/RenderOptions')
+);
+const Borrar = lazy(() =>
+	import(/* webpackChunkName: "Borrar" */ './contentChange/borrar/RenderBorrar')
 );
 
 function RenderContent({ content, privilegio }) {
@@ -66,6 +69,12 @@ function RenderContentAdmin({ content }) {
 		return (
 			<main>
 				<Opciones />
+			</main>
+		);
+	} else if (content === 'delete') {
+		return (
+			<main>
+				<Borrar />
 			</main>
 		);
 	} else {
