@@ -10,10 +10,10 @@ const initialState = {
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'UPDATE_VALIDATING_FORM': {
+		case 'UPDATE_LOADING_LOGIN': {
 			return {
 				...state,
-				validating: payload.validating
+				validating: payload
 			};
 		}
 		case 'LOGIN_SUCCESS_FROM_LOGIN': {

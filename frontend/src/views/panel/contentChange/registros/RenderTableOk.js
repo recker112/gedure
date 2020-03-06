@@ -11,7 +11,7 @@ function RenderTableOk({data}) {
   const table = (<TableContainer component={Paper} style={{
     maxHeight: '450px',
     overflow: 'auto'
-  }}>
+  }} variant="outlined">
     <Table aria-label="Tabla de Registros" size="small">
       <TableHead>
         <TableRow>
@@ -27,7 +27,7 @@ function RenderTableOk({data}) {
         {Object.values(data).map((row, i) => {
           return (<TableRow key={i}>
             <TableCell align="center">
-              {row.cedula}
+              {row.privilegio+row.cedula}
             </TableCell>
             <Hidden smDown>
               <TableCell align="center">{row.name}</TableCell>

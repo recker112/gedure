@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../actions/login/updateInputValue';
-import updateValidating from '../../actions/login/updateValidating';
+import updateInputValue from '../../actions/updateInputValue';
+import updateLoading from '../../actions/updateLoading';
 
 //Compoentes
 import RenderForm from './RenderForm';
@@ -15,15 +15,15 @@ import loginSinceFormSuccess from '../../actions/login/loginSinceFormSuccess';
 
 //SnackBar
 import { useSnackbar } from 'notistack';
-import errorEmptyLogin from '../../actions/login/errorEmptyLogin';
+import errorInfo from '../../actions/errorInfo';
 
-function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginSinceFormSuccess, errorEmptyLogin, user, pass }) {
+function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinceFormSuccess, errorInfo, user, pass }) {
   //Crear un SnackBar
   const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = e => {
     // enviar input al store para actualizar states
-    updateInputValue(e);
+    updateInputValue(e, "LOGIN");
   };
 
   const handleSubmit = (e) => {
@@ -42,11 +42,11 @@ function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginS
     [{value: user, name: "user"},{value: pass, name: "pass"}].map((input)=>{
       if (input.value.length === 0) {
         //Empty
-        errorEmptyLogin(input.name, "Campo obligatorio");
+        errorInfo(input.name, "Campo obligatorio", "LOGIN");
         error=true;
       }else if (input.value.length < 4) {
         //No valid cédula
-        errorEmptyLogin(input.name, "No válido");
+        errorInfo(input.name, "No válido", "LOGIN");
         error=true;
       }
       return null;
@@ -62,7 +62,7 @@ function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginS
     }
 
     //Loading
-    updateValidating(true);
+    updateLoading(true,"LOGIN");
     //Consulta
     setTimeout(getConsult, 2000);
   };
@@ -116,7 +116,7 @@ function Form({ updateInputValue, updateValidating, auth, updateDataUser, loginS
       element.disabled = false;
     });
 
-    updateValidating(false);
+    updateLoading(false,"LOGIN");
   };
 
   //Verificar si se redireccionará o no.
@@ -142,10 +142,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   updateInputValue,
-  updateValidating,
+  updateLoading,
   updateDataUser,
   loginSinceFormSuccess,
-  errorEmptyLogin
+  errorInfo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

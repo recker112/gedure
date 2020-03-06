@@ -34,9 +34,7 @@ function RenderRegistros() {
 						cedula: '28438812',
 						name: 'Recker',
 						accion: 'Inicio de sesión',
-						curso: '1',
 						privilegio: 'A-',
-						seccion: '1',
 						opciones: {
 							desbloquear: false
 						}
@@ -53,7 +51,9 @@ function RenderRegistros() {
 						}
 					}
 				]
-			};
+      };
+      
+      //PETICION
 			if (selectSearch === 'all') {
 				setReq(res);
 			} else if (selectSearch === 'ban') {
@@ -77,7 +77,7 @@ function RenderRegistros() {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper>
+				<Paper variant="outlined">
 					<SelectorRegistrosDisplay
 						options={{
 							selectSearch,

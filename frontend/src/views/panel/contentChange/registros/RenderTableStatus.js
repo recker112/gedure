@@ -31,7 +31,8 @@ function RenderTableError({error}) {
 			style={{
 				maxHeight: '450px',
 				overflow: 'auto'
-			}}
+      }}
+      variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>
@@ -60,7 +61,8 @@ export function RenderTableSearch() {
 			style={{
 				maxHeight: '450px',
 				overflow: 'auto'
-			}}
+      }}
+      variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>

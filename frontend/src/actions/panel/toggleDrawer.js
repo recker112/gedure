@@ -1,8 +1,9 @@
 //Se crea una acciรณn la cual serรก capturada
 //por el reducer correspondiente.
-const toggleDrawer = () => {
+const toggleDrawer = (value) => {
   return {
-    type: "TOGGLE_DRAWER"
+    type: "TOGGLE_DRAWER",
+    payload: value,
   }
 }
 

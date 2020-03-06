@@ -12,17 +12,17 @@ function RenderCO_MO() {
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={6}>
-        <Paper>
+        <Paper variant="outlined">
           <SearchUsers />
         </Paper>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Paper>
+        <Paper variant="outlined">
           <SearchSeccion />
         </Paper>
       </Grid>
       <Grid item xs={10}>
-        <Paper className='Box'>
+        <Paper className='Box' variant="outlined">
           <span className="title">Modificar</span>
           <div className="content">
             <ModifyForm />

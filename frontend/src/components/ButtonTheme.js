@@ -29,7 +29,7 @@ function ButtonTheme({tema, updateTheme}) {
 
   const mode = tema === 'dark' ? 'Claro' : 'Nocturno';
   return (
-  <Tooltip title={`Modo ${mode}`} arrow>
+  <Tooltip title={`Modo ${mode}`} arrow enterDelay={1000}>
     <IconButton onClick={useDarkMode}>
       <WbIncandescentIcon />
     </IconButton>

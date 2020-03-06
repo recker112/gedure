@@ -10,31 +10,34 @@ import {
   RadioGroup,
   FormControl,
   FormLabel,
-  FormControlLabel
+  FormControlLabel,
+  FormHelperText
 } from '@material-ui/core';
 
-export function RenderSelect({ val, action, data, empty = true, classNameSet = false, customWidth = false }) {
+export function RenderSelect({ val, action, data, error = false, empty = true, classNameSet = false, customWidth = false }) {
   return (
-    <Select
-      displayEmpty
-      name={data.name}
-      value={val}
-      onChange={action}
-      style={{ width: customWidth ? (customWidth) : '100%' }}
-      className={classNameSet ? (classNameSet) : null}
-    >
-      {data.values.map((element, i) => {
-        if (i === 0 && empty) {
-          return (
-            <MenuItem key={i} value={element.value}>
-              <em>{element.name}</em>
-            </MenuItem>
-          );
-        } else {
-          return <MenuItem key={i} value={element.value}>{element.name}</MenuItem>;
-        }
-      })}
-    </Select>
+    <FormControl error={error && error.status} style={{ width: customWidth ? (customWidth) : '100%' }}>
+      <Select
+        displayEmpty
+        name={data.name}
+        value={val}
+        onChange={action}
+        className={classNameSet ? (classNameSet) : null}
+      >
+        {data.values.map((element, i) => {
+          if (i === 0 && empty) {
+            return (
+              <MenuItem key={i} value={element.value}>
+                <em>{element.name}</em>
+              </MenuItem>
+            );
+          } else {
+            return <MenuItem key={i} value={element.value}>{element.name}</MenuItem>;
+          }
+        })}
+      </Select>
+      {error && <FormHelperText>{error.message}</FormHelperText>}
+    </FormControl>
   );
 }
 
@@ -61,8 +64,9 @@ export function RenderRadios({ val, accion, data }) {
   );
 }
 
-export function RenderInputs({ data, accion }) {
+export function RenderInputs({ data, accion, error }) {
   const { val, name, label } = data;
+  const { status, message } = error;
   return (
     <TextField
       name={name}
@@ -71,7 +75,8 @@ export function RenderInputs({ data, accion }) {
       style={{ width: '100%' }}
       variant="outlined"
       onChange={accion}
-      required
+      error={status}
+      helperText={status && message}
     />
   );
 }

@@ -48,6 +48,7 @@ function App({ tema }) {
 					*/
 					'&&.drawerSelect': {
             background: 'none',
+            color: '#6B8DD6',
 						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
 							color: '#6B8DD6',
 						},

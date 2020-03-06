@@ -16,7 +16,7 @@ function DrawerMenu({open, toggleDrawer}) {
     //el estado del drawerMenu.
      <Drawer 
       open={open} 
-      onClose={toggleDrawer}
+      onClose={()=>{toggleDrawer(false)}}
     >
       <ContentBarList />
     </Drawer>

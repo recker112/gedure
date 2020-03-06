@@ -1,10 +1,10 @@
 //Se crea una acción la cual será capturada
 //por el reducer correspondiente.
-const updateInfoInput = (inputValue) => {
+const verifyEmpty = (inputValue) => {
   return {
-    type: "UPDATE_INFO_INPUT_MODIFY",
+    type: "VERIFY_EMPTY",
     payload: inputValue
   }
 }
 
-export default updateInfoInput;
+export default verifyEmpty;
