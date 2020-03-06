@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 //Material-UI
-import { Grid, Paper, Button, FormControl, FormHelperText } from '@material-ui/core';
+import { Grid, Paper, Button } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 //Components
@@ -11,25 +11,55 @@ import ButtonLoading from '../../../../components/ButtonLoading';
 
 //Redux
 import { connect } from 'react-redux'
-import updateUploadOption from '../../../../actions/panel/upload/updateUploadOption';
+import updateInputValue from '../../../../actions/updateInputValue';
 
-function RenderCargar({ upload, updateUploadOption, curso, seccion, loading, files }) {
-  const [errorEmpty, setErrorEmpty] = useState({status: false, values: [false, false]});
+//Notistack
+import { useSnackbar } from 'notistack';
+import errorInfo from '../../../../actions/errorInfo';
+import updateLoading from '../../../../actions/updateLoading';
+
+function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
+  //Crear un SnackBar
+  const { enqueueSnackbar } = useSnackbar();
+  //Destruct
+  const {uploadOption, curso, seccion, loading, files, error} = data;
 
   const handleSubmit = e => {
     e.preventDefault();
-    
-    if (errorEmpty.status === true) {
-      setErrorEmpty({status: false, values: [false, false]});
+    let errorStatus = false;
+
+    //Verificar datos
+    if (files.length === 0){
+      enqueueSnackbar('Debe cargar algún archivo primero', {
+        variant: 'warning'
+      });
+      errorStatus = true;
     }
 
-    if (curso.length === 0 || seccion.length === 0){
-      setErrorEmpty({status: true, values: [true, true]});
+    [
+      {
+        value: curso, 
+        name: "curso"
+      },
+      {
+        value: seccion, 
+        name: "seccion"
+      }
+    ].map((input)=>{
+      if (input.value.length === 0) {
+        //Empty
+        errorInfo(input.name, "Campo obligatorio", "UPDATE");
+        errorStatus=true;
+      }
+      return null;
+    });
+
+    if (errorStatus){
       return null;
     }
 
     //ENVIAR AJAX
-    updateUploadOption({ loading: true });
+    updateLoading(true,"UPLOAD");
 
     //Config
     const formData = new FormData();
@@ -66,32 +96,35 @@ function RenderCargar({ upload, updateUploadOption, curso, seccion, loading, fil
         const archivo = files[i];
         formData.append("files", archivo);
       }
+      //ENVIAR AJAX
       console.log(`Lista enviada correctamente!!`);
     }
+    //Loading Toggle
+    updateLoading(false,"UPLOAD");
   }
 
   function handleChange(e) {
     //Actualizar
-    updateUploadOption({ [e.target.name]: e.target.value });
+    updateInputValue(e,'UPLOAD');
   }
 
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={5} md={3}>
-        <Paper>
-          <UploadSelectBox upload={upload} action={handleChange} />
+        <Paper variant="outlined">
+          <UploadSelectBox upload={uploadOption} action={handleChange} />
         </Paper>
       </Grid>
       <Grid item xs={12} sm={10}>
-        <Paper>
+        <Paper variant="outlined">
           <div className="Box">
             <div className="content">
               <form autoComplete="off" encType="multipart/form-data" method="POST" onSubmit={handleSubmit} style={{ marginTop: "0" }}>
                 <Grid container spacing={2} justify="center">
                   <Grid item xs={12}>
-                    <LoadArchives upload={upload} files={files} action={updateUploadOption} />
+                    <LoadArchives upload={uploadOption} files={files} action={updateInputValue} />
                   </Grid>
-                  <ShowCursos error={errorEmpty} action={handleChange} curso={curso} seccion={seccion} />
+                  <ShowCursos error={error} action={handleChange} curso={curso} seccion={seccion} />
                   <Grid item xs={12} style={{ textAlign: "center" }}>
                     <ButtonLoading estilo="outlined" colorsito="inherit" text="Cargar" loading={loading} />
                   </Grid>
@@ -133,17 +166,35 @@ function UploadSelectBox({ upload, action }) {
 
 function LoadArchives({ upload, action }) {
   const [archivos, setArchivos] = useState(0);
+
+  //Acción al cambiar los archivos
   const handleChange = e => {
     const data = e.target.files;
-    action({ [e.target.name]: e.target.files });
+    let change = false;
+
+    //Actualizar datos
+    action(e,'UPLOAD');
+
+    //Visor de archivos actuales
     for (let i = 0; i < data.length; i++) {
       setArchivos(i + 1);
+      change = true;
     }
+
+    //Verificar cambios
+    !change && setArchivos(0);
   }
 
   useEffect(() => {
+    //Custom Input
+    const e = {target: {
+      name: "files", files: []
+    }};
+
+    //Set values
     setArchivos(0);
-  }, [upload])
+    action(e,'UPLOAD');
+  }, [upload, action])
 
   return (
     <div className="uploadArchives" style={{ textAlign: "center" }}>
@@ -209,13 +260,10 @@ function ShowCursos({ action, curso, seccion, error }) {
   return (
     <React.Fragment>
       <Grid item xs={5} sm={4} md={3}>
-        <FormControl error={error.values[0]} style={{width: "100%"}}>
-          <RenderSelect action={action} val={curso} data={cursoSelect} />
-          {error.values[0] && <FormHelperText>Este campo es obligatorio</FormHelperText>}
-        </FormControl>
+        <RenderSelect error={error.curso} action={action} val={curso} data={cursoSelect} />
       </Grid>
       <Grid item xs={5} sm={4} md={3}>
-        <RenderSelect action={action} val={seccion} data={seccionSelect} />
+        <RenderSelect error={error.seccion} action={action} val={seccion} data={seccionSelect} />
       </Grid>
     </React.Fragment>
   )
@@ -223,15 +271,13 @@ function ShowCursos({ action, curso, seccion, error }) {
 
 
 const mapStateToProps = (state) => ({
-  upload: state.panelSettings.uploadSection.uploadOption,
-  curso: state.panelSettings.uploadSection.curso,
-  seccion: state.panelSettings.uploadSection.seccion,
-  files: state.panelSettings.uploadSection.files,
-  loading: state.panelSettings.uploadSection.loading,
+  data: state.panelSettings.uploadSection,
 })
 
 const mapDispatchToProps = {
-  updateUploadOption
+  updateInputValue,
+  errorInfo,
+  updateLoading
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)((RenderCargar));

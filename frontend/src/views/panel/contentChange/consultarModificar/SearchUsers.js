@@ -8,9 +8,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoModify from '../../../../actions/panel/registros/updateInfoModify';
+import updateInputValue from '../../../../actions/updateInputValue';
 
-function SearchUsers({updateInfoModify}) {
+function SearchUsers({updateInputValue}) {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const loading = open && options.length === 0;
@@ -28,7 +28,7 @@ function SearchUsers({updateInfoModify}) {
 							name: 'luis',
 							//AÑadir ESTO en caso de querer buscar la cedula
 							//con el privilegio incluido.
-							//cedulaComplete: 'V-213142',
+							//combiCedula: 'V-213142',
 							privilegio: 'V-',
 							curso: '6',
 							seccion: 'C'
@@ -45,17 +45,13 @@ function SearchUsers({updateInfoModify}) {
               cedula: '3029472',
               combiCedula: 'CR-3029472',
 							name: 'Fernando',
-							privilegio: 'CR-',
-							curso: '',
-							seccion: ''
+							privilegio: 'CR-'
 						},
 						{
               cedula: '3939484',
               combiCedula: 'A-3939484',
 							name: 'Alverto',
-							privilegio: 'A-',
-							curso: '1',
-							seccion: 'A'
+							privilegio: 'A-'
 						}
 					]);
 				}
@@ -77,9 +73,10 @@ function SearchUsers({updateInfoModify}) {
 		[open]
 	);
 	
-	const handleClick = e => {
-		const estudiante = JSON.parse(e.target.dataset.datos);
-		updateInfoModify(estudiante);
+	const handleClick = user => {
+    if (user !== null) {
+      updateInputValue(user,'MODIFY_EXTERNO');
+    }
 	}
 
 	return (
@@ -91,16 +88,15 @@ function SearchUsers({updateInfoModify}) {
 				loadingText="Cargando..."
 				noOptionsText="Sin resultados"
 				//Data a usar para el autocompletado
-				options={options}
+        options={options}
+        onChange={(e,user)=>{
+          handleClick(user);
+        }}
 				//Texto a mostrar al seleccionar un resultado.
-				getOptionLabel={option => option.combiCedula}
+				getOptionLabel={option => {return `${option.privilegio}${option.cedula}`}}
 				//Renderizar texto en la caja del autocompletado.
 				renderOption={option => (
-					<div
-						data-datos={JSON.stringify(option)}
-						className="searchBoxInfo"
-						onClick={handleClick}
-					>
+					<div className="searchBoxInfo">
 						<span>{option.privilegio + option.cedula}</span>
 						<span>{option.name}</span>
 					</div>
@@ -146,7 +142,7 @@ function SearchUsers({updateInfoModify}) {
 
 //REDUX
 const mapDispatchToProps = {
-	updateInfoModify
+	updateInputValue
 };
 
 export default connect(null,mapDispatchToProps)(SearchUsers);

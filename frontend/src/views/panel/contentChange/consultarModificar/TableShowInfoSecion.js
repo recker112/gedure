@@ -17,9 +17,9 @@ import {
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoModify from '../../../../actions/panel/registros/updateInfoModify';
+import updateInputValue from '../../../../actions/updateInputValue';
 
-function TableShowInfoSecion({ data, changeOpen, updateInfoModify }) {
+function TableShowInfoSecion({ data, changeOpen, updateInputValue }) {
 	const [tabValue, setTabValue] = useState(0);
 
 	const handleChange = (e, value) => {
@@ -43,7 +43,6 @@ function TableShowInfoSecion({ data, changeOpen, updateInfoModify }) {
 				aria-label="Tab seccion"
 				variant="scrollable"
 				scrollButtons="auto"
-				centered
 			>
 				{data.map((curso, i) => {
 					return <Tab 
@@ -59,7 +58,7 @@ function TableShowInfoSecion({ data, changeOpen, updateInfoModify }) {
 						<RenderTable 
 							data={curso.estudiantes} 
 							changeOpen={changeOpen}
-							update={updateInfoModify}
+							update={updateInputValue}
 						/>
 					</TabPanel>
 				);
@@ -89,7 +88,7 @@ function RenderTable({ data, changeOpen, update }) {
 								<Button
 									onClick={() => {
 										delete row.lista;
-										update({ ...row });
+										update(row,'MODIFY_EXTERNO');
 										changeOpen(false);
 									}}
 								>
@@ -128,7 +127,7 @@ function TabPanel(props) {
 }
 
 const mapDispatchToProps = {
-	updateInfoModify
+	updateInputValue
 };
 
 export default connect(null, mapDispatchToProps)(TableShowInfoSecion);

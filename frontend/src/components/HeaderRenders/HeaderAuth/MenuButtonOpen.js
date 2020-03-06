@@ -14,7 +14,7 @@ function MenuButtonOpen({toggleDrawer}) {
       title='Mostrar menú' 
       arrow
     >
-      <IconButton onClick={toggleDrawer}>
+      <IconButton onClick={()=>{toggleDrawer(true)}}>
         <MenuIcon />
       </IconButton>
     </Tooltip>

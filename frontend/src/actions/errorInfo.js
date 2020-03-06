@@ -1,8 +1,8 @@
 //Se crea una acciรณn la cual serรก capturada
 //por el reducer correspondiente.
-const errorEmptyLogin = (input,message) => {
+const errorInfo = (input,message,type) => {
   return {
-    type: "ERROR_LOGIN",
+    type: `ERROR_INFO_${type}`,
     payload: {
       input,
       message
@@ -10,4 +10,4 @@ const errorEmptyLogin = (input,message) => {
   }
 }
 
-export default errorEmptyLogin;
+export default errorInfo;

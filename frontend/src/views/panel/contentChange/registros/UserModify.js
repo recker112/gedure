@@ -6,10 +6,10 @@ import EditIcon from '@material-ui/icons/Edit';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInfoModify from '../../../../actions/panel/registros/updateInfoModify';
+import updateInputValue from '../../../../actions/updateInputValue';
 import updatePanelContent from '../../../../actions/panel/updatePanelContent';
 
-function UserModify({ data, updateInfoModify, updatePanelContent }) {
+function UserModify({ data, updateInputValue, updatePanelContent }) {
   function Modify() {
     switch (data.privilegio) {
       case 'V-': {
@@ -20,18 +20,16 @@ function UserModify({ data, updateInfoModify, updatePanelContent }) {
           curso: data.curso,
           seccion: data.seccion,
         };
-        updateInfoModify(MakeData);
+        updateInputValue(MakeData,'MODIFY_EXTERNO');
       }
       break;
       case 'A-': {
         const MakeData = {
           cedula: data.cedula,
           name: data.name,
-          privilegio: data.privilegio,
-          curso: '1',
-          seccion: 'A',
+          privilegio: data.privilegio
         };
-        updateInfoModify(MakeData);
+        updateInputValue(MakeData,'MODIFY_EXTERNO');
       }
       break;
       case 'CR-': {
@@ -42,7 +40,7 @@ function UserModify({ data, updateInfoModify, updatePanelContent }) {
           curso: '1',
           seccion: 'A',
         };
-        updateInfoModify(MakeData);
+        updateInputValue(MakeData,'MODIFY_EXTERNO');
       }
       break;
       default: {
@@ -53,7 +51,7 @@ function UserModify({ data, updateInfoModify, updatePanelContent }) {
           curso: '',
           seccion: '',
         };
-        updateInfoModify(MakeData);
+        updateInputValue(MakeData,'MODIFY_EXTERNO');
       }
     }
     updatePanelContent('co/mo');
@@ -77,7 +75,7 @@ function UserModify({ data, updateInfoModify, updatePanelContent }) {
 }
 
 const mapDispatchToProps = {
-  updateInfoModify,
+  updateInputValue,
   updatePanelContent,
 }
 

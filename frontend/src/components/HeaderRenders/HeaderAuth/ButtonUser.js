@@ -45,7 +45,7 @@ function ButtonUser({ name, logout }) {
 	};
 	return (
 		<React.Fragment>
-			<Tooltip title="Opciones" arrow>
+			<Tooltip title="Opciones" arrow enterDelay={1000}>
 				{/*Aria-controls indica el item por ID el cual será controlado el
       en este caso será controlado por el MENÚ.
       aria-haspopud no sé que hace. xDDD

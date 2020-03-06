@@ -21,6 +21,9 @@ const Modificar = lazy(() =>
 const Cargar = lazy(() =>
 	import(/* webpackChunkName: "Cargar" */ './contentChange/cargar/RenderCargar')
 );
+const Opciones = lazy(() =>
+	import(/* webpackChunkName: "Cargar" */ './contentChange/opciones/RenderOptions')
+);
 
 function RenderContent({ content, privilegio }) {
 	if (privilegio === 'A-') {
@@ -57,6 +60,12 @@ function RenderContentAdmin({ content }) {
 		return (
 			<main>
 				<Cargar />
+			</main>
+		);
+	} else if (content === 'options') {
+		return (
+			<main>
+				<Opciones />
 			</main>
 		);
 	} else {

@@ -19,7 +19,7 @@ const initialState = {
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "UPDATE_INPUT_VALUE": {
+    case "UPDATE_INPUT_VALUE_LOGIN": {
       //Obtener input
       const e = payload.input;
 
@@ -40,7 +40,7 @@ export default (state = initialState, { type, payload }) => {
         }
       };
     }
-    case "ERROR_LOGIN": {
+    case "ERROR_INFO_LOGIN": {
       return {
         ...state,
         error: {

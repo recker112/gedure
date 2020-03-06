@@ -9,7 +9,7 @@ import updateIndexDrawer from '../../../actions/panel/updateIndexDrawer';
 
 function NoticiasButton({updatePanelContent, updateIndexDrawer}) {
   return (
-    <Tooltip title="Noticias" arrow>
+    <Tooltip title="Noticias" arrow enterDelay={1000}>
       <IconButton onClick={()=>{
 				updatePanelContent("news");
 				updateIndexDrawer(null);

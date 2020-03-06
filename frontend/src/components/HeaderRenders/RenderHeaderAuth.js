@@ -26,7 +26,7 @@ function RenderHeaderAuth() {
               <ButtonTheme />
             </span>
             <span className="IconBoxButton">
-              <Tooltip title="Mensajes" arrow>
+              <Tooltip title="Mensajes" arrow enterDelay={1000} >
                 <IconButton>
                   <Badge color="secondary" badgeContent={12} max={10}>
                     <MailIcon />

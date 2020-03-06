@@ -1,6 +1,6 @@
-const updateInputValue = (input) => {
+const updateInputValue = (input,type) => {
   return {
-    type: "UPDATE_INPUT_VALUE",
+    type: `UPDATE_INPUT_VALUE_${type}`,
     payload: {
       input
     }
