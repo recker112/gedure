@@ -12,7 +12,6 @@ import History from '@material-ui/icons/History';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import BuildIcon from '@material-ui/icons/Build';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
@@ -44,11 +43,6 @@ const ContentBarList = () => {
 			redirect: 'options',
 			text: 'Opciones',
 			icon: <BuildIcon />
-		},
-		{
-			redirect: 'files',
-			text: 'Archivos',
-			icon: <ArchiveIcon />
 		},
 		{
 			redirect: 'delete',
@@ -87,7 +81,7 @@ const ContentBarList = () => {
 								{data.icon}
 							</RenderButtonList>
 							{/*Poner dividers*/}
-							{(i === 0 || i === 6) ? (<Divider />) : null}
+							{(i === 0 || i === 5) ? (<Divider />) : null}
 						</React.Fragment>
 					);
 				})}
