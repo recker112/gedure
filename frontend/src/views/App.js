@@ -45,13 +45,22 @@ function App({ tema }) {
 					despues del "&".
 
           && "clase": Clase custom.
-					*/
-					'&&.drawerSelect': {
-            background: 'none',
-            color: '#6B8DD6',
+          */
+          //HOVER
+          '&&.drawerItem': {
+            opacity: 0.9,
+            '&:hover': {
+              borderLeft: "3px solid",
+              opacity: 1,
+            }
+          },
+          //SELECTED
+					'&&.drawerItemSelected': {
+            borderLeft: "3px solid #6B8DD6",
+            opacity: 1,
 						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
-							color: '#6B8DD6',
-						},
+              //Cambiar el color el texto y el icono
+            },
 					}
 				}	
 			}
@@ -73,11 +82,11 @@ function App({ tema }) {
 			{/* Stack Snackbar en toda la APP */}
 			<SnackbarProvider
 				maxSnack={3}
-				preventDuplicate
+        preventDuplicate
 				//Botones con acciones.
 				action={key => (
 					<IconButton size="small" onClick={onClickDismiss(key)}>
-						<CloseIcon style={{color: tema === "light" ? 'white' : 'black'}} />
+						<CloseIcon style={{color: tema === "light" ? 'white' : 'black'}}/>
 					</IconButton>
 				)}
 				anchorOrigin={{

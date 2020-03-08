@@ -1,63 +1,40 @@
 //React
-import React, { useState } from 'react';
+import React from 'react';
 
 //Material-UI
-import { Grow, TextField, FormControlLabel, Checkbox, InputAdornment, IconButton } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Grow, FormControlLabel, Checkbox } from '@material-ui/core';
 
 //Componentes
 import ButtonLoading from '../../components/ButtonLoading';
 
 //Redux
 import { connect } from 'react-redux';
+import { RenderInputs } from '../../components/RendersGlobal';
 
 function RenderForm({ options, dataLogin, validating, error }) {
-  const [visible, setVisible] = useState(false);
   //Destructurar datos
   const { handleChange, handleSubmit } = options;
 
-  const handleClick = () => {
-    setVisible(!visible);
-  }
   return (
     <Grow in={true}>
       <form onSubmit={handleSubmit}>
         <div className="space">
-          <TextField
-            id="user-input"
-            name="user"
-            label="Usuario"
-            variant="outlined"
-            value={dataLogin.user}
-            onChange={handleChange}
-            autoFocus
-            error={error.user.status}
-            helperText={error.user.status && error.user.message}
+          <RenderInputs 
+            data={{ val: dataLogin.user, name: 'user', label: 'Usuario' }}
+            accion={handleChange}
+            error={error.user}
+            focus={true}
           />
         </div>
 
         <div className="space">
-          <TextField
-            type={visible ? "text" : "password"}
-            id="pass-input"
-            name="pass"
-            label="Contraseña"
-            variant="outlined"
-            value={dataLogin.pass}
-            onChange={handleChange}
-            error={error.pass.status}
-            helperText={error.pass.status && error.pass.message}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleClick}>
-                    {visible ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-            style={{maxWidth: "278px"}}
+          <RenderInputs 
+            data={{ val: dataLogin.pass, name: 'pass', label: 'Contraseña' }}
+            accion={handleChange}
+            error={error.pass}
+            focus={true}
+            visibleToggle={true}
+            maxWidth="278px"
           />
         </div>
 

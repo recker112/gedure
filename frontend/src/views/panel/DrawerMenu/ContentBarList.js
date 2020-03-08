@@ -16,9 +16,15 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import HomeIcon from '@material-ui/icons/Home';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
-const ContentBarList = () => {
-	const dataList = [
+//Redux
+import { connect } from 'react-redux';
+
+const ContentBarList = ({privilegio}) => {
+	const dataListAdmin = [
 		{
 			redirect: 'home',
 			text: 'Dashboard',
@@ -59,6 +65,29 @@ const ContentBarList = () => {
 			text: 'Borrar publicación',
 			icon: <DeleteSweepIcon />
 		},
+  ];
+  
+  const dataListEstu = [
+		{
+			redirect: 'home',
+			text: 'Dashboard',
+			icon: <HomeIcon />
+    },
+    {
+			redirect: 'boleta',
+			text: 'Boleta',
+			icon: <ListAltIcon />
+    },
+    {
+			redirect: 'horario',
+			text: 'Horario',
+			icon: <QueryBuilderIcon />
+    },
+    {
+			redirect: 'constancias',
+			text: 'Constancias',
+			icon: <ArchiveIcon />
+		},
 	];
 
 	return (
@@ -68,7 +97,24 @@ const ContentBarList = () => {
 				<CloseDrawerMenu />
 			</div>
 			<List style={{ width: '250px' }} dense={true}>
-				{dataList.map((data, i) => {
+				{privilegio === "A-" && dataListAdmin.map((data, i) => {
+					return (
+						<React.Fragment key={i}>
+							<RenderButtonList
+								options={{
+									redirect: data.redirect,
+									text: data.text
+								}}
+								indexPass={i}
+							>
+								{data.icon}
+							</RenderButtonList>
+							{/*Poner dividers*/}
+							{(i === 0 || i === 5) ? (<Divider />) : null}
+						</React.Fragment>
+					);
+        })}
+        {privilegio === "V-" && dataListEstu.map((data, i) => {
 					return (
 						<React.Fragment key={i}>
 							<RenderButtonList
@@ -90,4 +136,9 @@ const ContentBarList = () => {
 	);
 };
 
-export default ContentBarList;
+//REDUX
+const mapStateToProps = (state) => ({
+  privilegio: state.userData.privilegio
+});
+
+export default connect(mapStateToProps)(ContentBarList);
