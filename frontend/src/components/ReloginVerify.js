@@ -147,8 +147,9 @@ function LoadingVerifyRelogin() {
 
 export function clearAllData() {
 	//Limpiar toda la data para solventar errores.
-	const theme = localStorage.getItem('theme');
-	const dialogList = localStorage.getItem('noListStorage');
+  const theme = localStorage.getItem('theme');
+  //Verifivar que la lista no devuelva null
+	const dialogList = localStorage.getItem('noListStorage') !== null ? localStorage.getItem('noListStorage') : "[]";
 
 	localStorage.clear();
 	sessionStorage.clear();
