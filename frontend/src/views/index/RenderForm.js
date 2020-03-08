@@ -19,7 +19,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
     <Grow in={true}>
       <form onSubmit={handleSubmit}>
         <div className="space">
-          <RenderInputs 
+          <RenderInputs
             data={{ val: dataLogin.user, name: 'user', label: 'Usuario' }}
             accion={handleChange}
             error={error.user}
@@ -32,7 +32,6 @@ function RenderForm({ options, dataLogin, validating, error }) {
             data={{ val: dataLogin.pass, name: 'pass', label: 'Contraseña' }}
             accion={handleChange}
             error={error.pass}
-            focus={true}
             visibleToggle={true}
             maxWidth="278px"
           />

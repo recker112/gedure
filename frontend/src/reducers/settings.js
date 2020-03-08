@@ -4,6 +4,12 @@ if (!localStorage.getItem("theme")){
   localStorage.setItem("theme", "light");
 }
 
+//Verificar si la lista contiene algo
+if (localStorage.getItem("noListStorage") !== true){
+  //Setear dada
+	localStorage.setItem('noListStorage', JSON.stringify([]));
+}
+
 //Inicar valor del state.
 const initialState = {
   tema: localStorage.getItem("theme")

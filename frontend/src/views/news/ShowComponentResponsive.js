@@ -16,7 +16,7 @@ function ShowComponentResponsive({ content }) {
 	//SwitchButton modo responsive.
   const theme = useTheme();
   //True si la resoluciรณn es mayor a sm.
-  const resolution = useMediaQuery(theme.breakpoints.up("sm"));
+  const resolution = useMediaQuery(theme.breakpoints.up("md"));
 	
 	return (
 		<div className="container">

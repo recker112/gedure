@@ -27,7 +27,7 @@ export function RenderNews(){
 			<main>
 				{/* Ocultar SwitchNews hasta que la pantalla entre en modo
 				celular. */}
-				<Hidden smUp>
+				<Hidden mdUp>
 					<SwitchButton />
 				</Hidden>
 				<ShowComponentResponsive />
