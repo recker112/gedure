@@ -28,7 +28,8 @@ function ContentAvatar({ data, response, updateInputValue, currentAvatar, name }
           multiple={false} 
           maxSizeFile={{ unique: "5MB", multiple: "5MB" }} 
           label={{ unique: 'foto', multiple: 'foto' }} 
-          name="file" 
+          name="file"
+          idName="avatarUser"
           type="AVATAR"
         />
       </Grid>

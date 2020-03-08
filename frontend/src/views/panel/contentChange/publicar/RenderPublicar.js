@@ -113,6 +113,7 @@ function RenderPublicar({data, updateInputValue, errorInfo, updateLoading}) {
                   </Grid>
                   {option === "noticia" &&
                     <LoadArchives 
+                      idName="uploadPublic"
                       accepted="image/*"
                       reset={option} 
                       files={img} 

@@ -124,6 +124,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
                   <Grid item xs={12}>
                     <LoadArchives 
                       accepted={option === "matricula" ? '.csv' : '.pdf'}
+                      idName="uploadFiles"
                       reset={option} 
                       files={files} 
                       action={updateInputValue}
