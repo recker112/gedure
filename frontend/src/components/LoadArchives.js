@@ -9,7 +9,8 @@ function LoadArchives({
   name, 
   label, 
   reset, 
-  action, 
+  action,
+  idName,
   type, 
   accepted,
   multiple = false, 
@@ -62,14 +63,14 @@ function LoadArchives({
     <div className="uploadArchives" style={{ textAlign: "center" }}>
       <input 
         accept={accepted}
-        id="upload_files" 
+        id={idName} 
         multiple={multiple} 
         type="file" 
         name={name} 
         style={{ display: "none" }} 
         onChange={handleChange} 
       />
-      <label htmlFor="upload_files">
+      <label htmlFor={idName}>
         <Button variant="contained" startIcon={<CloudUploadIcon />} disableElevation component="span">
           Cargar {!multiple ? label.unique : label.multiple}
         </Button>
