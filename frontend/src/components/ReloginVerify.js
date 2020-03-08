@@ -37,7 +37,7 @@ function ReloginVerify({
 					nota: '',
 					horario: '',
 					profeGuia: '',
-					privilegio: 'A-',
+					privilegio: 'V-',
 					avatar: 'reckerSITO',
 					token: 'testDATA47'
 				};

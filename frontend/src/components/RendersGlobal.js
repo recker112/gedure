@@ -1,5 +1,5 @@
 //React
-import React from 'react';
+import React, { useState } from 'react';
 
 //Material-UI
 import {
@@ -11,8 +11,12 @@ import {
   FormControl,
   FormLabel,
   FormControlLabel,
-  FormHelperText
+  FormHelperText,
+  InputAdornment,
+  IconButton
 } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 export function RenderSelect({ val, action, data, error = false, empty = true, classNameSet = false, customWidth = false }) {
   return (
@@ -64,17 +68,45 @@ export function RenderRadios({ val, accion, data }) {
   );
 }
 
-export function RenderInputs({ data, accion, error }) {
+export function RenderInputs({ data, accion, error, variant="outlined", textarea=false, maxWidth = false, size = 'medium', visibleToggle = false, focus = false }) {
   const { val, name, label } = data;
   const { status, message } = error;
+  
+  const [visibility, setVisibility] = useState(false);
+
+  const handleClick = () => {
+    setVisibility(!visibility);
+  }
+
+  const textareaConfig = {
+    rows: 4,
+    rowsMax: 6,
+  }
   return (
     <TextField
+      type={visibleToggle ? visibility ? "text": "password" : "text"}
       name={name}
       value={val}
       label={label}
-      style={{ width: '100%' }}
-      variant="outlined"
+      size={size}
+      autoFocus={focus}
+      style={{ width: '100%', maxWidth: maxWidth ? maxWidth : "none"}}
+      variant={variant}
       onChange={accion}
+      multiline={textarea}
+      InputProps={{
+        endAdornment: visibleToggle ? 
+        (
+          <InputAdornment position="end">
+            <IconButton onClick={handleClick} size={size}>
+              {visibility ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        )
+        :
+        null
+      }}
+      {...textareaConfig}
       error={status}
       helperText={status && message}
     />

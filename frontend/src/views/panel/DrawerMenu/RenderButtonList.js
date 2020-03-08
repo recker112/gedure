@@ -31,7 +31,7 @@ function RenderMobileButton({
 				updateIndexDrawer(indexPass);
 			}}
 			selected={index === indexPass}
-      className={index === indexPass ? 'drawerSelect' : null}
+      className={index === indexPass ? 'drawerItemSelected' : 'drawerItem'}
 		>
 			<ListItemIcon>{children}</ListItemIcon>
 			<ListItemText primary={text} />

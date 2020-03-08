@@ -27,14 +27,17 @@ const Opciones = lazy(() =>
 const Borrar = lazy(() =>
 	import(/* webpackChunkName: "Borrar" */ './contentChange/borrar/RenderBorrar')
 );
+const Publicar = lazy(() =>
+	import(/* webpackChunkName: "Publicar" */ './contentChange/publicar/RenderPublicar')
+);
 
 function RenderContent({ content, privilegio }) {
 	if (privilegio === 'A-') {
 		return <RenderContentAdmin content={content} />;
 	} else if (privilegio === 'V-') {
-		return <h1>USER</h1>;
+		return <main>USER</main>;
 	} else {
-		return <h1>ERROR</h1>;
+		return <main>ERROR</main>;
 	}
 }
 
@@ -75,6 +78,12 @@ function RenderContentAdmin({ content }) {
 		return (
 			<main>
 				<Borrar />
+			</main>
+		);
+	} else if (content === 'notice') {
+		return (
+			<main>
+				<Publicar />
 			</main>
 		);
 	} else {

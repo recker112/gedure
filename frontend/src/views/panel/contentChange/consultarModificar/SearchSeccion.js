@@ -231,21 +231,20 @@ function SearchSeccion() {
 							<TableShowInfoSecion data={lista} changeOpen={setOpen} />
 						</React.Fragment>
 					)}
-					{loading ? (
-						<CircularProgress />
-					) : (
-						<DialogActions>
-							<Button
-								color="primary"
-								onClick={() => {
-									setOpen(false);
-								}}
-							>
-								Entendido
-							</Button>
-						</DialogActions>
-					)}
+					{loading && <CircularProgress />}
 				</DialogContent>
+        {!loading && 
+          <DialogActions>
+            <Button
+              color="primary"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              Entendido
+            </Button>
+          </DialogActions>
+        }
 			</Dialog>
 		</React.Fragment>
 	);

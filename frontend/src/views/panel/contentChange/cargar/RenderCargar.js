@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 //Material-UI
-import { Grid, Paper, Button } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { Grid, Paper } from '@material-ui/core';
 
 //Components
 import { RenderSelect } from '../../../../components/RendersGlobal';
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
 import ButtonLoading from '../../../../components/ButtonLoading';
+import LoadArchives from '../../../../components/LoadArchives';
 
 //Redux
 import { connect } from 'react-redux'
@@ -22,7 +22,12 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
   //Crear un SnackBar
   const { enqueueSnackbar } = useSnackbar();
   //Destruct
-  const {uploadOption, curso, seccion, loading, files, error} = data;
+  const {option, curso, seccion, loading, files, error} = data;
+
+  function handleChange(e) {
+    //Actualizar
+    updateInputValue(e,'UPLOAD');
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -103,16 +108,11 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
     updateLoading(false,"UPLOAD");
   }
 
-  function handleChange(e) {
-    //Actualizar
-    updateInputValue(e,'UPLOAD');
-  }
-
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={5} md={3}>
         <Paper variant="outlined">
-          <UploadSelectBox upload={uploadOption} action={handleChange} />
+          <UploadSelectBox upload={option} action={handleChange} />
         </Paper>
       </Grid>
       <Grid item xs={12} sm={10}>
@@ -122,7 +122,17 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
               <form autoComplete="off" encType="multipart/form-data" method="POST" onSubmit={handleSubmit} style={{ marginTop: "0" }}>
                 <Grid container spacing={2} justify="center">
                   <Grid item xs={12}>
-                    <LoadArchives upload={uploadOption} files={files} action={updateInputValue} />
+                    <LoadArchives 
+                      accepted={option === "matricula" ? '.csv' : '.pdf'}
+                      reset={option} 
+                      files={files} 
+                      action={updateInputValue}
+                      multiple={option === "matricula" ? false : true}
+                      maxSizeFile={{unique: "30KB", multiple: "2MB"}}
+                      label={{unique: 'matricula', multiple: 'boletas'}}
+                      name="files"
+                      type="UPLOAD"
+                    />
                   </Grid>
                   <ShowCursos error={error} action={handleChange} curso={curso} seccion={seccion} />
                   <Grid item xs={12} style={{ textAlign: "center" }}>
@@ -141,7 +151,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 function UploadSelectBox({ upload, action }) {
   //Config de cargar
   const uploadSelect = {
-    name: 'uploadOption',
+    name: 'option',
     values: [
       {
         value: 'matricula',
@@ -159,74 +169,6 @@ function UploadSelectBox({ upload, action }) {
       <span className="title">Seleccionar carga</span>
       <div className="content">
         <RenderSelect action={action} val={upload} data={uploadSelect} classNameSet="select" customWidth="auto" empty={false} />
-      </div>
-    </div>
-  )
-}
-
-function LoadArchives({ upload, action }) {
-  const [archivos, setArchivos] = useState(0);
-
-  //Acción al cambiar los archivos
-  const handleChange = e => {
-    const data = e.target.files;
-    let change = false;
-
-    //Actualizar datos
-    action(e,'UPLOAD');
-
-    //Visor de archivos actuales
-    for (let i = 0; i < data.length; i++) {
-      setArchivos(i + 1);
-      change = true;
-    }
-
-    //Verificar cambios
-    !change && setArchivos(0);
-  }
-
-  useEffect(() => {
-    //Custom Input
-    const e = {target: {
-      name: "files", files: []
-    }};
-
-    //Set values
-    setArchivos(0);
-    action(e,'UPLOAD');
-  }, [upload, action])
-
-  return (
-    <div className="uploadArchives" style={{ textAlign: "center" }}>
-      <input
-        id="upload_files"
-        multiple={upload === "boletas" ? true : false}
-        type="file"
-        name="files"
-        style={{ display: "none" }}
-        onChange={handleChange}
-      />
-      <label htmlFor="upload_files">
-        <Button
-          variant="contained"
-          startIcon={<CloudUploadIcon />}
-          disableElevation
-          component="span"
-        >
-          Cargar {upload === "matricula" ? "matricula" : "boletas"}
-        </Button>
-      </label>
-      <div className="info" style={{ display: "flex", flexDirection: "column", marginTop: "5px" }}>
-        {upload === "matricula" ? (
-          <span>(Tamaño máximo: 30KB)</span>
-        )
-          :
-          (
-            <React.Fragment>
-              <span>Archivos seleccionados: {archivos}</span>
-              <span>(Tamaño máximo: 2MB)</span>
-            </React.Fragment>
-          )}
       </div>
     </div>
   )

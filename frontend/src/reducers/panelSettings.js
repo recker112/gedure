@@ -39,7 +39,7 @@ const initialState = {
     }
   },
   uploadSection: {
-    uploadOption: 'matricula',
+    option: 'matricula',
     curso: '',
     seccion: '',
     files: [],
@@ -77,7 +77,76 @@ const initialState = {
         message: ''
       }
     }
-  }
+  },
+  deleteSection: {
+    option: 'seccion',
+    seccion: '',
+    curso: '',
+    loading: false,
+    error: {
+      seccion: {
+        status: false,
+        message: ''
+      },
+      curso: {
+        status: false,
+        message: ''
+      }
+    }
+  },
+  publicarSection: {
+    option: 'noticia',
+    title: '',
+    content: '',
+    img: [],
+    loading: false,
+    error: {
+      title: {
+        status: false,
+        message: ''
+      },
+      content: {
+        status: false,
+        message: ''
+      }
+    }
+  },
+  menuUser: {
+    openDialog: false,
+    option: null,
+    response: false,
+    loading: false,
+    sections: {
+      password: {
+        passA: '',
+        passN: '',
+        passR: '',
+        error: {
+          passA: {
+            status: false,
+            message: ''
+          },
+          passN: {
+            status: false,
+            message: ''
+          },
+          passR: {
+            status: false,
+            message: ''
+          }
+        }
+      },
+      avatar: {
+        file: [],
+        error: {
+          file: {
+            status: false,
+            message: ''
+          }
+        }
+      }
+    }
+  },
 };
 
 // action es el valor devuelto por el action
@@ -380,6 +449,239 @@ export default (state = initialState, { type, payload }) => {
           ...state.optionsSection,
           loading: payload
         }
+      };
+    }
+
+    //DELETE
+    case 'UPDATE_INPUT_VALUE_DELETE': {
+      //Obtener input
+      const e = payload.input;
+
+      //Obtener valores del input
+      const name = e.target.name;
+      const value = e.target.value;
+
+      return {
+        ...state,
+        deleteSection: {
+          ...state.deleteSection,
+          [name]: value,
+          error: {
+            ...state.deleteSection.error,
+            [name]: {
+              status: false,
+              message: ""
+            }
+          }
+        }
+      };
+    }
+    case 'ERROR_INFO_DELETE': {
+      return {
+        ...state,
+        deleteSection: {
+          ...state.deleteSection,
+          error: {
+            ...state.deleteSection.error,
+            [payload.input]: {
+              status: true,
+              message: payload.message
+            }
+          }
+        }
+      };
+    }
+    case 'UPDATE_LOADING_DELETE': {
+      return {
+        ...state,
+        deleteSection: {
+          ...state.deleteSection,
+          loading: payload
+        }
+      };
+    }
+
+    //PUBLICAR
+    case 'UPDATE_INPUT_VALUE_PUBLICAR': {
+      //Obtener input
+      const e = payload.input;
+
+      //Obtener valores del input
+      const name = e.target.name;
+      const value = name === 'img' ? e.target.files : e.target.value;
+
+      return {
+        ...state,
+        publicarSection: {
+          ...state.publicarSection,
+          [name]: value,
+          error: {
+            ...state.publicarSection.error,
+            [name]: {
+              status: false,
+              message: ""
+            }
+          }
+        }
+      };
+    }
+    case 'ERROR_INFO_PUBLICAR': {
+      return {
+        ...state,
+        publicarSection: {
+          ...state.publicarSection,
+          error: {
+            ...state.publicarSection.error,
+            [payload.input]: {
+              status: true,
+              message: payload.message
+            }
+          }
+        }
+      };
+    }
+    case 'UPDATE_LOADING_PUBLICAR': {
+      return {
+        ...state,
+        publicarSection: {
+          ...state.publicarSection,
+          loading: payload
+        }
+      };
+    }
+
+    //MENU USER
+    case 'UPDATE_MENU_USER_DIALOG': {
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          openDialog: payload.open,
+          option: payload.option,
+          response: false,
+          loading: false,
+        }
+      };
+    }
+    case 'UPDATE_LOADING_MENU_USER_DIALOG': {
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          loading: payload
+        }
+      };
+    }
+    case 'RESPONSE_MENU_USER_DIALOG': {
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          response: {...payload},
+          loading: false,
+        }
+      };
+    }
+    //CHANGE PASSWORD
+    case 'UPDATE_INPUT_VALUE_PASSWORD': {
+      //Obtener input
+      const e = payload.input;
+
+      //Obtener valores del input
+      const name = e.target.name;
+      const value = e.target.value;
+
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          sections: {
+            ...state.menuUser.sections,
+            password: {
+              ...state.menuUser.sections.password,
+              [name]: value,
+                error: {
+                  ...state.menuUser.sections.password.error,
+                  [name]: {
+                    status: false,
+                    message: ""
+                  }
+                }
+            }
+          }
+        }
+      };
+    }
+    case 'ERROR_INFO_PASSWORD': {
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          sections: {
+            ...state.menuUser.sections,
+            password: {
+              ...state.menuUser.sections.password,
+              error: {
+                ...state.menuUser.sections.password.error,
+                [payload.input]: {
+                    status: true,
+                    message: payload.message
+                  }
+                }
+              }
+            }
+          }
+      };
+    }
+    //CHANGE AVATAR
+    case 'UPDATE_INPUT_VALUE_AVATAR': {
+      //Obtener input
+      const e = payload.input;
+
+      //Obtener valores del input
+      const name = e.target.name;
+      const value = e.target.files;
+
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          sections: {
+            ...state.menuUser.sections,
+            avatar: {
+              ...state.menuUser.sections.avatar,
+              [name]: value,
+                error: {
+                  ...state.menuUser.sections.avatar.error,
+                  [name]: {
+                    status: false,
+                    message: ""
+                  }
+                }
+            }
+          }
+        }
+      };
+    }
+    case 'ERROR_INFO_AVATAR': {
+      return {
+        ...state,
+        menuUser: {
+          ...state.menuUser,
+          sections: {
+            ...state.menuUser.sections,
+            avatar: {
+              ...state.menuUser.sections.avatar,
+              error: {
+                ...state.menuUser.sections.avatar.error,
+                [payload.input]: {
+                    status: true,
+                    message: payload.message
+                  }
+                }
+              }
+            }
+          }
       };
     }
 

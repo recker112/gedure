@@ -1,18 +1,10 @@
 import React from 'react';
-import { 
-  IconButton, 
-  Badge,
-  Tooltip
-} from '@material-ui/core';
 
 //Componentes
 import ButtonTheme from '../ButtonTheme';
 import NoticiasButton from './HeaderAuth/NoticiasButton';
 import MenuButtonOpen from './HeaderAuth/MenuButtonOpen';
 import ButtonUser from './HeaderAuth/ButtonUser';
-
-//Icons
-import MailIcon from '@material-ui/icons/Mail';
 
 
 function RenderHeaderAuth() {
@@ -25,6 +17,7 @@ function RenderHeaderAuth() {
             <span className="IconBoxButton">
               <ButtonTheme />
             </span>
+            {/* DESACTIVADO PARA REALIZAR EN UN FUTURO
             <span className="IconBoxButton">
               <Tooltip title="Mensajes" arrow enterDelay={1000} >
                 <IconButton>
@@ -33,7 +26,7 @@ function RenderHeaderAuth() {
                   </Badge>
                 </IconButton>
               </Tooltip>
-            </span>
+            </span> */}
             <span className="IconBoxButton">
                 <NoticiasButton />
             </span>
