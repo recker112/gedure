@@ -35,16 +35,10 @@
 		]
 	}, {
 		"id": "2",
-		"name": "Henrry",
-		"title": "Ayer vi a un ave",
-		"content": "Yep, si la vi y no pude ver mas porque se fue. :u",
+		"name": "Luis",
+		"title": "Miren",
+		"content": "Si, solo miren porque no hay más nada",
 		"imgList": [{
-				"title": "Imagen47"
-			},
-			{
-				"title": "Imagen47"
-			},
-			{
 				"title": "Imagen47"
 			},
 			{
@@ -54,7 +48,12 @@
 				"title": "Imagen47"
 			}
 		]
-	}],
+	},{
+		"id": "3",
+		"name": "Recker",
+		"title": "sito",
+		"content": "sitositositosito",
+		"imgList": [],
 	"login": {
 		"user": "recker",
 		"pass": "jenn",
