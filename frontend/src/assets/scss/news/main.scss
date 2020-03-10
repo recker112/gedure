@@ -1,0 +1,126 @@
+.BoxPageNews {
+  main {
+    margin: auto;
+    margin-top: 80px;
+    max-width: 1250px;
+    .SwitchOptionNews{
+      margin-bottom: 15px;
+      display: flex;
+      /* Fix Style in material-ui */
+      div {
+        margin-left: 10px;
+        display: flex;
+        span.ItemSwitchNews {
+          padding: 10px;
+          cursor: pointer;
+          transition: 0.5s;
+        }
+        .active {
+          background: $primary;
+        }
+      }
+    }
+    .container {
+      display: flex;
+    }
+
+    .BoxNoticias {
+      margin: 0px 10px;
+      flex: 70%;
+      div {
+        margin-bottom: 25px;
+      }
+      .Noticia {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.5s;
+        margin-bottom: 10px;
+        .NHead {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .NHeadImg {
+            @include border_radius(100px);
+            width: 70px;
+            height: 70px;
+            margin: 20px 0px;
+            background: $primary;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .NHeadName {
+            font-weight: 900;
+          }
+        }
+        hr {
+          width: 90%;
+        }
+        .NContent {
+          margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 90%;
+          .NContentTitle {
+            font-style: italic;
+            text-align: center;
+          }
+          .NContentP {
+            text-align: justify;
+						width: 100%;
+          }
+        }
+        footer {
+          display: flex;
+          justify-content: space-between;
+          width: 90%;
+          margin-bottom: 20px; 
+          span {
+            background: $secondary;
+            height: 60px;
+            width: 70px;
+          }
+        }
+      }
+    }
+    .BoxAnuncios {
+      flex: 40%;
+      margin: 0px 10px;
+      /*FIX paper*/
+      div.MuiPaper-root:first-child {
+        margin-bottom: 30px;
+      }
+      .AHead {
+        font-size: 20px;
+        text-align: center;
+        transition: 0.5s;
+      }
+      .Anuncio {
+        width: 90%;
+        margin: auto;
+        margin-top: 15px;
+        margin-bottom: 15px; 
+        transition: 0.5s;
+        .ATitle {
+          font-size: 18px;
+        }
+        .AContent {
+          text-align: justify;
+					width: 100%;
+        }
+        footer {
+          font-style: italic;
+          display: flex;
+					justify-content: center;
+        }
+      }
+      /* Fix Material-ui */
+      div {
+        padding-top: 5px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
