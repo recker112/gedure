@@ -48,12 +48,13 @@
 				"title": "Imagen47"
 			}
 		]
-	},{
+	}, {
 		"id": "3",
 		"name": "Recker",
 		"title": "sito",
 		"content": "sitositositosito",
-		"imgList": [],
+		"imgList": []
+	}],
 	"login": {
 		"user": "recker",
 		"pass": "jenn",

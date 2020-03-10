@@ -67,7 +67,7 @@ export function SkeletonNoticia() {
 						<Skeleton variant="text" width="100%" />
 					</p>
 				</div>
-				<ImagenVisor options={null} />
+				<ImagenVisor options="skeleton" />
 			</section>
 		</Paper>
 	);

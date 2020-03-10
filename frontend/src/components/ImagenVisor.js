@@ -5,7 +5,7 @@ import { Skeleton } from '@material-ui/lab';
 
 export function ImagenVisor({options}) {
 	
-	if (Array.isArray(options)) {
+	if (Array.isArray(options) && options.length !== 0) {
 		const imagenes = options.map((element, i) => {
 			if (i === 3) {
 				return (<span key={i}>Hay mas</span>);
@@ -20,6 +20,10 @@ export function ImagenVisor({options}) {
 		return (<footer>{imagenes}</footer>);
 	}
 	
-	let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" width={70} height={60} />)
-	return (<footer>{SkeletonImg}</footer>);
+	if (options === "loading") {
+		let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" width={70} height={60} />)
+		return (<footer>{SkeletonImg}</footer>);
+	}
+
+	return (<footer></footer>);
 }
