@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        //Limpiador de trablas
+        $this->truncateAllData([
+            'users',
+            'admins_data',
+            'estudiantes_data',
+            'creadores_data',
+            'alumnos_data',
+            'cursos_data',
+            'profes_guias_data'
+        ]);
+
+        $this->call(UsersTableSeeders::class);
+        $this->call(AdminConfigTable::class);
+        $this->call(CreadoresTable::class);
+        $this->call(ProfesTable::class);
+        $this->call(CursosTable::class);
+        $this->call(AlumnoTable::class);
+        $this->call(EstudianteTable::class);
+    }
+
+    public function truncateAllData(array $tables)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 }

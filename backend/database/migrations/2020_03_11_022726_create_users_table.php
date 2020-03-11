@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCursosTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCursosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cursos', function (Blueprint $table) {
-            $table->char("curso_id", 10);
-            $table->char("curso_grado", 10);
-            $table->char("curso_seccion", 5);
-            $table->char("curso_profe_guia", 5);
+        Schema::create('users', function (Blueprint $table) {
+            $table->char("user_cedula", 14);
+            $table->enum("user_privilegio", ["V-", "A-", "CR-"]);
+            $table->char("user_password", 100);
+            $table->primary("user_cedula");
         });
     }
 
@@ -28,6 +28,6 @@ class CreateCursosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cursos');
+        Schema::dropIfExists('users');
     }
 }

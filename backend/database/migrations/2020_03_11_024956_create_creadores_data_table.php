@@ -15,13 +15,9 @@ class CreateCreadoresDataTable extends Migration
     {
         Schema::create('creadores_data', function (Blueprint $table) {
             $table->id('creador_id');
-            $table->char("creador_name", 50)->charset('utf8');
-            $table->char("creador_avatar", 100);
-            $table->char("creador_cedula", 20)->charset('utf8');
-            $table->foreign('creador_cedula')
-                ->references('user_cedula')
-                ->on('users')
-                ->onDelete('cascade');
+            $table->char('creador_name', 50);
+            $table->char('creador_avatar', 75)->nullable()->default(null);
+            $table->char('creador_cedula', 14);
         });
     }
 
