@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateAdminsDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->char("user_cedula", 20)->charset('utf8');
-            $table->char("user_privilegio", 5);
-            $table->char("user_password", 80)->charset('utf8');
-            $table->primary("user_cedula");
+        Schema::create('admins_data', function (Blueprint $table) {
+            $table->id("admin_id");
+            $table->char("admin_name", 50);
+            $table->char("admin_avatar", 75)->nullable()->default(null);
+            $table->char("admin_cedula", 14);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admins_data');
     }
 }

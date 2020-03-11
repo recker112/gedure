@@ -14,8 +14,8 @@ class CreateAlumnosDataTable extends Migration
     public function up()
     {
         Schema::create('alumnos_data', function (Blueprint $table) {
-            $table->char("alumno_id", 10)->charset('utf8');
-            $table->integer("alumno_n_lista");
+            $table->char("alumno_id", 10);
+            $table->bigInteger('alumno_n_lista');
             $table->boolean("alumno_horario_status");
             $table->boolean("alumno_nota_status");
             $table->char("alumno_curso", 10);
