@@ -14,6 +14,7 @@ class LogsTable extends Seeder
     {
         DB::table('logs')->insert([
             'log_cedula' => "recker",
+            'log_timestamp' => '2020-03-18 16:01:34',
             'log_action' => "Inicio de sesión.",
         ]);
     }
