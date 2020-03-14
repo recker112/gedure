@@ -30,5 +30,11 @@ class UsersTableSeeders extends Seeder
             'user_privilegio' => "CR-",
             'user_password' => bcrypt('test'),
         ]);
+
+        DB::table('users')->insert([
+            'user_cedula' => "banUser",
+            'user_privilegio' => "CR-",
+            'user_password' => bcrypt('test'),
+        ]);
     }
 }
