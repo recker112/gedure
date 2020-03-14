@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
             'creadores_data',
             'alumnos_data',
             'cursos_data',
-            'profes_guias_data'
+            'profes_guias_data',
+            'anuncios_data',
+            'bans_data',
+            'logs',
+            'news_data',
         ]);
 
         $this->call(UsersTableSeeders::class);
@@ -30,6 +34,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CursosTable::class);
         $this->call(AlumnoTable::class);
         $this->call(EstudianteTable::class);
+        $this->call(BansTable::class);
+        $this->call(LogsTable::class);
+        $this->call(NewsTable::class);
+        $this->call(AnunciosTable::class);
     }
 
     public function truncateAllData(array $tables)

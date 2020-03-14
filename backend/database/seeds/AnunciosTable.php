@@ -15,14 +15,15 @@ class AnunciosTable extends Seeder
         DB::table('anuncios_data')->insert([
             'anuncio_title' => "test1",
             'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
-            'auncio_owner' => 'reckersito',
-            'anuncio_timestamp' => 0,
+            'anuncio_owner' => 'reckersito',
+            'anuncio_timestamp' => '2020-03-18 16:01:34',
         ]);
 
         DB::table('anuncios_data')->insert([
             'anuncio_title' => "test1",
             'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
-            'auncio_owner' => 'reckersito',
+            'anuncio_owner' => 'reckersito',
+            'anuncio_timestamp' => '2020-03-18 16:01:34',
         ]);
     }
 }
