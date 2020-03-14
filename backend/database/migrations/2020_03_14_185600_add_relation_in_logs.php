@@ -30,7 +30,7 @@ class AddRelationInLogs extends Migration
     public function down()
     {
         Schema::table('logs', function (Blueprint $table) {
-            $table->dropForeign(['ban_cedula']);
+            $table->dropForeign(['log_cedula']);
         });
     }
 }
