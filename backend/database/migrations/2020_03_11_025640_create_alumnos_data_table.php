@@ -18,7 +18,6 @@ class CreateAlumnosDataTable extends Migration
             $table->bigInteger('alumno_n_lista');
             $table->boolean("alumno_horario_status");
             $table->boolean("alumno_nota_status");
-            $table->char("alumno_curso", 10);
             $table->primary("alumno_id");
         });
     }

@@ -17,8 +17,6 @@ class CreateEstudiantesDataTable extends Migration
             $table->id("estudiante_id");
             $table->char("estudiante_name", 50);
             $table->char("estudiante_avatar", 75)->nullable()->default(null);
-            $table->char("estudiante_cedula", 14);
-            $table->char("estudiante_alumno_id", 10);
         });
     }
 

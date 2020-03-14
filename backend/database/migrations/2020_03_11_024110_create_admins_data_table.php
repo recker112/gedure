@@ -17,7 +17,6 @@ class CreateAdminsDataTable extends Migration
             $table->id("admin_id");
             $table->char("admin_name", 50);
             $table->char("admin_avatar", 75)->nullable()->default(null);
-            $table->char("admin_cedula", 14);
         });
     }
 

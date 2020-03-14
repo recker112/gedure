@@ -17,7 +17,6 @@ class CreateCursosDataTable extends Migration
             $table->char("curso_id", 10);
             $table->char("curso_grado", 5);
             $table->char("curso_seccion", 3);
-            $table->char("curso_profe_guia", 10);
             $table->primary("curso_id");
         });
     }

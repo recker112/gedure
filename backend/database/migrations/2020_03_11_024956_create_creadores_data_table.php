@@ -17,7 +17,6 @@ class CreateCreadoresDataTable extends Migration
             $table->id('creador_id');
             $table->char('creador_name', 50);
             $table->char('creador_avatar', 75)->nullable()->default(null);
-            $table->char('creador_cedula', 14);
         });
     }
 
