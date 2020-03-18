@@ -15,7 +15,7 @@ class AdminConfigTable extends Seeder
         DB::table('admins_data')->insert([
             'admin_name' => "Recker Ortiz",
             'admin_avatar' => null,
-            'admin_cedula' => "recker",
+            'admin_cedula' => "reckersito",
         ]);
     }
 }
