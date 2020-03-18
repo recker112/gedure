@@ -94,7 +94,12 @@
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                <div id="example"></div>
             </div>
         </div>
     </body>
+    <script>
+        var csrf_token = '<?php echo csrf_token(); ?>'
+    </script>
+    <script src="js/app.js"></script>
 </html>
