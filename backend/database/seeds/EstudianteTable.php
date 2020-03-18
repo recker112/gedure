@@ -15,7 +15,7 @@ class EstudianteTable extends Seeder
         DB::table('estudiantes_data')->insert([
             'estudiante_name' => 'Reckersito Ortiz',
             'estudiante_avatar' => null,
-            'estudiante_cedula' => 'reckersito',
+            'estudiante_cedula' => 'recker',
             'estudiante_alumno_id' => 'E_1A_1'
         ]);
     }

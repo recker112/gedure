@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->char("user_cedula", 14);
             $table->enum("user_privilegio", ["V-", "A-", "CR-"]);
             $table->char("user_password", 100);
+            $table->rememberToken();
             $table->primary("user_cedula");
         });
     }
