@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
-use App\CustomExtensions\MyEloquentUserProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,9 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Auth::provider('custom_verify', function ($app, array $config) {
-            $model = $app['config']['auth.providers.users.model'];
-            return new MyEloquentUserProvider($app['hash'], $model);
-        });
+        //
     }
 }
