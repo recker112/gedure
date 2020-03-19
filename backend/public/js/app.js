@@ -31558,8 +31558,7 @@ function Test() {
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({
     user: '',
     pass: '',
-    checkbox: false,
-    token: csrf_token
+    checkbox: false
   }),
       _useState4 = _slicedToArray(_useState3, 2),
       data = _useState4[0],
@@ -31606,40 +31605,15 @@ function Test() {
     };
   }();
 
-  var handleChange = function handleChange(e) {
-    var _e$target2 = e.target,
-        name = _e$target2.name,
-        value = _e$target2.value;
-
-    if (name == "checkbox") {
-      var checked = e.target.checked;
-      setData(_objectSpread({}, data, _defineProperty({}, name, checked)));
-    } else {
-      setData(_objectSpread({}, data, _defineProperty({}, name, value)));
-    }
-  };
-
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
     method: "POST",
     onSubmit: handleSubmit
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-    name: "user",
+    name: "api_token",
     type: "text",
     onChange: handleChange,
-    value: data.user,
-    placeholder: "Usuario"
-  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-    name: "pass",
-    type: "password",
-    onChange: handleChange,
-    value: data.pass,
-    placeholder: "Contrase\xF1a"
-  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
-    name: "checkbox",
-    type: "checkbox",
-    onChange: handleChange,
-    checked: data.checkbox,
-    placeholder: "Recordar"
+    value: data.token,
+    placeholder: "Api Token"
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", null, "Enviar"));
 }
 

@@ -59,8 +59,7 @@ function Test() {
   const [data, setData] = useState({
     user: '',
     pass: '',
-    checkbox: false,
-    token: csrf_token
+    checkbox: false
   });
 
   const handleSubmit = async (e) => {
@@ -79,21 +78,9 @@ function Test() {
     }
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name == "checkbox") {
-      const { checked } = e.target;
-      setData({ ...data, [name]: checked });
-    } else {
-      setData({ ...data, [name]: value });
-    }
-  }
   return (
     <form method="POST" onSubmit={handleSubmit}>
-      <input name="user" type="text" onChange={handleChange} value={data.user} placeholder="Usuario" />
-      <input name="pass" type="password" onChange={handleChange} value={data.pass} placeholder="Contraseña" />
-      <input name="checkbox" type="checkbox" onChange={handleChange} checked={data.checkbox} placeholder="Recordar" />
+      <input name="api_token" type="text" onChange={handleChange} value={data.token} placeholder="Api Token" />
       <button>Enviar</button>
     </form>
   );
