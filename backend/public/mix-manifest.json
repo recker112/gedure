@@ -1,4 +1,16 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/chunks/Borrar.js": "/js/chunks/Borrar.js",
+    "/js/chunks/Cargar.js": "/js/chunks/Cargar.js",
+    "/js/chunks/Home.js": "/js/chunks/Home.js",
+    "/js/chunks/Index.js": "/js/chunks/Index.js",
+    "/js/chunks/Modificar.js": "/js/chunks/Modificar.js",
+    "/js/chunks/News.js": "/js/chunks/News.js",
+    "/js/chunks/Opciones.js": "/js/chunks/Opciones.js",
+    "/js/chunks/Panel.js": "/js/chunks/Panel.js",
+    "/js/chunks/Publicar.js": "/js/chunks/Publicar.js",
+    "/js/chunks/Registros.js": "/js/chunks/Registros.js",
+    "/js/chunks/vendors~Modificar.js": "/js/chunks/vendors~Modificar.js",
+    "/js/chunks/vendors~Panel.js": "/js/chunks/vendors~Panel.js"
 }

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//Validación en try
 use Illuminate\Validation\ValidationException;
+//Auth Class
 use Illuminate\Support\Facades\Auth;
+//Model User
+use App\User;
 
 class LoginController extends Controller
 {
@@ -42,12 +46,64 @@ class LoginController extends Controller
         }
 
         //Verificar credenciales
-        if(!Auth::attempt(['user_cedula' => $dataValidate['user'], 'password' => $dataValidate['pass']])){
+        $verifyAuth = Auth::attempt([
+                'user_cedula' => $dataValidate['user'],
+                'user_password' => $dataValidate['pass']
+            ]);
 
-            return response('Error en el usuario y/o contraseña', 200);
+        if(!$verifyAuth){
+            $jsonMessage = [
+                'status' => 'error',
+                'msg'=>'credentials_error',
+            ];
+
+            return response()->json($jsonMessage);
         }
 
+        //Modelo para interaccionar con las tablas
+        $UserModel = new User;
 
-        return response()->json(['access_key'=>Auth::user()->api_token]);
+        //Datos
+        $cedula = Auth::user()->user_cedula;
+        $privilegio = Auth::user()->user_privilegio;
+
+        //Obtener datos.
+        $dataUser = $UserModel->getUserData($privilegio,$cedula);
+
+        if ($dataUser === null) {
+            $jsonMessage = [
+                'status' => 'error',
+                'msg'=>'not_found_privilegio',
+            ];
+
+            return response()->json($jsonMessage);
+        }
+
+        //ALL OK
+        $jsonMessage = [
+            'status' => 'ok',
+            'dataUser'=>$dataUser,
+        ];
+
+        return response()->json($jsonMessage);
+    }
+
+    public function relogin()
+    {
+        //Modelo para interaccionar con las tablas
+        $UserModel = new User;
+
+        //Obtener datos.
+        $privilegio = request()->user()->user_privilegio;
+        $cedula = request()->user()->user_cedula;
+        $dataUser = $UserModel->getUserData($privilegio,$cedula);
+
+        //ALL OK
+        $jsonMessage = [
+            'status' => 'ok',
+            'dataUser'=>$dataUser,
+        ];
+
+        return response()->json($jsonMessage);
     }
 }

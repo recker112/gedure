@@ -1,0 +1,33 @@
+//Variables
+@import 'Variables';
+//mixins
+@import 'mixins';
+
+//Globales
+@import 'global/headerPanel';
+@import 'global/BoxPage';
+
+//Index
+@import 'index/main';
+//News
+@import 'news/main';
+//Panel
+@import 'panel/main';
+
+
+//Fixed basic
+a {
+  text-decoration: none;
+}
+
+* {
+	-webkit-box-sizing: boxer-box;
+	-moz-box-sizing: boxer-box;
+	box-sizing: boxer-box;
+}
+
+
+//Transition GLOBAL THEME
+body {
+  transition: 0.5s ease all;
+}
