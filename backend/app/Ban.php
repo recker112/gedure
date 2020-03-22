@@ -23,7 +23,10 @@ class Ban extends Model
         }
 
         if ($dataBan->ban_locks >= 5) {
-            return 'max_locks';
+            return $jsonMessage = [
+                'status' => 'error',
+                'msg'=>'max_locks',
+            ];
         }
 
         if ($dataBan->ban_attemps >= 5) {
@@ -33,7 +36,11 @@ class Ban extends Model
             //Verificar tiempo de bloqueo
             if($dateBan >= $dateNow){
                 $waitSeconds = $dateBan->diffInSeconds($dateNow);
-                return "account_lock; Espera $waitSeconds";
+                return $jsonMessage = [
+                    'status' => 'error',
+                    'msg'=>'account_lock',
+                    'wait' => $waitSeconds
+                ];
             }
         }
 
@@ -49,7 +56,7 @@ class Ban extends Model
         if (!$userExist) {
             return $jsonMessage = [
                 'status' => 'error',
-                'msg'=>'not_exist',
+                'msg'=>'credentials_error',//Not found
             ];
         }
 
@@ -58,16 +65,25 @@ class Ban extends Model
 
         //Si el usario existe verificar los attemps
         if ($datosBan) {
-            //Si attemps no es >= 5
+            //Si attemps no es < 4
             if ($datosBan->ban_attemps < 4){
                 $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
                 $datosBan->save();
                 $jsonMessage = [
                     'status' => 'error',
-                    'msg'=>'add_attemps',
+                    'msg'=>'credentials_error',//add_attemps
+                ];
+            }else if ($datosBan->ban_attemps === 4 && $datosBan->ban_locks === 4) {
+                //Si es perma block
+                $datosBan->ban_attemps = 0;
+                $datosBan->ban_locks = $datosBan->ban_locks + 1;
+                $datosBan->save();
+                $jsonMessage = [
+                    'status' => 'error',
+                    'msg'=>'perma_block',
                 ];
             }else if ($datosBan->ban_attemps === 4) {
-                //Si es === 5
+                //Si es === 4
                 $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
                 $datosBan->save();
                 $jsonMessage = [

@@ -21,10 +21,10 @@ class LoginController extends Controller
     public function login()
     {
         //Verificar baneos
-        $banStatus = Ban::getStatusBlock(request()->user()->user);
+        $banStatus = Ban::getStatusBlock(request()->user);
 
         if ($banStatus !== 'ok') {
-            return response($banStatus, 200);
+            return response()->json($banStatus);
         }
 
         //ValidateData
