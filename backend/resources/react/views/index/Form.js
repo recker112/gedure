@@ -76,6 +76,7 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
 
       //Destructing
       const { status, smg, msg } = res.data;
+      const waitSeconds = res.data.wait ? res.data.wait : 0;
 
       //Verificar que el status de la consulta sea 200.
       if (res.status !== 200) {
@@ -92,20 +93,65 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
         }
       }
 
-      //Verificar credenciales
-      if (msg === 'credentials_error') {
-        enqueueSnackbar('Usuario y/o contraseña incorrecta', {
-          variant: 'warning'
-        });
-        throw "credentials_error";
-      }
+      [
+          {
+              //Verificar credenciales
+              type: 'credentials_error',
+              message: 'Usuario y/o contraseña incorrecta',
+              status: 'warning'
+          },
+          {
+              //Privilegio no encontrado en el servidor
+              type: 'not_found_privilegio',
+              message: 'No se pudo encontrar el usuario en el sistema',
+              status: 'error'
+          },
+          {
+              //Cuenta bloqueada permanentemente
+              type: 'max_locks',
+              message: 'Comuniquese con un administrador para reactivar la cuenta',
+              status: 'warning'
+          },
+          {
+              //Cuenta bloqueada
+              type: 'account_lock',
+              message: `Cuenta bloqueada, espere ${waitSeconds}s`,
+              status: 'warning'
+          },
+          {
+              //Cuenta bloqueada por primera vez.
+              type: 'account_block',
+              message: 'Cuenta bloqueada, espere 5 minutos',
+              status: 'warning'
+          },
+          {
+              //Cuenta bloqueada permanentemente
+              type: 'perma_block',
+              message: 'Tu cuenta fue bloqueada permanentemente',
+              status: 'warning'
+          },
+          {
+              //Cuenta bloqueada permanentemente
+              type: 'check_credentials',
+              message: 'Revisa tus datos, los sigues poniendo mal',
+              status: 'warning'
+          },
+      ].map((item)=>{
+          if (msg === item.type) {
+            enqueueSnackbar(item.message, {
+                variant: item.status
+            });
+            throw item.type;
+          }
+          return null;
+      })
 
-      //Verificar privilegio existente
-      if (msg === 'not_found_privilegio') {
-        enqueueSnackbar('No se pudo encontrar el usuario en el sistema', {
-          variant: 'error'
+      //Verificar bloqueo
+      if (msg === 'max_locks') {
+        enqueueSnackbar('La cuenta está bloqueada permanentemente', {
+          variant: 'warinig'
         });
-        throw "not_found_privilegio";
+        throw "max_locks";
       }
 
       //Verificar bloqueo
