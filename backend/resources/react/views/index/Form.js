@@ -108,6 +108,14 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
         throw "not_found_privilegio";
       }
 
+      //Verificar bloqueo
+      if (msg === 'max_locks') {
+        enqueueSnackbar('La cuenta está bloqueada permanentemente', {
+          variant: 'warinig'
+        });
+        throw "max_locks";
+      }
+
       //Verificar que todo vaya bien.
       if (status !== 'ok') {
         enqueueSnackbar('Error interno en el sistema', {
@@ -120,7 +128,7 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
       //Al estar todo correcto el servidor DEBE regresar los
       //datos de usuario, los cuales se cargarán con
       //"updateDataUser"
-      updateDataUser({...dataUser});
+      updateDataUser({ ...dataUser });
 
       //Una vez terminado de actualizar los datos, se procede a
       //decirle a la APP que se realizó un login correctamente.
@@ -131,6 +139,19 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
         variant: 'success'
       });
     } catch (error) {
+      if (error.response) {
+        const { status } = error.response;
+
+        if (status === 500) {
+          enqueueSnackbar('No se ha podido conectar con la base de datos', {
+            variant: 'error'
+          });
+        } else {
+          enqueueSnackbar('Error interno en el sistema', {
+            variant: 'error'
+          });
+        }
+      }
       console.log(error);
     }
 

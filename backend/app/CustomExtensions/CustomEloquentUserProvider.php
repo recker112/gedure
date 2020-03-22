@@ -23,6 +23,10 @@ class CustomEloquentUserProvider extends EloquentUserProvider
 
         //Recibir contraseña del servidor
         $passServer = $user->getAuthPassword();
-        return User::verify_password($passEncForm, $passServer);;
+
+        //verify pass
+        $verify = User::verify_password($passEncForm, $passServer);
+
+        return $verify;
     }
 }
