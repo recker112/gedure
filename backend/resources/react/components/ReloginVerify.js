@@ -38,7 +38,6 @@ function ReloginVerify({
 
     //Lugar de petición hacia el servidor
     const fetchData = async (key, localData = false) => {
-      console.log("Consulta");
       //QUERY
       try {
         const res = await axios.get('api/relogin', {
@@ -77,13 +76,14 @@ function ReloginVerify({
             enqueueSnackbar('Sesión expirada', {
               variant: 'error'
             });
-            authUpdate(false);
           }
         } else {
           enqueueSnackbar('Error interno en el sistema', {
             variant: 'error'
           });
+          console.log(error);
         }
+        authUpdate(false);
       }
 
       //Quitar autenticación

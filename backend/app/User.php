@@ -37,6 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $primaryKey = 'user_cedula';
+
     //Encriptado de contraseña.
     protected static function encript_password($password, $register = true){
         $supermd5 = md5(sha1($password));

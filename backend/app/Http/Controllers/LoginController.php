@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 //Model User
 use App\User;
+use App\Ban;
 
 class LoginController extends Controller
 {
@@ -19,6 +20,13 @@ class LoginController extends Controller
 
     public function login()
     {
+        //Verificar baneos
+        $banStatus = Ban::getStatusBlock(request()->user()->user);
+
+        if ($banStatus !== 'ok') {
+            return response($banStatus, 200);
+        }
+
         //ValidateData
         try {
             //Verify pass
@@ -47,17 +55,22 @@ class LoginController extends Controller
 
         //Verificar credenciales
         $verifyAuth = Auth::attempt([
-                'user_cedula' => $dataValidate['user'],
-                'user_password' => $dataValidate['pass']
-            ]);
+            'user_cedula' => $dataValidate['user'],
+            'user_password' => $dataValidate['pass']
+        ]);
 
+
+        //Añadir attemps
         if(!$verifyAuth){
-            $jsonMessage = [
-                'status' => 'error',
-                'msg'=>'credentials_error',
-            ];
-
+            $jsonMessage = Ban::checkAttemps($dataValidate['user']);
             return response()->json($jsonMessage);
+        }
+
+        //Limpiar baneos
+        $clearBan = Ban::find($dataValidate['user']);
+
+        if ($clearBan) {
+            $clearBan->delete();
         }
 
         //Modelo para interaccionar con las tablas
@@ -97,6 +110,8 @@ class LoginController extends Controller
         $privilegio = request()->user()->user_privilegio;
         $cedula = request()->user()->user_cedula;
         $dataUser = $UserModel->getUserData($privilegio,$cedula);
+
+        //Verificar validez del token (expired)
 
         //ALL OK
         $jsonMessage = [
