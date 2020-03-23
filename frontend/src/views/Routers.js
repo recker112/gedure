@@ -25,7 +25,7 @@ function Routers() {
 	);
 }
 
-function Loader(){
+export function Loader(){
 	return (
 		<main className="BoxPage">
 			<div className="loading" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "80vh"}}>
@@ -43,7 +43,7 @@ function noFound() {
 			</h1>
 			<ReactLoading type="cylon" color="#6B8DD6" />
 			<p style={{marginTop: 0, textAlign: "center"}}>
-				La página solicitada no se ha podido encontrar, por favor intente 
+				La página solicitada no se ha podido encontrar, por favor intente
 				con una diferente.
 			</p>
 		</main>

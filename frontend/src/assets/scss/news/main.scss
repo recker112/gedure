@@ -63,6 +63,7 @@
           flex-direction: column;
           align-items: center;
           width: 90%;
+          margin-bottom: 0px;
           .NContentTitle {
             font-style: italic;
             text-align: center;
@@ -76,11 +77,25 @@
           display: flex;
           justify-content: space-between;
           width: 90%;
-          margin-bottom: 20px; 
-          span {
-            background: $secondary;
-            height: 60px;
-            width: 70px;
+          margin-top: 25px;
+          margin-bottom: 20px;
+          span, img {
+            max-width: 110px;
+            max-height: 100px;
+            min-width: 70px;
+            min-height: 60px;
+            cursor: pointer;
+          }
+          span.more {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: rgba(0,0,0,0.4)
+          }
+          img {
+            &:hover {
+                transform: scale(1.2);
+            }
           }
         }
       }
@@ -101,7 +116,7 @@
         width: 90%;
         margin: auto;
         margin-top: 15px;
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
         transition: 0.5s;
         .ATitle {
           font-size: 18px;

@@ -16,8 +16,9 @@ import { SnackbarProvider } from 'notistack';
 import { connect } from 'react-redux';
 
 //Funcion a exportar
-function App({ tema }) {
-	// obtener el valor del tema de la store
+function App({ tema, access_key }) {
+    //axios set TOKEN
+    window.axios.defaults.headers.common['Authorization'] = `Bearer ${access_key}`;
 
 	//Creación de los estilos a aplicar en toda la WEB.
 	//Todo esto es material-ui, revisar documentaciรณn para mรกs info.
@@ -40,7 +41,7 @@ function App({ tema }) {
 					/*
 					&$: Pone estilos a Mui-Selected, clase interna
 					del Material-UI.
-					
+
 					& "clase" : Pone estilos a las clases nombradas
 					despues del "&".
 
@@ -62,7 +63,7 @@ function App({ tema }) {
               //Cambiar el color el texto y el icono
             },
 					}
-				}	
+				}
 			}
   	},
 	});
@@ -105,7 +106,8 @@ function App({ tema }) {
 //Mapeo del store de redux
 const mapStateToProps = state => {
 	return {
-		tema: state.settings.tema
+        tema: state.settings.tema,
+        access_key: state.userData.access_key
 	};
 };
 
