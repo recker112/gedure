@@ -17,7 +17,7 @@ class CreateAnunciosDataTable extends Migration
             $table->id('anuncio_id');
             $table->char('anuncio_title', 50);
             $table->longText('anuncio_content');
-            $table->timestamp('anuncio_timestamp');
+            $table->timestamp('anuncio_create_at');
         });
     }
 

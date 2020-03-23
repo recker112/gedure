@@ -70,11 +70,6 @@ class User extends Authenticatable
 
     public function getUserData($privilegio, $cedula)
     {
-        $verifyBan = $this->checkBans($cedula);
-        if($verifyBan){
-            return $verifyBan;
-        }
-
         switch ($privilegio) {
             case 'V-':
                 //Consulta
@@ -106,10 +101,5 @@ class User extends Authenticatable
                 break;
         }
         return $DataUser;
-    }
-
-    public function checkBans()
-    {
-        return false;
     }
 }

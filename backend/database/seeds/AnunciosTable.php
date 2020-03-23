@@ -16,14 +16,14 @@ class AnunciosTable extends Seeder
             'anuncio_title' => "test1",
             'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
             'anuncio_owner' => 'reckersito',
-            'anuncio_timestamp' => '2020-03-18 16:01:34',
+            'anuncio_create_at' => now()->sub(4, 'days'),
         ]);
 
         DB::table('anuncios_data')->insert([
             'anuncio_title' => "test1",
             'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
             'anuncio_owner' => 'reckersito',
-            'anuncio_timestamp' => '2020-03-18 16:01:34',
+            'anuncio_create_at' => now(),
         ]);
     }
 }
