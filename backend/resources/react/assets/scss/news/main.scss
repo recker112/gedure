@@ -63,6 +63,7 @@
           flex-direction: column;
           align-items: center;
           width: 90%;
+          margin-bottom: 0px;
           .NContentTitle {
             font-style: italic;
             text-align: center;
@@ -76,7 +77,8 @@
           display: flex;
           justify-content: space-between;
           width: 90%;
-          margin-bottom: 20px; 
+          margin-top: 25px;
+          margin-bottom: 20px;
           span {
             background: $secondary;
             height: 60px;
@@ -101,7 +103,7 @@
         width: 90%;
         margin: auto;
         margin-top: 15px;
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
         transition: 0.5s;
         .ATitle {
           font-size: 18px;
