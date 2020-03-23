@@ -79,10 +79,23 @@
           width: 90%;
           margin-top: 25px;
           margin-bottom: 20px;
-          span {
-            background: $secondary;
-            height: 60px;
-            width: 70px;
+          span, img {
+            max-width: 110px;
+            max-height: 100px;
+            min-width: 70px;
+            min-height: 60px;
+            cursor: pointer;
+          }
+          span.more {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: rgba(0,0,0,0.4)
+          }
+          img {
+            &:hover {
+                transform: scale(1.2);
+            }
           }
         }
       }

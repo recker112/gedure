@@ -9,7 +9,7 @@ import SwitchButton from "./SwitchButton";
 import ShowComponentResponsive from "./ShowComponentResponsive";
 import RedirectVerify from '../../components/RedirectVerify';
 
-function PageNews({ Mmobile }) {
+function PageNews() {
 	//Titulo
 	document.title = "La Candelaria - News";
   return (
