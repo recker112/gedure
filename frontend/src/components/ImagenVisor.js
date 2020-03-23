@@ -3,27 +3,37 @@ import React from 'react';
 //Material-UI
 import { Skeleton } from '@material-ui/lab';
 
+//LazyImg
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+
 export function ImagenVisor({options}) {
-	
+
 	if (Array.isArray(options) && options.length !== 0) {
-		const imagenes = options.map((element, i) => {
+        const restante = options.length - 3;
+		const imagenes = options.map((img, i) => {
 			if (i === 3) {
-				return (<span key={i}>Hay mas</span>);
+				return (<span key={i} className="more">+{restante}</span>);
 			}
 			else if (i < 4) {
-				return (<span key={i}>{element.title}</span>);
+                return (
+                    <LazyLoadImage
+                        key={i}
+                        alt={`imagen${i+1}`}
+                        src={img}
+                        placeholder={<Skeleton key={i} variant="rect" height={100} width={110} />}
+                    />);
 			}
 			else {
-				return (<span key={i} style={{ display: "none" }}>{element.title}</span>);
+				return (<img key={i} src={img} alt={`imagen${i+1}`} style={{ display: "none" }} />);
 			}
 		});
 		return (<footer>{imagenes}</footer>);
 	}
-	
+
 	if (options === "loading") {
-		let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" width={70} height={60} />)
+		let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" height={100} width={110} />)
 		return (<footer>{SkeletonImg}</footer>);
 	}
 
-	return (<footer></footer>);
+	return (<React.Fragment></React.Fragment>);
 }

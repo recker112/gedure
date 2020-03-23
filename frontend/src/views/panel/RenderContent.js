@@ -97,7 +97,7 @@ function RenderContentAdmin({ content }) {
 
 const mapStateToProps = state => ({
 	content: state.panelSettings.content,
-	privilegio: state.userData.privilegio
+    privilegio: state.userData.privilegio
 });
 
 export default connect(mapStateToProps)(RenderContent);

@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import reloginSuccess from '../actions/login/reloginSuccess';
 
-function RedirectVerify({auth, reloginSuccess, children}) {
+function RedirectVerify({redirect, reloginSuccess, children}) {
   useEffect(() => {
 		let cancelar = false;//Se crea una variable la cual cancele TODO
     //el useEffect, esto es para cuando se desmonte el componente
@@ -17,7 +17,7 @@ function RedirectVerify({auth, reloginSuccess, children}) {
       const keyL = JSON.parse(localStorage.getItem("key"));
       const keyS = JSON.parse(sessionStorage.getItem("key"));
 
-      if (keyL || keyS){
+      if (typeof keyL === 'string' || typeof keyS === 'string'){
         //Al actualizar el AUTH, se le pasa el parámetro
         //true para decirle a PANEL que está siendo redireccionado
         //por la web, y así pueda revisar la key sin que
@@ -25,23 +25,23 @@ function RedirectVerify({auth, reloginSuccess, children}) {
         reloginSuccess(true);
       }
     }
-    
+
     //Return se usa para llamar la variable la cual cancelará toda la
     //función. Para entenderlo mejor ver la documentación de los HOOKS.
     return () => {
       cancelar = true;
     }
   });
-	
+
 	 //Verificar auth
-  if (auth){
+  if (redirect){
     return (
       <Redirect to={{
         pathname: '/panel'
       }} />
     )
   }
-	
+
   return (
     <div>
       {children}
@@ -50,7 +50,7 @@ function RedirectVerify({auth, reloginSuccess, children}) {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.loginStatus.auth
+  redirect: state.loginStatus.redirect
 })
 
 const mapDispatchToProps = {

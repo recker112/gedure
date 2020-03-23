@@ -77,7 +77,7 @@ function RenderPublicar({data, updateInputValue, errorInfo, updateLoading}) {
 
   return (
     <Grid container spacing={2} justify="center">
-      <Grid item xs={12} sm={5} md={4}>
+      <Grid item xs={12} sm={2} md={3}>
         <Paper variant="outlined">
           <SelectorPublicar action={handleChange} value={option} />
         </Paper>

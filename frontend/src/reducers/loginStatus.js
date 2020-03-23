@@ -26,8 +26,13 @@ export default (state = initialState, { type, payload }) => {
 		case 'RELOGIN_SUCCESS': {
 			return {
 				...state,
-				auth: true,
 				redirect: payload
+			};
+        }
+        case 'AUTH_UPDATE': {
+			return {
+				...state,
+				auth: payload
 			};
 		}
 		case 'LOGOUT': {

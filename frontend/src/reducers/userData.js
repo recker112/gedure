@@ -10,7 +10,7 @@ const initialState = {
   profeGuia: '',
   privilegio: '',
   avatar: '',
-  token: '',
+  access_key: '',
 };
 
 // action es el valor devuelto por el action
@@ -18,7 +18,6 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case 'UPDATE_DATA_USER': {
-      console.log(payload);
       return {
         ...state,
         ...payload,
