@@ -21,7 +21,7 @@ class NewsData extends Model
             'new_id as id',
             'new_title as title',
             'new_content as content',
-            'new_img as img',
+            'new_img as imgList',
             'user_cedula as cedula',
             'user_privilegio as privilegio',
             'admin_name as nameA',
