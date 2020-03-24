@@ -163,6 +163,7 @@ export function Noticia(props) {
 							<p className="NContentP">{news.content}</p>
 						</div>
 						<ImagenVisor options={JSON.parse(news.imgList)} />
+						<i className='NFecha'>Publicado {news.fecha}</i>
 					</section>
 				</Paper>
 			</div>
