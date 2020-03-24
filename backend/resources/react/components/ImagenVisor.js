@@ -27,7 +27,7 @@ export function ImagenVisor({ options }) {
 						)}
 						actual={({ imageProps }) => <img key={i} {...imageProps} />}
 						error={() => (
-							<div style={{ width: '110px', height: '100px', background: 'red' }}>
+							<div style={{ width: '110px', height: '100px', background: 'rgb(252, 72, 80)' }}>
 								<p>Error al obtener imagen</p>
 							</div>
 						)}
