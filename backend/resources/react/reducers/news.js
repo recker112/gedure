@@ -1,7 +1,7 @@
 //Inicar valor del state.
 const initialState = {
   dataA: null,
-  dataN: null,
+  dataN: [],
   content: 'noticias',
 };
 
