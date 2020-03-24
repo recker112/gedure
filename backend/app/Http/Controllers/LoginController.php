@@ -108,8 +108,7 @@ class LoginController extends Controller
 
         //Obtener datos.
         $privilegio = request()->user()->user_privilegio;
-        $cedula = request()->user()->user_cedula;
-        $dataUser = $UserModel->getUserData($privilegio,$cedula);
+        $dataUser = $UserModel->getUserData($privilegio);
 
         //Verificar validez del token (expired)
 

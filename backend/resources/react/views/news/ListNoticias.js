@@ -32,7 +32,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
 
 			if (res.status !== 200) {
-				throw 'server_error';
+				throw new Error("server_error");
 			}
 
 			if (!cancel) {
@@ -41,7 +41,6 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 				setHasFinish(finish);
 			}
 		} catch (error) {
-			const { status } = error.response;
 			enqueueSnackbar('No se han podido obtener las noticias', {
 				variant: 'error'
 			});
@@ -92,7 +91,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay más noticias que cargar.</b>
+							<b>No hay mรกs noticias que cargar.</b>
 						</p>
 					}
 				>

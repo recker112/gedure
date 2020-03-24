@@ -90,7 +90,7 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 			const data = localStorage.getItem('noListStorage');
 
 			//Verificar existencia de data
-			if (data === null || data.length > 0) {
+			if (data === null || data.length === 0) {
 				//Setear dada
 				localStorage.setItem('noListStorage', JSON.stringify([value]));
 			} else {

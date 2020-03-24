@@ -37,7 +37,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+		/**
+     * The attributes that should be cast to native types.
+     *
+     * @var string
+     */
     protected $primaryKey = 'user_cedula';
+	
+		/**
+     * The attributes that should be cast to native types.
+     *
+     * @var string
+     */
+		protected $keyType = 'string';
 
     //Encriptado de contraseña.
     protected static function encript_password($password, $register = true){
@@ -68,13 +80,12 @@ class User extends Authenticatable
         return $this->user_password;
     }
 
-    public function getUserData($privilegio, $cedula)
+    public function getUserData($privilegio)
     {
         switch ($privilegio) {
             case 'V-':
                 //Consulta
                 $DataUser = User::select('user_cedula as cedula', 'api_token as access_key', 'user_privilegio as privilegio','estudiante_name as name', 'estudiante_avatar as avatar', 'curso_grado as curso', 'curso_seccion as seccion', 'alumno_n_lista as lista', 'alumno_nota_status as nota', 'alumno_horario_status as horario', 'profe_guia_name as profeGuia')
-                    ->where('user_cedula', $cedula)
                     ->join('estudiantes_data', 'users.user_cedula', '=', 'estudiantes_data.estudiante_cedula')
                     ->join('alumnos_data', 'estudiantes_data.estudiante_alumno_id', '=', 'alumnos_data.alumno_id')
                     ->join('cursos_data', 'alumnos_data.alumno_curso', '=', 'cursos_data.curso_id')

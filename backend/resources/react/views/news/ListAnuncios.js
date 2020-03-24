@@ -28,7 +28,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 			const res = await axios.get(`api/anuncios?offset=${offset}&limit=${limit}`);
 
 			if (res.status !== 200) {
-				throw 'server_error';
+				throw new Error("server_error");
 			}
 
 			if (!cancel) {
@@ -37,7 +37,6 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 				setHasFinish(finish);
 			}
 		} catch (error) {
-			const { status } = error.response;
 			enqueueSnackbar('No se han podido obtener los anuncios', {
 				variant: 'error'
 			});

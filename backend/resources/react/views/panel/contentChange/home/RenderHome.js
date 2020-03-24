@@ -11,12 +11,12 @@ function RenderHome() {
 		},
 		{
 			background: '#F8C822',
-			text: 'Estudiantes bloqueados',
+			text: 'Usuarios bloqueados',
 			data: 'StudientsBlock'
 		},
 		{
 			background: '#FC4850',
-			text: 'Estudiantes bloqueados permanentemente',
+			text: 'Usuarios bloqueados permanentemente',
 			data: 'StudientsPermaBlock'
 		},
 		{
