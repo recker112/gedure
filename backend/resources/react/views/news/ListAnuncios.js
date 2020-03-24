@@ -48,7 +48,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	//GetMoreData
 	const getMore = () => {
 		const offset = list.length;
-		fetchData(offset, 5);
+		fetchData(offset, 7);
 	};
 
 	//No DATA SET
@@ -89,10 +89,11 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					dataLength={list.length}
 					hasMore={!hasFinish}
 					next={getMore}
+					scrollThreshold={0.2}
 					loader={<SkeletonAnuncio />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay más anuncios que cargar.</b>
+							<b>No hay mรกs anuncios que cargar.</b>
 						</p>
 					}
 				>
@@ -120,13 +121,16 @@ export function SkeletonAnuncio() {
 				<footer>
 					<Skeleton variant="text" width={150} />
 				</footer>
+				<div className="AId">
+					
+				</div>
 			</section>
 		</Paper>
 	);
 }
 
 export function Anuncio(props) {
-	const recorrerLista = props.option.map((anuncio, i) => {
+	const recorrerLista = props.option.map((anuncio) => {
 		let name;
 		if (anuncio.privilegio === 'A-') {
 			name = anuncio.nameA;
@@ -134,7 +138,7 @@ export function Anuncio(props) {
 			name = anuncio.nameC;
 		}
 		return (
-			<Paper variant="outlined" key={i} className="AnuncioPaper">
+			<Paper variant="outlined" key={anuncio.id} className="AnuncioPaper">
 				<section className="Anuncio">
 					<span className="ATitle">{anuncio.title}</span>
 					<p className="AContent">{anuncio.content}</p>
@@ -142,6 +146,9 @@ export function Anuncio(props) {
 					<footer>
 						Escrito por {name} {anuncio.fecha}
 					</footer>
+					<div className="AId">
+						<small><i>${anuncio.id}</i></small>
+					</div>
 				</section>
 			</Paper>
 		);
