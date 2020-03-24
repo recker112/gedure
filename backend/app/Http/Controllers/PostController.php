@@ -11,7 +11,7 @@ class PostController extends Controller
     {
         //Preparar datos
         $news = new NewsData;
-        $maxNews = request()->max;
+        $maxNews = request()->limit;
         $offset = request()->offset;
 
         //Verificar empty variables
@@ -23,10 +23,25 @@ class PostController extends Controller
             $offset = 0;
         }
 
-        //Preparar respuesta
-        $dataNews = $news->getNews($maxNews, $offset);
+        //Recibir noticias
+				$dataNews = $news->getNews($maxNews, $offset);
+			
+				//Verificar existencia del último post
+				for($i=0; $i < count($dataNews); $i++) {
+					if ($dataNews[$i]->id === 1) {
+						$finish = true;
+					}else {
+						$finish = false;
+					}
+				}
+			
+				//Preparar respuesta
+				$jsonMessage = [
+					'finish' => $finish,
+					'data' => $dataNews
+				];
 
         //Regresar news
-        return $dataNews;
+        return response()->json($jsonMessage);
     }
 }
