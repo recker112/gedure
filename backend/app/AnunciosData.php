@@ -17,7 +17,6 @@ class AnunciosData extends Model
             'anuncio_title as title',
             'anuncio_content as content',
 						'anuncio_create_at as fecha',
-            'user_cedula as cedula',
             'user_privilegio as privilegio',
             'admin_name as nameA',
             'creador_name as nameC',

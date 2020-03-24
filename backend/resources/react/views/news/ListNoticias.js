@@ -28,7 +28,6 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 
 	//fetchData
 	const fetchData = async (offset, limit) => {
-		console.log('MORE DATA BRUJA');
 		try {
 			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
 
@@ -59,7 +58,6 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 	//No DATA SET
 	useEffect(
 		() => {
-			console.log('X');
 			if (list.length === 0) {
 				getMore();
 			}
