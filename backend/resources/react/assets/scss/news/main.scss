@@ -63,6 +63,8 @@
 					width: 90%;
 					margin-bottom: 0px;
 					.NContentTitle {
+						font-weight: 700;
+						font-size: 20px;
 						font-style: italic;
 						text-align: center;
 					}
@@ -98,6 +100,10 @@
 							transform: scale(1.2);
 						}
 					}
+				}
+				.NFecha {
+					width: 90%;
+					text-align: right;
 				}
 			}
 		}

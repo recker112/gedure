@@ -9,10 +9,6 @@ class NewsData extends Model
 {
     protected $primaryKey = 'new_id';
 
-    protected $hidden = [
-        'new_create_at'
-    ];
-
     const CREATED_AT = 'new_create_at';
 
     public function getNews($limit, $offset)
@@ -22,6 +18,7 @@ class NewsData extends Model
             'new_title as title',
             'new_content as content',
             'new_img as imgList',
+						'new_create_at as fecha',
             'user_cedula as cedula',
             'user_privilegio as privilegio',
             'admin_name as nameA',

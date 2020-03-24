@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Login
 Route::post('/login', 'LoginController@login');
 
+//Post
 Route::get('/news', 'PostController@getNews');
+Route::get('/anuncios', 'PostController@getAnuncios');
 
 Route::middleware('auth:api')->post('/testAuth', function (Request $request) {
     return $request->user();
