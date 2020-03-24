@@ -1,53 +1,108 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Material-UI
-import { Grow, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 //redux
 import { connect } from 'react-redux';
 import { updateNewsAnuncios } from '../../actions/news/updateNews';
 
+//SnackBar
+import { useSnackbar } from 'notistack';
+
+//ScrollInfinitoBOY
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import axios from 'axios';
+
 function ListAnuncios({ list, updateNewsAnuncios }) {
-	useEffect(
-		() => {
-			const fetchData = async () => {
-				const res = await fetch(
-					'https://my-json-server.typicode.com/recker112/candelariaweb/anuncios'
-				)
-					.then(response => response.json())
-					.then(json => json);
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
-				if (res !== {}) {
-				}
+	//Variables
+	const [hasFinish, setHasFinish] = useState(false);
+	let cancel = false;
 
-				updateNewsAnuncios(res);
-			};
+	//FetchData
+	const fetchData = async (offset, limit) => {
+		try {
+			const res = await axios.get(`api/anuncios?offset=${offset}&limit=${limit}`);
 
-			let cancel = false;
-			if (!cancel) {
-				fetchData();
+			if (res.status !== 200) {
+				throw new Error("server_error");
 			}
 
-			//Al desmontar
+			if (!cancel) {
+				const { data, finish } = res.data;
+				updateNewsAnuncios([...list, ...data]);
+				setHasFinish(finish);
+			}
+		} catch (error) {
+			enqueueSnackbar('No se han podido obtener los anuncios', {
+				variant: 'error'
+			});
+			console.log(error);
+		}
+	};
+
+	//GetMoreData
+	const getMore = () => {
+		const offset = list.length;
+		fetchData(offset, 7);
+	};
+
+	//No DATA SET
+	useEffect(
+		() => {
+			if (list.length === 0) {
+				getMore();
+			}
+
+			//Al cancelar
 			return () => {
 				cancel = true;
-				updateNewsAnuncios(null);
 			};
 		},
-		[updateNewsAnuncios]
+		[list]
+	);
+
+	//Al desmontar
+	useEffect(
+		() => {
+			return () => {
+				cancel = true;
+				updateNewsAnuncios([]);
+			};
+		},
+		[updateNewsAnuncios, cancel]
 	);
 
 	return (
 		<aside id="test" className="BoxAnuncios">
-			<Grow in={true}>
-				<Paper variant="outlined">
-					<div className="AHead">
-						<span>Anuncios</span>
-					</div>
-				</Paper>
-			</Grow>
-			{list !== null ? <Anuncio option={list} /> : <SkeletonAnuncio />}
+			<Paper variant="outlined" className="PaperMargin">
+				<div className="AHead">
+					<span>Anuncios</span>
+				</div>
+			</Paper>
+			{list.length !== 0 ? (
+				<InfiniteScroll
+					dataLength={list.length}
+					hasMore={!hasFinish}
+					next={getMore}
+					scrollThreshold={0.2}
+					loader={<SkeletonAnuncio />}
+					endMessage={
+						<p style={{ textAlign: 'center' }}>
+							<b>No hay mรกs anuncios que cargar.</b>
+						</p>
+					}
+				>
+					<Anuncio option={list} />
+				</InfiniteScroll>
+			) : (
+				<SkeletonAnuncio />
+			)}
 		</aside>
 	);
 }
@@ -55,36 +110,50 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 export function SkeletonAnuncio() {
 	return (
 		<Paper variant="outlined">
-				<section className="Anuncio">
-					<Skeleton variant="text" className="ATitle" width={200} />
-					<p className="AContent">
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-					</p>
-					<hr />
-					<footer>
-						<Skeleton variant="text" width={150} />
-					</footer>
-				</section>
-			</Paper>
+			<section className="Anuncio">
+				<Skeleton variant="text" className="ATitle" width={200} />
+				<p className="AContent">
+					<Skeleton variant="text" width="100%" />
+					<Skeleton variant="text" width="100%" />
+					<Skeleton variant="text" width="100%" />
+					<Skeleton variant="text" width="100%" />
+				</p>
+				<hr />
+				<footer>
+					<Skeleton variant="text" width={150} />
+				</footer>
+				<div className="AId">
+					
+				</div>
+			</section>
+		</Paper>
 	);
 }
 
 export function Anuncio(props) {
-	const recorrerLista = props.option.map((anuncio, i) => (
-		<Grow in={true} key={i}>
-			<Paper variant="outlined">
+	const recorrerLista = props.option.map((anuncio) => {
+		let name;
+		if (anuncio.privilegio === 'A-') {
+			name = anuncio.nameA;
+		} else {
+			name = anuncio.nameC;
+		}
+		return (
+			<Paper variant="outlined" key={anuncio.id} className="AnuncioPaper">
 				<section className="Anuncio">
 					<span className="ATitle">{anuncio.title}</span>
 					<p className="AContent">{anuncio.content}</p>
 					<hr />
-					<footer>Escrito por: {anuncio.by}</footer>
+					<footer>
+						Escrito por {name} {anuncio.fecha}
+					</footer>
+					<div className="AId">
+						<small><i>${anuncio.id}</i></small>
+					</div>
 				</section>
 			</Paper>
-		</Grow>
-	));
+		);
+	});
 	return recorrerLista;
 }
 

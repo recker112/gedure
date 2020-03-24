@@ -1,5 +1,5 @@
 //React
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Componentes
 import { ImagenVisor } from '../../components/ImagenVisor';
@@ -9,112 +9,176 @@ import { connect } from 'react-redux';
 import { updateNewsNoticias } from '../../actions/news/updateNews';
 
 //Material-UI
-import { Paper } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
+//SnackBar
+import { useSnackbar } from 'notistack';
+
+import axios from 'axios';
+
+//ScrollInfinitoBOY
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 export function ListNoticias({ list, updateNewsNoticias }) {
-    useEffect(
-        () => {
-            const fetchData = async () => {
-                try {
-                    const res = await axios.get('api/news');
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
-                    if (res.status !== 200) {
-                        throw "server_error";
-                    }
+	//Variables
+	const [hasFinish, setHasFinish] = useState(false);
+	let cancel = false;
 
-                    updateNewsNoticias(res.data);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
+	//fetchData
+	const fetchData = async (offset, limit) => {
+		try {
+			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
 
-            let cancel = false;
-            if (!cancel) {
-                fetchData();
-            }
+			if (res.status !== 200) {
+				throw new Error("server_error");
+			}
 
-            //Al desmontar
-            return () => {
-                cancel = true;
-                updateNewsNoticias(null);
-            };
-        },
-        [updateNewsNoticias]
-    );
+			if (!cancel) {
+				const { data, finish } = res.data;
+				updateNewsNoticias([...list, ...data]);
+				setHasFinish(finish);
+			}
+		} catch (error) {
+			enqueueSnackbar('No se han podido obtener las noticias', {
+				variant: 'error'
+			});
+			console.log(error);
+		}
+	};
 
-    return (
-        <article className="BoxNoticias">
-            {list !== null ? <Noticia options={list} /> : <SkeletonNoticia />}
-        </article>
-    );
+	//GetMoreData
+	const getMore = () => {
+		const offset = list.length;
+		fetchData(offset, 5);
+	};
+
+	//No DATA SET
+	useEffect(
+		() => {
+			if (list.length === 0) {
+				getMore();
+			}
+
+			//Al cancelar
+			return () => {
+				cancel = true;
+			};
+		},
+		[list, cancel]
+	);
+
+	//Al desmontar
+	useEffect(
+		() => {
+			return () => {
+				cancel = true;
+				updateNewsNoticias([]);
+			};
+		},
+		[updateNewsNoticias, cancel]
+	);
+
+	return (
+		<article className="BoxNoticias">
+			{list.length !== 0 ? (
+				<InfiniteScroll
+					dataLength={list.length}
+					hasMore={!hasFinish}
+					next={getMore}
+					scrollThreshold={0.5}
+					loader={<SkeletonNoticia />}
+					endMessage={
+						<p style={{ textAlign: 'center' }}>
+							<b>No hay mรกs noticias que cargar.</b>
+						</p>
+					}
+				>
+					<Noticia options={list} />
+				</InfiniteScroll>
+			) : (
+				<SkeletonNoticia />
+			)}
+		</article>
+	);
 }
 
 export function SkeletonNoticia() {
-    return (
-        <Paper variant="outlined">
-            <section className="Noticia">
-                <div className="NHead">
-                    <Skeleton variant="circle" className="NHeadImg" />
-                    <Skeleton variant="text" className="NHeadName" width={150} />
-                </div>
-                <hr />
-                <div className="NContent">
-                    <Skeleton variant="text" className="NContentTitle" width={200} />
-                    <p className="NContentP">
-                        <Skeleton variant="text" width="100%" />
-                        <Skeleton variant="text" width="100%" />
-                        <Skeleton variant="text" width="100%" />
-                        <Skeleton variant="text" width="100%" />
-                    </p>
-                </div>
-                <ImagenVisor options="loading" />
-            </section>
-        </Paper>
-    );
+	return (
+		<Paper variant="outlined">
+			<section className="Noticia">
+				<div className="NHead">
+					<Skeleton variant="circle" className="NHeadImg" />
+					<Skeleton variant="text" className="NHeadName" width={150} />
+					<Skeleton variant="text" className="NHeadName" width={35} />
+				</div>
+				<hr />
+				<div className="NContent">
+					<Skeleton variant="text" className="NContentTitle" width={200} />
+					<p className="NContentP">
+						<Skeleton variant="text" width="100%" />
+						<Skeleton variant="text" width="100%" />
+						<Skeleton variant="text" width="100%" />
+						<Skeleton variant="text" width="100%" />
+					</p>
+				</div>
+				<ImagenVisor options="loading" />
+			</section>
+		</Paper>
+	);
 }
 
 export function Noticia(props) {
-    const recorrerList = props.options.map(news => {
-        let name;
-        let avatar;
-        if (news.privilegio === "A-") {
-            name = news.nameA;
-            avatar = news.avatarA;
-        } else {
-            name = news.nameC;
-            avatar = news.avatarC;
-        }
-        return (
-            <div key={news.id}>
-                <Paper variant="outlined">
-                    <section className="Noticia">
-                        <div className="NHead">
-                            <span className="NHeadImg">Logo</span>
-                            <span className="NHeadName">{name}</span>
-                        </div>
-                        <hr />
-                        <div className="NContent">
-                            <span className="NContentTitle">{news.title}</span>
-                            <p className="NContentP">{news.content}</p>
-                        </div>
-                        <ImagenVisor options={JSON.parse(news.imgList)} />
-                    </section>
-                </Paper>
-            </div>
-        )
-    }
-    );
+	const recorrerList = props.options.map(news => {
+		let name;
+		let avatar;
+		if (news.privilegio === 'A-') {
+			name = news.nameA;
+			avatar = news.avatarA;
+		} else {
+			name = news.nameC;
+			avatar = news.avatarC;
+		}
+		return (
+			<div key={news.id}>
+				<Paper variant="outlined">
+					<section className="Noticia">
+						<div className="NHead">
+							<Avatar src={avatar} alt="Usuario" className="NHeadImg" style={{backgroundColor: '#B46BD6'}}>
+								{/*Mostrar el nombre del usuario en caso de que no tenga 
+								una foto*/}
+								{name.substring(0, 1).toUpperCase()}
+							</Avatar>
+							<span className="NHeadName">{name}</span>
+							<small>
+								<i>#{news.id}</i>
+							</small>
+						</div>
+						<hr />
+						<div className="NContent">
+							<span className="NContentTitle">{news.title}</span>
+							<p className="NContentP">{news.content}</p>
+						</div>
+						<ImagenVisor options={JSON.parse(news.imgList)} />
+						<i className='NFecha'>Publicado {news.fecha}</i>
+					</section>
+				</Paper>
+			</div>
+		);
+	});
 
-    return recorrerList;
+	return recorrerList;
 }
 
 const mapStateToProps = state => ({
-    list: state.news.dataN
+	list: state.news.dataN
 });
 
 const mapDispatchToProps = {
-    updateNewsNoticias
+	updateNewsNoticias
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListNoticias);

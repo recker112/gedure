@@ -84,12 +84,12 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
           enqueueSnackbar('El servidor rechazó su solicitud', {
             variant: 'error'
           });
-          throw "server_refused";
+          throw new Error("server_refused");
         } else {
           enqueueSnackbar('No se pudo conectar con el servidor', {
             variant: 'error'
           });
-          throw "no_connect";
+          throw new Error("no_connect");
         }
       }
 
@@ -141,26 +141,10 @@ function Form({ updateInputValue, updateLoading, auth, updateDataUser, loginSinc
             enqueueSnackbar(item.message, {
                 variant: item.status
             });
-            throw item.type;
+						throw new Error(item.type);
           }
           return null;
       })
-
-      //Verificar bloqueo
-      if (msg === 'max_locks') {
-        enqueueSnackbar('La cuenta está bloqueada permanentemente', {
-          variant: 'warinig'
-        });
-        throw "max_locks";
-      }
-
-      //Verificar bloqueo
-      if (msg === 'max_locks') {
-        enqueueSnackbar('La cuenta está bloqueada permanentemente', {
-          variant: 'warinig'
-        });
-        throw "max_locks";
-      }
 
       //Verificar que todo vaya bien.
       if (status !== 'ok') {

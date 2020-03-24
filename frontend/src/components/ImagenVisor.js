@@ -1,39 +1,63 @@
 import React from 'react';
 
 //Material-UI
+import { Grid } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 //LazyImg
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyImage } from 'react-lazy-images';
 
-export function ImagenVisor({options}) {
-
+export function ImagenVisor({ options }) {
 	if (Array.isArray(options) && options.length !== 0) {
-        const restante = options.length - 3;
+		const restante = options.length - 3;
 		const imagenes = options.map((img, i) => {
 			if (i === 3) {
-				return (<span key={i} className="more">+{restante}</span>);
-			}
-			else if (i < 4) {
-                return (
-                    <LazyLoadImage
-                        key={i}
-                        alt={`imagen${i+1}`}
-                        src={img}
-                        placeholder={<Skeleton key={i} variant="rect" height={100} width={110} />}
-                    />);
-			}
-			else {
-				return (<img key={i} src={img} alt={`imagen${i+1}`} style={{ display: "none" }} />);
+				return (
+					<span key={i} className="more">
+						+{restante}
+					</span>
+				);
+			} else if (i < 4) {
+				return (
+					<LazyImage
+						alt={`imagen${i + 1}`}
+						src={img}
+						placeholder={({ imageProps, ref }) => (
+							<Skeleton ref={ref} key={i} variant="rect" height={100} width={110} />
+						)}
+						actual={({ imageProps }) => <img key={i} alt={`imagen${i + 1}`} {...imageProps} />}
+						error={() => (
+							<div style={{ width: '110px', height: '100px', background: 'rgb(252, 72, 80)' }}>
+								<p>Error al obtener imagen</p>
+							</div>
+						)}
+					/>
+				);
+			} else {
+				return <img key={i} src={img} alt={`imagen${i + 1}`} style={{ display: 'none' }} />;
 			}
 		});
-		return (<footer>{imagenes}</footer>);
+		return (
+			<footer>
+				<Grid container spacing={2} justify="space-evenly" wrap="wrap" className="fixGrid">
+					{imagenes}
+				</Grid>
+			</footer>
+		);
 	}
 
-	if (options === "loading") {
-		let SkeletonImg = [1,2,3,4].map((e,i)=> <Skeleton key={i} variant="rect" height={100} width={110} />)
-		return (<footer>{SkeletonImg}</footer>);
+	if (options === 'loading') {
+		let SkeletonImg = [1, 2, 3, 4].map((e, i) => (
+			<Skeleton key={i} variant="rect" height={100} width={110} />
+		));
+		return (
+			<footer>
+				<Grid container spacing={2} justify="space-evenly" wrap="wrap" className="fixGrid">
+					{SkeletonImg}
+				</Grid>
+			</footer>
+		);
 	}
 
-	return (<React.Fragment></React.Fragment>);
+	return <React.Fragment />;
 }
