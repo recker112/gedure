@@ -41,6 +41,11 @@ class PostController extends Controller
 					$dataNews[$i]->fecha = $parse->diffForHumans();
 				}
 			
+				//Verifi empty
+				if (!isset($finish)) {
+					$finish = true;
+				}
+			
 				//Preparar respuesta
 				$jsonMessage = [
 					'finish' => $finish,
@@ -81,6 +86,11 @@ class PostController extends Controller
 					//Set fecha
 					$parse = Carbon::parse($dataAnuncios[$i]->fecha)->locale('es');
 					$dataAnuncios[$i]->fecha = $parse->diffForHumans();
+				}
+		
+				//Verifi empty
+				if (!isset($finish)) {
+					$finish = true;
 				}
 			
 				//Preparar respuesta

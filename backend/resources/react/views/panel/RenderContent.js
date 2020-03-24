@@ -35,10 +35,22 @@ function RenderContent({ content, privilegio }) {
 	if (privilegio === 'A-') {
 		return <RenderContentAdmin content={content} />;
 	} else if (privilegio === 'V-') {
-		return <main>USER</main>;
+		return <RenderContentUser content={content} />;
 	} else {
 		return <main>ERROR</main>;
 	}
+}
+
+function RenderContentUser({ content }) {
+	if (content === 'home') {
+		return <main>USER</main>
+	}
+	
+	if (content === 'news') {
+		return <RenderNews />;
+	}
+	
+	return <main>ERROR</main>;
 }
 
 function RenderContentAdmin({ content }) {

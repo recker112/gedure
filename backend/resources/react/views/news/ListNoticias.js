@@ -88,6 +88,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					dataLength={list.length}
 					hasMore={!hasFinish}
 					next={getMore}
+					scrollThreshold={0.5}
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>

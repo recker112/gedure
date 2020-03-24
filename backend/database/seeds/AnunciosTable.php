@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AnunciosTable extends Seeder
 {
@@ -12,18 +13,14 @@ class AnunciosTable extends Seeder
      */
     public function run()
     {
-        DB::table('anuncios_data')->insert([
-            'anuncio_title' => "test1",
-            'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
-            'anuncio_owner' => 'reckersito',
-            'anuncio_create_at' => now()->sub(4, 'days'),
-        ]);
-
-        DB::table('anuncios_data')->insert([
-            'anuncio_title' => "test1",
-            'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
-            'anuncio_owner' => 'reckersito',
-            'anuncio_create_at' => now(),
-        ]);
+			$max = 100;
+			for($i=0; $i < $max; $i++){
+				DB::table('anuncios_data')->insert([
+					'anuncio_title' => Str::random(10),
+					'anuncio_content' => "Hola, soy una prueba muy pequeña, pero prueba es prueba.",
+					'anuncio_owner' => 'reckersito',
+					'anuncio_create_at' => now()->sub($max - $i, 'hours'),
+				]);
+			}
     }
 }
