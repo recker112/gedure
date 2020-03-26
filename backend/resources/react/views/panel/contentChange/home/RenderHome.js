@@ -1,34 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Paper, Grid } from '@material-ui/core';
 import { AnnounceBox } from './AnnounceBox';
 
 function RenderHome() {
+	//Register mantiene la cantidad total a mostrar
+	const [query, setQuery] = useState({
+		StudientsTotal: '-',
+		StudientsBlock: '-',
+		StudientsPermaBlock: '-',
+		PublicNotice: '-',
+		PublicAnnounce: '-'
+	});
+	
+	//Variable para verificar solo la primera vez.
+	const [first, setFirst] = useState(false);
+
+	//Pedir datos
+	useEffect(
+		() => {
+			let cancel = false;
+
+			//FetchData
+			const fetchData = async () => {
+				try {
+					const res = await axios.get(`api/infobox/announcebox?show=all`);
+
+					const { data } = res;
+
+					//Error
+					if (data.status === 'error') {
+						throw new Error(data.msg);
+					}
+
+					//Verificar si está desmontado el componente
+					if (!cancel) {
+						setQuery(data.query);
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			};
+
+			//Realizar consulta
+			if (!first) {
+				fetchData();
+			}
+
+			//Al desmontar
+			return () => {
+				cancel = true;
+				setQuery({
+					StudientsTotal: '-',
+					StudientsBlock: '-',
+					StudientsPermaBlock: '-',
+					PublicNotice: '-',
+					PublicAnnounce: '-'
+				});
+			};
+		},
+		[first]
+	);
+
+	//Lista
 	const Estados = [
 		{
 			background: '#4879FC',
 			text: 'Estudiantes registrado en el sistema',
-			data: 'StudientsTotal'
+			data: query.StudientsTotal
 		},
 		{
 			background: '#F8C822',
-			text: 'Usuarios bloqueados',
-			data: 'StudientsBlock'
+			text: 'Estudiantes bloqueados',
+			data: query.StudientsBlock
 		},
 		{
 			background: '#FC4850',
-			text: 'Usuarios bloqueados permanentemente',
-			data: 'StudientsPermaBlock'
+			text: 'Estudiantes bloqueados permanentemente',
+			data: query.StudientsTotal
 		},
 		{
 			background: '#b448fc',
 			text: 'Noticias publicadas',
-			data: 'PublicNotice'
+			data: query.PublicNotice
 		},
 		{
-			background: '#39CCCC',
-			text: '"Me gusta" recibidos',
-			data: 'Likes'
+			background: '#b448fc',
+			text: 'Anuncios publicados',
+			data: query.PublicAnnounce
 		}
+		// {
+		// 	background: '#39CCCC',
+		// 	text: '"Me gusta" recibidos',
+		// 	data: 'Likes'
+		// }
 	];
 	return (
 		<React.Fragment>
