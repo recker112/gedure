@@ -91,7 +91,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs noticias que cargar.</b>
+							<b>No hay más noticias que cargar.</b>
 						</p>
 					}
 				>
