@@ -92,7 +92,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					loader={<SkeletonAnuncio />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs anuncios que cargar.</b>
+							<b>No hay más anuncios que cargar.</b>
 						</p>
 					}
 				>
@@ -146,7 +146,7 @@ export function Anuncio(props) {
 						Escrito por {name} {anuncio.fecha}
 					</footer>
 					<div className="AId">
-						<small><i>${anuncio.id}</i></small>
+						<small><i>#{anuncio.id}</i></small>
 					</div>
 				</section>
 			</Paper>
