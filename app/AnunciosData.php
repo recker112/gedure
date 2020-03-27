@@ -19,7 +19,7 @@ class AnunciosData extends Model
 						'anuncio_create_at as fecha',
             'user_privilegio as privilegio',
             'admin_name as nameA',
-            'creador_name as nameC',
+            'creador_name as nameC'
         )
             ->orderBy('anuncio_create_at', 'desc')
             ->limit($limit)
