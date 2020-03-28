@@ -29,7 +29,7 @@ function App({ tema, access_key }) {
 				main: '#6B8DD6',
 			},
 			secondary: {
-				main: '#B46BD6',
+				main: '#896DBE',
 			},
 			background: {
 				default: tema === 'light' ? '#E9EBEE' : '#1d1d1d'
