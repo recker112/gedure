@@ -27,3 +27,7 @@ Route::middleware('auth:api')->get('/relogin', 'LoginController@relogin');
 /* INFO BOX */
 //AnnounceBox
 Route::middleware('auth:api')->get('/infobox/announcebox', 'InfoBoxController@getAnnounceBox');
+
+/* LOGS */
+//GetLogs
+ROUTE::middleware('auth:api')->get('/logs', 'LogsController@getLogs');

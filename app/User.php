@@ -85,26 +85,69 @@ class User extends Authenticatable
         switch ($privilegio) {
             case 'V-':
                 //Consulta
-                $DataUser = User::select('user_cedula as cedula', 'api_token as access_key', 'user_privilegio as privilegio','estudiante_name as name', 'estudiante_avatar as avatar', 'curso_grado as curso', 'curso_seccion as seccion', 'alumno_n_lista as lista', 'alumno_nota_status as nota', 'alumno_horario_status as horario', 'profe_guia_name as profeGuia')
-                    ->join('estudiantes_data', 'users.user_cedula', '=', 'estudiantes_data.estudiante_cedula')
-                    ->join('alumnos_data', 'estudiantes_data.estudiante_alumno_id', '=', 'alumnos_data.alumno_id')
-                    ->join('cursos_data', 'alumnos_data.alumno_curso', '=', 'cursos_data.curso_id')
-                    ->join('profes_guias_data', 'cursos_data.curso_profe_guia', '=', 'profes_guias_data.profe_guia_id')
+                $DataUser = User::select(
+									'user_cedula as cedula', 
+									'api_token as access_key', 
+									'user_privilegio as privilegio',
+									'estudiante_name as name', 
+									'estudiante_avatar as avatar', 
+									'curso_grado as curso', 
+									'curso_seccion as seccion', 
+									'alumno_n_lista as lista', 
+									'alumno_nota_status as nota', 
+									'alumno_horario_status as horario', 
+									'profe_guia_name as profeGuia')
+                    ->join(
+											'estudiantes_data', 
+											'users.user_cedula', 
+											'=', 
+											'estudiantes_data.estudiante_cedula'
+										)
+                    ->join(
+											'alumnos_data', 
+											'estudiantes_data.estudiante_alumno_id', 
+											'=', 
+											'alumnos_data.alumno_id'
+										)
+                    ->join(
+											'cursos_data', 
+											'alumnos_data.alumno_curso', 
+											'=', 
+											'cursos_data.curso_id'
+										)
+                    ->join(
+											'profes_guias_data', 
+											'cursos_data.curso_profe_guia', 
+											'=', 
+											'profes_guias_data.profe_guia_id'
+										)
                     ->first();
                 break;
 
             case 'A-':
                 //Consulta
-                $DataUser = User::select('user_cedula as cedula', 'api_token as access_key', 'user_privilegio as privilegio', 'admin_name as name', 'admin_avatar as avatar')
-                    ->join('admins_data', 'users.user_cedula', '=', 'admins_data.admin_cedula')
-                    ->first();
+                $DataUser = User::select(
+									'user_cedula as cedula', 
+									'api_token as access_key', 
+									'user_privilegio as privilegio',
+									'admin_name as name', 
+									'admin_avatar as avatar'
+								)
+                	->join('admins_data', 'users.user_cedula', '=', 'admins_data.admin_cedula')
+                  ->first();
                 break;
 
             case 'CR-':
                 //Consulta
-                $DataUser = User::select('user_cedula as cedula', 'api_token as access_key', 'user_privilegio as privilegio', 'creador_name as name', 'creador_avatar as avatar')
-                    ->join('creadores_data', 'users.user_cedula', '=', 'creadores_data.creador_cedula')
-                    ->first();
+                $DataUser = User::select(
+									'user_cedula as cedula', 
+									'api_token as access_key', 
+									'user_privilegio as privilegio', 
+									'creador_name as name', 
+									'creador_avatar as avatar'
+								)
+                  ->join('creadores_data', 'users.user_cedula', '=', 'creadores_data.creador_cedula')
+                  ->first();
                 break;
 
             default:

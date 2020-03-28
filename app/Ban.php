@@ -12,8 +12,6 @@ class Ban extends Model
 
     protected $primaryKey = 'ban_cedula';
 
-    protected $dates = ['updated_at'];
-
     public static function getStatusBlock($cedula) {
         $dataBan = Ban::find($cedula);
 

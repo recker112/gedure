@@ -14,8 +14,26 @@ class LogsTable extends Seeder
     {
         DB::table('logs')->insert([
             'log_cedula' => "recker",
-            'log_timestamp' => '2020-03-18 16:01:34',
+            'log_create_at' => now(),
             'log_action' => "Inicio de sesión.",
+        ]);
+			
+				DB::table('logs')->insert([
+            'log_cedula' => "banUser",
+            'log_create_at' => now()->sub(4,'days'),
+            'log_action' => "Baneo permanente.",
+        ]);
+				
+				DB::table('logs')->insert([
+            'log_cedula' => "banUser",
+            'log_create_at' => now()->sub(5,'days'),
+            'log_action' => "Baneo temporal 1/5.",
+        ]);
+			
+				DB::table('logs')->insert([
+            'log_cedula' => "banUser",
+            'log_create_at' => now()->sub(5,'days'),
+            'log_action' => "Baneo temporal 1/5.",
         ]);
     }
 }

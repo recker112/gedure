@@ -8,65 +8,50 @@ import RenderTableOk from './RenderTableOk';
 import RenderTableError, { RenderTableSearch } from './RenderTableStatus';
 import { RenderSelect } from '../../../../components/RendersGlobal';
 
-function RenderRegistros() {
-	const [selectSearch, setsSlectSearch] = useState('all');
-	const [Req, setReq] = useState({});
-	const [search, setSearch] = useState(true);
+//Redux
+import { connect } from 'react-redux';
+import updateInputValue from '../../../../actions/updateInputValue';
 
-	const handleChangeSelect = e => {
-		const value = e.target.value;
-
-		setsSlectSearch(value);
-	};
+function RenderRegistros({ dataLog, updateInputValue }) {
+	//Destructing
+	const { selectSearch, dataTable, searching } = dataLog;
 
 	useEffect(
 		() => {
 			let cancel = false;
 
-			setSearch(true);
-			setReq({});
-			const res = {
-				query: {
-					status: true
-				},
-				data: [
-					{
-						cedula: '28438812',
-						name: 'Recker',
-						accion: 'Inicio de sesión',
-						privilegio: 'A-',
-						opciones: {
-							desbloquear: false
-						}
-					},
-					{
-						cedula: '12941274',
-						name: 'Luis',
-						privilegio: 'V-',
-						accion: 'Baneo',
-						curso: '1G',
-						seccion: 'A',
-						opciones: {
-							desbloquear: true
-						}
+			//Iniciar effecto de busqueda.
+			updateInputValue(true, 'LOGS_SEARCHING');
+			//Descargar datos
+			updateInputValue(null, 'LOGS_DATATABLE');
+
+			//FetchData
+			const fetchData = async option => {
+				try {
+					//Consulta
+					const res = await axios.get(`api/logs?get=${option}`);
+
+					if (res.status !== 200) {
+						throw new Error(res.data);
 					}
-				]
-      };
-      
-      //PETICION
-			if (selectSearch === 'all') {
-				setReq(res);
-			} else if (selectSearch === 'ban') {
-				setReq(res);
-			}
 
-			//Poner el cancel en la petición asincrona.
-			setTimeout(() => {
-				if (!cancel) {
-					setSearch(false);
+					if (!cancel) {
+						//Set datos
+						updateInputValue(res.data, 'LOGS_DATATABLE');
+					}
+				} catch (error) {
+					//Destructing
+					const { data } = error.response;
+
+					updateInputValue(data, 'LOGS_ERROR');
 				}
-			}, 2000);
+				//Finalizar effecto de busqueda.
+				updateInputValue(false, 'LOGS_SEARCHING');
+			};
 
+			//PETICION
+			fetchData(selectSearch);
+			//Al desmontar
 			return () => {
 				cancel = true;
 			};
@@ -78,40 +63,31 @@ function RenderRegistros() {
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
 				<Paper variant="outlined">
-					<SelectorRegistrosDisplay
-						options={{
-							selectSearch,
-							handleChangeSelect
-						}}
-					/>
+					<SelectorRegistrosDisplay select={selectSearch} />
 				</Paper>
 			</Grid>
 			<Grid item xs={10}>
-				<TableShow options={{ Req, search }} />
+				<TableShow search={searching} dataTable={dataTable} />
 			</Grid>
 		</Grid>
 	);
 }
 
-function TableShow(props) {
-	//Destructurar props.
-	const { Req, search } = props.options;
-	const { query, data } = Req;
+function TableShow({ search, dataTable }) {
+	//Verificar si existe data
+	let noData = dataTable !== null && dataTable.length > 0 ? false : true;
 
-	//Verificar si existe query.status
-	let error = query !== undefined && query.status ? false : true;
-
-	if (!search && !error) {
+	if (!search && !noData) {
 		return (
 			<div>
-				<RenderTableOk data={data} />
+				<RenderTableOk />
 			</div>
 		);
 	} else {
 		if (!search) {
 			return (
 				<div>
-					<RenderTableError error={error} />
+					<RenderTableError />
 				</div>
 			);
 		} else {
@@ -124,29 +100,33 @@ function TableShow(props) {
 	}
 }
 
-function SelectorRegistrosDisplay(props) {
-  const { handleChangeSelect, selectSearch } = props.options;
-  
-  //Config de registros
+function SelectorRegistrosDisplay({ select }) {
+	const handleChangeSelect = e => {
+		const value = e.target.value;
+
+		updateInputValue(value, 'LOGS_SELECT');
+	};
+
+	//Config de registros
 	const registSelect = {
 		name: 'registros',
 		values: [
 			{
 				value: 'all',
 				name: 'Todos'
-      },
-      {
-				value: 'ban',
+			},
+			{
+				value: 'bans',
 				name: 'Baneados'
-      },
-      {
-				value: 'login',
+			},
+			{
+				value: 'session',
 				name: 'Inicio de sesión'
-      },
-      {
+			},
+			{
 				value: 'changePass',
 				name: 'Cambio de contraseña'
-			},
+			}
 		]
 	};
 
@@ -154,7 +134,14 @@ function SelectorRegistrosDisplay(props) {
 		<div className="Box">
 			<span className="title">Buscar Registros</span>
 			<div className="content">
-				<RenderSelect action={handleChangeSelect} val={selectSearch} data={registSelect} classNameSet="select" customWidth="auto" empty={false} />
+				<RenderSelect
+					action={handleChangeSelect}
+					val={select}
+					data={registSelect}
+					classNameSet="select"
+					customWidth="auto"
+					empty={false}
+				/>
 			</div>
 		</div>
 	);
@@ -173,4 +160,12 @@ Pos al final lo que hice fue cederles las funciones del req al
 padre, ahora todo funciona correctamente. El padre es ESTE archivo,
 por si acaso. xD*/
 
-export default RenderRegistros;
+const mapStateToProps = state => ({
+	dataLog: state.panelSettings.logsSection
+});
+
+const mapDispatchToProps = {
+	updateInputValue
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RenderRegistros);
