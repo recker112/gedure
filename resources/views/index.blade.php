@@ -13,6 +13,7 @@
     <!-- Fonts -->
     <link rel="icon" href="favicon.png" />
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   </head>
   <body>
     <noscript>Necesitas activar JavaScript para poder ver esta aplicaciรณn.</noscript>
