@@ -7,28 +7,34 @@ import { Paper, Grow } from '@material-ui/core';
 import { connect } from 'react-redux';
 import changeContentNews from '../../actions/news/changeContentNews';
 
-function SwitchButton({ changeContentNews }) {
+function SwitchButton({ changeContentNews, content }) {
+	//Select Class
+	const classNameN = content === 'noticias' ? 'ItemSwitchNews active' : 'ItemSwitchNews';
+	const classNameA = content === 'anuncios' ? 'ItemSwitchNews active' : 'ItemSwitchNews';
+	
+	//HanldeClick
 	const handleClickSwitch = e => {
-		if (e.target.id === 'SONnoticias') {
-			//Cambiar background
-			document.getElementById('SONnoticias').classList.add('active');
-			document.getElementById('SONanuncios').classList.remove('active');
+		if (e.target.id === 'SwitchNoticias') {
 			changeContentNews('noticias');
 		} else {
-			//Cambiar background
-			document.getElementById('SONnoticias').classList.remove('active');
-			document.getElementById('SONanuncios').classList.add('active');
 			changeContentNews('anuncios');
 		}
 	};
+	
 	return (
 		<div className="SwitchOptionNews">
 			<Grow in={true}>
 				<Paper variant="outlined">
-					<span id="SONnoticias" className={`ItemSwitchNews active`} onClick={handleClickSwitch}>
+					<span id="SwitchNoticias" 
+						className={classNameN} 
+						onClick={handleClickSwitch}
+					>
 						Noticias
 					</span>
-					<span id="SONanuncios" className="ItemSwitchNews" onClick={handleClickSwitch}>
+					<span id="SwitchAnuncios"
+						className={classNameA} 
+						onClick={handleClickSwitch}
+					>
 						Anuncios
 					</span>
 				</Paper>
@@ -38,9 +44,12 @@ function SwitchButton({ changeContentNews }) {
 }
 
 //REDUX
+const mapStateToProps = state => ({
+	content: state.news.content
+});
 
 const mapDispatchToProps = {
 	changeContentNews
 };
 
-export default connect(null, mapDispatchToProps)(SwitchButton);
+export default connect(mapStateToProps, mapDispatchToProps)(SwitchButton);
