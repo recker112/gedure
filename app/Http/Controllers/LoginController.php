@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 //Model User
 use App\User;
 use App\Ban;
+use App\Logs;
 
 class LoginController extends Controller
 {
@@ -92,7 +93,14 @@ class LoginController extends Controller
             return response()->json($jsonMessage);
         }
 
-        //ALL OK
+        /* TODO OC */
+				//LOG
+				$Log = new Logs;
+				$Log->log_cedula = $dataUser->cedula;
+				$Log->log_action = 'Inicio de sesión.';
+				$Log->save();
+				
+				//MESSAGE
         $jsonMessage = [
             'status' => 'ok',
             'dataUser'=>$dataUser,
@@ -110,9 +118,10 @@ class LoginController extends Controller
         $privilegio = request()->user()->user_privilegio;
         $dataUser = $UserModel->getUserData($privilegio);
 
-        //Verificar validez del token (expired)
+        //Verificaciones extras
 
-        //ALL OK
+        /* TODO OC */
+				//Message
         $jsonMessage = [
             'status' => 'ok',
             'dataUser'=>$dataUser,

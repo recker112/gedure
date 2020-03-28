@@ -11,18 +11,34 @@ import {
 	LinearProgress
 } from '@material-ui/core';
 
+//Redux
+import { connect } from 'react-redux';
+
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-function RenderTableError({error}) {
+function RenderTableError({ dataTable, error }) {
 	//Crear un SnackBar
-		const { enqueueSnackbar } = useSnackbar();
-	
-	useEffect(() => {
-		enqueueSnackbar('No se ha podido relizar la petición', {
-			variant: 'error'
-		});
-	},[enqueueSnackbar]);
+	const { enqueueSnackbar } = useSnackbar();
+
+	useEffect(
+		() => {
+			if (dataTable !== null) {
+				enqueueSnackbar('No hay registros que mostrar', {
+					variant: 'info'
+				});
+			} else if (error === 'no_access') {
+				enqueueSnackbar('No estás autorizado', {
+					variant: 'error'
+				});
+			}else {
+				enqueueSnackbar('No se ha podido relizar la petición', {
+					variant: 'error'
+				});
+			}
+		},
+		[enqueueSnackbar, dataTable]
+	);
 
 	//Regresar componente
 	return (
@@ -31,8 +47,8 @@ function RenderTableError({error}) {
 			style={{
 				maxHeight: '450px',
 				overflow: 'auto'
-      }}
-      variant="outlined"
+			}}
+			variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>
@@ -61,8 +77,8 @@ export function RenderTableSearch() {
 			style={{
 				maxHeight: '450px',
 				overflow: 'auto'
-      }}
-      variant="outlined"
+			}}
+			variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>
@@ -79,4 +95,9 @@ export function RenderTableSearch() {
 	);
 }
 
-export default RenderTableError;
+const mapStateToProps = state => ({
+	dataTable: state.panelSettings.logsSection.dataTable,
+	error: state.panelSettings.logsSection.error
+});
+
+export default connect(mapStateToProps)(RenderTableError);

@@ -6,6 +6,12 @@ const initialState = {
     open: false,
     index: 0
   },
+	logsSection: {
+		selectSearch: 'all',
+		dataTable: null,
+		searching: true,
+		error: ''
+	},
   modifySection: {
     cedula: '',
     name: '',
@@ -209,7 +215,57 @@ export default (state = initialState, { type, payload }) => {
       };
     }
 
-    //MODIFY
+		/* LOGS */
+		case 'UPDATE_INPUT_VALUE_LOGS_DATATABLE': {
+      //Obtener ser
+      const dataTable = payload.input;
+
+      return {
+        ...state,
+        logsSection: {
+          ...state.logsSection,
+          dataTable: dataTable,
+        }
+      };
+		}
+		case 'UPDATE_INPUT_VALUE_LOGS_SELECT': {
+      //Obtener ser
+      const selected = payload.input;
+
+      return {
+        ...state,
+        logsSection: {
+          ...state.logsSection,
+          selectSearch: selected,
+        }
+      };
+		}
+		case 'UPDATE_INPUT_VALUE_LOGS_SEARCHING': {
+      //Obtener ser
+      const search = payload.input;
+
+      return {
+        ...state,
+        logsSection: {
+          ...state.logsSection,
+          searching: search,
+        }
+      };
+		}
+		case 'UPDATE_INPUT_VALUE_LOGS_ERROR': {
+      //Obtener ser
+      const error = payload.input;
+
+      return {
+        ...state,
+        logsSection: {
+          ...state.logsSection,
+          error: error,
+        }
+      };
+		}
+
+    /* MODIFY */
     case 'UPDATE_INPUT_VALUE_MODIFY_EXTERNO': {
       //Obtener ser
       const user = payload.input;
