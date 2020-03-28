@@ -63,7 +63,7 @@ function RenderRegistros({ dataLog, updateInputValue }) {
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
 				<Paper variant="outlined">
-					<SelectorRegistrosDisplay select={selectSearch} />
+					<SelectorRegistrosDisplay select={selectSearch} updateInputValue={updateInputValue} />
 				</Paper>
 			</Grid>
 			<Grid item xs={10}>
@@ -100,7 +100,7 @@ function TableShow({ search, dataTable }) {
 	}
 }
 
-function SelectorRegistrosDisplay({ select }) {
+function SelectorRegistrosDisplay({ select, updateInputValue }) {
 	const handleChangeSelect = e => {
 		const value = e.target.value;
 
