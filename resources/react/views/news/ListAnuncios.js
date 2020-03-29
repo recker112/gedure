@@ -20,6 +20,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
 	//Variables
 	const [hasFinish, setHasFinish] = useState(false);
+	const [noData, setNoData] = useState(false);
 	let cancel = false;
 
 	//FetchData
@@ -27,20 +28,21 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 		try {
 			const res = await axios.get(`api/anuncios?offset=${offset}&limit=${limit}`);
 
-			if (res.status !== 200) {
-				throw new Error("server_error");
-			}
-
+			const { data, finish } = res.data;
+			
+			//Verificar si está desmontado
 			if (!cancel) {
-				const { data, finish } = res.data;
-				updateNewsAnuncios([...list, ...data]);
-				setHasFinish(finish);
+				if (data.length > 0) {
+					updateNewsAnuncios([...list, ...data]);
+					setHasFinish(finish);
+				}else {
+					setNoData(true);
+				}
 			}
 		} catch (error) {
 			enqueueSnackbar('No se han podido obtener los anuncios', {
 				variant: 'error'
 			});
-			console.log(error);
 		}
 	};
 
@@ -99,7 +101,12 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					<Anuncio option={list} />
 				</InfiniteScroll>
 			) : (
-				<SkeletonAnuncio />
+				<React.Fragment>
+					<SkeletonAnuncio />
+					{noData && <p style={{ textAlign: 'center' }}>
+							<b>No hay anuncios publicados.</b>
+						</p>}
+				</React.Fragment>
 			)}
 		</aside>
 	);

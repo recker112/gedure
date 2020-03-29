@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 //Material-UI
 import {
@@ -11,35 +11,7 @@ import {
 	LinearProgress
 } from '@material-ui/core';
 
-//Redux
-import { connect } from 'react-redux';
-
-//SnackBar
-import { useSnackbar } from 'notistack';
-
-function RenderTableError({ dataTable, error }) {
-	//Crear un SnackBar
-	const { enqueueSnackbar } = useSnackbar();
-
-	useEffect(
-		() => {
-			if (dataTable !== null) {
-				enqueueSnackbar('No hay registros que mostrar', {
-					variant: 'info'
-				});
-			} else if (error === 'no_access') {
-				enqueueSnackbar('No estás autorizado', {
-					variant: 'error'
-				});
-			}else {
-				enqueueSnackbar('No se ha podido relizar la petición', {
-					variant: 'error'
-				});
-			}
-		},
-		[enqueueSnackbar, dataTable]
-	);
-
+function RenderTableError() {
 	//Regresar componente
 	return (
 		<TableContainer
@@ -95,9 +67,4 @@ export function RenderTableSearch() {
 	);
 }
 
-const mapStateToProps = state => ({
-	dataTable: state.panelSettings.logsSection.dataTable,
-	error: state.panelSettings.logsSection.error
-});
-
-export default connect(mapStateToProps)(RenderTableError);
+export default RenderTableError;

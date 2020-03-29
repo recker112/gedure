@@ -22,7 +22,11 @@ class LogsController extends Controller
 			
 			//Verificar que sea administrador
 			if ($privilegio !== 'A-') {
-				return response('no_access', 401);
+				return response()->json([
+					'code' => 403,
+					'msg' => 'no_access',
+					'description' => 'No estás autorizado'
+				], 403);
 			}
 			
 			//Crear objeto para realizar consultas
@@ -62,6 +66,6 @@ class LogsController extends Controller
 				}
 			}
 			
-			return response()->json($query);
+			return response()->json($query, 200);
 		}
 }

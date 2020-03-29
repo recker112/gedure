@@ -24,6 +24,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 
 	//Variables
 	const [hasFinish, setHasFinish] = useState(false);
+	const [noData, setNoData] = useState(false);
 	let cancel = false;
 
 	//fetchData
@@ -31,20 +32,21 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 		try {
 			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
 
-			if (res.status !== 200) {
-				throw new Error("server_error");
-			}
-
+			const { data, finish } = res.data;
+			
+			//Verificar si está desmontado
 			if (!cancel) {
-				const { data, finish } = res.data;
-				updateNewsNoticias([...list, ...data]);
-				setHasFinish(finish);
+				if (data.length > 0) {
+					updateNewsNoticias([...list, ...data]);
+					setHasFinish(finish);
+				}else {
+					setNoData(true);
+				}
 			}
 		} catch (error) {
 			enqueueSnackbar('No se han podido obtener las noticias', {
 				variant: 'error'
 			});
-			console.log(error);
 		}
 	};
 
@@ -91,14 +93,19 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs noticias que cargar.</b>
+							<b>No hay más noticias que cargar.</b>
 						</p>
 					}
 				>
 					<Noticia options={list} />
 				</InfiniteScroll>
 			) : (
-				<SkeletonNoticia />
+				<React.Fragment>
+					<SkeletonNoticia />
+					{noData && <p style={{ textAlign: 'center' }}>
+							<b>No hay anuncios publicados.</b>
+						</p>}
+				</React.Fragment>
 			)}
 		</article>
 	);

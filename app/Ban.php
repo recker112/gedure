@@ -22,8 +22,9 @@ class Ban extends Model
 
         if ($dataBan->ban_locks >= 5) {
             return $jsonMessage = [
-                'status' => 'error',
+                'code' => 400,
                 'msg'=>'max_locks',
+								'description' => 'Comuniquese con un administrador para reactivar la cuenta'
             ];
         }
 
@@ -33,11 +34,13 @@ class Ban extends Model
 
             //Verificar tiempo de bloqueo
             if($dateBan >= $dateNow){
-                $waitSeconds = $dateBan->diffInSeconds($dateNow);
+								//Date
+                $wait = $dateBan->diffInSeconds($dateNow);
+							
                 return $jsonMessage = [
-                    'status' => 'error',
+                    'code' => 400,
                     'msg'=>'account_lock',
-                    'wait' => $waitSeconds
+										'description' => "Cuenta bloqueada, espere $wait segundos"
                 ];
             }
         }
@@ -53,8 +56,9 @@ class Ban extends Model
         //Verificar que exista el usuario
         if (!$userExist) {
             return $jsonMessage = [
-                'status' => 'error',
+                'code' => 400,
                 'msg'=>'credentials_error',//Not found
+								'description' => 'Usuario y/o contraseña incorrecta'
             ];
         }
 
@@ -68,8 +72,9 @@ class Ban extends Model
                 $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
                 $datosBan->save();
                 $jsonMessage = [
-                    'status' => 'error',
+                    'code' => 400,
                     'msg'=>'credentials_error',//add_attemps
+										'description' => 'Usuario y/o contraseña incorrecta'
                 ];
             }else if ($datosBan->ban_attemps === 4 && $datosBan->ban_locks === 4) {
                 //Si es perma block
@@ -77,16 +82,18 @@ class Ban extends Model
                 $datosBan->ban_locks = $datosBan->ban_locks + 1;
                 $datosBan->save();
                 $jsonMessage = [
-                    'status' => 'error',
+                    'code' => 400,
                     'msg'=>'perma_block',
+										'description' => 'Tu cuenta fue bloqueada permanentemente'
                 ];
             }else if ($datosBan->ban_attemps === 4) {
                 //Si es === 4
                 $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
                 $datosBan->save();
                 $jsonMessage = [
-                    'status' => 'error',
+                    'code' => 400,
                     'msg'=>'account_block',
+										'description' => 'Cuenta bloqueada, espere 300 segundos'
                 ];
             }else if ($datosBan->ban_attemps >= 5) {
                 //Si es >= 5
@@ -94,8 +101,9 @@ class Ban extends Model
                 $datosBan->ban_locks = $datosBan->ban_locks + 1;
                 $datosBan->save();
                 $jsonMessage = [
-                    'status' => 'error',
+                    'code' => 400,
                     'msg'=>'check_credentials',
+										'description' => 'Revisa tus datos, los sigues poniendo mal'
                 ];
             }
             return $jsonMessage;
@@ -108,8 +116,9 @@ class Ban extends Model
         $newBan->ban_locks = 0;
         $newBan->save();
         $jsonMessage = [
-            'status' => 'error',
+            'code' => 400,
             'msg'=>'credentials_error',
+						'description' => 'Usuario y/o contraseña incorrecta'
         ];
         return $jsonMessage;
     }

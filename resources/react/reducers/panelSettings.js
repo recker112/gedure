@@ -9,8 +9,7 @@ const initialState = {
 	logsSection: {
 		selectSearch: 'all',
 		dataTable: null,
-		searching: true,
-		error: ''
+		searching: true
 	},
   modifySection: {
     cedula: '',
@@ -217,7 +216,7 @@ export default (state = initialState, { type, payload }) => {
 
 		/* LOGS */
 		case 'UPDATE_INPUT_VALUE_LOGS_DATATABLE': {
-      //Obtener ser
+      //Obtener dataTable
       const dataTable = payload.input;
 
       return {
@@ -229,7 +228,7 @@ export default (state = initialState, { type, payload }) => {
       };
 		}
 		case 'UPDATE_INPUT_VALUE_LOGS_SELECT': {
-      //Obtener ser
+      //Obtener Select
       const selected = payload.input;
 
       return {
@@ -240,27 +239,12 @@ export default (state = initialState, { type, payload }) => {
         }
       };
 		}
-		case 'UPDATE_INPUT_VALUE_LOGS_SEARCHING': {
-      //Obtener ser
-      const search = payload.input;
-
+		case 'UPDATE_LOADING_LOGS_SEARCHING': {
       return {
         ...state,
         logsSection: {
           ...state.logsSection,
-          searching: search,
-        }
-      };
-		}
-		case 'UPDATE_INPUT_VALUE_LOGS_ERROR': {
-      //Obtener ser
-      const error = payload.input;
-
-      return {
-        ...state,
-        logsSection: {
-          ...state.logsSection,
-          error: error,
+          searching: payload,
         }
       };
 		}

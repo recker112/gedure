@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
+
+//Material-UI
 import { Paper, Grid } from '@material-ui/core';
+
+//Componentes
 import { AnnounceBox } from './AnnounceBox';
+
+//SnackBar
+import { useSnackbar } from 'notistack';
 
 function RenderHome() {
 	return (
@@ -26,7 +33,10 @@ function RenderHome() {
 }
 
 function RenderAnnounceBox() {
-	//Register mantiene la cantidad total a mostrar
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
+	
+	//Query mantiene la cantidad total a mostrar
 	const [query, setQuery] = useState({
 		StudientsTotal: '-',
 		StudientsBlock: '-',
@@ -48,19 +58,26 @@ function RenderAnnounceBox() {
 				try {
 					const res = await axios.get(`api/infobox/announcebox?show=all`);
 
-					const { data } = res;
-
-					//Error
-					if (data.status === 'error') {
-						throw new Error(data.msg);
-					}
-
 					//Verificar si está desmontado el componente
 					if (!cancel) {
-						setQuery(data.query);
+						setQuery(res.data);
 					}
 				} catch (error) {
-					console.log(error);
+					const { status, data } = error.response;
+					
+					if (status === 400) {
+						enqueueSnackbar(data.description, {
+							variant: 'warning'
+						});
+					}else if (status === 403) {
+						enqueueSnackbar(data.description, {
+							variant: 'error'
+						});
+					}else {
+						enqueueSnackbar('Error al pedir los infobox al servidor', {
+							variant: 'error'
+						});
+					}
 				}
 			};
 

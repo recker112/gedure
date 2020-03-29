@@ -25,7 +25,7 @@ class LoginController extends Controller
         $banStatus = Ban::getStatusBlock(request()->user);
 
         if ($banStatus !== 'ok') {
-            return response()->json($banStatus);
+            return response()->json($banStatus, 400);
         }
 
         //ValidateData
@@ -48,9 +48,10 @@ class LoginController extends Controller
             ]);
         } catch (ValidationException $exception) {
             return response()->json([
-                'status' => 'error',
+                'code' => 422,
                 'msg'    => 'validation_error',
                 'errors' => $exception->errors(),
+								'description' => 'El servidor rechazó su solicitud'
             ], 422);
         }
 
@@ -64,7 +65,7 @@ class LoginController extends Controller
         //Añadir attemps
         if(!$verifyAuth){
             $jsonMessage = Ban::checkAttemps($dataValidate['user']);
-            return response()->json($jsonMessage);
+            return response()->json($jsonMessage, 400);
         }
 
         //Limpiar baneos
@@ -84,13 +85,15 @@ class LoginController extends Controller
         //Obtener datos.
         $dataUser = $UserModel->getUserData($privilegio,$cedula);
 
+				//Verificar que el privilegio de esa persona esté registrado.
         if ($dataUser === null) {
             $jsonMessage = [
-                'status' => 'error',
+                'code' => 400,
                 'msg'=>'not_found_privilegio',
+								'description' => 'No se pudo encontrar el usuario en el sistema'
             ];
 
-            return response()->json($jsonMessage);
+            return response()->json($jsonMessage, 400);
         }
 
         /* TODO OC */
@@ -99,14 +102,9 @@ class LoginController extends Controller
 				$Log->log_cedula = $dataUser->cedula;
 				$Log->log_action = 'Inicio de sesión.';
 				$Log->save();
-				
-				//MESSAGE
-        $jsonMessage = [
-            'status' => 'ok',
-            'dataUser'=>$dataUser,
-        ];
 
-        return response()->json($jsonMessage);
+				//Regresar datos
+        return response($dataUser, 200);
     }
 
     public function relogin()
@@ -121,12 +119,6 @@ class LoginController extends Controller
         //Verificaciones extras
 
         /* TODO OC */
-				//Message
-        $jsonMessage = [
-            'status' => 'ok',
-            'dataUser'=>$dataUser,
-        ];
-
-        return response()->json($jsonMessage);
+        return response($dataUser, 200);
     }
 }

@@ -43,15 +43,10 @@ function ReloginVerify({
 							Authorization: `Bearer ${key}`
 						}
 					});
-
-					//Otras verificaciones
-
+					
 					//TODO OK
-					//Destructing
-					const { dataUser } = res.data;
-
 					//Update data
-					updateDataUser(dataUser);
+					updateDataUser(res.data);
 
 					//Autenticación OK;
 					authUpdate(true);
@@ -59,28 +54,28 @@ function ReloginVerify({
 					//Refrescar ACCESS_KEY en los archivos locales
 					if (localData) {
 						//Datos permanentes.
-						localStorage.setItem('key', JSON.stringify(dataUser.access_key));
-						sessionStorage.setItem('key', JSON.stringify(dataUser.access_key));
+						localStorage.setItem('key', JSON.stringify(res.data.access_key));
+						sessionStorage.setItem('key', JSON.stringify(res.data.access_key));
 					} else {
 						//Datos de SOLO sesión.
-						sessionStorage.setItem('key', JSON.stringify(dataUser.access_key));
+						sessionStorage.setItem('key', JSON.stringify(res.data.access_key));
 					}
 				} catch (error) {
-					// Error
-					if (error.response) {
-						const { status } = error.response;
-
-						if (status === 401) {
-							enqueueSnackbar('Sesión expirada', {
-								variant: 'error'
-							});
-						}
+					const { status } = error.response;
+					if (status === 401) {
+						enqueueSnackbar('Sesión expirada', {
+							variant: 'error'
+						});
+					} else if (status === 500) {
+						enqueueSnackbar('No se ha podido conectar con la base de datos', {
+							variant: 'error'
+						});
 					} else {
 						enqueueSnackbar('Error interno en el sistema', {
 							variant: 'error'
 						});
-						console.log(error);
 					}
+					
 					authUpdate(false);
 				}
 
