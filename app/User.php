@@ -91,7 +91,7 @@ class User extends Authenticatable
 									'user_privilegio as privilegio',
 									'estudiante_name as name', 
 									'estudiante_avatar as avatar', 
-									'curso_grado as curso', 
+									'curso_name as curso', 
 									'curso_seccion as seccion', 
 									'alumno_n_lista as lista', 
 									'alumno_nota_status as nota', 
@@ -133,7 +133,11 @@ class User extends Authenticatable
 									'admin_name as name', 
 									'admin_avatar as avatar'
 								)
-                	->join('admins_data', 'users.user_cedula', '=', 'admins_data.admin_cedula')
+                	->join('admins_data', 
+												 'users.user_cedula', 
+												 '=', 
+												 'admins_data.admin_cedula'
+												)
                   ->first();
                 break;
 
@@ -146,7 +150,11 @@ class User extends Authenticatable
 									'creador_name as name', 
 									'creador_avatar as avatar'
 								)
-                  ->join('creadores_data', 'users.user_cedula', '=', 'creadores_data.creador_cedula')
+                  ->join('creadores_data', 
+												 'users.user_cedula',
+												 '=', 
+												 'creadores_data.creador_cedula'
+												)
                   ->first();
                 break;
 
@@ -155,5 +163,70 @@ class User extends Authenticatable
                 break;
         }
         return $DataUser;
+    }
+	
+		public function searchUser($privilegio, $cedula)
+    {
+    	switch ($privilegio) {
+					case 'V-':
+					//Consulta
+					$DataUser = User::select(
+						'user_cedula as cedula', 
+						'user_privilegio as privilegio',
+						'estudiante_name as name', 
+						'curso_name as curso', 
+						'curso_seccion as seccion', 
+						'alumno_n_lista as lista')
+							->where('user_cedula', $cedula)
+							->join(
+								'estudiantes_data', 
+								'users.user_cedula', 
+								'=', 
+								'estudiantes_data.estudiante_cedula'
+							)
+							->join(
+								'alumnos_data', 
+								'estudiantes_data.estudiante_alumno_id', 
+								'=', 
+								'alumnos_data.alumno_id'
+							)
+							->join(
+								'cursos_data', 
+								'alumnos_data.alumno_curso', 
+								'=', 
+								'cursos_data.curso_id'
+							)
+							->first();
+					break;
+
+					case 'A-':
+						//Consulta
+						$DataUser = User::select(
+							'user_cedula as cedula',
+							'user_privilegio as privilegio',
+							'admin_name as name'
+						)
+							->where('user_cedula', $cedula)
+							->join('admins_data', 'users.user_cedula', '=', 'admins_data.admin_cedula')
+							->first();
+						break;
+
+				case 'CR-':
+						//Consulta
+						$DataUser = User::select(
+							'user_cedula as cedula',
+							'user_privilegio as privilegio', 
+							'creador_name as name'
+						)
+							->where('user_cedula', $cedula)
+							->join('creadores_data', 'users.user_cedula', '=', 'creadores_data.creador_cedula')
+							->first();
+						break;
+
+					default:
+						$DataUser = null;
+						break;
+			}
+			return $DataUser;
     }
 }

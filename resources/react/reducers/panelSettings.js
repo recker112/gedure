@@ -255,7 +255,7 @@ export default (state = initialState, { type, payload }) => {
       const user = payload.input;
 
       //Verificar si es un estudiante
-      if (typeof payload.curso === 'undefined'){
+      if (typeof user.curso === 'undefined'){
         user.curso = '1';
         user.seccion = 'A';
       }

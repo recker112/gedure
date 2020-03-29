@@ -71,38 +71,47 @@ function TableShowInfoSecion({ data, changeOpen, updateInputValue }) {
 Renderizador de tablas.
 */
 function RenderTable({ data, changeOpen, update }) {
+	
+	if (data.length > 0) {
+		return (
+			<Table aria-label="table seccion info">
+				<TableHead>
+					<TableRow>
+						<TableCell>Cedula</TableCell>
+						<TableCell>Nombre</TableCell>
+						<TableCell>N° lista</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{data.map(row => {
+						return (
+							<TableRow key={row.cedula}>
+								<TableCell>
+									<Button
+										onClick={() => {
+											delete row.lista;
+											update(row,'MODIFY_EXTERNO');
+											changeOpen(false);
+										}}
+									>
+										{row.privilegio + row.cedula}
+									</Button>
+								</TableCell>
+								<TableCell>{row.name}</TableCell>
+								<TableCell>{row.lista}</TableCell>
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			</Table>
+		);
+	}
+	
 	return (
-		<Table aria-label="table seccion info">
-			<TableHead>
-				<TableRow>
-					<TableCell>Cedula</TableCell>
-					<TableCell>Nombre</TableCell>
-					<TableCell>N° lista</TableCell>
-				</TableRow>
-			</TableHead>
-			<TableBody>
-				{data.map(row => {
-					return (
-						<TableRow key={row.cedula}>
-							<TableCell>
-								<Button
-									onClick={() => {
-										delete row.lista;
-										update(row,'MODIFY_EXTERNO');
-										changeOpen(false);
-									}}
-								>
-									{row.privilegio + row.cedula}
-								</Button>
-							</TableCell>
-							<TableCell>{row.name}</TableCell>
-							<TableCell>{row.lista}</TableCell>
-						</TableRow>
-					);
-				})}
-			</TableBody>
-		</Table>
-	);
+		<div style={{textAlign: 'center'}}>
+			<p>No hay estudiantes.</p>
+		</div>
+	)
 }
 
 /*

@@ -15,7 +15,7 @@ class CreateCursosDataTable extends Migration
     {
         Schema::create('cursos_data', function (Blueprint $table) {
             $table->char("curso_id", 10);
-            $table->char("curso_grado", 5);
+						$table->char("curso_name", 5);
             $table->char("curso_seccion", 3);
             $table->primary("curso_id");
         });
