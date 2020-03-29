@@ -6,13 +6,19 @@ import { Grid, Paper } from '@material-ui/core';
 //Componentes
 import RenderTableOk from './RenderTableOk';
 import RenderTableError, { RenderTableSearch } from './RenderTableStatus';
-import { RenderSelect } from '../../../../components/RendersGlobal';
+import SelectorRegistrosDisplay from './SelectorRegistrosDisplay';
 
 //Redux
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
+import updateLoading from '../../../../actions/updateLoading';
 
-function RenderRegistros({ dataLog, updateInputValue }) {
+//SnackBar
+import { useSnackbar } from 'notistack';
+
+function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 	//Destructing
 	const { selectSearch, dataTable, searching } = dataLog;
 
@@ -21,7 +27,7 @@ function RenderRegistros({ dataLog, updateInputValue }) {
 			let cancel = false;
 
 			//Iniciar effecto de busqueda.
-			updateInputValue(true, 'LOGS_SEARCHING');
+			updateLoading(true, 'LOGS_SEARCHING');
 			//Descargar datos
 			updateInputValue(null, 'LOGS_DATATABLE');
 
@@ -31,22 +37,35 @@ function RenderRegistros({ dataLog, updateInputValue }) {
 					//Consulta
 					const res = await axios.get(`api/logs?get=${option}`);
 
-					if (res.status !== 200) {
-						throw new Error(res.data);
-					}
-
 					if (!cancel) {
-						//Set datos
-						updateInputValue(res.data, 'LOGS_DATATABLE');
+						if (res.data.length > 0) {
+							//Set datos
+							updateInputValue(res.data, 'LOGS_DATATABLE');
+						}else {
+							enqueueSnackbar('No hay registros que mostrar', {
+								variant: 'info'
+							});
+						}
 					}
 				} catch (error) {
 					//Destructing
-					const { data } = error.response;
-
-					updateInputValue(data, 'LOGS_ERROR');
+					const { status, data } = error.response;
+					if (status === 403) {
+						enqueueSnackbar(data.description, {
+							variant: 'error'
+						});
+					}else if (status === 500) {
+						enqueueSnackbar('No se ha podido conectar con la base de datos', {
+							variant: 'error'
+						});
+					}else {
+						enqueueSnackbar('Error interno en el sistema', {
+							variant: 'error'
+						});
+					}
 				}
 				//Finalizar effecto de busqueda.
-				updateInputValue(false, 'LOGS_SEARCHING');
+				updateLoading(false, 'LOGS_SEARCHING');
 			};
 
 			//PETICION
@@ -63,10 +82,10 @@ function RenderRegistros({ dataLog, updateInputValue }) {
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
 				<Paper variant="outlined">
-					<SelectorRegistrosDisplay select={selectSearch} updateInputValue={updateInputValue} />
+					<SelectorRegistrosDisplay />
 				</Paper>
 			</Grid>
-			<Grid item xs={10}>
+			<Grid item xs={12} sm={10}>
 				<TableShow search={searching} dataTable={dataTable} />
 			</Grid>
 		</Grid>
@@ -99,53 +118,6 @@ function TableShow({ search, dataTable }) {
 		}
 	}
 }
-
-function SelectorRegistrosDisplay({ select, updateInputValue }) {
-	const handleChangeSelect = e => {
-		const value = e.target.value;
-
-		updateInputValue(value, 'LOGS_SELECT');
-	};
-
-	//Config de registros
-	const registSelect = {
-		name: 'registros',
-		values: [
-			{
-				value: 'all',
-				name: 'Todos'
-			},
-			{
-				value: 'bans',
-				name: 'Baneados'
-			},
-			{
-				value: 'session',
-				name: 'Inicio de sesión'
-			},
-			{
-				value: 'changePass',
-				name: 'Cambio de contraseña'
-			}
-		]
-	};
-
-	return (
-		<div className="Box">
-			<span className="title">Buscar Registros</span>
-			<div className="content">
-				<RenderSelect
-					action={handleChangeSelect}
-					val={select}
-					data={registSelect}
-					classNameSet="select"
-					customWidth="auto"
-					empty={false}
-				/>
-			</div>
-		</div>
-	);
-}
 //ERROR AQUÍ
 /* No se logra solucionar el error de que setRows consiga
 setear el valor de la DATA recibida, en espera de una solución.
@@ -165,7 +137,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue
+	updateInputValue,
+	updateLoading
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenderRegistros);

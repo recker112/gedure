@@ -19,7 +19,11 @@ class InfoBoxController extends Controller
 			
 			//Verificar usuario access
 			if ($privilegio === "V-"){
-				$jsonMessage = response('no_access', 401);
+				return response()->json([
+					'code' => 403,
+					'msg' => 'no_access',
+					'description' => 'No está autorizado'
+				], 403);
 			}
 			
 			/* QUERY's */
@@ -71,19 +75,14 @@ class InfoBoxController extends Controller
 			
 			//$show no valid
 			if (!isset($query)) {
-				$jsonMessage = [
-					'status' => 'error',
-					'msg' => 'option_not_valid'
-				];
-				return response()->json($jsonMessage);
+				return response()->json([
+					'code' => 400,
+					'msg' => 'option_not_valid',
+					'description' => 'Opción infobox no válida'
+				], 400);
 			}
 			
 			//All OK
-			$jsonMessage = [
-				'status' => 'ok',
-				'query' => $query
-			];
-			
-			return $jsonMessage;
+			return response()->json($query,200);
 		}
 }

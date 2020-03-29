@@ -77,7 +77,7 @@ class Logs extends Model
 					'user_privilegio as privilegio'
 				)
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
-				->orderBy('log_create_at', 'ASC')
+				->orderBy('log_create_at', 'DESC')
 				->get();
 		}
 		
