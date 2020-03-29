@@ -17,6 +17,10 @@ export const CursosList = [
 	},
 	{
 		value: '5G',
+		name: '5 grado'
+	},
+	{
+		value: '6G',
 		name: '6 grado'
 	},
 	{

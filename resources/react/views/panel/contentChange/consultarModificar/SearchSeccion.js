@@ -31,162 +31,47 @@ function SearchSeccion() {
 	const [loading, setLoading] = useState(false);
 	const [lista, setLista] = useState([]);
 	const [curso, setCurso] = useState('none');
+	const [error, setError] = useState('');
 
 	//Resolution RESPONSIVE DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	
+	const fetchData = async (curso)=>{
+		//Descargar lista
+		setLista([]);
+		try {
+			const res = await axios.get(`api/seccion/${curso}`);
+			
+			//Actualizar datos
+			setLista(res.data);
+			setCurso(ConverterCursoCode(curso));
+		} catch (error) {
+			const { status, data } = error.response;
+			
+			if (status === 403){
+				setError(data.description + '.');
+			}else if (status === 400){
+				setError(data.description + '.');
+			}else if (status === 500){
+				setError('No se ha podido conectar con la base de datos.');
+			}else {
+				setError('Error interno en el sistema.');
+			}
+		}
+		//Quitar loading
+		setLoading(false);
+	}
 
 	function handleChange(e) {
-		setSelect(e.target.value);
+		const curso = e.target.value;
+		setSelect(curso);
 
-		if (e.target.value !== '') {
+		if (curso !== '') {
 			setOpen(true);
 			setLoading(true);
 
-			setTimeout(() => {
-				const data = [
-					{
-						seccion: 'A',
-						estudiantes: [
-							{
-								cedula: '28432441',
-								name: 'Recker Ortiz',
-								lista: '1',
-								curso: '6',
-								seccion: 'A',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '94756213',
-								name: 'Fernando Ortiz',
-								lista: '2',
-								curso: '6',
-								seccion: 'A',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '84759302',
-								name: 'Castaño',
-								lista: '3',
-								curso: '6',
-								seccion: 'A',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '84750224',
-								name: 'Luis Hernandez',
-								lista: '4',
-								curso: '6',
-								seccion: 'A',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '94750224',
-								name: 'Maria ANTONIETA de las NIEVES',
-								lista: '5',
-								curso: '6',
-								seccion: 'A',
-								privilegio: 'V-'
-							}
-						]
-					},
-					{
-						seccion: 'B',
-						estudiantes: [
-							{
-								cedula: '29493812',
-								name: 'Recker Ortiz',
-								lista: '1',
-								curso: '6',
-								seccion: 'B',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '93013949814',
-								name: 'Fernando Ortiz',
-								lista: '2',
-								curso: '6',
-								seccion: 'B',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '818283123',
-								name: 'Castaño',
-								lista: '3',
-								curso: '6',
-								seccion: 'B',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '823184812',
-								name: 'Luis Hernandez',
-								lista: '4',
-								curso: '6',
-								seccion: 'B',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '11112914',
-								name: 'Maria ANTONIETA de las NIEVES',
-								lista: '5',
-								curso: '6',
-								seccion: 'B',
-								privilegio: 'V-'
-							}
-						]
-					},
-					{
-						seccion: 'C',
-						estudiantes: [
-							{
-								cedula: '29493812',
-								name: 'Recker Ortiz',
-								lista: '1',
-								curso: '6',
-								seccion: 'C',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '93013949814',
-								name: 'Fernando Ortiz',
-								lista: '2',
-								curso: '6',
-								seccion: 'C',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '818283123',
-								name: 'Castaño',
-								lista: '3',
-								curso: '6',
-								seccion: 'C',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '823184812',
-								name: 'Luis Hernandez',
-								lista: '4',
-								curso: '6',
-								seccion: 'C',
-								privilegio: 'V-'
-							},
-							{
-								cedula: '11112914',
-								name: 'Maria ANTONIETA de las NIEVES',
-								lista: '5',
-								curso: '6',
-								seccion: 'C',
-								privilegio: 'V-'
-							}
-						]
-					}
-				];
-
-				//Actualizar datos
-				setLista(data);
-				setCurso(ConverterCursoCode(e.target.value));
-				setLoading(false);
-			}, 3000);
+			fetchData(curso);
 		}
 	}
 
@@ -221,16 +106,33 @@ function SearchSeccion() {
 				<DialogContent dividers={true}>
 					{loading ? (
 						<DialogContentText id="popad-dialog-description">
-							<span>Buscando usuarios en la base de datos, por favor espere...</span>
+							<span>
+								Buscando usuarios en la base de datos, por favor espere...
+							</span>
 						</DialogContentText>
-					) : (
+					) : 
+					lista.length > 0 ?
+					(
 						<React.Fragment>
 							<DialogContentText id="popad-dialog-description">
-								<span>A continuación se muestran los estudiates encontrados en {curso}:</span>
+								<span>
+									A continuación se muestran los estudiates encontrados en {curso}:
+								</span>
 							</DialogContentText>
 							<TableShowInfoSecion data={lista} changeOpen={setOpen} />
 						</React.Fragment>
-					)}
+					)
+					:
+					(
+						<React.Fragment>
+							<DialogContentText id="popad-dialog-description">
+								<span>
+									{error}
+								</span>
+							</DialogContentText>
+						</React.Fragment>
+					)
+					}
 					{loading && <CircularProgress />}
 				</DialogContent>
         {!loading && 

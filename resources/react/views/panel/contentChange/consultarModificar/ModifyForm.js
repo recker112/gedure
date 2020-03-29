@@ -15,69 +15,84 @@ import updateLoading from '../../../../actions/updateLoading';
 import verifyEmpty from '../../../../actions/panel/modify/verifyEmpty';
 import errorInfo from '../../../../actions/errorInfo';
 
+function ModifyForm({ 
+	modifySection,
+	updateInputValue, 
+	updateLoading, 
+	errorInfo, 
+	verifyEmpty
+}) {
+	//Destruct
+	const { 
+		privilegio, 
+		cedula, 
+		name, 
+		option, 
+		curso, 
+		seccion, 
+		pass, 
+		loading, 
+		error 
+	} = modifySection;
 
-function ModifyForm({ modifySection, updateInputValue, updateLoading, errorInfo, verifyEmpty }) {
-  //Destruct
-	const { privilegio, cedula, name, option, curso, seccion, pass, loading, error } = modifySection;
-  
-  //Enviar datos
+	//Enviar datos
 	function handleSubmit(e) {
-    //Preparativos
-    e.preventDefault();
-    let errorStatus = false;
+		//Preparativos
+		e.preventDefault();
+		let errorStatus = false;
 
-    //Verificar datos
-    [
-      {
-        value: cedula, 
-        name: "cedula",
-        minValue: 7
-      },
-      {
-        value: pass, 
-        name: "pass",
-        minValue: 4
-      },
-      {
-        value: name, 
-        name: "name",
-        minValue: 3
-      },
-      {
-        value: curso, 
-        name: "curso",
-        minValue: 0
-      },
-      {
-        value: seccion, 
-        name: "seccion",
-        minValue: 0
-      }
-    ].map((input)=>{
-      if (input.value.length === 0) {
-        //Empty
-        errorInfo(input.name, "Campo obligatorio", "MODIFY");
-        errorStatus=true;
-      }else if (input.value.length < input.minValue) {
-        //No valid cédula
-        errorInfo(input.name, "No válido", "MODIFY");
-        errorStatus=true;
-      }
-      return null;
-    });
+		//Verificar datos
+		[
+			{
+				value: cedula,
+				name: 'cedula',
+				minValue: 7
+			},
+			{
+				value: pass,
+				name: 'pass',
+				minValue: 4
+			},
+			{
+				value: name,
+				name: 'name',
+				minValue: 3
+			},
+			{
+				value: curso,
+				name: 'curso',
+				minValue: 0
+			},
+			{
+				value: seccion,
+				name: 'seccion',
+				minValue: 0
+			}
+		].map(input => {
+			if (input.value.length === 0) {
+				//Empty
+				errorInfo(input.name, 'Campo obligatorio', 'MODIFY');
+				errorStatus = true;
+			} else if (input.value.length < input.minValue) {
+				//No valid cédula
+				errorInfo(input.name, 'No válido', 'MODIFY');
+				errorStatus = true;
+			}
+			return null;
+		});
 
-    if (errorStatus) {
-      return null;
-    }
+		if (errorStatus) {
+			return null;
+		}
 
-    //Enviar consulta
-		updateLoading(true,"MODIFY");
+		//Enviar consulta
+		updateLoading(true, 'MODIFY');
 	}
 
 	function handleChange(e) {
 		//Cambiar elemento
-    updateInputValue(e,"MODIFY");
-    verifyEmpty({ name: e.target.name, value: e.target.value })
+		updateInputValue(e, 'MODIFY');
+		verifyEmpty({ name: e.target.name, value: e.target.value });
 	}
 
 	//Config de Privilegios
@@ -142,8 +157,8 @@ function ModifyForm({ modifySection, updateInputValue, updateLoading, errorInfo,
 						<div>
 							<RenderInputs
 								data={{ val: cedula, name: 'cedula', label: 'Cédula' }}
-                accion={handleChange}
-                error={error.cedula}
+								accion={handleChange}
+								error={error.cedula}
 							/>
 						</div>
 					</Zoom>
@@ -154,8 +169,8 @@ function ModifyForm({ modifySection, updateInputValue, updateLoading, errorInfo,
 						<div>
 							<RenderInputs
 								data={{ val: name, name: 'name', label: 'Nombre' }}
-                accion={handleChange}
-                error={error.name}
+								accion={handleChange}
+								error={error.name}
 							/>
 						</div>
 					</Zoom>
@@ -166,8 +181,8 @@ function ModifyForm({ modifySection, updateInputValue, updateLoading, errorInfo,
 						<div>
 							<RenderInputs
 								data={{ val: pass, name: 'pass', label: 'Contraseña' }}
-                accion={handleChange}
-                error={error.pass}
+								accion={handleChange}
+								error={error.pass}
 							/>
 						</div>
 					</Zoom>
@@ -181,12 +196,22 @@ function ModifyForm({ modifySection, updateInputValue, updateLoading, errorInfo,
 				{/* CURSO */}
 				<Zoom in={privilegio === 'V-' ? true : false}>
 					<Grid item xs={5} sm={4} md={3}>
-						<RenderSelect action={handleChange} val={curso} data={cursoSelect} error={error.curso} />
+						<RenderSelect
+							action={handleChange}
+							val={curso}
+							data={cursoSelect}
+							error={error.curso}
+						/>
 					</Grid>
 				</Zoom>
 				<Zoom in={privilegio === 'V-' ? true : false}>
 					<Grid item xs={5} sm={4} md={3}>
-						<RenderSelect action={handleChange} val={seccion} data={seccionSelect} error={error.seccion} />
+						<RenderSelect
+							action={handleChange}
+							val={seccion}
+							data={seccionSelect}
+							error={error.seccion}
+						/>
 					</Grid>
 				</Zoom>
 			</Grid>
@@ -205,9 +230,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	updateInputValue,
-  updateLoading,
-  errorInfo,
-  verifyEmpty
+	updateLoading,
+	errorInfo,
+	verifyEmpty
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModifyForm);

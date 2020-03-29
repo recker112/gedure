@@ -30,4 +30,9 @@ Route::middleware('auth:api')->get('/infobox/announcebox', 'InfoBoxController@ge
 
 /* LOGS */
 //GetLogs
-ROUTE::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
+Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
+
+/* Modify */
+//GetUsers
+Route::middleware('auth:api')->get('/user/{userSearch}', 'ModifyUserController@searchUser');
+Route::middleware('auth:api')->get('/seccion/{seccion}', 'ModifyUserController@searchSeccion');

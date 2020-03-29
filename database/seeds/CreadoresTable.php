@@ -16,5 +16,10 @@ class CreadoresTable extends Seeder
             'creador_name' => "ReckerSOTE",
             'creador_cedula' => "reckersote",
         ]);
+			
+				DB::table('creadores_data')->insert([
+            'creador_name' => "BANEADO",
+            'creador_cedula' => "banUser",
+        ]);
     }
 }

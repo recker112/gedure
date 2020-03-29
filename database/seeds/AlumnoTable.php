@@ -17,7 +17,7 @@ class AlumnoTable extends Seeder
             'alumno_n_lista' => '1',
             'alumno_horario_status' => false,
             'alumno_nota_status' => true,
-            'alumno_curso' => 'C_1A',
+            'alumno_curso' => 'C-1-A',
         ]);
     }
 }

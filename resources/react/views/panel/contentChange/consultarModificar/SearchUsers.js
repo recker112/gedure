@@ -10,52 +10,56 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
 
-function SearchUsers({updateInputValue}) {
+//SnackBar
+import { useSnackbar } from 'notistack';
+
+function SearchUsers({ updateInputValue }) {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const loading = open && options.length === 0;
+
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
 	//Buscar DATA
 	useEffect(
 		() => {
 			let cancel = false;
-			setTimeout(() => {
-				if (loading && !cancel) {
-					setOptions([
-						{
-              cedula: '213142',
-              combiCedula: 'V-213142',
-							name: 'luis',
-							//AÑadir ESTO en caso de querer buscar la cedula
-							//con el privilegio incluido.
-							//combiCedula: 'V-213142',
-							privilegio: 'V-',
-							curso: '6',
-							seccion: 'C'
-						},
-						{
-              cedula: '2434144',
-              combiCedula: 'V-2434144',
-							name: 'ale',
-							privilegio: 'V-',
-							curso: '3G',
-							seccion: 'U'
-						},
-						{
-              cedula: '3029472',
-              combiCedula: 'CR-3029472',
-							name: 'Fernando',
-							privilegio: 'CR-'
-						},
-						{
-              cedula: '3939484',
-              combiCedula: 'A-3939484',
-							name: 'Alverto',
-							privilegio: 'A-'
-						}
-					]);
+
+			const fetchData = async () => {
+				try {
+					const res = await axios.get('api/user/all');
+
+					if (!cancel) {
+						setOptions(res.data);
+					}
+				} catch (error) {
+					const { status, data } = error.response;
+
+					if (status === 403) {
+						enqueueSnackbar(data.description, {
+							variant: 'error'
+						});
+					}if (status === 401) {
+						enqueueSnackbar('No estás autorizado', {
+							variant: 'error'
+						});
+					} else if (status === 500) {
+						enqueueSnackbar('No se ha podido conectar con la base de datos', {
+							variant: 'error'
+						});
+					} else {
+						enqueueSnackbar('Error interno en el sistema', {
+							variant: 'error'
+						});
+					}
 				}
-			}, 2000);
+			};
+			
+			//Realizar consulta
+			if(loading) {
+				fetchData();
+			}
 			return () => {
 				cancel = true;
 			};
@@ -72,12 +76,12 @@ function SearchUsers({updateInputValue}) {
 		},
 		[open]
 	);
-	
+
 	const handleClick = user => {
-    if (user !== null) {
-      updateInputValue(user,'MODIFY_EXTERNO');
-    }
-	}
+		if (user !== null) {
+			updateInputValue(user, 'MODIFY_EXTERNO');
+		}
+	};
 
 	return (
 		<div className="searchUser">
@@ -88,12 +92,15 @@ function SearchUsers({updateInputValue}) {
 				loadingText="Cargando..."
 				noOptionsText="Sin resultados"
 				//Data a usar para el autocompletado
-        options={options}
-        onChange={(e,user)=>{
-          handleClick(user);
-        }}
+				options={options}
+				onChange={(e, user) => {
+					console.log(user);
+					handleClick(user);
+				}}
 				//Texto a mostrar al seleccionar un resultado.
-				getOptionLabel={option => {return `${option.privilegio}${option.cedula}`}}
+				getOptionLabel={option => {
+					return `${option.privilegio}${option.cedula}`;
+				}}
 				//Renderizar texto en la caja del autocompletado.
 				renderOption={option => (
 					<div className="searchBoxInfo">
@@ -145,4 +152,4 @@ const mapDispatchToProps = {
 	updateInputValue
 };
 
-export default connect(null,mapDispatchToProps)(SearchUsers);
+export default connect(null, mapDispatchToProps)(SearchUsers);
