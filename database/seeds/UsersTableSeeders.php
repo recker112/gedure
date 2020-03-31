@@ -18,7 +18,7 @@ class UsersTableSeeders extends Seeder
             'user_cedula' => "recker",
             'user_privilegio' => "V-",
             'user_password' => User::encript_password('jenn'),
-            'validate_at' => now(),
+            'create_at' => now(),
 						'api_token' => Str::random(70)
         ]);
 
@@ -26,7 +26,7 @@ class UsersTableSeeders extends Seeder
             'user_cedula' => "reckersito",
             'user_privilegio' => "A-",
             'user_password' => User::encript_password('jenn'),
-            'validate_at' => now(),
+            'create_at' => now(),
 					  'api_token' => Str::random(70)
         ]);
 
@@ -34,7 +34,7 @@ class UsersTableSeeders extends Seeder
             'user_cedula' => "reckersote",
             'user_privilegio' => "CR-",
             'user_password' => User::encript_password('jenn'),
-            'validate_at' => now(),
+            'create_at' => now(),
 						'api_token' => Str::random(70)
         ]);
 
@@ -42,7 +42,7 @@ class UsersTableSeeders extends Seeder
             'user_cedula' => "banUser",
             'user_privilegio' => "CR-",
             'user_password' => User::encript_password('jenn'),
-            'validate_at' => now(),
+            'create_at' => now(),
 						'api_token' => Str::random(70)
         ]);
     }
