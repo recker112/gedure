@@ -88,6 +88,14 @@ function ModifyForm({
 		//Enviar consulta
 		updateLoading(true, 'MODIFY');
 	}
+	
+	const fetchData = async () => {
+		try {
+			
+		} catch (error) {
+			
+		}
+	}
 
 	function handleChange(e) {
 		//Cambiar elemento

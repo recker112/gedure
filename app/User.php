@@ -25,16 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'user_password', 'api_token', 'validate_at'
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
+        'user_password', 'api_token'
     ];
 
 		/**
@@ -50,6 +41,13 @@ class User extends Authenticatable
      * @var string
      */
 		protected $keyType = 'string';
+	
+		/**
+     * The attributes that should be cast to native types.
+     *
+     * @var boolean
+     */
+		public $timestamps = false;
 
     //Encriptado de contraseña.
     protected static function encript_password($password, $register = true){

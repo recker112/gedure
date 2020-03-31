@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AdminsData extends Model
+class CreadoresData extends Model
 {
-  protected $primaryKey = 'admin_id';
+  /**
+	*
+	* @var string
+	*/
+  protected $primaryKey = 'creador_id';
 	
 	/**
 	* The attributes that should be cast to native types.

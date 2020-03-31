@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->enum("user_privilegio", ["V-", "A-", "CR-"]);
             $table->char("user_password", 100);
             $table->char("api_token", 70)->nullable()->unique();
-            $table->dateTime('validate_at', 0);
+            $table->dateTime('create_at', 0);
             $table->primary("user_cedula");
         });
     }

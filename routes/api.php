@@ -35,4 +35,7 @@ Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
 /* Modify */
 //GetUsers
 Route::middleware('auth:api')->get('/user/{userSearch}', 'ModifyUserController@searchUser');
+//GetUsersForSeccion
 Route::middleware('auth:api')->get('/seccion/{seccion}', 'ModifyUserController@searchSeccion');
+//AddUser
+Route::middleware('auth:api')->post('/user', 'ModifyUserController@addUser');
