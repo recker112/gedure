@@ -117,9 +117,10 @@ function Form({
 	//Al desmontar
 	useEffect(()=>{
 		return ()=>{
+			console.log("hola");
 			cancel = true;
 		}
-	})
+	},[cancel])
 
 	//Verificar si se redireccionará o no.
 	if (auth) {

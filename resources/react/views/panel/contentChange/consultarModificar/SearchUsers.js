@@ -94,7 +94,6 @@ function SearchUsers({ updateInputValue }) {
 				//Data a usar para el autocompletado
 				options={options}
 				onChange={(e, user) => {
-					console.log(user);
 					handleClick(user);
 				}}
 				//Texto a mostrar al seleccionar un resultado.

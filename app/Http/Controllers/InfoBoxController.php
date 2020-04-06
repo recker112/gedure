@@ -22,7 +22,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 403,
 					'msg' => 'no_access',
-					'description' => 'No está autorizado'
+					'description' => 'No estรก autorizado'
 				], 403);
 			}
 			
@@ -34,7 +34,9 @@ class InfoBoxController extends Controller
 			
 			//Total Studients Block
 			if ($show === 'StudientsBlock') {
-				$query = Ban::join('users', 'bans_data.ban_cedula', '=', 'users.user_cedula')
+				$query = Ban::where('ban_locks', '<', 5)
+					->where('user_privilegio', 'V-')
+					->join('users', 'bans_data.ban_cedula', '=', 'users.user_cedula')
 					->count();
 			}
 			
@@ -57,7 +59,9 @@ class InfoBoxController extends Controller
 				if ($privilegio === 'A-') {
 					//querys
 					$StudientsTotal = User::where('user_privilegio', 'V-')->count();
-					$StudientsBlock = Ban::join('users', 'bans_data.ban_cedula', '=', 'users.user_cedula')
+					$StudientsBlock = Ban::where('ban_locks', '<', 5)
+					->where('user_privilegio', 'V-')
+					->join('users', 'bans_data.ban_cedula', '=', 'users.user_cedula')
 					->count();
 					$StudientsPermaBlock = Ban::where('ban_locks', '>=', 5)->count();
 					$PublicNotice = NewsData::where('new_owner', $cedula)->count();
@@ -78,7 +82,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 400,
 					'msg' => 'option_not_valid',
-					'description' => 'Opción infobox no válida'
+					'description' => 'Opciรณn infobox no vรกlida'
 				], 400);
 			}
 			

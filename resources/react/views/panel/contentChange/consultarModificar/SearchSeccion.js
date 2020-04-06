@@ -20,7 +20,7 @@ import ConverterCursoCode from '../../../../components/ConverterCursoCode';
 import { CursosList } from '../../../../components/ListDataGlobal';
 import { RenderSelect } from '../../../../components/RendersGlobal';
 
-//Animación
+//Animaciรณn
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -41,7 +41,7 @@ function SearchSeccion() {
 		//Descargar lista
 		setLista([]);
 		try {
-			const res = await axios.get(`api/seccion/${curso}`);
+			const res = await axios.get(`api/curso/${curso}`);
 			
 			//Actualizar datos
 			setLista(res.data);
@@ -116,7 +116,7 @@ function SearchSeccion() {
 						<React.Fragment>
 							<DialogContentText id="popad-dialog-description">
 								<span>
-									A continuación se muestran los estudiates encontrados en {curso}:
+									A continuaciรณn se muestran los estudiates encontrados en {curso}:
 								</span>
 							</DialogContentText>
 							<TableShowInfoSecion data={lista} changeOpen={setOpen} />
