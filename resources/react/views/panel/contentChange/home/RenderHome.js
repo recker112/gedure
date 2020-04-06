@@ -116,7 +116,7 @@ function RenderAnnounceBox() {
 		{
 			background: '#FC4850',
 			text: 'Estudiantes bloqueados permanentemente',
-			data: query.StudientsTotal
+			data: query.StudientsPermaBlock
 		},
 		{
 			background: '#b448fc',

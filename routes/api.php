@@ -35,7 +35,11 @@ Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
 /* Modify */
 //GetUsers
 Route::middleware('auth:api')->get('/user/{userSearch}', 'ModifyUserController@searchUser');
-//GetUsersForSeccion
-Route::middleware('auth:api')->get('/seccion/{seccion}', 'ModifyUserController@searchSeccion');
+//GetUsersForCurso
+Route::middleware('auth:api')->get('/curso/{cursoSearch}', 'ModifyUserController@searchStudiendsForCurso');
 //AddUser
 Route::middleware('auth:api')->post('/user', 'ModifyUserController@addUser');
+//UpdateUser
+Route::middleware('auth:api')->patch('/user/{userSearch}', 'ModifyUserController@updateUser');
+//DeleteUser
+Route::middleware('auth:api')->delete('/user/{userSearch}', 'ModifyUserController@deleteUser');

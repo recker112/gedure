@@ -13,10 +13,10 @@ class EstudianteTable extends Seeder
     public function run()
     {
         DB::table('estudiantes_data')->insert([
-            'estudiante_name' => 'Reckersito Ortiz',
+            'estudiante_name' => 'Recker Ortiz',
             'estudiante_avatar' => null,
             'estudiante_cedula' => 'recker',
-            'estudiante_alumno_id' => 'E_1A_1'
+            'estudiante_alumno_id' => 'E-1A-1'
         ]);
     }
 }

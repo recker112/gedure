@@ -25,4 +25,19 @@ class EstudiantesData extends Model
 	 * @var boolean
 	 */
 	public $timestamps = false;
+	
+	public function orderCursos($curso){
+		$studiendsInCurso = EstudiantesData::where('estudiante_alumno_id', 'LIKE','E-'.$curso.'%')
+			->orderBy('estudiante_cedula', 'ASC')
+			->get();
+		
+		$list = 1;
+		foreach ($studiendsInCurso as $row) {
+			$row->estudiante_alumno_id = 'E-'.$curso.'-'.$list;
+			$row->save();
+			$list++;
+		}
+		
+		return $studiendsInCurso;
+	}
 }

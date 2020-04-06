@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //Components
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
@@ -14,6 +14,9 @@ import updateInputValue from '../../../../actions/updateInputValue';
 import updateLoading from '../../../../actions/updateLoading';
 import verifyEmpty from '../../../../actions/panel/modify/verifyEmpty';
 import errorInfo from '../../../../actions/errorInfo';
+
+//SnackBar
+import { useSnackbar } from 'notistack';
 
 function ModifyForm({ 
 	modifySection,
@@ -34,6 +37,78 @@ function ModifyForm({
 		loading, 
 		error 
 	} = modifySection;
+	
+	//Cancel
+	let cancel = false;
+	
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
+	
+	//Al desmontar
+	useEffect(()=>{
+		return ()=>{
+			cancel=true;
+		}
+	}, [cancel])
+	
+	//FetchData
+	const fetchData = async () => {
+		try {
+			//Inicar datos
+			const dataForm = {
+				cedula,
+				privilegio,
+				name,
+				pass,
+				curso,
+				seccion
+			}
+			
+			//Inicializar res
+			let res;
+			
+			//Elegir consulta
+			if (option === 'insert'){
+				res = await axios.post('api/user', dataForm);
+			}else if (option === 'update'){
+				res = await axios.patch(`api/user/${cedula}`, dataForm);
+			}else if (option === 'delete'){
+				res = await axios.delete(`api/user/${cedula}`, {
+					data: dataForm
+				});
+			}
+			
+			if (!cancel){
+				const { status, data } = res;
+				//Mostar alerta
+				enqueueSnackbar(data.description, {
+					variant: 'success'
+				});
+			}
+		} catch (error) {
+			const { status, data } = error.response;
+			
+			if (status === 403){
+				enqueueSnackbar(data.description, {
+					variant: 'error'
+				});
+			}else if (status === 400){
+				enqueueSnackbar(data.description, {
+					variant: 'warning'
+				});
+			}else if (status === 500){
+				enqueueSnackbar('No se ha podido conectar con la base de datos', {
+					variant: 'error'
+				});
+			}else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+		//Quitar loading
+		updateLoading(false, 'MODIFY');
+	}
 
 	//Enviar datos
 	function handleSubmit(e) {
@@ -87,14 +162,7 @@ function ModifyForm({
 
 		//Enviar consulta
 		updateLoading(true, 'MODIFY');
-	}
-	
-	const fetchData = async () => {
-		try {
-			
-		} catch (error) {
-			
-		}
+		fetchData();
 	}
 
 	function handleChange(e) {
