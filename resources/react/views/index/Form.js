@@ -56,6 +56,11 @@ function Form({
 			}
 			return null;
 		});
+		
+		//Verificar que estén los datos.
+		if (error === true) {
+			return null;
+		}
 
 		//Loading
 		updateLoading(true, 'LOGIN');
@@ -117,7 +122,6 @@ function Form({
 	//Al desmontar
 	useEffect(()=>{
 		return ()=>{
-			console.log("hola");
 			cancel = true;
 		}
 	},[cancel])

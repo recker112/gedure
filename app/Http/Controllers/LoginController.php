@@ -83,8 +83,9 @@ class LoginController extends Controller
         $privilegio = Auth::user()->user_privilegio;
 
         //Obtener datos.
-        $dataUser = $UserModel->getUserData($privilegio,$cedula);
-
+        $dataUser = $UserModel->getUserData($privilegio, $cedula);
+			return $dataUser;
+			
 				//Verificar que el privilegio de esa persona esté registrado.
         if ($dataUser === null) {
             $jsonMessage = [
@@ -114,7 +115,8 @@ class LoginController extends Controller
 
         //Obtener datos.
         $privilegio = request()->user()->user_privilegio;
-        $dataUser = $UserModel->getUserData($privilegio);
+				$cedula = request()->user()->user_cedula;
+        $dataUser = $UserModel->getUserData($privilegio,$cedula);
 
         //Verificaciones extras
 

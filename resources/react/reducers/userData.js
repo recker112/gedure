@@ -1,7 +1,6 @@
 //Inicar valor del state.
 const initialState = {
   cedula: '',
-  cedulaSin: '',
   name: '',
   curso: '',
   seccion: '',
@@ -10,7 +9,7 @@ const initialState = {
   profeGuia: '',
   privilegio: '',
   avatar: '',
-  access_key: '',
+  access_key: ''
 };
 
 // action es el valor devuelto por el action

@@ -147,6 +147,21 @@ function ReloginVerify({
 	}
 
 	//Al no estar verificado.
+	//Void data
+	const voidData = {
+		cedula: '',
+		name: '',
+		curso: '',
+		seccion: '',
+		nota: '',
+		horario: '',
+		profeGuia: '',
+		privilegio: '',
+		avatar: '',
+		access_key: ''
+	}
+	//Limpar datos guardados anteriormente
+	updateDataUser(voidData);
 	clearAllData();
 	return <Redirect to={{ pathname: '/' }} />;
 }
