@@ -32,7 +32,7 @@ Route::middleware('auth:api')->get('/infobox/announcebox', 'InfoBoxController@ge
 //GetLogs
 Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
 
-/* Modify */
+/* MODIFY */
 //GetUsers
 Route::middleware('auth:api')->get('/user/{userSearch}', 'ModifyUserController@searchUser');
 //GetUsersForCurso
@@ -43,3 +43,7 @@ Route::middleware('auth:api')->post('/user', 'ModifyUserController@addUser');
 Route::middleware('auth:api')->patch('/user/{userSearch}', 'ModifyUserController@updateUser');
 //DeleteUser
 Route::middleware('auth:api')->delete('/user/{userSearch}', 'ModifyUserController@deleteUser');
+
+/* UPLOADS */
+//Upload Matricula
+Route::middleware('auth:api')->post('/upload/matricula', 'UploadController@uploadMatricula');

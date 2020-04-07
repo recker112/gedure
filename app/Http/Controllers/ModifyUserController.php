@@ -9,6 +9,7 @@ use App\CursosData;
 use App\AdminsData;
 use App\EstudiantesData;
 use App\CreadoresData;
+use App\Logs;
 
 class ModifyUserController extends Controller
 {
@@ -187,7 +188,7 @@ class ModifyUserController extends Controller
 			$adminData->admin_cedula = $cedula;
 			
 			$adminData->save();
-		}else if ($privilegio === 'A-') {
+		}else if ($privilegio === 'CR-') {
 			//Datos
 			$creaData->creador_name = $name;
 			$creaData->creador_cedula = $cedula;
@@ -200,6 +201,12 @@ class ModifyUserController extends Controller
 				'description' => "No se ha registrado el privilegio $privilegio en el sistema"
 			], 400);
 		}
+		
+		//LOG
+		$Log = new Logs;
+		$Log->log_cedula = request()->user()->user_cedula;
+		$Log->log_action = 'Usuario '.$privilegio.$cedula.' creado.';
+		$Log->save();
 		
 		return response()->json([
 			'code' => 201,
@@ -288,13 +295,13 @@ class ModifyUserController extends Controller
 			}
 		}else if ($privilegio === 'A-') {
 			//Search Admins
-			$admin = $adminData->where('admin_cedula', $cedula);
+			$admin = $adminData->where('admin_cedula', $cedula)->first();
 			//Datos
 			$admin->admin_name = $name;
 			
 			$admin->save();
-		}else if ($privilegio === 'A-') {
-			$creador = $creadoresData->where('creador_cedula', $cedula);
+		}else if ($privilegio === 'CR-') {
+			$creador = $creadoresData->where('creador_cedula', $cedula)->first();
 			//Datos
 			$creador->creador_name = $name;
 			
@@ -307,6 +314,11 @@ class ModifyUserController extends Controller
 			], 400);
 		}
 		
+		//LOG
+		$Log = new Logs;
+		$Log->log_cedula = request()->user()->user_cedula;
+		$Log->log_action = 'Usuario '.$privilegio.$cedula.' modificado.';
+		$Log->save();
 		return response()->json([
 			'code' => 200,
 			'msg' => 'user_updated',
@@ -377,6 +389,11 @@ class ModifyUserController extends Controller
 			$estuData->orderCursos($cursoActual[1]);
 		}
 		
+		//LOG
+		$Log = new Logs;
+		$Log->log_cedula = request()->user()->user_cedula;
+		$Log->log_action = 'Usuario '.$privilegio.$cedula.' eliminado.';
+		$Log->save();
 		return response()->json([
 			'code' => 200,
 			'msg' => 'user_deleted',

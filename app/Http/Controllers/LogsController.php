@@ -43,9 +43,10 @@ class LogsController extends Controller
 				
 				//Variables
 				$privilegio = $index->privilegio;
+				$cedula = $index->cedula;
 				
 				//Obtener datos
-				$dataUser = $User->getUserData($privilegio);
+				$dataUser = $User->getUserData($privilegio,$cedula);
 				
 				if ($privilegio === 'V-') {
 					//Setear datos

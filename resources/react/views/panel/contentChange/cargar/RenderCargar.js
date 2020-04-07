@@ -28,6 +28,44 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
     //Actualizar
     updateInputValue(e,'UPLOAD');
   }
+	
+	const fetchData = async (dataForm, type) => {
+		try {
+			let res;
+			
+			if (type === 'matricula'){
+				res = await axios.post('api/upload/matricula', dataForm);
+			}else if (type == 'boletas'){
+				res = await axios.post('api/upload/boletas', dataForm);
+			}
+			
+			enqueueSnackbar(res.data, {
+				variant: 'success'
+			});
+		} catch (error) {
+			const { status, data } = error.response;
+
+			if (status === 400) {
+				enqueueSnackbar(data.description, {
+					variant: 'warning'
+				});
+			} else if (status === 422) {
+				enqueueSnackbar(data.description, {
+					variant: 'error'
+				});
+			} else if (status === 500) {
+				enqueueSnackbar('No se ha podido conectar con la base de datos', {
+					variant: 'error'
+				});
+			} else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+		//Loading Toggle
+    updateLoading(false,"UPLOAD");
+	}
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -59,6 +97,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
       return null;
     });
 
+		//Verificar que no existan errores en los datos
     if (errorStatus){
       return null;
     }
@@ -67,7 +106,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
     updateLoading(true,"UPLOAD");
 
     //Config
-    const formData = new FormData();
+    let formData = new FormData();
     const maxPerList = 20;
     const listArchivos = files.length;
 
@@ -97,15 +136,19 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
       }
     } else {
       //Envio individual de archivos
+			
+			//Guardar todos los archivos en un array
       for (let i = 0; i < files.length; i++) {
         const archivo = files[i];
-        formData.append("files", archivo);
+        formData.append("files[]", archivo);
       }
+			//Data
+			formData.append("curso", curso);
+			formData.append("seccion", seccion);
+			
       //ENVIAR AJAX
-      console.log(`Lista enviada correctamente!!`);
+      fetchData(formData,option);
     }
-    //Loading Toggle
-    updateLoading(false,"UPLOAD");
   }
 
   return (
@@ -123,7 +166,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
                 <Grid container spacing={2} justify="center">
                   <Grid item xs={12}>
                     <LoadArchives 
-                      accepted={option === "matricula" ? '.csv' : '.pdf'}
+                      accepted={option === "matricula" ? '.csv,.xls,.xlsx' : '.pdf'}
                       idName="uploadFiles"
                       reset={option} 
                       files={files} 

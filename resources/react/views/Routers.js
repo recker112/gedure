@@ -11,8 +11,8 @@ const PagePanel = lazy(() => import(/* webpackChunkName: "Panel" */ './panel/Pag
 function Routers() {
 	return (
 		/* Switch sirve para escojer la ruta la que mas se acerque a la
-    ruta actual, es decir, que de todas esas rutas, la app escogerรก
-    la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
+    ruta actual, es decir, que de todas esas rutas, la app escogerá
+    la que más se asemeje, excepto si se coloca el atributo "exact" */
 		<Suspense fallback={<Loader />}>
 			<Switch>
 				<Route exact path="/" component={PageIndex} />

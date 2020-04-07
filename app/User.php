@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_cedula', 'password',
+      'user_cedula', 
+			'user_privilegio', 
+			'create_at',
+			'user_password',
+			'api_token',
     ];
 
     /**
@@ -78,7 +82,7 @@ class User extends Authenticatable
         return $this->user_password;
     }
 
-    public function getUserData($privilegio)
+    public function getUserData($privilegio, $cedula)
     {
         switch ($privilegio) {
             case 'V-':
@@ -95,6 +99,7 @@ class User extends Authenticatable
 									'alumno_nota_status as nota', 
 									'alumno_horario_status as horario', 
 									'profe_guia_name as profeGuia')
+										->where('user_cedula', $cedula)
                     ->join(
 											'estudiantes_data', 
 											'users.user_cedula', 
@@ -119,7 +124,7 @@ class User extends Authenticatable
 											'=', 
 											'profes_guias_data.profe_guia_id'
 										)
-                    ->first();
+										->first();
                 break;
 
             case 'A-':
@@ -131,12 +136,13 @@ class User extends Authenticatable
 									'admin_name as name', 
 									'admin_avatar as avatar'
 								)
+									->where('user_cedula', $cedula)
                 	->join('admins_data', 
 												 'users.user_cedula', 
 												 '=', 
 												 'admins_data.admin_cedula'
 												)
-                  ->first();
+									->first();
                 break;
 
             case 'CR-':
@@ -148,12 +154,13 @@ class User extends Authenticatable
 									'creador_name as name', 
 									'creador_avatar as avatar'
 								)
+									->where('user_cedula', $cedula)
                   ->join('creadores_data', 
 												 'users.user_cedula',
 												 '=', 
 												 'creadores_data.creador_cedula'
 												)
-                  ->first();
+									->first();
                 break;
 
             default:

@@ -37,7 +37,6 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
 	const handleSelected = e => {
 		const option = e.target.dataset.option;
 		if (option === 'logout') {
-			clearAllData();
 			enqueueSnackbar('Sección cerrada', {
 				variant: 'info'
 			});

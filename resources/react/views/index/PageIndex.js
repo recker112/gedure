@@ -22,7 +22,7 @@ function PageIndex({ auth, reloginSuccess }) {
 							<span className="IconBoxIndex">
 								<LockIcon style={{ fontSize: 40 }} />
 							</span>
-							<span className="TitleIndex">La Candelaria</span>
+							<h1 className="TitleIndex">La Candelaria</h1>
 						</div>
 					</Zoom>
 					<Form />
