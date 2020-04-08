@@ -39,7 +39,9 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				res = await axios.post('api/upload/boletas', dataForm);
 			}
 			
-			enqueueSnackbar(res.data, {
+			const { description } = res.data;
+			
+			enqueueSnackbar(description, {
 				variant: 'success'
 			});
 		} catch (error) {
@@ -48,6 +50,10 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 			if (status === 400) {
 				enqueueSnackbar(data.description, {
 					variant: 'warning'
+				});
+			}else if (status === 403) {
+				enqueueSnackbar(data.description, {
+					variant: 'error'
 				});
 			} else if (status === 422) {
 				enqueueSnackbar(data.description, {
@@ -166,13 +172,13 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
                 <Grid container spacing={2} justify="center">
                   <Grid item xs={12}>
                     <LoadArchives 
-                      accepted={option === "matricula" ? '.csv,.xls,.xlsx' : '.pdf'}
+                      accepted={option === "matricula" ? '.csv,.xls,.xlsx,.ods' : '.pdf'}
                       idName="uploadFiles"
                       reset={option} 
                       files={files} 
                       action={updateInputValue}
                       multiple={option === "matricula" ? false : true}
-                      maxSizeFile={{unique: "30KB", multiple: "2MB"}}
+                      maxSizeFile={{unique: "5MB", multiple: "2MB"}}
                       label={{unique: 'matricula', multiple: 'boletas'}}
                       name="files"
                       type="UPLOAD"

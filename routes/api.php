@@ -47,3 +47,7 @@ Route::middleware('auth:api')->delete('/user/{userSearch}', 'ModifyUserControlle
 /* UPLOADS */
 //Upload Matricula
 Route::middleware('auth:api')->post('/upload/matricula', 'UploadController@uploadMatricula');
+
+/* GETS ARCHIVES */
+Route::middleware('auth:api')->get('/matricula/{file}', 'getArchivesController@getMatricula');
+Route::get('/imagenes/{img}', 'getArchivesController@getImg');

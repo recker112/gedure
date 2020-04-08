@@ -16,7 +16,7 @@ class CreateCreadoresDataTable extends Migration
         Schema::create('creadores_data', function (Blueprint $table) {
             $table->id('creador_id');
             $table->char('creador_name', 50);
-            $table->char('creador_avatar', 75)->nullable()->default(null);
+            $table->string('creador_avatar', 300)->nullable()->default(null);
         });
     }
 
