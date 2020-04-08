@@ -16,7 +16,7 @@ class CreateEstudiantesDataTable extends Migration
         Schema::create('estudiantes_data', function (Blueprint $table) {
             $table->id("estudiante_id");
             $table->char("estudiante_name", 50);
-            $table->char("estudiante_avatar", 75)->nullable()->default(null);
+            $table->string("estudiante_avatar", 300)->nullable()->default(null);
         });
     }
 

@@ -16,7 +16,7 @@ class CreateAdminsDataTable extends Migration
         Schema::create('admins_data', function (Blueprint $table) {
             $table->id("admin_id");
             $table->char("admin_name", 50);
-            $table->char("admin_avatar", 75)->nullable()->default(null);
+            $table->string("admin_avatar", 300)->nullable()->default(null);
         });
     }
 
