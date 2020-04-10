@@ -26,7 +26,7 @@ function RenderHeaderNoAuth() {
         </span>
         <span className="IconBoxButton">
           <Link to="/login">
-          <Tooltip title="Login" arrow>
+          <Tooltip title="Login" arrow leaveDelay={200}>
               <IconButton>
                 <VpnKeyIcon />
               </IconButton>

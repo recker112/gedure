@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//Storage
+use Illuminate\Support\Facades\Storage;
 
 class GetArchivesController extends Controller
 {
-  public function getImg($img)
+  public function getImg($dir, $img)
 	{
 		//Config datos
 		$extension = request()->extension;
-		$dir = 'avatars';
 		$baseDir = 'dataStorage';
 		
-		//Verificar que existe una extensión
+		//Verificar que existe una extensiรณn
 		if (empty($extension)) {
 			$extension = "jpg";
 		}
@@ -45,7 +46,7 @@ class GetArchivesController extends Controller
 			], 403);
 		}
 		
-		//Verificar que existe una extensión
+		//Verificar que existe una extensiรณn
 		if (empty($extension)) {
 			$extension = "xlsx";
 		}
