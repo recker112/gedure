@@ -22,14 +22,14 @@ function ButtonTheme({tema, updateTheme}) {
     updateTheme()
 
     //Aplicar los cambios del State en el almacenamiento local 
-    //para que al recargar la página los cambios hechos se 
+    //para que al recargar la pรกgina los cambios hechos se 
     //mantengan.
     localStorage.setItem("theme", changeThemeTo);
   }
 
   const mode = tema === 'dark' ? 'Claro' : 'Nocturno';
   return (
-  <Tooltip title={`Modo ${mode}`} arrow enterDelay={1000}>
+  <Tooltip title={`Modo ${mode}`} arrow leaveDelay={200}>
     <IconButton onClick={useDarkMode}>
       <WbIncandescentIcon />
     </IconButton>

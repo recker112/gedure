@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
 
 
-function ContentAvatar({ data, response, updateInputValue, currentAvatar, name }) {
+function ContentAvatar({ data, loading, updateInputValue, currentAvatar, name }) {
   const { file } = data;
   const [imgPreview, setImgPreview] = useState(currentAvatar);
 
@@ -21,12 +21,12 @@ function ContentAvatar({ data, response, updateInputValue, currentAvatar, name }
       <Grid item xs={12} style={{ textAlign: "center" }}>
         <LoadArchives 
           accepted="image/*"
-          reset={response} 
+          reset={loading} 
           files={file} 
           action={updateInputValue} 
           updatePreview={{ update: setImgPreview, currentAvatar }} 
           multiple={false} 
-          maxSizeFile={{ unique: "5MB", multiple: "5MB" }} 
+          maxSizeFile={{ unique: "3MB", multiple: "3MB" }} 
           label={{ unique: 'foto', multiple: 'foto' }} 
           name="file"
           idName="avatarUser"
@@ -48,6 +48,7 @@ function ContentAvatar({ data, response, updateInputValue, currentAvatar, name }
 //REDUX
 const mapStateToProps = (state) => ({
   data: state.panelSettings.menuUser.sections.avatar,
+	loading: state.panelSettings.menuUser.loading,
   currentAvatar: state.userData.avatar,
   name: state.userData.name,
 })

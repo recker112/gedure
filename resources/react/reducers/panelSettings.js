@@ -119,7 +119,6 @@ const initialState = {
   menuUser: {
     openDialog: false,
     option: null,
-    response: false,
     loading: false,
     sections: {
       password: {
@@ -142,13 +141,7 @@ const initialState = {
         }
       },
       avatar: {
-        file: [],
-        error: {
-          file: {
-            status: false,
-            message: ''
-          }
-        }
+        file: []
       }
     }
   },
@@ -598,7 +591,6 @@ export default (state = initialState, { type, payload }) => {
           ...state.menuUser,
           openDialog: payload.open,
           option: payload.option,
-          response: false,
           loading: false,
         }
       };
@@ -609,16 +601,6 @@ export default (state = initialState, { type, payload }) => {
         menuUser: {
           ...state.menuUser,
           loading: payload
-        }
-      };
-    }
-    case 'RESPONSE_MENU_USER_DIALOG': {
-      return {
-        ...state,
-        menuUser: {
-          ...state.menuUser,
-          response: {...payload},
-          loading: false,
         }
       };
     }
@@ -690,14 +672,7 @@ export default (state = initialState, { type, payload }) => {
             ...state.menuUser.sections,
             avatar: {
               ...state.menuUser.sections.avatar,
-              [name]: value,
-                error: {
-                  ...state.menuUser.sections.avatar.error,
-                  [name]: {
-                    status: false,
-                    message: ""
-                  }
-                }
+              [name]: value
             }
           }
         }

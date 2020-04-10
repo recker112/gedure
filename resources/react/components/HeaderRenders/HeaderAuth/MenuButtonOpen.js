@@ -8,8 +8,7 @@ import toggleDrawer from '../../../actions/panel/toggleDrawer';
 
 function MenuButtonOpen({toggleDrawer}) {
   return (
-    <Tooltip 
-      enterDelay={1000} 
+    <Tooltip  
       leaveDelay={200} 
       title='Mostrar menú' 
       arrow

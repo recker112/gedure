@@ -11,7 +11,7 @@ import { RenderInputs } from '../../../RendersGlobal';
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
 
-function ContentPassword({ data, updateInputValue, response }) {
+function ContentPassword({ data, updateInputValue, loading }) {
   const { passA, passN, passR, error } = data;
   useEffect(() => {
     const clearAllStateData = () => {
@@ -41,8 +41,9 @@ function ContentPassword({ data, updateInputValue, response }) {
         return null;
       });
     };
+		
     clearAllStateData();
-  }, [response, updateInputValue]);
+  }, [loading, updateInputValue]);
 
   const handleChange = (e) => {
     updateInputValue(e, 'PASSWORD');
@@ -65,6 +66,7 @@ function ContentPassword({ data, updateInputValue, response }) {
 
 const mapStateToProps = (state) => ({
   data: state.panelSettings.menuUser.sections.password,
+	loading: state.panelSettings.menuUser.loading
 })
 
 const mapDispatchToProps = {

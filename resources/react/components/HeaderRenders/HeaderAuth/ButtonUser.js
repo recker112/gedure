@@ -50,7 +50,7 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
 	};
 	return (
 		<React.Fragment>
-			<Tooltip title="Opciones" arrow enterDelay={1000}>
+			<Tooltip title="Opciones" arrow leaveDelay={200}>
 				{/*Aria-controls indica el item por ID el cual será controlado el
       en este caso será controlado por el MENÚ.
       aria-haspopud no sé que hace. xDDD
@@ -135,7 +135,11 @@ function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
 						//Verificar el privilegio actual con los solicitados.
 						if (access === privilegio) {
 							return (
-								<MenuItem key={`Access${i}`} data-option={menu.option} onClick={handleSelected}>
+								<MenuItem 
+									key={`Access${i}`} 
+									data-option={menu.option} 
+									onClick={handleSelected}
+								>
 									{menu.text}
 								</MenuItem>
 							);
