@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
 import { RenderSelect, RenderRadios, RenderInputs } from '../../../../components/RendersGlobal';
 import ButtonLoading from '../../../../components/ButtonLoading';
+import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCustom';
 
 //Material-ui
 import { Grid, Zoom } from '@material-ui/core';
@@ -117,11 +118,11 @@ function ModifyForm({
 		let errorStatus = false;
 
 		//Verificar datos
-		[
+		const InputsArray = [
 			{
 				value: cedula,
 				name: 'cedula',
-				minValue: 7
+				minValue: 3
 			},
 			{
 				value: pass,
@@ -135,28 +136,17 @@ function ModifyForm({
 			},
 			{
 				value: curso,
-				name: 'curso',
-				minValue: 0
+				name: 'curso'
 			},
 			{
 				value: seccion,
-				name: 'seccion',
-				minValue: 0
+				name: 'seccion'
 			}
-		].map(input => {
-			if (input.value.length === 0) {
-				//Empty
-				errorInfo(input.name, 'Campo obligatorio', 'MODIFY');
-				errorStatus = true;
-			} else if (input.value.length < input.minValue) {
-				//No valid cédula
-				errorInfo(input.name, 'No válido', 'MODIFY');
-				errorStatus = true;
-			}
-			return null;
-		});
+		];
+		
+		const error = verifyErrorCustom(InputsArray, errorInfo, 'MODIFY');
 
-		if (errorStatus) {
+		if (error) {
 			return null;
 		}
 

@@ -38,14 +38,18 @@ class UploadController extends Controller
 		try {
 			//Verify pass
 			$dataValidate = request()->validate([
-				'files' => 'required'
+				'files' => 'required',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
 			], [
 				/*
 				Custom message
 				GLOBAL [propiedad] = required
 				ESPECIFICO [value].[propiedad] = user.required
 				*/
-				'required' => 'Campo obigatorio'
+				'required' => 'Campo obigatorio',
+				'string' => 'No válido',
+				'max' => 'No válido'
 			]);
 		} catch (ValidationException $exception) {
 			return response()->json([
