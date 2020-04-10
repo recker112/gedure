@@ -8,6 +8,7 @@ import { RenderSelect } from '../../../../components/RendersGlobal';
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
 import ButtonLoading from '../../../../components/ButtonLoading';
 import LoadArchives from '../../../../components/LoadArchives';
+import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCustom';
 
 //Redux
 import { connect } from 'react-redux';
@@ -86,17 +87,17 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		let errorStatus = false;
+		let error;
 
 		//Verificar datos
 		if (files.length === 0) {
 			enqueueSnackbar('Debe cargar algún archivo primero', {
 				variant: 'warning'
 			});
-			errorStatus = true;
+			error = true;
 		}
 
-		[
+		const InputsArray = [
 			{
 				value: curso,
 				name: 'curso'
@@ -105,17 +106,12 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				value: seccion,
 				name: 'seccion'
 			}
-		].map(input => {
-			if (input.value.length === 0) {
-				//Empty
-				errorInfo(input.name, 'Campo obligatorio', 'UPDATE');
-				errorStatus = true;
-			}
-			return null;
-		});
+		];
+		
+		error = verifyErrorCustom(InputsArray, errorInfo, 'UPDATE');
 
 		//Verificar que no existan errores en los datos
-		if (errorStatus) {
+		if (error) {
 			return null;
 		}
 

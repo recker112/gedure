@@ -7,6 +7,8 @@ use App\User;
 use App\Ban;
 use App\NewsData;
 use App\AnunciosData;
+//Validación en try
+use Illuminate\Validation\ValidationException;
 
 class InfoBoxController extends Controller
 {
@@ -16,6 +18,29 @@ class InfoBoxController extends Controller
 			$cedula = request()->user()->user_cedula;
 			$privilegio = request()->user()->user_privilegio;
 			$show = request()->show;
+			
+			//ValidateData
+			try {
+				//Verify pass
+				$dataValidate = request()->validate([
+					'show' => 'required'
+				], [
+					/*
+					Custom message
+					GLOBAL [propiedad] = required
+					ESPECIFICO [value].[propiedad] = user.required
+					*/
+					'required' => 'Campo obigatorio',
+
+				]);
+			} catch (ValidationException $exception) {
+				return response()->json([
+					'code' => 422,
+					'msg'    => 'validation_error',
+					'errors' => $exception->errors(),
+					'description' => 'El servidor rechazó su solicitud'
+				], 422);
+			}
 			
 			//Verificar usuario access
 			if ($privilegio === "V-"){

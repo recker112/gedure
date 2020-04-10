@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+//Validaciรณn en try
+use Illuminate\Validation\ValidationException;
+//Modelos
 use App\User;
 use App\CursosData;
 use App\AdminsData;
@@ -21,7 +24,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
+				'description' => 'No estรกs autorizado'
 			], 403);
 		}
 
@@ -70,7 +73,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
+				'description' => 'No estรกs autorizado'
 			], 403);
 		}
 		
@@ -92,7 +95,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'no_studiends',
-				'description' => 'No hay estudiantes en esta sección'
+				'description' => 'No hay estudiantes en esta secciรณn'
 			], 400);
 		}
 		
@@ -111,13 +114,44 @@ class ModifyUserController extends Controller
 		$cursoReq = request()->curso;
 		$seccionReq = request()->seccion;
 		$combiCurso = $cursoReq.$seccionReq;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'name' => 'required|string|min:3',
+				'pass' => 'required|string|min:4',
+				'privilegio' => 'required|string|max:4',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No vรกlido',
+				'min' => 'No vรกlido',
+				'max' => 'No vรกlido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
+				'description' => 'No estรกs autorizado'
 			], 403);
 		}
 		
@@ -146,14 +180,14 @@ class ModifyUserController extends Controller
 			], 400);
 		}
 		
-		//Verificar que la sección no esté llena
+		//Verificar que la secciรณn no estรฉ llena
 		$limitList = $estuData->where('estudiante_alumno_id', "E-$combiCurso-40")
 			->first();
 		if ($limitList) {
 			return response()->json([
 				'code' => 400,
 				'msg' => 'limit_estudient_in_curso',
-				'description' => "El curso $combiCurso está lleno"
+				'description' => "El curso $combiCurso estรก lleno"
 			], 400);
 		}
 		
@@ -197,13 +231,44 @@ class ModifyUserController extends Controller
 		$cursoReq = request()->curso;
 		$seccionReq = request()->seccion;
 		$combiCurso = $cursoReq.$seccionReq;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'name' => 'required|string|min:3',
+				'pass' => 'required|string|min:4',
+				'privilegio' => 'required|string|max:4',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No vรกlido',
+				'min' => 'No vรกlido',
+				'max' => 'No vรกlido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
+				'description' => 'No estรกs autorizado'
 			], 403);
 		}
 		
@@ -260,13 +325,41 @@ class ModifyUserController extends Controller
 		$privilegioUser = request()->user()->user_privilegio;
 		$cedula = $userSearch;
 		$cursoReq = request()->curso.request()->seccion;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No vรกlido',
+				'min' => 'No vรกlido',
+				'max' => 'No vรกlido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
+				'description' => 'No estรกs autorizado'
 			], 403);
 		}
 		
@@ -292,7 +385,7 @@ class ModifyUserController extends Controller
 				->get();
 			$cursoActual = explode("-", $cursoActual);
 			
-			//Verificar que exista el usuario en esa sección.
+			//Verificar que exista el usuario en esa secciรณn.
 			if ($cursoActual[1] === $cursoReq){
 				$inSecccion = true;
 			}else {
@@ -358,12 +451,12 @@ class ModifyUserController extends Controller
 			//Datos
 			$estuData->estudiante_name = $name;
 			$estuData->estudiante_cedula = $cedula;
-			//Meter estudiante de último.
+			//Meter estudiante de รบltimo.
 			$estuData->estudiante_alumno_id = 'E-'.$combiCurso.'-40';
 			
 			$estuData->save();
 			
-			//Re-organizar sección.
+			//Re-organizar secciรณn.
 			if ($updateCursos){
 				$estuData->orderCursos($combiCurso);
 			}
@@ -407,7 +500,7 @@ class ModifyUserController extends Controller
 			//Guardar datos del estudiante
 			$status = $studiend->save();
 			
-			//Re-organizar sección.
+			//Re-organizar secciรณn.
 			if ($status >= 1) {
 				$estuData->orderCursos($combiCurso);
 				
