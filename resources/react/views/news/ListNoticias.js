@@ -138,6 +138,7 @@ export function SkeletonNoticia() {
 
 export function Noticia(props) {
 	const recorrerList = props.options.map(news => {
+		//Datos
 		let name;
 		let avatar;
 		if (news.privilegio === 'A-') {
@@ -147,6 +148,11 @@ export function Noticia(props) {
 			name = news.nameC;
 			avatar = news.avatarC;
 		}
+		
+		function createMarkup() {
+			return {__html: news.content};
+		}
+		
 		return (
 			<div key={news.id}>
 				<Paper variant="outlined">
@@ -165,7 +171,8 @@ export function Noticia(props) {
 						<hr />
 						<div className="NContent">
 							<span className="NContentTitle">{news.title}</span>
-							<p className="NContentP">{news.content}</p>
+							<p className="NContentP" dangerouslySetInnerHTML={createMarkup()}
+							/>
 						</div>
 						<ImagenVisor options={JSON.parse(news.imgList)} />
 						<i className='NFecha'>Publicado {news.fecha}</i>

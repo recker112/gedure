@@ -7,11 +7,13 @@ import { connect } from 'react-redux';
 import updateInputValue from '../../actions/updateInputValue';
 import updateLoading from '../../actions/updateLoading';
 import errorInfo from '../../actions/errorInfo';
-
-//Compoentes
-import RenderForm from './RenderForm';
 import updateDataUser from '../../actions/login/updateDataUser';
 import loginSinceFormSuccess from '../../actions/login/loginSinceFormSuccess';
+
+//Components
+import RenderForm from './RenderForm';
+import verifyErrorCustom from '../../components/reutilizar/verifyErrorCustom';
+
 
 //SnackBar
 import { useSnackbar } from 'notistack';
@@ -37,25 +39,45 @@ function Form({
 		// enviar input al store para actualizar states
 		updateInputValue(e, 'LOGIN');
 	};
+	
+	const test = (InputsArray, errorInfo) => {
+	let errorStatus = false;
+	//Verificar datos
+	InputsArray.map(input => {
+		if (input.value.length === 0) {
+			//Empty
+			errorInfo(input.name, 'Campo obligatorio', 'MODIFY');
+			errorStatus = true;
+		} else if (input.minValue && input.value.length < input.minValue) {
+			//No valid cédula
+			errorInfo(input.name, 'No válido', 'MODIFY');
+			errorStatus = true;
+		}
+		return null;
+	});
+	
+	return errorStatus;
+}
 
 	const handleSubmit = e => {
 		//Preparativos
 		e.preventDefault();
-		let error = false;
 
 		//Verificar datos erroneos
-		[{ value: user, name: 'user' }, { value: pass, name: 'pass' }].map(input => {
-			if (input.value.length === 0) {
-				//Empty
-				errorInfo(input.name, 'Campo obligatorio', 'LOGIN');
-				error = true;
-			} else if (input.value.length < 4) {
-				//No valid cédula
-				errorInfo(input.name, 'No válido', 'LOGIN');
-				error = true;
+		const InputsArray = [
+			{ 
+				value: user, 
+				name: 'user',
+				minValue: 3
+			}, 
+			{ 
+				value: pass,
+				name: 'pass',
+				minValue: 4
 			}
-			return null;
-		});
+		];
+		
+		const error = verifyErrorCustom(InputsArray, errorInfo, 'LOGIN');
 		
 		//Verificar que estén los datos.
 		if (error === true) {

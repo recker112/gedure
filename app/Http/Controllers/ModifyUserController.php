@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+//Store
+use Illuminate\Support\Facades\Storage;
+//Validación en try
+use Illuminate\Validation\ValidationException;
+//Modelos
 use App\User;
 use App\CursosData;
 use App\AdminsData;
@@ -13,93 +18,6 @@ use App\Logs;
 
 class ModifyUserController extends Controller
 {
-	public function searchUser($userSearch)
-	{
-		$privilegio = request()->user()->user_privilegio;
-
-		if ($privilegio !== 'A-') {
-			return response()->json([
-				'code' => 403,
-				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
-			], 403);
-		}
-
-		if ($userSearch === 'all') {
-			//Obtener TODOS los usuarios
-			$users = User::get();
-			//Modelo
-			$modelUser = new User;
-
-			//Obtener TODOS los datos
-			for($i=0; $i < count($users); $i++){
-				$index = $users[$i];
-
-				$dataUsers[$i] = $modelUser->searchUser(
-					$index->user_privilegio,
-					$index->user_cedula
-				);
-
-				//Unir Cedula y Privilegio
-				$dataUsers[$i]->combiCedula = $dataUsers[$i]
-					->privilegio.$dataUsers[$i]
-					->cedula;
-			}
-		}else {
-			//Buscar usuario
-			$user = User::find($userSearch);
-			//Modelo
-			$modelUser = new User;
-			//Buscar datos
-			$dataUsers = $modelUser->searchUser(
-					$user->user_privilegio,
-					$user->user_cedula
-				);
-
-			//Unir Cedula y Privilegio
-			$dataUsers->combiCedula = $dataUsers->privilegio.$dataUsers->cedula;
-		}
-		return response()->json($dataUsers, 200);
-	}
-	
-	public function searchStudiendsForCurso($cursoSearch)
-	{
-		$privilegio = request()->user()->user_privilegio;
-
-		if ($privilegio !== 'A-') {
-			return response()->json([
-				'code' => 403,
-				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
-			], 403);
-		}
-		
-		//Model
-		$curso = new CursosData;
-		
-		//Listado
-		$cursosList = $curso->getStudiends($cursoSearch);
-		
-		if($cursosList === 'option_not_valid') {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'option_not_valid',
-				'description' => 'El curso elegido no existe'
-			], 400);
-		}
-		
-		if($cursosList === 'no_studiends') {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'no_studiends',
-				'description' => 'No hay estudiantes en esta sección'
-			], 400);
-		}
-		
-		//OK BRO
-		return response()->json($cursosList, 200);
-	}
-	
 	public function addUser()
 	{
 		//Datos request
@@ -111,6 +29,37 @@ class ModifyUserController extends Controller
 		$cursoReq = request()->curso;
 		$seccionReq = request()->seccion;
 		$combiCurso = $cursoReq.$seccionReq;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'name' => 'required|string|min:3',
+				'pass' => 'required|string|min:4',
+				'privilegio' => 'required|string|max:4',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No válido',
+				'min' => 'No válido',
+				'max' => 'No válido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
@@ -146,7 +95,7 @@ class ModifyUserController extends Controller
 			], 400);
 		}
 		
-		//Verificar que la sección no esté llena
+		//Verificar que la sección no está llena
 		$limitList = $estuData->where('estudiante_alumno_id', "E-$combiCurso-40")
 			->first();
 		if ($limitList) {
@@ -197,6 +146,37 @@ class ModifyUserController extends Controller
 		$cursoReq = request()->curso;
 		$seccionReq = request()->seccion;
 		$combiCurso = $cursoReq.$seccionReq;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'name' => 'required|string|min:3',
+				'pass' => 'required|string|min:4',
+				'privilegio' => 'required|string|max:4',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No válido',
+				'min' => 'No válido',
+				'max' => 'No válido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
@@ -238,7 +218,8 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => $updateUser,
-				'description' => "No se ha registrado el privilegio $privilegio en el sistema"
+				'description' => 
+				"No se ha registrado el privilegio $privilegio en el sistema"
 			], 400);
 		}
 		
@@ -250,7 +231,8 @@ class ModifyUserController extends Controller
 		return response()->json([
 			'code' => 200,
 			'msg' => 'user_updated',
-			'description' => "El usuario con la cedula ".$privilegio.$cedula." fue actualizado"
+			'description' => 
+			"El usuario con la cedula ".$privilegio.$cedula." fue actualizado"
 		], 200);
 	}
 	
@@ -260,6 +242,34 @@ class ModifyUserController extends Controller
 		$privilegioUser = request()->user()->user_privilegio;
 		$cedula = $userSearch;
 		$cursoReq = request()->curso.request()->seccion;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'cedula' => 'required|string|min:3',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No válido',
+				'min' => 'No válido',
+				'max' => 'No válido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
 
 		//Verificar permiso
 		if ($privilegioUser !== 'A-') {
@@ -292,7 +302,7 @@ class ModifyUserController extends Controller
 				->get();
 			$cursoActual = explode("-", $cursoActual);
 			
-			//Verificar que exista el usuario en esa sección.
+			//Verificar que exista el usuario en esa secciรณn.
 			if ($cursoActual[1] === $cursoReq){
 				$inSecccion = true;
 			}else {
@@ -358,12 +368,12 @@ class ModifyUserController extends Controller
 			//Datos
 			$estuData->estudiante_name = $name;
 			$estuData->estudiante_cedula = $cedula;
-			//Meter estudiante de último.
+			//Meter estudiante de รบltimo.
 			$estuData->estudiante_alumno_id = 'E-'.$combiCurso.'-40';
 			
 			$estuData->save();
 			
-			//Re-organizar sección.
+			//Re-organizar secciรณn.
 			if ($updateCursos){
 				$estuData->orderCursos($combiCurso);
 			}
@@ -415,6 +425,30 @@ class ModifyUserController extends Controller
 				if ($combiCurso !== $oldCurso[1]) {
 					$estuData->orderCursos($oldCurso[1]);
 				}
+			}
+			
+			//Mover boleta
+			
+			//Datos
+			$archiveOldCurso = strlen($oldCurso[1]) === 2 ?
+				str_split($oldCurso[1], 1)
+			:
+				str_split($oldCurso[1], 2);
+			
+			$archiveNewCurso = strlen($combiCurso) === 2 ?
+				str_split($combiCurso, 1)
+			:
+				str_split($combiCurso, 2);
+			
+			$dir = 'boletas';
+			$oldDir = "$dir/$archiveOldCurso[0]/$archiveOldCurso[1]/$cedula.pdf";
+			$newDir = "$dir/$archiveNewCurso[0]/$archiveNewCurso[1]/$cedula.pdf";
+			
+			$existFile = Storage::exists($oldDir);
+			
+			//Verificar existencia del archivo
+			if ($existFile && $oldDir !== $newDir) {
+				Storage::move($oldDir, $newDir);
 			}
 		}else if ($privilegio === 'A-') {
 			//Search Admins

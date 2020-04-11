@@ -131,7 +131,7 @@ class User extends Authenticatable
 							'=', 
 							'cursos_data.curso_id'
 						)
-						->join(
+						->leftJoin(
 							'profes_guias_data', 
 							'cursos_data.curso_profe_guia', 
 							'=', 
@@ -177,7 +177,7 @@ class User extends Authenticatable
 				break;
 				
 			default:
-				$DataUser = null;
+				$DataUser = 'NONE';
 				break;
 		}
 		return $DataUser;

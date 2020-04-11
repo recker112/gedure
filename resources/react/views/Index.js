@@ -21,7 +21,7 @@ function App({ tema, access_key }) {
     window.axios.defaults.headers.common['Authorization'] = `Bearer ${access_key}`;
 
 	//Creación de los estilos a aplicar en toda la WEB.
-	//Todo esto es material-ui, revisar documentaciรณn para mรกs info.
+	//Todo esto es material-ui, revisar documentaciรณn para más info.
 	const themeConfig = createMuiTheme({
 		palette: {
 			type: tema,

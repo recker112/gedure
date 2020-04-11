@@ -7,6 +7,8 @@ use App\User;
 use App\Ban;
 use App\NewsData;
 use App\AnunciosData;
+//Validación en try
+use Illuminate\Validation\ValidationException;
 
 class InfoBoxController extends Controller
 {
@@ -17,12 +19,35 @@ class InfoBoxController extends Controller
 			$privilegio = request()->user()->user_privilegio;
 			$show = request()->show;
 			
+			//ValidateData
+			try {
+				//Verify pass
+				$dataValidate = request()->validate([
+					'show' => 'required'
+				], [
+					/*
+					Custom message
+					GLOBAL [propiedad] = required
+					ESPECIFICO [value].[propiedad] = user.required
+					*/
+					'required' => 'Campo obigatorio',
+
+				]);
+			} catch (ValidationException $exception) {
+				return response()->json([
+					'code' => 422,
+					'msg'    => 'validation_error',
+					'errors' => $exception->errors(),
+					'description' => 'El servidor rechazó su solicitud'
+				], 422);
+			}
+			
 			//Verificar usuario access
 			if ($privilegio === "V-"){
 				return response()->json([
 					'code' => 403,
 					'msg' => 'no_access',
-					'description' => 'No estรก autorizado'
+					'description' => 'No está autorizado'
 				], 403);
 			}
 			
@@ -82,7 +107,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 400,
 					'msg' => 'option_not_valid',
-					'description' => 'Opciรณn infobox no vรกlida'
+					'description' => 'Opciรณn infobox no válida'
 				], 400);
 			}
 			

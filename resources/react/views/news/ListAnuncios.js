@@ -143,11 +143,17 @@ export function Anuncio(props) {
 		} else {
 			name = anuncio.nameC;
 		}
+		
+		function createMarkup() {
+			return {__html: anuncio.content};
+		}
+		
 		return (
 			<Paper variant="outlined" key={anuncio.id} className="AnuncioPaper">
 				<section className="Anuncio">
 					<span className="ATitle">{anuncio.title}</span>
-					<p className="AContent">{anuncio.content}</p>
+					<p className="AContent" dangerouslySetInnerHTML={createMarkup()}
+					/>
 					<hr />
 					<footer>
 						Escrito por {name} {anuncio.fecha}

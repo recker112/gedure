@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 //Material-UI
 import { Grid, Paper } from '@material-ui/core';
@@ -8,6 +8,8 @@ import { RenderSelect } from '../../../../components/RendersGlobal';
 import { CursosList, SeccionList } from '../../../../components/ListDataGlobal';
 import ButtonLoading from '../../../../components/ButtonLoading';
 import LoadArchives from '../../../../components/LoadArchives';
+import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCustom';
+import donwloadFiles from '../../../../components/reutilizar/donwloadFiles';
 
 //Redux
 import { connect } from 'react-redux';
@@ -23,38 +25,78 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 	const { enqueueSnackbar } = useSnackbar();
 	//Destruct
 	const { option, curso, seccion, loading, files, error } = data;
+	
+	//Progress
+	const [progress, setProgress] = useState(0);
+	
+	//Label
+	const [progressLabel, setProgressLabel] = useState('');
 
 	function handleChange(e) {
 		//Actualizar
 		updateInputValue(e, 'UPLOAD');
 	}
-	
+
 	//Cancel
 	let cancel = false;
+	
+	const onUploadProgress = (progressEvent) => {
+		let percentCompleted = Math.round(
+			progressEvent.loaded * 100 / progressEvent.total
+		);
+		
+		setProgress(percentCompleted);
+	}
 
 	const fetchData = async (dataForm, type) => {
 		try {
 			let res;
 
 			if (type === 'matricula') {
-				res = await axios.post('api/upload/matricula', dataForm, { 
-					headers: { 
+				res = await axios.post('api/upload/matricula', dataForm, {
+					headers: {
 						'Content-Type': 'multipart/form-data'
-					}
+					},
+					onUploadProgress: onUploadProgress
 				});
-			} else if (type == 'boletas') {
-				res = await axios.post('api/upload/boletas', dataForm, { 
-					headers: { 
+			} else {
+				res = await axios.post('api/upload/boletas', dataForm, {
+					headers: {
 						'Content-Type': 'multipart/form-data'
-					}
+					},
+					onUploadProgress: onUploadProgress
 				});
 			}
 
-			const { description, errors } = res.data;
+			const { description, status } = res.data;
+			
+			let color;
+			if (status === 'not_all_upload_boletas') {
+				color = 'warning';
+			}else {
+				color = 'success';
+			}
 
 			enqueueSnackbar(description, {
-				variant: 'success'
+				variant: color
 			});
+			
+			//Otras acciones a realizar
+			if (type === 'boletas') {
+				//Actualizar log
+			}else {
+				//Descargar excel
+				const fileName = res.data.fileName;
+				const fileExtension = res.data.fileExtension;
+				
+				//Consultar archivo
+				res = await axios.get(
+					`api/matricula/${fileName}?extension=${fileExtension}`, {
+					responseType: 'blob'
+				});
+				
+				donwloadFiles(res.data, fileName, fileExtension);
+			}
 		} catch (error) {
 			const { status, data } = error.response;
 
@@ -80,23 +122,27 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				});
 			}
 		}
+
 		//Loading Toggle
 		updateLoading(false, 'UPLOAD');
+		
+		//Reset progress
+		setProgress(0);
 	};
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault();
-		let errorStatus = false;
+		let error;
 
 		//Verificar datos
 		if (files.length === 0) {
 			enqueueSnackbar('Debe cargar algún archivo primero', {
 				variant: 'warning'
 			});
-			errorStatus = true;
+			error = true;
 		}
 
-		[
+		const InputsArray = [
 			{
 				value: curso,
 				name: 'curso'
@@ -105,17 +151,12 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				value: seccion,
 				name: 'seccion'
 			}
-		].map(input => {
-			if (input.value.length === 0) {
-				//Empty
-				errorInfo(input.name, 'Campo obligatorio', 'UPDATE');
-				errorStatus = true;
-			}
-			return null;
-		});
+		];
+
+		error = verifyErrorCustom(InputsArray, errorInfo, 'UPDATE');
 
 		//Verificar que no existan errores en los datos
-		if (errorStatus) {
+		if (error) {
 			return null;
 		}
 
@@ -128,28 +169,48 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 		if (listArchivos > 20) {
 			//Calcular cuantas colas hay que hacer.
 			const colas = Math.ceil(listArchivos / maxPerList);
-			//Boton DEL PÁNICO.
-			let exit;
+			
+			//Boton para evitar seguir buscando archivos.
+			let maxFilesFound = false;
+			
 			//Repetir cada cola
 			for (let nCola = 0; nCola < colas; nCola++) {
 				//Repetir cada añadido de datos en cada cola
-				for (let i = 0; i < maxPerList && !exit; i++) {
-					const archivo = files[i + maxPerList * nCola];
+				for (let i = 0; i < maxPerList && !maxFilesFound; i++) {
+					//Archivo
+					const archivo = files[i + (maxPerList * nCola)];
 
 					//Insertar en la DATA
-					formData.append(`cola${i}`, archivo);
-					console.log(i + 20 * nCola);
+					formData.append(`files[]`, archivo);
+					
+					if (archivo.size / 1024 > 2048) {
+						enqueueSnackbar(`Uno de los archivos supera el tamaño máximo`, {
+							variant: 'warning'
+						});
+						return null;
+					}
 
 					//Salir al llegar al máximo de archivos encontrados
-					if (nCola === colas - 1 && i === listArchivos - 1 - maxPerList * nCola) {
-						exit = true;
+					if (nCola === colas - 1 && i === (listArchivos - 1) - (maxPerList * nCola)) {
+						maxFilesFound = true;
 					}
 				}
-				//Enviando listas
-				console.log(`Lista${nCola} enviada correctamente!!`);
+				
+				//Data
+				formData.append('curso', curso);
+				formData.append('seccion', seccion);
+				
+				//Preparar todo
+				setProgressLabel(`${nCola+1}/${colas}`);
+				updateLoading(true, 'UPLOAD');
+				
+				//Esperar a la respuesta
+				await fetchData(formData, option);
+				
+				//Limpiar el dataForm después de cada consulta
+				formData = new FormData();
 			}
 		} else {
-
 			//Guardar todos los archivos en un array
 			for (let i = 0; i < files.length; i++) {
 				const archivo = files[i];
@@ -158,7 +219,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 			//Data
 			formData.append('curso', curso);
 			formData.append('seccion', seccion);
-			
+
 			//Verificar tamaños
 			if (option === 'matricula' && files[0].size / 1024 > 1024) {
 				cancel = true;
@@ -166,12 +227,12 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 					variant: 'warning'
 				});
 				return null;
-			}else if (option === 'boletas') {
-				for (let i=0; i < files.length; i++){
+			} else if (option === 'boletas') {
+				for (let i = 0; i < files.length; i++) {
 					const archivo = files[i];
-					
-					if (archivo.size / 1024 > 2048){
-						enqueueSnackbar(`El archivo supera el tamaño máximo`, {
+
+					if (archivo.size / 1024 > 2048) {
+						enqueueSnackbar(`Uno de los archivos supera el tamaño máximo`, {
 							variant: 'warning'
 						});
 						return null;
@@ -206,8 +267,10 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 								<Grid container spacing={2} justify="center">
 									<Grid item xs={12}>
 										<LoadArchives
-											accepted={option === 'matricula' ? 
-												'.csv,.xls,.xlsx,.ods' : '.pdf'}
+											accepted={option === 
+												'matricula' ? '.csv,.xls,.xlsx,.ods' 
+											: 
+											'.pdf,.doc,.docx'}
 											idName="uploadFiles"
 											reset={option}
 											files={files}
@@ -219,14 +282,28 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 											type="UPLOAD"
 										/>
 									</Grid>
-									<ShowCursos error={error} action={handleChange} curso={curso} seccion={seccion} />
+									<ShowCursos 
+										error={error} 
+										action={handleChange} 
+										curso={curso} 
+										seccion={seccion} 
+									/>
 									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<ButtonLoading
-											estilo="outlined"
-											colorsito="inherit"
-											text="Cargar"
-											loading={loading}
-										/>
+										<Grid container 
+											direction={'column'} 
+											justify={'center'} 
+											alignItems={'center'}
+										>
+											<ButtonLoading
+												estilo="outlined"
+												colorsito="inherit"
+												text="Cargar"
+												loading={loading}
+												progressBar={true}
+												progress={progress}
+												progressLabel={progressLabel}
+											/>
+										</Grid>
 									</Grid>
 								</Grid>
 							</form>
