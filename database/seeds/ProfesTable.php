@@ -12,9 +12,9 @@ class ProfesTable extends Seeder
      */
     public function run()
     {
-         DB::table('profes_guias_data')->insert([
-            'profe_guia_id' => "PG_001",
-            'profe_guia_name' => "Enrrique Blanco",
-        ]);
+			//  DB::table('profes_guias_data')->insert([
+			// 		'profe_guia_id' => "PG_001",
+			// 		'profe_guia_name' => "Enrrique Blanco",
+			// ]);
     }
 }
