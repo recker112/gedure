@@ -199,7 +199,6 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				//Data
 				formData.append('curso', curso);
 				formData.append('seccion', seccion);
-				formData.append('nCola', nCola);
 				
 				//Preparar todo
 				setProgressLabel(`${nCola+1}/${colas}`);
