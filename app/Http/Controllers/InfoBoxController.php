@@ -47,7 +47,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 403,
 					'msg' => 'no_access',
-					'description' => 'No estรก autorizado'
+					'description' => 'No está autorizado'
 				], 403);
 			}
 			
@@ -107,7 +107,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 400,
 					'msg' => 'option_not_valid',
-					'description' => 'Opciรณn infobox no vรกlida'
+					'description' => 'Opciรณn infobox no válida'
 				], 400);
 			}
 			

@@ -506,7 +506,11 @@ class UsersTableSeeders extends Seeder
   array('cedula' => 'V-33277879','user' => 'Leon  Stephany','password' => '$2y$10$JFsIwUn5mH1q850lz6.JpezE/zub758ZkDi8xbaf8EIy7q4Jjrjv.','estudi_id' => 'E_1A_31','avatar' => 'user/avatars/default.jpg'),
   array('cedula' => 'V-33283428','user' => 'Garcia Andres','password' => '$2y$10$JawQ1WFOK3ZUffwuR3zZzem9q2b2wOH8lQiZdraeHKPrpfUaMQl5e','estudi_id' => 'E_1B_32','avatar' => 'user/avatars/default.jpg'),
   array('cedula' => 'V-33354338','user' => 'Oropeza  David','password' => '$2y$10$ztx66KWcecHXDkyPSpQeZ.HrcXJ0Zfipblh/pRx2LAAcatO/LmvAe','estudi_id' => 'E_1C_32','avatar' => 'user/avatars/default.jpg'),
-  array('cedula' => 'V-test','user' => 'test','password' => '$2y$10$7NCUZ542PJhSZz6YCih9fu2.05dBddG697jjEavvPLjCr7C111Js6','estudi_id' => 'E_1B_36','avatar' => 'user/avatars/default.jpg')
+  array('cedula' => 'V-test','user' => 'test','password' => '$2y$10$7NCUZ542PJhSZz6YCih9fu2.05dBddG697jjEavvPLjCr7C111Js6','estudi_id' => 'E_1B_36','avatar' => 'user/avatars/default.jpg'),
+array('cedula' => 'A-recker','user' => 'Recker','password' => '$2y$10$q5YZTNXWs8bvH6VvnIYR0eWKE6mH57XWspobgpmZb7RwUNUipdQSq','avatar' => 'admin/avatars/recker.jpg'),
+  array('cedula' => 'A-rhadys','user' => 'Rhadys Garcia','password' => '$2y$10$9es00juSUmEKflI0rKmy3uo34UYTdlHBbpVSPvZDQe5c8yKf38GjW','avatar' => 'admin/avatars/default.jpg'),
+array('cedula' => 'CR-19207612','user' => 'Rafael Cisneros','password' => '$2y$10$wanwgf8fXCRIysSE7iiMmOqqYVJQkD5CZjPwhnlJdCPf70bBBYawC','avatar' => 'admin/avatars/default.jpg'),
+  array('cedula' => 'CR-apepregional','user' => 'APEP Regional','password' => '$2y$10$ud/sholWTuenKHRCxnx9F.ZuNMNfPKqMh.QY1AjZhhQftxEGrlodm','avatar' => 'admin/avatars/default.jpg')
 );
 		
 		foreach($login as $user) {

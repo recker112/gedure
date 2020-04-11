@@ -8,7 +8,8 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Button,
-	Slide
+	Slide,
+	useMediaQuery
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
