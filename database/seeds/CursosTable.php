@@ -19,8 +19,7 @@ class CursosTable extends Seeder
 				DB::table('cursos_data')->insert([
 					'curso_id' => 'C-'.$cursos[$i].'-'.$secciones[$o],
 					'curso_name' => $cursos[$i],
-					'curso_seccion' => $secciones[$o],
-					'curso_profe_guia' => "PG_001",
+					'curso_seccion' => $secciones[$o]
 				]);
 			}
 		}

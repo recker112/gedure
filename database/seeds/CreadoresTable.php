@@ -12,14 +12,14 @@ class CreadoresTable extends Seeder
      */
     public function run()
     {
-        DB::table('creadores_data')->insert([
-            'creador_name' => "ReckerSOTE",
-            'creador_cedula' => "reckersote",
-        ]);
+				// DB::table('creadores_data')->insert([
+				// 'creador_name' => "ReckerSOTE",
+				// 'creador_cedula' => "reckersote",
+				// ]);
 			
-				DB::table('creadores_data')->insert([
-            'creador_name' => "BANEADO",
-            'creador_cedula' => "banUser",
-        ]);
+				// DB::table('creadores_data')->insert([
+				// 'creador_name' => "BANEADO",
+				// 'creador_cedula' => "banUser",
+				// ]);
     }
 }

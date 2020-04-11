@@ -12,10 +12,10 @@ class AdminConfigTable extends Seeder
      */
     public function run()
     {
-        DB::table('admins_data')->insert([
-            'admin_name' => "Recker Ortiz",
-            'admin_avatar' => null,
-            'admin_cedula' => "reckersito",
-        ]);
+        // DB::table('admins_data')->insert([
+        //     'admin_name' => "Recker Ortiz",
+        //     'admin_avatar' => null,
+        //     'admin_cedula' => "reckersito",
+        // ]);
     }
 }
