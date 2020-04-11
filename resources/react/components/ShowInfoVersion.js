@@ -40,7 +40,7 @@ function ShowInfoVersion() {
 				<p>- Modo oscuro.</p>
 				<p>- Mejora en la carga de la página.</p>
 				<br/>
-				<p>Esta página se encuentra en Alpha, eso quiere decir que muchas de las funciones de la anteriór versión no están disponibles, si necesita alguna función que no se encuentra disponible en este momento por favor vuelva a la antigua versión. </p>
+				<p>Esta página se encuentra en Alpha, eso quiere decir que muchas de las funciones de la anteriór versión no están disponibles, si lo desea puede volver a la versión anterior del la página, pero recuerde que esa versión dejará de tener soporte. </p>
 			</React.Fragment>
 		}
 	];
