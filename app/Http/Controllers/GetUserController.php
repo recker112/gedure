@@ -17,7 +17,7 @@ class GetUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estรกs autorizado'
+				'description' => 'No estás autorizado'
 			], 403);
 		}
 
@@ -66,7 +66,7 @@ class GetUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estรกs autorizado'
+				'description' => 'No estás autorizado'
 			], 403);
 		}
 		

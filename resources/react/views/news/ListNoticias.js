@@ -34,7 +34,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 
 			const { data, finish } = res.data;
 			
-			//Verificar si estรก desmontado
+			//Verificar si está desmontado
 			if (!cancel) {
 				if (data.length > 0) {
 					updateNewsNoticias([...list, ...data]);
@@ -93,7 +93,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs noticias que cargar.</b>
+							<b>No hay más noticias que cargar.</b>
 						</p>
 					}
 				>

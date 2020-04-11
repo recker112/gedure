@@ -30,7 +30,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
 			const { data, finish } = res.data;
 			
-			//Verificar si estรก desmontado
+			//Verificar si está desmontado
 			if (!cancel) {
 				if (data.length > 0) {
 					updateNewsAnuncios([...list, ...data]);
@@ -94,7 +94,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					loader={<SkeletonAnuncio />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs anuncios que cargar.</b>
+							<b>No hay más anuncios que cargar.</b>
 						</p>
 					}
 				>

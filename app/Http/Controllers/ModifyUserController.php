@@ -47,9 +47,9 @@ class ModifyUserController extends Controller
 				ESPECIFICO [value].[propiedad] = user.required
 				*/
 				'required' => 'Campo obigatorio',
-				'required' => 'No vรกlido',
-				'min' => 'No vรกlido',
-				'max' => 'No vรกlido'
+				'required' => 'No válido',
+				'min' => 'No válido',
+				'max' => 'No válido'
 
 			]);
 		} catch (ValidationException $exception) {
@@ -66,7 +66,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estรกs autorizado'
+				'description' => 'No estás autorizado'
 			], 403);
 		}
 		
@@ -102,7 +102,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'limit_estudient_in_curso',
-				'description' => "El curso $combiCurso estรก lleno"
+				'description' => "El curso $combiCurso está lleno"
 			], 400);
 		}
 		
@@ -164,9 +164,9 @@ class ModifyUserController extends Controller
 				ESPECIFICO [value].[propiedad] = user.required
 				*/
 				'required' => 'Campo obigatorio',
-				'required' => 'No vรกlido',
-				'min' => 'No vรกlido',
-				'max' => 'No vรกlido'
+				'required' => 'No válido',
+				'min' => 'No válido',
+				'max' => 'No válido'
 
 			]);
 		} catch (ValidationException $exception) {
@@ -183,7 +183,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estรกs autorizado'
+				'description' => 'No estás autorizado'
 			], 403);
 		}
 		
@@ -276,7 +276,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
-				'description' => 'No estรกs autorizado'
+				'description' => 'No estás autorizado'
 			], 403);
 		}
 		
