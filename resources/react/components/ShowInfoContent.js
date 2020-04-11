@@ -10,6 +10,7 @@ import {
 	Button,
 	Slide
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 //Redux
 import { connect } from 'react-redux';
@@ -21,6 +22,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
+	//Resolution RESPONSIVE DIALOG
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	
 	//Variables
 	let Dtitle = '';
 	let Dcontent = '';
@@ -66,6 +71,11 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 			id: 'deleteNotices',
 			title: 'Borrar publicación',
 			content: 'Permite eliminar una noticia o anuncio publicado'
+		},
+		{
+			id: 'boletas',
+			title: 'Boleta',
+			content: 'Permite descargar la boleta del estudiante solamente si ya se encuentra cargada en el sistema previamente'
 		}
 	];
 
@@ -125,6 +135,7 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 			open={infoDialog}
 			onClose={handleClose}
 			scroll="paper"
+			fullScreen={fullScreen}
 			//Insertar animación
 			TransitionComponent={Transition}
 			aria-labelledby="info-title-dialog"
