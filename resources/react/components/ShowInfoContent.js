@@ -74,7 +74,7 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 			content: 'Permite eliminar una noticia o anuncio publicado'
 		},
 		{
-			id: 'boletas',
+			id: 'boleta',
 			title: 'Boleta',
 			content: 'Permite descargar la boleta del estudiante solamente si ya se encuentra cargada en el sistema previamente'
 		}
