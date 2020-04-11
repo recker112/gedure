@@ -38,14 +38,18 @@ class UploadController extends Controller
 		try {
 			//Verify pass
 			$dataValidate = request()->validate([
-				'files' => 'required'
+				'files' => 'required',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
 			], [
 				/*
 				Custom message
 				GLOBAL [propiedad] = required
 				ESPECIFICO [value].[propiedad] = user.required
 				*/
-				'required' => 'Campo obigatorio'
+				'required' => 'Campo obigatorio',
+				'string' => 'No válido',
+				'max' => 'No válido'
 			]);
 		} catch (ValidationException $exception) {
 			return response()->json([
@@ -191,34 +195,39 @@ class UploadController extends Controller
 		return response()->json([
 			'code' => 200,
 			'msg' => 'update_matricula',
-			'description' => 'Se cargó la sección '.$combiCurso.' correctamente'
+			'description' => 'Se cargó la sección '.$combiCurso.' correctamente',
+			'fileName' => $combiCurso,
+			'fileExtension' => 'xlsx'
 		], 200);
 	}
 	
-	public function uploadAvatar()
+	public function uploadBoletas()
 	{
 		//Config datos
 		$privilegio = request()->user()->user_privilegio;
-		$cedula = request()->user()->user_cedula;
-		$avatar = request()->file('avatar');
-		$extension = $avatar->extension();
-		$mimeType = $avatar->getMimeType();
-		$filename = Str::random(80);
-		$filenameUploaded = $filename.".".$extension;
-		$dir = 'avatars';
+		$boletas = request()->file('files');
+		$curso = request()->curso;
+		$seccion = request()->seccion;
+		$combiCurso = $curso.$seccion;
+		//Directorio de la lista de los estudiantes cargados.
+		$dir = 'boletas';
 		
 		//ValidateData
 		try {
 			//Verify pass
 			$dataValidate = request()->validate([
-				'avatar' => 'required'
+				'files' => 'required',
+				'curso' => 'required|string|max:5',
+				'seccion' => 'required|string|max:3'
 			], [
 				/*
 				Custom message
 				GLOBAL [propiedad] = required
 				ESPECIFICO [value].[propiedad] = user.required
 				*/
-				'required' => 'Campo obigatorio'
+				'required' => 'Campo obigatorio',
+				'string' => 'No válido',
+				'max' => 'No válido'
 			]);
 		} catch (ValidationException $exception) {
 			return response()->json([
@@ -228,32 +237,9 @@ class UploadController extends Controller
 				'description' => 'El servidor rechazó su solicitud'
 			], 422);
 		}
-		
-		//Verificar tamaño
-		if ($avatar->getSize() / 1024 > 3072){
-			return response()->json([
-				'code' => 422,
-				'msg'    => 'image_size',
-				'description' => 'La imagen supera el tamaño máximo'
-			], 422);
-		}
-		
-		//Verificar MIME
-		$verifyMIME = $this->verifyMime($mimeType, [
-			'image/png',
-			'image/jpeg'
-		]);
-		
-		if (!$verifyMIME) {
-			return response()->json([
-				'code' => 422,
-				'msg'    => 'image_mime',
-				'description' => 'Solo se aceptan imagenes .png/.jpg/.jpeg'
-			], 422);
-		}
-		
+
 		//Verificar privilegio
-		if ($privilegio === 'V-') {
+		if ($privilegio !== 'A-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
@@ -261,69 +247,96 @@ class UploadController extends Controller
 			], 403);
 		}
 		
-		//Genear url
-		$uploadedAvatarDir = env('APP_URL').
-			"/api/imagenes/$dir/$filename?extension=$extension";
-		
-		//Cargar archivo al servidor
-		$path = Storage::disk('public')->putFileAs(
-			"$dir", $avatar, $filenameUploaded
-		);
-		
-		//Verificar tipo de usuario
-		if ($privilegio === 'A-'){
-			$adminsData = new AdminsData;
-			$userFound = $adminsData->where('admin_cedula', $cedula)->first();
-			$oldAvatar = $userFound->admin_avatar;
-			$userFound->admin_avatar = $uploadedAvatarDir;
-		} else if ($privilegio === 'V-'){
+		//Cargar boletas
+		$e = 0;
+		$errorLogs = [];
+		$i = 0;
+		foreach($boletas as $boleta) {
+			$extension = $boleta->extension();
+			$mimeType = $boleta->getMimeType();
+			$size = $boleta->getSize();
+			//Quitar extension
+			$filename = $boleta->getClientOriginalName();
+			$filename = explode('.', $filename);
+			$filename = $filename[0];
+			$nLista = intval($filename);
+			
+			//Error
+			$error = [];
+			
+			//Verificar tamaño
+			if ($size / 1024 > 3072){
+				$error = [
+					'type' => 'archive_mime',
+					'msg' => "El archivo supera el tamaño máximo"
+				];
+			}
+			
+			//Verificar MIME
+			$verifyMIME = $this->verifyMime($mimeType, [
+				'application/pdf',
+				'application/msword',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			]);
+
+			if (!$verifyMIME) {
+				$error = [
+					'type' => 'archive_mime',
+					'msg' => "Solo se aceptan archivos .pdf/.doc/.docx"
+				];
+			}
+			
+			//Modelo
 			$estuData = new EstudiantesData;
-			$userFound = $estuData->where('estudiante_avatar', $cedula)->first();
-			$oldAvatar = $userFound->estudiante_avatar;
-			$userFound->estudiante_avatar = $uploadedAvatarDir;
-		} else if ($privilegio === 'CR-'){
-			$creadorData = new EstudiantesData;
-			$userFound = $creadorData->where('creador_avatar', $cedula)->first();
-			$oldAvatar = $userFound->creador_avatar;
-			$userFound->creador_avatar = $uploadedAvatarDir;
+			
+			//Buscar estudiante
+			$findUser = $estuData
+				->where('estudiante_alumno_id', "E-$combiCurso-$nLista")
+				->first();
+			
+			//Verificar existencia
+			if (!$findUser) {
+				$error = [
+					'type' => 'no_exist',
+					'msg' => "El estudiante $nLista no existe en la seccion $combiCurso"
+				];
+			}
+			
+			if ($findUser && !$error) {
+				$cedula = $findUser->estudiante_cedula;
+				$boleta->storeAs("$dir/$curso/$seccion", "$cedula.$extension");
+			}else {
+				$errorLogs[$e] = $error;
+				$e++;
+			}
+			
+			$i++;
 		}
 		
-		//Actualizar avatar en la base de datos.
-		$userFound->save();
-		
-		if ($oldAvatar !== null){
-			$dirDelete = $this->splitUrl($oldAvatar, $dir);
-			if (Storage::disk('public')->exists($dirDelete)){
-				Storage::disk('public')->delete($dirDelete);
-			}
+		if (count($errorLogs) === count($boletas)) {
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_upload_boletas',
+				'description' => 'Ninguna de las boletas se pudo cargar',
+				'errors' => $errorLogs
+			], 400);
+		}else if (count($errorLogs) > 0) {
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_all_upload_boletas',
+				'description' => 'Se cargaron algunas boletas en la seccion '.$combiCurso,
+				'errors' => $errorLogs
+			], 400);
 		}
 		
 		return response()->json([
 			'code' => 200,
-			'msg' => 'update_avatar',
-			'description' => 'Avatar cambiado correctamente',
-			'newAvatar' => $uploadedAvatarDir
+			'msg' => 'upload_boletas',
+			'description' => 'Se cargaron las boletas en la seccion '.$combiCurso
 		], 200);
 	}
 	
-	//Funciones reutilizables
-	public function splitUrl($oldAvatar, $dir)
-	{
-		//Obtener avatar viejo y dividir url
-		$oldAvatar = explode('/', $oldAvatar);
-		//Quitar el ? del url
-		$oldAvatar = explode('?', $oldAvatar[6]);
-		//Quitar el = del url
-		$oldExtension = explode('=', $oldAvatar[1]);
-		//Quitar arrays
-		$oldAvatar = $oldAvatar[0];
-		$oldExtension = $oldExtension[1];
-		//Borrar avatar viejo
-		$dirDelete = "$dir/$oldAvatar.$oldExtension";
-		
-		return $dirDelete;
-	}
-	
+	//funciones reutilizables
 	public function verifyMime($mime, $list)
 	{
 		$found = 0;

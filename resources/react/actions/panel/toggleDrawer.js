@@ -1,4 +1,4 @@
-//Se crea una acciรณn la cual serรก capturada
+//Se crea una acciรณn la cual será capturada
 //por el reducer correspondiente.
 const toggleDrawer = (value) => {
   return {

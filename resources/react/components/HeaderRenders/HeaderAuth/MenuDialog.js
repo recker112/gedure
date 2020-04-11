@@ -138,14 +138,14 @@ function MenuDialog({
 			errorStatus = verifyDataPassword(passA, passN, passR, errorInfo);
 		} else if (option === 'avatar') {
 			errorStatus = verifyDataAvatar(file, errorInfo, enqueueSnackbar);
-		}
-		
-		//Verificar tamaño del archivo
-		if (file[0].size / 1024 >= 3072){
-			enqueueSnackbar('La imagen supera el tamaño máximo', {
-				variant: 'warning'
-			});
-			errorStatus = true;
+			
+			//Verificar tamaño del archivo
+			if (file[0].size / 1024 >= 3072){
+				enqueueSnackbar('La imagen supera el tamaño máximo', {
+					variant: 'warning'
+				});
+				errorStatus = true;
+			}
 		}
 		
 		//Cancelar fetch
@@ -154,10 +154,12 @@ function MenuDialog({
 		}
 
 		//REQ
-		updateLoading(true, 'MENU_USER_DIALOG');
 
 		//REQ SUCCESS
-		fetchData(option);
+		if (option !== 'password'){
+			updateLoading(true, 'MENU_USER_DIALOG');
+			fetchData(option);
+		}
 	};
 	
 	//Al desmontar

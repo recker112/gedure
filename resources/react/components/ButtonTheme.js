@@ -22,7 +22,7 @@ function ButtonTheme({tema, updateTheme}) {
     updateTheme()
 
     //Aplicar los cambios del State en el almacenamiento local 
-    //para que al recargar la pรกgina los cambios hechos se 
+    //para que al recargar la página los cambios hechos se 
     //mantengan.
     localStorage.setItem("theme", changeThemeTo);
   }

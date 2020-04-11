@@ -7,9 +7,11 @@ use App\AdminsData;
 
 class NewsData extends Model
 {
-    protected $primaryKey = 'new_id';
-
-    const CREATED_AT = 'new_create_at';
+  protected $primaryKey = 'new_id';
+	
+  const CREATED_AT = 'new_create_at';
+	
+	public $timestamps = false;
 
     public function getNews($limit, $offset)
     {
