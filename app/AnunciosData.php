@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnunciosData extends Model
 {
-    protected $primaryKey = 'anuncio_id';
+	protected $primaryKey = 'anuncio_id';
+
+	const CREATED_AT = 'anuncio_create_at';
 	
-		const CREATED_AT = 'anuncio_create_at';
+	public $timestamps = false;
 	
 		public function getAnuncios($limit, $offset)
     {

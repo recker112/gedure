@@ -34,9 +34,9 @@ Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
 
 /* MODIFY */
 //GetUsers
-Route::middleware('auth:api')->get('/user/{userSearch}', 'ModifyUserController@searchUser');
+Route::middleware('auth:api')->get('/user/{userSearch}', 'GetUserController@searchUser');
 //GetUsersForCurso
-Route::middleware('auth:api')->get('/curso/{cursoSearch}', 'ModifyUserController@searchStudiendsForCurso');
+Route::middleware('auth:api')->get('/curso/{cursoSearch}', 'GetUserController@searchStudiendsForCurso');
 //AddUser
 Route::middleware('auth:api')->post('/user', 'ModifyUserController@addUser');
 //UpdateUser
@@ -47,8 +47,16 @@ Route::middleware('auth:api')->delete('/user/{userSearch}', 'ModifyUserControlle
 /* UPLOADS */
 //Upload Matricula
 Route::middleware('auth:api')->post('/upload/matricula', 'UploadController@uploadMatricula');
-Route::middleware('auth:api')->post('/upload/avatar', 'UploadController@uploadAvatar');
+Route::middleware('auth:api')->post('/upload/avatar', 'AvatarController@uploadAvatar');
+Route::middleware('auth:api')->post('/upload/boletas', 'UploadController@uploadBoletas');
 
 /* GETS ARCHIVES */
 Route::middleware('auth:api')->get('/matricula/{file}', 'GetArchivesController@getMatricula');
-Route::get('/imagenes/{dir}/{img}', 'GetArchivesController@getImg');
+Route::get('/imagenes/avatars/{img}', 'GetArchivesController@getAvatar');
+Route::get('/imagenes/news/{noticia}/{img}', 'GetArchivesController@getImgNoticia');
+Route::middleware('auth:api')->get('/archivos/boleta', 'GetArchivesController@getBoleta');
+
+/* PUBLICAR POSTS */
+//Noticias
+Route::middleware('auth:api')->post('/news', 'PostController@news');
+Route::middleware('auth:api')->post('/anuncios', 'PostController@anuncios');

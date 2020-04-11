@@ -10,25 +10,28 @@ import { connect } from 'react-redux';
 //Componentes
 import { RenderNews } from '../news/PageNews';
 const Home = lazy(() =>
-	import(/* webpackChunkName: "Home" */ './contentChange/home/RenderHome')
+	import(/* webpackChunkName: "Home" */ './contentChangeAdmin/home/RenderHome')
 );
 const Registros = lazy(() =>
-	import(/* webpackChunkName: "Registros" */ './contentChange/registros/RenderRegistros')
+	import(/* webpackChunkName: "Registros" */ './contentChangeAdmin/registros/RenderRegistros')
 );
 const Modificar = lazy(() =>
-	import(/* webpackChunkName: "Modificar" */ './contentChange/consultarModificar/RenderCO_MO')
+	import(/* webpackChunkName: "Modificar" */ './contentChangeAdmin/consultarModificar/RenderCO_MO')
 );
 const Cargar = lazy(() =>
-	import(/* webpackChunkName: "Cargar" */ './contentChange/cargar/RenderCargar')
+	import(/* webpackChunkName: "Cargar" */ './contentChangeAdmin/cargar/RenderCargar')
 );
 const Opciones = lazy(() =>
-	import(/* webpackChunkName: "Opciones" */ './contentChange/opciones/RenderOptions')
+	import(/* webpackChunkName: "Opciones" */ './contentChangeAdmin/opciones/RenderOptions')
 );
 const Borrar = lazy(() =>
-	import(/* webpackChunkName: "Borrar" */ './contentChange/borrar/RenderBorrar')
+	import(/* webpackChunkName: "Borrar" */ './contentChangeAdmin/borrar/RenderBorrar')
 );
 const Publicar = lazy(() =>
-	import(/* webpackChunkName: "Publicar" */ './contentChange/publicar/RenderPublicar')
+	import(/* webpackChunkName: "Publicar" */ './contentChangeAdmin/publicar/RenderPublicar')
+);
+const BoletasUser = lazy(() =>
+	import(/* webpackChunkName: "Publicar" */ './contentChangeUser/boletas/RenderBoletas')
 );
 
 function RenderContent({ content, privilegio }) {
@@ -37,20 +40,24 @@ function RenderContent({ content, privilegio }) {
 	} else if (privilegio === 'V-') {
 		return <RenderContentUser content={content} />;
 	} else {
-		return <main>ERROR</main>;
+		return <main>No disponible por los momentos</main>;
 	}
 }
 
 function RenderContentUser({ content }) {
 	if (content === 'home') {
-		return <main>USER</main>
+		return <main>Bienvenido.</main>
 	}
 	
 	if (content === 'news') {
 		return <RenderNews />;
 	}
 	
-	return <main>ERROR</main>;
+	if (content === 'boleta') {
+		return <main><BoletasUser /></main>;
+	}
+	
+	return <main>No disponible por los momentos</main>;
 }
 
 function RenderContentAdmin({ content }) {

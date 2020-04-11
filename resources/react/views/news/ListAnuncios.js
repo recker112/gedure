@@ -30,7 +30,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
 			const { data, finish } = res.data;
 			
-			//Verificar si está desmontado
+			//Verificar si estรก desmontado
 			if (!cancel) {
 				if (data.length > 0) {
 					updateNewsAnuncios([...list, ...data]);
@@ -94,7 +94,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					loader={<SkeletonAnuncio />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay más anuncios que cargar.</b>
+							<b>No hay mรกs anuncios que cargar.</b>
 						</p>
 					}
 				>
@@ -143,11 +143,17 @@ export function Anuncio(props) {
 		} else {
 			name = anuncio.nameC;
 		}
+		
+		function createMarkup() {
+			return {__html: anuncio.content};
+		}
+		
 		return (
 			<Paper variant="outlined" key={anuncio.id} className="AnuncioPaper">
 				<section className="Anuncio">
 					<span className="ATitle">{anuncio.title}</span>
-					<p className="AContent">{anuncio.content}</p>
+					<p className="AContent" dangerouslySetInnerHTML={createMarkup()}
+					/>
 					<hr />
 					<footer>
 						Escrito por {name} {anuncio.fecha}

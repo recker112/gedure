@@ -195,7 +195,9 @@ class UploadController extends Controller
 		return response()->json([
 			'code' => 200,
 			'msg' => 'update_matricula',
-			'description' => 'Se cargó la sección '.$combiCurso.' correctamente'
+			'description' => 'Se cargó la sección '.$combiCurso.' correctamente',
+			'fileName' => $combiCurso,
+			'fileExtension' => 'xlsx'
 		], 200);
 	}
 	

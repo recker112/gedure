@@ -1,5 +1,5 @@
 //React
-import React from 'react';
+import React, { useState } from 'react';
 
 //Material-UI
 import { Grid, Paper } from '@material-ui/core';
@@ -14,12 +14,17 @@ import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCust
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
 import errorInfo from '../../../../actions/errorInfo';
-import { useSnackbar } from 'notistack';
 import updateLoading from '../../../../actions/updateLoading';
+
+//NotiStack
+import { useSnackbar } from 'notistack';
 
 function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 	const { option, loading, error, title, content, img } = data;
 	const contentMaxLength = option === 'noticia' ? 1200 : 250;
+	
+	//Progress
+	const [progress, setProgress] = useState(0);
 
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
@@ -27,6 +32,64 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 	const handleChange = e => {
 		updateInputValue(e, 'PUBLICAR');
 	};
+	
+	const onUploadProgress = (progressEvent) => {
+		let percentCompleted = Math.round(
+			progressEvent.loaded * 100 / progressEvent.total
+		);
+		
+		setProgress(percentCompleted);
+	}
+	
+	const fetchData = async (formData) => {
+		try {
+			let res;
+			
+			if (option === 'noticia') {
+				res = await axios.post('api/news', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					},
+					onUploadProgress: onUploadProgress
+				});
+			}else {
+				res = await axios.post('api/anuncios', formData);
+			}
+			
+			const { description } = res.data;
+			
+			enqueueSnackbar(description, {
+				variant: 'success'
+			});
+		} catch (error) {
+			const { status, data } = error.response;
+
+			if (status === 400) {
+				enqueueSnackbar(data.description, {
+					variant: 'warning'
+				});
+			} else if (status === 403) {
+				enqueueSnackbar(data.description, {
+					variant: 'error'
+				});
+			} else if (status === 422) {
+				enqueueSnackbar(data.description, {
+					variant: 'error'
+				});
+			} else if (status === 500) {
+				enqueueSnackbar('No se ha podido conectar con la base de datos', {
+					variant: 'error'
+				});
+			} else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+		
+		//Revertir loading
+		updateLoading(false, 'PUBLICAR');
+	}
 
 	const handleSubmit = e => {
 		//Preparativos
@@ -38,12 +101,12 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 			{
 				value: title,
 				name: 'title',
-				minLength: 5
+				minValue: 5
 			},
 			{
 				value: content,
 				name: 'content',
-				minLength: 20
+				minValue: 20
 			}
 		];
 
@@ -54,21 +117,35 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 			errorStatus = true;
 		}
 
-		if (option === 'noticia') {
-			if (img.length === 0) {
-				enqueueSnackbar('Debe cargar algún archivo primero', {
-					variant: 'warning'
-				});
-				errorStatus = true;
-			}
-		}
+		// if (option === 'noticia') {
+		// 	if (img.length === 0) {
+		// 		enqueueSnackbar('Recuerde que puede subir imagenes', {
+		// 			variant: 'warning'
+		// 		});
+		// 	}
+		// }
 
 		if (errorStatus) {
 			return null;
 		}
 
-		//REQ
+		//Loading
 		updateLoading(true, 'PUBLICAR');
+		
+		//Preparar data
+		const formData = new FormData
+		
+		formData.append('title', title);
+		//Formatear contenido
+		formData.append('content', content.replace (/\r?\n/g,"</br>"));
+		//Guardar todos los archivos en un array
+		for (let i = 0; i < img.length; i++) {
+			const archivo = img[i];
+			formData.append('img[]', archivo);
+		}
+		
+		//Realizar consulta
+		fetchData(formData);
 	};
 
 	return (
@@ -96,6 +173,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 									updateInputValue={updateInputValue}
 									option={option}
 									contentMaxLength={contentMaxLength}
+									progress={progress}
 								/>
 							</form>
 						</div>
@@ -114,6 +192,7 @@ function RenderForm({
 	loading,
 	updateInputValue,
 	contentMaxLength,
+	progress,
 	
 }) {
 	//Destructing
@@ -166,7 +245,20 @@ function RenderForm({
 				/>
 			)}
 			<Grid item xs={12} style={{ textAlign: 'center' }}>
-				<ButtonLoading estilo="outlined" colorsito="inherit" text="Publicar" loading={loading} />
+				<Grid container 
+					direction={'column'} 
+					justify={'center'} 
+					alignItems={'center'}
+				>
+					<ButtonLoading 
+						estilo="outlined" 
+						colorsito="inherit" 
+						text="Publicar" 
+						loading={loading}
+						progressBar={option === 'noticia' ? true : false}
+						progress={progress}
+					/>
+				</Grid>
 			</Grid>
 		</Grid>
 	);

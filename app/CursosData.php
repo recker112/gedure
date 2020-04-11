@@ -40,7 +40,7 @@ class CursosData extends Model
 			//Buscar todos los alumnos
 			$datos = $alumno->searchAlumnosForCurso($index->curso_id);
 			
-			//Verificar que exista por lo menos 1 estudiante en la secciรณn
+			//Verificar que exista por lo menos 1 estudiante en la sección
 			if (count($datos) > 0){
 				$dataSeccion[$add] = [
 					'seccion' => $index->curso_seccion,
