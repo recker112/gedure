@@ -45,7 +45,7 @@ class AlumnosData extends Model
 			'users.user_cedula', 
 			'=', 
 			'estudiantes_data.estudiante_cedula')
-			->orderBy('alumno_n_lista', 'DESC')
+			->orderBy('alumno_n_lista', 'ASC')
 			->get();
 		return $alumnosTotal;
 	}
