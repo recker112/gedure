@@ -26,7 +26,7 @@ class GetArchivesController extends Controller
 		if (!$exists) {
 			return response()->json([
 				'code' => 400,
-				'msg' => 'no_exist',
+				'msg' => 'not_exist',
 				'description' => 'El archivo solicitado no existe'
 			], 400);
 		}

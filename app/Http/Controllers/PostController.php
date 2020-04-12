@@ -237,7 +237,7 @@ class PostController extends Controller
 		//Log
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
-		$Log->log_action = "Noticia #$new->new_id publicado.";
+		$Log->log_action = "Noticia #$new->new_id publicada.";
 		$Log->save();
 		
 		//Verificar Errores
