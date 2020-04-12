@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\NewsData;
 use App\AnunciosData;
 use Carbon\Carbon;
+use App\Logs;
 //Controladores
 use App\Http\Controllers\UploadController;
 
@@ -112,7 +113,7 @@ class PostController extends Controller
 		return response()->json($jsonMessage);
 	}
 	
-	public function news()
+	public function publicarNews()
 	{
 		//Config datos
 		$privilegio = request()->user()->user_privilegio;
@@ -233,7 +234,13 @@ class PostController extends Controller
 		$new->new_img = $imgsUploaded;
 		$new->save();
 		
-		//Verificar Logs
+		//Log
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = "Noticia #$new->new_id publicado.";
+		$Log->save();
+		
+		//Verificar Errores
 		if ($img && count($errorLogs) === count($img)) {
 			return response()->json([
 				'code' => 400,
@@ -259,7 +266,7 @@ class PostController extends Controller
 		], 200);
 	}
 	
-	public function anuncios()
+	public function publicarAnuncio()
 	{
 		//Config datos
 		$privilegio = request()->user()->user_privilegio;
@@ -311,6 +318,12 @@ class PostController extends Controller
 		$anuncio->anuncio_owner = $cedula;
 		
 		$anuncio->save();
+		
+		//Log
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = "Anuncio #$anuncio->anuncio_id publicado.";
+		$Log->save();
 		
 		return response()->json([
 			'code' => 200,

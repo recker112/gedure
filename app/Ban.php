@@ -5,121 +5,135 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\User;
+use App\Logs;
 
 class Ban extends Model
 {
-    protected $table = 'bans_data';
+	protected $table = 'bans_data';
 
-    protected $primaryKey = 'ban_cedula';
+	protected $primaryKey = 'ban_cedula';
 
-    public static function getStatusBlock($cedula) {
-        $dataBan = Ban::find($cedula);
+	public static function getStatusBlock($cedula) {
+		$dataBan = Ban::find($cedula);
 
-        //Verificar si no existe
-        if (!$dataBan) {
-            return 'ok';
-        }
+		//Verificar si no existe
+		if (!$dataBan) {
+			return 'ok';
+		}
 
-        if ($dataBan->ban_locks >= 5) {
-            return $jsonMessage = [
-                'code' => 400,
-                'msg'=>'max_locks',
-								'description' => 'Comuniquese con un administrador para reactivar la cuenta'
-            ];
-        }
+		if ($dataBan->ban_locks >= 5) {
+			return $jsonMessage = [
+				'code' => 400,
+				'msg'=>'max_locks',
+				'description' => 'Comuniquese con un administrador para reactivar la cuenta'
+			];
+		}
 
-        if ($dataBan->ban_attemps >= 5) {
-            $dateBan = $dataBan->updated_at;
-            $dateNow = Carbon::now()->sub(5, 'minutes');
+		if ($dataBan->ban_attemps >= 5) {
+			$dateBan = $dataBan->updated_at;
+			$dateNow = Carbon::now()->sub(5, 'minutes');
 
-            //Verificar tiempo de bloqueo
-            if($dateBan >= $dateNow){
-								//Date
-                $wait = $dateBan->diffInSeconds($dateNow);
-							
-                return $jsonMessage = [
-                    'code' => 400,
-                    'msg'=>'account_lock',
-										'description' => "Cuenta bloqueada, espere $wait segundos"
-                ];
-            }
-        }
+			//Verificar tiempo de bloqueo
+			if($dateBan >= $dateNow){
+				//Date
+				$wait = $dateBan->diffInSeconds($dateNow);
 
-        //Regresar un ok si no hay algún bloqueo
-        return 'ok';
-    }
+				return $jsonMessage = [
+					'code' => 400,
+					'msg'=>'account_lock',
+					'description' => "Cuenta bloqueada, espere $wait segundos"
+				];
+				//LOG
+				$Log = new Logs;
+				$Log->log_cedula = $dataUser->cedula;
+				$Log->log_action = 'Inicio de sesión con relogin.';
+				$Log->save();
+			}
+		}
 
-    public static function checkAttemps($cedula)
-    {
-        $userExist = User::find($cedula);
+		//Regresar un ok si no hay algún bloqueo
+		return 'ok';
+	}
 
-        //Verificar que exista el usuario
-        if (!$userExist) {
-            return $jsonMessage = [
-                'code' => 400,
-                'msg'=>'credentials_error',//Not found
-								'description' => 'Usuario y/o contraseña incorrecta'
-            ];
-        }
+	public static function checkAttemps($cedula)
+	{
+		$userExist = User::find($cedula);
 
-        //Buscar usuario en baneos
-        $datosBan = Ban::find($cedula);
+		//Verificar que exista el usuario
+		if (!$userExist) {
+			return $jsonMessage = [
+				'code' => 400,
+				'msg'=>'credentials_error',//Not found
+				'description' => 'Usuario y/o contraseña incorrecta'
+			];
+		}
 
-        //Si el usario existe verificar los attemps
-        if ($datosBan) {
-            //Si attemps no es < 4
-            if ($datosBan->ban_attemps < 4){
-                $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
-                $datosBan->save();
-                $jsonMessage = [
-                    'code' => 400,
-                    'msg'=>'credentials_error',//add_attemps
-										'description' => 'Usuario y/o contraseña incorrecta'
-                ];
-            }else if ($datosBan->ban_attemps === 4 && $datosBan->ban_locks === 4) {
-                //Si es perma block
-                $datosBan->ban_attemps = 0;
-                $datosBan->ban_locks = $datosBan->ban_locks + 1;
-                $datosBan->save();
-                $jsonMessage = [
-                    'code' => 400,
-                    'msg'=>'perma_block',
-										'description' => 'Tu cuenta fue bloqueada permanentemente'
-                ];
-            }else if ($datosBan->ban_attemps === 4) {
-                //Si es === 4
-                $datosBan->ban_attemps = $datosBan->ban_attemps + 1;
-                $datosBan->save();
-                $jsonMessage = [
-                    'code' => 400,
-                    'msg'=>'account_block',
-										'description' => 'Cuenta bloqueada, espere 300 segundos'
-                ];
-            }else if ($datosBan->ban_attemps >= 5) {
-                //Si es >= 5
-                $datosBan->ban_attemps = 0;
-                $datosBan->ban_locks = $datosBan->ban_locks + 1;
-                $datosBan->save();
-                $jsonMessage = [
-                    'code' => 400,
-                    'msg'=>'check_credentials',
-										'description' => 'Revisa tus datos, los sigues poniendo mal'
-                ];
-            }
-            return $jsonMessage;
-        }
+		//Buscar usuario en baneos
+		$datosBan = Ban::find($cedula);
 
-        //Si no existe, registralo
-        $newBan = new Ban;
-        $newBan->ban_cedula = $cedula;
-        $newBan->ban_attemps = 1;
-        $newBan->ban_locks = 0;
-        $newBan->save();
-        $jsonMessage = [
-            'code' => 400,
-            'msg'=>'credentials_error',
-						'description' => 'Usuario y/o contraseña incorrecta'
-        ];
-        return $jsonMessage;
-    }
+		//Si el usario existe verificar los attemps
+		if ($datosBan) {
+			//Si attemps no es < 4
+			if ($datosBan->ban_attemps < 4){
+				$datosBan->ban_attemps = $datosBan->ban_attemps + 1;
+				$datosBan->save();
+				$jsonMessage = [
+					'code' => 400,
+					'msg'=>'credentials_error',//add_attemps
+					'description' => 'Usuario y/o contraseña incorrecta'
+				];
+			}else if ($datosBan->ban_attemps === 4 && $datosBan->ban_locks === 4) {
+				//Si es perma block
+				$datosBan->ban_attemps = 0;
+				$datosBan->ban_locks = $datosBan->ban_locks + 1;
+				$datosBan->save();
+				$jsonMessage = [
+						'code' => 400,
+						'msg'=>'perma_block',
+						'description' => 'Tu cuenta fue bloqueada permanentemente'
+				];
+				$Log = new Logs;
+				$Log->log_cedula = $datosBan->cedula;
+				$Log->log_action = 'Cuenta bloqueada permanentemente.';
+				$Log->save();
+			}else if ($datosBan->ban_attemps === 4) {
+				//Si attemps es === 4
+				$datosBan->ban_attemps = $datosBan->ban_attemps + 1;
+				$datosBan->save();
+				$jsonMessage = [
+					'code' => 400,
+					'msg'=>'account_block',
+					'description' => 'Cuenta bloqueada, espere 300 segundos'
+				];
+				$Log = new Logs;
+				$Log->log_cedula = $datosBan->cedula;
+				$Log->log_action = 'Cuenta bloqueada.';
+				$Log->save();
+			}else if ($datosBan->ban_attemps >= 5) {
+				//Si attemps es >= 5
+				$datosBan->ban_attemps = 0;
+				$datosBan->ban_locks = $datosBan->ban_locks + 1;
+				$datosBan->save();
+				$jsonMessage = [
+					'code' => 400,
+					'msg'=>'check_credentials',
+					'description' => 'Revisa tus datos, los sigues poniendo mal'
+				];
+			}
+			return $jsonMessage;
+		}
+
+		//Si no existe, registralo
+		$newBan = new Ban;
+		$newBan->ban_cedula = $cedula;
+		$newBan->ban_attemps = 1;
+		$newBan->ban_locks = 0;
+		$newBan->save();
+		$jsonMessage = [
+			'code' => 400,
+			'msg'=>'credentials_error',
+			'description' => 'Usuario y/o contraseña incorrecta'
+		];
+		return $jsonMessage;
+	}
 }

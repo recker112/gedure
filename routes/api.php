@@ -58,5 +58,5 @@ Route::middleware('auth:api')->get('/archivos/boleta', 'GetArchivesController@ge
 
 /* PUBLICAR POSTS */
 //Noticias
-Route::middleware('auth:api')->post('/news', 'PostController@news');
-Route::middleware('auth:api')->post('/anuncios', 'PostController@anuncios');
+Route::middleware('auth:api')->post('/news', 'PostController@publicarNews');
+Route::middleware('auth:api')->post('/anuncios', 'PostController@publicarAnuncio');
