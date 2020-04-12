@@ -20,8 +20,11 @@ import updateLoading from '../../../../actions/updateLoading';
 import { useSnackbar } from 'notistack';
 
 function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
+	//Destructing
 	const { option, loading, error, title, content, img } = data;
-	const contentMaxLength = option === 'noticia' ? 1200 : 250;
+	
+	//Máximo de caracteres.
+	const contentMaxLength = option === 'noticia' ? 10000 : 520;
 	
 	//Progress
 	const [progress, setProgress] = useState(0);
