@@ -149,7 +149,7 @@ class UploadController extends Controller
 					$passExcel, 
 					$nombreExcel." ".$apellidoExcel,
 					$combiCurso,
-					false,
+					false
 				);
 				
 				//modelo
