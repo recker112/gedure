@@ -32,7 +32,7 @@ function ShowComponentResponsive({ content }) {
 			) : /* Verificar el estado del switchNews de la app, para
       saber cual componente se debe mostrar. */
 			content === 'noticias' ? (
-				<ListNoticias styles={{ marginTop: '0px' }} />
+				<ListNoticias styles={{ marginTop: '0px', marginLeft: '0' }} />
 			) : (
 				<ListAnuncios />
 			)}

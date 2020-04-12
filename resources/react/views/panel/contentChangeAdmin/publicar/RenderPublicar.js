@@ -153,7 +153,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 
 	return (
 		<Grid container spacing={2} justify="center">
-			<Grid item xs={12} sm={2} md={3}>
+			<Grid item xs={12} sm={5} md={3}>
 				<Paper variant="outlined">
 					<SelectorPublicar action={handleChange} value={option} />
 				</Paper>
@@ -203,7 +203,7 @@ function RenderForm({
 	
 	return (
 		<Grid container spacing={2} justify="center">
-			<Grid item xs={5} sm={4} md={3}>
+			<Grid item xs={12} sm={7} md={5}>
 				<RenderInputs
 					data={{ val: title, name: 'title', label: 'Título' }}
 					size="small"
@@ -211,7 +211,7 @@ function RenderForm({
 					error={error.title}
 				/>
 			</Grid>
-			<Grid item xs={12} style={{ textAlign: 'center' }}>
+			<Grid item xs={12} sm={10} md={8} style={{ textAlign: 'center' }}>
 				<RenderInputs
 					data={{
 						val: content,
@@ -221,7 +221,6 @@ function RenderForm({
 					accion={handleChange}
 					error={error.content}
 					textarea={true}
-					maxWidth="500px"
 				/>
 			</Grid>
 			<Grid item xs={12} style={{ textAlign: 'center' }}>
