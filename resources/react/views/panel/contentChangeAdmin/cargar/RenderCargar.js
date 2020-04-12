@@ -40,6 +40,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 	//Cancel
 	let cancel = false;
 	
+	//OnProgress
 	const onUploadProgress = (progressEvent) => {
 		let percentCompleted = Math.round(
 			progressEvent.loaded * 100 / progressEvent.total
