@@ -89,9 +89,7 @@ class AvatarController extends Controller
 			"/api/imagenes/$dir/$filename?extension=$extension";
 		
 		//Cargar archivo al servidor
-		$path = Storage::disk('public')->putFileAs(
-			"$dir", $avatar, $filenameUploaded
-		);
+		$avatar->storeAs("$dir", $filenameUploaded,'public');
 		
 		//Verificar tipo de usuario
 		if ($privilegio === 'A-'){
