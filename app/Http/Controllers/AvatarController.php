@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use App\AdminsData;
 use App\EstudiantesData;
 use App\CreadoresData;
+use App\Logs;
 //Controladores
 use App\Http\Controllers\UploadController;
 
@@ -112,6 +113,7 @@ class AvatarController extends Controller
 		//Actualizar avatar en la base de datos.
 		$userFound->save();
 		
+		//Borrar avatar viejo
 		if ($oldAvatar !== null){
 			$dirDelete = $this->splitUrl($oldAvatar, $dir);
 			if (Storage::disk('public')->exists($dirDelete)){
@@ -119,6 +121,13 @@ class AvatarController extends Controller
 			}
 		}
 		
+		//Log
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = 'Avatar actualizado.';
+		$Log->save();
+		
+		//respuesta
 		return response()->json([
 			'code' => 200,
 			'msg' => 'update_avatar',

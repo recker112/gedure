@@ -228,6 +228,8 @@ class ModifyUserController extends Controller
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Usuario '.$privilegio.$cedula.' modificado.';
 		$Log->save();
+		
+		//Respuesta
 		return response()->json([
 			'code' => 200,
 			'msg' => 'user_updated',
@@ -333,10 +335,13 @@ class ModifyUserController extends Controller
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Usuario '.$privilegio.$cedula.' eliminado.';
 		$Log->save();
+		
+		//Respuesta
 		return response()->json([
 			'code' => 200,
 			'msg' => 'user_deleted',
-			'description' => "El usuario con la cedula $cedula fue eliminado"
+			'description' => "El usuario con la cedula ".$privilegio.
+			$cedula." fue eliminado"
 		], 200);
 	}
 	

@@ -192,6 +192,8 @@ class UploadController extends Controller
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Matricula '.$curso.$seccion.' cargada.';
 		$Log->save();
+		
+		//Respuesta
 		return response()->json([
 			'code' => 200,
 			'msg' => 'update_matricula',
@@ -205,6 +207,7 @@ class UploadController extends Controller
 	{
 		//Config datos
 		$privilegio = request()->user()->user_privilegio;
+		$cedula = request()->user()->user_cedula;
 		$boletas = request()->file('files');
 		$curso = request()->curso;
 		$seccion = request()->seccion;
@@ -249,8 +252,8 @@ class UploadController extends Controller
 		
 		//Cargar boletas
 		$e = 0;
+		$add = 0;
 		$errorLogs = [];
-		$i = 0;
 		foreach($boletas as $boleta) {
 			$extension = $boleta->extension();
 			$mimeType = $boleta->getMimeType();
@@ -303,16 +306,25 @@ class UploadController extends Controller
 			}
 			
 			if ($findUser && !$error) {
-				$cedula = $findUser->estudiante_cedula;
-				$boleta->storeAs("$dir/$curso/$seccion", "$cedula.$extension");
+				$cedulaStudiend = $findUser->estudiante_cedula;
+				$boleta->storeAs("$dir/$curso/$seccion", "$cedulaStudiend.$extension");
+				$add++;
 			}else {
 				$errorLogs[$e] = $error;
 				$e++;
 			}
-			
-			$i++;
 		}
 		
+		//Verificar que se cargó al menos 1 boleta
+		if (count($errorLogs) !== 0) {
+			//Log
+			$Log = new Logs;
+			$Log->log_cedula = $cedula;
+			$Log->log_action = "Se cargaron $add boletas en $combiCurso.";
+			$Log->save();
+		}
+		
+		//Verificar errores
 		if (count($errorLogs) === count($boletas)) {
 			return response()->json([
 				'code' => 400,
