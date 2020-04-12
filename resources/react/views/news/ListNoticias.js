@@ -33,13 +33,13 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
 
 			const { data, finish } = res.data;
-			
-			//Verificar si está desmontado
+
+			//Verificar si estรก desmontado
 			if (!cancel) {
 				if (data.length > 0) {
 					updateNewsNoticias([...list, ...data]);
 					setHasFinish(finish);
-				}else {
+				} else {
 					setNoData(true);
 				}
 			}
@@ -93,7 +93,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay más noticias que cargar.</b>
+							<b>No hay mรกs noticias que cargar.</b>
 						</p>
 					}
 				>
@@ -102,9 +102,11 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 			) : (
 				<React.Fragment>
 					<SkeletonNoticia />
-					{noData && <p style={{ textAlign: 'center' }}>
+					{noData && (
+						<p style={{ textAlign: 'center' }}>
 							<b>No hay anuncios publicados.</b>
-						</p>}
+						</p>
+					)}
 				</React.Fragment>
 			)}
 		</article>
@@ -148,37 +150,39 @@ export function Noticia(props) {
 			name = news.nameC;
 			avatar = news.avatarC;
 		}
-		
+
 		function createMarkup() {
-			return {__html: news.content};
+			return { __html: news.content };
 		}
-		
+
 		return (
-			<div key={news.id}>
-				<Paper variant="outlined">
-					<section className="Noticia">
-						<div className="NHead">
-							<Avatar src={avatar} alt="Usuario" className="NHeadImg" style={{backgroundColor: '#B46BD6'}}>
-								{/*Mostrar el nombre del usuario en caso de que no tenga 
+			<Paper variant="outlined" key={news.id}>
+				<section className="Noticia">
+					<div className="NHead">
+						<Avatar
+							src={avatar}
+							alt="Usuario"
+							className="NHeadImg"
+							style={{ backgroundColor: '#B46BD6' }}
+						>
+							{/*Mostrar el nombre del usuario en caso de que no tenga 
 								una foto*/}
-								{name.substring(0, 1).toUpperCase()}
-							</Avatar>
-							<span className="NHeadName">{name}</span>
-							<small>
-								<i>#{news.id}</i>
-							</small>
-						</div>
-						<hr />
-						<div className="NContent">
-							<span className="NContentTitle">{news.title}</span>
-							<p className="NContentP" dangerouslySetInnerHTML={createMarkup()}
-							/>
-						</div>
-						<ImagenVisor options={JSON.parse(news.imgList)} />
-						<i className='NFecha'>Publicado {news.fecha}</i>
-					</section>
-				</Paper>
-			</div>
+							{name.substring(0, 1).toUpperCase()}
+						</Avatar>
+						<span className="NHeadName">{name}</span>
+						<small>
+							<i>#{news.id}</i>
+						</small>
+					</div>
+					<hr />
+					<div className="NContent">
+						<span className="NContentTitle">{news.title}</span>
+						<p className="NContentP" dangerouslySetInnerHTML={createMarkup()} />
+					</div>
+					<ImagenVisor options={JSON.parse(news.imgList)} />
+					<i className="NFecha">Publicado {news.fecha}</i>
+				</section>
+			</Paper>
 		);
 	});
 

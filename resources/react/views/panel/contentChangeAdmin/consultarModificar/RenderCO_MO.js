@@ -21,7 +21,7 @@ function RenderCO_MO() {
           <SearchSeccion />
         </Paper>
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12} sm={10}>
         <Paper className='Box' variant="outlined">
           <span className="title">Modificar</span>
           <div className="content">
