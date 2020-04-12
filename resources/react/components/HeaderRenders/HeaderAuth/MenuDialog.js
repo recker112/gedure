@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Material-UI
 import {
@@ -9,7 +9,8 @@ import {
 	Button,
 	CircularProgress,
 	useMediaQuery,
-	DialogContentText
+	DialogContentText,
+	Grid
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
@@ -18,6 +19,7 @@ import { verifyDataPassword, verifyDataAvatar } from './contentMenuUser/verifiDa
 import ContentPassword from './contentMenuUser/ContentPassword';
 import ContentAvatar from './contentMenuUser/ContentAvatar';
 import AnimationDialog from '../../AnimationDialog';
+import ButtonLoading from '../../ButtonLoading';
 
 //Redux
 import { connect } from 'react-redux';
@@ -51,13 +53,27 @@ function MenuDialog({
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 	
+	//Progress
+	const [progress, setProgress] = useState(0);
+	
 	//PÁNICO
 	let cancel = false;
 
+	//Al cerrar popad
 	const handleClose = () => {
 		updateMenuUser(false, option);
 	};
 	
+	//OnProgress
+	const onUploadProgress = (progressEvent) => {
+		let percentCompleted = Math.round(
+			progressEvent.loaded * 100 / progressEvent.total
+		);
+		
+		setProgress(percentCompleted);
+	}
+	
+	//FetchData
 	const fetchData = async (type) => {
 		try {
 			let res;
@@ -68,7 +84,8 @@ function MenuDialog({
 				res = await axios.post('api/upload/avatar', formData, { 
 					headers: { 
 						'Content-Type': 'multipart/form-data'
-					}
+					},
+					onUploadProgress: onUploadProgress
 				});
 			}else if (type === 'password') {
 				
@@ -191,7 +208,20 @@ function MenuDialog({
 						<DialogContent dividers>
 							{!loading ? element.content
 							:
-							<CircularProgress />}
+							<Grid container 
+								direction={'column'} 
+								justify={'center'} 
+								alignItems={'center'}
+							>
+								<ButtonLoading
+									estilo="outlined"
+									colorsito="primary"
+									text="Progress"
+									loading={true}
+									progressBar={true}
+									progress={progress}
+								/>
+							</Grid>}
 						</DialogContent>
 						{!loading && (
 							<DialogActions>
