@@ -316,7 +316,7 @@ class UploadController extends Controller
 		}
 		
 		//Verificar que se cargó al menos 1 boleta
-		if (count($errorLogs) !== 0) {
+		if ($add) {
 			//Log
 			$Log = new Logs;
 			$Log->log_cedula = $cedula;

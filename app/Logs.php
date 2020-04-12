@@ -42,7 +42,7 @@ class Logs extends Model
 					'log_cedula as cedula',
 					'user_privilegio as privilegio'
 				)
-				->where('log_action', 'like', '%ban%')
+				->where('log_action', 'like', '%bloque%')
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
 				->orderBy('log_create_at', 'DESC')
 				->limit(100)

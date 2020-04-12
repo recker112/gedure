@@ -93,7 +93,7 @@ class Ban extends Model
 						'description' => 'Tu cuenta fue bloqueada permanentemente'
 				];
 				$Log = new Logs;
-				$Log->log_cedula = $datosBan->cedula;
+				$Log->log_cedula = $cedula;
 				$Log->log_action = 'Cuenta bloqueada permanentemente.';
 				$Log->save();
 			}else if ($datosBan->ban_attemps === 4) {
@@ -106,7 +106,7 @@ class Ban extends Model
 					'description' => 'Cuenta bloqueada, espere 300 segundos'
 				];
 				$Log = new Logs;
-				$Log->log_cedula = $datosBan->cedula;
+				$Log->log_cedula = $cedula;
 				$Log->log_action = 'Cuenta bloqueada.';
 				$Log->save();
 			}else if ($datosBan->ban_attemps >= 5) {
