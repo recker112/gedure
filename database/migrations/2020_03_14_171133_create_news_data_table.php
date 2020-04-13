@@ -18,6 +18,7 @@ class CreateNewsDataTable extends Migration
             $table->char('new_title', 50);
             $table->longText('new_content');
             $table->json('new_img')->nullable();
+						$table->json('new_archives')->nullable();
             $table->timestamp('new_create_at');
         });
     }

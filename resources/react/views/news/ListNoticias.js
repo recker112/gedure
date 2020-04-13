@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 
 //Componentes
-import { ImagenVisor } from '../../components/ImagenVisor';
+import ImagenVisor from '../../components/ImagenVisor';
+import ArchiveVisor from '../../components/ArchiveVisor';
 
 //Redux
 import { connect } from 'react-redux';
@@ -180,6 +181,7 @@ export function Noticia(props) {
 						<p className="NContentP" dangerouslySetInnerHTML={createMarkup()} />
 					</div>
 					<ImagenVisor options={JSON.parse(news.imgList)} />
+					<ArchiveVisor options={JSON.parse(news.archivesList)} />
 					<i className="NFecha">Publicado {news.fecha}</i>
 				</section>
 			</Paper>

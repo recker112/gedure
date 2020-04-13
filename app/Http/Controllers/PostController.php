@@ -119,6 +119,7 @@ class PostController extends Controller
 		$privilegio = request()->user()->user_privilegio;
 		$cedula = request()->user()->user_cedula;
 		$img = request()->file('img');
+		$archives = request()->file('archives');
 		$title = request()->title;
 		$content = request()->content;
 		$dir = 'news';
@@ -137,7 +138,8 @@ class PostController extends Controller
 			//Verify pass
 			$dataValidate = request()->validate([
 				'title' => 'required|string|max:50',
-				'content' => 'required'
+				'content' => 'required|string|min:20',
+				'archives' => 'max:4'
 			], [
 				/*
 				Custom message
@@ -146,7 +148,8 @@ class PostController extends Controller
 				*/
 				'required' => 'Campo obigatorio',
 				'string' => 'No válido',
-				'max' => 'No válido'
+				'max' => 'No válido',
+				'min' => 'No válido'
 			]);
 		} catch (ValidationException $exception) {
 			return response()->json([
@@ -166,12 +169,12 @@ class PostController extends Controller
 		
 		$new->save();
 		
-		//Cargar archivos
+		//Cargar imagenes
 		$errorLogs = [];
 		$imgsUploaded= null;
+		$e = 0;
 		if (!empty($img)){
 			//Guardar cada archivo
-			$e = 0;
 			$i = 0;
 			foreach($img as $file) {
 				//Datos
@@ -213,15 +216,11 @@ class PostController extends Controller
 						"$dir/$new->new_id", $file, $filenameOriginal
 					);
 					
-					//Obtener extension
-					$path = explode('.', $path);
-					$extension = $path[1];
-					$path = $path[0];
+					//URL
+					$uploadedImgDir = env('APP_URL').
+					"/api/resources/$path";
 					
-					$uploadedAvatarDir = env('APP_URL').
-					"/api/imagenes/$path?extension=$extension";
-					
-					$imgsUploaded[$i] = $uploadedAvatarDir;
+					$imgsUploaded[$i] = $uploadedImgDir;
 					$i++;
 				}else {
 					$errorLogs[$e] = $error;
@@ -230,8 +229,89 @@ class PostController extends Controller
 			}
 		}
 		
-		//Cargar imagenes al servidor
+		//Cargar archivos
+		$archivesUploaded= null;
+		if (!empty($archives)){
+			//Guardar cada archivo
+			$i = 0;
+			foreach($archives as $file) {
+				//Datos
+				$error = [];
+				$mimeType = $file->getMimeType();
+				$size = $file->getSize();
+				//Nombre del archivo completo
+				$filenameOriginal = $file->getClientOriginalName();
+				//Extension
+				$extension = $file->extension();
+				//Nombre solo
+				$filename = explode('.', $filenameOriginal);
+				$filename = $filename[0];
+				
+				//Verificar MIME
+				$modelo = new UploadController;
+				$verifyMIME = $modelo->verifyMime($mimeType, [
+					'application/vnd.ms-excel',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetapplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					'application/pdf',
+					'application/msword',
+					'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+				]);
+				
+				if (!$verifyMIME) {
+					$error = [
+						'type_error' => 'mime',
+						'msg' => 'Solo se aceptan archivos .pdf/.doc/.docx/.xlsx/.xls'
+					];
+				}else if ($size / 1024 > 2048){
+					//Verificar SIZE
+					$error = [
+						'type_error' => 'size',
+						'msg' => 'El archivo supera el tamaño máximo'
+					];
+				}
+				
+				//Upload
+				if (!$error) {
+					//Mover archivo
+					$path = Storage::disk('public')->putFileAs(
+						"$dir/$new->new_id", $file, $filenameOriginal
+					);
+					
+					//Url Archive
+					$uploadedArchiveDir = env('APP_URL').
+					"/api/resources/$path";
+					
+					//excel Image
+					if ($extension === "xlsx" || $extension === "xls") {
+						$extensionImg = 'excel';
+					}else if ($extension === "doc" || $extension === "docx"){
+						//Word
+						$extensionImg = 'word';
+					}else {
+						//PDF
+						$extensionImg = 'pdf';
+					}
+					
+					//Url icon extension
+					$extensionImgUrl = env('APP_URL').
+						"/api/imagenes/$extensionImg.png";
+					
+					$archivesUploaded[$i] = [
+						'url' => $uploadedArchiveDir,
+						'extension' => $extensionImgUrl
+					];
+					$i++;
+				}else {
+					$errorLogs[$e] = $error;
+					$e++;
+				}
+			}
+		}
+		
+		//Cargar imagenes y archivos al servidor
 		$new->new_img = $imgsUploaded;
+		$new->new_archives = $archivesUploaded;
 		$new->save();
 		
 		//Log
@@ -247,7 +327,7 @@ class PostController extends Controller
 				'msg' => 'new_publicate_without_img',
 				'description' => 'No se pudo cargar ninguna imagen',
 				'errors' => $errorLogs,
-				'count' => count($boletas)
+				'count' => count($img)
 			], 400);
 		}else if (count($errorLogs) > 0) {
 			return response()->json([
