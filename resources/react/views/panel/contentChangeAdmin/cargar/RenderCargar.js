@@ -92,7 +92,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				
 				//Consultar archivo
 				res = await axios.get(
-					`api/matricula/${fileName}?extension=${fileExtension}`, {
+					`api/matricula/${fileName}.${fileExtension}`, {
 					responseType: 'blob'
 				});
 				

@@ -87,7 +87,7 @@ class AvatarController extends Controller
 		
 		//Genear url
 		$uploadedAvatarDir = env('APP_URL').
-			"/api/imagenes/$dir/$filename?extension=$extension";
+			"/api/imagenes/$dir/$filenameUploaded";
 		
 		//Cargar archivo al servidor
 		$avatar->storeAs("$dir", $filenameUploaded,'public');

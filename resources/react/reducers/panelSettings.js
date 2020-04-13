@@ -104,6 +104,7 @@ const initialState = {
     title: '',
     content: '',
     img: [],
+		archives: [],
     loading: false,
     error: {
       title: {
@@ -541,7 +542,10 @@ export default (state = initialState, { type, payload }) => {
 
       //Obtener valores del input
       const name = e.target.name;
-      const value = name === 'img' ? e.target.files : e.target.value;
+      const value = name === 'img' || name === 'archives' ? 
+				e.target.files 
+			: 
+				e.target.value;
 
       return {
         ...state,

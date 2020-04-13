@@ -21,7 +21,7 @@ import { useSnackbar } from 'notistack';
 
 function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 	//Destructing
-	const { option, loading, error, title, content, img } = data;
+	const { option, loading, error, title, content, img, archives } = data;
 	
 	//Máximo de caracteres.
 	const contentMaxLength = option === 'noticia' ? 10000 : 520;
@@ -115,37 +115,65 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 
 		errorStatus = verifyErrorCustom(InputsArray, errorInfo, 'PUBLICAR');
 
+		//Verificar máximo de caracteres
 		if (content.length > contentMaxLength) {
 			errorInfo('content', '', 'PUBLICAR');
 			errorStatus = true;
 		}
 
-		// if (option === 'noticia') {
-		// 	if (img.length === 0) {
-		// 		enqueueSnackbar('Recuerde que puede subir imagenes', {
-		// 			variant: 'warning'
-		// 		});
-		// 	}
-		// }
-
-		if (errorStatus) {
-			return null;
+		//Verificar máximo de archivos
+		if (option === 'noticia') {
+			if (archives.length > 4) {
+				enqueueSnackbar('Solo puede subir un máximo de 4 archivos', {
+					variant: 'warning'
+				});
+				errorStatus = true;
+			}
 		}
-
-		//Loading
-		updateLoading(true, 'PUBLICAR');
 		
 		//Preparar data
 		const formData = new FormData
 		
 		formData.append('title', title);
 		//Formatear contenido
-		formData.append('content', content.replace (/\r?\n/g,"</br>"));
-		//Guardar todos los archivos en un array
+		formData.append('content', content);
+		
+		//Guardar todos las imagenes en un array
 		for (let i = 0; i < img.length; i++) {
 			const archivo = img[i];
 			formData.append('img[]', archivo);
+			
+			//Verificar tamaño máximo
+			if (archivo.size / 1024 > 3072){
+				enqueueSnackbar('Una de las imagenes supera el tamaño máximo', {
+					variant: 'warning'
+				});
+				errorStatus = true;
+			}
 		}
+		
+		//Guardar todos los archivos en un array
+		for (let i = 0; i < archives.length; i++) {
+			const archivo = archives[i];
+			formData.append('archives[]', archivo);
+			
+			//Verificar tamaño máximo
+			if (archivo.size / 1024 > 2048){
+				enqueueSnackbar('Uno de los archivos supera el tamaño máximo', {
+					variant: 'warning'
+				});
+				errorStatus = true;
+			}
+		}
+		
+		
+		//Verificar errores
+		if (errorStatus) {
+			return null;
+		}
+		
+		//Loading
+		updateLoading(true, 'PUBLICAR');
 		
 		//Realizar consulta
 		fetchData(formData);
@@ -199,7 +227,7 @@ function RenderForm({
 	
 }) {
 	//Destructing
-	const { title, content, img } = values;
+	const { title, content, img, archives } = values;
 	
 	return (
 		<Grid container spacing={2} justify="center">
@@ -233,18 +261,36 @@ function RenderForm({
 				)}
 			</Grid>
 			{option === 'noticia' && (
-				<LoadArchives
-					idName="uploadPublic"
-					accepted="image/*"
-					reset={option}
-					files={img}
-					action={updateInputValue}
-					multiple={true}
-					maxSizeFile={{ unique: '3MB', multiple: '3MB' }}
-					label={{ unique: 'imagenes', multiple: 'imagenes' }}
-					name="img"
-					type="PUBLICAR"
-				/>
+				<React.Fragment>
+					<Grid item xs={12} sm={5} md={3}>
+						<LoadArchives
+							idName="uploadPublic"
+							accepted="image/*"
+							reset={option}
+							files={img}
+							action={updateInputValue}
+							multiple={true}
+							maxSizeFile={{ unique: '3MB', multiple: '3MB' }}
+							label={{ unique: 'imagenes', multiple: 'imagenes' }}
+							name="img"
+							type="PUBLICAR"
+						/>
+					</Grid>
+					<Grid item xs={12} sm={5} md={3}>
+						<LoadArchives
+							idName="uploadArchivesPublic"
+							accepted=".doc,.docx,.pdf,.xlsx,.xls"
+							reset={option}
+							files={archives}
+							action={updateInputValue}
+							multiple={true}
+							maxSizeFile={{ unique: '2MB', multiple: '2MB' }}
+							label={{ unique: 'archivos', multiple: 'archivos' }}
+							name="archives"
+							type="PUBLICAR"
+						/>
+					</Grid>
+				</React.Fragment>
 			)}
 			<Grid item xs={12} style={{ textAlign: 'center' }}>
 				<Grid container 

@@ -7,7 +7,7 @@ import { Skeleton } from '@material-ui/lab';
 //LazyImg
 import { LazyImage } from 'react-lazy-images';
 
-export function ImagenVisor({ options }) {
+function ImagenVisor({ options }) {
 	if (Array.isArray(options) && options.length !== 0) {
 		const restante = options.length - 3;
 		const imagenes = options.map((img, i) => {
@@ -46,6 +46,7 @@ export function ImagenVisor({ options }) {
 		);
 	}
 
+	//Loading
 	if (options === 'loading') {
 		let SkeletonImg = [1, 2, 3, 4].map((e, i) => (
 			<Skeleton key={i} variant="rect" height={100} width={110} />
@@ -61,3 +62,5 @@ export function ImagenVisor({ options }) {
 
 	return <React.Fragment />;
 }
+
+export default ImagenVisor;

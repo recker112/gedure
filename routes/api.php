@@ -51,9 +51,10 @@ Route::middleware('auth:api')->post('/upload/avatar', 'AvatarController@uploadAv
 Route::middleware('auth:api')->post('/upload/boletas', 'UploadController@uploadBoletas');
 
 /* GETS ARCHIVES */
+Route::get('/imagenes/{file}', 'GetArchivesController@getImg');
 Route::middleware('auth:api')->get('/matricula/{file}', 'GetArchivesController@getMatricula');
 Route::get('/imagenes/avatars/{img}', 'GetArchivesController@getAvatar');
-Route::get('/imagenes/news/{noticia}/{img}', 'GetArchivesController@getImgNoticia');
+Route::get('/resources/news/{noticia}/{file}', 'GetArchivesController@getResourceNews');
 Route::middleware('auth:api')->get('/archivos/boleta', 'GetArchivesController@getBoleta');
 
 /* PUBLICAR POSTS */
