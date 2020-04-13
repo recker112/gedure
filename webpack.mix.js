@@ -11,5 +11,20 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.react('resources/react/app.js', 'public/js')
-   .sass('resources/react/assets/scss/app.scss', 'public/css');
+//Configurar path chuncks
+mix.webpackConfig({
+        output: {
+            chunkFilename: 'js/chuncks/[name].[contenthash].js',
+        },
+    });
+
+//React
+mix.react('resources/react/app.js', 'public/js');
+
+//Sass
+mix.sass('resources/react/assets/scss/app.scss', 'public/css');
+
+//Versionar
+if (mix.inProduction()) {
+  mix.version();
+}
