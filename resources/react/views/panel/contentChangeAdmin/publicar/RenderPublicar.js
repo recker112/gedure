@@ -136,7 +136,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 		
 		formData.append('title', title);
 		//Formatear contenido
-		formData.append('content', content);
+		formData.append('content', content.replace (/\r?\n/g,"</br>"));
 		
 		//Guardar todos las imagenes en un array
 		for (let i = 0; i < img.length; i++) {
