@@ -26,66 +26,114 @@ import { connect } from 'react-redux';
 const ContentBarList = ({privilegio}) => {
 	const dataListAdmin = [
 		{
-			redirect: 'home',
+			redirect: '/panel?show=home',
 			text: 'Dashboard',
+			queryParams: {
+				param: 'show',
+				value: 'home'
+			},
 			icon: <HomeIcon />
 		},
 		{
-			redirect: 'reg',
+			redirect: '/panel?show=reg',
 			text: 'Registros',
+			queryParams: {
+				param: 'show',
+				value: 'reg'
+			},
 			icon: <History />
 		},
 		{
-			redirect: 'co/mo',
+			redirect: '/panel?show=modify',
 			text: 'Consultar/Modificar',
+			queryParams: {
+				param: 'show',
+				value: 'modify'
+			},
 			icon: <ReceiptIcon />
 		},
 		{
-			redirect: 'upload',
+			redirect: '/panel?show=upload',
 			text: 'Cargar',
+			queryParams: {
+				param: 'show',
+				value: 'upload'
+			},
 			icon: <CloudUploadIcon />
 		},
 		{
-			redirect: 'options',
+			redirect: '/panel?show=userOptions',
 			text: 'Opciones',
+			queryParams: {
+				param: 'show',
+				value: 'userOptions'
+			},
 			icon: <BuildIcon />
 		},
 		{
-			redirect: 'delete',
+			redirect: '/panel?show=delete',
 			text: 'Borrar',
+			queryParams: {
+				param: 'show',
+				value: 'delete'
+			},
 			icon: <DeleteIcon />
 		},
 		{
-			redirect: 'notice',
+			redirect: '/panel?show=posting',
 			text: 'Publicar',
+			queryParams: {
+				param: 'show',
+				value: 'posting'
+			},
 			icon: <NewReleasesIcon />
 		},
 		{
-			redirect: 'deleteNotices',
+			redirect: '/panel?show=delPosting',
 			text: 'Borrar publicación',
+			queryParams: {
+				param: 'show',
+				value: 'delPosting'
+			},
 			icon: <DeleteSweepIcon />
 		},
   ];
   
   const dataListEstu = [
 		{
-			redirect: 'home',
+			redirect: '/panel?show=home',
 			text: 'Dashboard',
+			queryParams: {
+				param: 'show',
+				value: 'home'
+			},
 			icon: <HomeIcon />
     },
     {
-			redirect: 'boleta',
+			redirect: '/panel?show=boleta',
 			text: 'Boleta',
+			queryParams: {
+				param: 'show',
+				value: 'boleta'
+			},
 			icon: <ListAltIcon />
     },
     {
-			redirect: 'horario',
+			redirect: '/panel?show=horario',
 			text: 'Horario',
+			queryParams: {
+				param: 'show',
+				value: 'horario'
+			},
 			icon: <QueryBuilderIcon />
     },
     {
-			redirect: 'constancias',
+			redirect: '/panel?show=constancias',
 			text: 'Constancias',
+			queryParams: {
+				param: 'show',
+				value: 'constancias'
+			},
 			icon: <ArchiveIcon />
 		},
 	];
@@ -105,7 +153,8 @@ const ContentBarList = ({privilegio}) => {
 									redirect: data.redirect,
 									text: data.text
 								}}
-								indexPass={i}
+								queryParams={data.queryParams ? data.queryParams : null}
+								defaultPath='home'
 							>
 								{data.icon}
 							</RenderButtonList>
@@ -122,7 +171,8 @@ const ContentBarList = ({privilegio}) => {
 									redirect: data.redirect,
 									text: data.text
 								}}
-								indexPass={i}
+								queryParams={data.queryParams ? data.queryParams : null}
+								defaultPath='home'
 							>
 								{data.icon}
 							</RenderButtonList>

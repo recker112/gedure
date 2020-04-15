@@ -8,7 +8,7 @@ import ContentBarList from './DrawerMenu/ContentBarList';
 
 //Redux
 import { connect } from 'react-redux';
-import toggleDrawer from '../../actions/panel/toggleDrawer';
+import toggleDrawer from '../actions/panel/toggleDrawer';
 
 function DrawerMenu({open, toggleDrawer}) {
   return (

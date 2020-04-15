@@ -6,7 +6,7 @@ import { Zoom } from '@material-ui/core';
 
 //Componentes
 import Form from './Form';
-import RedirectVerify from '../../components/RedirectVerify';
+import VerifyRelogin from './VerifyRelogin';
 import ShowInfoVersion from '../../components/ShowInfoVersion';
 
 function PageIndex({ auth, reloginSuccess }) {
@@ -15,7 +15,7 @@ function PageIndex({ auth, reloginSuccess }) {
 
 	//Regresar contenido del login
 	return (
-		<RedirectVerify>
+		<VerifyRelogin>
 			<div className="BoxPageIndex">
 				<main>
 					<Zoom in={true} timeout={600}>
@@ -30,7 +30,7 @@ function PageIndex({ auth, reloginSuccess }) {
 				</main>
 			</div>
 			<ShowInfoVersion />
-		</RedirectVerify>
+		</VerifyRelogin>
 	);
 }
 

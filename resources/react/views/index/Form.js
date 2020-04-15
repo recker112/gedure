@@ -1,6 +1,5 @@
 //React
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 
 //Redux
 import { connect } from 'react-redux';
@@ -8,7 +7,7 @@ import updateInputValue from '../../actions/updateInputValue';
 import updateLoading from '../../actions/updateLoading';
 import errorInfo from '../../actions/errorInfo';
 import updateDataUser from '../../actions/login/updateDataUser';
-import loginSinceFormSuccess from '../../actions/login/loginSinceFormSuccess';
+import authUpdate from '../../actions/login/authUpdate';
 
 //Components
 import RenderForm from './RenderForm';
@@ -23,7 +22,7 @@ function Form({
 	updateLoading,
 	auth,
 	updateDataUser,
-	loginSinceFormSuccess,
+	authUpdate,
 	dataLogin,
 	errorInfo
 }) {
@@ -40,25 +39,6 @@ function Form({
 		updateInputValue(e, 'LOGIN');
 	};
 	
-	const test = (InputsArray, errorInfo) => {
-	let errorStatus = false;
-	//Verificar datos
-	InputsArray.map(input => {
-		if (input.value.length === 0) {
-			//Empty
-			errorInfo(input.name, 'Campo obligatorio', 'MODIFY');
-			errorStatus = true;
-		} else if (input.minValue && input.value.length < input.minValue) {
-			//No valid cédula
-			errorInfo(input.name, 'No válido', 'MODIFY');
-			errorStatus = true;
-		}
-		return null;
-	});
-	
-	return errorStatus;
-}
-
 	const handleSubmit = e => {
 		//Preparativos
 		e.preventDefault();
@@ -105,10 +85,21 @@ function Form({
 				//datos de usuario, los cuales se cargarán con
 				//"updateDataUser"
 				updateDataUser({ ...res.data });
-
+				
+				const { access_key } = res.data;
+				//Guardar el Access Key
+				if (checkbox) {
+					//Datos permanentes.
+					localStorage.setItem('key', JSON.stringify(access_key));
+					sessionStorage.setItem('key', JSON.stringify(access_key));
+				} else {
+					//Datos de SOLO sesión.
+					sessionStorage.setItem('key', JSON.stringify(access_key));
+				}
+				
 				//Una vez terminado de actualizar los datos, se procede a
 				//decirle a la APP que se realizó un login correctamente.
-				loginSinceFormSuccess();
+				authUpdate(true);
 
 				//Add SnackBar
 				enqueueSnackbar('Login exitoso', {
@@ -148,18 +139,8 @@ function Form({
 		}
 	},[cancel])
 
-	//Verificar si se redireccionará o no.
-	if (auth) {
-		return (
-			<Redirect
-				to={{
-					pathname: '/panel'
-				}}
-			/>
-		);
-	} else {
-		return <RenderForm options={{ handleChange, handleSubmit }} />;
-	}
+	//Renderizar form
+	return <RenderForm options={{ handleChange, handleSubmit }} />;
 }
 
 const mapStateToProps = state => ({
@@ -171,7 +152,7 @@ const mapDispatchToProps = {
 	updateInputValue,
 	updateLoading,
 	updateDataUser,
-	loginSinceFormSuccess,
+	authUpdate,
 	errorInfo
 };
 

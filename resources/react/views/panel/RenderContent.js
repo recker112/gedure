@@ -1,14 +1,19 @@
 //React
-import React from 'react';
+import React, { lazy } from 'react';
 
-//Loadable
-import { lazy } from "@loadable/component";
+//Router
+import {
+  Switch,
+  Route,
+} from "react-router-dom";
 
 //Redux
 import { connect } from 'react-redux';
 
-//Componentes
-import { RenderNews } from '../news/PageNews';
+//Components
+import { NoFound } from '../Routers';
+
+//Lazy
 const Home = lazy(() =>
 	import(/* webpackChunkName: "Home" */ './contentChangeAdmin/home/RenderHome')
 );
@@ -35,10 +40,21 @@ const BoletasUser = lazy(() =>
 );
 
 function RenderContent({ content, privilegio }) {
+	let fixNull;
+	if (content === null) {
+		fixNull = "home";
+	}else {
+		fixNull = content;
+	}
+	
 	if (privilegio === 'A-') {
-		return <RenderContentAdmin content={content} />;
+		return (
+			<RenderContentAdmin content={fixNull} />
+		);
 	} else if (privilegio === 'V-') {
-		return <RenderContentUser content={content} />;
+		return (
+			<RenderContentUser content={fixNull} />
+		);
 	} else {
 		return <main>No disponible por los momentos</main>;
 	}
@@ -46,77 +62,74 @@ function RenderContent({ content, privilegio }) {
 
 function RenderContentUser({ content }) {
 	if (content === 'home') {
-		return <main>Bienvenido.</main>
+		return <main>Bienvenido.</main>;
 	}
-	
+
 	if (content === 'news') {
-		return <RenderNews />;
+		return <React.Fragment />;
 	}
-	
+
 	if (content === 'boleta') {
-		return <main><BoletasUser /></main>;
+		return (
+			<main>
+				<BoletasUser />
+			</main>
+		);
 	}
-	
-	return <main>No disponible por los momentos</main>;
+
+	return (<NoFound />);
 }
 
 function RenderContentAdmin({ content }) {
-	if (content === 'home') {
+	if (content === "home") {
 		return (
 			<main>
 				<Home />
 			</main>
 		);
-	} else if (content === 'news') {
-		return <RenderNews />;
-	} else if (content === 'reg') {
+	}else if (content === "reg") {
 		return (
 			<main>
 				<Registros />
 			</main>
 		);
-	} else if (content === 'co/mo') {
+	}else if (content === "modify") {
 		return (
 			<main>
 				<Modificar />
 			</main>
 		);
-	} else if (content === 'upload') {
+	}else if (content === "upload") {
 		return (
 			<main>
 				<Cargar />
 			</main>
 		);
-	} else if (content === 'options') {
+	}else if (content === "userOptions") {
 		return (
 			<main>
 				<Opciones />
 			</main>
 		);
-	} else if (content === 'delete') {
+	}else if (content === "delete") {
 		return (
 			<main>
 				<Borrar />
 			</main>
 		);
-	} else if (content === 'notice') {
+	}else if (content === "posting") {
 		return (
 			<main>
 				<Publicar />
 			</main>
 		);
-	} else {
-		return (
-			<main>
-				<h1>Error</h1>
-			</main>
-		);
+	}else {
+		return (<NoFound />);
 	}
 }
 
 const mapStateToProps = state => ({
-	content: state.panelSettings.content,
-    privilegio: state.userData.privilegio
+	privilegio: state.userData.privilegio
 });
 
 export default connect(mapStateToProps)(RenderContent);

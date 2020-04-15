@@ -4,7 +4,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 //Redux
 import { connect } from 'react-redux';
-import toggleDrawer from '../../../actions/panel/toggleDrawer';
+import toggleDrawer from '../../actions/panel/toggleDrawer';
 
 function CloseDrawerMenu({toggleDrawer}) {
   return (

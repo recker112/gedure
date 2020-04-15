@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+//React Router
+import {
+  useRouteMatch,
+	useLocation
+} from "react-router-dom";
 
 //Material-UI
 import {
@@ -13,72 +19,83 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-//Redux
-import { connect } from 'react-redux';
-import updateInfoDialog from '../actions/panel/updateInfoDialog';
-
 //Animación
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
+function ShowInfoContent({ 
+	dataContent, 
+	defaultPath,
+	noShowInfo = false, 
+	queryParams = false 
+}) {
 	//Resolution RESPONSIVE DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 	
+	//Query Param Select
+	let query = useQuery();
+	
+	//Path
+	let { path } = useRouteMatch();
+	
+	//Content
+	let content;
+	
+	//Select content
+	if (queryParams) {
+		content = query.get(queryParams);
+	}else {
+		content = path;
+	}
+	
+	//OpenDialog
+	const [open, setOpen] = useState(false);
+	
+	//Verifi list and open dialog
+	useEffect(()=> {
+		//Verificar si se debe mostrar info.
+		const noInfo = noShowInfo;
+		
+		let found = false;
+		const storage = JSON.parse(localStorage.getItem('noListStorage'));
+		
+		//Verificar que la lista esté en array
+		if (typeof noInfo === 'object') {
+			//Verificar lista de los items a NO mostrar
+			noInfo.map(itemContent => {
+				if (content === itemContent && !found) {
+					found = true;
+				}
+
+				return null;
+			});
+		}
+		
+		//Verificar que exista el contenido actual en la lista
+		let foundInList = false;
+		dataContent.map(object => {
+			if (content === object.id) {
+				foundInList = true;
+			}
+
+			return null;
+		});
+		
+		//Fix null value
+		if (!found && content === null) {
+			found = true;
+		}
+		
+		const openOnInit = !found && foundInList;
+		
+		setOpen(openOnInit);
+	}, [content]);
+	
 	//Variables
 	let Dtitle = '';
 	let Dcontent = '';
-	const dataContent = [
-		{
-			id: 'reg',
-			title: 'Registros',
-			content:
-				'Muestra todos los movimientos realizados en toda la app, desde inicios de sesión hasta movimientos en la matrícula.'
-		},
-		{
-			id: 'co/mo',
-			title: 'Consultar y Modificar',
-			content:
-				'Permite modificar a los estudiantes de una sección, y muestra una lista de los estudantes existentes en una sección.'
-		},
-		{
-			id: 'upload',
-			title: 'Cargar',
-			content: 'Permite cargar boletas o matricula en el servidor, modificando las ya existentes.'
-		},
-		{
-			id: 'options',
-			title: 'Opciones',
-			content: 'Configurar algunas opciones del estudiante o una sección completa.'
-		},
-		{
-			id: 'files',
-			title: 'Archivos',
-			content: 'Cargar o eliminar los archivos los descargables por el estudiante.'
-		},
-		{
-			id: 'delete',
-			title: 'Eliminar',
-			content: 'Elimina boletas, o secciones del sistema.'
-		},
-		{
-			id: 'notice',
-			title: 'Publicar',
-			content: 'Publica un auncio o una noticia nueva.'
-		},
-		{
-			id: 'deleteNotices',
-			title: 'Borrar publicación',
-			content: 'Permite eliminar una noticia o anuncio publicado'
-		},
-		{
-			id: 'boleta',
-			title: 'Boleta',
-			content: 'Permite descargar la boleta del estudiante solamente si ya se encuentra cargada en el sistema previamente'
-		}
-	];
 
 	//Seleccionar contenido
 	dataContent.map(object => {
@@ -91,49 +108,44 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 	});
 
 	//HANDLE
-	const handleClose = e => {
-		//Obtener variable
-		const value = e.target.dataset.content;
-
-		//Verificar que esté definina
-		if (typeof value !== 'undefined') {
-			//Variable
-			const data = localStorage.getItem('noListStorage');
-
-			//Verificar existencia de data
-			if (data === null || data.length === 0) {
-				//Setear dada
-				localStorage.setItem('noListStorage', JSON.stringify([value]));
-			} else {
-				const storage = JSON.parse(localStorage.getItem('noListStorage'));
-				//Buscador de iguales.
-				let found = false;
-				storage.map(valueLocal => {
-					if (value === valueLocal && !found) {
-						found = true;
-					}
-
-					return null;
-				});
-
-				//Insertar si NO se encuentra.
-				if (!found) {
-					const newArray = JSON.stringify([...storage, value]);
-					localStorage.setItem('noListStorage', newArray);
-				}
-			}
-
-			//Cerrar dialog
-			updateInfoDialog();
-		} else {
-			//Cerrar dialog
-			updateInfoDialog();
-		}
+	const handleClose = (e) => {
+		//Cerrar dialog
+		setOpen(false);
 	};
+	
+	const handleCloseAndNoSeeMore = () => {
+		//Variable
+		const dataStorage = JSON.parse(localStorage.getItem('noListStorage'));
+
+		//Verificar existencia de data
+		if (dataStorage === null || dataStorage.length === 0) {
+			//Setear dada
+			localStorage.setItem('noListStorage', JSON.stringify([content]));
+		} else {
+			//Buscador de iguales.
+			let found = false;
+			dataStorage.map(valueLocal => {
+				if (content === valueLocal && !found) {
+					found = true;
+				}
+
+				return null;
+			});
+
+			//Insertar si NO se encuentra.
+			if (!found) {
+				const newArray = JSON.stringify([...dataStorage, content]);
+				localStorage.setItem('noListStorage', newArray);
+			}
+		}
+
+		//Cerrar dialog
+		setOpen(false);
+	}
 
 	return (
 		<Dialog
-			open={infoDialog}
+			open={open}
 			onClose={handleClose}
 			scroll="paper"
 			fullScreen={fullScreen}
@@ -147,8 +159,8 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 				<DialogContentText id="info-description-dialog">{Dcontent}</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button color="secondary" onClick={handleClose}>
-					<span data-content={content}>No mostrar más</span>
+				<Button color="secondary" onClick={handleCloseAndNoSeeMore}>
+					No mostrar más
 				</Button>
 				<Button color="primary" onClick={handleClose}>
 					Entendido
@@ -158,14 +170,10 @@ function ShowInfoContent({ infoDialog, updateInfoDialog, content }) {
 	);
 }
 
-//Redux
-const mapStateToProps = state => ({
-	infoDialog: state.panelSettings.infoDialog,
-	content: state.panelSettings.content
-});
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
-const mapDispatchToProps = {
-	updateInfoDialog
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowInfoContent);
+export default ShowInfoContent;

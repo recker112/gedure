@@ -1,28 +1,18 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import { Link } from 'react-router-dom';
 
-//Redux
-import { connect } from 'react-redux';
-import updatePanelContent from '../../../actions/panel/updatePanelContent';
-import updateIndexDrawer from '../../../actions/panel/updateIndexDrawer';
-
-function NoticiasButton({updatePanelContent, updateIndexDrawer}) {
+function NoticiasButton() {
   return (
-    <Tooltip title="Noticias" arrow leaveDelay={200}>
-      <IconButton onClick={()=>{
-				updatePanelContent("news");
-				updateIndexDrawer(null);
-			}}>
-        <AnnouncementIcon />
-      </IconButton>
-    </Tooltip>
+		<Link to="/news">
+			<Tooltip title="Noticias" arrow leaveDelay={200}>
+				<IconButton>
+					<AnnouncementIcon />
+				</IconButton>
+			</Tooltip>
+		</Link>
   );
 }
 
-const mapDispatchToProps = {
-  updatePanelContent,
-	updateIndexDrawer
-}
-
-export default connect(null,mapDispatchToProps)(NoticiasButton);
+export default NoticiasButton;
