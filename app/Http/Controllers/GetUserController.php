@@ -12,6 +12,8 @@ class GetUserController extends Controller
 	public function searchUser($userSearch)
 	{
 		$privilegio = request()->user()->user_privilegio;
+		$limit = request()->limit;
+		$like = request()->like;
 
 		if ($privilegio !== 'A-') {
 			return response()->json([
@@ -22,8 +24,12 @@ class GetUserController extends Controller
 		}
 
 		if ($userSearch === 'all') {
-			//Obtener TODOS los usuarios
-			$users = User::get();
+			//Obtener usuarios los usuarios
+			if ($limit){
+				$users = User::limit($limit)->get();
+			}else {
+				$users = User::get();
+			}
 			//Modelo
 			$modelUser = new User;
 
@@ -43,17 +49,41 @@ class GetUserController extends Controller
 			}
 		}else {
 			//Buscar usuario
-			$user = User::find($userSearch);
-			//Modelo
-			$modelUser = new User;
-			//Buscar datos
-			$dataUsers = $modelUser->searchUser(
-					$user->user_privilegio,
-					$user->user_cedula
-				);
+			if ($like){
+				$users = User::where('user_cedula', 'LIKE', "%".$userSearch."%")
+					->limit(10)
+					->get();
+				
+				$modelUser = new User;
+				
+				$dataUsers = [];
+				for ($i=0; $i < count($users); $i++){
+					$index = $users[$i];
 
-			//Unir Cedula y Privilegio
-			$dataUsers->combiCedula = $dataUsers->privilegio.$dataUsers->cedula;
+					$dataUsers[$i] = $modelUser->searchUser(
+						$index->user_privilegio,
+						$index->user_cedula
+					);
+
+					//Unir Cedula y Privilegio
+					$dataUsers[$i]->combiCedula = $dataUsers[$i]
+						->privilegio.$dataUsers[$i]
+						->cedula;
+				}
+			}else{
+				$user = User::find($userSearch);
+				
+				//Modelo
+				$modelUser = new User;
+				//Buscar datos
+				$dataUsers = $modelUser->searchUser(
+						$user->user_privilegio,
+						$user->user_cedula
+					);
+
+				//Unir Cedula y Privilegio
+				$dataUsers->combiCedula = $dataUsers->privilegio.$dataUsers->cedula;
+			}
 		}
 		return response()->json($dataUsers, 200);
 	}

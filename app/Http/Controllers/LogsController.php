@@ -25,7 +25,7 @@ class LogsController extends Controller
 				return response()->json([
 					'code' => 403,
 					'msg' => 'no_access',
-					'description' => 'No estás autorizado'
+					'description' => 'No estรกs autorizado'
 				], 403);
 			}
 			

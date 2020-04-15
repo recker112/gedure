@@ -45,7 +45,7 @@ class Logs extends Model
 				->where('log_action', 'like', '%bloque%')
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
 				->orderBy('log_create_at', 'DESC')
-				->limit(100)
+				->limit(50)
 				->get();
 		}else if ($option === 'session') {
 			$dataLogs = Logs::select(
@@ -57,7 +57,7 @@ class Logs extends Model
 				->where('log_action', 'Inicio de sesión.')
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
 				->orderBy('log_create_at', 'DESC')
-				->limit(100)
+				->limit(50)
 				->get();
 		}else if ($option === 'changePass') {
 			$dataLogs = Logs::select(
@@ -69,7 +69,7 @@ class Logs extends Model
 				->where('log_action', 'Cambio de contraseña.')
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
 				->orderBy('log_create_at', 'DESC')
-				->limit(100)
+				->limit(50)
 				->get();
 		}else {
 			//All
@@ -81,7 +81,7 @@ class Logs extends Model
 				)
 				->join('users', 'users.user_cedula', '=', 'logs.log_cedula')
 				->orderBy('log_create_at', 'DESC')
-				->limit(100)
+				->limit(50)
 				->get();
 		}
 		

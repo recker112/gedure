@@ -56,8 +56,9 @@ function MenuDialog({
 	//Progress
 	const [progress, setProgress] = useState(0);
 	
-	//PÁNICO
-	let cancel = false;
+	//Cancel
+	let cancel;
+	let CancelAxios = axios.CancelToken;
 
 	//Al cerrar popad
 	const handleClose = () => {
@@ -77,56 +78,81 @@ function MenuDialog({
 	const fetchData = async (type) => {
 		try {
 			let res;
+			let formData = new FormData();
 			
 			if (type === 'avatar'){
-				let formData = new FormData();
 				formData.append('avatar', file[0]);
 				res = await axios.post('api/upload/avatar', formData, { 
-					headers: { 
-						'Content-Type': 'multipart/form-data'
-					},
-					onUploadProgress: onUploadProgress
+					cancelToken: new CancelAxios(c=>{
+						cancel = c;
+					})
 				});
 			}else if (type === 'password') {
-				
+				formData.append('newPass', passN);
+				formData.append('actualPass', passA);
+				res = await axios.post('api/user/changePass', formData, { 
+					cancelToken: new CancelAxios(c=>{
+						cancel = c;
+					})
+				});
 			}
 			
 			const { status, data } = res;
 			
-			if (!cancel){
+			if (type === 'avatar') {
 				//Actualizar avatar en REDUX
 				updateDataUser({avatar: data.newAvatar});
 				//Alerta
 				enqueueSnackbar(data.description, {
 					variant: 'success'
 				});
+			}else if (type === 'password') {
+				//Alerta
+				enqueueSnackbar(data.description, {
+					variant: 'success'
+				});
 			}
+			
+			updateLoading(false, 'MENU_USER_DIALOG');
 		} catch (error){
-			const { status, data } = error.response;
+			
+			if (axios.isCancel(error)){
+				//Mensaje al cancelar peticion
+			}else {
+				if (error.response){
+					//Errores HTTP
+					const { status, data } = error.response;
 
-			if (status === 400) {
-				enqueueSnackbar(data.description, {
-					variant: 'warning'
-				});
-			} else if (status === 403) {
-				enqueueSnackbar(data.description, {
-					variant: 'warning'
-				});
-			} else if (status === 422) {
-				enqueueSnackbar(data.description, {
-					variant: 'warning'
-				});
-			} else if (status === 500) {
-				enqueueSnackbar("No se ha podido conectar con la base de datos", {
-					variant: 'error'
-				});
-			} else {
-				enqueueSnackbar("Error interno en el sistema", {
-					variant: 'error'
-				});
+					if (status === 400) {
+						enqueueSnackbar(data.description, {
+							variant: 'warning'
+						});
+					} else if (status === 403) {
+						enqueueSnackbar(data.description, {
+							variant: 'warning'
+						});
+					} else if (status === 422) {
+						enqueueSnackbar(data.description, {
+							variant: 'warning'
+						});
+					} else if (status === 500) {
+						enqueueSnackbar("No se ha podido conectar con la base de datos", {
+							variant: 'error'
+						});
+					} else {
+						enqueueSnackbar("Error interno en el servidor", {
+							variant: 'error'
+						});
+					}
+				}else {
+					enqueueSnackbar("Error interno en el sistema", {
+						variant: 'error'
+					});
+				}
 			}
+			
+			updateLoading(false, 'MENU_USER_DIALOG');
 		}
-		updateLoading(false, 'MENU_USER_DIALOG');
 	}
 
 	//Lista con las opciones disponibles
@@ -171,18 +197,16 @@ function MenuDialog({
 		}
 
 		//REQ
-
-		//REQ SUCCESS
-		if (option !== 'password'){
-			updateLoading(true, 'MENU_USER_DIALOG');
-			fetchData(option);
-		}
+		updateLoading(true, 'MENU_USER_DIALOG');
+		fetchData(option);
 	};
 	
 	//Al desmontar
 	useEffect(()=>{
 		return ()=>{
-			cancel=true;
+			if (cancel){
+				cancel();
+			}
 		}
 	}, [cancel])
 
@@ -218,7 +242,7 @@ function MenuDialog({
 									colorsito="primary"
 									text="Progress"
 									loading={true}
-									progressBar={true}
+									progressBar={option === 'avatar' ? true : false}
 									progress={progress}
 								/>
 							</Grid>}

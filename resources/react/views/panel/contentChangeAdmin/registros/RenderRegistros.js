@@ -21,34 +21,37 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 	const { enqueueSnackbar } = useSnackbar();
 	//Destructing
 	const { selectSearch, dataTable, searching } = dataLog;
+	
+	let cancel;
+	let CancelAxios = axios.CancelToken;
+	
+	//FetchData
+	const fetchData = async option => {
+		try {
+			//Consulta
+			const res = await axios.get(`api/logs?get=${option}`, {
+				cancelToken: new CancelAxios(c=>{
+					cancel = c;
+				})
+			});
 
-	useEffect(
-		() => {
-			let cancel = false;
-
-			//Iniciar effecto de busqueda.
-			updateLoading(true, 'LOGS_SEARCHING');
-			//Descargar datos
-			updateInputValue(null, 'LOGS_DATATABLE');
-
-			//FetchData
-			const fetchData = async option => {
-				try {
-					//Consulta
-					const res = await axios.get(`api/logs?get=${option}`);
-
-					if (!cancel) {
-						if (res.data.length > 0) {
-							//Set datos
-							updateInputValue(res.data, 'LOGS_DATATABLE');
-						}else {
-							enqueueSnackbar('No hay registros que mostrar', {
-								variant: 'info'
-							});
-						}
-					}
-				} catch (error) {
-					//Destructing
+			if (res.data.length > 0) {
+				//Set datos
+				updateInputValue(res.data, 'LOGS_DATATABLE');
+			}else {
+				enqueueSnackbar('No hay registros que mostrar', {
+					variant: 'info'
+				});
+			}
+			//Finalizar effecto de busqueda.
+			updateLoading(false, 'LOGS_SEARCHING');
+		} catch (error) {
+			if (axios.isCancel(error)){
+				//Seguir buscando ya que se canceló.
+				updateLoading(true, 'LOGS_SEARCHING');
+			}else {
+				if (error.response){
+					//Errores HTTP
 					const { status, data } = error.response;
 					if (status === 403) {
 						enqueueSnackbar(data.description, {
@@ -59,24 +62,44 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 							variant: 'error'
 						});
 					}else {
-						enqueueSnackbar('Error interno en el sistema', {
+						enqueueSnackbar('Error interno en el servidor', {
 							variant: 'error'
 						});
 					}
+				}else {
+					enqueueSnackbar('Error interno en el sistema', {
+						variant: 'error'
+					});
 				}
 				//Finalizar effecto de busqueda.
 				updateLoading(false, 'LOGS_SEARCHING');
-			};
+			}
+		}
+	};
 
+	useEffect(
+		() => {
+			//Iniciar effecto de busqueda.
+			updateLoading(true, 'LOGS_SEARCHING');
+			//Limpiar datos
+			updateInputValue(null, 'LOGS_DATATABLE');
+
+			console.log("Dividier");
 			//PETICION
 			fetchData(selectSearch);
+			
 			//Al desmontar
-			return () => {
-				cancel = true;
-			};
+			return ()=>{
+				console.log("cancel xD");
+				if(cancel){
+					cancel();
+				}
+			}
 		},
 		[selectSearch]
 	);
+	
+	console.log("ACTUALIZADO PAPÁ");
 
 	return (
 		<Grid container spacing={2} justify="center">
@@ -94,25 +117,25 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 
 function TableShow({ search, dataTable }) {
 	//Verificar si existe data
-	let noData = dataTable !== null && dataTable.length > 0 ? false : true;
+	let Data = dataTable !== null && dataTable.length > 0 ? true : false;
 
-	if (!search && !noData) {
+	if (!search && Data) {
 		return (
 			<div>
 				<RenderTableOk />
 			</div>
 		);
 	} else {
-		if (!search) {
+		if (search) {
 			return (
 				<div>
-					<RenderTableError />
+					<RenderTableSearch />
 				</div>
 			);
 		} else {
 			return (
 				<div>
-					<RenderTableSearch />
+					<RenderTableError />
 				</div>
 			);
 		}

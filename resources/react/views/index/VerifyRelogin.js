@@ -38,6 +38,9 @@ function VerifyRelogin({
 	let history = useHistory();
   let location = useLocation();
 	
+	//Cancel
+	let cancel = false;
+	
 	//Seleccionar from
 	let { from, protect } = location.state || { 
 		from: { pathname: "/" }, protect: false  };
@@ -100,8 +103,10 @@ function VerifyRelogin({
 			logout();
 		}
 
-		//Quitar autenticación
-		setWaitingAuth(false);
+		if (!cancel){
+			//Quitar autenticación
+			setWaitingAuth(false);
+		}
 	};
 	
 	//Verificar datos
@@ -120,6 +125,9 @@ function VerifyRelogin({
 			setWaitingAuth(false);
 		}
 		
+		return ()=>{
+			cancel = true;
+		}
 	}, [waitingAuth]);
 	
 	//Verificar si se está autenticando

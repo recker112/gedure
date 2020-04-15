@@ -16,24 +16,37 @@ import { useSnackbar } from 'notistack';
 function SearchUsers({ updateInputValue }) {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
-	const loading = open && options.length === 0;
+	const [val, setVal] = useState(undefined);
+	const [loading, setLoading] = useState(false);
+	// const loading = open && options.length === 0;
 
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
+	
+	let cancel;
+	let CancelAxios = axios.CancelToken;
+	
+	const fetchData = async val => {
+		try {
+			const res = await axios.get(`api/user/${val}?like=true`, {
+				cancelToken: new CancelAxios(c=>{
+					cancel = c;
+				})
+			});
 
-	//Buscar DATA
-	useEffect(
-		() => {
-			let cancel = false;
-
-			const fetchData = async () => {
-				try {
-					const res = await axios.get('api/user/all');
-
-					if (!cancel) {
-						setOptions(res.data);
-					}
-				} catch (error) {
+			//Verificar existencia de usuarios
+			if(res.data.length !== 0) {
+				setOptions(res.data);
+			}else {
+				setOptions([]);
+			}
+			setLoading(false);
+		} catch (error) {
+			if (axios.isCancel(error)){
+				//Mensaje al cancelar peticion
+			}else {
+				if (error.response){
+					//Errores HTTP
 					const { status, data } = error.response;
 
 					if (status === 403) {
@@ -49,35 +62,130 @@ function SearchUsers({ updateInputValue }) {
 							variant: 'error'
 						});
 					} else {
-						enqueueSnackbar('Error interno en el sistema', {
+						enqueueSnackbar('Error interno en el servidor', {
 							variant: 'error'
 						});
 					}
+				}else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
 				}
-			};
-			
-			//Realizar consulta
-			if(loading) {
-				fetchData();
 			}
-			return () => {
-				cancel = true;
-			};
-		},
-		[loading]
-	);
+		}
+	};
 
-	//Reset de DATA guardada.
-	useEffect(
-		() => {
-			if (!open) {
-				setOptions([]);
+	//AUTOCOMPLEtE AGARRANDO TODO LOS DAToS DE UNA
+	// //Buscar DATA
+	// useEffect(
+	// 	() => {
+	// 		const fetchData = async () => {
+	// 			try {
+	// 				const res = await axios.get('api/user/all', {
+	// 					cancelToken: new CancelAxios(c=>{
+	// 						cancel = c;
+	// 					})
+	// 				});
+
+	// 				setOptions(res.data);
+	// 			} catch (error) {
+	// 				if (axios.isCancel(error)){
+	// 					//Mensaje al cancelar peticion
+	// 				}else {
+	// 					if (error.response){
+	// 						//Errores HTTP
+	// 						const { status, data } = error.response;
+							
+	// 						if (status === 403) {
+	// 							enqueueSnackbar(data.description, {
+	// 								variant: 'error'
+	// 							});
+	// 						}if (status === 401) {
+	// 							enqueueSnackbar('No estás autorizado', {
+	// 								variant: 'error'
+	// 							});
+	// 						} else if (status === 500) {
+	// 							enqueueSnackbar('No se ha podido conectar con la base de datos', {
+	// 								variant: 'error'
+	// 							});
+	// 						} else {
+	// 							enqueueSnackbar('Error interno en el servidor', {
+	// 								variant: 'error'
+	// 							});
+	// 						}
+	// 					}else {
+	// 						enqueueSnackbar('Error interno en el servidor', {
+	// 							variant: 'error'
+	// 						});
+	// 					}
+	// 				}
+	// 			}
+	// 		};
+			
+	// 		//Realizar consulta
+	// 		if(loading) {
+	// 			fetchData();
+	// 		}
+			
+	// 		return () => {
+	// 			if (cancel){
+	// 				cancel();
+	// 			}
+				
+	// 			//Reset de DATA guardada.
+	// 			if (!open) {
+	// 				setOptions([]);
+	// 			}
+	// 		};
+	// 	},
+	// 	[loading]
+	// );
+	
+	//Clear data on close
+	useEffect(()=>{
+		//Cancelar al cambiar loading
+		return () => {
+			if (cancel){
+				cancel();
 			}
-		},
-		[open]
-	);
+		};
+	}, [loading]);
+	
+	//Hacer petición cada vez que cambie el value
+	useEffect(()=>{
+		//Verificar no null
+		if (val){
+			//Loading
+			setLoading(true);
+			
+			//Abrir box de busqueda
+			setOpen(true);
+			
+			//Consulta
+			fetchData(val);
+		}else {
+			//Al no tener val ningún valor
+			setLoading(false);
+		}
+		
+		return () => {
+			if (cancel){
+				cancel();
+			}
+
+			//Reset de DATA guardada después de cada consulta
+			setOptions([]);
+		};
+	}, [val]);
 
 	const handleClick = user => {
+		//Cerrar caja.
+		setVal(false);
+		setOpen(false);
+		setLoading(false);
+		setOptions([]);
+		
+		//Actualizar datos
 		if (user !== null) {
 			updateInputValue(user, 'MODIFY_EXTERNO');
 		}
@@ -96,6 +204,13 @@ function SearchUsers({ updateInputValue }) {
 				onChange={(e, user) => {
 					handleClick(user);
 				}}
+				onInputChange={(e, value) => {
+					//Al cambiar el value
+					setLoading(true);
+					setVal(value);
+				}}
+				//Texto a mostrar al seleccionar un resultado.
+				getOptionSelected={(option, value) => option.privilegio+option.cedula === value}
 				//Texto a mostrar al seleccionar un resultado.
 				getOptionLabel={option => {
 					return `${option.privilegio}${option.cedula}`;
@@ -111,11 +226,13 @@ function SearchUsers({ updateInputValue }) {
 				open={open}
 				//Acción al abrir.
 				onOpen={() => {
-					setOpen(true);
+					setOptions([]);
+					// setOpen(true);
 				}}
 				//Acción al cerrar.
 				onClose={() => {
 					setOpen(false);
+					setLoading(false);
 				}}
 				//Render input.
 				renderInput={params => (

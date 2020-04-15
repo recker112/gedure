@@ -33,15 +33,23 @@ function ShowInfoVersion() {
 		{
 			id: 'v4.0Alpha.3',
 			title: 'v4.0Alpha.3',
-			content: <React.Fragment>
-				<h3>Bienvenidos a la v4.0Alpha.3 de la página web</h3>
-				<p>Novedades:</p>
-				<p>- Nueva interfaz.</p>
-				<p>- Modo oscuro.</p>
-				<p>- Mejora en la carga de la página.</p>
-				<br/>
-				<p>Esta página se encuentra en Alpha, eso quiere decir que muchas de las funciones de la anteriór versión no están disponibles, si lo desea puede volver a la versión anterior del la página, pero recuerde que esa versión dejará de tener soporte. </p>
-			</React.Fragment>
+			content: <div>
+				<div>
+					<h3>Bienvenidos a la v4.0Alpha.3 de la página web</h3>
+				</div>
+				<p>
+					Novedades:
+					<br/>
+					- Nueva interfaz.
+					<br/>
+					- Modo oscuro.
+					<br/>
+					- Mejora en la carga de la página.
+					<br/>
+					<br/>
+					Esta página se encuentra en Alpha, eso quiere decir que muchas de las funciones de la anteriór versión no están disponibles, si lo desea puede volver a la versión anterior del la página, pero recuerde que esa versión dejará de tener soporte. 
+				</p>
+			</div>
 		}
 	];
 

@@ -51,44 +51,61 @@ function RenderAnnounceBox() {
 	//Pedir datos
 	useEffect(
 		() => {
-			let cancel = false;
+			let cancel;
+			let CancelAxios = axios.CancelToken;
 
 			//FetchData
 			const fetchData = async () => {
 				try {
-					const res = await axios.get(`api/infobox/announcebox?show=all`);
+					const res = await axios.get("api/infobox/announcebox?show=all",{
+						cancelToken: new CancelAxios(c=>{
+							cancel = c;
+						})
+					});
 
-					//Verificar si está desmontado el componente
-					if (!cancel) {
-						setQuery(res.data);
-					}
+					//Actualizar datos
+					setQuery(res.data);
 				} catch (error) {
-					const { status, data } = error.response;
 					
-					if (status === 400) {
-						enqueueSnackbar(data.description, {
-							variant: 'warning'
-						});
-					}else if (status === 403) {
-						enqueueSnackbar(data.description, {
-							variant: 'error'
-						});
+					if (axios.isCancel(error)){
+						//Mensaje al cancelar peticion
 					}else {
-						enqueueSnackbar('Error al pedir los infobox al servidor', {
-							variant: 'error'
-						});
+						if (error.response){
+							//Errores HTTP
+							const { status, data } = error.response;
+							
+							if (status === 400) {
+								enqueueSnackbar(data.description, {
+									variant: 'warning'
+								});
+							}else if (status === 403) {
+								enqueueSnackbar(data.description, {
+									variant: 'error'
+								});
+							}else {
+								enqueueSnackbar('Error al pedir los infobox al servidor', {
+									variant: 'error'
+								});
+							}
+						}else {
+							//Error interno
+						}
 					}
 				}
 			};
 
-			//Realizar consulta
+			//Realizar consulta solo en la primera carga
 			if (!first) {
 				fetchData();
 			}
 
 			//Al desmontar
 			return () => {
-				cancel = true;
+				//Ejectuar axios CANCEL SI la peticion fue cancelada
+				if (cancel) {
+					cancel();
+				}
+				
 				setQuery({
 					StudientsTotal: '-',
 					StudientsBlock: '-',
