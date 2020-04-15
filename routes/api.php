@@ -43,6 +43,8 @@ Route::middleware('auth:api')->post('/user', 'ModifyUserController@addUser');
 Route::middleware('auth:api')->patch('/user/{userSearch}', 'ModifyUserController@updateUser');
 //DeleteUser
 Route::middleware('auth:api')->delete('/user/{userSearch}', 'ModifyUserController@deleteUser');
+//ChangePass
+Route::middleware('auth:api')->post('/user/changePass', 'ModifyUserController@changePass');
 
 /* UPLOADS */
 //Upload Matricula

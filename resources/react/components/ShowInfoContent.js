@@ -83,12 +83,22 @@ function ShowInfoContent({
 			return null;
 		});
 		
+		//Verificar si el usuario quiere seguir viendo esta info
+		let seeIt = true;
+		storage.map(item => {
+			if (content === item){
+				seeIt = false;
+			}
+			
+			return null;
+		})
+		
 		//Fix null value
 		if (!found && content === null) {
 			found = true;
 		}
 		
-		const openOnInit = !found && foundInList;
+		const openOnInit = !found && foundInList && seeIt;
 		
 		setOpen(openOnInit);
 	}, [content]);

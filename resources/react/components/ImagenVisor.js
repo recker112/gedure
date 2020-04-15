@@ -20,6 +20,7 @@ function ImagenVisor({ options }) {
 			} else if (i < 4) {
 				return (
 					<LazyImage
+						key={i}
 						alt={`imagen${i + 1}`}
 						src={img}
 						placeholder={({ imageProps, ref }) => (

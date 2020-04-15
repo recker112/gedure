@@ -87,20 +87,28 @@ function ModifyForm({
 				});
 			}
 		} catch (error) {
-			const { status, data } = error.response;
 			
-			if (status === 403){
-				enqueueSnackbar(data.description, {
-					variant: 'error'
-				});
-			}else if (status === 400){
-				enqueueSnackbar(data.description, {
-					variant: 'warning'
-				});
-			}else if (status === 500){
-				enqueueSnackbar('No se ha podido conectar con la base de datos', {
-					variant: 'error'
-				});
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
+
+				if (status === 403){
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				}else if (status === 400){
+					enqueueSnackbar(data.description, {
+						variant: 'warning'
+					});
+				}else if (status === 500){
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				}else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
+				}
 			}else {
 				enqueueSnackbar('Error interno en el sistema', {
 					variant: 'error'

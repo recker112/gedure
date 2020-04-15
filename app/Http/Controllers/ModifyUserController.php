@@ -345,6 +345,76 @@ class ModifyUserController extends Controller
 		], 200);
 	}
 	
+	public function changePass()
+	{
+		//Datos request
+		$cedula = request()->user()->user_cedula;
+		$newPass = request()->newPass;
+		$actualPass = request()->actualPass;
+		$passwordInDB = request()->user()->user_password;
+		
+		//ValidateData
+		try {
+			//Verify pass
+			$dataValidate = request()->validate([
+				'newPass' => 'required|string|min:4'
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'required' => 'No válido',
+				'min' => 'No válido'
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazรณ su solicitud'
+			], 422);
+		}
+		
+		//modelos
+		$users = new User;
+		
+		//Buscar usuario
+		$userFound = $users->find($cedula);
+		
+		//Verificar contraseña
+		$actualPassNoEncrypt = User::encript_password($actualPass, false);
+		$verifyPass = User::verify_password($actualPassNoEncrypt, $passwordInDB);
+		
+		if (!$verifyPass) {
+			return response()->json([
+				'code' => 400,
+				'msg'    => 'pass_error',
+				'description' => 'La contraseña actual es incorrecta'
+			], 400);
+		}
+		
+		//Registrar nueva contraseña
+		$userFound->user_password = User::encript_password($newPass);
+		
+		$userFound->save();
+		
+		//LOG
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = 'Cambio de contraseña.';
+		$Log->save();
+		
+		return response()->json([
+			'code' => 201,
+			'msg' => 'update_password',
+			'description' => "Contraseña cambiada correctamente"
+		], 200);
+	}
+	
+	//Funciones reutilizables
 	public function createUser(
 		$cedula, 
 		$privilegio, 

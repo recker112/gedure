@@ -99,25 +99,33 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 				donwloadFiles(res.data, fileName, fileExtension);
 			}
 		} catch (error) {
-			const { status, data } = error.response;
+			
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
 
-			if (status === 400) {
+				if (status === 400) {
 				enqueueSnackbar(data.description, {
-					variant: 'warning'
-				});
-			} else if (status === 403) {
-				enqueueSnackbar(data.description, {
-					variant: 'error'
-				});
-			} else if (status === 422) {
-				enqueueSnackbar(data.description, {
-					variant: 'error'
-				});
-			} else if (status === 500) {
-				enqueueSnackbar('No se ha podido conectar con la base de datos', {
-					variant: 'error'
-				});
-			} else {
+						variant: 'warning'
+					});
+				} else if (status === 403) {
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				} else if (status === 422) {
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				} else if (status === 500) {
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				} else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
+				}
+			}else {
 				enqueueSnackbar('Error interno en el sistema', {
 					variant: 'error'
 				});

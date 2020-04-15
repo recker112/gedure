@@ -26,7 +26,13 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router
+			getUserConfirmation={(message, callback) => {
+				// this is the default behavior
+				const allowTransition = window.confirm(message);
+				callback(allowTransition);
+			}}
+		>
       <App />
     </Router>
   </Provider>, document.getElementById('root'));
