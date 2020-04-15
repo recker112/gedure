@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import logout from '../../../actions/login/logout';
 
 //Componentes
-import { clearAllData } from '../../ReloginVerify';
 import MenuDialog from './MenuDialog';
 
 //SnackBar

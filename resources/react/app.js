@@ -18,6 +18,8 @@ import './assets/scss/app.scss';
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//Base Url
+window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host;
 
 //ServiceWorker
 import * as serviceWorker from './serviceWorker';

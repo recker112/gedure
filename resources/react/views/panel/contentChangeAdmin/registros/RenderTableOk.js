@@ -20,6 +20,7 @@ import UserModify from './UserModify';
 import { connect } from 'react-redux';
 
 function RenderTableOk({ dataTable }) {
+	
 	const table = (
 		<TableContainer
 			component={Paper}

@@ -141,15 +141,10 @@ class AvatarController extends Controller
 	{
 		//Obtener avatar viejo y dividir url
 		$oldAvatar = explode('/', $oldAvatar);
-		//Quitar el ? del url
-		$oldAvatar = explode('?', $oldAvatar[6]);
-		//Quitar el = del url
-		$oldExtension = explode('=', $oldAvatar[1]);
-		//Quitar arrays
-		$oldAvatar = $oldAvatar[0];
-		$oldExtension = $oldExtension[1];
+		//Quitar array;
+		$oldAvatar = $oldAvatar[6];
 		//Borrar avatar viejo
-		$dirDelete = "$dir/$oldAvatar.$oldExtension";
+		$dirDelete = "$dir/$oldAvatar";
 		
 		return $dirDelete;
 	}

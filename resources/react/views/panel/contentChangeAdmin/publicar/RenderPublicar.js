@@ -249,6 +249,7 @@ function RenderForm({
 					accion={handleChange}
 					error={error.content}
 					textarea={true}
+					maxRows="20"
 				/>
 			</Grid>
 			<Grid item xs={12} style={{ textAlign: 'center' }}>

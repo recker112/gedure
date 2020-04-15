@@ -1,5 +1,8 @@
 import React from 'react';
 
+//React Route
+import { useHistory } from "react-router-dom";
+
 //Material-UI
 import { IconButton, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -7,11 +10,11 @@ import EditIcon from '@material-ui/icons/Edit';
 //Redux
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
-import updatePanelContent from '../../../../actions/panel/updatePanelContent';
-import updateIndexDrawer from '../../../../actions/panel/updateIndexDrawer';
 
-function UserModify({ data, updateInputValue, updatePanelContent, updateIndexDrawer }) {
-	function Modify() {
+function UserModify({ data, updateInputValue }) {
+	let history = useHistory();
+	
+	const Modify = () => {
 		switch (data.privilegio) {
 			case 'V-':
 				{
@@ -58,8 +61,7 @@ function UserModify({ data, updateInputValue, updatePanelContent, updateIndexDra
 				updateInputValue(MakeData, 'MODIFY_EXTERNO');
 			}
 		}
-		updatePanelContent('co/mo');
-		updateIndexDrawer(2);
+		history.push("/panel?show=modify");
 	}
 	return (
 		<Tooltip title="Editar" placement="right" enterDelay={500} leaveDelay={200} arrow>
@@ -71,9 +73,7 @@ function UserModify({ data, updateInputValue, updatePanelContent, updateIndexDra
 }
 
 const mapDispatchToProps = {
-	updateInputValue,
-	updatePanelContent,
-	updateIndexDrawer
+	updateInputValue
 };
 
 export default connect(null, mapDispatchToProps)(UserModify);

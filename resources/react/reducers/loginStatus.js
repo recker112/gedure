@@ -1,9 +1,7 @@
 //Inicar valor del state.
 const initialState = {
 	auth: false,
-	loginSI: false,
 	validating: false,
-	redirect: false
 };
 
 // action es el valor devuelto por el action
@@ -16,20 +14,7 @@ export default (state = initialState, { type, payload }) => {
 				validating: payload
 			};
 		}
-		case 'LOGIN_SUCCESS_FROM_LOGIN': {
-			return {
-				...state,
-				auth: true,
-				loginSI: true
-			};
-		}
-		case 'RELOGIN_SUCCESS': {
-			return {
-				...state,
-				redirect: payload
-			};
-        }
-        case 'AUTH_UPDATE': {
+    case 'AUTH_UPDATE': {
 			return {
 				...state,
 				auth: payload
@@ -39,8 +24,7 @@ export default (state = initialState, { type, payload }) => {
 			return {
 				auth: false,
 				loginSI: false,
-				validating: false,
-				redirect: false
+				validating: false
 			};
 		}
 		default: {

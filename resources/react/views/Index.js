@@ -17,8 +17,8 @@ import { connect } from 'react-redux';
 
 //Funcion a exportar
 function App({ tema, access_key }) {
-    //axios set TOKEN
-    window.axios.defaults.headers.common['Authorization'] = `Bearer ${access_key}`;
+	//axios set TOKEN
+	window.axios.defaults.headers.common['Authorization'] = `Bearer ${access_key}`;
 
 	//Creación de los estilos a aplicar en toda la WEB.
 	//Todo esto es material-ui, revisar documentaciรณn para más info.
@@ -26,10 +26,10 @@ function App({ tema, access_key }) {
 		palette: {
 			type: tema,
 			primary: {
-				main: '#6B8DD6',
+				main: '#6B8DD6'
 			},
 			secondary: {
-				main: '#896DBE',
+				main: '#896DBE'
 			},
 			background: {
 				default: tema === 'light' ? '#E9EBEE' : '#1d1d1d'
@@ -47,25 +47,25 @@ function App({ tema, access_key }) {
 
           && "clase": Clase custom.
           */
-          //HOVER
-          '&&.drawerItem': {
-            opacity: 0.9,
-            '&:hover': {
-              borderLeft: "3px solid",
-              opacity: 1,
-            }
-          },
-          //SELECTED
+					//HOVER
+					'&&.drawerItem': {
+						opacity: 0.9,
+						'&:hover': {
+							borderLeft: '3px solid',
+							opacity: 1
+						}
+					},
+					//SELECTED
 					'&&.drawerItemSelected': {
-            borderLeft: "3px solid #6B8DD6",
-            opacity: 1,
+						borderLeft: '3px solid #6B8DD6',
+						opacity: 1,
 						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
-              //Cambiar el color el texto y el icono
-            },
+							//Cambiar el color el texto y el icono
+						}
 					}
 				}
 			}
-  	},
+		}
 	});
 
 	//Añadir action a todos los snackbar
@@ -83,11 +83,11 @@ function App({ tema, access_key }) {
 			{/* Stack Snackbar en toda la APP */}
 			<SnackbarProvider
 				maxSnack={3}
-        preventDuplicate
+				preventDuplicate
 				//Botones con acciones.
 				action={key => (
 					<IconButton size="small" onClick={onClickDismiss(key)}>
-						<CloseIcon style={{color: tema === "light" ? 'white' : 'black'}}/>
+						<CloseIcon style={{ color: tema === 'light' ? 'white' : 'black' }} />
 					</IconButton>
 				)}
 				anchorOrigin={{
@@ -106,8 +106,8 @@ function App({ tema, access_key }) {
 //Mapeo del store de redux
 const mapStateToProps = state => {
 	return {
-        tema: state.settings.tema,
-        access_key: state.userData.access_key
+		tema: state.settings.tema,
+		access_key: state.userData.access_key
 	};
 };
 

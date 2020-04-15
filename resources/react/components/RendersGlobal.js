@@ -68,7 +68,18 @@ export function RenderRadios({ val, accion, data }) {
   );
 }
 
-export function RenderInputs({ data, accion, error, variant="outlined", textarea=false, maxWidth = false, size = 'medium', visibleToggle = false, focus = false }) {
+export function RenderInputs({ 
+	data, 
+	accion, 
+	error, 
+	variant="outlined", 
+	textarea=false, 
+	maxRows=6,
+	maxWidth = false, 
+	size = 'medium', 
+	visibleToggle = false, 
+	focus = false
+}) {
   const { val, name, label } = data;
   const { status, message } = error;
   
@@ -80,7 +91,7 @@ export function RenderInputs({ data, accion, error, variant="outlined", textarea
 
   const textareaConfig = {
     rows: 4,
-    rowsMax: 6,
+    rowsMax: maxRows
   }
   return (
     <TextField
