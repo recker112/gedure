@@ -63,4 +63,8 @@ Route::get('/imagenes/{file}', 'GetArchivesController@getImg');
 Route::middleware('auth:api')->get('/matricula/{file}', 'GetArchivesController@getMatricula');
 Route::get('/imagenes/avatars/{img}', 'GetArchivesController@getAvatar');
 Route::get('/resources/news/{noticia}/{file}', 'GetArchivesController@getResourceNews');
-Route::middleware('auth:api')->get('/archivos/boleta', 'GetArchivesController@getBoleta');
+Route::middleware('auth:api')->get('/archivos/boleta', 'BoletasController@getBoleta');
+
+/* BORRADO EN MASA */
+Route::middleware('auth:api')->delete('/users', 'ModifyUserController@deleteUserMassive');
+Route::middleware('auth:api')->delete('/archivos/boletas', 'BoletasController@deleteBoletasMassive');

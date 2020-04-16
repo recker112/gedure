@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //Storage
 use Illuminate\Support\Facades\Storage;
-//Modelos
-use App\User;
 
 class GetArchivesController extends Controller
 {
@@ -102,47 +100,5 @@ class GetArchivesController extends Controller
 		}
 		
 		return Storage::download("$dir/$file");
-	}
-	
-	public function getBoleta()
-	{
-		//Config datos
-		$privilegio = request()->user()->user_privilegio;
-		$cedula = request()->user()->user_cedula;
-		$dir = 'boletas';
-		
-		//Verificar que sea estudiante
-		if ($privilegio !== 'V-') {
-			return response()->json([
-				'code' => 403,
-				'msg' => 'no_access',
-				'description' => 'No estás autorizado'
-			], 403);
-		}
-		
-		//Modelo
-		$user = new User;
-		
-		//Buscar studiend
-		$userFound = $user->searchUser($privilegio, $cedula);
-		
-		//Datos necesarios
-		$curso = $userFound->curso;
-		$seccion = $userFound->seccion;
-
-		//Directorio del archivo
-		$dirBoleta = "$dir/$curso/$seccion/$cedula.pdf";
-		
-		$exist = Storage::exists($dirBoleta);
-		
-		if (!$exist) {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'no_exist',
-				'description' => 'La boleta aún no ha sido cargada'
-			], 400);
-		}
-		
-		return Storage::download("$dirBoleta");
 	}
 }

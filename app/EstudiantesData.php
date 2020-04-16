@@ -26,14 +26,14 @@ class EstudiantesData extends Model
 	 */
 	public $timestamps = false;
 	
-	public function orderCursos($curso){
-		$studiendsInCurso = EstudiantesData::where('estudiante_alumno_id', 'LIKE','E-'.$curso.'%')
+	public function orderCursos($curso, $seccion){
+		$studiendsInCurso = EstudiantesData::where('estudiante_alumno_id', 'LIKE','E-'.$curso.$seccion.'-%')
 			->orderBy('estudiante_cedula', 'ASC')
 			->get();
 		
 		$list = 1;
 		foreach ($studiendsInCurso as $row) {
-			$row->estudiante_alumno_id = 'E-'.$curso.'-'.$list;
+			$row->estudiante_alumno_id = 'E-'.$curso.$seccion.'-'.$list;
 			$row->save();
 			$list++;
 		}
