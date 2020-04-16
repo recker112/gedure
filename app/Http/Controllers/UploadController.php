@@ -87,7 +87,6 @@ class UploadController extends Controller
 				'text/csv',
 				'application/vnd.ms-excel',
 				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetapplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 				'application/vnd.oasis.opendocument.spreadsheet'
 			]);
 

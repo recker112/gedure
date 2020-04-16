@@ -58,11 +58,8 @@ Route::middleware('auth:api')->post('/upload/matricula', 'UploadController@uploa
 Route::middleware('auth:api')->post('/upload/avatar', 'AvatarController@uploadAvatar');
 Route::middleware('auth:api')->post('/upload/boletas', 'UploadController@uploadBoletas');
 
-/* GETS ARCHIVES */
-Route::get('/imagenes/{file}', 'GetArchivesController@getImg');
+/* GETS ARCHIVES PRIVATES */
 Route::middleware('auth:api')->get('/matricula/{file}', 'GetArchivesController@getMatricula');
-Route::get('/imagenes/avatars/{img}', 'GetArchivesController@getAvatar');
-Route::get('/resources/news/{noticia}/{file}', 'GetArchivesController@getResourceNews');
 Route::middleware('auth:api')->get('/archivos/boleta', 'BoletasController@getBoleta');
 
 /* BORRADO EN MASA */
