@@ -5,37 +5,59 @@ import { Paper, Grid } from '@material-ui/core';
 
 //Componentes
 import { AnnounceBox } from './AnnounceBox';
+import ConverterCursoCode from '../../../../components/reutilizar/ConverterCursoCode';
 
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-function RenderHome() {
+//Redux
+import { connect } from 'react-redux';
+
+function RenderHome({ data }) {
+	const { privilegio } = data;
+	
+	const textIntroAdmin = (
+		<p>
+			Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: Cargar matricula, ver registros, consultar, modificar, cargar archivos, cargar boletas, entre otros. Para más información por favor vaya a la opción deseada.
+		</p>
+	);
+	
+	const textIntroCreador = (
+		<p>
+		Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: Publicar y borrar publicaciones propias. Para más información por favor vaya a la opción deseada.
+		</p>
+	);
+	
+	const textIntroEstudante = (
+		<p>
+		Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar acciones como: Ver boletas. Para más información por favor vaya a la opción deseada.
+		</p>
+	);
+
 	return (
 		<React.Fragment>
-			<RenderAnnounceBox />
+			{privilegio !== 'V-' && <RenderAnnounceBox privilegio={privilegio} />}
 			<Grid container spacing={2} className="FixGrid">
 				<Grid item xs={12}>
 					<Paper variant="outlined" className="Box">
 						<span className="title">Bienvenidos</span>
 						<div className="content">
-							<p>
-								Le damos la bienvenida al Panel de Administación, aquí usted prodrá realizar
-								acciones como: cargar matricula, ver registros, consultar, modificar, cargar
-								archivos, cargar boletas, entre otros. Para más información por favor mantenga el
-								mouse encima de la opción que desea saber más información en el menú.
-							</p>
+							{privilegio === 'A-' && textIntroAdmin}
+							{privilegio === 'CR-' && textIntroCreador}
+							{privilegio === 'V-' && textIntroEstudante}
 						</div>
 					</Paper>
 				</Grid>
+				{privilegio === 'V-' && <RenderInfoStudiend data={data} />}
 			</Grid>
 		</React.Fragment>
 	);
 }
 
-function RenderAnnounceBox() {
+function RenderAnnounceBox({ privilegio }) {
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
-	
+
 	//Query mantiene la cantidad total a mostrar
 	const [query, setQuery] = useState({
 		StudientsTotal: '-',
@@ -57,8 +79,8 @@ function RenderAnnounceBox() {
 			//FetchData
 			const fetchData = async () => {
 				try {
-					const res = await axios.get("api/infobox/announcebox?show=all",{
-						cancelToken: new CancelAxios(c=>{
+					const res = await axios.get('api/infobox/announcebox?show=all', {
+						cancelToken: new CancelAxios(c => {
 							cancel = c;
 						})
 					});
@@ -66,28 +88,27 @@ function RenderAnnounceBox() {
 					//Actualizar datos
 					setQuery(res.data);
 				} catch (error) {
-					
-					if (axios.isCancel(error)){
+					if (axios.isCancel(error)) {
 						//Mensaje al cancelar peticion
-					}else {
-						if (error.response){
+					} else {
+						if (error.response) {
 							//Errores HTTP
 							const { status, data } = error.response;
-							
+
 							if (status === 400) {
 								enqueueSnackbar(data.description, {
 									variant: 'warning'
 								});
-							}else if (status === 403) {
+							} else if (status === 403) {
 								enqueueSnackbar(data.description, {
 									variant: 'error'
 								});
-							}else {
+							} else {
 								enqueueSnackbar('Error al pedir los infobox al servidor', {
 									variant: 'error'
 								});
 							}
-						}else {
+						} else {
 							//Error interno
 						}
 					}
@@ -105,7 +126,7 @@ function RenderAnnounceBox() {
 				if (cancel) {
 					cancel();
 				}
-				
+
 				setQuery({
 					StudientsTotal: '-',
 					StudientsBlock: '-',
@@ -118,8 +139,8 @@ function RenderAnnounceBox() {
 		[first]
 	);
 
-	//Lista
-	const Estados = [
+	//Listas
+	const listAdmin = [
 		{
 			background: '#4879FC',
 			text: 'Estudiantes registrado en el sistema',
@@ -151,22 +172,91 @@ function RenderAnnounceBox() {
 		// 	data: 'Likes'
 		// }
 	];
-	
+
+	const listCreadores = [
+		{
+			background: '#b448fc',
+			text: 'Noticias publicadas',
+			data: query.PublicNotice
+		},
+		{
+			background: '#b448fc',
+			text: 'Anuncios publicados',
+			data: query.PublicAnnounce
+		}
+		// {
+		// 	background: '#39CCCC',
+		// 	text: '"Me gusta" recibidos',
+		// 	data: 'Likes'
+		// }
+	];
+
 	return (
 		<Grid container spacing={2} justify="center">
-			{Estados.map((element, i) => (
-				<Grid key={i} item xs={12} sm={6} md={4}>
-					<AnnounceBox
-						options={{
-							background: element.background,
-							text: element.text,
-							data: element.data
-						}}
-					/>
-				</Grid>
-			))}
+			{privilegio === 'A-' &&
+				listAdmin.map((element, i) => (
+					<Grid key={i} item xs={12} sm={6} md={4}>
+						<AnnounceBox
+							options={{
+								background: element.background,
+								text: element.text,
+								data: element.data
+							}}
+						/>
+					</Grid>
+				))}
+			{privilegio === 'CR-' &&
+				listCreadores.map((element, i) => (
+					<Grid key={i} item xs={12} sm={6} md={4}>
+						<AnnounceBox
+							options={{
+								background: element.background,
+								text: element.text,
+								data: element.data
+							}}
+						/>
+					</Grid>
+				))}
 		</Grid>
 	);
 }
 
-export default RenderHome;
+function RenderInfoStudiend ({ data }) {
+	const { 
+		privilegio,
+		cedula,
+		name,
+		curso,
+		seccion,
+		lista,
+		profeGuia
+	} = data;
+	
+	return (
+		<Grid item xs={12}>
+			<Paper variant="outlined" className="Box">
+				<span className="title">Datos del estudiante</span>
+				<div className="content">
+					<p>
+						Cedula: {privilegio + cedula}
+						<br/>
+						Nombre: {name}
+						<br/>
+						Curso: {ConverterCursoCode(curso+seccion) + ' ' + seccion}
+						<br/>
+						Número de lista: {lista}
+						<br/>
+						Profesor Guia: {profeGuia === null ? 'No asignado' : profeGuia}
+					</p>
+				</div>
+			</Paper>
+		</Grid>
+	)
+}
+
+//Redux
+const mapStateToProps = state => ({
+	data: state.userData
+});
+
+export default connect(mapStateToProps)(RenderHome);

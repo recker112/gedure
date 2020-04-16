@@ -5,7 +5,7 @@ import getParameterByName from '../components/reutilizar/getValueUrl';
 const initialState = {
 	infoDialog: false,
 	drawer: {
-		open: false
+		open: false,
 	},
 	logsSection: {
 		selectSearch: 'all',
@@ -117,6 +117,11 @@ const initialState = {
 				message: ''
 			}
 		}
+	},
+	delPostingSection: {
+		option: 'noticia',
+		id: [],
+		loading: false,
 	},
 	menuUser: {
 		openDialog: false,
@@ -539,6 +544,34 @@ export default (state = initialState, { type, payload }) => {
 				...state,
 				publicarSection: {
 					...state.publicarSection,
+					loading: payload
+				}
+			};
+		}
+		
+		//DELPOSTING
+		//PUBLICAR
+		case 'UPDATE_INPUT_VALUE_DEL_POSTING': {
+			//Obtener input
+			const e = payload.input;
+
+			//Obtener valores del input
+			const name = e.target.name;
+			const value = e.target.value;
+
+			return {
+				...state,
+				delPostingSection: {
+					...state.delPostingSection,
+					[name]: value,
+				}
+			};
+		}
+		case 'UPDATE_LOADING_DEL_POSTING': {
+			return {
+				...state,
+				delPostingSection: {
+					...state.delPostingSection,
 					loading: payload
 				}
 			};

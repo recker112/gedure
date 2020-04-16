@@ -19,6 +19,9 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
+//Redux
+import { connect } from 'react-redux';
+
 //Animación
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -27,6 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function ShowInfoContent({ 
 	dataContent, 
 	defaultPath,
+	privilegio,
 	noShowInfo = false, 
 	queryParams = false 
 }) {
@@ -77,7 +81,13 @@ function ShowInfoContent({
 		let foundInList = false;
 		dataContent.map(object => {
 			if (content === object.id) {
-				foundInList = true;
+				object.only.map(onlyPrivilegio => {
+					if (onlyPrivilegio === privilegio){
+						foundInList = true;
+					}
+					
+					return null;
+				})
 			}
 
 			return null;
@@ -186,4 +196,9 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-export default ShowInfoContent;
+//Redux
+const mapStateToProps = state => ({
+	privilegio: state.userData.privilegio
+});
+
+export default connect()(ShowInfoContent);

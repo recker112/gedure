@@ -65,6 +65,37 @@ class PostController extends Controller
 		return response()->json($jsonMessage);
 	}
 	
+	public function getNewsForSearch()
+	{
+		//Preparar datos
+		$privilegio = request()->user()->user_privilegio;
+		$owner = request()->user()->user_cedula;
+		
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-') {
+			return response()->json([
+				'code' => 403,
+				'msg' => 'no_access',
+				'description' => 'No estás autorizado'
+			], 403);
+		}
+		
+		$newsFound = [];
+		$news = new NewsData;
+		if ($privilegio === 'A-') {
+			$newsFound = $news->select('new_id as id')
+				->orderBy('id', 'DESC')
+				->get();
+		}else {
+			$newsFound = $news->select('new_id as id')
+				->where('new_owner', $owner)
+				->orderBy('id', 'DESC')
+				->get();
+		}
+
+		//Regresar news
+		return response()->json($newsFound);
+	}
+	
 	public function getAnuncios()
 	{
 		//Preparar datos
@@ -113,6 +144,37 @@ class PostController extends Controller
 		return response()->json($jsonMessage);
 	}
 	
+	public function getAnunciosForSearch()
+	{
+		//Preparar datos
+		$privilegio = request()->user()->user_privilegio;
+		$owner = request()->user()->user_cedula;
+		
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-') {
+			return response()->json([
+				'code' => 403,
+				'msg' => 'no_access',
+				'description' => 'No estás autorizado'
+			], 403);
+		}
+		
+		$anunciosFound = [];
+		$anuncios = new AnunciosData;
+		if ($privilegio === 'A-') {
+			$anunciosFound = $anuncios->select('anuncio_id as id')
+				->orderBy('id', 'DESC')
+				->get();
+		}else {
+			$anunciosFound = $anuncios->select('anuncio_id as id')
+				->where('anuncio_owner', $owner)
+				->orderBy('id', 'DESC')
+				->get();
+		}
+
+		//Regresar news
+		return response()->json($anunciosFound);
+	}
+	
 	public function publicarNews()
 	{
 		//Config datos
@@ -125,7 +187,7 @@ class PostController extends Controller
 		$dir = 'news';
 		
 		//Verificar privilegio
-		if ($privilegio !== 'A-') {
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
@@ -357,7 +419,7 @@ class PostController extends Controller
 		$dir = 'news';
 		
 		//Verificar privilegio
-		if ($privilegio !== 'A-') {
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-') {
 			return response()->json([
 				'code' => 403,
 				'msg' => 'no_access',
@@ -409,6 +471,242 @@ class PostController extends Controller
 			'code' => 200,
 			'msg' => 'anuncio_publicate',
 			'description' => 'Anuncio publicado'
+		], 200);
+	}
+	
+	public function delNews($id)
+	{
+		//Datos
+		$cedula = request()->user()->user_cedula;
+		$privilegio = request()->user()->user_privilegio;
+		$id = json_decode($id);
+		$jsonSend = request()->jsonSend;
+		
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-'){
+			return response()->json([
+				'code' => 403,
+				'msg' => 'no_access',
+				'description' => 'No estás autorizado'
+			], 403);
+		}
+		
+		$news = new NewsData;
+		
+		$errorLogs = [];
+		$e = 0;
+		$deleted = 0;
+		if ($jsonSend) {
+			foreach ($id as $post){
+				$error = [];
+				$newFound = $news->find($post->id);
+				
+				if (!$newFound) {
+					$error = [
+						'id' => $post->id,
+						'msg' => 'post_not_found',
+						'description' => 'La noticia que quiere eliminar no existe'
+					];
+				}
+				
+				if (!$error && $privilegio === 'A-') {
+					$newFound->delete();
+					$deleted++;
+				}else {
+					if (!$error && $newFound->new_owner === $cedula) {
+						$newFound->delete();
+						$deleted++;
+					}else {
+						//Verificar que no exista un error anterior
+						if (!$error) {
+							$error = [
+								'id' => $post->id,
+								'msg' => 'not_your_post',
+								'description' => 'La noticia que quiere eliminar no es tuya'
+							];
+						}
+					}
+				}
+				
+				if ($error) {
+					$errorLogs[$e] = $error;
+					$e++;
+				}
+			}
+		}else {
+			$newFound = $news->find($id);
+		
+			if (!$newFound) {
+				return response()->json([
+					'code' => 400,
+					'msg' => 'post_not_owner',
+					'description' => 'La noticia que quiere eliminar no existe'
+				], 400);
+			}
+
+			if ($privilegio === 'A-'){
+				$newFound->delete();
+			}else {
+				if ($newFound->new_owner === $cedula) {
+					$newFound->delete();
+				}else {
+					return response()->json([
+						'code' => 400,
+						'msg' => 'not_your_post',
+						'description' => 'La noticia que quiere eliminar no es tuya'
+					], 400);
+				}
+			}
+		}
+		
+		//Message
+		$text = '';
+		if ($jsonSend && count($errorLogs) === 0){
+			//Si se eliminaron todas las noticias
+			$text = 'Todas las noticias selecionadas fueron eliminadas';
+		}else if ($jsonSend && count($id) === count($errorLogs)){
+			//Si no se eliminó ninguna noticias
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_deleted',
+				'description' => 'No se pudo eliminar ninguna noticia',
+				'errors' => $errorLogs
+			], 400);
+		}else if ($jsonSend && count($id) > count($errorLogs)){
+			//Si se eliminó alguna noticia
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_all_deleted',
+				'description' => 'No se pudieron eliminar todas las noticias',
+				'errors' => $errorLogs
+			], 400);
+		}else if (!$jsonSend) {
+			$text = 'Noticia eliminada';
+		}
+		
+		return response()->json([
+			'code' => 200,
+			'msg' => 'delete_post',
+			'description' => $text,
+			'errors' => $errorLogs
+		], 200);
+	}
+	
+	public function delAnuncios($id)
+	{
+		//Datos
+		$cedula = request()->user()->user_cedula;
+		$privilegio = request()->user()->user_privilegio;
+		$id = json_decode($id);
+		$jsonSend = request()->jsonSend;
+		
+		if ($privilegio !== 'A-' && $privilegio !== 'CR-'){
+			return response()->json([
+				'code' => 403,
+				'msg' => 'no_access',
+				'description' => 'No estás autorizado'
+			], 403);
+		}
+		
+		$anuncio = new AnunciosData;
+		
+		$errorLogs = [];
+		$e = 0;
+		$deleted = 0;
+		
+		if ($jsonSend) {
+			
+			foreach ($id as $post){
+				$error = [];
+				$anunciosFound = $anuncio->find($post->id);
+				
+				if (!$anunciosFound) {
+					$error = [
+						'id' => $post->id,
+						'msg' => 'post_not_found',
+						'description' => 'El anuncio que quiere eliminar no existe'
+					];
+				}
+				
+				if (!$error && $privilegio === 'A-') {
+					$anunciosFound->delete();
+					$deleted++;
+				}else {
+					if (!$error && $anunciosFound->anuncio_owner === $cedula) {
+						$anunciosFound->delete();
+						$deleted++;
+					}else {
+						//Verificar que no exista un error anterior
+						if (!$error) {
+							$error = [
+								'id' => $post->id,
+								'msg' => 'not_your_post',
+								'description' => 'El anuncio que quiere eliminar no es tuyo'
+							];
+						}
+					}
+				}
+				
+				if ($error) {
+					$errorLogs[$e] = $error;
+					$e++;
+				}
+			}
+		}else {
+			$anunciosFound = $anuncio->find($id);
+		
+			if (!$anunciosFound) {
+				return response()->json([
+					'code' => 400,
+					'msg' => 'post_not_owner',
+					'description' => 'El anuncio que quiere eliminar no existe'
+				], 400);
+			}
+
+			if ($privilegio === 'A-'){
+				$anunciosFound->delete();
+			}else {
+				if ($anunciosFound->new_owner === $cedula) {
+					$anunciosFound->delete();
+				}else {
+					return response()->json([
+						'code' => 400,
+						'msg' => 'not_your_post',
+						'description' => 'El anuncio que quiere eliminar no es tuyo'
+					], 400);
+				}
+			}
+		}
+		
+		//Message
+		$text = '';
+		if ($jsonSend && count($errorLogs) === 0){
+			//Si se eliminaron todas las noticias
+			$text = 'Todos los anuncios selecionadas fueron eliminados';
+		}else if ($jsonSend && count($id) === count($errorLogs)){
+			//Si no se eliminó ninguna noticias
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_deleted',
+				'description' => 'No se pudo eliminar ningún anuncio',
+				'errors' => $errorLogs
+			], 400);
+		}else if ($jsonSend && count($id) > count($errorLogs)){
+			//Si se eliminó alguna noticia
+			return response()->json([
+				'code' => 400,
+				'msg' => 'not_all_deleted',
+				'description' => 'No se pudieron eliminar todos los anuncios',
+				'errors' => $errorLogs
+			], 400);
+		}else if (!$jsonSend) {
+			$text = 'Anuncio eliminado';
+		}
+		
+		return response()->json([
+			'code' => 200,
+			'msg' => 'delete_post',
+			'description' => $text,
+			'errors' => $errorLogs
 		], 200);
 	}
 }

@@ -16,7 +16,7 @@ import { useTheme } from '@material-ui/core/styles';
 
 //Componentes
 import TableShowInfoSecion from './TableShowInfoSecion';
-import ConverterCursoCode from '../../../../components/ConverterCursoCode';
+import ConverterCursoCode from '../../../../components/reutilizar/ConverterCursoCode';
 import { CursosList } from '../../../../components/ListDataGlobal';
 import { RenderSelect } from '../../../../components/RendersGlobal';
 
