@@ -6,7 +6,7 @@ const initialState = {
 	name: '',
 	curso: '',
 	seccion: '',
-	nota: '',
+	lista: '',
 	horario: '',
 	profeGuia: '',
 	privilegio: '',

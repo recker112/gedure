@@ -7,7 +7,7 @@ use App\User;
 use App\Ban;
 use App\NewsData;
 use App\AnunciosData;
-//Validación en try
+//Validaciรณn en try
 use Illuminate\Validation\ValidationException;
 
 class InfoBoxController extends Controller
@@ -38,16 +38,16 @@ class InfoBoxController extends Controller
 					'code' => 422,
 					'msg'    => 'validation_error',
 					'errors' => $exception->errors(),
-					'description' => 'El servidor rechazó su solicitud'
+					'description' => 'El servidor rechazรณ su solicitud'
 				], 422);
 			}
 			
 			//Verificar usuario access
-			if ($privilegio === "V-"){
+			if ($privilegio !== "A-" && $privilegio !== 'CR-'){
 				return response()->json([
 					'code' => 403,
 					'msg' => 'no_access',
-					'description' => 'No está autorizado'
+					'description' => 'No estรก autorizado'
 				], 403);
 			}
 			
@@ -99,6 +99,15 @@ class InfoBoxController extends Controller
 						'PublicNotice' => $PublicNotice,
 						'PublicAnnounce' => $PublicAnnounce,
 					];
+				}else if ($privilegio === 'CR-'){
+					//querys
+					$PublicNotice = NewsData::where('new_owner', $cedula)->count();
+					$PublicAnnounce = AnunciosData::where('anuncio_owner', $cedula)->count();
+					
+					$query = [
+						'PublicNotice' => $PublicNotice,
+						'PublicAnnounce' => $PublicAnnounce,
+					];
 				}
 			}
 			
@@ -107,7 +116,7 @@ class InfoBoxController extends Controller
 				return response()->json([
 					'code' => 400,
 					'msg' => 'option_not_valid',
-					'description' => 'Opciรณn infobox no válida'
+					'description' => 'Opciรณn infobox no vรกlida'
 				], 400);
 			}
 			

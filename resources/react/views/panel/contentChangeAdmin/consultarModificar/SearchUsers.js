@@ -18,7 +18,6 @@ function SearchUsers({ updateInputValue }) {
 	const [options, setOptions] = useState([]);
 	const [val, setVal] = useState(undefined);
 	const [loading, setLoading] = useState(false);
-	// const loading = open && options.length === 0;
 
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
@@ -74,72 +73,6 @@ function SearchUsers({ updateInputValue }) {
 			}
 		}
 	};
-
-	//AUTOCOMPLEtE AGARRANDO TODO LOS DAToS DE UNA
-	// //Buscar DATA
-	// useEffect(
-	// 	() => {
-	// 		const fetchData = async () => {
-	// 			try {
-	// 				const res = await axios.get('api/user/all', {
-	// 					cancelToken: new CancelAxios(c=>{
-	// 						cancel = c;
-	// 					})
-	// 				});
-
-	// 				setOptions(res.data);
-	// 			} catch (error) {
-	// 				if (axios.isCancel(error)){
-	// 					//Mensaje al cancelar peticion
-	// 				}else {
-	// 					if (error.response){
-	// 						//Errores HTTP
-	// 						const { status, data } = error.response;
-							
-	// 						if (status === 403) {
-	// 							enqueueSnackbar(data.description, {
-	// 								variant: 'error'
-	// 							});
-	// 						}if (status === 401) {
-	// 							enqueueSnackbar('No estás autorizado', {
-	// 								variant: 'error'
-	// 							});
-	// 						} else if (status === 500) {
-	// 							enqueueSnackbar('No se ha podido conectar con la base de datos', {
-	// 								variant: 'error'
-	// 							});
-	// 						} else {
-	// 							enqueueSnackbar('Error interno en el servidor', {
-	// 								variant: 'error'
-	// 							});
-	// 						}
-	// 					}else {
-	// 						enqueueSnackbar('Error interno en el servidor', {
-	// 							variant: 'error'
-	// 						});
-	// 					}
-	// 				}
-	// 			}
-	// 		};
-			
-	// 		//Realizar consulta
-	// 		if(loading) {
-	// 			fetchData();
-	// 		}
-			
-	// 		return () => {
-	// 			if (cancel){
-	// 				cancel();
-	// 			}
-				
-	// 			//Reset de DATA guardada.
-	// 			if (!open) {
-	// 				setOptions([]);
-	// 			}
-	// 		};
-	// 	},
-	// 	[loading]
-	// );
 	
 	//Clear data on close
 	useEffect(()=>{
@@ -192,7 +125,7 @@ function SearchUsers({ updateInputValue }) {
 	};
 
 	return (
-		<div className="searchUser">
+		<div className="autoComplete">
 			<Autocomplete
 				//Verificar si está loading o no
 				loading={loading}

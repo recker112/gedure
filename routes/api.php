@@ -20,6 +20,12 @@ Route::post('/login', 'LoginController@login');
 //Post
 Route::get('/news', 'PostController@getNews');
 Route::get('/anuncios', 'PostController@getAnuncios');
+Route::middleware('auth:api')->get('/news/search', 'PostController@getNewsForSearch');
+Route::middleware('auth:api')->get('/anuncios/search', 'PostController@getAnunciosForSearch');
+Route::middleware('auth:api')->post('/news', 'PostController@publicarNews');
+Route::middleware('auth:api')->post('/anuncios', 'PostController@publicarAnuncio');
+Route::middleware('auth:api')->delete('/news/{id}', 'PostController@delNews');
+Route::middleware('auth:api')->delete('/anuncios/{id}', 'PostController@delAnuncios');
 
 //Relogin
 Route::middleware('auth:api')->get('/relogin', 'LoginController@relogin');
@@ -58,8 +64,3 @@ Route::middleware('auth:api')->get('/matricula/{file}', 'GetArchivesController@g
 Route::get('/imagenes/avatars/{img}', 'GetArchivesController@getAvatar');
 Route::get('/resources/news/{noticia}/{file}', 'GetArchivesController@getResourceNews');
 Route::middleware('auth:api')->get('/archivos/boleta', 'GetArchivesController@getBoleta');
-
-/* PUBLICAR POSTS */
-//Noticias
-Route::middleware('auth:api')->post('/news', 'PostController@publicarNews');
-Route::middleware('auth:api')->post('/anuncios', 'PostController@publicarAnuncio');

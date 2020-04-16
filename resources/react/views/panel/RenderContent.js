@@ -33,7 +33,10 @@ const Borrar = lazy(() =>
 	import(/* webpackChunkName: "Borrar" */ './contentChangeAdmin/borrar/RenderBorrar')
 );
 const Publicar = lazy(() =>
-	import(/* webpackChunkName: "Publicar" */ './contentChangeAdmin/publicar/RenderPublicar')
+	import(/* webpackChunkName: "Publicar" */ './contentChangeAdmin/posting/RenderPublicar')
+);
+const BorrarPublicacion = lazy(() =>
+	import(/* webpackChunkName: "DelPublic" */ './contentChangeAdmin/delposting/RenderDelPublic')
 );
 const BoletasUser = lazy(() =>
 	import(/* webpackChunkName: "Publicar" */ './contentChangeUser/boletas/RenderBoletas')
@@ -55,6 +58,8 @@ function RenderContent({ content, privilegio }) {
 		return (
 			<RenderContentUser content={fixNull} />
 		);
+	} else if (privilegio === 'CR-') {
+		return <RenderContentCreador content={fixNull} />;
 	} else {
 		return <main>No disponible por los momentos</main>;
 	}
@@ -62,11 +67,11 @@ function RenderContent({ content, privilegio }) {
 
 function RenderContentUser({ content }) {
 	if (content === 'home') {
-		return <main>Bienvenido.</main>;
-	}
-
-	if (content === 'news') {
-		return <React.Fragment />;
+		return (
+			<main>
+				<Home />
+			</main>
+		);
 	}
 
 	if (content === 'boleta') {
@@ -87,45 +92,93 @@ function RenderContentAdmin({ content }) {
 				<Home />
 			</main>
 		);
-	}else if (content === "reg") {
+	}
+	
+	if (content === "reg") {
 		return (
 			<main>
 				<Registros />
 			</main>
 		);
-	}else if (content === "modify") {
+	}
+	
+	if (content === "modify") {
 		return (
 			<main>
 				<Modificar />
 			</main>
 		);
-	}else if (content === "upload") {
+	}
+	
+	if (content === "upload") {
 		return (
 			<main>
 				<Cargar />
 			</main>
 		);
-	}else if (content === "userOptions") {
+	}
+	
+	if (content === "userOptions") {
 		return (
 			<main>
 				<Opciones />
 			</main>
 		);
-	}else if (content === "delete") {
+	}
+	
+	if (content === "delete") {
 		return (
 			<main>
 				<Borrar />
 			</main>
 		);
-	}else if (content === "posting") {
+	}
+	
+	if (content === "posting") {
 		return (
 			<main>
 				<Publicar />
 			</main>
 		);
-	}else {
-		return (<NoFound />);
 	}
+	
+	if (content === "delPosting") {
+		return (
+			<main>
+				<BorrarPublicacion />
+			</main>
+		);
+	}
+	
+	return (<NoFound />);
+}
+
+function RenderContentCreador({ content }) {
+	if (content === 'home') {
+		return (
+			<main>
+				<Home />
+			</main>
+		);
+	}
+
+	if (content === "posting") {
+		return (
+			<main>
+				<Publicar />
+			</main>
+		);
+	}
+	
+	if (content === "delPosting") {
+		return (
+			<main>
+				<BorrarPublicacion />
+			</main>
+		);
+	}
+
+	return (<NoFound />);
 }
 
 const mapStateToProps = state => ({

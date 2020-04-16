@@ -118,23 +118,53 @@ const ContentBarList = ({privilegio}) => {
 			},
 			icon: <ListAltIcon />
     },
-    {
-			redirect: '/panel?show=horario',
-			text: 'Horario',
+		// {
+		// 	redirect: '/panel?show=horario',
+		// 	text: 'Horario',
+		// 	queryParams: {
+		// 		param: 'show',
+		// 		value: 'horario'
+		// 	},
+		// 	icon: <QueryBuilderIcon />
+		// },
+		// {
+		// 	redirect: '/panel?show=constancias',
+		// 	text: 'Constancias',
+		// 	queryParams: {
+		// 		param: 'show',
+		// 		value: 'constancias'
+		// 	},
+		// 	icon: <ArchiveIcon />
+		// },
+	];
+	
+	const dataListCreador = [
+		{
+			redirect: '/panel?show=home',
+			text: 'Dashboard',
 			queryParams: {
 				param: 'show',
-				value: 'horario'
+				value: 'home'
 			},
-			icon: <QueryBuilderIcon />
+			icon: <HomeIcon />
     },
-    {
-			redirect: '/panel?show=constancias',
-			text: 'Constancias',
+		{
+			redirect: '/panel?show=posting',
+			text: 'Publicar',
 			queryParams: {
 				param: 'show',
-				value: 'constancias'
+				value: 'posting'
 			},
-			icon: <ArchiveIcon />
+			icon: <NewReleasesIcon />
+		},
+		{
+			redirect: '/panel?show=delPosting',
+			text: 'Borrar publicación',
+			queryParams: {
+				param: 'show',
+				value: 'delPosting'
+			},
+			icon: <DeleteSweepIcon />
 		},
 	];
 
@@ -177,7 +207,25 @@ const ContentBarList = ({privilegio}) => {
 								{data.icon}
 							</RenderButtonList>
 							{/*Poner dividers*/}
-							{(i === 0 || i === 5) ? (<Divider />) : null}
+							{(i === 0) ? (<Divider />) : null}
+						</React.Fragment>
+					);
+				})}
+				{privilegio === "CR-" && dataListCreador.map((data, i) => {
+					return (
+						<React.Fragment key={i}>
+							<RenderButtonList
+								options={{
+									redirect: data.redirect,
+									text: data.text
+								}}
+								queryParams={data.queryParams ? data.queryParams : null}
+								defaultPath='home'
+							>
+								{data.icon}
+							</RenderButtonList>
+							{/*Poner dividers*/}
+							{(i === 0) ? (<Divider />) : null}
 						</React.Fragment>
 					);
 				})}
