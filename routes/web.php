@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Pagina en mantenimiento
 // Artisan::call('down');
+//Reactivar Página
+// Artisan::call('up');
 
 Route::view('/{any}', 'index')->where('any', '^(?!api).*$')->name('spa');
