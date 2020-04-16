@@ -82,7 +82,8 @@ function MenuDialog({
 			
 			if (type === 'avatar'){
 				formData.append('avatar', file[0]);
-				res = await axios.post('api/upload/avatar', formData, { 
+				res = await axios.post('api/upload/avatar', formData, {
+					onUploadProgress: onUploadProgress,
 					cancelToken: new CancelAxios(c=>{
 						cancel = c;
 					})
