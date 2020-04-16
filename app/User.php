@@ -194,7 +194,8 @@ class User extends Authenticatable
 					'estudiante_name as name', 
 					'curso_name as curso', 
 					'curso_seccion as seccion', 
-					'alumno_n_lista as lista')
+					'alumno_n_lista as lista',
+					'estudiante_alumno_id as alumno_id')
 						->where('user_cedula', $cedula)
 						->join(
 							'estudiantes_data', 
@@ -246,5 +247,72 @@ class User extends Authenticatable
 					break;
 		}
 		return $DataUser;
+	}
+	
+	public function searchMassiveUsersForCurso($curso, $seccion)
+	{
+		$studiendsTotal = [];
+		if ($seccion === 'all') {
+			$cursoId = "C-$curso-%";
+			
+			$studiendsTotal = User::select(
+				'user_cedula as cedula',
+				'user_privilegio as privilegio',
+				'estudiante_name as name',
+				'alumno_n_lista as lista',
+				'curso_name as curso',
+				'curso_seccion as seccion'
+				)
+				->where('curso_id', 'LIKE', $cursoId)
+				->join(
+				'estudiantes_data',
+				'estudiantes_data.estudiante_cedula',
+				'=',
+				'users.user_cedula')
+				->join(
+				'alumnos_data', 
+				'alumnos_data.alumno_id', 
+				'=', 
+				'estudiantes_data.estudiante_alumno_id')
+				->join(
+				'cursos_data',
+				'cursos_data.curso_id',
+				'=',
+				'alumnos_data.alumno_curso')
+				->orderBy('curso_seccion', 'ASC')
+				->orderBy('alumno_n_lista', 'ASC')
+				->get();
+		}else {
+			$cursoId = "C-$curso-$seccion";
+			
+			$studiendsTotal = User::select(
+				'user_cedula as cedula',
+				'user_privilegio as privilegio',
+				'estudiante_name as name',
+				'alumno_n_lista as lista',
+				'curso_name as curso',
+				'curso_seccion as seccion'
+				)
+				->where('curso_id', 'LIKE', $cursoId)
+				->join(
+				'estudiantes_data',
+				'estudiantes_data.estudiante_cedula',
+				'=',
+				'users.user_cedula')
+				->join(
+				'alumnos_data', 
+				'alumnos_data.alumno_id', 
+				'=', 
+				'estudiantes_data.estudiante_alumno_id')
+				->join(
+				'cursos_data',
+				'cursos_data.curso_id',
+				'=',
+				'alumnos_data.alumno_curso')
+				->orderBy('alumno_n_lista', 'ASC')
+				->get();
+		}
+		
+		return $studiendsTotal;
 	}
 }

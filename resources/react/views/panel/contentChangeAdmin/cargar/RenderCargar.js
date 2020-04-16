@@ -14,11 +14,11 @@ import donwloadFiles from '../../../../components/reutilizar/donwloadFiles';
 //Redux
 import { connect } from 'react-redux';
 import updateInputValue from '../../../../actions/updateInputValue';
+import errorInfo from '../../../../actions/errorInfo';
+import updateLoading from '../../../../actions/updateLoading';
 
 //Notistack
 import { useSnackbar } from 'notistack';
-import errorInfo from '../../../../actions/errorInfo';
-import updateLoading from '../../../../actions/updateLoading';
 
 function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 	//Crear un SnackBar

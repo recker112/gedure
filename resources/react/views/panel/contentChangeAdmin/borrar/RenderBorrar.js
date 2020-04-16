@@ -16,12 +16,75 @@ import updateInputValue from '../../../../actions/updateInputValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
+//Notistack
+import { useSnackbar } from 'notistack';
+
 function RenderBorrar({ data, updateInputValue, errorInfo, updateLoading }) {
-	const { option, loading, curso, seccion, error } = data;
+	const { option, loading, curso, seccion, error } = data
+	
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handleChange = e => {
 		updateInputValue(e, 'DELETE');
 	};
+	
+	const fetchData = async () => {
+		try {
+			let res;
+			
+			if (option === 'seccion'){
+				res = await axios.delete(`api/users`, {
+					data: {
+						curso: curso,
+						seccion: seccion
+					}
+				});
+			}else if (option === 'boletas') {
+				res = await axios.delete(`api/archivos/boletas`, {
+					data: {
+						curso: curso,
+						seccion: seccion
+					}
+				});
+			}
+			
+			const { description, status } = res.data;
+
+			enqueueSnackbar(description, {
+				variant: 'success'
+			});
+		} catch (error) {
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
+
+				if (status === 403){
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				}else if (status === 400){
+					enqueueSnackbar(data.description, {
+						variant: 'warning'
+					});
+				}else if (status === 500){
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				}else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
+				}
+			}else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+		
+		updateLoading(false, 'DELETE');
+	}
 
 	const handleSubmit = e => {
 		//Preparativos
@@ -44,7 +107,10 @@ function RenderBorrar({ data, updateInputValue, errorInfo, updateLoading }) {
 		if (error) {
 			return null;
 		}
+		
+		
 		updateLoading(true, 'DELETE');
+		fetchData();
 	};
 
 	//Config de curso
@@ -67,7 +133,11 @@ function RenderBorrar({ data, updateInputValue, errorInfo, updateLoading }) {
 				value: '',
 				name: 'Seccion'
 			},
-			...SeccionList
+			...SeccionList,
+			{
+				value: 'all',
+				name: 'Todas'
+			}
 		]
 	};
 
@@ -133,8 +203,8 @@ function SelectorDelete({ action, value }) {
 				name: 'Sección'
 			},
 			{
-				value: 'estudiante',
-				name: 'Estudiante'
+				value: 'boletas',
+				name: 'Boletas'
 			}
 		]
 	};
