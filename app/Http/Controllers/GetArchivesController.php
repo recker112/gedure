@@ -7,68 +7,48 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class GetArchivesController extends Controller
-{
-  public function getAvatar($img)
-	{
-		//Config datos
-		$baseDir = 'dataStorage';
-		$dir = 'avatars';
+{	
+	// //BOCETO PARA PRIVATISAR ARCHIVOS E IMAGENES
+	// public function getAvatar($img)
+	// {
+	// 	//Configuración de datos
+	// 	$dir = 'avatars';
 		
-		//Verificar existencia de archivo
-		$exists = Storage::disk('public')->exists("$dir/$img");
-		if (!$exists) {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'not_exist',
-				'description' => 'El archivo solicitado no existe'
-			], 400);
-		}
+	// 	//Verificar existencia de archivo
+	// 	$missing = Storage::disk('public')->missing("$dir/$img");
+	// 	if ($missing) {
+	// 		return response()->json([
+	// 			'code' => 400,
+	// 			'msg' => 'not_exist',
+	// 			'description' => 'El archivo solicitado no existe'
+	// 		], 400);
+	// 	}
 		
-		return response()->file("$baseDir/$dir/$img");
-	}
-	
-	public function getResourceNews($noticia, $file)
-	{
-		//Config datos
-		$extension = request()->extension;
-		$baseDir = 'dataStorage';
-		$dir = 'news';
+	// 	//Comprovaciones varías
+	// 	if ($privilegio !== 'ADMIN ROTO') {
+	// 		return 'NO PUEDES VER lA imAGEN'
+	// 	}
+	// 	/*
+	// 	¿Cómo funcionaría?
+	// 	"Storage::response" es un facades el cual nos permite responder a una url con
+	// 	un archivo X, bien sea una imagen o un pdf.
 		
-		//Verificar existencia de archivos
-		$exists = Storage::disk('public')->exists("$dir/$noticia/$file");
-		if (!$exists) {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'no_exist',
-				'description' => 'El archivo solicitado no existe'
-			], 400);
-		}
+	// 	Esto puede servir para privatisar archivos, ya que al renderizar CUALQUIER
+	// 	tipo de archivo, permite dejar de usar el disk public y poder usar disk
+	// 	privados, siendo el controlador el que decide si mostrar la imagen o no.
 		
-		return response()->file("$baseDir/$dir/$noticia/$file");
-	}
-	
-	public function getImg($file)
-	{
-		//Config datos
-		$baseDir = 'dataStorage';
-		$dir = 'imagenes';
+	// 	Esto pierde la gracia al usar el disk publico, ya que cualquiera que sepa
+	// 	cuál es la verdadera ruta puede ver el archivo, pero con los disk local no se
+	// 	puede hacer ese truco, ya que los archivos se mantienen en el directorio
+	// 	storage.
+	// 	*/
+	// 	//Construir archivo del disk local
+	// 	$response = Storage::response("matricula/1B.xlsx");
 		
-		//Verificar que existe una extension
-		if (empty($extension)) {
-			$extension = "jpg";
-		}
-		
-		$exists = Storage::disk('public')->exists("$dir/$file");
-		if (!$exists) {
-			return response()->json([
-				'code' => 400,
-				'msg' => 'no_exist',
-				'description' => 'El archivo solicitado no existe'
-			], 400);
-		}
-		
-		return response()->file("$baseDir/$dir/$file");
-	}
+	// 	//Construir imagen del disk publico
+	// 	$response = Storage::disk('public')->response("avatars/test.jpeg");
+	// 	return $response;
+	// }
 	
 	public function getMatricula($file)
 	{

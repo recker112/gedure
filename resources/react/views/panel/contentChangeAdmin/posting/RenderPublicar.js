@@ -24,7 +24,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 	const { option, loading, error, title, content, img, archives } = data;
 	
 	//Máximo de caracteres.
-	const contentMaxLength = option === 'noticia' ? 10000 : 520;
+	const contentMaxLength = option === 'noticia' ? 5000 : 520;
 	
 	//Progress
 	const [progress, setProgress] = useState(0);

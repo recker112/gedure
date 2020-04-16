@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 //Pagina en mantenimiento
 // Artisan::call('down');
-//Reactivar Página
+//Reactivar Pรกgina
 // Artisan::call('up');
+
+//Crear Links via rutas con artisan
+// Route::get('/foo', function () {
+//     Artisan::call('storage:link');
+// });
 
 Route::view('/{any}', 'index')->where('any', '^(?!api).*$')->name('spa');

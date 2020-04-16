@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import donwloadFiles from '../../../../components/reutilizar/donwloadFiles';
 
 //Material-UI
-import { Button } from '@material-ui/core';
+import { Button, Grid, Paper } from '@material-ui/core';
 
 //NotiStack
 import { useSnackbar } from 'notistack';
@@ -75,22 +75,43 @@ function RenderBoletas(){
 		}
 	}, [query, cancel, setQuery]);
 	
-	if (!query){
-		return (
-			<h1>Buscando boleta...</h1>
-		)
-	}
+	return (
+		<RenderContent query={query} setQuery={setQuery} />
+	)
+}
+
+function RenderContent({ query, setQuery }) {
+	const text = !query ? 'Buscando boleta...' : 'Respuesta obtenida';
 	
 	return (
-		<React.Fragment>
-			<h1>Respuesta obtenida.</h1>
-			<Button variant='outlined' color='inherit' onClick={() => {
-					setQuery(false);
-				}}>
-				Click aquí para re-intentar
-			</Button>
-		</React.Fragment>
-	)
+		<Grid container spacing={2} justify="center">
+			<Grid item xs={12} sm={5} md={3}>
+				<Paper variant="outlined">
+					<div className="Box">
+						<span className="title">{text}</span>
+						<div className="content">
+							<Grid Container spacing={2} justify="center">
+								{query && (
+									<Grid item xs={12} style={{textAlign: 'center'}}>
+										<Button 
+											variant='outlined' 
+											color='inherit' 
+											onClick={() => {
+												setQuery(false);
+											}}
+											style={{marginTop: '20px'}}
+										>
+											Reintentar
+										</Button>
+									</Grid>
+								)}
+							</Grid>
+						</div>
+					</div>
+				</Paper>
+			</Grid>
+		</Grid>
+	);
 }
 
 export default RenderBoletas;

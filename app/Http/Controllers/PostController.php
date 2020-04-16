@@ -274,15 +274,15 @@ class PostController extends Controller
 				//Upload
 				if (!$error) {
 					//Mover archivo
-					$path = Storage::disk('public')->putFileAs(
+					Storage::disk('public')->putFileAs(
 						"$dir/$new->new_id", $file, $filenameOriginal
 					);
 					
 					//URL
-					$uploadedImgDir = env('APP_URL').
-					"/api/resources/$path";
+					$url = Storage::disk('public')
+						->url("$dir/$new->new_id/$filenameOriginal");
 					
-					$imgsUploaded[$i] = $uploadedImgDir;
+					$imgsUploaded[$i] = $url;
 					$i++;
 				}else {
 					$errorLogs[$e] = $error;
@@ -314,12 +314,10 @@ class PostController extends Controller
 				$verifyMIME = $modelo->verifyMime($mimeType, [
 					'application/vnd.ms-excel',
 					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheetapplication/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 					'application/pdf',
 					'application/msword',
 					'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 				]);
-				
 				if (!$verifyMIME) {
 					$error = [
 						'type_error' => 'mime',
@@ -336,13 +334,12 @@ class PostController extends Controller
 				//Upload
 				if (!$error) {
 					//Mover archivo
-					$path = Storage::disk('public')->putFileAs(
+					Storage::disk('public')->putFileAs(
 						"$dir/$new->new_id", $file, $filenameOriginal
 					);
 					
-					//Url Archive
-					$uploadedArchiveDir = env('APP_URL').
-					"/api/resources/$path";
+					$url = Storage::disk('public')
+						->url("$dir/$new->new_id/$filenameOriginal");
 					
 					//excel Image
 					if ($extension === "xlsx" || $extension === "xls") {
@@ -356,12 +353,12 @@ class PostController extends Controller
 					}
 					
 					//Url icon extension
-					$extensionImgUrl = env('APP_URL').
-						"/api/imagenes/$extensionImg.png";
+					$urlExtension = Storage::disk('public')
+						->url("imagenes/$extensionImg.png");
 					
 					$archivesUploaded[$i] = [
-						'url' => $uploadedArchiveDir,
-						'extension' => $extensionImgUrl
+						'url' => $url,
+						'extension' => $urlExtension
 					];
 					$i++;
 				}else {

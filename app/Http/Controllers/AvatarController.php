@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Response;
 //Validación en try
 use Illuminate\Validation\ValidationException;
 //Storage
@@ -85,29 +86,27 @@ class AvatarController extends Controller
 			], 422);
 		}
 		
-		//Genear url
-		$uploadedAvatarDir = env('APP_URL').
-			"/api/imagenes/$dir/$filenameUploaded";
-		
 		//Cargar archivo al servidor
-		$avatar->storeAs("$dir", $filenameUploaded,'public');
+		$avatar->storeAs("$dir", $filenameUploaded, 'public');
 		
+		$url = Storage::disk('public')->url("$dir/$filenameUploaded");
+			
 		//Verificar tipo de usuario
 		if ($privilegio === 'A-'){
 			$adminsData = new AdminsData;
 			$userFound = $adminsData->where('admin_cedula', $cedula)->first();
 			$oldAvatar = $userFound->admin_avatar;
-			$userFound->admin_avatar = $uploadedAvatarDir;
+			$userFound->admin_avatar = $url;
 		} else if ($privilegio === 'V-'){
 			$estuData = new EstudiantesData;
 			$userFound = $estuData->where('estudiante_avatar', $cedula)->first();
 			$oldAvatar = $userFound->estudiante_avatar;
-			$userFound->estudiante_avatar = $uploadedAvatarDir;
+			$userFound->estudiante_avatar = $ulr;
 		} else if ($privilegio === 'CR-'){
 			$creadorData = new EstudiantesData;
 			$userFound = $creadorData->where('creador_avatar', $cedula)->first();
 			$oldAvatar = $userFound->creador_avatar;
-			$userFound->creador_avatar = $uploadedAvatarDir;
+			$userFound->creador_avatar = $ulr;
 		}
 		
 		//Actualizar avatar en la base de datos.
@@ -115,9 +114,17 @@ class AvatarController extends Controller
 		
 		//Borrar avatar viejo
 		if ($oldAvatar !== null){
-			$dirDelete = $this->splitUrl($oldAvatar, $dir);
-			if (Storage::disk('public')->exists($dirDelete)){
-				Storage::disk('public')->delete($dirDelete);
+			/*
+			El Index de la función "splitURL" lo tomamos de la siguiente manera:
+			https:/ /example.com/resoruces/avatars/img
+			0      1      2       3         4        5
+			
+			Como es explode(), se divide en un array, el index sería el dato que
+			queremos que el split regrese, en este caso es la imagen.
+			*/
+			$imgDelete = $this->splitUrl($oldAvatar, 5);
+			if (Storage::disk('public')->exists("$dir/$imgDelete")){
+				Storage::disk('public')->delete("$dir/$imgDelete");
 			}
 		}
 		
@@ -132,20 +139,18 @@ class AvatarController extends Controller
 			'code' => 200,
 			'msg' => 'update_avatar',
 			'description' => 'Avatar cambiado correctamente',
-			'newAvatar' => $uploadedAvatarDir
+			'newAvatar' => $url
 		], 200);
 	}
 	
 	//Funciones reutilizables
-	public function splitUrl($oldAvatar, $dir)
+	public function splitUrl($oldAvatar, $index)
 	{
 		//Obtener avatar viejo y dividir url
 		$oldAvatar = explode('/', $oldAvatar);
-		//Quitar array;
-		$oldAvatar = $oldAvatar[6];
-		//Borrar avatar viejo
-		$dirDelete = "$dir/$oldAvatar";
+		//Quitar array
+		$oldAvatar = $oldAvatar[$index];
 		
-		return $dirDelete;
+		return $oldAvatar;
 	}
 }

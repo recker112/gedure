@@ -1,11 +1,12 @@
 //React
-import React from 'react';
+import React, { useState } from 'react';
 
 //Material-UI
 import { Grow, FormControlLabel, Checkbox } from '@material-ui/core';
 
 //Componentes
 import ButtonLoading from '../../components/ButtonLoading';
+import ShowInfoVersion from '../../components/ShowInfoVersion';
 
 //Redux
 import { connect } from 'react-redux';
@@ -14,6 +15,8 @@ import { RenderInputs } from '../../components/RendersGlobal';
 function RenderForm({ options, dataLogin, validating, error }) {
   //Destructurar datos
   const { handleChange, handleSubmit } = options;
+	
+	const [open, setOpen] = useState(false);
 
   return (
     <Grow in={true}>
@@ -54,6 +57,13 @@ function RenderForm({ options, dataLogin, validating, error }) {
         <div className="Copyright">
           <span>&copy; UEP APEP "La Candelaria" - 2020</span>
           <span>Desarollado por Recker</span>
+					<span 
+						onClick={()=>{setOpen(true)}}
+						style={{cursor: 'pointer'}}
+					>
+						v4.0.0-Beta.0 Ver notas
+					</span>
+					<ShowInfoVersion open={open} setOpen={setOpen} />
         </div>
       </form>
     </Grow>

@@ -7,7 +7,6 @@ import { Zoom } from '@material-ui/core';
 //Componentes
 import Form from './Form';
 import VerifyRelogin from './VerifyRelogin';
-import ShowInfoVersion from '../../components/ShowInfoVersion';
 
 function PageIndex({ auth, reloginSuccess }) {
 	//Titulo
@@ -29,7 +28,6 @@ function PageIndex({ auth, reloginSuccess }) {
 					<Form />
 				</main>
 			</div>
-			<ShowInfoVersion />
 		</VerifyRelogin>
 	);
 }
