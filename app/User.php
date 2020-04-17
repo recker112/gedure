@@ -193,7 +193,9 @@ class User extends Authenticatable
 					'user_privilegio as privilegio',
 					'estudiante_name as name', 
 					'curso_name as curso', 
-					'curso_seccion as seccion', 
+					'curso_seccion as seccion',
+					'alumno_nota_status as nota_status',
+					'alumno_horario_status as horario_status',
 					'alumno_n_lista as lista',
 					'estudiante_alumno_id as alumno_id')
 						->where('user_cedula', $cedula)

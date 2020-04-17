@@ -43,7 +43,7 @@ Route::middleware('auth:api')->get('/infobox/announcebox', 'InfoBoxController@ge
 //GetLogs
 Route::middleware('auth:api')->get('/logs', 'LogsController@getLogs');
 
-/* MODIFY */
+/* MODIFY USER */
 Route::middleware('auth:api')->group(function () {
 	//GetUsers
 	Route::get('/user/{userSearch}', 'GetUserController@searchUser');
@@ -56,7 +56,15 @@ Route::middleware('auth:api')->group(function () {
 	//DeleteUser
 	Route::delete('/user/{userSearch}', 'ModifyUserController@deleteUser');
 	//ChangePass
-	Route::post('/user/changePass', 'ModifyUserController@changePass');	
+	Route::post('/user/changePass', 'ModifyUserController@changePass');
+});
+
+/* CHANGE OPTIONS USER */
+Route::middleware('auth:api')->group(function () {
+	//ChangeOptionsStudiend
+	Route::post('/user/options/studiend', 'UserOptionsController@changeStudiendOptions');	
+	//ChangeOptionsSeccion
+	Route::post('/user/options/seccion', 'UserOptionsController@changeSecciondOptions');	
 });
 
 /* UPLOADS */
