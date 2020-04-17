@@ -101,6 +101,7 @@ class LoginController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $dataUser->cedula;
 		$Log->log_action = 'Inicio de sesión.';
+		$Log->log_create_at = now();
 		$Log->save();
 
 		//Regresar datos
@@ -124,6 +125,7 @@ class LoginController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $dataUser->cedula;
 		$Log->log_action = 'Inicio de sesión con relogin.';
+		$Log->log_create_at = now();
 		$Log->save();
 		return response($dataUser, 200);
 	}
