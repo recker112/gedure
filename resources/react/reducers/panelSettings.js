@@ -195,7 +195,6 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 		case 'UPDATE_LOADING_LOGS_SEARCHING': {
-			console.log("UPDATE");
 			return {
 				...state,
 				logsSection: {
