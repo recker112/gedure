@@ -41,7 +41,7 @@ function ShowInfoContent({
 	let query = useQuery();
 	
 	//Path
-	let { path } = useRouteMatch();
+	let { url } = useRouteMatch();
 	
 	//Content
 	let content;
@@ -50,7 +50,7 @@ function ShowInfoContent({
 	if (queryParams) {
 		content = query.get(queryParams);
 	}else {
-		content = path;
+		content = url;
 	}
 	
 	//Verificar NULL
