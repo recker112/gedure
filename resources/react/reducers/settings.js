@@ -6,7 +6,6 @@ if (!localStorage.getItem("theme")){
 
 //Verificar si la lista contiene algo
 if (!localStorage.getItem("noListStorage") || typeof JSON.parse(localStorage.getItem("noListStorage")) !== "object"){
-	console.log(typeof JSON.parse(localStorage.getItem("noListStorage")));
   //Setear dada
 	localStorage.setItem('noListStorage', JSON.stringify([]));
 }

@@ -71,10 +71,10 @@ export default function RenderPanel({ content }) {
 	return (
 		<div className="BoxPagePanel">
 			<RenderContent content={content} />
-			<ShowInfoContent dataContent={dataContent} 
-				noShowInfo={['home']} 
+			<ShowInfoContent 
+				dataContent={dataContent}
 				queryParams={'show'}
-				defaultPath={'home'}
+				defaultPath="home"
 			/>
 		</div>
 	);

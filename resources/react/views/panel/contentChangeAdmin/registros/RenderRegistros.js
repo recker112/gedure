@@ -83,14 +83,11 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 			updateLoading(true, 'LOGS_SEARCHING');
 			//Limpiar datos
 			updateInputValue(null, 'LOGS_DATATABLE');
-
-			console.log("Dividier");
 			//PETICION
 			fetchData(selectSearch);
 			
 			//Al desmontar
 			return ()=>{
-				console.log("cancel xD");
 				if(cancel){
 					cancel();
 				}
@@ -98,8 +95,6 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 		},
 		[selectSearch]
 	);
-	
-	console.log("ACTUALIZADO PAPÁ");
 
 	return (
 		<Grid container spacing={2} justify="center">

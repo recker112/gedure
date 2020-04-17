@@ -31,7 +31,6 @@ function ShowInfoContent({
 	dataContent, 
 	defaultPath,
 	privilegio,
-	noShowInfo = false, 
 	queryParams = false 
 }) {
 	//Resolution RESPONSIVE DIALOG
@@ -54,28 +53,17 @@ function ShowInfoContent({
 		content = path;
 	}
 	
+	//Verificar NULL
+	if (content === null) {
+		content = defaultPath;
+	}
+	
 	//OpenDialog
 	const [open, setOpen] = useState(false);
 	
 	//Verifi list and open dialog
 	useEffect(()=> {
-		//Verificar si se debe mostrar info.
-		const noInfo = noShowInfo;
-		
-		let found = false;
 		const storage = JSON.parse(localStorage.getItem('noListStorage'));
-		
-		//Verificar que la lista esté en array
-		if (typeof noInfo === 'object') {
-			//Verificar lista de los items a NO mostrar
-			noInfo.map(itemContent => {
-				if (content === itemContent && !found) {
-					found = true;
-				}
-
-				return null;
-			});
-		}
 		
 		//Verificar que exista el contenido actual en la lista
 		let foundInList = false;
@@ -103,12 +91,7 @@ function ShowInfoContent({
 			return null;
 		})
 		
-		//Fix null value
-		if (!found && content === null) {
-			found = true;
-		}
-		
-		const openOnInit = !found && foundInList && seeIt;
+		const openOnInit = foundInList && seeIt;
 		
 		setOpen(openOnInit);
 	}, [content]);
@@ -201,4 +184,4 @@ const mapStateToProps = state => ({
 	privilegio: state.userData.privilegio
 });
 
-export default connect()(ShowInfoContent);
+export default connect(mapStateToProps)(ShowInfoContent);
