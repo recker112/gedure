@@ -33,12 +33,15 @@ class PostController extends Controller
 			$offset = 0;
 		}
 
+		$totalNews = count($news->get());
+		
 		//Recibir noticias
 		$dataNews = $news->getNews($maxNews, $offset);
 
 		//Verificar existencia del último post
 		for($i=0; $i < count($dataNews); $i++) {
-			if ($dataNews[$i]->id === 1) {
+			$actual = ($i + 1) + $offset;
+			if ($totalNews === $actual) {
 				$finish = true;
 			}else {
 				$finish = false;
@@ -111,13 +114,16 @@ class PostController extends Controller
 		if (!$offset) {
 			$offset = 0;
 		}
+		
+		$totalAnuncios = count($anuncios->get());
 
 		//Recibir noticias
 		$dataAnuncios = $anuncios->getAnuncios($maxAnuncios, $offset);
 
 		//Verificar existencia del último post
 		for($i=0; $i < count($dataAnuncios); $i++) {
-			if ($dataAnuncios[$i]->id === 1) {
+			$actual = ($i + 1) + $offset;
+			if ($totalAnuncios === $actual) {
 				$finish = true;
 			}else {
 				$finish = false;
@@ -587,7 +593,7 @@ class PostController extends Controller
 		//Log
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
-		$Log->log_action = "Noticia #$id eliminada.";
+		$Log->log_action = "Algunas noticias eliminadas.";
 		$Log->log_create_at = now();
 		$Log->save();
 		
@@ -713,7 +719,7 @@ class PostController extends Controller
 		//Log
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
-		$Log->log_action = "Anuncio #$id eliminado.";
+		$Log->log_action = "Algunos anuncios eliminados.";
 		$Log->log_create_at = now();
 		$Log->save();
 

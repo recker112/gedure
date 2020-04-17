@@ -128,6 +128,7 @@ class ModifyUserController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Usuario '.$privilegioReq.$cedulaReq.' creado.';
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		return response()->json([
@@ -230,6 +231,7 @@ class ModifyUserController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Usuario '.$privilegioReq.$cedulaReq.' modificado.';
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		//Respuesta
@@ -351,6 +353,7 @@ class ModifyUserController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = request()->user()->user_cedula;
 		$Log->log_action = 'Usuario '.$privilegioReq.$cedulaReq.' eliminado.';
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		//Respuesta
@@ -422,6 +425,7 @@ class ModifyUserController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $cedulaReq;
 		$Log->log_action = 'Cambio de contraseña.';
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		return response()->json([

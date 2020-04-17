@@ -23,7 +23,7 @@ class AnunciosData extends Model
             'admin_name as nameA',
             'creador_name as nameC'
         )
-            ->orderBy('anuncio_create_at', 'desc')
+            ->orderBy('id', 'desc')
             ->limit($limit)
             ->offset($offset)
             ->join('users', 'users.user_cedula', '=', 'anuncios_data.anuncio_owner')

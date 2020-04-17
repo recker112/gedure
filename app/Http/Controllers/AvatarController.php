@@ -132,6 +132,7 @@ class AvatarController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
 		$Log->log_action = 'Avatar actualizado.';
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		//respuesta
