@@ -34,25 +34,32 @@ function RenderBoletas(){
 				setQuery(true);
 			}
 		} catch (error) {
-			const { status, data } = error.response;
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
 
-			if (status === 400) {
-				enqueueSnackbar('Su boleta aún no ha sido cargada', {
-					variant: 'warning'
-				});
-			} else if (status === 403) {
-				enqueueSnackbar('No estás autorizado', {
-					variant: 'error'
-				});
-			} else if (status === 422) {
-				enqueueSnackbar('El servidor rechazó tu solicitud', {
-					variant: 'error'
-				});
-			} else if (status === 500) {
-				enqueueSnackbar('No se ha podido conectar con la base de datos', {
-					variant: 'error'
-				});
-			} else {
+				if (status === 400) {
+					enqueueSnackbar('Su boleta aún no ha sido cargada', {
+						variant: 'warning'
+					});
+				} else if (status === 403) {
+					enqueueSnackbar('Tu boleta fue desactivada', {
+						variant: 'error'
+					});
+				} else if (status === 422) {
+					enqueueSnackbar('El servidor rechazó tu solicitud', {
+						variant: 'error'
+					});
+				} else if (status === 500) {
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				} else {
+					enqueueSnackbar('Error interno en el sistema', {
+						variant: 'error'
+					});
+				}
+			}else {
 				enqueueSnackbar('Error interno en el sistema', {
 					variant: 'error'
 				});

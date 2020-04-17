@@ -146,7 +146,7 @@ function SearchUsers({ updateInputValue }) {
 				getOptionSelected={(option, value) => option.privilegio+option.cedula === value}
 				//Texto a mostrar al seleccionar un resultado.
 				getOptionLabel={option => {
-					return `${option.privilegio}${option.cedula}`;
+					return `${option.cedula}`;
 				}}
 				//Renderizar texto en la caja del autocompletado.
 				renderOption={option => (

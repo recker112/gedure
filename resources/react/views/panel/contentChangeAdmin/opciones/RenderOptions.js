@@ -16,12 +16,78 @@ import updateInputValue from '../../../../actions/updateInputValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
+//NotiStack
+import { useSnackbar } from 'notistack';
+
 function RenderOptions({ data, updateInputValue, errorInfo, updateLoading }) {
 	const { option, nota, horario, estudiante, error, curso, seccion, loading } = data;
+	
+	//Crear un SnackBar
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handleChange = e => {
 		updateInputValue(e, 'OPTIONS');
 	};
+	
+	const fetchData = async () => {
+		try {
+			let res;
+			
+			if (option === 'estudiante') {
+				res = await axios.post('api/user/options/studiend', {
+					nota,
+					horario,
+					estudiante
+				});
+			}else if (option === 'seccion') {
+				res = await axios.post('api/user/options/seccion', {
+					nota,
+					horario,
+					curso,
+					seccion
+				});
+			}
+			
+			const { description } = res.data;
+			
+			enqueueSnackbar(description, {
+				variant: 'success'
+			});
+		} catch (error) {
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
+
+				if (status === 400) {
+					enqueueSnackbar(data.description, {
+						variant: 'warning'
+					});
+				} else if (status === 403) {
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				} else if (status === 422) {
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				} else if (status === 500) {
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				} else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
+				}
+			}else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+		
+		updateLoading(false, 'OPTIONS');
+	}
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -60,6 +126,7 @@ function RenderOptions({ data, updateInputValue, errorInfo, updateLoading }) {
 
 		//REQ
 		updateLoading(true, 'OPTIONS');
+		fetchData();
 	};
 
 	//Config de Nota
@@ -121,15 +188,33 @@ function RenderOptions({ data, updateInputValue, errorInfo, updateLoading }) {
 							>
 								<Grid container spacing={2} justify="center">
 									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<RenderRadios val={nota} accion={handleChange} data={notaRadio} />
+										<RenderRadios 
+											val={nota} 
+											accion={handleChange} 
+											data={notaRadio} 
+										/>
 									</Grid>
 									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<RenderRadios val={horario} accion={handleChange} data={horarioRadio} />
+										<RenderRadios 
+											val={horario} 
+											accion={handleChange} 
+											data={horarioRadio}
+										/>
 									</Grid>
 									{option === 'estudiante' && (
-										<Grid item xs={12} sm={6} md={4} style={{ textAlign: 'center' }}>
+										<Grid 
+											item 
+											xs={12} 
+											sm={6} 
+											md={4} 
+											style={{ textAlign: 'center' }}
+										>
 											<RenderInputs
-												data={{ val: estudiante, name: 'estudiante', label: 'Estudiante' }}
+												data={{ 
+													val: estudiante,
+													name: 'estudiante',
+													label: 'Estudiante' 
+												}}
 												accion={handleChange}
 												error={error.estudiante}
 											/>

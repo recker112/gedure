@@ -29,11 +29,20 @@ class BoletasController extends Controller
 		$user = new User;
 		
 		//Buscar studiend
-		$userFound = $user->searchUser($privilegioAuth, $cedulaAuth);
+		$studiendFound = $user->searchUser($privilegioAuth, $cedulaAuth);
 		
 		//Datos necesarios
-		$cursoUser = $userFound->curso;
-		$seccionUser = $userFound->seccion;
+		$cursoUser = $studiendFound->curso;
+		$seccionUser = $studiendFound->seccion;
+		
+		//Verificar que tenga las boletas activas
+		if ($studiendFound->nota_status === 0) {
+			return response()->json([
+				'code' => 403,
+				'msg' => 'no_exist',
+				'description' => 'Tu boleta está desactivada'
+			], 403);
+		}
 
 		//Directorio del archivo
 		$dirBoleta = "$dir/$cursoUser/$seccionUser/$cedulaAuth.pdf";
@@ -44,7 +53,7 @@ class BoletasController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'no_exist',
-				'description' => 'La boleta aún no ha sido cargada'
+				'description' => 'Su boleta aún no ha sido cargada'
 			], 400);
 		}
 		
