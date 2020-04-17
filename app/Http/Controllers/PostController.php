@@ -228,6 +228,7 @@ class PostController extends Controller
 		$new->new_title = $title;
 		$new->new_content = $content;
 		$new->new_owner = $cedula;
+		$new->new_create_at = now();
 		
 		$new->save();
 		
@@ -377,6 +378,7 @@ class PostController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
 		$Log->log_action = "Noticia #$new->new_id publicada.";
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		//Verificar Errores
@@ -455,6 +457,7 @@ class PostController extends Controller
 		$anuncio->anuncio_title = $title;
 		$anuncio->anuncio_content = $content;
 		$anuncio->anuncio_owner = $cedula;
+		$anuncio->anuncio_create_at = now();
 		
 		$anuncio->save();
 		
@@ -462,6 +465,7 @@ class PostController extends Controller
 		$Log = new Logs;
 		$Log->log_cedula = $cedula;
 		$Log->log_action = "Anuncio #$anuncio->anuncio_id publicado.";
+		$Log->log_create_at = now();
 		$Log->save();
 		
 		return response()->json([
@@ -579,6 +583,13 @@ class PostController extends Controller
 		}else if (!$jsonSend) {
 			$text = 'Noticia eliminada';
 		}
+		
+		//Log
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = "Noticia #$id eliminada.";
+		$Log->log_create_at = now();
+		$Log->save();
 		
 		return response()->json([
 			'code' => 200,
@@ -699,6 +710,13 @@ class PostController extends Controller
 			$text = 'Anuncio eliminado';
 		}
 		
+		//Log
+		$Log = new Logs;
+		$Log->log_cedula = $cedula;
+		$Log->log_action = "Anuncio #$id eliminado.";
+		$Log->log_create_at = now();
+		$Log->save();
+
 		return response()->json([
 			'code' => 200,
 			'msg' => 'delete_post',

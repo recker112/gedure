@@ -28,7 +28,7 @@ class NewsData extends Model
 			'creador_name as nameC',
 			'creador_avatar as avatarC'
 		)
-			->orderBy('new_create_at', 'desc')
+			->orderBy('id', 'desc')
 			->limit($limit)
 			->offset($offset)
 			->join('users', 'users.user_cedula', '=', 'news_data.new_owner')
