@@ -26,28 +26,34 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 	//Variables
 	const [hasFinish, setHasFinish] = useState(false);
 	const [noData, setNoData] = useState(false);
-	let cancel = false;
+	
+	let cancel;
+	let CancelAxios = axios.CancelToken;
 
 	//fetchData
 	const fetchData = async (offset, limit) => {
 		try {
-			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`);
+			const res = await axios.get(`api/news?offset=${offset}&limit=${limit}`, {
+				cancelToken: new CancelAxios(c=>{
+					cancel = c;
+				})
+			});
 
 			const { data, finish } = res.data;
 
 			//Verificar si estรก desmontado
-			if (!cancel) {
-				if (data.length > 0) {
-					updateNewsNoticias([...list, ...data]);
-					setHasFinish(finish);
-				} else {
-					setNoData(true);
-				}
+			if (data.length > 0) {
+				updateNewsNoticias([...list, ...data]);
+				setHasFinish(finish);
+			} else {
+				setNoData(true);
 			}
 		} catch (error) {
-			enqueueSnackbar('No se han podido obtener las noticias', {
-				variant: 'error'
-			});
+			if (!axios.isCancel(error)) {
+				enqueueSnackbar('No se han podido obtener los anuncios', {
+					variant: 'error'
+				});
+			}
 		}
 	};
 
@@ -66,7 +72,9 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 
 			//Al cancelar
 			return () => {
-				cancel = true;
+				if (cancel) {
+					cancel();
+				}
 			};
 		},
 		[list, cancel]
@@ -76,7 +84,9 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 	useEffect(
 		() => {
 			return () => {
-				cancel = true;
+				if (cancel) {
+					cancel();
+				}
 				updateNewsNoticias([]);
 			};
 		},
@@ -94,7 +104,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 					loader={<SkeletonNoticia />}
 					endMessage={
 						<p style={{ textAlign: 'center' }}>
-							<b>No hay mรกs noticias que cargar.</b>
+							<b>No hay más noticias que cargar.</b>
 						</p>
 					}
 				>

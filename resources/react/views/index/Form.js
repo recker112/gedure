@@ -1,5 +1,5 @@
 //React
-import React, { useEffect } from 'react';
+import React from 'react';
 
 //Redux
 import { connect } from 'react-redux';
@@ -30,9 +30,6 @@ function Form({
 	const { user, pass, checkbox } = dataLogin;
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
-	
-	//cancel
-	let cancel = false;
 
 	const handleChange = e => {
 		// enviar input al store para actualizar states
@@ -80,32 +77,30 @@ function Form({
 				checkbox: checkbox
 			});
 
-			if (!cancel) {
-				//Al estar todo correcto el servidor DEBE regresar los
-				//datos de usuario, los cuales se cargarán con
-				//"updateDataUser"
-				updateDataUser({ ...res.data });
-				
-				const { access_key } = res.data;
-				//Guardar el Access Key
-				if (checkbox) {
-					//Datos permanentes.
-					localStorage.setItem('key', JSON.stringify(access_key));
-					sessionStorage.setItem('key', JSON.stringify(access_key));
-				} else {
-					//Datos de SOLO sesión.
-					sessionStorage.setItem('key', JSON.stringify(access_key));
-				}
-				
-				//Una vez terminado de actualizar los datos, se procede a
-				//decirle a la APP que se realizó un login correctamente.
-				authUpdate(true);
+			//Al estar todo correcto el servidor DEBE regresar los
+			//datos de usuario, los cuales se cargarán con
+			//"updateDataUser"
+			updateDataUser({ ...res.data });
 
-				//Add SnackBar
-				enqueueSnackbar('Login exitoso', {
-					variant: 'success'
-				});
+			const { access_key } = res.data;
+			//Guardar el Access Key
+			if (checkbox) {
+				//Datos permanentes.
+				localStorage.setItem('key', JSON.stringify(access_key));
+				sessionStorage.setItem('key', JSON.stringify(access_key));
+			} else {
+				//Datos de SOLO sesión.
+				sessionStorage.setItem('key', JSON.stringify(access_key));
 			}
+
+			//Una vez terminado de actualizar los datos, se procede a
+			//decirle a la APP que se realizó un login correctamente.
+			authUpdate(true);
+
+			//Add SnackBar
+			enqueueSnackbar('Login exitoso', {
+				variant: 'success'
+			});
 		} catch (error) {
 			const { status, data } = error.response;
 
@@ -131,13 +126,6 @@ function Form({
 		//Cambiar Loading
 		updateLoading(false, 'LOGIN');
 	};
-	
-	//Al desmontar
-	useEffect(()=>{
-		return ()=>{
-			cancel = true;
-		}
-	},[cancel])
 
 	//Renderizar form
 	return <RenderForm options={{ handleChange, handleSubmit }} />;

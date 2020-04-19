@@ -1,6 +1,3 @@
-//Obtener valor del get
-import getParameterByName from '../components/reutilizar/getValueUrl';
-
 //Inicar valor del state.
 const initialState = {
 	infoDialog: false,

@@ -14,6 +14,8 @@
     <link rel="icon" href="{{ secure_asset("resources/favicon.png") }}" />
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+		<!-- Fix Old Browsers --->
+		<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=es2017%2CURLSearchParams%2Ces2015%2CIntersectionObserver"></script>
   </head>
   <body>
     <noscript>Necesitas activar JavaScript para poder ver esta aplicaciรณn.</noscript>

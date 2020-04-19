@@ -47,8 +47,6 @@ function Routers({ auth }) {
 	);
 }
 
-// A custom hook that builds on useLocation to parse
-// the query string for you.
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
