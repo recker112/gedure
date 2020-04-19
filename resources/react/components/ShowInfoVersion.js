@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 //Material-UI
 import {
@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-//Animación
+//Animaciรณn
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -35,7 +35,7 @@ function ShowInfoVersion({ open, setOpen }) {
 			onClose={handleClose}
 			scroll="paper"
 			fullScreen={fullScreen}
-			//Insertar animación
+			//Insertar animaciรณn
 			TransitionComponent={Transition}
 			aria-labelledby="info-title-dialog"
 			aria-describedby="info-description-dialog"
@@ -43,7 +43,7 @@ function ShowInfoVersion({ open, setOpen }) {
 			<DialogTitle id="info-title-dialog">v4.0.0-Beta.0</DialogTitle>
 			<DialogContent dividers={true}>
 				<DialogContentText id="info-description-dialog">
-					<h3>Bienvenidos a la v4.0.0-Beta.0 de la página web</h3>
+					<h3>Bienvenidos a la v4.0.0-Beta.0 de la pรกgina web</h3>
 					<p>
 						Novedades:
 						<br/>

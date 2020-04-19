@@ -16,8 +16,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import HomeIcon from '@material-ui/icons/Home';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
-import ArchiveIcon from '@material-ui/icons/Archive';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
 //Redux

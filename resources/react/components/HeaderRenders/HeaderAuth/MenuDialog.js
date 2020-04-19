@@ -7,9 +7,7 @@ import {
 	DialogContent,
 	DialogActions,
 	Button,
-	CircularProgress,
 	useMediaQuery,
-	DialogContentText,
 	Grid
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
@@ -98,7 +96,7 @@ function MenuDialog({
 				});
 			}
 			
-			const { status, data } = res;
+			const { data } = res;
 			
 			if (type === 'avatar') {
 				//Actualizar avatar en REDUX

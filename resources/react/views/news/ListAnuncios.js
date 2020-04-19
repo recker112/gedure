@@ -21,28 +21,34 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	//Variables
 	const [hasFinish, setHasFinish] = useState(false);
 	const [noData, setNoData] = useState(false);
-	let cancel = false;
+	
+	let cancel;
+	let CancelAxios = axios.CancelToken;
 
 	//FetchData
 	const fetchData = async (offset, limit) => {
 		try {
-			const res = await axios.get(`api/anuncios?offset=${offset}&limit=${limit}`);
+			const res = await axios.get(`api/anuncios?offset=${offset}&limit=${limit}`, {
+				cancelToken: new CancelAxios(c=>{
+					cancel = c;
+				})
+			});
 
 			const { data, finish } = res.data;
 			
-			//Verificar si está desmontado
-			if (!cancel) {
-				if (data.length > 0) {
-					updateNewsAnuncios([...list, ...data]);
-					setHasFinish(finish);
-				}else {
-					setNoData(true);
-				}
+			//Verificar si estรก desmontado
+			if (data.length > 0) {
+				updateNewsAnuncios([...list, ...data]);
+				setHasFinish(finish);
+			}else {
+				setNoData(true);
 			}
 		} catch (error) {
-			enqueueSnackbar('No se han podido obtener los anuncios', {
-				variant: 'error'
-			});
+			if (!axios.isCancel(error)) {
+				enqueueSnackbar('No se han podido obtener los anuncios', {
+					variant: 'error'
+				});
+			}
 		}
 	};
 
@@ -61,7 +67,9 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
 			//Al cancelar
 			return () => {
-				cancel = true;
+				if (cancel) {
+					cancel();
+				}
 			};
 		},
 		[list, cancel]
@@ -71,7 +79,9 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	useEffect(
 		() => {
 			return () => {
-				cancel = true;
+				if (cancel) {
+					cancel();
+				}
 				updateNewsAnuncios([]);
 			};
 		},

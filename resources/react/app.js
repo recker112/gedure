@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 //Components
 import App from './views/Index';
 
-
 //Redux
 import store from './store';
 import { Provider } from 'react-redux';
