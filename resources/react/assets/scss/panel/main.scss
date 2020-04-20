@@ -43,14 +43,12 @@
         font-size: 23px;
         border-bottom: 1px solid #CCCCCC;
         display: block;
+				margin-bottom: 15px;
       }
       .content {
-        p {
-          margin-bottom: 0px;
-        }
-        form {
-          margin-top: 20px
-        }
+				p {
+					margin: 0;
+				}
       }
     }
     .Status {

@@ -9,9 +9,9 @@ import EditIcon from '@material-ui/icons/Edit';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 
-function UserModify({ data, updateInputValue }) {
+function UserModify({ data, updateValue }) {
 	let history = useHistory();
 	
 	const Modify = () => {
@@ -25,7 +25,7 @@ function UserModify({ data, updateInputValue }) {
 						curso: data.curso,
 						seccion: data.seccion
 					};
-					updateInputValue(MakeData, 'MODIFY_EXTERNO');
+					updateValue(MakeData, 'MODIFY_EXTERNO');
 				}
 				break;
 			case 'A-':
@@ -35,7 +35,7 @@ function UserModify({ data, updateInputValue }) {
 						name: data.name,
 						privilegio: data.privilegio
 					};
-					updateInputValue(MakeData, 'MODIFY_EXTERNO');
+					updateValue(MakeData, 'MODIFY_EXTERNO');
 				}
 				break;
 			case 'CR-':
@@ -47,7 +47,7 @@ function UserModify({ data, updateInputValue }) {
 						curso: '1',
 						seccion: 'A'
 					};
-					updateInputValue(MakeData, 'MODIFY_EXTERNO');
+					updateValue(MakeData, 'MODIFY_EXTERNO');
 				}
 				break;
 			default: {
@@ -58,7 +58,7 @@ function UserModify({ data, updateInputValue }) {
 					curso: '',
 					seccion: ''
 				};
-				updateInputValue(MakeData, 'MODIFY_EXTERNO');
+				updateValue(MakeData, 'MODIFY_EXTERNO');
 			}
 		}
 		history.push("/panel?show=modify");
@@ -73,7 +73,7 @@ function UserModify({ data, updateInputValue }) {
 }
 
 const mapDispatchToProps = {
-	updateInputValue
+	updateValue
 };
 
 export default connect(null, mapDispatchToProps)(UserModify);

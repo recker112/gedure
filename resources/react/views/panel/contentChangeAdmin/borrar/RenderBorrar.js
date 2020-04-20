@@ -12,21 +12,21 @@ import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCust
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
 //Notistack
 import { useSnackbar } from 'notistack';
 
-function RenderBorrar({ data, updateInputValue, errorInfo, updateLoading }) {
+function RenderBorrar({ data, updateValue, errorInfo, updateLoading }) {
 	const { option, loading, curso, seccion, error } = data
 	
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
 
 	const handleChange = e => {
-		updateInputValue(e, 'DELETE');
+		updateValue(e, 'DELETE');
 	};
 	
 	const fetchData = async () => {
@@ -231,7 +231,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	errorInfo,
 	updateLoading
 };

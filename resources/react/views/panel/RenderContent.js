@@ -23,6 +23,9 @@ const Registros = lazy(() =>
 const Modificar = lazy(() =>
 	import(/* webpackChunkName: "Modificar" */ './contentChangeAdmin/consultarModificar/RenderCO_MO')
 );
+const Desblock = lazy(() =>
+	import(/* webpackChunkName: "Modificar" */ './contentChangeAdmin/desblock/RenderDesblock')
+);
 const Cargar = lazy(() =>
 	import(/* webpackChunkName: "Cargar" */ './contentChangeAdmin/cargar/RenderCargar')
 );
@@ -106,6 +109,14 @@ function RenderContentAdmin({ content }) {
 		return (
 			<main>
 				<Modificar />
+			</main>
+		);
+	}
+	
+	if (content === "desblock") {
+		return (
+			<main>
+				<Desblock />
 			</main>
 		);
 	}

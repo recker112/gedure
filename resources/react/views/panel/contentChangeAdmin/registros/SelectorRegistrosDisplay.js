@@ -5,13 +5,13 @@ import { RenderSelect } from '../../../../components/RendersGlobal';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 
-function SelectorRegistrosDisplay({ select, updateInputValue }) {
+function SelectorRegistrosDisplay({ select, updateValue }) {
 	const handleChangeSelect = e => {
 		const value = e.target.value;
 
-		updateInputValue(value, 'LOGS_SELECT');
+		updateValue(value, 'LOGS_SELECT');
 	};
 
 	//Config de registros
@@ -59,7 +59,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue
+	updateValue
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectorRegistrosDisplay);

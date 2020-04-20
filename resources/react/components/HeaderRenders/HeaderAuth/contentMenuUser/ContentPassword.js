@@ -9,9 +9,9 @@ import { RenderInputs } from '../../../RendersGlobal';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 
-function ContentPassword({ data, updateInputValue, loading }) {
+function ContentPassword({ data, updateValue, loading }) {
   const { passA, passN, passR, error } = data;
   useEffect(() => {
     const clearAllStateData = () => {
@@ -37,16 +37,16 @@ function ContentPassword({ data, updateInputValue, loading }) {
         }
       ];
       inputs.map((input) => {
-        updateInputValue(input, 'PASSWORD');
+        updateValue(input, 'PASSWORD');
         return null;
       });
     };
 		
     clearAllStateData();
-  }, [loading, updateInputValue]);
+  }, [loading, updateValue]);
 
   const handleChange = (e) => {
-    updateInputValue(e, 'PASSWORD');
+    updateValue(e, 'PASSWORD');
   };
   
   return (<React.Fragment>
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  updateInputValue
+  updateValue
 }
 
 

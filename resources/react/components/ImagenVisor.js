@@ -1,4 +1,5 @@
-import React from 'react';
+// noprotect
+import React, { useState } from 'react';
 
 //Material-UI
 import { Grid } from '@material-ui/core';
@@ -26,21 +27,39 @@ function ImagenVisor({ options }) {
 						placeholder={({ imageProps, ref }) => (
 							<Skeleton ref={ref} key={i} variant="rect" height={100} width={110} />
 						)}
-						actual={({ imageProps }) => <img key={i} {...imageProps} />}
+						actual={({ imageProps }) => 
+							<img key={i} {...imageProps} />}
 						error={() => (
-							<div style={{ width: '110px', height: '100px', background: 'rgb(252, 72, 80)' }}>
+							<div style={{ 
+									width: '110px', 
+									height: '100px', 
+									background: 'rgb(252, 72, 80)'
+								}}>
 								<p>Error al obtener imagen</p>
 							</div>
 						)}
 					/>
 				);
 			} else {
-				return <img key={i} src={img} alt={`imagen${i + 1}`} style={{ display: 'none' }} />;
+				return (
+					<img 
+						key={i} 
+						src={img} 
+						alt={`imagen${i + 1}`} 
+						style={{ display: 'none' }}
+					/>
+				);
 			}
 		});
 		return (
 			<footer>
-				<Grid container spacing={2} justify="space-evenly" wrap="wrap" className="fixGrid">
+				<Grid 
+					container 
+					spacing={2} 
+					justify="space-around" 
+					wrap="wrap" 
+					className="fixGrid"
+				>
 					{imagenes}
 				</Grid>
 			</footer>
@@ -54,7 +73,7 @@ function ImagenVisor({ options }) {
 		));
 		return (
 			<footer>
-				<Grid container spacing={2} justify="space-evenly" wrap="wrap" className="fixGrid">
+				<Grid container spacing={2} justify="space-around" wrap="wrap" className="fixGrid">
 					{SkeletonImg}
 				</Grid>
 			</footer>

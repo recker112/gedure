@@ -11,7 +11,7 @@ import { Grid, Zoom } from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import updateLoading from '../../../../actions/updateLoading';
 import verifyEmpty from '../../../../actions/panel/modify/verifyEmpty';
 import errorInfo from '../../../../actions/errorInfo';
@@ -21,7 +21,7 @@ import { useSnackbar } from 'notistack';
 
 function ModifyForm({ 
 	modifySection,
-	updateInputValue, 
+	updateValue, 
 	updateLoading, 
 	errorInfo, 
 	verifyEmpty
@@ -165,7 +165,7 @@ function ModifyForm({
 
 	function handleChange(e) {
 		//Cambiar elemento
-		updateInputValue(e, 'MODIFY');
+		updateValue(e, 'MODIFY');
 		verifyEmpty({ name: e.target.name, value: e.target.value });
 	}
 
@@ -303,7 +303,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	updateLoading,
 	errorInfo,
 	verifyEmpty

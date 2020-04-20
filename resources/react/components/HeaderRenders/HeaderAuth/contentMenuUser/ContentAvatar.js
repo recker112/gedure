@@ -9,10 +9,10 @@ import LoadArchives from '../../../LoadArchives';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 
 
-function ContentAvatar({ data, loading, updateInputValue, currentAvatar, name }) {
+function ContentAvatar({ data, loading, updateValue, currentAvatar, name }) {
   const { file } = data;
   const [imgPreview, setImgPreview] = useState(currentAvatar);
 
@@ -23,7 +23,7 @@ function ContentAvatar({ data, loading, updateInputValue, currentAvatar, name })
           accepted="image/*"
           reset={loading} 
           files={file} 
-          action={updateInputValue} 
+          action={updateValue} 
           updatePreview={{ update: setImgPreview, currentAvatar }} 
           multiple={false} 
           maxSizeFile={{ unique: "3MB", multiple: "3MB" }} 
@@ -54,7 +54,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  updateInputValue
+  updateValue
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ContentAvatar);

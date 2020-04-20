@@ -12,14 +12,14 @@ import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCust
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
 //NotiStack
 import { useSnackbar } from 'notistack';
 
-function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
+function RenderPublicar({ data, updateValue, errorInfo, updateLoading }) {
 	//Destructing
 	const { option, loading, error, title, content, img, archives } = data;
 	
@@ -33,7 +33,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 	const { enqueueSnackbar } = useSnackbar();
 
 	const handleChange = e => {
-		updateInputValue(e, 'PUBLICAR');
+		updateValue(e, 'PUBLICAR');
 	};
 	
 	const onUploadProgress = (progressEvent) => {
@@ -209,7 +209,7 @@ function RenderPublicar({ data, updateInputValue, errorInfo, updateLoading }) {
 									error={error}
 									values={{ title, content, img }}
 									loading={loading}
-									updateInputValue={updateInputValue}
+									updateValue={updateValue}
 									option={option}
 									contentMaxLength={contentMaxLength}
 									progress={progress}
@@ -229,7 +229,7 @@ function RenderForm({
 	values,
 	option,
 	loading,
-	updateInputValue,
+	updateValue,
 	contentMaxLength,
 	progress,
 	
@@ -277,7 +277,7 @@ function RenderForm({
 							accepted="image/*"
 							reset={option}
 							files={img}
-							action={updateInputValue}
+							action={updateValue}
 							multiple={true}
 							maxSizeFile={{ unique: '3MB', multiple: '3MB' }}
 							label={{ unique: 'imagenes', multiple: 'imagenes' }}
@@ -291,7 +291,7 @@ function RenderForm({
 							accepted=".doc,.docx,.pdf,.xlsx,.xls"
 							reset={option}
 							files={archives}
-							action={updateInputValue}
+							action={updateValue}
 							multiple={true}
 							maxSizeFile={{ unique: '2MB', multiple: '2MB' }}
 							label={{ unique: 'archivos', multiple: 'archivos' }}
@@ -360,7 +360,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	errorInfo,
 	updateLoading
 };
