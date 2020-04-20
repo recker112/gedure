@@ -21,6 +21,13 @@ const dataContent = [
 		only: ['A-']
 	},
 	{
+		id: 'desblock',
+		title: 'Desbloquear',
+		content:
+			'Permite desbloquear una cuenta existente en el sistema.',
+		only: ['A-']
+	},
+	{
 		id: 'upload',
 		title: 'Cargar',
 		content: 'Permite cargar boletas o matricula en el servidor, modificando las ya existentes.',

@@ -13,14 +13,14 @@ import donwloadFiles from '../../../../components/reutilizar/donwloadFiles';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
 //Notistack
 import { useSnackbar } from 'notistack';
 
-function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
+function RenderCargar({ data, updateValue, errorInfo, updateLoading }) {
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
 	//Destruct
@@ -34,7 +34,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 
 	function handleChange(e) {
 		//Actualizar
-		updateInputValue(e, 'UPLOAD');
+		updateValue(e, 'UPLOAD');
 	}
 
 	//Cancel
@@ -283,7 +283,7 @@ function RenderCargar({ data, updateInputValue, errorInfo, updateLoading }) {
 											idName="uploadFiles"
 											reset={option}
 											files={files}
-											action={updateInputValue}
+											action={updateValue}
 											multiple={option === 'matricula' ? false : true}
 											maxSizeFile={{ unique: '1MB', multiple: '2MB' }}
 											label={{ unique: 'matricula', multiple: 'boletas' }}
@@ -399,7 +399,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	errorInfo,
 	updateLoading
 };

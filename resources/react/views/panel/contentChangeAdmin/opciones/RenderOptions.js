@@ -12,21 +12,21 @@ import verifyErrorCustom from '../../../../components/reutilizar/verifyErrorCust
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import errorInfo from '../../../../actions/errorInfo';
 import updateLoading from '../../../../actions/updateLoading';
 
 //NotiStack
 import { useSnackbar } from 'notistack';
 
-function RenderOptions({ data, updateInputValue, errorInfo, updateLoading }) {
+function RenderOptions({ data, updateValue, errorInfo, updateLoading }) {
 	const { option, nota, horario, estudiante, error, curso, seccion, loading } = data;
 	
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
 
 	const handleChange = e => {
-		updateInputValue(e, 'OPTIONS');
+		updateValue(e, 'OPTIONS');
 	};
 	
 	const fetchData = async () => {
@@ -297,7 +297,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	errorInfo,
 	updateLoading
 };

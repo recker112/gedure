@@ -41,6 +41,18 @@ const initialState = {
 			}
 		}
 	},
+	desblockSection: {
+		loading: false,
+		data: {
+			cedula: '',
+			name: '',
+			privilegio: '',
+			curso: '',
+			seccion: '',
+			locks: 0,
+			attemps: 0
+		}
+	},
 	uploadSection: {
 		option: 'matricula',
 		curso: '',
@@ -167,27 +179,21 @@ export default (state = initialState, { type, payload }) => {
 		}
 
 		/* LOGS */
-		case 'UPDATE_INPUT_VALUE_LOGS_DATATABLE': {
-			//Obtener dataTable
-			const dataTable = payload.input;
-
+		case 'UPDATE_VALUE_LOGS_DATATABLE': {
 			return {
 				...state,
 				logsSection: {
 					...state.logsSection,
-					dataTable: dataTable
+					dataTable: payload
 				}
 			};
 		}
-		case 'UPDATE_INPUT_VALUE_LOGS_SELECT': {
-			//Obtener Select
-			const selected = payload.input;
-
+		case 'UPDATE_VALUE_LOGS_SELECT': {
 			return {
 				...state,
 				logsSection: {
 					...state.logsSection,
-					selectSearch: selected
+					selectSearch: payload
 				}
 			};
 		}
@@ -202,26 +208,23 @@ export default (state = initialState, { type, payload }) => {
 		}
 
 		/* MODIFY */
-		case 'UPDATE_INPUT_VALUE_MODIFY_EXTERNO': {
-			//Obtener ser
-			const user = payload.input;
-
+		case 'UPDATE_VALUE_MODIFY_EXTERNO': {
 			//Verificar si es un estudiante
-			if (typeof user.curso === 'undefined') {
-				user.curso = '1';
-				user.seccion = 'A';
+			if (typeof payload.curso === 'undefined') {
+				payload.curso = '1';
+				payload.seccion = 'A';
 			}
 
 			//Eliminar combiCedula
-			if (typeof user.combiCedula !== 'undefined') {
-				delete user.combiCedula;
+			if (typeof payload.combiCedula !== 'undefined') {
+				delete payload.combiCedula;
 			}
 
 			return {
 				...state,
 				modifySection: {
 					...state.modifySection,
-					...user,
+					...payload,
 					pass: 'none',
 					option: 'update',
 					error: {
@@ -230,13 +233,10 @@ export default (state = initialState, { type, payload }) => {
 				}
 			};
 		}
-		case 'UPDATE_INPUT_VALUE_MODIFY': {
-			//Obtener input
-			const e = payload.input;
-
+		case 'UPDATE_VALUE_MODIFY': {
 			//Obtener valores del input
-			const name = e.target.name;
-			const value = e.target.value;
+			const name = payload.target.name;
+			const value = payload.target.value;
 			return {
 				...state,
 				modifySection: {
@@ -348,11 +348,34 @@ export default (state = initialState, { type, payload }) => {
 				...state
 			};
 		}
+		
+		/* DESBLOCK */
+		case 'UPDATE_VALUE_DESBLOCK': {
+			return {
+				...state,
+				desblockSection: {
+					...state.desblockSection,
+					data: {
+						...state.desblockSection.data,
+						...payload
+					}
+				}
+			}
+		}
+		case 'UPDATE_LOADING_DESBLOCK': {
+			return {
+				...state,
+				desblockSection: {
+					...state.desblockSection,
+					loading: payload
+				}
+			};
+		}
 
 		//UPLOAD
-		case 'UPDATE_INPUT_VALUE_UPLOAD': {
+		case 'UPDATE_VALUE_UPLOAD': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -399,9 +422,9 @@ export default (state = initialState, { type, payload }) => {
 		}
 
 		//OPTIONS
-		case 'UPDATE_INPUT_VALUE_OPTIONS': {
+		case 'UPDATE_VALUE_OPTIONS': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -447,10 +470,10 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 
-		//DELETE
-		case 'UPDATE_INPUT_VALUE_DELETE': {
+		/* DELETE */
+		case 'UPDATE_VALUE_DELETE': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -496,10 +519,10 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 
-		//PUBLICAR
-		case 'UPDATE_INPUT_VALUE_PUBLICAR': {
+		/* POSTING */
+		case 'UPDATE_VALUE_PUBLICAR': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -545,11 +568,10 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 		
-		//DELPOSTING
-		//PUBLICAR
-		case 'UPDATE_INPUT_VALUE_DEL_POSTING': {
+		/* DEL POSTING */
+		case 'UPDATE_VALUE_DEL_POSTING': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -573,7 +595,7 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 
-		//MENU USER
+		/* MENU USER */
 		case 'UPDATE_MENU_USER_DIALOG': {
 			return {
 				...state,
@@ -595,9 +617,9 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 		//CHANGE PASSWORD
-		case 'UPDATE_INPUT_VALUE_PASSWORD': {
+		case 'UPDATE_VALUE_PASSWORD': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;
@@ -646,9 +668,9 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 		//CHANGE AVATAR
-		case 'UPDATE_INPUT_VALUE_AVATAR': {
+		case 'UPDATE_VALUE_AVATAR': {
 			//Obtener input
-			const e = payload.input;
+			const e = payload;
 
 			//Obtener valores del input
 			const name = e.target.name;

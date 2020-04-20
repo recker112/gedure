@@ -10,13 +10,13 @@ import SelectorRegistrosDisplay from './SelectorRegistrosDisplay';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import updateLoading from '../../../../actions/updateLoading';
 
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
+function RenderRegistros({ dataLog, updateValue, updateLoading }) {
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
 	//Destructing
@@ -37,7 +37,7 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 
 			if (res.data.length > 0) {
 				//Set datos
-				updateInputValue(res.data, 'LOGS_DATATABLE');
+				updateValue(res.data, 'LOGS_DATATABLE');
 			}else {
 				enqueueSnackbar('No hay registros que mostrar', {
 					variant: 'info'
@@ -82,7 +82,7 @@ function RenderRegistros({ dataLog, updateInputValue, updateLoading }) {
 			//Iniciar effecto de busqueda.
 			updateLoading(true, 'LOGS_SEARCHING');
 			//Limpiar datos
-			updateInputValue(null, 'LOGS_DATATABLE');
+			updateValue(null, 'LOGS_DATATABLE');
 			//PETICION
 			fetchData(selectSearch);
 			
@@ -155,7 +155,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	updateLoading
 };
 

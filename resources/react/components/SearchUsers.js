@@ -6,14 +6,10 @@ import { CircularProgress, InputBase, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-//Redux
-import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
-
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-function SearchUsers({ updateInputValue }) {
+function SearchUsers({ apiUrl, updateData, updateDataOption }) {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const [val, setVal] = useState(undefined);
@@ -27,7 +23,7 @@ function SearchUsers({ updateInputValue }) {
 	
 	const fetchData = async val => {
 		try {
-			const res = await axios.get(`api/user/${val}?like=true`, {
+			const res = await axios.get(`${apiUrl}${val}?like=true`, {
 				cancelToken: new CancelAxios(c=>{
 					cancel = c;
 				})
@@ -120,7 +116,7 @@ function SearchUsers({ updateInputValue }) {
 		
 		//Actualizar datos
 		if (user !== null) {
-			updateInputValue(user, 'MODIFY_EXTERNO');
+			updateData(user, updateDataOption);
 		}
 	};
 
@@ -196,9 +192,4 @@ function SearchUsers({ updateInputValue }) {
 	);
 }
 
-//REDUX
-const mapDispatchToProps = {
-	updateInputValue
-};
-
-export default connect(null, mapDispatchToProps)(SearchUsers);
+export default SearchUsers;

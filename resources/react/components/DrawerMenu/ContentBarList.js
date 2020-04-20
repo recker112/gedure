@@ -17,6 +17,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import HomeIcon from '@material-ui/icons/Home';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import LockIcon from '@material-ui/icons/Lock';
 
 //Redux
 import { connect } from 'react-redux';
@@ -49,6 +50,15 @@ const ContentBarList = ({privilegio}) => {
 				value: 'modify'
 			},
 			icon: <ReceiptIcon />
+		},
+		{
+			redirect: '/panel?show=desblock',
+			text: 'Desbloquear',
+			queryParams: {
+				param: 'show',
+				value: 'desblock'
+			},
+			icon: <LockIcon />
 		},
 		{
 			redirect: '/panel?show=upload',
@@ -187,7 +197,7 @@ const ContentBarList = ({privilegio}) => {
 								{data.icon}
 							</RenderButtonList>
 							{/*Poner dividers*/}
-							{(i === 0 || i === 5) ? (<Divider />) : null}
+							{(i === 0 || i === 6) ? (<Divider />) : null}
 						</React.Fragment>
 					);
         })}

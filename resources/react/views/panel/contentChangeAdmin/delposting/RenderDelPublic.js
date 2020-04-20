@@ -12,13 +12,13 @@ import ButtonLoading from '../../../../components/ButtonLoading';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 import updateLoading from '../../../../actions/updateLoading';
 
 //NotiStack
 import { useSnackbar } from 'notistack';
 
-function RenderPublicar({ data, updateInputValue, updateLoading }) {
+function RenderPublicar({ data, updateValue, updateLoading }) {
 	
 	const { option, id, loading } = data;
 
@@ -49,7 +49,7 @@ function RenderPublicar({ data, updateInputValue, updateLoading }) {
 				}
 			}
 			
-			updateInputValue(e, 'DEL_POSTING');
+			updateValue(e, 'DEL_POSTING');
 		} catch (error) {
 			
 			if (error.response){
@@ -89,7 +89,7 @@ function RenderPublicar({ data, updateInputValue, updateLoading }) {
 	}
 	
 	const handleChange = e => {
-		updateInputValue(e, 'DEL_POSTING');
+		updateValue(e, 'DEL_POSTING');
 	};
 
 	const handleSubmit = e => {
@@ -373,7 +373,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	updateLoading,
-	updateInputValue
+	updateValue
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenderPublicar);

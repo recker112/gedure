@@ -3,7 +3,7 @@ import React from 'react';
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../actions/updateInputValue';
+import updateValue from '../../actions/updateValue';
 import updateLoading from '../../actions/updateLoading';
 import errorInfo from '../../actions/errorInfo';
 import updateDataUser from '../../actions/login/updateDataUser';
@@ -18,7 +18,7 @@ import verifyErrorCustom from '../../components/reutilizar/verifyErrorCustom';
 import { useSnackbar } from 'notistack';
 
 function Form({
-	updateInputValue,
+	updateValue,
 	updateLoading,
 	auth,
 	updateDataUser,
@@ -33,7 +33,7 @@ function Form({
 
 	const handleChange = e => {
 		// enviar input al store para actualizar states
-		updateInputValue(e, 'LOGIN');
+		updateValue(e, 'LOGIN');
 	};
 	
 	const handleSubmit = e => {
@@ -137,7 +137,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	updateInputValue,
+	updateValue,
 	updateLoading,
 	updateDataUser,
 	authUpdate,

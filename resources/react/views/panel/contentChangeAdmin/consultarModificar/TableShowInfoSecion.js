@@ -17,9 +17,9 @@ import {
 
 //Redux
 import { connect } from 'react-redux';
-import updateInputValue from '../../../../actions/updateInputValue';
+import updateValue from '../../../../actions/updateValue';
 
-function TableShowInfoSecion({ data, changeOpen, updateInputValue }) {
+function TableShowInfoSecion({ data, changeOpen, updateValue }) {
 	const [tabValue, setTabValue] = useState(0);
 
 	const handleChange = (e, value) => {
@@ -58,7 +58,7 @@ function TableShowInfoSecion({ data, changeOpen, updateInputValue }) {
 						<RenderTable 
 							data={curso.estudiantes} 
 							changeOpen={changeOpen}
-							update={updateInputValue}
+							update={updateValue}
 						/>
 					</TabPanel>
 				);
@@ -88,6 +88,7 @@ function RenderTable({ data, changeOpen, update }) {
 							<TableRow key={row.cedula}>
 								<TableCell>
 									<Button
+										variant="outlined"
 										onClick={() => {
 											delete row.lista;
 											update(row,'MODIFY_EXTERNO');
@@ -136,7 +137,7 @@ function TabPanel(props) {
 }
 
 const mapDispatchToProps = {
-	updateInputValue
+	updateValue
 };
 
 export default connect(null, mapDispatchToProps)(TableShowInfoSecion);
