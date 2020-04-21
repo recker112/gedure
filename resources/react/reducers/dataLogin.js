@@ -19,9 +19,9 @@ const initialState = {
 //action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "UPDATE_INPUT_VALUE_LOGIN": {
+    case "UPDATE_VALUE_LOGIN": {
       //Obtener input
-      const e = payload.input;
+      const e = payload;
 
       //Obtener valores del input
       const name = e.target.name;
