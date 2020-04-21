@@ -81,7 +81,8 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'user_exist',
-				'description' => "El usuario con la cedula $cedulaReq ya existe"
+				'description' => "El usuario con la cedula ".$privilegioReq.
+				$cedulaReq ." ya existe"
 			], 400);
 		}
 		
@@ -200,7 +201,17 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'user_not_exist',
-				'description' => "El usuario con la cedula $cedulaReq no existe"
+				'description' => "El usuario con la cedula ".$privilegioReq
+				.$cedulaReq." no existe"
+			], 400);
+		}
+		
+		//Verificar que la el privilegio sea igual
+		if ($userExist->user_privilegio !== $privilegioReq) {
+			return response()->json([
+				'code' => 400,
+				'msg' => 'user_not_exist',
+				'description' => "La cédula ".$privilegioReq.$cedulaReq." no existe"
 			], 400);
 		}
 		
@@ -299,7 +310,8 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'user_not_exist',
-				'description' => "El usuario con la cedula $cedulaReq no existe"
+				'description' => "El usuario con la cedula ".$privilegioReq.
+				$cedulaReq." no existe"
 			], 400);
 		}
 		
@@ -644,7 +656,7 @@ class ModifyUserController extends Controller
 			
 			$admin->save();
 		}else if ($privilegio === 'CR-') {
-			$creador = $creadoresData->where('creador_cedula', $cedula)->first();
+			$creador = $creaData->where('creador_cedula', $cedula)->first();
 			//Datos
 			$creador->creador_name = $name;
 			
@@ -681,9 +693,9 @@ class ModifyUserController extends Controller
 			//Borrar usuario
 			$user->delete();
 		}else if ($privilegio === 'A-') {
-			$userModel->delete();
+			$user->delete();
 		}else if ($privilegio === 'CR-') {
-			$userModel->delete();
+			$user->delete();
 		}else {
 			return 'privilegio_not_found';
 		}
