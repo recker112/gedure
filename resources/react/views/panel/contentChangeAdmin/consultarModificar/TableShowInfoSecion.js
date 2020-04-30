@@ -92,7 +92,7 @@ function RenderTable({ data, changeOpen, update }) {
 										onClick={() => {
 											delete row.lista;
 											update(row,'MODIFY_EXTERNO');
-											changeOpen(false);
+											changeOpen();
 										}}
 									>
 										{row.privilegio + row.cedula}

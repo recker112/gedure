@@ -19,11 +19,7 @@ import TableShowInfoSecion from './TableShowInfoSecion';
 import ConverterCursoCode from '../../../../components/reutilizar/ConverterCursoCode';
 import { CursosList } from '../../../../components/ListDataGlobal';
 import { RenderSelect } from '../../../../components/RendersGlobal';
-
-//Animaciรณn
-const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction="up" ref={ref} {...props} />;
-});
+import AnimationDialog from '../../../../components/AnimationDialog';
 
 function SearchSeccion() {
 	const [select, setSelect] = useState('');
@@ -74,6 +70,11 @@ function SearchSeccion() {
 			fetchData(curso);
 		}
 	}
+	
+	const handleClose = () => {
+		setOpen(false);
+		setSelect('');
+	}
 
 	//Config de seccionSearch
 	const searchSelect = {
@@ -98,7 +99,7 @@ function SearchSeccion() {
 				open={open}
 				fullScreen={fullScreen}
 				scroll="paper"
-				TransitionComponent={Transition}
+				TransitionComponent={AnimationDialog}
 				aria-labelledby="popad-dialog-title"
 				aria-describedby="popad-dialog-description"
 			>
@@ -116,10 +117,10 @@ function SearchSeccion() {
 						<React.Fragment>
 							<DialogContentText id="popad-dialog-description">
 								<span>
-									A continuaciรณn se muestran los estudiates encontrados en {curso}:
+									A continuación se muestran los estudiates encontrados en {curso}:
 								</span>
 							</DialogContentText>
-							<TableShowInfoSecion data={lista} changeOpen={setOpen} />
+							<TableShowInfoSecion data={lista} changeOpen={handleClose} />
 						</React.Fragment>
 					)
 					:
@@ -139,9 +140,7 @@ function SearchSeccion() {
           <DialogActions>
             <Button
               color="primary"
-              onClick={() => {
-                setOpen(false);
-              }}
+              onClick={handleClose}
             >
               Entendido
             </Button>
