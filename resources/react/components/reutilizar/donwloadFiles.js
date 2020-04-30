@@ -13,4 +13,20 @@ const downloadFiles = (response, fileName, fileExtension) => {
 	link.click();
 }
 
+export const downloadFilesNotResponse = (url) => {
+	//Elemento Link
+	const link = document.createElement('a');
+	//Linkear url
+	link.href = url;
+	//Obtener nombre del archivo
+	let fileName = url.split('/');
+	fileName = fileName[fileName.length - 1];
+	//Atributos,
+	link.setAttribute('download', `${fileName}`);
+	//Insertar elemento
+	document.body.appendChild(link);
+	//Descargar
+	link.click();
+}
+
 export default downloadFiles;

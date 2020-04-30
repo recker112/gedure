@@ -6,6 +6,7 @@ import RenderButtonList from './RenderButtonList';
 
 //Material-UI
 import { List, Divider } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 //Iconos
 import History from '@material-ui/icons/History';
@@ -176,9 +177,13 @@ const ContentBarList = ({privilegio}) => {
 		},
 	];
 
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? 'drawerMenuDark' : '';
+	
 	return (
 		<div role="presentation">
-			<div className="drawerMenu">
+			<div className={`drawerMenu ${darkModeColor}`}>
 				<span className="TextHead">Menú</span>
 				<CloseDrawerMenu />
 			</div>

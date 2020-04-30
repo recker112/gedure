@@ -128,7 +128,7 @@ export function SkeletonNoticia() {
 	return (
 		<Paper variant="outlined">
 			<section className="Noticia">
-				<div className="NHead">
+				<div className="NHead box">
 					<Skeleton variant="circle" className="NHeadImg" />
 					<Skeleton variant="text" className="NHeadName" width={150} />
 					<Skeleton variant="text" className="NHeadName" width={35} />
@@ -167,7 +167,7 @@ export function Noticia(props) {
 		}
 
 		return (
-			<Paper variant="outlined" key={news.id}>
+			<Paper className="box" variant="outlined" key={news.id}>
 				<section className="Noticia">
 					<div className="NHead">
 						<Avatar

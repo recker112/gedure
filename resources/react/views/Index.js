@@ -5,7 +5,7 @@ import Routers from './Routers';
 import HeaderMenu from '../components/HeaderMenu';
 
 //Material-UI
-import { CssBaseline, IconButton } from '@material-ui/core';
+import { CssBaseline, IconButton, useMediaQuery } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -22,17 +22,18 @@ function App({ tema, access_key }) {
 
 	//Creación de los estilos a aplicar en toda la WEB.
 	//Todo esto es material-ui, revisar documentaciรณn para más info.
-	const themeConfig = createMuiTheme({
+	const themeConfig = React.useMemo(()=> createMuiTheme({
 		palette: {
 			type: tema,
 			primary: {
-				main: '#6B8DD6'
+				main: '#6B8DD6',
 			},
 			secondary: {
 				main: '#896DBE'
 			},
 			background: {
-				default: tema === 'light' ? '#E9EBEE' : '#1d1d1d'
+				default: tema === 'light' ? '#f4f6f8' : '#1c2025',
+				paper: tema === 'light' ? '#fff' : '#282C34'
 			}
 		},
 		overrides: {
@@ -66,7 +67,7 @@ function App({ tema, access_key }) {
 				}
 			}
 		}
-	});
+	}),[tema]);
 
 	//Añadir action a todos los snackbar
 	const alertRef = React.createRef();

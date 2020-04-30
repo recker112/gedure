@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 //Modelos
 use App\User;
 use App\CursosData;
+use App\Ban;
 
 class GetUserController extends Controller
 {

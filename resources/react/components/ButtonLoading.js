@@ -9,6 +9,7 @@ function ButtonLoading({
 	colorsito, 
 	loading, 
 	text, 
+	onClick = ()=>{},
 	progressBar = false, 
 	progress = 0,
 	progressLabel = false
@@ -39,7 +40,7 @@ function ButtonLoading({
 		}
 	} else {
 		return (
-			<Button variant={estilo} type="submit" color={colorsito}>
+			<Button onClick={onClick} variant={estilo} type="submit" color={colorsito}>
 				{text}
 			</Button>
 		);

@@ -1,6 +1,6 @@
-header.headerNoPanel {
+header.header {
   background: $primary;
-  height: 50px;
+	height: 50px;
   position: fixed;
   top: 0;
   width: 100%;
@@ -18,6 +18,10 @@ header.headerNoPanel {
       margin-left: 5px;
     }
   }
+}
+
+.headerDark {
+	background: $primaryDark !important;
 }
 
 header.fixPanel {

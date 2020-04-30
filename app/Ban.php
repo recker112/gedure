@@ -12,6 +12,8 @@ class Ban extends Model
 	protected $table = 'bans_data';
 
 	protected $primaryKey = 'ban_cedula';
+	
+	protected $keyType = 'string';
 
 	public static function getStatusBlock($cedula) {
 		$dataBan = Ban::find($cedula);

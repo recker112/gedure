@@ -127,7 +127,6 @@ function RenderPublicar({ data, updateValue, updateLoading }) {
 							<form 
 								autoComplete="off"
 								onSubmit={handleSubmit}
-								method="GET"
 								style={{ marginTop: '0' }}
 							>
 								<Grid container spacing={2} justify="center">

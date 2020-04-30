@@ -13,8 +13,8 @@ function LoadArchives({
   idName,
   type, 
   accepted,
-  multiple = false, 
   maxSizeFile, 
+  multiple = false, 
   updatePreview = false 
 }) {
   const [archivos, setArchivos] = useState(0);

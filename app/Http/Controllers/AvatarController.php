@@ -99,14 +99,14 @@ class AvatarController extends Controller
 			$userFound->admin_avatar = $url;
 		} else if ($privilegio === 'V-'){
 			$estuData = new EstudiantesData;
-			$userFound = $estuData->where('estudiante_avatar', $cedula)->first();
+			$userFound = $estuData->where('estudiante_cedula', $cedula)->first();
 			$oldAvatar = $userFound->estudiante_avatar;
-			$userFound->estudiante_avatar = $ulr;
+			$userFound->estudiante_avatar = $url;
 		} else if ($privilegio === 'CR-'){
-			$creadorData = new EstudiantesData;
-			$userFound = $creadorData->where('creador_avatar', $cedula)->first();
+			$creadorData = new CreadoresData;
+			$userFound = $creadorData->where('creador_cedula', $cedula)->first();
 			$oldAvatar = $userFound->creador_avatar;
-			$userFound->creador_avatar = $ulr;
+			$userFound->creador_avatar = $url;
 		}
 		
 		//Actualizar avatar en la base de datos.
@@ -114,18 +114,7 @@ class AvatarController extends Controller
 		
 		//Borrar avatar viejo
 		if ($oldAvatar !== null){
-			/*
-			El Index de la función "splitURL" lo tomamos de la siguiente manera:
-			https:/ /example.com/resoruces/avatars/img
-			0      1      2       3         4        5
-			
-			Como es explode(), se divide en un array, el index sería el dato que
-			queremos que el split regrese, en este caso es la imagen.
-			*/
-			$imgDelete = $this->splitUrl($oldAvatar, 5);
-			if (Storage::disk('public')->exists("$dir/$imgDelete")){
-				Storage::disk('public')->delete("$dir/$imgDelete");
-			}
+			$this->deleteAvatar($dir, $oldAvatar);
 		}
 		
 		//Log
@@ -142,6 +131,46 @@ class AvatarController extends Controller
 			'description' => 'Avatar cambiado correctamente',
 			'newAvatar' => $url
 		], 200);
+	}
+	
+	public function searchAvatar($privilegio, $cedula){
+		//Verificar tipo de usuario
+		if ($privilegio === 'A-'){
+			$adminsData = new AdminsData;
+			$userFound = $adminsData->where('admin_cedula', $cedula)->first();
+			$avatar = $userFound->admin_avatar;
+		} else if ($privilegio === 'V-'){
+			$estuData = new EstudiantesData;
+			$userFound = $estuData->where('estudiante_cedula', $cedula)->first();
+			$avatar = $userFound->estudiante_avatar;
+		} else if ($privilegio === 'CR-'){
+			$creadorData = new CreadoresData;
+			$userFound = $creadorData->where('creador_cedula', $cedula)->first();
+			$avatar = $userFound->creador_avatar;
+		} else {
+			return false;
+		}
+		
+		return $avatar;
+	}
+	
+	public function deleteAvatar($dir, $avatar){
+		/*
+		El Index de la función "splitURL" lo tomamos de la siguiente manera:
+		https:/ /example.com/resoruces/avatars/img
+		0      1      2       3         4        5
+
+		Como es explode(), se divide en un array, el index sería el dato que
+		queremos que el split regrese, en este caso es la imagen.
+		*/
+		$imgDelete = $this->splitUrl($avatar, 5);
+		
+		if (Storage::disk('public')->exists("$dir/$imgDelete")){
+			Storage::disk('public')->delete("$dir/$imgDelete");
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	//Funciones reutilizables

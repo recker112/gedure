@@ -15,6 +15,8 @@ use App\AdminsData;
 use App\EstudiantesData;
 use App\CreadoresData;
 use App\Logs;
+//Controladores
+use App\Http\Controllers\AvatarController;
 
 class ModifyUserController extends Controller
 {
@@ -81,8 +83,7 @@ class ModifyUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'user_exist',
-				'description' => "El usuario con la cedula ".$privilegioReq.
-				$cedulaReq ." ya existe"
+				'description' => "La cedula ".$cedulaReq ." ya existe"
 			], 400);
 		}
 		
@@ -316,25 +317,25 @@ class ModifyUserController extends Controller
 		}
 		
 		//obtener curso actual
-		if ($userExist->user_privilegio === 'V-'){
+		if ($userExist->privilegio === 'V-'){
 			//Obtener curso actual
 			$cursoActual = $userExist->alumno_id;
 			$cursoActual = explode("-", $cursoActual);
 			
 			//Verificar que exista el usuario en esa sección.
 			if ($cursoActual[1] === $combiCursoReq){
-				$inSecccion = true;
+				$inSeccion = true;
 			}else {
-				$inSecccion = false;
+				$inSeccion = false;
 			}
 		}
 		
 		//Verificar que existe en la seccion
-		if (isset($inSecccion) && !$inSecccion){
+		if (isset($inSeccion) && !$inSeccion){
 			return response()->json([
 				'code' => 400,
 				'msg' => 'not_found',
-				'description' => "No se ha podido encontrar al estudiante en la seccion $cursoReq"
+				'description' => "No se ha podido encontrar al estudiante en la seccion $combiCursoReq"
 			], 400);
 		}
 		
@@ -680,21 +681,34 @@ class ModifyUserController extends Controller
 		$user = $userModel->find($cedula);
 		$cedula = $user->user_cedula;
 		
+		$AvatarController = new AvatarController;
+		$avatarFound = $AvatarController->searchAvatar($privilegio, $cedula);
+		
 		if ($privilegio === 'V-'){
 			//Buscar boleta
 			$dirBoleta = "boletas/$curso/$seccion/$cedula.pdf";
 			
-			$existFile = Storage::exists($dirBoleta);
-			
-			if ($existFile) {
+			if (Storage::exists($dirBoleta)) {
 				Storage::delete($dirBoleta);
+			}
+			
+			if ($avatarFound) {
+				$AvatarController->deleteAvatar('avatars', $avatarFound);
 			}
 			
 			//Borrar usuario
 			$user->delete();
 		}else if ($privilegio === 'A-') {
+			if ($avatarFound) {
+				$AvatarController->deleteAvatar('avatars', $avatarFound);
+			}
+			
 			$user->delete();
 		}else if ($privilegio === 'CR-') {
+			if ($avatarFound) {
+				$AvatarController->deleteAvatar('avatars', $avatarFound);
+			}
+			
 			$user->delete();
 		}else {
 			return 'privilegio_not_found';

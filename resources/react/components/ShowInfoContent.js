@@ -22,10 +22,8 @@ import { useTheme } from '@material-ui/core/styles';
 //Redux
 import { connect } from 'react-redux';
 
-//Animación
-const Transition = React.forwardRef(function Transition(props, ref) {
-	return <Slide direction="up" ref={ref} {...props} />;
-});
+//Components
+import AnimationDialog from './AnimationDialog';
 
 function ShowInfoContent({ 
 	dataContent, 
@@ -66,32 +64,26 @@ function ShowInfoContent({
 		const storage = JSON.parse(localStorage.getItem('noListStorage'));
 		
 		//Verificar que exista el contenido actual en la lista
+		const { only } = dataContent;
 		let foundInList = false;
-		dataContent.map(object => {
+		dataContent.map((object) => {
 			if (content === object.id) {
-				object.only.map(onlyPrivilegio => {
-					if (onlyPrivilegio === privilegio){
+				object.only.map((onlyPrivilegio) => {
+					if (onlyPrivilegio === privilegio) {
 						foundInList = true;
 					}
 					
 					return null;
-				})
-			}
-
-			return null;
-		});
-		
-		//Verificar si el usuario quiere seguir viendo esta info
-		let seeIt = true;
-		storage.map(item => {
-			if (content === item){
-				seeIt = false;
+				});
 			}
 			
 			return null;
 		})
 		
-		const openOnInit = foundInList && seeIt;
+		//Verificar si el usuario quiere seguir viendo esta info
+		let unSee = !storage.includes(content);
+		
+		const openOnInit = foundInList && unSee;
 		
 		setOpen(openOnInit);
 	}, [content]);
@@ -152,8 +144,8 @@ function ShowInfoContent({
 			onClose={handleClose}
 			scroll="paper"
 			fullScreen={fullScreen}
-			//Insertar animación
-			TransitionComponent={Transition}
+			//Insertar animaciรณn
+			TransitionComponent={AnimationDialog}
 			aria-labelledby="info-title-dialog"
 			aria-describedby="info-description-dialog"
 		>
