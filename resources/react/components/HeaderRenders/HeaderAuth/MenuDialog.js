@@ -170,7 +170,7 @@ function MenuDialog({
 		}
 	];
 
-	const handleSubmit = e => {
+	const handleClick = e => {
 		//Preparativos
 		e.preventDefault();
 		let errorStatus = false;
@@ -222,41 +222,34 @@ function MenuDialog({
 					<DialogTitle id="form-change-password-title">
 						{element.title}
 					</DialogTitle>
-					<form
-						method="POST"
-						autoComplete="false"
-						onSubmit={handleSubmit}
-						style={{ marginTop: '0' }}
-					>
-						<DialogContent dividers>
-							{!loading ? element.content
-							:
-							<Grid container 
-								direction={'column'} 
-								justify={'center'} 
-								alignItems={'center'}
-							>
-								<ButtonLoading
-									estilo="outlined"
-									colorsito="primary"
-									text="Progress"
-									loading={true}
-									progressBar={option === 'avatar' ? true : false}
-									progress={progress}
-								/>
-							</Grid>}
-						</DialogContent>
-						{!loading && (
-							<DialogActions>
-								<Button color="secondary" onClick={handleClose}>
-									Cancelar
-								</Button>
-								<Button type="submit" color="primary">
-									{element.submitTitle}
-								</Button>
-							</DialogActions>
-						)}
-					</form>
+					<DialogContent dividers>
+						{!loading ? element.content
+						:
+						<Grid container 
+							direction={'column'} 
+							justify={'center'} 
+							alignItems={'center'}
+						>
+							<ButtonLoading
+								estilo="outlined"
+								colorsito="primary"
+								text="Progress"
+								loading={true}
+								progressBar={option === 'avatar' ? true : false}
+								progress={progress}
+							/>
+						</Grid>}
+					</DialogContent>
+					{!loading && (
+						<DialogActions>
+							<Button color="secondary" onClick={handleClose}>
+								Cancelar
+							</Button>
+							<Button onClick={handleClick} color="primary">
+								{element.submitTitle}
+							</Button>
+						</DialogActions>
+					)}
 				</Dialog>
 			);
 		} else {

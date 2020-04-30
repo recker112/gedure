@@ -7,10 +7,14 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
+import { useTheme } from '@material-ui/core/styles';
 
 function RenderHeaderNoAuth() {
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? 'headerDark' : '';
   return (
-    <header className="headerNoPanel">
+    <header className={`header ${darkModeColor}`}>
       <nav>
         <span className="IconBoxButton">
           <ButtonTheme />

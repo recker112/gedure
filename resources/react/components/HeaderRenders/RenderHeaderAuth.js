@@ -7,10 +7,15 @@ import MenuButtonOpen from './HeaderAuth/MenuButtonOpen';
 import ButtonUser from './HeaderAuth/ButtonUser';
 import DrawerMenu from './../DrawerMenu';
 
+import { useTheme } from '@material-ui/core/styles';
+
 function RenderHeaderAuth() {
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? 'headerDark' : '';
 	return (
 		<div>
-			<header className="headerNoPanel fixPanel">
+			<header className={`header fixPanel ${darkModeColor}`}>
 				<nav>
 					<MenuButtonOpen />
 					<div className="Options">
