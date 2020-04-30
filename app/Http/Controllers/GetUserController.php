@@ -119,7 +119,7 @@ class GetUserController extends Controller
 			return response()->json([
 				'code' => 400,
 				'msg' => 'no_studiends',
-				'description' => 'No hay estudiantes en esta secciรณn'
+				'description' => 'No hay estudiantes en esta sección'
 			], 400);
 		}
 		
