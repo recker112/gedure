@@ -5,9 +5,9 @@ if (!localStorage.getItem("theme")){
 }
 
 //Verificar si la lista contiene algo
-if (!localStorage.getItem("noListStorage") || typeof JSON.parse(localStorage.getItem("noListStorage")) !== "object"){
+if (!localStorage.getItem("notSeeInfoDialog") || typeof JSON.parse(localStorage.getItem("notSeeInfoDialog")) !== "object"){
   //Setear dada
-	localStorage.setItem('noListStorage', JSON.stringify([]));
+	localStorage.setItem('notSeeInfoDialog', JSON.stringify([]));
 }
 
 //Inicar valor del state.

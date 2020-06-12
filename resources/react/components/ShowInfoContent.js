@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 //React Router
 import {
-  useRouteMatch,
-	useLocation
+  useRouteMatch
 } from "react-router-dom";
 
 //Material-UI
@@ -26,48 +25,30 @@ import { connect } from 'react-redux';
 import AnimationDialog from './AnimationDialog';
 
 function ShowInfoContent({ 
-	dataContent, 
-	defaultPath,
-	privilegio,
-	queryParams = false 
+	dataContent,
+	privilegio
 }) {
 	//Resolution RESPONSIVE DIALOG
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 	
-	//Query Param Select
-	let query = useQuery();
+	//OpenDialog
+	const [open, setOpen] = useState(false);
 	
 	//Path
 	let { url } = useRouteMatch();
 	
-	//Content
-	let content;
-	
-	//Select content
-	if (queryParams) {
-		content = query.get(queryParams);
-	}else {
-		content = url;
-	}
-	
-	//Verificar NULL
-	if (content === null) {
-		content = defaultPath;
-	}
-	
-	//OpenDialog
-	const [open, setOpen] = useState(false);
-	
 	//Verifi list and open dialog
 	useEffect(()=> {
-		const storage = JSON.parse(localStorage.getItem('noListStorage'));
+		const storage = JSON.parse(localStorage.getItem('notSeeInfoDialog'));
 		
 		//Verificar que exista el contenido actual en la lista
 		const { only } = dataContent;
 		let foundInList = false;
 		dataContent.map((object) => {
-			if (content === object.id) {
+			console.log(url, object.path);
+			if (url === object.path) {
+				console.log("SI");
 				object.only.map((onlyPrivilegio) => {
 					if (onlyPrivilegio === privilegio) {
 						foundInList = true;
@@ -81,12 +62,12 @@ function ShowInfoContent({
 		})
 		
 		//Verificar si el usuario quiere seguir viendo esta info
-		let unSee = !storage.includes(content);
+		let unSee = !storage.includes(url);
 		
 		const openOnInit = foundInList && unSee;
 		
 		setOpen(openOnInit);
-	}, [content]);
+	}, [url]);
 	
 	//Variables
 	let Dtitle = '';
@@ -94,7 +75,7 @@ function ShowInfoContent({
 
 	//Seleccionar contenido
 	dataContent.map(object => {
-		if (content === object.id) {
+		if (url === object.path) {
 			Dtitle = object.title;
 			Dcontent = object.content;
 		}
@@ -110,17 +91,17 @@ function ShowInfoContent({
 	
 	const handleCloseAndNoSeeMore = () => {
 		//Variable
-		const dataStorage = JSON.parse(localStorage.getItem('noListStorage'));
+		const dataStorage = JSON.parse(localStorage.getItem('notSeeInfoDialog'));
 
 		//Verificar existencia de data
 		if (dataStorage === null || dataStorage.length === 0) {
 			//Setear dada
-			localStorage.setItem('noListStorage', JSON.stringify([content]));
+			localStorage.setItem('notSeeInfoDialog', JSON.stringify([url]));
 		} else {
 			//Buscador de iguales.
 			let found = false;
 			dataStorage.map(valueLocal => {
-				if (content === valueLocal && !found) {
+				if (url === valueLocal && !found) {
 					found = true;
 				}
 
@@ -129,8 +110,8 @@ function ShowInfoContent({
 
 			//Insertar si NO se encuentra.
 			if (!found) {
-				const newArray = JSON.stringify([...dataStorage, content]);
-				localStorage.setItem('noListStorage', newArray);
+				const newArray = JSON.stringify([...dataStorage, url]);
+				localStorage.setItem('notSeeInfoDialog', newArray);
 			}
 		}
 
@@ -163,12 +144,6 @@ function ShowInfoContent({
 			</DialogActions>
 		</Dialog>
 	);
-}
-
-// A custom hook that builds on useLocation to parse
-// the query string for you.
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
 }
 
 //Redux

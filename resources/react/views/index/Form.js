@@ -26,6 +26,9 @@ function Form({
 	dataLogin,
 	errorInfo
 }) {
+	//Titulo
+	document.title = 'La Candelaria - Login';
+	
 	//Destructing
 	const { user, pass, checkbox } = dataLogin;
 	//Crear un SnackBar

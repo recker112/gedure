@@ -9,9 +9,6 @@ import Form from './Form';
 import VerifyRelogin from './VerifyRelogin';
 
 function PageIndex({ auth, reloginSuccess }) {
-	//Titulo
-	document.title = 'La Candelaria - Login';
-
 	//Regresar contenido del login
 	return (
 		<VerifyRelogin>
