@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+//Se usa el FACADES DB para poder realizar consultas con deternimadas condiciones
 
 class EstudiantesData extends Model
 {
@@ -27,8 +29,9 @@ class EstudiantesData extends Model
 	public $timestamps = false;
 	
 	public function orderCursos($curso, $seccion){
-		$studiendsInCurso = EstudiantesData::where('estudiante_alumno_id', 'LIKE','E-'.$curso.$seccion.'-%')
-			->orderBy('estudiante_cedula', 'ASC')
+		$studiendsInCurso = EstudiantesData::select('*', DB::raw('CAST(estudiante_cedula AS UNSIGNED) AS ConverToNumber'))
+                        ->where('estudiante_alumno_id', 'LIKE','E-'.$curso.$seccion.'-%')
+			->orderBy('ConverToNumber', 'ASC')
 			->get();
 		
 		$list = 1;
