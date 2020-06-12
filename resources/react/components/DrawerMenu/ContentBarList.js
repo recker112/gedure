@@ -26,105 +26,51 @@ import { connect } from 'react-redux';
 const ContentBarList = ({privilegio}) => {
 	const dataListAdmin = [
 		{
-			redirect: '/panel?show=home',
-			text: 'Dashboard',
-			queryParams: {
-				param: 'show',
-				value: 'home'
-			},
-			icon: <HomeIcon />
-		},
-		{
-			redirect: '/panel?show=reg',
+			redirect: '/panel/registros',
 			text: 'Registros',
-			queryParams: {
-				param: 'show',
-				value: 'reg'
-			},
 			icon: <History />
 		},
 		{
-			redirect: '/panel?show=modify',
+			redirect: '/panel/modifyUsers',
 			text: 'Consultar/Modificar',
-			queryParams: {
-				param: 'show',
-				value: 'modify'
-			},
 			icon: <ReceiptIcon />
 		},
 		{
-			redirect: '/panel?show=desblock',
+			redirect: '/panel/desblockAccount',
 			text: 'Desbloquear',
-			queryParams: {
-				param: 'show',
-				value: 'desblock'
-			},
 			icon: <LockIcon />
 		},
 		{
-			redirect: '/panel?show=upload',
+			redirect: '/panel/uploadData',
 			text: 'Cargar',
-			queryParams: {
-				param: 'show',
-				value: 'upload'
-			},
 			icon: <CloudUploadIcon />
 		},
 		{
-			redirect: '/panel?show=userOptions',
+			redirect: '/panel/userOptions',
 			text: 'Opciones',
-			queryParams: {
-				param: 'show',
-				value: 'userOptions'
-			},
 			icon: <BuildIcon />
 		},
 		{
-			redirect: '/panel?show=delete',
+			redirect: '/panel/deleteData',
 			text: 'Borrar',
-			queryParams: {
-				param: 'show',
-				value: 'delete'
-			},
 			icon: <DeleteIcon />
 		},
 		{
-			redirect: '/panel?show=posting',
+			redirect: '/panel/toPost',
 			text: 'Publicar',
-			queryParams: {
-				param: 'show',
-				value: 'posting'
-			},
 			icon: <NewReleasesIcon />
 		},
 		{
-			redirect: '/panel?show=delPosting',
+			redirect: '/panel/deletePost',
 			text: 'Borrar publicación',
-			queryParams: {
-				param: 'show',
-				value: 'delPosting'
-			},
 			icon: <DeleteSweepIcon />
 		},
   ];
   
   const dataListEstu = [
-		{
-			redirect: '/panel?show=home',
-			text: 'Dashboard',
-			queryParams: {
-				param: 'show',
-				value: 'home'
-			},
-			icon: <HomeIcon />
-    },
     {
-			redirect: '/panel?show=boleta',
-			text: 'Boleta',
-			queryParams: {
-				param: 'show',
-				value: 'boleta'
-			},
+			redirect: '/panel/boletas',
+			text: 'Boletas',
 			icon: <ListAltIcon />
     },
 		// {
@@ -149,30 +95,13 @@ const ContentBarList = ({privilegio}) => {
 	
 	const dataListCreador = [
 		{
-			redirect: '/panel?show=home',
-			text: 'Dashboard',
-			queryParams: {
-				param: 'show',
-				value: 'home'
-			},
-			icon: <HomeIcon />
-    },
-		{
-			redirect: '/panel?show=posting',
+			redirect: '/panel/toPost',
 			text: 'Publicar',
-			queryParams: {
-				param: 'show',
-				value: 'posting'
-			},
 			icon: <NewReleasesIcon />
 		},
 		{
-			redirect: '/panel?show=delPosting',
+			redirect: '/panel/deletePost',
 			text: 'Borrar publicación',
-			queryParams: {
-				param: 'show',
-				value: 'delPosting'
-			},
 			icon: <DeleteSweepIcon />
 		},
 	];
@@ -188,6 +117,17 @@ const ContentBarList = ({privilegio}) => {
 				<CloseDrawerMenu />
 			</div>
 			<List style={{ width: '250px' }} dense={true}>
+				{/*Globales*/}
+				<RenderButtonList
+					options={{
+						redirect: '/panel',
+						text: 'Dashboard'
+					}}
+				>
+					<HomeIcon />
+				</RenderButtonList>
+				<Divider />
+				{/*Listas*/}
 				{privilegio === "A-" && dataListAdmin.map((data, i) => {
 					return (
 						<React.Fragment key={i}>
@@ -197,12 +137,11 @@ const ContentBarList = ({privilegio}) => {
 									text: data.text
 								}}
 								queryParams={data.queryParams ? data.queryParams : null}
-								defaultPath='home'
 							>
 								{data.icon}
 							</RenderButtonList>
 							{/*Poner dividers*/}
-							{(i === 0 || i === 6) ? (<Divider />) : null}
+							{(i === 5) ? (<Divider />) : null}
 						</React.Fragment>
 					);
         })}
@@ -219,8 +158,6 @@ const ContentBarList = ({privilegio}) => {
 							>
 								{data.icon}
 							</RenderButtonList>
-							{/*Poner dividers*/}
-							{(i === 0) ? (<Divider />) : null}
 						</React.Fragment>
 					);
 				})}
@@ -237,8 +174,6 @@ const ContentBarList = ({privilegio}) => {
 							>
 								{data.icon}
 							</RenderButtonList>
-							{/*Poner dividers*/}
-							{(i === 0) ? (<Divider />) : null}
 						</React.Fragment>
 					);
 				})}

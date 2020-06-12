@@ -35,8 +35,8 @@ function Routers({ auth }) {
 					<PageNews />
 				</PublicRoute>
 				
-				<ProtectRoute exact auth={auth} path="/panel">
-					<PagePanel content={query.get("show")} />
+				<ProtectRoute auth={auth} path="/panel">
+					<PagePanel />
 				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>

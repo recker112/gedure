@@ -7,6 +7,9 @@ import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
 import { connect } from 'react-redux';
 import logout from '../../../actions/login/logout';
 
+//React Router
+import { useHistory } from 'react-router-dom';
+
 //Componentes
 import MenuDialog from './MenuDialog';
 
@@ -21,6 +24,9 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
 
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
+	
+	//React Router
+	let history = useHistory();
 
 	//El que seteará el item en el cual debe aparecer el menú.
 	const handleClick = event => {
@@ -44,6 +50,8 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
 			updateMenuUser(true, 'password');
 		} else if (option === 'avatar') {
 			updateMenuUser(true, 'avatar');
+		} else if (option === 'options') {
+			history.push("/account");
 		}
 		setButtonItem(null);
 	};
@@ -95,6 +103,11 @@ function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
 			access: 'all'
 		},
 		{
+			option: 'options',
+			text: 'Opciones',
+			access: 'all'
+		},
+		{
 			option: 'logout',
 			text: 'Salir',
 			access: 'all'
@@ -111,12 +124,12 @@ function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
 			open={Boolean(buttonItem)}
 			onClose={handleClose}
 			anchorOrigin={{
-				vertical: 'top',
-				horizontal: 'left'
+				vertical: 'bottom',
+				horizontal: 'left',
 			}}
 			transformOrigin={{
 				vertical: 'top',
-				horizontal: 'right'
+				horizontal: 'right',
 			}}
 		>
 			{//Verificar configuraciones.

@@ -19,7 +19,6 @@ function RenderMobileButton({
 	options,
 	children,
 	toggleDrawer,
-	defaultPath,
 	theme,
 	queryParams = null
 }) {
@@ -35,13 +34,8 @@ function RenderMobileButton({
 	}else {
 		match = useRouteMatch({
 			path: redirect,
-			exact: false
+			exact: true
 		});
-	}
-	
-	//Verificar que no sea la defaultPath
-	if (query.get(queryParams.param) === null && queryParams.value === defaultPath) {
-		match = true;
 	}
 	
 	//Fix theme
