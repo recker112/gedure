@@ -14,11 +14,13 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 //Redux
 import { connect } from 'react-redux';
 import toggleDrawer from '../../actions/panel/toggleDrawer';
+import updateMasterPath from '../../actions/updateMasterPath';
 
 function RenderMobileButton({
 	options,
 	children,
 	toggleDrawer,
+	updateMasterPath,
 	theme,
 	queryParams = null
 }) {
@@ -47,7 +49,8 @@ function RenderMobileButton({
 				button
 				key={text}
 				onClick={() => {
-					toggleDrawer();
+					toggleDrawer(false);
+					updateMasterPath(redirect);
 				}}
 				selected={match}
 				className={match ? 'drawerItemSelected' : 'drawerItem'}
@@ -71,7 +74,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	toggleDrawer
+	toggleDrawer,
+	updateMasterPath
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenderMobileButton);

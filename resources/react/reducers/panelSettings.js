@@ -2,7 +2,7 @@
 const initialState = {
 	infoDialog: false,
 	drawer: {
-		open: false,
+		open: false
 	},
 	logsSection: {
 		selectSearch: 'all',

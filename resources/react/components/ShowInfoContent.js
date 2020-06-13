@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-//React Router
-import {
-  useRouteMatch
-} from "react-router-dom";
-
 //Material-UI
 import {
 	Dialog,
@@ -26,7 +21,8 @@ import AnimationDialog from './AnimationDialog';
 
 function ShowInfoContent({ 
 	dataContent,
-	privilegio
+	privilegio,
+	url
 }) {
 	//Resolution RESPONSIVE DIALOG
 	const theme = useTheme();
@@ -34,9 +30,6 @@ function ShowInfoContent({
 	
 	//OpenDialog
 	const [open, setOpen] = useState(false);
-	
-	//Path
-	let { url } = useRouteMatch();
 	
 	//Verifi list and open dialog
 	useEffect(()=> {
@@ -46,7 +39,6 @@ function ShowInfoContent({
 		const { only } = dataContent;
 		let foundInList = false;
 		dataContent.map((object) => {
-			console.log(url, object.path);
 			if (url === object.path) {
 				console.log("SI");
 				object.only.map((onlyPrivilegio) => {
@@ -148,7 +140,8 @@ function ShowInfoContent({
 
 //Redux
 const mapStateToProps = state => ({
-	privilegio: state.userData.privilegio
+	privilegio: state.userData.privilegio,
+	url: state.settings.showInfo.masterPath
 });
 
 export default connect(mapStateToProps)(ShowInfoContent);
