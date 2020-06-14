@@ -9,7 +9,7 @@ import toggleDrawer from '../../actions/panel/toggleDrawer';
 function CloseDrawerMenu({toggleDrawer}) {
   return (
     <Tooltip title="Cerrar menú" arrow enterDelay={1000}>
-      <IconButton onClick={()=>{toggleDrawer(false)}}>
+      <IconButton className='HeadDrawer__Button' onClick={()=>{toggleDrawer(false)}}>
         <ChevronLeftIcon />
       </IconButton>
     </Tooltip>

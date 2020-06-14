@@ -13,7 +13,7 @@ function ArchiveVisor({ options }) {
 			return (
 				<a href={archive.url} key={i}>
 					<LazyImage
-						alt="extensiรณn de archivo"
+						alt="extensión de archivo"
 						src={archive.extension}
 						placeholder={({ imageProps, ref }) => (
 							<Skeleton ref={ref} key={i} variant="rect" height={50} width={50} />
@@ -32,11 +32,14 @@ function ArchiveVisor({ options }) {
 		});
 		
 		return (
-			<footer>
-				<Grid container spacing={2} justify="space-around" wrap="wrap" className="fixGrid">
-					{files}
-				</Grid>
-			</footer>
+			<Grid 
+				container 
+				spacing={2} 
+				justify="space-around" 
+				wrap="wrap"
+			>
+				{files}
+			</Grid>
 		);
 	}
 

@@ -90,7 +90,7 @@ function SearchSeccion() {
 
 	return (
 		<React.Fragment>
-			<div className="searchSeccion" style={{ padding: '10px' }}>
+			<div className="SearchSeccion" style={{ padding: '10px' }}>
 				<RenderSelect action={handleChange} val={select} data={searchSelect} />
 			</div>
 

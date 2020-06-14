@@ -179,7 +179,7 @@ function RenderOptions({ data, updateValue, errorInfo, updateLoading }) {
 			<Grid item xs={12} sm={10}>
 				<Paper variant="outlined">
 					<div className="Box">
-						<div className="content">
+						<div className="Box__Content">
 							<form
 								autoComplete="off"
 								onSubmit={handleSubmit}
@@ -276,8 +276,8 @@ function SelectFromOptions({ action, value }) {
 
 	return (
 		<div className="Box">
-			<span className="title">Cambiar opciones de:</span>
-			<div className="content">
+			<span className="Box__Title">Cambiar opciones de:</span>
+			<div className="Box__Content">
 				<RenderSelect
 					action={action}
 					val={value}

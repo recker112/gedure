@@ -68,8 +68,8 @@ export const SeccionList = [
 	}
 ];
 
-//InfoContent
-export const InfoContentShow = [
+//InfoContent Panel
+export const InfoContentShowPanel = [
 	{
 		path: '/panel/registros',
 		title: 'Registros',

@@ -4,8 +4,7 @@
 @import 'mixins';
 
 //Globales
-@import 'global/headerPanel';
-@import 'global/BoxPage';
+@import 'global';
 
 //Index
 @import 'index/main';
@@ -21,9 +20,9 @@ a {
 }
 
 * {
-	-webkit-box-sizing: boxer-box;
-	-moz-box-sizing: boxer-box;
-	box-sizing: boxer-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 

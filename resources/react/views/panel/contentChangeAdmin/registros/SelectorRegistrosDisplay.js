@@ -39,8 +39,8 @@ function SelectorRegistrosDisplay({ select, updateValue }) {
 
 	return (
 		<div className="Box">
-			<span className="title">Buscar Registros</span>
-			<div className="content">
+			<span className="Box__Title">Buscar Registros</span>
+			<div className="Box__Content">
 				<RenderSelect
 					action={handleChangeSelect}
 					val={select}

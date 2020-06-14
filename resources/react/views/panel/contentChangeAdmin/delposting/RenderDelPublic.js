@@ -123,7 +123,7 @@ function RenderPublicar({ data, updateValue, updateLoading }) {
 			<Grid item xs={12} sm={10}>
 				<Paper variant="outlined">
 					<div className="Box">
-						<div className="content">
+						<div className="Box__Content">
 							<form 
 								autoComplete="off"
 								onSubmit={handleSubmit}
@@ -174,8 +174,8 @@ function SelectorDelPublicar({ action, value }) {
 
 	return (
 		<div className="Box">
-			<span className="title">Eliminar publicación</span>
-			<div className="content">
+			<span className="Box__Title">Eliminar publicación</span>
+			<div className="Box__Content">
 				<RenderSelect
 					action={action}
 					val={value}

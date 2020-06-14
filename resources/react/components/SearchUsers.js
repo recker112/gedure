@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 //Material-UI
 import { CircularProgress, InputBase, InputAdornment } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -120,8 +121,12 @@ function SearchUsers({ apiUrl, updateData, updateDataOption }) {
 		}
 	};
 
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? 'AutoComplete--Dark' : '';
+	
 	return (
-		<div className="autoComplete">
+		<div className={`AutoComplete ${darkModeColor}`}>
 			<Autocomplete
 				//Verificar si está loading o no
 				loading={loading}

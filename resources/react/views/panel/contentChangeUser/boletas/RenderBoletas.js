@@ -95,8 +95,8 @@ function RenderContent({ query, setQuery }) {
 			<Grid item xs={12} sm={5} md={3}>
 				<Paper variant="outlined">
 					<div className="Box">
-						<span className="title">{text}</span>
-						<div className="content">
+						<span className="Box__Title">{text}</span>
+						<div className="Box__Content">
 							<Grid Container spacing={2} justify="center">
 								{query && (
 									<Grid item xs={12} style={{textAlign: 'center'}}>

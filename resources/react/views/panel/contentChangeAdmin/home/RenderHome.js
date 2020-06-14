@@ -37,11 +37,11 @@ function RenderHome({ data }) {
 	return (
 		<React.Fragment>
 			{privilegio !== 'V-' && <RenderAnnounceBox privilegio={privilegio} />}
-			<Grid container spacing={2} className="FixGrid">
+			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Paper variant="outlined" className="Box">
-						<span className="title">Bienvenidos</span>
-						<div className="content">
+					<Paper variant="outlined" className="Box Box--Welcome">
+						<span className="Box__Title">Bienvenidos</span>
+						<div className="Box__Content">
 							{privilegio === 'A-' && textIntroAdmin}
 							{privilegio === 'CR-' && textIntroCreador}
 							{privilegio === 'V-' && textIntroEstudante}
@@ -235,8 +235,8 @@ function RenderInfoStudiend ({ data }) {
 	return (
 		<Grid item xs={12}>
 			<Paper variant="outlined" className="Box">
-				<span className="title">Datos del estudiante</span>
-				<div className="content">
+				<span className="Box__Title">Datos del estudiante</span>
+				<div className="Box__Content">
 					<p>
 						Cedula: {privilegio + cedula}
 						<br/>

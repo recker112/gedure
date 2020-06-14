@@ -3,20 +3,20 @@ import React from 'react';
 //Componentes
 import PanelRouters from './PanelRouters';
 import ShowInfoContent from '../../components/ShowInfoContent';
-import { InfoContentShow } from '../../components/ListDataGlobal';
+import { InfoContentShowPanel } from '../../components/ListDataGlobal';
 
-export default function RenderPanel({ content }) {
+export default function RenderPanel() {
 	//Titulo
 	document.title = 'La Candelaria - Panel';
 	
 	return (
-		<div className="BoxPagePanel">
-			<main>
+		<React.Fragment>
+			<main class='Container Container--Panel'>
 				<PanelRouters />
 			</main>
 			<ShowInfoContent 
-				dataContent={InfoContentShow}
+				dataContent={InfoContentShowPanel}
 			/>
-		</div>
+		</React.Fragment>
 	);
 }

@@ -3,26 +3,23 @@ import React from "react";
 
 //Material-UI
 import { Hidden } from "@material-ui/core";
+import { Skeleton } from '@material-ui/lab';
 
 //Componentes
 import SwitchButton from "./SwitchButton";
 import ShowComponentResponsive from "./ShowComponentResponsive";
+import ListNoticias from "./ListNoticias";
 
 function PageNews() {
 	//Titulo
 	document.title = "La Candelaria - News";
 	
   return (
-		<div className="BoxPageNews">
-			<main>
-				{/* Ocultar SwitchNews hasta que la pantalla entre en modo
-				celular. */}
-				<Hidden mdUp>
-					<SwitchButton />
-				</Hidden>
-				<ShowComponentResponsive />
-			</main>
-		</div>
+		<main className='Container Container--News'>
+			<Skeleton width="100%" variant="rect" height="250px" 
+				style={{marginBottom: '15px'}} />
+			<ListNoticias />
+		</main>
 	);
 }
 

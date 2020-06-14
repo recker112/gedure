@@ -342,8 +342,8 @@ function UploadSelectBox({ upload, action }) {
 
 	return (
 		<div className="Box">
-			<span className="title">Seleccionar carga</span>
-			<div className="content">
+			<span className="Box__Title">Seleccionar carga</span>
+			<div className="Box__Content">
 				<RenderSelect
 					action={action}
 					val={upload}

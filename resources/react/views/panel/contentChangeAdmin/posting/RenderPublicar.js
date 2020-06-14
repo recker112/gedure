@@ -197,7 +197,7 @@ function RenderPublicar({ data, updateValue, errorInfo, updateLoading }) {
 			<Grid item xs={12} sm={10}>
 				<Paper variant="outlined">
 					<div className="Box">
-						<div className="content">
+						<div className="Box__Content">
 							<form
 								autoComplete="off"
 								onSubmit={handleSubmit}
@@ -339,8 +339,8 @@ function SelectorPublicar({ action, value }) {
 
 	return (
 		<div className="Box">
-			<span className="title">Publicar</span>
-			<div className="content">
+			<span className="Box__Title">Publicar</span>
+			<div className="Box__Content">
 				<RenderSelect
 					action={action}
 					val={value}

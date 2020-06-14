@@ -28,7 +28,7 @@ function ImagenVisor({ options }) {
 				return (
 					<span 
 						key={i} 
-						className="more"
+						className="ImagePreview__More"
 						onClick={()=>{
 							setOpenView(true);
 							setCurrentImg(3);
@@ -50,7 +50,7 @@ function ImagenVisor({ options }) {
 							<img 
 								key={i} 
 								{...imageProps} 
-								class="imgPreview"
+								className="ImagePreview"
 								onClick={()=>{
 									setOpenView(true);
 									setCurrentImg(i);
@@ -70,13 +70,13 @@ function ImagenVisor({ options }) {
 			}
 		});
 		return (
-			<footer>
+			<React.Fragment>
 				<Grid 
 					container 
 					spacing={2} 
 					justify="space-around" 
-					wrap="wrap" 
-					className="fixGrid"
+					wrap="wrap"
+					className='PreviewImgDivider'
 				>
 					{imagenes}
 				</Grid>
@@ -88,7 +88,7 @@ function ImagenVisor({ options }) {
 						setCurrentImg={setCurrentImg}
 					/>
 				)}
-			</footer>
+			</React.Fragment>
 		);
 	}
 
@@ -98,11 +98,17 @@ function ImagenVisor({ options }) {
 			<Skeleton key={i} variant="rect" height={100} width={110} />
 		));
 		return (
-			<footer>
-				<Grid container spacing={2} justify="space-around" wrap="wrap" className="fixGrid">
+			<React.Fragment>
+				<Grid 
+					container 
+					spacing={2} 
+					justify="space-around" 
+					wrap="wrap" 
+					className='PreviewImgDivider'
+				>
 					{SkeletonImg}
 				</Grid>
-			</footer>
+			</React.Fragment>
 		);
 	}
 
