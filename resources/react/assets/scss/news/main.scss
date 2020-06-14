@@ -1,201 +1,97 @@
-.BoxPageNews {
-	main {
-		margin: auto;
-		margin-top: 80px;
-		max-width: 1250px;
-		.SwitchOptionNews {
-			margin-bottom: 15px;
-			display: flex;
-			/* Fix Style in material-ui */
-			div {
-				margin-left: 10px;
-				display: flex;
-				.ItemSwitchNews {
-					padding: 10px;
-					cursor: pointer;
-					transition: 0.5s;
-				}
-				.active {
-					background: $primary;
-				}
-			}
-		}
-		.container {
-			display: flex;
-		}
+/* Container */
+.Container--News {
+	padding: 0px 10px;
+}
 
-		.VisorImgReactComponent {
-			position: fixed;
-			width: 100%;
-			height: 100%;
-			background: rgba(0,0,0,0.75);
-			top: 0;
-			left: 0;
-			z-index: 100;
-			transition: 0.5s;
-			
-			.VisorImgReactComponent__options {
-				display: flex;
-				justify-content: center;
-				margin-bottom: 10px;
-				z-index: 200;
-			}
-			
-			.VisorImgReactComponent__download {
-				margin-right: 100px;
-			}
-			
-			.VisorImgReactComponent__controlls {
-				position: absolute;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				width: 100%;
-				height: 100%;
-				padding: 0px 10%;
-				margin-top: 30px;
-			}
-			
-			.VisorImgReactComponent__visor {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-				height: 100%;
-			}
-			
-			.imgShow {
-				max-height: 80vh;
-				max-width: 90vw;
-			}
-		}
-		
-		.BoxNoticias {
-			margin: 0px 10px;
-			flex: 70%;
-			.box {
-				margin-bottom: 25px;
-			}
-			.Noticia {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				transition: 0.5s;
-				margin-bottom: 10px;
-				.NHead {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					.NHeadImg {
-						width: 70px;
-						height: 70px;
-						margin: 20px 0px;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-					.NHeadName {
-						font-weight: 900;
-					}
-				}
-				hr {
-					width: 90%;
-				}
-				.NContent {
-					margin-top: 10px;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					width: 90%;
-					margin-bottom: 0px;
-					.NContentTitle {
-						font-weight: 700;
-						font-size: 20px;
-						font-style: italic;
-						text-align: center;
-					}
-					.NContentP {
-						text-align: justify;
-						width: 100%;
-					}
-				}
-				footer {
-					width: 90%;
-					margin-top: 25px;
-					margin-bottom: 20px;
-					.fixGrid {
-						margin-bottom: 0;
-					}
-					.imgPreview {
-						max-width: 110px;
-						max-height: 100px;
-						min-width: 70px;
-						min-height: 60px;
-						cursor: pointer;
-						margin-bottom: 10px;
-						transition: .5s;
-						
-						&:hover {
-							transform: scale(1.2);
-						}
-					}
-					.more {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						background: rgba(0, 0, 0, 0.4);
-						width: 100px;
-						height: 100px;
-						margin-bottom: 10px;
-						cursor: pointer;
-					}
-				}
-				.NFecha {
-					width: 90%;
-					text-align: right;
-				}
-			}
-		}
-		.BoxAnuncios {
-			flex: 40%;
-			margin: 0px 10px;
-			/*FIX paper*/
-			.PaperMargin {
-				padding-top: 5px;
-				padding-bottom: 15px;
-				margin-bottom: 30px;
-			}
-			.AHead {
-				font-size: 20px;
-				text-align: center;
-				transition: 0.5s;
-			}
-			.AnuncioPaper {
-				margin-bottom: 15px;
-			}
-			.Anuncio {
-				width: 90%;
-				margin: auto;
-				margin-top: 15px;
-				margin-bottom: 30px;
-				margin-bottom: 15px;
-				transition: 0.5s;
-				.ATitle {
-					font-size: 18px;
-				}
-				.AContent {
-					text-align: justify;
-					width: 100%;
-				}
-				footer {
-					font-style: italic;
-					display: flex;
-					justify-content: center;
-				}
-				.AId {
-					text-align: right;
-				}
-			}
-		}
+/* Noticias */
+.NoticiaBox {
+	margin: auto;
+	margin-bottom: 10px;
+	max-width: 1000px;
+}
+
+.NoticiaBox__Id {
+	display: inline-block;
+	padding: 20px;
+	width: 100%;
+	text-align: right;
+}
+
+.PreviewImgDivider {
+	width: 90% !important;
+	margin: auto !important;
+	margin-top: 25px !important;
+	margin-bottom: 20px !important;
+}
+
+.ImagePreview {
+	max-width: 110px;
+	max-height: 100px;
+	min-width: 70px;
+	min-height: 60px;
+	cursor: pointer;
+	margin-bottom: 10px;
+	transition: .5s;
+	
+	&:hover {
+		transform: scale(1.2);
+	}
+}
+
+.ImagePreview__More {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.4);
+	width: 100px;
+	height: 100px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+/* Visor Img React */
+.VisorImgReactComponent {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.75);
+	top: 0;
+	left: 0;
+	z-index: 100;
+	transition: 0.5s;
+
+	.VisorImgReactComponent__options {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 10px;
+		z-index: 200;
+	}
+
+	.VisorImgReactComponent__download {
+		margin-right: 100px;
+	}
+
+	.VisorImgReactComponent__controlls {
+		position: absolute;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		padding: 0px 10%;
+		margin-top: 30px;
+	}
+
+	.VisorImgReactComponent__visor {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		height: 100%;
+	}
+	
+	.imgShow {
+		max-height: 80vh;
+		max-width: 90vw;
 	}
 }

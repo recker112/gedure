@@ -12,14 +12,14 @@ import { useTheme } from '@material-ui/core/styles';
 function RenderHeaderAuth() {
 	const theme = useTheme();
 	
-	let darkModeColor = theme.palette.type === 'dark' ? 'headerDark' : '';
+	let darkModeColor = theme.palette.type === 'dark' ? 'Header--Dark' : '';
 	return (
 		<div>
-			<header className={`header fixPanel ${darkModeColor}`}>
-				<nav>
+			<header className={`Header Header--Auth ${darkModeColor}`}>
+				<nav className="Header__Nav Header__Nav--Auth">
 					<MenuButtonOpen />
-					<div className="Options">
-						<span className="IconBoxButton">
+					<div>
+						<span className="Header__Button">
 							<ButtonTheme />
 						</span>
 						{/* DESACTIVADO PARA REALIZAR EN UN FUTURO
@@ -32,10 +32,10 @@ function RenderHeaderAuth() {
                 </IconButton>
               </Tooltip>
             </span> */}
-						<span className="IconBoxButton">
+						<span className="Header__Button">
 							<NoticiasButton />
 						</span>
-						<span className="IconBoxButton">
+						<span className="Header__Button">
 							<ButtonUser />
 						</span>
 					</div>

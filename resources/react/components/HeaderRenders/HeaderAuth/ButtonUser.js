@@ -6,6 +6,7 @@ import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
 //Redux
 import { connect } from 'react-redux';
 import logout from '../../../actions/login/logout';
+import updateMasterPath from '../../../actions/updateMasterPath';
 
 //React Router
 import { useHistory } from 'react-router-dom';
@@ -18,7 +19,14 @@ import { useSnackbar } from 'notistack';
 import updateMenuUser from '../../../actions/panel/updateMenuUser';
 
 //Boton con MENU INTERNO BOYYYYYYYYYYS
-function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
+function ButtonUser({ 
+	name, 
+	avatar, 
+	logout, 
+	updateMenuUser, 
+	privilegio, 
+	updateMasterPath
+}) {
 	//State la cual controlará el estado del menú.
 	const [buttonItem, setButtonItem] = useState(null);
 
@@ -51,7 +59,9 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
 		} else if (option === 'avatar') {
 			updateMenuUser(true, 'avatar');
 		} else if (option === 'options') {
-			history.push("/account");
+			const redirect = '/account'
+			updateMasterPath(redirect);
+			history.push(redirect);
 		}
 		setButtonItem(null);
 	};
@@ -62,7 +72,11 @@ function ButtonUser({ name, avatar, logout, updateMenuUser, privilegio }) {
       en este caso será controlado por el MENÚ.
       aria-haspopud no sé que hace. xDDD
       */}
-				<IconButton aria-controls="ButtonUser" aria-haspopup="true" onClick={handleClick}>
+				<IconButton 
+					style={{padding: '7px'}}
+					aria-controls="ButtonUser" 
+					aria-haspopup="true" 
+					onClick={handleClick}>
 					<Avatar
 						src={avatar}
 						alt="Usuario"
@@ -174,7 +188,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	logout,
-	updateMenuUser
+	updateMenuUser,
+	updateMasterPath
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ButtonUser);

@@ -95,8 +95,8 @@ function RenderDesblock({ blockData, updateLoading, updateValue }) {
       </Grid>
       <Grid item xs={12} sm={10}>
         <Paper className='Box' variant="outlined">
-          <span className="title">Información del usuario</span>
-          <div className="content">
+          <span className="Box__Title">Información del usuario</span>
+          <div className="Box__Content">
             <UserInfo 
 							data={blockData.data} 
 							updateData={updateValue} 

@@ -49,8 +49,8 @@ function RenderMobileButton({
 				button
 				key={text}
 				onClick={() => {
-					toggleDrawer(false);
 					updateMasterPath(redirect);
+					toggleDrawer(false);
 				}}
 				selected={match}
 				className={match ? 'drawerItemSelected' : 'drawerItem'}

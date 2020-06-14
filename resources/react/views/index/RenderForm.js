@@ -18,8 +18,8 @@ function RenderForm({ options, dataLogin, validating, error }) {
 
 	return (
 		<Grow in={true}>
-			<form onSubmit={handleSubmit}>
-				<div className="space">
+			<form onSubmit={handleSubmit} className="LoginForm">
+				<div className="LoginForm__Divider" style={{width: 278}}>
 					<RenderInputs
 						data={{ val: dataLogin.user, name: 'user', label: 'Usuario' }}
 						accion={handleChange}
@@ -28,7 +28,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 					/>
 				</div>
 
-				<div className="space">
+				<div className="LoginForm__Divider">
 					<RenderInputs
 						data={{ val: dataLogin.pass, name: 'pass', label: 'Contraseña' }}
 						accion={handleChange}
@@ -38,7 +38,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 					/>
 				</div>
 
-				<div className="space">
+				<div className="LoginForm__Divider">
 					<FormControlLabel
 						value={dataLogin.checkbox}
 						onChange={handleChange}
@@ -48,7 +48,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 					/>
 				</div>
 
-				<div className="space">
+				<div className="LoginForm__Divider">
 					<ButtonLoading
 						estilo="contained"
 						colorsito="primary"
@@ -57,7 +57,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 					/>
 				</div>
 
-				<div className="Copyright">
+				<div className="LoginForm__Copyright">
 					<span>&copy; UEP APEP "La Candelaria" - 2020</span>
 					<span>Desarollado por Recker</span>
 					<ShowInfoVersion />

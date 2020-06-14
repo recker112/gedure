@@ -108,12 +108,12 @@ const ContentBarList = ({privilegio}) => {
 
 	const theme = useTheme();
 	
-	let darkModeColor = theme.palette.type === 'dark' ? 'drawerMenuDark' : '';
+	let darkModeColor = theme.palette.type === 'dark' ? 'HeadDrawer--Dark' : '';
 	
 	return (
 		<div role="presentation">
-			<div className={`drawerMenu ${darkModeColor}`}>
-				<span className="TextHead">Menú</span>
+			<div className={`HeadDrawer ${darkModeColor}`}>
+				<span className="HeadDrawer__Text">Menú</span>
 				<CloseDrawerMenu />
 			</div>
 			<List style={{ width: '250px' }} dense={true}>

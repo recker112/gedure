@@ -7,10 +7,10 @@ export function AnnounceBox(props) {
 
 	//regresar
 	return (
-		<Paper variant="outlined" className="Status">
+		<Paper variant="outlined" className="StatusBox">
 			<Zoom in={true} timeout={800}>
-				<div className="circulo" style={{ background: background }}>
-					<span className="text">{data}</span>
+				<div className="StatusBox__Circulo" style={{ background: background }}>
+					<span className="StatusBox__Text">{data}</span>
 				</div>
 			</Zoom>
 			<div>{text}</div>

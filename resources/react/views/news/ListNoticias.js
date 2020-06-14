@@ -10,8 +10,20 @@ import { connect } from 'react-redux';
 import { updateNewsNoticias } from '../../actions/news/updateNews';
 
 //Material-UI
-import { Paper, Avatar } from '@material-ui/core';
+import { 
+	Paper, 
+	Avatar,
+	Button,
+	Card, 
+	CardHeader, 
+	CardContent,
+	CardActions,
+	Collapse,
+	IconButton,
+	Tooltip
+} from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { useTheme } from '@material-ui/core/styles';
 
 //SnackBar
 import { useSnackbar } from 'notistack';
@@ -94,111 +106,133 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 	);
 
 	return (
-		<article className="BoxNoticias">
+		<article className="NoticiaBox">
 			{list.length !== 0 ? (
-				<InfiniteScroll
-					dataLength={list.length}
-					hasMore={!hasFinish}
-					next={getMore}
-					scrollThreshold={0.3}
-					loader={<SkeletonNoticia />}
-					endMessage={
-						<p style={{ textAlign: 'center' }}>
-							<b>No hay más noticias que cargar.</b>
-						</p>
-					}
-				>
-					<Noticia options={list} />
-				</InfiniteScroll>
-			) : (
-				<React.Fragment>
-					<SkeletonNoticia />
-					{noData && (
-						<p style={{ textAlign: 'center' }}>
-							<b>No hay anuncios publicados.</b>
-						</p>
-					)}
-				</React.Fragment>
-			)}
+			<InfiniteScroll
+				dataLength={list.length}
+				hasMore={!hasFinish}
+				next={getMore}
+				scrollThreshold={0.3}
+				loader={<SkeletonNoticia />}
+				endMessage={
+					<p style={{ textAlign: 'center' }}>
+						<b>No hay más noticias que cargar.</b>
+					</p>
+				}
+			>
+				{list.map((newsData, i)=>{
+					return <Noticia key={i} news={newsData} />
+				})}
+			</InfiniteScroll>
+		) : (
+			<React.Fragment>
+				<SkeletonNoticia />
+				{noData && (
+					<p style={{ textAlign: 'center' }}>
+						<b>No hay anuncios publicados.</b>
+					</p>
+				)}
+			</React.Fragment>
+		)}
 		</article>
 	);
 }
 
 export function SkeletonNoticia() {
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? '#3b4e77' : '#7c9fe8';
+	
 	return (
-		<Paper variant="outlined">
-			<section className="Noticia">
-				<div className="NHead box">
-					<Skeleton variant="circle" className="NHeadImg" />
-					<Skeleton variant="text" className="NHeadName" width={150} />
-					<Skeleton variant="text" className="NHeadName" width={35} />
-				</div>
-				<hr />
-				<div className="NContent">
-					<Skeleton variant="text" className="NContentTitle" width={200} />
-					<p className="NContentP">
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-						<Skeleton variant="text" width="100%" />
-					</p>
-				</div>
-				<ImagenVisor options="loading" />
-			</section>
-		</Paper>
+		<Card style={{marginBottom: '15px'}}>
+			<CardHeader
+				style={{backgroundColor: darkModeColor}}
+				avatar={
+					<Tooltip title="Usuario" arrow>
+						<Avatar aria-label="recipe" style={{ backgroundColor: '#B46BD6' }} />
+					</Tooltip>
+				}
+				title={
+					<Skeleton variant="text" width='100%' />
+				}
+				subheader={
+					<Skeleton variant="text" width='70%' />
+				}
+			/>
+			<CardContent>
+				<Skeleton variant="text" width="100%" />
+				<Skeleton variant="text" width="100%" />
+				<Skeleton variant="text" width="100%" />
+				<Skeleton variant="text" width="100%" />
+			</CardContent>
+			<ImagenVisor options="loading" />
+		</Card>
 	);
 }
 
-export function Noticia(props) {
-	const recorrerList = props.options.map(news => {
-		//Datos
-		let name;
-		let avatar;
-		if (news.privilegio === 'A-') {
-			name = news.nameA;
-			avatar = news.avatarA;
-		} else {
-			name = news.nameC;
-			avatar = news.avatarC;
-		}
+export function Noticia({ news }) {
+	const [expand, setExpand] = useState(false);
 
-		function createMarkup() {
-			return { __html: news.content };
-		}
+	//Datos
+	let name;
+	let avatar;
+	if (news.privilegio === 'A-') {
+		name = news.nameA;
+		avatar = news.avatarA;
+	} else {
+		name = news.nameC;
+		avatar = news.avatarC;
+	}
 
-		return (
-			<Paper className="box" variant="outlined" key={news.id}>
-				<section className="Noticia">
-					<div className="NHead">
-						<Avatar
+	function createMarkup() {
+		return { __html: news.content };
+	}
+
+	const theme = useTheme();
+	
+	let darkModeColor = theme.palette.type === 'dark' ? '#3b4e77' : '#7c9fe8';
+	
+	return (
+		<Card style={{marginBottom: '15px'}}>
+			<CardHeader
+				style={{backgroundColor: darkModeColor}}
+				avatar={
+					<Tooltip title={name} arrow>
+						<Avatar 
 							src={avatar}
 							alt="Usuario"
-							className="NHeadImg"
+							aria-label="recipe"
 							style={{ backgroundColor: '#B46BD6' }}
 						>
-							{/*Mostrar el nombre del usuario en caso de que no tenga 
-								una foto*/}
 							{name.substring(0, 1).toUpperCase()}
 						</Avatar>
-						<span className="NHeadName">{name}</span>
-						<small>
-							<i>#{news.id}</i>
-						</small>
-					</div>
-					<hr />
-					<div className="NContent">
-						<span className="NContentTitle">{news.title}</span>
-						<p className="NContentP" dangerouslySetInnerHTML={createMarkup()} />
-					</div>
-					<ImagenVisor options={JSON.parse(news.imgList)} />
-					<ArchiveVisor options={JSON.parse(news.archivesList)} />
-					<i className="NFecha">Publicado {news.fecha}</i>
-				</section>
-			</Paper>
-		);
-	});
+					</Tooltip>
+				}
+				title={news.title}
+				subheader={'Publicado ' + news.fecha}
+			/>
+			<CardContent>
+				<p dangerouslySetInnerHTML={createMarkup()} />
+			</CardContent>
 
-	return recorrerList;
+			<ImagenVisor options={JSON.parse(news.imgList)} />
+
+			<CardActions disableSpacing>
+				{news.archivesList && 
+					<Button size='small' color="primary" onClick={()=>{
+							setExpand(!expand);
+						}}
+					>
+						Ver Archivos ({JSON.parse(news.archivesList).length})
+					</Button>
+				}
+			</CardActions>
+			<Collapse in={expand} timeout="auto" unmountOnExit>
+				<ArchiveVisor options={JSON.parse(news.archivesList)} />
+			</Collapse>
+			<span className='NoticiaBox__Id'>#{news.id}</span>
+		</Card>
+	);
 }
 
 const mapStateToProps = state => ({

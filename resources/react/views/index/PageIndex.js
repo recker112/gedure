@@ -12,19 +12,17 @@ function PageIndex({ auth, reloginSuccess }) {
 	//Regresar contenido del login
 	return (
 		<VerifyRelogin>
-			<div className="BoxPageIndex">
-				<main>
-					<Zoom in={true} timeout={600}>
-						<div className="HeadMain">
-							<span className="IconBoxIndex">
-								<LockIcon style={{ fontSize: 40 }} />
-							</span>
-							<h1 className="TitleIndex">La Candelaria</h1>
-						</div>
-					</Zoom>
-					<Form />
-				</main>
-			</div>
+			<main class="Container">
+				<Zoom in={true} timeout={600}>
+					<div className="HeadBox">
+						<span className="HeadBox__Icon">
+							<LockIcon style={{ fontSize: 40 }} />
+						</span>
+						<h1 className="HeadBox__Title">La Candelaria</h1>
+					</div>
+				</Zoom>
+				<Form />
+			</main>
 		</VerifyRelogin>
 	);
 }

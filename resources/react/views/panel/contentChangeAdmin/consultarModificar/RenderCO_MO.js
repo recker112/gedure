@@ -31,8 +31,8 @@ function RenderCO_MO({ updateValue }) {
       </Grid>
       <Grid item xs={12} sm={10}>
         <Paper className='Box' variant="outlined">
-          <span className="title">Modificar</span>
-          <div className="content">
+          <span className="Box__Title">Modificar</span>
+          <div className="Box__Content">
             <ModifyForm />
           </div>
         </Paper>

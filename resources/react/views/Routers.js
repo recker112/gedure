@@ -14,6 +14,7 @@ import ReactLoading from 'react-loading';
 const PageIndex = lazy(() => import(/* webpackChunkName: "Index" */ './index/PageIndex'));
 const PageNews = lazy(() => import(/* webpackChunkName: "News" */ './news/PageNews'));
 const PagePanel = lazy(() => import(/* webpackChunkName: "Panel" */ './panel/PagePanel'));
+const PageAccount = lazy(() => import(/* webpackChunkName: "Account" */ './account/PageAccount'));
 
 function Routers({ auth }) {
 	let query = useQuery();
@@ -37,6 +38,10 @@ function Routers({ auth }) {
 				
 				<ProtectRoute auth={auth} path="/panel">
 					<PagePanel />
+				</ProtectRoute>
+				
+				<ProtectRoute auth={auth} path="/account">
+					<PageAccount />
 				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>
