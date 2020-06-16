@@ -75,14 +75,15 @@ class AvatarController extends Controller
 		$modelo = new UploadController;
 		$verifyMIME = $modelo->verifyMime($mimeType, [
 			'image/png',
-			'image/jpeg'
+			'image/jpeg',
+			'image/gif'
 		]);
 		
 		if (!$verifyMIME) {
 			return response()->json([
 				'code' => 422,
 				'msg'    => 'image_mime',
-				'description' => 'Solo se aceptan imagenes .png/.jpg/.jpeg'
+				'description' => 'Solo se aceptan imagenes .png/.jpg/.jpeg/.gif'
 			], 422);
 		}
 		
