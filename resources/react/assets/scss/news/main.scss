@@ -49,6 +49,35 @@
 	cursor: pointer;
 }
 
+/* Anuncios */
+.Anuncio {
+	min-height: 250px;
+	padding: 15px 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+.Anuncio__Title {
+	font-size: 18px;
+}
+
+.Anuncio__Content {
+	text-align: justify;
+	width: 100%;
+	flex: 1;
+}
+
+.Anuncio__Footer {
+	font-style: italic;
+	display: flex;
+	justify-content: center;
+}
+
+.Anuncio__Id {
+	text-align: right;
+	width: 100%;
+}
+
 /* Visor Img React */
 .VisorImgReactComponent {
 	position: fixed;

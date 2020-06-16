@@ -11,8 +11,8 @@ import { updateNewsAnuncios } from '../../actions/news/updateNews';
 //SnackBar
 import { useSnackbar } from 'notistack';
 
-//ScrollInfinitoBOY
-import InfiniteScroll from 'react-infinite-scroll-component';
+//Carousel
+import Carousel from 'react-material-ui-carousel';
 
 function ListAnuncios({ list, updateNewsAnuncios }) {
 	//Crear un SnackBar
@@ -89,34 +89,21 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	);
 
 	return (
-		<aside id="test" className="BoxAnuncios">
-			<Paper variant="outlined" className="PaperMargin">
-				<div className="AHead">
-					<span>Anuncios</span>
-				</div>
-			</Paper>
+		<aside style={{marginBottom: '15px'}}>
 			{list.length !== 0 ? (
-				<InfiniteScroll
-					dataLength={list.length}
-					hasMore={!hasFinish}
-					next={getMore}
-					scrollThreshold={0.2}
-					loader={<SkeletonAnuncio />}
-					endMessage={
-						<p style={{ textAlign: 'center' }}>
-							<b>No hay más anuncios que cargar.</b>
-						</p>
-					}
-				>
-					<Anuncio option={list} />
-				</InfiniteScroll>
+					<Carousel autoPlay={false}>
+						{list.map((data)=> <Anuncio anuncio={data} />)}
+					</Carousel>
 			) : (
-				<React.Fragment>
-					<SkeletonAnuncio />
-					{noData && <p style={{ textAlign: 'center' }}>
-							<b>No hay anuncios publicados.</b>
-						</p>}
-				</React.Fragment>
+				<Carousel>
+					{noData ? (
+						<div style={{width: '100%', height: '250px'}}>
+							No hay anuncios publicados...
+						</div>
+					) : (
+						<SkeletonAnuncio />
+					)}
+				</Carousel>
 			)}
 		</aside>
 	);
@@ -126,56 +113,50 @@ export function SkeletonAnuncio() {
 	return (
 		<Paper variant="outlined">
 			<section className="Anuncio">
-				<Skeleton variant="text" className="ATitle" width={200} />
-				<p className="AContent">
+				<Skeleton variant="text" className="Anuncio__Title" width={200} />
+				<p className="Anuncio__Content">
 					<Skeleton variant="text" width="100%" />
 					<Skeleton variant="text" width="100%" />
 					<Skeleton variant="text" width="100%" />
 					<Skeleton variant="text" width="100%" />
 				</p>
-				<hr />
-				<footer>
+				<hr style={{width: '100%'}} />
+				<footer className="Anuncio__Footer">
 					<Skeleton variant="text" width={150} />
 				</footer>
-				<div className="AId">
-					
-				</div>
 			</section>
 		</Paper>
 	);
 }
 
-export function Anuncio(props) {
-	const recorrerLista = props.option.map((anuncio) => {
-		let name;
-		if (anuncio.privilegio === 'A-') {
-			name = anuncio.nameA;
-		} else {
-			name = anuncio.nameC;
-		}
-		
-		function createMarkup() {
-			return {__html: anuncio.content};
-		}
-		
-		return (
-			<Paper variant="outlined" key={anuncio.id} className="AnuncioPaper">
-				<section className="Anuncio">
-					<span className="ATitle">{anuncio.title}</span>
-					<p className="AContent" dangerouslySetInnerHTML={createMarkup()}
-					/>
-					<hr />
-					<footer>
-						Escrito por {name} {anuncio.fecha}
-					</footer>
-					<div className="AId">
-						<small><i>#{anuncio.id}</i></small>
-					</div>
-				</section>
-			</Paper>
-		);
-	});
-	return recorrerLista;
+export function Anuncio({ anuncio }) {
+	let name;
+	if (anuncio.privilegio === 'A-') {
+		name = anuncio.nameA;
+	} else {
+		name = anuncio.nameC;
+	}
+
+	function createMarkup() {
+		return {__html: anuncio.content};
+	}
+
+	return (
+		<Paper variant="outlined" key={anuncio.id}>
+			<section className="Anuncio">
+				<span className="Anuncio__Title">{anuncio.title}</span>
+				<p className="Anuncio__Content" dangerouslySetInnerHTML={createMarkup()}
+				/>
+				<hr style={{width: '100%'}} />
+				<footer className="Anuncio__Footer">
+					Escrito por {name} {anuncio.fecha}
+				</footer>
+				<div className="Anuncio__Id">
+					<small><i>#{anuncio.id}</i></small>
+				</div>
+			</section>
+		</Paper>
+	);
 }
 
 //REDUX

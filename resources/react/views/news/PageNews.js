@@ -6,9 +6,8 @@ import { Hidden } from "@material-ui/core";
 import { Skeleton } from '@material-ui/lab';
 
 //Componentes
-import SwitchButton from "./SwitchButton";
-import ShowComponentResponsive from "./ShowComponentResponsive";
 import ListNoticias from "./ListNoticias";
+import ListAnuncios from './ListAnuncios';
 
 function PageNews() {
 	//Titulo
@@ -16,8 +15,7 @@ function PageNews() {
 	
   return (
 		<main className='Container Container--News'>
-			<Skeleton width="100%" variant="rect" height="250px" 
-				style={{marginBottom: '15px'}} />
+			<ListAnuncios />
 			<ListNoticias />
 		</main>
 	);

@@ -4,12 +4,6 @@ object-assign
 @license MIT
 */
 
-/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-
 /**
  * A better abstraction over CSS.
  *
@@ -65,7 +59,7 @@ object-assign
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.16.1
+ * @version 1.16.1-lts
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
