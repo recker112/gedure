@@ -62,7 +62,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 			}
 		} catch (error) {
 			if (!axios.isCancel(error)) {
-				enqueueSnackbar('No se han podido obtener los anuncios', {
+				enqueueSnackbar('No se han podido obtener las noticias', {
 					variant: 'error'
 				});
 			}

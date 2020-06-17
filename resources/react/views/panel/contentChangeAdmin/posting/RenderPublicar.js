@@ -190,32 +190,30 @@ function RenderPublicar({ data, updateValue, errorInfo, updateLoading }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper variant="outlined">
+				<Paper>
 					<SelectorPublicar action={handleChange} value={option} />
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={10}>
-				<Paper variant="outlined">
-					<div className="Box">
-						<div className="Box__Content">
-							<form
-								autoComplete="off"
-								onSubmit={handleSubmit}
-								method="POST"
-								style={{ marginTop: '0' }}
-							>
-								<RenderForm 
-									handleChange={handleChange} 
-									error={error}
-									values={{ title, content, img }}
-									loading={loading}
-									updateValue={updateValue}
-									option={option}
-									contentMaxLength={contentMaxLength}
-									progress={progress}
-								/>
-							</form>
-						</div>
+				<Paper className="Box">
+					<div className="Box__Content">
+						<form
+							autoComplete="off"
+							onSubmit={handleSubmit}
+							method="POST"
+							style={{ marginTop: '0' }}
+						>
+							<RenderForm 
+								handleChange={handleChange} 
+								error={error}
+								values={{ title, content, img }}
+								loading={loading}
+								updateValue={updateValue}
+								option={option}
+								contentMaxLength={contentMaxLength}
+								progress={progress}
+							/>
+						</form>
 					</div>
 				</Paper>
 			</Grid>

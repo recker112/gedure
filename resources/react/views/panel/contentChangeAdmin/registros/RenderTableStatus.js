@@ -20,7 +20,6 @@ function RenderTableError() {
 				maxHeight: '450px',
 				overflow: 'auto'
 			}}
-			variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>
@@ -50,7 +49,6 @@ export function RenderTableSearch() {
 				maxHeight: '450px',
 				overflow: 'auto'
 			}}
-			variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>

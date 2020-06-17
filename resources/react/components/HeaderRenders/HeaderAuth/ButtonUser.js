@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 
 //Material-UI
-import { IconButton, MenuItem, Menu, Avatar, Tooltip } from '@material-ui/core';
+import { 
+	IconButton, 
+	MenuItem,
+	MenuList,
+	Popover, 
+	Paper, 
+	Avatar, 
+	Tooltip 
+} from '@material-ui/core';
 
 //Redux
 import { connect } from 'react-redux';
@@ -131,7 +139,7 @@ function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
 	/* Recordar que el archoEl es simplemente el item en el cual
     se posicionará el menú. */
 	return (
-		<Menu
+		<Popover
 			id="ButtonUser"
 			anchorEl={buttonItem}
 			keepMounted
@@ -139,43 +147,47 @@ function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
 			onClose={handleClose}
 			anchorOrigin={{
 				vertical: 'bottom',
-				horizontal: 'left',
+				horizontal: 'right',
 			}}
 			transformOrigin={{
 				vertical: 'top',
 				horizontal: 'right',
 			}}
 		>
-			{//Verificar configuraciones.
-			configMenu.map((menu, i) => {
-				if (menu.access === 'all') {
-					//Verificar si todos pueden acceder.
-					return (
-						<MenuItem key={i} data-option={menu.option} onClick={handleSelected}>
-							{menu.text}
-						</MenuItem>
-					);
-				} else {
-					//Verificar si solo algunos rangos puden acceder.
-					return menu.access.map((access, i) => {
-						//Verificar el privilegio actual con los solicitados.
-						if (access === privilegio) {
+			<Paper>
+				<MenuList>
+					{//Verificar configuraciones.
+					configMenu.map((menu, i) => {
+						if (menu.access === 'all') {
+							//Verificar si todos pueden acceder.
 							return (
-								<MenuItem 
-									key={`Access${i}`} 
-									data-option={menu.option} 
-									onClick={handleSelected}
-								>
+								<MenuItem key={i} data-option={menu.option} onClick={handleSelected}>
 									{menu.text}
 								</MenuItem>
 							);
 						} else {
-							return null;
+							//Verificar si solo algunos rangos puden acceder.
+							return menu.access.map((access, i) => {
+								//Verificar el privilegio actual con los solicitados.
+								if (access === privilegio) {
+									return (
+										<MenuItem 
+											key={`Access${i}`} 
+											data-option={menu.option} 
+											onClick={handleSelected}
+										>
+											{menu.text}
+										</MenuItem>
+									);
+								} else {
+									return null;
+								}
+							});
 						}
-					});
-				}
-			})}
-		</Menu>
+					})}
+				</MenuList>
+			</Paper>
+		</Popover>
 	);
 }
 

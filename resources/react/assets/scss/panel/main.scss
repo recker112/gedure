@@ -1,8 +1,3 @@
-/* Container */
-.Container--Panel {
-	margin: 10px;
-}
-
 /* BOX */
 .Box {
 	padding: 20px;
@@ -62,7 +57,8 @@
   }
 }
 
-.SearchSeccion {
-  display: flex;
-  justify-content: space-between
+.SearchUsersInput {
+	width: 100%;
+	display: flex;
+  justify-content: space-between;
 }

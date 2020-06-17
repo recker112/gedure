@@ -28,7 +28,6 @@ function RenderTableOk({ dataTable }) {
 				maxHeight: '450px',
 				overflow: 'auto'
 			}}
-			variant="outlined"
 		>
 			<Table aria-label="Tabla de Registros" size="small">
 				<TableHead>

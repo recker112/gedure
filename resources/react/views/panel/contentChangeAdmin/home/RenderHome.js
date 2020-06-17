@@ -39,7 +39,7 @@ function RenderHome({ data }) {
 			{privilegio !== 'V-' && <RenderAnnounceBox privilegio={privilegio} />}
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Paper variant="outlined" className="Box Box--Welcome">
+					<Paper className="Box Box--Welcome">
 						<span className="Box__Title">Bienvenidos</span>
 						<div className="Box__Content">
 							{privilegio === 'A-' && textIntroAdmin}
@@ -86,7 +86,9 @@ function RenderAnnounceBox({ privilegio }) {
 					});
 
 					//Actualizar datos
-					setQuery(res.data);
+					if (typeof res.data === 'object' ) {
+						setQuery(res.data);
+					}
 				} catch (error) {
 					if (axios.isCancel(error)) {
 						//Mensaje al cancelar peticion

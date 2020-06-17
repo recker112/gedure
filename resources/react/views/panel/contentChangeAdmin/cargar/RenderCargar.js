@@ -258,12 +258,12 @@ function RenderCargar({ data, updateValue, errorInfo, updateLoading }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper variant="outlined">
+				<Paper>
 					<UploadSelectBox upload={option} action={handleChange} />
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={10}>
-				<Paper variant="outlined">
+				<Paper>
 					<div className="Box">
 						<div className="content">
 							<form

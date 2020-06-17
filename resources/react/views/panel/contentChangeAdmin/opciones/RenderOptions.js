@@ -172,85 +172,83 @@ function RenderOptions({ data, updateValue, errorInfo, updateLoading }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={4}>
-				<Paper variant="outlined">
+				<Paper>
 					<SelectFromOptions action={handleChange} value={option} />
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={10}>
-				<Paper variant="outlined">
-					<div className="Box">
-						<div className="Box__Content">
-							<form
-								autoComplete="off"
-								onSubmit={handleSubmit}
-								method="POST"
-								style={{ marginTop: '0' }}
-							>
-								<Grid container spacing={2} justify="center">
-									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<RenderRadios 
-											val={nota} 
-											accion={handleChange} 
-											data={notaRadio} 
-										/>
-									</Grid>
-									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<RenderRadios 
-											val={horario} 
-											accion={handleChange} 
-											data={horarioRadio}
-										/>
-									</Grid>
-									{option === 'estudiante' && (
-										<Grid 
-											item 
-											xs={12} 
-											sm={6} 
-											md={4} 
-											style={{ textAlign: 'center' }}
-										>
-											<RenderInputs
-												data={{ 
-													val: estudiante,
-													name: 'estudiante',
-													label: 'Estudiante' 
-												}}
-												accion={handleChange}
-												error={error.estudiante}
-											/>
-										</Grid>
-									)}
-									{option === 'seccion' && (
-										<Grid item xs={5} sm={4} md={3}>
-											<RenderSelect
-												action={handleChange}
-												val={curso}
-												data={cursoSelect}
-												error={error.curso}
-											/>
-										</Grid>
-									)}
-									{option === 'seccion' && (
-										<Grid item xs={5} sm={4} md={3}>
-											<RenderSelect
-												action={handleChange}
-												val={seccion}
-												data={seccionSelect}
-												error={error.seccion}
-											/>
-										</Grid>
-									)}
-									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<ButtonLoading
-											estilo="outlined"
-											colorsito="inherit"
-											text="Cambiar"
-											loading={loading}
-										/>
-									</Grid>
+				<Paper className="Box">
+					<div className="Box__Content">
+						<form
+							autoComplete="off"
+							onSubmit={handleSubmit}
+							method="POST"
+							style={{ marginTop: '0' }}
+						>
+							<Grid container spacing={2} justify="center">
+								<Grid item xs={12} style={{ textAlign: 'center' }}>
+									<RenderRadios 
+										val={nota} 
+										accion={handleChange} 
+										data={notaRadio} 
+									/>
 								</Grid>
-							</form>
-						</div>
+								<Grid item xs={12} style={{ textAlign: 'center' }}>
+									<RenderRadios 
+										val={horario} 
+										accion={handleChange} 
+										data={horarioRadio}
+									/>
+								</Grid>
+								{option === 'estudiante' && (
+									<Grid 
+										item 
+										xs={12} 
+										sm={6} 
+										md={4} 
+										style={{ textAlign: 'center' }}
+									>
+										<RenderInputs
+											data={{ 
+												val: estudiante,
+												name: 'estudiante',
+												label: 'Estudiante' 
+											}}
+											accion={handleChange}
+											error={error.estudiante}
+										/>
+									</Grid>
+								)}
+								{option === 'seccion' && (
+									<Grid item xs={5} sm={4} md={3}>
+										<RenderSelect
+											action={handleChange}
+											val={curso}
+											data={cursoSelect}
+											error={error.curso}
+										/>
+									</Grid>
+								)}
+								{option === 'seccion' && (
+									<Grid item xs={5} sm={4} md={3}>
+										<RenderSelect
+											action={handleChange}
+											val={seccion}
+											data={seccionSelect}
+											error={error.seccion}
+										/>
+									</Grid>
+								)}
+								<Grid item xs={12} style={{ textAlign: 'center' }}>
+									<ButtonLoading
+										estilo="outlined"
+										colorsito="inherit"
+										text="Cambiar"
+										loading={loading}
+									/>
+								</Grid>
+							</Grid>
+						</form>
 					</div>
 				</Paper>
 			</Grid>
