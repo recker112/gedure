@@ -91,11 +91,11 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	return (
 		<aside style={{marginBottom: '15px'}}>
 			{list.length !== 0 ? (
-					<Carousel autoPlay={false}>
+					<Carousel autoPlay={false} startAt={0}>
 						{list.map((data)=> <Anuncio anuncio={data} />)}
 					</Carousel>
 			) : (
-				<Carousel>
+				<React.Fragment>
 					{noData ? (
 						<div style={{width: '100%', height: '250px'}}>
 							No hay anuncios publicados...
@@ -103,7 +103,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 					) : (
 						<SkeletonAnuncio />
 					)}
-				</Carousel>
+				</React.Fragment>
 			)}
 		</aside>
 	);
@@ -145,7 +145,9 @@ export function Anuncio({ anuncio }) {
 		<Paper variant="outlined" key={anuncio.id}>
 			<section className="Anuncio">
 				<span className="Anuncio__Title">{anuncio.title}</span>
-				<p className="Anuncio__Content" dangerouslySetInnerHTML={createMarkup()}
+				<p 
+					className='Anuncio__Content'
+					dangerouslySetInnerHTML={createMarkup()}
 				/>
 				<hr style={{width: '100%'}} />
 				<footer className="Anuncio__Footer">

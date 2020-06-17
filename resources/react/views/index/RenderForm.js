@@ -6,7 +6,6 @@ import { Grow, FormControlLabel, Checkbox } from '@material-ui/core';
 
 //Componentes
 import ButtonLoading from '../../components/ButtonLoading';
-import ShowInfoVersion from '../../components/ShowInfoVersion';
 
 //Redux
 import { connect } from 'react-redux';
@@ -60,7 +59,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 				<div className="LoginForm__Copyright">
 					<span>&copy; UEP APEP "La Candelaria" - 2020</span>
 					<span>Desarollado por Recker</span>
-					<ShowInfoVersion />
+					<span>v4.1.0</span>
 				</div>
 			</form>
 		</Grow>

@@ -67,6 +67,11 @@
 	flex: 1;
 }
 
+.Anuncio__Content--OverFlow {
+	max-height: 400px;
+	overflow: hidden;
+}
+
 .Anuncio__Footer {
 	font-style: italic;
 	display: flex;
