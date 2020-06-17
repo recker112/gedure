@@ -16,7 +16,7 @@ function RenderCO_MO({ updateValue }) {
   return (
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={6}>
-        <Paper variant="outlined">
+        <Paper>
           <SearchUsers
 						apiUrl="api/user/"
 						updateData={updateValue}
@@ -25,12 +25,12 @@ function RenderCO_MO({ updateValue }) {
         </Paper>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Paper variant="outlined">
+        <Paper>
           <SearchSeccion />
         </Paper>
       </Grid>
       <Grid item xs={12} sm={10}>
-        <Paper className='Box' variant="outlined">
+        <Paper className='Box'>
           <span className="Box__Title">Modificar</span>
           <div className="Box__Content">
             <ModifyForm />

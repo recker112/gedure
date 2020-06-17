@@ -99,7 +99,7 @@ function RenderRegistros({ dataLog, updateValue, updateLoading }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper variant="outlined">
+				<Paper>
 					<SelectorRegistrosDisplay />
 				</Paper>
 			</Grid>

@@ -14,7 +14,7 @@ function PageNews() {
 	document.title = "La Candelaria - News";
 	
   return (
-		<main className='Container Container--News'>
+		<main className='Container'>
 			<ListAnuncios />
 			<ListNoticias />
 		</main>

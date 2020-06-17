@@ -15,9 +15,11 @@ export default function PageAccount() {
 		<React.Fragment>
 			<main class='Container Container--Panel'>
 				<Grid container spacing={2}>
-					<Paper className='Box'>
-						Hola
-					</Paper>
+					<Grid item xs={12}>
+						<Paper className='Box'>
+							Hola
+						</Paper>
+					</Grid>
 				</Grid>
 			</main>
 			<ShowInfoContent 

@@ -93,27 +93,25 @@ function RenderContent({ query, setQuery }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper variant="outlined">
-					<div className="Box">
-						<span className="Box__Title">{text}</span>
-						<div className="Box__Content">
-							<Grid Container spacing={2} justify="center">
-								{query && (
-									<Grid item xs={12} style={{textAlign: 'center'}}>
-										<Button 
-											variant='outlined' 
-											color='inherit' 
-											onClick={() => {
-												setQuery(false);
-											}}
-											style={{marginTop: '20px'}}
-										>
-											Reintentar
-										</Button>
-									</Grid>
-								)}
-							</Grid>
-						</div>
+				<Paper className="Box">
+					<span className="Box__Title">{text}</span>
+					<div className="Box__Content">
+						<Grid Container spacing={2} justify="center">
+							{query && (
+								<Grid item xs={12} style={{textAlign: 'center'}}>
+									<Button 
+										variant='outlined' 
+										color='inherit' 
+										onClick={() => {
+											setQuery(false);
+										}}
+										style={{marginTop: '20px'}}
+									>
+										Reintentar
+									</Button>
+								</Grid>
+							)}
+						</Grid>
 					</div>
 				</Paper>
 			</Grid>

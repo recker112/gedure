@@ -1,5 +1,6 @@
 /* Container */
 .Container {
+	padding: 0px 24px;
 	margin: auto;
   margin-top: 80px !important;
 	max-width: 1250px;
@@ -33,6 +34,7 @@
 
 .Header__Button {
 	margin-left: 10px;
+	display: inline-block;
 }
 
 /* Drawer */

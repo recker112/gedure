@@ -151,8 +151,10 @@ function SearchUsers({ apiUrl, updateData, updateDataOption }) {
 				}}
 				//Renderizar texto en la caja del autocompletado.
 				renderOption={option => (
-					<div className="searchBoxInfo">
-						<span>{option.privilegio + option.cedula}</span>
+					<div className="SearchUsersInput">
+						<span>
+							{option.privilegio + option.cedula}
+						</span>
 						<span>{option.name}</span>
 					</div>
 				)}

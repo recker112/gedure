@@ -116,39 +116,37 @@ function RenderPublicar({ data, updateValue, updateLoading }) {
 	return (
 		<Grid container spacing={2} justify="center">
 			<Grid item xs={12} sm={5} md={3}>
-				<Paper variant="outlined">
+				<Paper>
 					<SelectorDelPublicar action={handleChange} value={option} />
 				</Paper>
 			</Grid>
 			<Grid item xs={12} sm={10}>
-				<Paper variant="outlined">
-					<div className="Box">
-						<div className="Box__Content">
-							<form 
-								autoComplete="off"
-								onSubmit={handleSubmit}
-								style={{ marginTop: '0' }}
-							>
-								<Grid container spacing={2} justify="center">
-									<Grid item xs={12}>
-										<SearchPost 
-											option={option} 
-											enqueueSnackbar={enqueueSnackbar} 
-											handleChange={handleChange}
-											value={id}
-										/>
-									</Grid>
-									<Grid item xs={12} style={{ textAlign: 'center' }}>
-										<ButtonLoading 
-											estilo="outlined" 
-											colorsito="inherit" 
-											text="Eliminar" 
-											loading={loading}
-										/>
-									</Grid>
+				<Paper className="Box">
+					<div className="Box__Content">
+						<form 
+							autoComplete="off"
+							onSubmit={handleSubmit}
+							style={{ marginTop: '0' }}
+						>
+							<Grid container spacing={2} justify="center">
+								<Grid item xs={12}>
+									<SearchPost 
+										option={option} 
+										enqueueSnackbar={enqueueSnackbar} 
+										handleChange={handleChange}
+										value={id}
+									/>
 								</Grid>
-							</form>
-						</div>
+								<Grid item xs={12} style={{ textAlign: 'center' }}>
+									<ButtonLoading 
+										estilo="outlined" 
+										colorsito="inherit" 
+										text="Eliminar" 
+										loading={loading}
+									/>
+								</Grid>
+							</Grid>
+						</form>
 					</div>
 				</Paper>
 			</Grid>
