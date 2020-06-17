@@ -88,7 +88,7 @@ function App({ tema, access_key }) {
 				//Botones con acciones.
 				action={key => (
 					<IconButton size="small" onClick={onClickDismiss(key)}>
-						<CloseIcon style={{ color: tema === 'light' ? 'white' : 'black' }} />
+						<CloseIcon style={{ color: 'white' }} />
 					</IconButton>
 				)}
 				anchorOrigin={{

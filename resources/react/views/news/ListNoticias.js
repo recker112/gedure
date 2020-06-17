@@ -172,6 +172,7 @@ export function SkeletonNoticia() {
 
 export function Noticia({ news }) {
 	const [expand, setExpand] = useState(false);
+	const [overFlowText, setOverFlow] = useState(false);
 
 	//Datos
 	let name;
@@ -187,6 +188,17 @@ export function Noticia({ news }) {
 	function createMarkup() {
 		return { __html: news.content };
 	}
+	
+	const verifyHeight = (element) => {
+		if (element && !overFlowText && overFlowText!== null) {
+			const height = element.clientHeight;
+			if (height > 400) {
+				setOverFlow(true);
+			}
+		}
+	}
+	
+	let overFlowClass =  overFlowText ? 'Anuncio__Content--OverFlow' : '';
 
 	const theme = useTheme();
 	
@@ -212,21 +224,35 @@ export function Noticia({ news }) {
 				subheader={'Publicado ' + news.fecha}
 			/>
 			<CardContent>
-				<p dangerouslySetInnerHTML={createMarkup()} />
+				<p 
+					ref={(el)=>{
+						verifyHeight(el);
+					}}
+					className={`Anuncio__Content ${overFlowClass}`} 
+					dangerouslySetInnerHTML={createMarkup()}
+				>
+				</p>
+				{overFlowText &&
+					<Button size='small' color="secondary" onClick={()=>{
+							setOverFlow(null);
+						}}>
+						Ver publicación completa
+					</Button>
+				}
 			</CardContent>
 
 			<ImagenVisor options={JSON.parse(news.imgList)} />
 
-			<CardActions disableSpacing>
-				{news.archivesList && 
+			{news.archivesList && 
+				<CardActions disableSpacing>
 					<Button size='small' color="primary" onClick={()=>{
 							setExpand(!expand);
 						}}
 					>
 						Ver Archivos ({JSON.parse(news.archivesList).length})
 					</Button>
-				}
-			</CardActions>
+				</CardActions>
+			}
 			<Collapse in={expand} timeout="auto" unmountOnExit>
 				<ArchiveVisor options={JSON.parse(news.archivesList)} />
 			</Collapse>

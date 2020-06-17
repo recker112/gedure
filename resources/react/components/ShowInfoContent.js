@@ -40,7 +40,6 @@ function ShowInfoContent({
 		let foundInList = false;
 		dataContent.map((object) => {
 			if (url === object.path) {
-				console.log("SI");
 				object.only.map((onlyPrivilegio) => {
 					if (onlyPrivilegio === privilegio) {
 						foundInList = true;
