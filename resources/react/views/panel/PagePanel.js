@@ -11,7 +11,7 @@ export default function RenderPanel() {
 	
 	return (
 		<React.Fragment>
-			<main class='Container'>
+			<main className='Container'>
 				<PanelRouters />
 			</main>
 			<ShowInfoContent 

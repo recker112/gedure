@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/chuncks/" + ({"Panel":"Panel","vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros":"vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros","Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar":"Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar","Account":"Account","Index":"Index","vendors~DelPublic~Modificar~News":"vendors~DelPublic~Modificar~News","vendors~News":"vendors~News","News":"News","Borrar":"Borrar","Cargar":"Cargar","Opciones":"Opciones","Publicar":"Publicar","Home":"Home","Registros":"Registros","DelPublic":"DelPublic","Modificar":"Modificar"}[chunkId]||chunkId) + "." + {"Panel":"0e3d663f3b8cefbcad4f","vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros":"18498fa5249df6706c1e","Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar":"615127052ef3065c31c5","Account":"7ca48efd3681f55fec6c","Index":"810679ebd1213ea802ba","vendors~DelPublic~Modificar~News":"43b379bd9843932043ab","vendors~News":"970447a9895d6193e69f","News":"972338fdee2d55573c7a","Borrar":"12a85124264e259a1a1b","Cargar":"c68a12c76610386da8a0","Opciones":"5ee77c9496c39d888f7c","Publicar":"8b3381dda697d27ce68f","Home":"6e76edd881b28aa36fe1","Registros":"1b0c28d828e8c7202e19","DelPublic":"b108877cabd431766a83","Modificar":"eae13193284be72d4520"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/chuncks/" + ({"Panel":"Panel","vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros":"vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros","Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar":"Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar","Account":"Account","Index":"Index","vendors~DelPublic~Modificar~News":"vendors~DelPublic~Modificar~News","vendors~News":"vendors~News","News":"News","Borrar":"Borrar","Cargar":"Cargar","Opciones":"Opciones","Publicar":"Publicar","Home":"Home","Registros":"Registros","DelPublic":"DelPublic","Modificar":"Modificar"}[chunkId]||chunkId) + "." + {"Panel":"9f77c80a5a0dc2bf53f2","vendors~Account~Borrar~Cargar~DelPublic~Home~Index~Modificar~News~Opciones~Publicar~Registros":"18498fa5249df6706c1e","Account~Borrar~Cargar~DelPublic~Index~Modificar~Opciones~Publicar":"615127052ef3065c31c5","Account":"1c01105c1886e599246c","Index":"810679ebd1213ea802ba","vendors~DelPublic~Modificar~News":"43b379bd9843932043ab","vendors~News":"970447a9895d6193e69f","News":"972338fdee2d55573c7a","Borrar":"12a85124264e259a1a1b","Cargar":"c68a12c76610386da8a0","Opciones":"5ee77c9496c39d888f7c","Publicar":"8b3381dda697d27ce68f","Home":"6e76edd881b28aa36fe1","Registros":"1b0c28d828e8c7202e19","DelPublic":"b108877cabd431766a83","Modificar":"eae13193284be72d4520"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32563,7 +32563,7 @@ var yellow = {
 /*!*****************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/index.js ***!
   \*****************************************************/
-/*! exports provided: colors, capitalize, createChainedFunction, createSvgIcon, debounce, deprecatedPropType, isMuiElement, ownerDocument, ownerWindow, requirePropFactory, setRef, unsupportedProp, useControlled, useEventCallback, useForkRef, unstable_useId, useIsFocusVisible, AppBar, Avatar, Backdrop, Badge, BottomNavigation, BottomNavigationAction, Box, styleFunction, Breadcrumbs, Button, ButtonBase, ButtonGroup, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Chip, CircularProgress, ClickAwayListener, Collapse, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Drawer, ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, ExpansionPanelSummary, Fab, Fade, FilledInput, FormControl, useFormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, GridList, GridListTile, GridListTileBar, Grow, Hidden, Icon, IconButton, Input, InputAdornment, InputBase, InputLabel, LinearProgress, Link, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, Menu, MenuItem, MenuList, MobileStepper, Modal, ModalManager, NativeSelect, NoSsr, OutlinedInput, Paper, Popover, Popper, Portal, Radio, RadioGroup, useRadioGroup, RootRef, Select, Slide, Slider, Snackbar, SnackbarContent, Step, StepButton, StepConnector, StepContent, StepIcon, StepLabel, Stepper, SvgIcon, SwipeableDrawer, Switch, Tab, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TabScrollButton, TextField, TextareaAutosize, Toolbar, Tooltip, Typography, Unstable_TrapFocus, useMediaQuery, useScrollTrigger, withMobileDialog, withWidth, Zoom, hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, createMuiTheme, unstable_createMuiStrictModeTheme, createStyles, makeStyles, responsiveFontSizes, styled, easing, duration, useTheme, withStyles, withTheme, createGenerateClassName, jssPreset, ServerStyleSheets, StylesProvider, MuiThemeProvider, ThemeProvider, isWidthUp, isWidthDown */
+/*! exports provided: colors, AppBar, Avatar, Backdrop, Badge, BottomNavigation, BottomNavigationAction, Box, Breadcrumbs, Button, ButtonBase, ButtonGroup, Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Chip, CircularProgress, ClickAwayListener, Collapse, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Drawer, ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, ExpansionPanelSummary, Fab, Fade, FilledInput, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, GridList, GridListTile, GridListTileBar, Grow, Hidden, Icon, IconButton, Input, InputAdornment, InputBase, InputLabel, LinearProgress, Link, List, ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText, ListSubheader, Menu, MenuItem, MenuList, MobileStepper, Modal, NativeSelect, NoSsr, OutlinedInput, Paper, Popover, Popper, Portal, Radio, RadioGroup, RootRef, Select, Slide, Slider, Snackbar, SnackbarContent, Step, StepButton, StepConnector, StepContent, StepIcon, StepLabel, Stepper, SvgIcon, SwipeableDrawer, Switch, Tab, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TableSortLabel, Tabs, TabScrollButton, TextField, TextareaAutosize, Toolbar, Tooltip, Typography, Unstable_TrapFocus, useMediaQuery, useScrollTrigger, withMobileDialog, withWidth, Zoom, createMuiTheme, unstable_createMuiStrictModeTheme, createStyles, makeStyles, responsiveFontSizes, styled, useTheme, withStyles, withTheme, createGenerateClassName, jssPreset, ServerStyleSheets, StylesProvider, MuiThemeProvider, ThemeProvider, capitalize, createChainedFunction, createSvgIcon, debounce, deprecatedPropType, isMuiElement, ownerDocument, ownerWindow, requirePropFactory, setRef, unsupportedProp, useControlled, useEventCallback, useForkRef, unstable_useId, useIsFocusVisible, styleFunction, useFormControl, ModalManager, useRadioGroup, hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, easing, duration, isWidthUp, isWidthDown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32571,6 +32571,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./colors */ "./node_modules/@material-ui/core/esm/colors/index.js");
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "colors", function() { return _colors__WEBPACK_IMPORTED_MODULE_0__; });
 /* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles */ "./node_modules/@material-ui/core/esm/styles/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMuiTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createMuiTheme"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable_createMuiStrictModeTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["unstable_createMuiStrictModeTheme"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createStyles"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["makeStyles"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "responsiveFontSizes", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["responsiveFontSizes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "styled", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["styled"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["useTheme"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["withStyles"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["withTheme"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createGenerateClassName", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createGenerateClassName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "jssPreset", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["jssPreset"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServerStyleSheets", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["ServerStyleSheets"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StylesProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["StylesProvider"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MuiThemeProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["MuiThemeProvider"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ThemeProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["ThemeProvider"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hexToRgb", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["hexToRgb"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rgbToHex", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["rgbToHex"]; });
@@ -32593,39 +32623,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "lighten", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["lighten"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createMuiTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createMuiTheme"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable_createMuiStrictModeTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["unstable_createMuiStrictModeTheme"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createStyles"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "makeStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["makeStyles"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "responsiveFontSizes", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["responsiveFontSizes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "styled", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["styled"]; });
-
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "easing", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["easing"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "duration", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["duration"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["useTheme"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withStyles", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["withStyles"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withTheme", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["withTheme"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createGenerateClassName", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["createGenerateClassName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "jssPreset", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["jssPreset"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServerStyleSheets", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["ServerStyleSheets"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StylesProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["StylesProvider"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MuiThemeProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["MuiThemeProvider"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ThemeProvider", function() { return _styles__WEBPACK_IMPORTED_MODULE_1__["ThemeProvider"]; });
 
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./node_modules/@material-ui/core/esm/utils/index.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "capitalize", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["capitalize"]; });
@@ -35163,7 +35163,7 @@ var defaultTheme = Object(_createMuiTheme__WEBPACK_IMPORTED_MODULE_0__["default"
 /*!************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/styles/index.js ***!
   \************************************************************/
-/*! exports provided: hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, createMuiTheme, unstable_createMuiStrictModeTheme, createStyles, makeStyles, responsiveFontSizes, styled, easing, duration, useTheme, withStyles, withTheme, createGenerateClassName, jssPreset, ServerStyleSheets, StylesProvider, MuiThemeProvider, ThemeProvider */
+/*! exports provided: createMuiTheme, unstable_createMuiStrictModeTheme, createStyles, makeStyles, responsiveFontSizes, styled, useTheme, withStyles, withTheme, createGenerateClassName, jssPreset, ServerStyleSheets, StylesProvider, MuiThemeProvider, ThemeProvider, hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, easing, duration */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -39740,7 +39740,7 @@ var grid = Object(_compose__WEBPACK_IMPORTED_MODULE_1__["default"])(gridGap, gri
 /*!*******************************************************!*\
   !*** ./node_modules/@material-ui/system/esm/index.js ***!
   \*******************************************************/
-/*! exports provided: borders, border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius, breakpoints, compose, css, display, flexbox, flexBasis, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, justifyItems, justifySelf, grid, gridGap, gridColumnGap, gridRowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea, palette, color, bgcolor, positions, position, zIndex, top, right, bottom, left, shadows, sizing, width, maxWidth, minWidth, height, maxHeight, minHeight, sizeWidth, sizeHeight, boxSizing, spacing, createUnarySpacing, style, typography, fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign */
+/*! exports provided: borders, breakpoints, compose, css, display, flexbox, grid, palette, positions, shadows, sizing, spacing, style, typography, border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius, flexBasis, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, justifyItems, justifySelf, gridGap, gridColumnGap, gridRowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea, color, bgcolor, position, zIndex, top, right, bottom, left, width, maxWidth, minWidth, height, maxHeight, minHeight, sizeWidth, sizeHeight, boxSizing, createUnarySpacing, fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -90487,125 +90487,135 @@ __webpack_require__.r(__webpack_exports__);
 
 var ContentBarList = function ContentBarList(_ref) {
   var privilegio = _ref.privilegio;
-  var dataListAdmin = [{
-    redirect: '/panel/registros',
-    text: 'Registros',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_History__WEBPACK_IMPORTED_MODULE_5___default.a, null)
+  var DrawerList = [{
+    title: 'Dashboard',
+    listItems: [{
+      redirect: '/panel',
+      text: 'Inicio',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Home__WEBPACK_IMPORTED_MODULE_12___default.a, null)
+    }]
   }, {
-    redirect: '/panel/modifyUsers',
-    text: 'Consultar/Modificar',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Receipt__WEBPACK_IMPORTED_MODULE_6___default.a, null)
+    title: 'Administración',
+    access: ['A-'],
+    listItems: [{
+      redirect: '/panel/registros',
+      text: 'Registros',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_History__WEBPACK_IMPORTED_MODULE_5___default.a, null)
+    }, {
+      redirect: '/panel/modifyUsers',
+      text: 'Consultar/Modificar',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Receipt__WEBPACK_IMPORTED_MODULE_6___default.a, null)
+    }, {
+      redirect: '/panel/desblockAccount',
+      text: 'Desbloquear',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Lock__WEBPACK_IMPORTED_MODULE_14___default.a, null)
+    }, {
+      redirect: '/panel/uploadData',
+      text: 'Cargar',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_CloudUpload__WEBPACK_IMPORTED_MODULE_7___default.a, null)
+    }, {
+      redirect: '/panel/userOptions',
+      text: 'Opciones',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Build__WEBPACK_IMPORTED_MODULE_8___default.a, null)
+    }, {
+      redirect: '/panel/deleteData',
+      text: 'Borrar',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Delete__WEBPACK_IMPORTED_MODULE_9___default.a, null)
+    }]
   }, {
-    redirect: '/panel/desblockAccount',
-    text: 'Desbloquear',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Lock__WEBPACK_IMPORTED_MODULE_14___default.a, null)
+    title: 'Publicaciones',
+    access: ['CR-', 'A-'],
+    listItems: [{
+      redirect: '/panel/toPost',
+      text: 'Publicar',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_NewReleases__WEBPACK_IMPORTED_MODULE_10___default.a, null)
+    }, {
+      redirect: '/panel/deletePost',
+      text: 'Borrar publicación',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_DeleteSweep__WEBPACK_IMPORTED_MODULE_11___default.a, null)
+    }]
   }, {
-    redirect: '/panel/uploadData',
-    text: 'Cargar',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_CloudUpload__WEBPACK_IMPORTED_MODULE_7___default.a, null)
-  }, {
-    redirect: '/panel/userOptions',
-    text: 'Opciones',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Build__WEBPACK_IMPORTED_MODULE_8___default.a, null)
-  }, {
-    redirect: '/panel/deleteData',
-    text: 'Borrar',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Delete__WEBPACK_IMPORTED_MODULE_9___default.a, null)
-  }, {
-    redirect: '/panel/toPost',
-    text: 'Publicar',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_NewReleases__WEBPACK_IMPORTED_MODULE_10___default.a, null)
-  }, {
-    redirect: '/panel/deletePost',
-    text: 'Borrar publicación',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_DeleteSweep__WEBPACK_IMPORTED_MODULE_11___default.a, null)
-  }];
-  var dataListEstu = [{
-    redirect: '/panel/boletas',
-    text: 'Boletas',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ListAlt__WEBPACK_IMPORTED_MODULE_13___default.a, null)
-  } // {
-  // 	redirect: '/panel?show=horario',
-  // 	text: 'Horario',
-  // 	queryParams: {
-  // 		param: 'show',
-  // 		value: 'horario'
-  // 	},
-  // 	icon: <QueryBuilderIcon />
-  // },
-  // {
-  // 	redirect: '/panel?show=constancias',
-  // 	text: 'Constancias',
-  // 	queryParams: {
-  // 		param: 'show',
-  // 		value: 'constancias'
-  // 	},
-  // 	icon: <ArchiveIcon />
-  // },
-  ];
-  var dataListCreador = [{
-    redirect: '/panel/toPost',
-    text: 'Publicar',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_NewReleases__WEBPACK_IMPORTED_MODULE_10___default.a, null)
-  }, {
-    redirect: '/panel/deletePost',
-    text: 'Borrar publicación',
-    icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_DeleteSweep__WEBPACK_IMPORTED_MODULE_11___default.a, null)
+    title: 'Estudio',
+    access: ['V-'],
+    listItems: [{
+      redirect: '/panel/boletas',
+      text: 'Boletas',
+      icon: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ListAlt__WEBPACK_IMPORTED_MODULE_13___default.a, null)
+    }]
   }];
   var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__["useTheme"])();
   var darkModeColor = theme.palette.type === 'dark' ? 'HeadDrawer--Dark' : '';
   return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      role: "presentation"
+      role: "presentation",
+      className: "DrawerBody"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "HeadDrawer ".concat(darkModeColor)
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "HeadDrawer__Text"
-    }, "Men\xFA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CloseDrawerMenu__WEBPACK_IMPORTED_MODULE_1__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["List"], {
-      style: {
-        width: '250px'
-      },
-      dense: true
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RenderButtonList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      options: {
-        redirect: '/panel',
-        text: 'Dashboard'
+    }, "Men\xFA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CloseDrawerMenu__WEBPACK_IMPORTED_MODULE_1__["default"], null)), DrawerList.map(function (section, i) {
+      var renderSection = true; //Verificar privilegio
+
+      if (section.access) {
+        var found = false;
+        section.access.map(function (access) {
+          if (access === privilegio) {
+            renderSection = true;
+            found = true;
+          }
+
+          if (!found) {
+            renderSection = false;
+          }
+
+          return null;
+        });
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Home__WEBPACK_IMPORTED_MODULE_12___default.a, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["Divider"], null), privilegio === "A-" && dataListAdmin.map(function (data, i) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-          key: i
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RenderButtonList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          options: {
-            redirect: data.redirect,
-            text: data.text
-          },
-          queryParams: data.queryParams ? data.queryParams : null
-        }, data.icon), i === 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["Divider"], null) : null)
-      );
-    }), privilegio === "V-" && dataListEstu.map(function (data, i) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-          key: i
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RenderButtonList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          options: {
-            redirect: data.redirect,
-            text: data.text
-          },
-          queryParams: data.queryParams ? data.queryParams : null,
-          defaultPath: "home"
-        }, data.icon))
-      );
-    }), privilegio === "CR-" && dataListCreador.map(function (data, i) {
-      return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, {
-          key: i
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RenderButtonList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          options: {
-            redirect: data.redirect,
-            text: data.text
-          },
-          queryParams: data.queryParams ? data.queryParams : null,
-          defaultPath: "home"
-        }, data.icon))
-      );
-    })))
+
+      if (renderSection) {
+        return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "DrawerSection",
+            key: i
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+            className: "DrawerSection__Title"
+          }, section.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__["List"], {
+            dense: true
+          }, section.listItems.map(function (item, i) {
+            var renderItem = true; //Verificar privilegio
+
+            if (item.access) {
+              var _found = false;
+              item.access.map(function (access) {
+                if (access === privilegio) {
+                  renderItem = true;
+                  _found = true;
+                }
+
+                if (!_found) {
+                  renderItem = false;
+                }
+
+                return null;
+              });
+            }
+
+            if (renderItem) {
+              return (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RenderButtonList__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  key: i,
+                  options: {
+                    redirect: item.redirect,
+                    text: item.text
+                  }
+                }, item.icon)
+              );
+            }
+
+            return null;
+          })))
+        );
+      }
+
+      return null;
+    }))
   );
 }; //REDUX
 
@@ -90659,7 +90669,7 @@ function RenderMobileButton(_ref) {
   var redirect = options.redirect,
       text = options.text;
   var query = useQuery();
-  var match;
+  var match = false;
 
   if (queryParams) {
     match = query.get(queryParams.param) === queryParams.value ? true : false;
@@ -90684,7 +90694,7 @@ function RenderMobileButton(_ref) {
         updateMasterPath(redirect);
         toggleDrawer(false);
       },
-      selected: match,
+      selected: match ? true : false,
       className: match ? 'drawerItemSelected' : 'drawerItem'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["ListItemIcon"], null, children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__["ListItemText"], {
       primary: text
@@ -92415,16 +92425,23 @@ function App(_ref) {
             //HOVER
             '&&.drawerItem': {
               opacity: 0.9,
+              borderRadius: '5px',
               '&:hover': {
-                borderLeft: '3px solid',
-                opacity: 1
+                opacity: 1,
+                backgroundColor: '#6B8DD640',
+                '& .MuiListItemIcon-root,& .MuiListItemText-root': {
+                  color: '#6B8DD6'
+                }
               }
             },
             //SELECTED
             '&&.drawerItemSelected': {
-              borderLeft: '3px solid #6B8DD6',
+              color: '#6B8DD6',
               opacity: 1,
-              '& .MuiListItemIcon-root,& .MuiListItemText-root': {//Cambiar el color el texto y el icono
+              borderRadius: '5px',
+              backgroundColor: '#6B8DD640',
+              '& .MuiListItemIcon-root,& .MuiListItemText-root': {
+                color: '#6B8DD6'
               }
             }
           }

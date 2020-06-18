@@ -29,7 +29,7 @@ function RenderMobileButton({
 	
 	let query = useQuery();
 	
-	let match;
+	let match = false;
 	
 	if (queryParams) {
 		match = query.get(queryParams.param) === queryParams.value ? true : false;
@@ -52,7 +52,7 @@ function RenderMobileButton({
 					updateMasterPath(redirect);
 					toggleDrawer(false);
 				}}
-				selected={match}
+				selected={match ? true : false}
 				className={match ? 'drawerItemSelected' : 'drawerItem'}
 			>
 				<ListItemIcon>{children}</ListItemIcon>
