@@ -12,7 +12,7 @@ function PageIndex({ auth, reloginSuccess }) {
 	//Regresar contenido del login
 	return (
 		<VerifyRelogin>
-			<main class="Container">
+			<main className="Container">
 				<Zoom in={true} timeout={600}>
 					<div className="HeadBox">
 						<span className="HeadBox__Icon">

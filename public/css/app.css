@@ -1,1 +1,413 @@
-.Container{padding:0 24px;margin:auto;margin-top:80px!important;max-width:1250px}.Header{background:#6b8dd6;height:50px;position:fixed;top:0;width:100%;z-index:100}.Header--Dark{background:#4a6295!important}.Header__Nav--Auth{justify-content:space-between!important}.Header__Nav{display:flex;justify-content:flex-end;align-items:center;height:100%;margin:0 10px}.Header__Button{margin-left:10px;display:inline-block}.HeadDrawer{height:50px;background:#6b8dd6;display:flex;justify-content:space-between;align-items:center}.HeadDrawer--Dark{background:#4a6295!important}.HeadDrawer__Text{font-size:30px;font-weight:500;margin-left:15px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.HeadDrawer__Button{margin-right:15px!important}.MuiDialogContent-root{display:flex;flex-direction:column}.MuiDialogContent-root .MuiCircularProgress-root{align-self:center}.HeadBox{flex-direction:column}.HeadBox,.HeadBox__Icon{display:flex;align-items:center}.HeadBox__Icon{padding:10px;background:#6b8dd6;-wedkit-border-radius:100px;border-radius:100px;justify-content:center;-webkit-animation:moveIcon 15s infinite;animation:moveIcon 15s infinite}.HeadBox__Title{margin-top:10px;font-weight:100;font-style:italic;font-size:20px}.LoginForm{margin-top:50px;display:flex;flex-direction:column;align-items:center;transition:.5s}.LoginForm__Divider{margin-bottom:40px}.LoginForm__Copyright{display:flex;flex-direction:column;opacity:.5;margin-bottom:30px;text-align:center}@-webkit-keyframes moveIcon{0%{transform:rotate(0deg)}30%{transform:rotate(1turn)}40%{transform:rotate(330deg)}50%{transform:rotate(390deg)}80%{transform:rotate(0deg)}}@keyframes moveIcon{0%{transform:rotate(0deg)}30%{transform:rotate(1turn)}40%{transform:rotate(330deg)}50%{transform:rotate(390deg)}80%{transform:rotate(0deg)}}.NoticiaBox{margin:auto auto 10px;max-width:1000px}.NoticiaBox__Id{display:inline-block;padding:20px;width:100%;text-align:right}.PreviewImgDivider{width:90%!important;margin:25px auto 20px!important}.ImagePreview{max-width:110px;max-height:100px;min-width:70px;min-height:60px;cursor:pointer;margin-bottom:10px;transition:.5s}.ImagePreview:hover{transform:scale(1.2)}.ImagePreview__More{display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.4);width:100px;height:100px;margin-bottom:10px;cursor:pointer}.Anuncio{min-height:250px;padding:15px 30px;display:flex;flex-direction:column}.Anuncio__Title{font-size:18px}.Anuncio__Content{text-align:justify;width:100%;flex:1}.Anuncio__Content--OverFlow{max-height:400px;overflow:hidden}.Anuncio__Footer{font-style:italic;display:flex;justify-content:center}.Anuncio__Id{text-align:right;width:100%}.VisorImgReactComponent{position:fixed;width:100%;height:100%;background:rgba(0,0,0,.75);top:0;left:0;z-index:100;transition:.5s}.VisorImgReactComponent .VisorImgReactComponent__options{display:flex;justify-content:center;margin-bottom:10px;z-index:200}.VisorImgReactComponent .VisorImgReactComponent__download{margin-right:100px}.VisorImgReactComponent .VisorImgReactComponent__controlls{position:absolute;display:flex;justify-content:space-between;align-items:center;width:100%;height:100%;padding:0 10%;margin-top:30px}.VisorImgReactComponent .VisorImgReactComponent__visor{display:flex;justify-content:center;align-items:center;flex-direction:column;height:100%}.VisorImgReactComponent .imgShow{max-height:80vh;max-width:90vw}.Box{padding:20px}.Box--Welcome{margin-top:10px}.Box__Title{font-size:23px;border-bottom:1px solid #ccc;display:block;margin-bottom:15px}.Box__Content p{margin:0}.StatusBox{display:flex;align-items:center;height:70px}.StatusBox__Circulo{color:#fff;min-width:60px;height:60px;display:flex;justify-content:center;-wedkit-border-radius:100px;border-radius:100px;margin-right:20px;margin-left:5px}.StatusBox__Text{align-self:center;font-size:18px;font-weight:700}.AutoComplete{transition:.5s}.AutoComplete:hover{background:rgba(0,0,0,.04)}.AutoComplete--Dark:hover{background:hsla(0,0%,100%,.09)!important}.SearchUsersInput{width:100%;display:flex;justify-content:space-between}a{text-decoration:none}*{box-sizing:border-box}body{transition:all .5s ease;padding-right:0!important}
+/*
+How To USE
+class {
+	@include border-radius();
+}
+*/
+
+/* Container */
+
+.Container {
+  padding: 0px 24px;
+  margin: auto;
+  margin-top: 80px !important;
+  max-width: 1250px;
+}
+
+/* Header */
+
+.Header {
+  background: #6B8DD6;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.Header--Dark {
+  background: #4a6295 !important;
+}
+
+.Header__Nav--Auth {
+  justify-content: space-between !important;
+}
+
+.Header__Nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  margin: 0px 10px;
+}
+
+.Header__Button {
+  margin-left: 10px;
+  display: inline-block;
+}
+
+/* Drawer */
+
+.HeadDrawer {
+  height: 50px;
+  background: #6B8DD6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.HeadDrawer--Dark {
+  background: #4a6295 !important;
+}
+
+.HeadDrawer__Text {
+  font-size: 30px;
+  font-weight: 500;
+  margin-left: 15px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.HeadDrawer__Button {
+  margin-right: 15px !important;
+}
+
+/* Fix Styles */
+
+.MuiDialogContent-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.MuiDialogContent-root .MuiCircularProgress-root {
+  align-self: center;
+}
+
+/* HeadBox */
+
+.HeadBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.HeadBox__Icon {
+  padding: 10px;
+  background: #6B8DD6;
+  -wedkit-border-radius: 100px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-animation: moveIcon 15s infinite;
+          animation: moveIcon 15s infinite;
+}
+
+.HeadBox__Title {
+  margin-top: 10px;
+  font-weight: 100;
+  font-style: italic;
+  font-size: 20px;
+}
+
+/* LoginForm */
+
+.LoginForm {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.LoginForm__Divider {
+  margin-bottom: 40px;
+}
+
+.LoginForm__Copyright {
+  display: flex;
+  flex-direction: column;
+  opacity: 0.5;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+@-webkit-keyframes moveIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(360deg);
+  }
+
+  40% {
+    transform: rotate(330deg);
+  }
+
+  50% {
+    transform: rotate(390deg);
+  }
+
+  80% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes moveIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  30% {
+    transform: rotate(360deg);
+  }
+
+  40% {
+    transform: rotate(330deg);
+  }
+
+  50% {
+    transform: rotate(390deg);
+  }
+
+  80% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Noticias */
+
+.NoticiaBox {
+  margin: auto;
+  margin-bottom: 10px;
+  max-width: 1000px;
+}
+
+.NoticiaBox__Id {
+  display: inline-block;
+  padding: 20px;
+  width: 100%;
+  text-align: right;
+}
+
+.PreviewImgDivider {
+  width: 90% !important;
+  margin: auto !important;
+  margin-top: 25px !important;
+  margin-bottom: 20px !important;
+}
+
+.ImagePreview {
+  max-width: 110px;
+  max-height: 100px;
+  min-width: 70px;
+  min-height: 60px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: .5s;
+}
+
+.ImagePreview:hover {
+  transform: scale(1.2);
+}
+
+.ImagePreview__More {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* Anuncios */
+
+.Anuncio {
+  min-height: 250px;
+  padding: 15px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Anuncio__Title {
+  font-size: 18px;
+}
+
+.Anuncio__Content {
+  text-align: justify;
+  width: 100%;
+  flex: 1;
+}
+
+.Anuncio__Content--OverFlow {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.Anuncio__Footer {
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+}
+
+.Anuncio__Id {
+  text-align: right;
+  width: 100%;
+}
+
+/* Visor Img React */
+
+.VisorImgReactComponent {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: 0.5s;
+}
+
+.VisorImgReactComponent .VisorImgReactComponent__options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  z-index: 200;
+}
+
+.VisorImgReactComponent .VisorImgReactComponent__download {
+  margin-right: 100px;
+}
+
+.VisorImgReactComponent .VisorImgReactComponent__controlls {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0px 10%;
+  margin-top: 30px;
+}
+
+.VisorImgReactComponent .VisorImgReactComponent__visor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.VisorImgReactComponent .imgShow {
+  max-height: 80vh;
+  max-width: 90vw;
+}
+
+/* BOX */
+
+.Box {
+  padding: 20px;
+}
+
+.Box--Welcome {
+  margin-top: 10px;
+}
+
+.Box__Title {
+  font-size: 23px;
+  border-bottom: 1px solid #CCCCCC;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.Box__Title--NoBorder {
+  border-bottom: none !important;
+  opacity: 0.6;
+}
+
+.Box__Content p {
+  margin: 0;
+}
+
+.StatusBox {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.StatusBox__Circulo {
+  color: #FFFFFF;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  -wedkit-border-radius: 100px;
+  border-radius: 100px;
+  margin-right: 20px;
+  margin-left: 5px;
+}
+
+.StatusBox__Text {
+  align-self: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Components */
+
+.AutoComplete {
+  transition: 0.5s;
+}
+
+.AutoComplete:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.AutoComplete--Dark:hover {
+  background: rgba(255, 255, 255, 0.09) !important;
+}
+
+.SearchUsersInput {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* AccountBox */
+
+.AccountBox__Title {
+  opacity: 0.6;
+}
+
+/* Account Head */
+
+.AccountHead {
+  padding: 15px;
+  -wedkit-border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.AccountHead__UserName {
+  font-size: 22px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  transition: 0.5s ease all;
+  padding-right: 0 !important;
+}
+

@@ -1,8 +1,8 @@
 import React from 'react';
 
 //Componentes
-import ShowInfoContent from '../../components/ShowInfoContent';
-import { InfoContentShowPanel } from '../../components/ListDataGlobal';
+import ChangeAvatar from './ChangeAvatar';
+import ChangePassword from './ChangePassword';
 
 //Material-UI
 import { Paper, Grid } from '@material-ui/core';
@@ -12,19 +12,29 @@ export default function PageAccount() {
 	document.title = 'La Candelaria - Account';
 	
 	return (
-		<React.Fragment>
-			<main class='Container Container--Panel'>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<Paper className='Box'>
-							Hola
-						</Paper>
-					</Grid>
+		<main class='Container'>
+			<Grid container spacing={2}>
+				<Grid item xs={12} sm={12} md={6}>
+					<Paper className='Box'>
+						<span className='Box__Title Box__Title--NoBorder'>
+							Cambiar Avatar
+						</span>
+						<div className='Box__Content'>
+							<ChangeAvatar />
+						</div>
+					</Paper>
 				</Grid>
-			</main>
-			<ShowInfoContent 
-				dataContent={InfoContentShowPanel}
-			/>
-		</React.Fragment>
+				<Grid item xs={12} sm={12} md={6}>
+					<Paper className='Box'>
+						<span className='Box__Title Box__Title--NoBorder'>
+							Cambiar Contraseña
+						</span>
+						<div className='Box__Content'>
+							<ChangePassword />
+						</div>
+					</Paper>
+				</Grid>
+			</Grid>
+		</main>
 	);
 }

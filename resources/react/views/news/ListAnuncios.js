@@ -111,7 +111,7 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 
 export function SkeletonAnuncio() {
 	return (
-		<Paper variant="outlined">
+		<Paper>
 			<section className="Anuncio">
 				<Skeleton variant="text" className="Anuncio__Title" width={200} />
 				<p className="Anuncio__Content">
@@ -142,7 +142,7 @@ export function Anuncio({ anuncio }) {
 	}
 
 	return (
-		<Paper variant="outlined" key={anuncio.id}>
+		<Paper key={anuncio.id}>
 			<section className="Anuncio">
 				<span className="Anuncio__Title">{anuncio.title}</span>
 				<p 
