@@ -24,160 +24,161 @@ import LockIcon from '@material-ui/icons/Lock';
 import { connect } from 'react-redux';
 
 const ContentBarList = ({privilegio}) => {
-	const dataListAdmin = [
-		{
-			redirect: '/panel/registros',
-			text: 'Registros',
-			icon: <History />
-		},
-		{
-			redirect: '/panel/modifyUsers',
-			text: 'Consultar/Modificar',
-			icon: <ReceiptIcon />
-		},
-		{
-			redirect: '/panel/desblockAccount',
-			text: 'Desbloquear',
-			icon: <LockIcon />
-		},
-		{
-			redirect: '/panel/uploadData',
-			text: 'Cargar',
-			icon: <CloudUploadIcon />
-		},
-		{
-			redirect: '/panel/userOptions',
-			text: 'Opciones',
-			icon: <BuildIcon />
-		},
-		{
-			redirect: '/panel/deleteData',
-			text: 'Borrar',
-			icon: <DeleteIcon />
-		},
-		{
-			redirect: '/panel/toPost',
-			text: 'Publicar',
-			icon: <NewReleasesIcon />
-		},
-		{
-			redirect: '/panel/deletePost',
-			text: 'Borrar publicación',
-			icon: <DeleteSweepIcon />
-		},
-  ];
-  
-  const dataListEstu = [
-    {
-			redirect: '/panel/boletas',
-			text: 'Boletas',
-			icon: <ListAltIcon />
-    },
-		// {
-		// 	redirect: '/panel?show=horario',
-		// 	text: 'Horario',
-		// 	queryParams: {
-		// 		param: 'show',
-		// 		value: 'horario'
-		// 	},
-		// 	icon: <QueryBuilderIcon />
-		// },
-		// {
-		// 	redirect: '/panel?show=constancias',
-		// 	text: 'Constancias',
-		// 	queryParams: {
-		// 		param: 'show',
-		// 		value: 'constancias'
-		// 	},
-		// 	icon: <ArchiveIcon />
-		// },
-	];
 	
-	const dataListCreador = [
+	const DrawerList = [
 		{
-			redirect: '/panel/toPost',
-			text: 'Publicar',
-			icon: <NewReleasesIcon />
+			title: 'Dashboard',
+			listItems: [
+				{
+					redirect: '/panel',
+					text: 'Inicio',
+					icon: <HomeIcon />
+				}
+			]
 		},
 		{
-			redirect: '/panel/deletePost',
-			text: 'Borrar publicación',
-			icon: <DeleteSweepIcon />
+			title: 'Administración',
+			access: ['A-'],
+			listItems: [
+				{
+					redirect: '/panel/registros',
+					text: 'Registros',
+					icon: <History />
+				},
+				{
+					redirect: '/panel/modifyUsers',
+					text: 'Consultar/Modificar',
+					icon: <ReceiptIcon />
+				},
+				{
+					redirect: '/panel/desblockAccount',
+					text: 'Desbloquear',
+					icon: <LockIcon />
+				},
+				{
+					redirect: '/panel/uploadData',
+					text: 'Cargar',
+					icon: <CloudUploadIcon />
+				},
+				{
+					redirect: '/panel/userOptions',
+					text: 'Opciones',
+					icon: <BuildIcon />
+				},
+				{
+					redirect: '/panel/deleteData',
+					text: 'Borrar',
+					icon: <DeleteIcon />
+				},
+			]
 		},
-	];
+		{
+			title: 'Publicaciones',
+			access: ['CR-','A-'],
+			listItems: [
+				{
+					redirect: '/panel/toPost',
+					text: 'Publicar',
+					icon: <NewReleasesIcon />
+				},
+				{
+					redirect: '/panel/deletePost',
+					text: 'Borrar publicación',
+					icon: <DeleteSweepIcon />
+				},
+			]
+		},
+		{
+			title: 'Estudio',
+			access: ['V-'],
+			listItems: [
+				{
+					redirect: '/panel/boletas',
+					text: 'Boletas',
+					icon: <ListAltIcon />
+				},
+			]
+		}
+	]
 
 	const theme = useTheme();
 	
 	let darkModeColor = theme.palette.type === 'dark' ? 'HeadDrawer--Dark' : '';
 	
 	return (
-		<div role="presentation">
+		<div role="presentation" className='DrawerBody'>
 			<div className={`HeadDrawer ${darkModeColor}`}>
 				<span className="HeadDrawer__Text">Menú</span>
 				<CloseDrawerMenu />
 			</div>
-			<List style={{ width: '250px' }} dense={true}>
-				{/*Globales*/}
-				<RenderButtonList
-					options={{
-						redirect: '/panel',
-						text: 'Dashboard'
-					}}
-				>
-					<HomeIcon />
-				</RenderButtonList>
-				<Divider />
-				{/*Listas*/}
-				{privilegio === "A-" && dataListAdmin.map((data, i) => {
+			{DrawerList.map((section, i)=>{
+				let renderSection = true;
+				
+				//Verificar privilegio
+				if (section.access) {
+					let found = false;
+					section.access.map((access)=>{
+						if (access === privilegio) {
+							renderSection = true;
+							found = true;
+						}
+						
+						if (!found) {
+							renderSection = false;
+						}
+						
+						return null;
+					})
+				}
+				
+				if (renderSection) {
 					return (
-						<React.Fragment key={i}>
-							<RenderButtonList
-								options={{
-									redirect: data.redirect,
-									text: data.text
-								}}
-								queryParams={data.queryParams ? data.queryParams : null}
-							>
-								{data.icon}
-							</RenderButtonList>
-							{/*Poner dividers*/}
-							{(i === 5) ? (<Divider />) : null}
-						</React.Fragment>
+						<div className='DrawerSection' key={i}>
+							<span className='DrawerSection__Title'>{section.title}</span>
+							<List dense={true}>
+								{section.listItems.map((item, i)=>{
+									let renderItem = true;
+									
+									//Verificar privilegio
+									if (item.access) {
+										let found = false;
+										item.access.map((access)=>{
+											if (access === privilegio) {
+												renderItem = true;
+												found = true;
+											}
+
+											if (!found) {
+												renderItem = false;
+											}
+
+											return null;
+										})
+									}
+									
+									if (renderItem) {
+										return (
+											<RenderButtonList
+												key={i}
+												options={{
+													redirect: item.redirect,
+													text: item.text
+												}}
+											>
+												{item.icon}
+											</RenderButtonList>
+										);
+									}
+									
+									return null;
+								})}
+							</List>
+						</div>
 					);
-        })}
-        {privilegio === "V-" && dataListEstu.map((data, i) => {
-					return (
-						<React.Fragment key={i}>
-							<RenderButtonList
-								options={{
-									redirect: data.redirect,
-									text: data.text
-								}}
-								queryParams={data.queryParams ? data.queryParams : null}
-								defaultPath='home'
-							>
-								{data.icon}
-							</RenderButtonList>
-						</React.Fragment>
-					);
-				})}
-				{privilegio === "CR-" && dataListCreador.map((data, i) => {
-					return (
-						<React.Fragment key={i}>
-							<RenderButtonList
-								options={{
-									redirect: data.redirect,
-									text: data.text
-								}}
-								queryParams={data.queryParams ? data.queryParams : null}
-								defaultPath='home'
-							>
-								{data.icon}
-							</RenderButtonList>
-						</React.Fragment>
-					);
-				})}
-			</List>
+				}
+				
+				return null;
+			})}
 		</div>
 	);
 };

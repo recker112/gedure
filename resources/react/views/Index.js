@@ -51,17 +51,23 @@ function App({ tema, access_key }) {
 					//HOVER
 					'&&.drawerItem': {
 						opacity: 0.9,
+						borderRadius: '5px',
 						'&:hover': {
-							borderLeft: '3px solid',
-							opacity: 1
+							opacity: 1,
+							backgroundColor: '#6B8DD640',
+							'& .MuiListItemIcon-root,& .MuiListItemText-root': {
+								color: '#6B8DD6',
+							}
 						}
 					},
 					//SELECTED
 					'&&.drawerItemSelected': {
-						borderLeft: '3px solid #6B8DD6',
+						color: '#6B8DD6',
 						opacity: 1,
+						borderRadius: '5px',
+						backgroundColor: '#6B8DD640',
 						'& .MuiListItemIcon-root,& .MuiListItemText-root': {
-							//Cambiar el color el texto y el icono
+							color: '#6B8DD6',
 						}
 					}
 				}

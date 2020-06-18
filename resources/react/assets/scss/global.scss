@@ -38,6 +38,20 @@
 }
 
 /* Drawer */
+.DrawerBody {
+	width: 250px;
+}
+
+.DrawerSection {
+	padding: 0px 15px;
+	margin-top: 15px;
+}
+
+.DrawerSection__Title {
+	font-weight: 500;
+	opacity: 0.7;
+}
+
 .HeadDrawer {
 	height: 50px;
   background: $primary;
