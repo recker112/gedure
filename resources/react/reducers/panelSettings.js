@@ -134,32 +134,7 @@ const initialState = {
 	},
 	menuUser: {
 		openDialog: false,
-		option: null,
-		loading: false,
-		sections: {
-			password: {
-				passA: '',
-				passN: '',
-				passR: '',
-				error: {
-					passA: {
-						status: false,
-						message: ''
-					},
-					passN: {
-						status: false,
-						message: ''
-					},
-					passR: {
-						status: false,
-						message: ''
-					}
-				}
-			},
-			avatar: {
-				file: []
-			}
-		}
+		option: null
 	}
 };
 
@@ -602,112 +577,7 @@ export default (state = initialState, { type, payload }) => {
 				menuUser: {
 					...state.menuUser,
 					openDialog: payload.open,
-					option: payload.option,
-					loading: false
-				}
-			};
-		}
-		case 'UPDATE_LOADING_MENU_USER_DIALOG': {
-			return {
-				...state,
-				menuUser: {
-					...state.menuUser,
-					loading: payload
-				}
-			};
-		}
-		//CHANGE PASSWORD
-		case 'UPDATE_VALUE_PASSWORD': {
-			//Obtener input
-			const e = payload;
-
-			//Obtener valores del input
-			const name = e.target.name;
-			const value = e.target.value;
-
-			return {
-				...state,
-				menuUser: {
-					...state.menuUser,
-					sections: {
-						...state.menuUser.sections,
-						password: {
-							...state.menuUser.sections.password,
-							[name]: value,
-							error: {
-								...state.menuUser.sections.password.error,
-								[name]: {
-									status: false,
-									message: ''
-								}
-							}
-						}
-					}
-				}
-			};
-		}
-		case 'ERROR_INFO_PASSWORD': {
-			return {
-				...state,
-				menuUser: {
-					...state.menuUser,
-					sections: {
-						...state.menuUser.sections,
-						password: {
-							...state.menuUser.sections.password,
-							error: {
-								...state.menuUser.sections.password.error,
-								[payload.input]: {
-									status: true,
-									message: payload.message
-								}
-							}
-						}
-					}
-				}
-			};
-		}
-		//CHANGE AVATAR
-		case 'UPDATE_VALUE_AVATAR': {
-			//Obtener input
-			const e = payload;
-
-			//Obtener valores del input
-			const name = e.target.name;
-			const value = e.target.files;
-
-			return {
-				...state,
-				menuUser: {
-					...state.menuUser,
-					sections: {
-						...state.menuUser.sections,
-						avatar: {
-							...state.menuUser.sections.avatar,
-							[name]: value
-						}
-					}
-				}
-			};
-		}
-		case 'ERROR_INFO_AVATAR': {
-			return {
-				...state,
-				menuUser: {
-					...state.menuUser,
-					sections: {
-						...state.menuUser.sections,
-						avatar: {
-							...state.menuUser.sections.avatar,
-							error: {
-								...state.menuUser.sections.avatar.error,
-								[payload.input]: {
-									status: true,
-									message: payload.message
-								}
-							}
-						}
-					}
+					option: payload.option
 				}
 			};
 		}

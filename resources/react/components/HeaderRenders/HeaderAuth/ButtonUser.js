@@ -19,9 +19,6 @@ import updateMasterPath from '../../../actions/updateMasterPath';
 //React Router
 import { useHistory } from 'react-router-dom';
 
-//Componentes
-import MenuDialog from './MenuDialog';
-
 //SnackBar
 import { useSnackbar } from 'notistack';
 import updateMenuUser from '../../../actions/panel/updateMenuUser';
@@ -62,10 +59,6 @@ function ButtonUser({
 				variant: 'info'
 			});
 			logout();
-		} else if (option === 'password') {
-			updateMenuUser(true, 'password');
-		} else if (option === 'avatar') {
-			updateMenuUser(true, 'avatar');
 		} else if (option === 'options') {
 			const redirect = '/account'
 			updateMasterPath(redirect);
@@ -106,24 +99,19 @@ function ButtonUser({
 				handleSelected={handleSelected}
 				privilegio={privilegio}
 			/>
-			<MenuDialog />
 		</React.Fragment>
 	);
 }
 
 function MenuAvatar({ buttonItem, handleClose, handleSelected, privilegio }) {
-	//Configuración del menú.
+	/*
+		Configuración del menú.
+		Access: string || Array
+		
+		string = 'all'
+		arrray=['CR-', 'V-', 'A-']
+	*/
 	const configMenu = [
-		{
-			option: 'avatar',
-			text: 'Cambiar avatar',
-			access: ['A-', 'CR-']
-		},
-		{
-			option: 'password',
-			text: 'Cambiar contraseña',
-			access: 'all'
-		},
 		{
 			option: 'options',
 			text: 'Opciones',

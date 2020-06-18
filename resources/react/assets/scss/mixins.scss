@@ -1,3 +1,9 @@
+/*
+How To USE
+class {
+	@include border-radius();
+}
+*/
 @mixin border-radius($radius) {
   -moz-border-radius: $radius;
 	-wedkit-border-radius: $radius;

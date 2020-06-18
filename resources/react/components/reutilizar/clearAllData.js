@@ -3,12 +3,12 @@ export default function clearAllData() {
 	const theme = localStorage.getItem('theme');
 	//Verifivar que la lista no devuelva null
 	const dialogList =
-		localStorage.getItem('noListStorage') !== null ? localStorage.getItem('noListStorage') : '[]';
+		JSON.parse(localStorage.getItem('notSeeInfoDialog')) !== null ? localStorage.getItem('notSeeInfoDialog') : '[]';
 
 	localStorage.clear();
 	sessionStorage.clear();
 
 	//Para mantener la configuraciรณn del usuario.
 	localStorage.setItem('theme', theme);
-	localStorage.setItem('noListStorage', dialogList);
+	localStorage.setItem('notSeeInfoDialog', dialogList);
 }
