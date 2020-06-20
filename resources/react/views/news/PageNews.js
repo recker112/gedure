@@ -2,8 +2,8 @@
 import React from "react";
 
 //Material-UI
-import { Hidden } from "@material-ui/core";
-import { Skeleton } from '@material-ui/lab';
+import { useMediaQuery } from "@material-ui/core";
+import { useTheme } from '@material-ui/core/styles';
 
 //Componentes
 import ListNoticias from "./ListNoticias";
@@ -13,8 +13,14 @@ function PageNews() {
 	//Titulo
 	document.title = "La Candelaria - News";
 	
+	//Resolution RESPONSIVE
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	
+	const classMobile = fullScreen ? 'Container--Mobile' : '';
+	
   return (
-		<main className='Container'>
+		<main className={`Container ${classMobile}`}>
 			<ListAnuncios />
 			<ListNoticias />
 		</main>

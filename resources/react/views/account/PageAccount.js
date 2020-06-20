@@ -5,7 +5,8 @@ import ChangeAvatar from './ChangeAvatar';
 import ChangePassword from './ChangePassword';
 
 //Material-UI
-import { Paper, Grid } from '@material-ui/core';
+import { Paper, Grid, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 //Redux
 import { connect } from 'react-redux';
@@ -13,6 +14,12 @@ import { connect } from 'react-redux';
 function PageAccount({ privilegio }) {
 	//Titulo
 	document.title = 'La Candelaria - Account';
+	
+	//Resolution RESPONSIVE
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+	
+	const classMobile = fullScreen ? 'Container--Mobile' : '';
 	
 	const Skeleton = ({title, content})=> (
 		<Grid item xs={12} sm={12} md={6}>
@@ -45,7 +52,7 @@ function PageAccount({ privilegio }) {
 	]
 	
 	return (
-		<main className='Container'>
+		<main className={`Container ${classMobile}`}>
 			<Grid container spacing={2}>
 				{OptionsList.map((option, i)=>{
 					let renderOption = true;

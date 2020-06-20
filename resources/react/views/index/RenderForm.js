@@ -59,7 +59,7 @@ function RenderForm({ options, dataLogin, validating, error }) {
 				<div className="LoginForm__Copyright">
 					<span>&copy; UEP APEP "La Candelaria" - 2020</span>
 					<span>Desarollado por Recker</span>
-					<span>v4.1.0</span>
+					<span>v4.1.1</span>
 				</div>
 			</form>
 		</Grow>

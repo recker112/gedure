@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000" />
+		<meta name=”robots” content=”Index, Follow”>
     <meta
     name="description"
-    content="Página web oficial de La Candelaria Tumero"
+    content="Página web oficial de La Candelaria Tumero, donde los estudiantes pueden las noticias publicadas por la institución y gestionar diferentes acciones."
     />
     <title>La Candelaria</title>
 
@@ -18,7 +19,9 @@
 		<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=es2017%2CURLSearchParams%2Ces2015%2CIntersectionObserver"></script>
   </head>
   <body>
-    <noscript>Necesitas activar JavaScript para poder ver esta aplicaciรณn.</noscript>
+    <noscript>
+			Necesitas activar JavaScript para poder ver esta aplicación.
+		</noscript>
     <div id="root"></div>
   </body>
   <script src="{{ mix('js/app.js') }}"></script>

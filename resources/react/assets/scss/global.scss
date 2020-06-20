@@ -6,6 +6,10 @@
 	max-width: 1250px;
 }
 
+.Container--Mobile {
+	padding: 0px 10px !important;
+}
+
 /* Header */
 .Header {
 	background: $primary;
@@ -39,7 +43,7 @@
 
 /* Drawer */
 .DrawerBody {
-	width: 250px;
+	width: 270px;
 }
 
 .DrawerSection {

@@ -76,7 +76,7 @@ function VerifyRelogin({
 				authUpdate(true);
 
 				//Redireccionar al venir de un relogin
-				if (from.pathname !== '/' && from.pathname !== '/login') {
+				if (from.pathname !== '/') {
 					//Redireccionar
 					history.replace(from);
 				}else {
