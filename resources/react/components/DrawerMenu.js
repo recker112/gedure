@@ -15,7 +15,7 @@ function DrawerMenu({open, toggleDrawer}) {
     //Usar el controlador del contenido para cambiar
     //el estado del drawerMenu.
      <Drawer 
-      open={open} 
+      open={open}
       onClose={()=>{toggleDrawer(false)}}
     >
       <ContentBarList />

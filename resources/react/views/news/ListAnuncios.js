@@ -91,9 +91,9 @@ function ListAnuncios({ list, updateNewsAnuncios }) {
 	return (
 		<aside style={{marginBottom: '15px'}}>
 			{list.length !== 0 ? (
-					<Carousel autoPlay={false} startAt={0}>
-						{list.map((data)=> <Anuncio anuncio={data} />)}
-					</Carousel>
+				<Carousel autoPlay={false} startAt={0}>
+					{list.map((data, i)=> <Anuncio anuncio={data} key={i} />)}
+				</Carousel>
 			) : (
 				<React.Fragment>
 					{noData ? (
