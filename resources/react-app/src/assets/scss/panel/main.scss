@@ -1,0 +1,69 @@
+/* BOX */
+.Box {
+	padding: 20px;
+}
+
+.Box--Welcome {
+	margin-top: 10px;
+}
+
+.Box__Title {
+	font-size: 23px;
+	border-bottom: 1px solid #CCCCCC;
+	display: block;
+	margin-bottom: 15px;
+}
+
+.Box__Title--NoBorder {
+	border-bottom: none !important;
+	opacity: 0.6;
+}
+
+.Box__Content {
+	p {
+		margin: 0
+	}
+}
+
+.StatusBox {
+	display: flex;
+	align-items: center;
+	height: 70px;
+}
+
+.StatusBox__Circulo {
+	color: $white;
+	min-width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	@include border-radius(100px);
+	margin-right: 20px;
+	margin-left: 5px;
+}
+
+.StatusBox__Text {
+	align-self: center;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+/* Components */
+.AutoComplete{
+  transition: 0.5s;
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.AutoComplete--Dark{
+  &:hover {
+    background: rgba(255, 255, 255, 0.09) !important;
+  }
+}
+
+.SearchUsersInput {
+	width: 100%;
+	display: flex;
+  justify-content: space-between;
+}

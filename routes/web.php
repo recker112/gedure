@@ -23,6 +23,6 @@ use Illuminate\Support\Facades\Route;
 //     Artisan::call('storage:link');
 // });
 
-Route::view('/', 'index')->name('spa');
+Route::view('/', 'app')->name('spa');
 
-Route::view('/{any}', 'index')->where('any', '^(?!api).*$');
+Route::view('/{any}', 'app')->where('any', '^(?!api).*$');
