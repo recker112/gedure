@@ -1,11 +1,0 @@
---2020-03-23 21:43:03--  https://images.unsplash.com/photo-1584593744969-4731ae13ef24?ixlib=rb-1.2.1
-Resolving images.unsplash.com (images.unsplash.com)... 151.101.54.208, 2a04:4e42:d::720
-Connecting to images.unsplash.com (images.unsplash.com)|151.101.54.208|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 9176866 (8.8M) [image/jpeg]
-Saving to: 'photo-1584593744969-4731ae13ef24?ixlib=rb-1.2.1'
-
-               photo-158459374   0%[                                                  ]       0  --.-KB/s                             photo-1584593744  43%[====================>                             ]   3.83M  19.1MB/s               photo-1584593744969-4731ae13ef 100%[=================================================>]   8.75M  28.1MB/s    in 0.3s    
-
-2020-03-23 21:43:04 (28.1 MB/s) - 'photo-1584593744969-4731ae13ef24?ixlib=rb-1.2.1' saved [9176866/9176866]
-

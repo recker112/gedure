@@ -1,0 +1,16 @@
+/* AccountBox */
+.AccountBox__Title {
+	opacity: 0.6;
+}
+
+/* Account Head */
+.AccountHead {
+	padding: 15px;
+	@include border-radius(10px 10px 0px 0px);
+}
+
+.AccountHead__UserName {
+	font-size: 22px;
+	font-weight: 700;
+	font-style: italic;
+}
