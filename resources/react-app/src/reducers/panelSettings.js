@@ -6,8 +6,8 @@ const initialState = {
 	},
 	logsSection: {
 		selectSearch: 'all',
-		dataTable: null,
-		searching: true
+		dataTable: [],
+		searching: false
 	},
 	modifySection: {
 		cedula: '',

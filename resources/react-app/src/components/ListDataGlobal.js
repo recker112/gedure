@@ -112,7 +112,7 @@ export const InfoContentShowPanel = [
 	{
 		path: '/panel/deleteData',
 		title: 'Eliminar',
-		content: 'Elimina boletas, o secciones del sistema.',
+		content: 'Elimina boletas, o secciones del sistema. Este cambio es irreversible, maneje con conciencia.',
 		only: ['A-']
 	},
 	{

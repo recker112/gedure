@@ -4,9 +4,8 @@ import React, { useEffect } from 'react';
 import { Grid, Paper } from '@material-ui/core';
 
 //Componentes
-import RenderTableOk from './RenderTableOk';
-import RenderTableError, { RenderTableSearch } from './RenderTableStatus';
 import SelectorRegistrosDisplay from './SelectorRegistrosDisplay';
+import TableRender from './TableRender';
 
 //Redux
 import { connect } from 'react-redux';
@@ -17,62 +16,64 @@ import updateLoading from '../../../../actions/updateLoading';
 import { useSnackbar } from 'notistack';
 
 function RenderRegistros({ dataLog, updateValue, updateLoading }) {
+	
 	// Global Const
 	const axios = window.axios;
-	
+
 	//Crear un SnackBar
 	const { enqueueSnackbar } = useSnackbar();
 	//Destructing
-	const { selectSearch, dataTable, searching } = dataLog;
+	const { selectSearch } = dataLog;
 
 	useEffect(() => {
 		let cancel;
 		let CancelAxios = axios.CancelToken;
 
 		//FetchData
-		const fetchData = async option => {
+		const fetchData = async (option) => {
 			try {
 				//Consulta
 				const res = await axios.get(`api/logs?get=${option}`, {
-					cancelToken: new CancelAxios(c=>{
+					cancelToken: new CancelAxios((c) => {
 						cancel = c;
-					})
+					}),
 				});
+				
+				//Finalizar effecto de busqueda.
+				updateLoading(false, 'LOGS_SEARCHING');
 
 				if (res.data.length > 0) {
 					//Set datos
 					updateValue(res.data, 'LOGS_DATATABLE');
-				}else {
+				} else {
 					enqueueSnackbar('No hay registros que mostrar', {
-						variant: 'info'
+						variant: 'info',
 					});
 				}
-				//Finalizar effecto de busqueda.
-				updateLoading(false, 'LOGS_SEARCHING');
 			} catch (error) {
-				if (axios.isCancel(error)){
+				if (axios.isCancel(error)) {
 					//Seguir buscando ya que se canceló.
 					updateLoading(true, 'LOGS_SEARCHING');
-				}else {
-					if (error.response){
+				} else {
+					if (error.response) {
 						//Errores HTTP
 						const { status, data } = error.response;
 						if (status === 403) {
 							enqueueSnackbar(data.description, {
-								variant: 'error'
+								variant: 'error',
 							});
-						}else if (status === 500) {
+						} else if (status === 500) {
 							enqueueSnackbar('No se ha podido conectar con la base de datos', {
-								variant: 'error'
+								variant: 'error',
 							});
-						}else {
+						} else {
 							enqueueSnackbar('Error interno en el servidor', {
-								variant: 'error'
+								variant: 'error',
 							});
 						}
-					}else {
+					} else {
 						enqueueSnackbar('Error interno en el sistema', {
-							variant: 'error'
+							variant: 'error',
 						});
 					}
 					//Finalizar effecto de busqueda.
@@ -80,22 +81,21 @@ function RenderRegistros({ dataLog, updateValue, updateLoading }) {
 				}
 			}
 		};
-		
+
 		//Iniciar effecto de busqueda.
 		updateLoading(true, 'LOGS_SEARCHING');
 		//Limpiar datos
-		updateValue(null, 'LOGS_DATATABLE');
+		updateValue([], 'LOGS_DATATABLE');
 		//PETICION
 		fetchData(selectSearch);
 
 		//Al desmontar
-		return ()=>{
-			if(cancel){
+		return () => {
+			if (cancel) {
 				cancel();
 			}
-		}
-	}, [selectSearch, axios, enqueueSnackbar, updateLoading, updateValue]
-	);
+		};
+	}, [selectSearch, axios, enqueueSnackbar, updateLoading, updateValue]);
 
 	return (
 		<Grid container spacing={2} justify="center">
@@ -104,39 +104,13 @@ function RenderRegistros({ dataLog, updateValue, updateLoading }) {
 					<SelectorRegistrosDisplay />
 				</Paper>
 			</Grid>
-			<Grid item xs={12} sm={10}>
-				<TableShow search={searching} dataTable={dataTable} />
+			<Grid item xs={12} sm={11} md={10}>
+				<TableRender />
 			</Grid>
 		</Grid>
 	);
 }
 
-function TableShow({ search, dataTable }) {
-	//Verificar si existe data
-	let Data = dataTable !== null && dataTable.length > 0 ? true : false;
-
-	if (!search && Data) {
-		return (
-			<div>
-				<RenderTableOk />
-			</div>
-		);
-	} else {
-		if (search) {
-			return (
-				<div>
-					<RenderTableSearch />
-				</div>
-			);
-		} else {
-			return (
-				<div>
-					<RenderTableError />
-				</div>
-			);
-		}
-	}
-}
 //ERROR AQUÍ
 /* No se logra solucionar el error de que setRows consiga
 setear el valor de la DATA recibida, en espera de una solución.
@@ -149,15 +123,18 @@ pero en el segundo y posterior si. Es decir, no tengo ni la
 más MINIMA idea de como solventar eso..... Nada, adios.
 Pos al final lo que hice fue cederles las funciones del req al
 padre, ahora todo funciona correctamente. El padre es ESTE archivo,
-por si acaso. xD*/
+por si acaso. xD
 
-const mapStateToProps = state => ({
-	dataLog: state.panelSettings.logsSection
+Último update: Después de no haber tocado el proyecto durante varias semanas
+pude hacer todo más bonito y simple, me he superado, ARRIBA ESPAÑA.*/
+
+const mapStateToProps = (state) => ({
+	dataLog: state.panelSettings.logsSection,
 });
 
 const mapDispatchToProps = {
 	updateValue,
-	updateLoading
+	updateLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenderRegistros);

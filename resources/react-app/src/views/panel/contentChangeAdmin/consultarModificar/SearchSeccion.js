@@ -84,7 +84,7 @@ function SearchSeccion() {
 		values: [
 			{
 				value: '',
-				name: 'Buscar Secciรณn...'
+				name: 'Buscar Sección...'
 			},
 			...CursosList
 		]
@@ -119,7 +119,7 @@ function SearchSeccion() {
 						<React.Fragment>
 							<DialogContentText id="popad-dialog-description">
 								<span>
-									A continuaciรณn se muestran los estudiates encontrados en {curso}:
+									A continuación se muestran los estudiates encontrados en {curso}:
 								</span>
 							</DialogContentText>
 							<TableShowInfoSecion data={lista} changeOpen={handleClose} />
