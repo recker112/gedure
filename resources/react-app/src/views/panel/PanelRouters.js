@@ -46,35 +46,14 @@ function PanelRouters ({ privilegio }) {
 	//Get URL
 	let { url } = useRouteMatch();
 	
-	return (
-		<Switch>
-			<Route path={`${url}/`} exact>
-				<Home />
-			</Route>
-			
-			{privilegio === 'V-' && <ListContentStudiend url={url} />}
-			
-			{privilegio === 'A-' && <ListContentAdmin url={url} />}
-			
-			{privilegio === 'CR-' && <ListContentCreador url={url} />}
-			
-			<Route>
-				<NoFound />
-			</Route>
-		</Switch>
-	)
-}
-
-function ListContentStudiend({ url, privilegio }) {
-	return (
-		<Route path={`${url}/boletas`} exact>
-			<BoletasStudiend />
-		</Route>
-	)
-}
-
-function ListContentAdmin({ url, privilegio }) {
-	const list = [
+	const listV = [
+		{
+			path: `${url}/boletas`,
+			component: <BoletasStudiend />,
+		}
+	];
+	
+	const listA = [
 		{
 			path: `${url}/registros`,
 			component: <Registros />,
@@ -107,19 +86,9 @@ function ListContentAdmin({ url, privilegio }) {
 			path: `${url}/deletePost`,
 			component: <BorrarPublicacion />,
 		}
-	]
+	];
 	
-	return list.map((data, i) => {
-		return (
-			<Route key={i} path={data.path} exact>
-				{data.component}
-			</Route>
-		);
-	});
-}
-
-function ListContentCreador({ url, privilegio }) {
-	const list = [
+	const listC = [
 		{
 			path: `${url}/toPost`,
 			component: <Publicar />,
@@ -130,13 +99,42 @@ function ListContentCreador({ url, privilegio }) {
 		}
 	]
 	
-	return list.map((data, i) => {
-		return (
-			<Route key={i} path={data.path} exact>
-				{data.component}
+	return (
+		<Switch>
+			<Route path={`${url}/`} exact>
+				<Home />
 			</Route>
-		);
-	});
+			
+			{privilegio === 'V-' && listV.map((data, i) => {
+				return (
+					<Route key={i} path={data.path} exact>
+						{data.component}
+					</Route>
+				);
+			})}
+			
+			
+			{privilegio === 'A-' && listA.map((data, i) => {
+				return (
+					<Route key={i} path={data.path} exact>
+						{data.component}
+					</Route>
+				);
+			})}
+			
+			{privilegio === 'CR-' && listC.map((data, i) => {
+				return (
+					<Route key={i} path={data.path} exact>
+						{data.component}
+					</Route>
+				);
+			})}
+			
+			<Route>
+				<NoFound />
+			</Route>
+		</Switch>
+	)
 }
 
 const mapStateToProps = state => ({

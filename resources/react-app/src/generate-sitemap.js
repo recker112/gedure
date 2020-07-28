@@ -8,5 +8,5 @@ const Sitemap = require("react-router-sitemap").default;
 (
 	new Sitemap(router)
 			.build("https://lacandelaria.com.ve")
-			.save("./public/sitemap.xml")
+			.save("./resources/react-app/public/sitemap.xml")
 );
