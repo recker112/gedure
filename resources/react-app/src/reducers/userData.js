@@ -1,16 +1,6 @@
-import clearAllData from '../components/reutilizar/clearAllData';
-
 //Inicar valor del state.
 const initialState = {
-	cedula: '',
-	name: '',
-	curso: '',
-	seccion: '',
-	lista: '',
-	horario: '',
-	profeGuia: '',
-	privilegio: '',
-	avatar: '',
+	auth: false,
 	access_key: ''
 };
 
@@ -24,12 +14,7 @@ export default (state = initialState, { type, payload }) => {
 				...payload
 			};
 		}
-		case 'LOGOUT': {
-			clearAllData();
-			return {
-				...initialState
-			}
-		}
+			
 		default: {
 			return state;
 		}
