@@ -4,21 +4,9 @@ if (!localStorage.getItem('theme')) {
 	localStorage.setItem('theme', 'light');
 }
 
-//Verificar si la lista contiene algo
-if (
-	!localStorage.getItem('notSeeInfoDialog') ||
-	typeof JSON.parse(localStorage.getItem('notSeeInfoDialog')) !== 'object'
-) {
-	//Setear dada
-	localStorage.setItem('notSeeInfoDialog', JSON.stringify([]));
-}
-
 //Inicar valor del state.
 const initialState = {
-	tema: localStorage.getItem('theme'),
-	showInfo: {
-		masterPath: ''
-	}
+	tema: localStorage.getItem('theme')
 };
 
 // action es el valor devuelto por el action
