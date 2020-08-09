@@ -17,7 +17,7 @@ class CustomEloquentUserProvider extends EloquentUserProvider
     public function validateCredentials(UserContract $user, array $credentials)
     {
         //contraseña recibida del formulario.
-        $passForm = $credentials['user_password'];
+        $passForm = $credentials['password'];
         //Encriptar
         $passEncForm = User::encript_password($passForm, false);
 
