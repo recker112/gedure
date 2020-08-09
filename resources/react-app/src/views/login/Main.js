@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 
 import { connect } from 'react-redux';
 import updateForms from './../../actions/updateForms';
+import updateDataUser from './../../actions/updateDataUser';
 
 import {
 	Container,
@@ -158,6 +159,8 @@ function useFetch(){
 					variant: 'error'
 				});
 			}
+			
+			return false;
 		}
 	}
 	
@@ -167,7 +170,7 @@ function useFetch(){
 function Form({ state }) {
 	const { fetchData } = useFetch();
 	const { register, handleSubmit, errors } = useForm();
-	const { loading, inputs, updateForms } = state;
+	const { loading, inputs, updateForms, updateDataUser } = state;
 	const { user, password } = inputs;
 	
 
@@ -187,6 +190,9 @@ function Form({ state }) {
 		const response = await fetchData('v1/login', data, 'Login exitoso');
 		
 		console.log(response);
+		if (response) {
+			updateDataUser(data);
+		}
 		
 		updateForms('login', false);
 	}
@@ -271,7 +277,7 @@ function Form({ state }) {
 	);
 }
 
-function Login({ updateForms, loading, inputs }) {
+function Login({ updateForms, updateDataUser, loading, inputs }) {
 	document.title = 'La Candelaria - Login';
 	
 	let history = useHistory();
@@ -293,7 +299,7 @@ function Login({ updateForms, loading, inputs }) {
 							<PanelWelcome />
 						</Grid>
 						<Grid item xs={12} sm={12} md={8}>
-							<Form state={{loading, inputs, updateForms}} />
+							<Form state={{loading, inputs, updateForms, updateDataUser}} />
 						</Grid>
 					</Grid>
 					<Grid container justify="center" item xs={12}>
@@ -315,6 +321,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	updateForms,
+	updateDataUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
