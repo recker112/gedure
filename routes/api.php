@@ -14,6 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+**-- v1 --**
+
+Primera versión de la API Gedure
+*/
+Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\v1'], function () {
+  Route::get('test', 'TestApi@index');
+	Route::post('login', 'LoginController@login');
+});
+
+
+
+/*
+**-- Old versión --**
+
+Primera versión de la API Gedure
+*/
+
 //Login
 Route::post('/login', 'LoginController@login');
 //Relogin

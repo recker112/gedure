@@ -21,8 +21,8 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //Base Url
-window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host;
-// window.axios.defaults.baseURL = window.location.protocol + '//cande8000.run-us-west2.goorm.io';
+//window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host;
+window.axios.defaults.baseURL = window.location.protocol + '//cande8000.run-us-west2.goorm.io/api';
 
 ReactDOM.render(
   <Provider store={store}>

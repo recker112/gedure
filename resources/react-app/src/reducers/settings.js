@@ -9,8 +9,6 @@ const initialState = {
 	tema: localStorage.getItem('theme')
 };
 
-// action es el valor devuelto por el action
-//action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_THEME': {
@@ -30,14 +28,6 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 			
-		case 'UPDATE_MASTER_PATH': {
-			return {
-				...state,
-				showInfo: {
-					masterPath: payload
-				}
-			};
-		}
 		default: {
 			return state;
 		}

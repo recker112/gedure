@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useHistory } from 'react-router-dom';
 
+import { RenderInput } from './../../components/RendersGlobals';
+import LoadingComponent from './../../components/LoadingComponent';
 import logo from './../../imgs/favicon_no_fondo_white.png';
 
 import { useSnackbar } from 'notistack';
+
+import { useForm } from "react-hook-form";
+
+import { connect } from 'react-redux';
+import updateForms from './../../actions/updateForms';
 
 import {
 	Container,
@@ -15,7 +22,6 @@ import {
 	Paper,
 	Button,
 	Box,
-	TextField,
 	FormControlLabel,
 	Checkbox,
 	Slide,
@@ -111,121 +117,171 @@ function PanelWelcome() {
 	);
 }
 
-function Form() {
-	const [inputs, setInputs] = useState({
-		user: '',
-		password: '',
-		checkbox: true,
-	});
+function useFetch(){
+	const axios = window.axios;
+	
+	const { enqueueSnackbar } = useSnackbar();
+	
+	const fetchData = async (url, data, successText)=>{
+		try {
+			const res = await axios.post(url, data);
+			
+			enqueueSnackbar(successText, {
+				variant: 'success'
+			});
+			
+			return res.data;
+		} catch (error) {
+			if (error.response){
+				//Errores HTTP
+				const { status, data } = error.response;
+
+				if (status === 403){
+					enqueueSnackbar(data.description, {
+						variant: 'error'
+					});
+				}else if (status === 400){
+					enqueueSnackbar(data.description, {
+						variant: 'warning'
+					});
+				}else if (status === 500){
+					enqueueSnackbar('No se ha podido conectar con la base de datos', {
+						variant: 'error'
+					});
+				}else {
+					enqueueSnackbar('Error interno en el servidor', {
+						variant: 'error'
+					});
+				}
+			}else {
+				enqueueSnackbar('Error interno en el sistema', {
+					variant: 'error'
+				});
+			}
+		}
+	}
+	
+	return { fetchData };
+}
+
+function Form({ state }) {
+	const { fetchData } = useFetch();
+	const { register, handleSubmit, errors } = useForm();
+	const { loading, inputs, updateForms } = state;
+	const { user, password } = inputs;
+	
 
 	let history = useHistory();
 
 	const classes = useStyles();
-	
-	const { enqueueSnackbar } = useSnackbar();
 
 	const handleRecovery = () => {
-		history.push('/recovery');
+		if (!loading) {
+			history.push('/recovery');
+		}
 	};
 
-	const handleChange = (event) => {
-		if (event.target.name === 'checkbox') {
-			setInputs({ ...inputs, [event.target.name]: event.target.checked });
-		} else {
-			setInputs({ ...inputs, [event.target.name]: event.target.value });
-		}
-	};
-	
-	const handleSubmit = () => {
-		if (inputs.user === 'studiend') {
-			history.push('/panel/V');
-		}else if (inputs.user === 'admin') {
-			history.push('/panel/A');
-		} else if (inputs.user === 'teacher') {
-			history.push('/panel/P');
-		}else {
-			enqueueSnackbar('Opciones no válidas', {
-				variant: 'error'
-			});
-		}
+	const onSubmit = async (data) => {
+		updateForms('login', true, data);
+		
+		const response = await fetchData('v1/login', data, 'Login exitoso');
+		
+		console.log(response);
+		
+		updateForms('login', false);
 	}
 
 	return (
 		<Slide in={true} direction="left" mountOnEnter unmountOnExit>
-			<Paper className={classes.login__box + ' ' + classes.padding2}>
-				<Grid
-					container
-					direction="column"
-					justify="space-between"
-					spacing={2}
-					style={{ height: '100%' }}
-				>
-					<Grid container item justify="center">
-						<Typography className="login__titleForm login__welcome--italic">
-							Rellene los campos
-						</Typography>
-					</Grid>
-					<Grid container item>
-						<TextField
-							type="text"
-							name="user"
-							value={inputs.user}
-							style={{ width: '100%' }}
-							label="Usuario"
-							size="medium"
-							autoFocus={true}
-							variant="outlined"
-							onChange={handleChange}
-						/>
-					</Grid>
-					<Grid container item>
-						<TextField
-							type="password"
-							name="password"
-							value={inputs.password}
-							style={{ width: '100%' }}
-							label="Contraseña"
-							size="medium"
-							variant="outlined"
-							onChange={handleChange}
-						/>
-					</Grid>
-					<Grid container item>
-						<FormControlLabel
-							control={
-								<Checkbox
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Paper className={classes.login__box + ' ' + classes.padding2}>
+					<Grid
+						container
+						direction="column"
+						justify="space-between"
+						spacing={2}
+						style={{ height: '100%' }}
+					>
+						<Grid container item justify="center">
+							<Typography className="login__titleForm login__welcome--italic">
+								Rellene los campos
+							</Typography>
+						</Grid>
+						<Grid container item>
+							<RenderInput 
+								name='user'
+								label='Usuario'
+								defaultValue={user}
+								errors={errors.user}
+								registerInput={register({
+									required: { value: true, message: 'Campo requerido.' },
+									minLength: { value: 3, message: 'Campo no válido.' }
+								})}
+								disabledOnLoading={loading}
+								focus
+							/>
+						</Grid>
+						<Grid container item>
+							<RenderInput 
+								passwordMode
+								name='password'
+								label='Contraseña'
+								defaultValue={password}
+								errors={errors.password}
+								registerInput={register({
+									required: { value: true, message: 'Campo requerido.' },
+									minLength: { value: 4, message: 'Campo no válido.' }
+								})}
+								disabledOnLoading={loading}
+							/>
+						</Grid>
+						<Grid container item>
+							<FormControlLabel
+								control={
+									<Checkbox
+										color="primary"
+										name="checkbox"
+										inputRef={register}
+									/>
+								}
+								label="Mantener abierto"
+							/>
+						</Grid>
+						<Grid container justify="center" item>
+							<LoadingComponent loading={loading}>
+								<Button
 									color="primary"
-									checked={inputs.checkbox}
-									name="checkbox"
-									onChange={handleChange}
-								/>
-							}
-							label="Mantener abierto"
-						/>
+									variant="contained"
+									type='submit'
+									className={classes.button}
+								>
+									Entrar
+								</Button>
+							</LoadingComponent>
+						</Grid>
+						<Grid container justify="center" item>
+							<Box component="span" className={classes.login__recovery} onClick={handleRecovery}>
+								Recuperar contraseña
+							</Box>
+						</Grid>
 					</Grid>
-					<Grid container justify="center" item>
-						<Button color="primary" variant="contained" onClick={handleSubmit} className={classes.button}>
-							Entrar
-						</Button>
-					</Grid>
-					<Grid container justify="center" item>
-						<Box component="span" className={classes.login__recovery} onClick={handleRecovery}>
-							Recuperar contraseña
-						</Box>
-					</Grid>
-				</Grid>
-			</Paper>
+				</Paper>
+			</form>
 		</Slide>
 	);
 }
 
-function Login() {
+function Login({ updateForms, loading, inputs }) {
+	document.title = 'La Candelaria - Login';
+	
 	let history = useHistory();
 
 	const classes = useStyles();
 
 	const handleReturn = () => {
-		history.push('/');
+		if (!loading) {
+			history.push('/');
+		}
 	};
 
 	return (
@@ -237,7 +293,7 @@ function Login() {
 							<PanelWelcome />
 						</Grid>
 						<Grid item xs={12} sm={12} md={8}>
-							<Form />
+							<Form state={{loading, inputs, updateForms}} />
 						</Grid>
 					</Grid>
 					<Grid container justify="center" item xs={12}>
@@ -251,4 +307,14 @@ function Login() {
 	);
 }
 
-export default Login;
+//REDUX
+const mapStateToProps = state => ({
+	loading: state.forms.login.loading,
+	inputs: state.forms.login.inputs
+});
+
+const mapDispatchToProps = {
+	updateForms,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

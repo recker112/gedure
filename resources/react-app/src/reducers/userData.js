@@ -1,11 +1,9 @@
 //Inicar valor del state.
 const initialState = {
 	auth: false,
-	access_key: ''
+	access_key: '',
 };
 
-// action es el valor devuelto por el action
-//action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_DATA_USER': {
