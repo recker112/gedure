@@ -122,7 +122,9 @@ function Noticias() {
 	
 	return (
 		<React.Fragment>
-			<main className={classes.root}>
+			<main className={classes.root} ref={()=>{
+					document.title = 'La Candelaria - Noticias';
+				}}>
 				<Container maxWidth="md">
 					{dataList.map((data, i) => (
 						<Noticia data={data} key={i} />

@@ -25,6 +25,7 @@ const ShowNotice = lazy(() => import('./noticias/ShowNotice'));
 const PageContacto = lazy(() => import('./contacto/Main'));
 const Login = lazy(() => import('./login/Main'));
 const Recovery = lazy(() => import('./login/Recovery'));
+const PagePanel = lazy(() => import('./panel/Main'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,7 +44,7 @@ function Routers({ auth, theme }) {
     la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
 		<Suspense fallback={<Loader theme={theme} />}>
 			<Switch>
-				<PublicRoute auth={auth} path='/' exact>
+				<PublicRoute auth={auth} path='/' exact notSeeBeforeAuth>
 					<PageIndex />
 				</PublicRoute>
 				
@@ -55,7 +56,7 @@ function Routers({ auth, theme }) {
 					<ShowNotice />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/contactanos' exact>
+				<PublicRoute auth={auth} path='/contactanos' exact notSeeBeforeAuth>
 					<PageContacto />
 				</PublicRoute>
 				
@@ -67,6 +68,10 @@ function Routers({ auth, theme }) {
 					<Recovery />
 				</PublicRoute>
 				
+				<ProtectRoute auth={auth} path='/panel'>
+					<PagePanel />
+				</ProtectRoute>
+				
 				<PublicRoute auth={auth}>
 					<NoFound />
 				</PublicRoute>
@@ -75,18 +80,22 @@ function Routers({ auth, theme }) {
 	);
 }
 
-export function PublicRoute({ children, auth, ...rest }) {
+export function PublicRoute({ children, auth, notSeeBeforeAuth=false, ...rest }) {
 	// AccessKey
-	const keyL = JSON.parse(localStorage.getItem('key'));
-	const keyS = JSON.parse(sessionStorage.getItem('key'));
+	const keyL = JSON.parse(localStorage.getItem('access_key'));
+	const keyS = JSON.parse(sessionStorage.getItem('access_key'));
 	
 	// Redireccionar al Login si existe una Access key almacenada
 	return (
 		<Route
 			{...rest}
 			render={({ location }) => {
-				if (auth) {
+				if (auth && !notSeeBeforeAuth) {
 					return	(children);
+				}else if (auth && notSeeBeforeAuth){
+					return (
+						<Redirect to={'/panel'} />
+					);
 				}else {
 					// Verificar si existen AccesKeys por validar y si el path actual
 					// es diferente a "/entrar"
@@ -116,7 +125,7 @@ export function ProtectRoute({ children, auth, ...rest }) {
 				}else {
 					return (
 						<Redirect to={{
-              pathname: "/",
+              pathname: "/entrar",
               state: { from: location, protect: true }
             }} />
 					);

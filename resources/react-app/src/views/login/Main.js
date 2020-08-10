@@ -7,14 +7,16 @@ import { useHistory } from 'react-router-dom';
 import { RenderInput } from './../../components/RendersGlobals';
 import LoadingComponent from './../../components/LoadingComponent';
 import logo from './../../imgs/favicon_no_fondo_white.png';
+import ReloginComponent from './ReloginComponent';
 
-import { useSnackbar } from 'notistack';
+import useFetch from './../../hooks/useFetch';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 import { connect } from 'react-redux';
 import updateForms from './../../actions/updateForms';
 import updateDataUser from './../../actions/updateDataUser';
+import updateAuth from './../../actions/updateAuth';
 
 import {
 	Container,
@@ -36,15 +38,10 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(4),
 		marginBottom: theme.spacing(4),
 	},
-	padding: {
-		padding: theme.spacing(2),
-	},
-	padding2: {
-		padding: `${theme.spacing(2)}px ${theme.spacing(8)}px`,
-	},
 	login__welcome: {
 		background: theme.palette.primary.main,
 		width: '100%',
+		padding: theme.spacing(2),
 
 		[theme.breakpoints.down('sm')]: {
 			borderRadius: '5px 5px 0px 0px',
@@ -58,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
 	login__box: {
 		width: '100%',
 		height: 470,
+		
+		[theme.breakpoints.down('xs')]: {
+			padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
+		},
+
+		[theme.breakpoints.up('sm')]: {
+			padding: `${theme.spacing(2)}px ${theme.spacing(8)}px`,
+		}
 	},
 	button: {
 		width: 170,
@@ -118,61 +123,11 @@ function PanelWelcome() {
 	);
 }
 
-function useFetch(){
-	const axios = window.axios;
-	
-	const { enqueueSnackbar } = useSnackbar();
-	
-	const fetchData = async (url, data, successText)=>{
-		try {
-			const res = await axios.post(url, data);
-			
-			enqueueSnackbar(successText, {
-				variant: 'success'
-			});
-			
-			return res.data;
-		} catch (error) {
-			if (error.response){
-				//Errores HTTP
-				const { status, data } = error.response;
-
-				if (status === 403){
-					enqueueSnackbar(data.description, {
-						variant: 'error'
-					});
-				}else if (status === 400){
-					enqueueSnackbar(data.description, {
-						variant: 'warning'
-					});
-				}else if (status === 500){
-					enqueueSnackbar('No se ha podido conectar con la base de datos', {
-						variant: 'error'
-					});
-				}else {
-					enqueueSnackbar('Error interno en el servidor', {
-						variant: 'error'
-					});
-				}
-			}else {
-				enqueueSnackbar('Error interno en el sistema', {
-					variant: 'error'
-				});
-			}
-			
-			return false;
-		}
-	}
-	
-	return { fetchData };
-}
-
 function Form({ state }) {
+	const { loading, inputs, updateForms, updateDataUser, updateAuth } = state;
 	const { fetchData } = useFetch();
 	const { register, handleSubmit, errors } = useForm();
-	const { loading, inputs, updateForms, updateDataUser } = state;
 	const { user, password } = inputs;
-	
 
 	let history = useHistory();
 
@@ -186,21 +141,36 @@ function Form({ state }) {
 
 	const onSubmit = async (data) => {
 		updateForms('login', true, data);
-		
-		const response = await fetchData('v1/login', data, 'Login exitoso');
-		
-		console.log(response);
-		if (response) {
-			updateDataUser(data);
+
+		const prepareDate = {
+			url: 'v1/login',
+			data: data,
+			successText: 'Login exitoso'
 		}
 		
+		const response = await fetchData(prepareDate);
+
+		if (response) {
+			updateDataUser(response);
+
+			// Save access_key
+			if (data.checkbox) {
+				localStorage.setItem('access_key', JSON.stringify(response.access_key));
+				sessionStorage.setItem('access_key', JSON.stringify(response.access_key));
+			} else {
+				sessionStorage.setItem('access_key', JSON.stringify(response.access_key));
+			}
+
+			updateAuth(true);
+		}
+
 		updateForms('login', false);
-	}
+	};
 
 	return (
 		<Slide in={true} direction="left" mountOnEnter unmountOnExit>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<Paper className={classes.login__box + ' ' + classes.padding2}>
+				<Paper className={classes.login__box}>
 					<Grid
 						container
 						direction="column"
@@ -214,42 +184,36 @@ function Form({ state }) {
 							</Typography>
 						</Grid>
 						<Grid container item>
-							<RenderInput 
-								name='user'
-								label='Usuario'
+							<RenderInput
+								name="user"
+								label="Usuario"
 								defaultValue={user}
 								errors={errors.user}
 								registerInput={register({
 									required: { value: true, message: 'Campo requerido.' },
-									minLength: { value: 3, message: 'Campo no válido.' }
+									minLength: { value: 3, message: 'Campo no válido.' },
 								})}
 								disabledOnLoading={loading}
 								focus
 							/>
 						</Grid>
 						<Grid container item>
-							<RenderInput 
+							<RenderInput
 								passwordMode
-								name='password'
-								label='Contraseña'
+								name="password"
+								label="Contraseña"
 								defaultValue={password}
 								errors={errors.password}
 								registerInput={register({
 									required: { value: true, message: 'Campo requerido.' },
-									minLength: { value: 4, message: 'Campo no válido.' }
+									minLength: { value: 4, message: 'Campo no válido.' },
 								})}
 								disabledOnLoading={loading}
 							/>
 						</Grid>
 						<Grid container item>
 							<FormControlLabel
-								control={
-									<Checkbox
-										color="primary"
-										name="checkbox"
-										inputRef={register}
-									/>
-								}
+								control={<Checkbox color="primary" name="checkbox" inputRef={register} />}
 								label="Mantener abierto"
 							/>
 						</Grid>
@@ -258,7 +222,7 @@ function Form({ state }) {
 								<Button
 									color="primary"
 									variant="contained"
-									type='submit'
+									type="submit"
 									className={classes.button}
 								>
 									Entrar
@@ -277,9 +241,9 @@ function Form({ state }) {
 	);
 }
 
-function Login({ updateForms, updateDataUser, loading, inputs }) {
-	document.title = 'La Candelaria - Login';
-	
+function Login(props) {
+	const { updateForms, updateDataUser, updateAuth, loading, inputs } = props;
+
 	let history = useHistory();
 
 	const classes = useStyles();
@@ -291,37 +255,42 @@ function Login({ updateForms, updateDataUser, loading, inputs }) {
 	};
 
 	return (
-		<main className={classes.root}>
-			<Container maxWidth="md" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-				<Grid container spacing={2}>
-					<Grid container alignItems="center" item>
-						<Grid item xs={12} sm={12} md={4}>
-							<PanelWelcome />
+		<ReloginComponent>
+			<main className={classes.root} ref={()=>{
+					document.title = 'La Candelaria - Login';
+				}}>
+				<Container maxWidth="md" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+					<Grid container spacing={2}>
+						<Grid container alignItems="center" item>
+							<Grid item xs={12} sm={12} md={4}>
+								<PanelWelcome />
+							</Grid>
+							<Grid item xs={12} sm={12} md={8}>
+								<Form state={{ loading, inputs, updateForms, updateDataUser, updateAuth }} />
+							</Grid>
 						</Grid>
-						<Grid item xs={12} sm={12} md={8}>
-							<Form state={{loading, inputs, updateForms, updateDataUser}} />
+						<Grid container justify="center" item xs={12}>
+							<Box component="span" className="login__return" onClick={handleReturn}>
+								Volver al inicio
+							</Box>
 						</Grid>
 					</Grid>
-					<Grid container justify="center" item xs={12}>
-						<Box component="span" className="login__return" onClick={handleReturn}>
-							Volver al inicio
-						</Box>
-					</Grid>
-				</Grid>
-			</Container>
-		</main>
+				</Container>
+			</main>
+		</ReloginComponent>
 	);
 }
 
 //REDUX
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	loading: state.forms.login.loading,
-	inputs: state.forms.login.inputs
+	inputs: state.forms.login.inputs,
 });
 
 const mapDispatchToProps = {
 	updateForms,
-	updateDataUser
+	updateDataUser,
+	updateAuth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

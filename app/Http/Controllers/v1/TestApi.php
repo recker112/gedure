@@ -8,10 +8,6 @@ class TestApi extends Controller
 {
   public function index()
 	{
-		return response()->json([
-			'code' => 403,
-			'msg' => 'no_access',
-			'description' => 'No estรกs autorizado'
-		], 403);
+		return response()->json(request()->user(), 200);
 	}
 }
