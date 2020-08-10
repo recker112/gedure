@@ -674,9 +674,11 @@ class ComposerStaticInitac469232a121b8d4d13971cef30581de
     );
 
     public static $classMap = array (
+        'AdminConfigSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminConfigSeeder.php',
         'AdminConfigTable' => __DIR__ . '/../..' . '/database/seeds/v4/AdminConfigTable.php',
         'AlumnoTable' => __DIR__ . '/../..' . '/database/seeds/v4/AlumnoTable.php',
         'AnunciosTable' => __DIR__ . '/../..' . '/database/seeds/v4/AnunciosTable.php',
+        'App\\AdminConfig' => __DIR__ . '/../..' . '/app/AdminConfig.php',
         'App\\Bloqueos' => __DIR__ . '/../..' . '/app/Bloqueos.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\CustomExtensions\\CustomEloquentUserProvider' => __DIR__ . '/../..' . '/app/CustomExtensions/CustomEloquentUserProvider.php',
@@ -708,7 +710,6 @@ class ComposerStaticInitac469232a121b8d4d13971cef30581de
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'BansTable' => __DIR__ . '/../..' . '/database/seeds/v4/BansTable.php',
-        'BloqueosSeeder' => __DIR__ . '/../..' . '/database/seeds/BloqueosSeeder.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
         'Brick\\Math\\BigNumber' => __DIR__ . '/..' . '/brick/math/src/BigNumber.php',

@@ -16,7 +16,6 @@ class UsersTest extends Seeder
 			'nombre' => 'Recker Ortiz',
 			'privilegio' => 'A-',
 			'password' => '$2y$10$SyGW/Ad5GkSzAA6g0njgm.EfL9DUeb7qEDA5pWGjxirCXkcfiHtLW',
-			'api_token' => Str::random(70),
 			'created_at' => now(),
 			'updated_at' => now()
 		]);

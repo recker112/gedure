@@ -25,13 +25,15 @@ function Contacto () {
 	
 	return (
 		<React.Fragment>
-			<main className={classes.root}>
+			<main className={classes.root} ref={()=>{
+					document.title = 'La Candelaria - Contáctanos';
+				}}>
 				<Container maxWidth='md'>
 					<Paper className={`${classes.margin} ${classes.padding}`}>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
 								<Typography className='box__title'>
-									Dirección
+									Direcciรณn
 								</Typography>
 							</Grid>
 							<Grid container justify='space-between' alignItems='center' item xs={12}>

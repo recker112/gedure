@@ -4,36 +4,25 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-	use SoftDeletes;
+	use SoftDeletes, HasApiTokens, Notifiable;
 	
 	protected $fillable = [
 		'cedula', 
 		'privilegio', 
 		'nombre',
 		'password',
-		'api_token',
+		'avatar',
+		'email'
 	];
 	
 	protected $hidden = [
-			'created_at', 'updated_at'
+			'created_at', 'updated_at', 'password', 'deleted_at'
 	];
-	
-  /**
-	 * The attributes that should be cast to native types.
-	 *
-	 * @var string
-	 */
-	protected $primaryKey = 'cedula';
-	
-	/**
-	 * The attributes that should be cast to native types.
-	 *
-	 * @var string
-	 */
-	protected $keyType = 'string';
 	
 	//Encriptado de contraseña.
 	protected static function encript_password($password, $register = true){
@@ -82,36 +71,36 @@ class User extends Authenticatable
 		$dataUser = null;
 		if ($privilegio === 'V-') {
 			$dataUser = User::select(
+				'id',
 				'cedula', 
 				'nombre', 
 				'privilegio', 
 				'avatar', 
-				'email',
-				'api_token')
+				'email')
 				->where('cedula', $cedula)
 				->first();
 		}
 		
 		if ($privilegio === 'A-') {
 			$dataUser = User::select(
+				'id',
 				'cedula', 
 				'nombre', 
 				'privilegio', 
 				'avatar', 
-				'email',
-				'api_token')
+				'email')
 				->where('cedula', $cedula)
 				->first();
 		}
 		
 		if ($privilegio === 'P-') {
 			$dataUser = User::select(
+				'id',
 				'cedula', 
 				'nombre', 
 				'privilegio', 
 				'avatar', 
-				'email',
-				'api_token')
+				'email')
 				->where('cedula', $cedula)
 				->first();
 		}

@@ -155,53 +155,115 @@ function ShowNotice () {
 	const { nombre, avatar, titulo, contenido, fecha, imgs, archives } = selectData;
 	const animation = expand ? 'noticia__animation1' : '';
 	
-	return (
-		<React.Fragment>
-			<main className={classes.root}>
-				<Container maxWidth="md">
-					<Paper className={`${classes.margin} ${classes.paddingSmall}`}>
-						<Grid container justify='space-between'>
-							<Link to='/noticias'>
-								<IconButton>
-									<ArrowBackIcon />
-								</IconButton>
-							</Link>
-							<MoreOptions />
-						</Grid>
-					</Paper>
-					<Paper className={`${classes.margin} ${classes.padding}`}>
-						<Grid container justify='space-between' alignItems='flex-start'>
-							<Grid container justify='flex-start' alignItems='center' direction='column' spacing={1} item xs={12} sm={2}>
-								<Grid item xs={12}>
-									<Avatar src={avatar} alt="Avatar del usuario" className={classes.largeAvatar}>
-										{nombre.substring(0, 1).toUpperCase()}
+	function OptionsBar(){
+		return (
+			<Paper className={`${classes.margin} ${classes.paddingSmall}`}>
+				<Grid container justify='space-between'>
+					<Link to='/noticias'>
+						<IconButton>
+							<ArrowBackIcon />
+						</IconButton>
+					</Link>
+					<MoreOptions />
+				</Grid>
+			</Paper>
+		);
+	}
+	
+	function AvatarZone(){
+		return (
+			<Grid container justify='flex-start' alignItems='center' direction='column' spacing={1} item xs={12} sm={2}>
+				<Grid item xs={12}>
+					<Avatar src={avatar} alt="Avatar del usuario" className={classes.largeAvatar}>
+						{nombre.substring(0, 1).toUpperCase()}
+					</Avatar>
+				</Grid>
+				<Grid item xs>
+					<Box component="span" textAlign="center" className=''>
+						{nombre}
+					</Box>
+				</Grid>
+			</Grid>
+		);
+	}
+	
+	function TextZone(){
+		return (
+			<React.Fragment>
+				<Grid item xs={12}>
+					<Typography component="span" className="noticia__title">
+						{titulo}
+					</Typography>
+				</Grid>
+				<Grid container item xs={12}>
+					<Box component="span" className={classes.noticia__text} textAlign="justify">
+						{contenido}
+					</Box>
+				</Grid>
+			</React.Fragment>
+		);
+	}
+	
+	function ImgZone({imgs}) {
+		const imagenes = imgs.map((img, i)=>{
+			return (
+				<Grid item xs={6} sm key={i}>
+					<Skeleton variant='rect' height={150} />
+				</Grid>
+			)
+		});
+		
+		return imagenes;
+	}
+	
+	function ArchivesZone({ state }) {
+		const { expand, archives } = state;
+		
+		return (
+			<Collapse in={expand}>
+				{archives.map((archive, i)=>{
+					return (
+						<React.Fragment key={i}>
+							<Grid container justify='space-between' alignItems='center'>
+								<Grid container alignItems='center' item xs={11}>
+									<Avatar>
+										L
 									</Avatar>
-								</Grid>
-								<Grid item xs>
-									<Box component="span" textAlign="center" className=''>
-										{nombre}
+									<Box component='span' className='noticia__titleArchive'>
+										{archive.name}
 									</Box>
+									<Box component='span' className='noticia__sizeArchive'>
+										({archive.size})
+									</Box>
+								</Grid>
+								<Grid item xs={1}>
+									<IconButton>
+										<GetAppIcon />
+									</IconButton>
 								</Grid>
 							</Grid>
+							<hr />
+						</React.Fragment>
+					);
+				})}
+			</Collapse>
+		)
+	}
+	
+	return (
+		<React.Fragment>
+			<main className={classes.root} ref={()=>{
+					document.title = 'La Candelaria - '+titulo;
+				}}>
+				<Container maxWidth="md">
+					<OptionsBar />
+					<Paper className={`${classes.margin} ${classes.padding}`}>
+						<Grid container justify='space-between' alignItems='flex-start'>
+							<AvatarZone />
 							<Grid container justify='center' spacing={2} item xs sm>
-								<Grid item xs={12}>
-									<Typography component="span" className="noticia__title">
-										{titulo}
-									</Typography>
-								</Grid>
-								<Grid container item xs={12}>
-									<Box component="span" className={classes.noticia__text} textAlign="justify">
-										{contenido}
-									</Box>
-								</Grid>
+								<TextZone />
 								<Grid container justify='center' alignItems='center' spacing={2} item xs={12}>
-									{imgs && imgs.map((img, i)=>{
-										return (
-											<Grid item xs={6} sm key={i}>
-												<Skeleton variant='rect' height={150} />
-											</Grid>
-										)
-									})}
+									{imgs && <ImgZone img={imgs} />}
 								</Grid>
 								{archives && (
 									<Grid container item xs={12}>
@@ -214,33 +276,7 @@ function ShowNotice () {
 											</IconButton>
 										</Grid>
 										<Grid item xs>
-											<Collapse in={expand}>
-												{archives.map((archive, i)=>{
-													return (
-														<React.Fragment key={i}>
-															<Grid container justify='space-between' alignItems='center'>
-																<Grid container alignItems='center' item xs={11}>
-																	<Avatar>
-																		L
-																	</Avatar>
-																	<Box component='span' className='noticia__titleArchive'>
-																		{archive.name}
-																	</Box>
-																	<Box component='span' className='noticia__sizeArchive'>
-																		({archive.size})
-																	</Box>
-																</Grid>
-																<Grid item xs={1}>
-																	<IconButton>
-																		<GetAppIcon />
-																	</IconButton>
-																</Grid>
-															</Grid>
-															<hr />
-														</React.Fragment>
-													);
-												})}
-											</Collapse>
+											<ArchivesZone state={{expand, archives}} />
 										</Grid>
 									</Grid>
 								)}

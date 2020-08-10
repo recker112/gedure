@@ -77,7 +77,9 @@ function Index() {
 
 	return (
 		<React.Fragment>
-			<main className={classes.root}>
+			<main className={classes.root} ref={()=>{
+					document.title = 'La Candelaria';
+				}}>
 				<Box component="div" className="headIndex__boxImg">
 					<Box component="div" className="headIndex__box">
 						<Container maxWidth="md">

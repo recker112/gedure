@@ -6,9 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AdminConfigSeeder' => $baseDir . '/database/seeds/AdminConfigSeeder.php',
     'AdminConfigTable' => $baseDir . '/database/seeds/v4/AdminConfigTable.php',
     'AlumnoTable' => $baseDir . '/database/seeds/v4/AlumnoTable.php',
     'AnunciosTable' => $baseDir . '/database/seeds/v4/AnunciosTable.php',
+    'App\\AdminConfig' => $baseDir . '/app/AdminConfig.php',
     'App\\Bloqueos' => $baseDir . '/app/Bloqueos.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\CustomExtensions\\CustomEloquentUserProvider' => $baseDir . '/app/CustomExtensions/CustomEloquentUserProvider.php',
@@ -40,7 +42,6 @@ return array(
     'Asm89\\Stack\\CorsService' => $vendorDir . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
     'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
     'BansTable' => $baseDir . '/database/seeds/v4/BansTable.php',
-    'BloqueosSeeder' => $baseDir . '/database/seeds/BloqueosSeeder.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
     'Brick\\Math\\BigInteger' => $vendorDir . '/brick/math/src/BigInteger.php',
     'Brick\\Math\\BigNumber' => $vendorDir . '/brick/math/src/BigNumber.php',

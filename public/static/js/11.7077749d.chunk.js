@@ -1,0 +1,2 @@
+(this.webpackJsonpGedure=this.webpackJsonpGedure||[]).push([[11],{168:function(e,n,a){"use strict";a.r(n);var t=a(0),r=a.n(t),o=a(156),c=Object(o.a)((function(e){return{root:{marginTop:e.spacing(8),flexGrow:1}}}));n.default=function(){var e=c();return r.a.createElement("main",{className:e.root,ref:function(){document.title="La Candelaria - Panel"}},"Panel")}}}]);
+//# sourceMappingURL=11.7077749d.chunk.js.map
