@@ -185,7 +185,7 @@ const ContentBarList = ({privilegio}) => {
 
 //REDUX
 const mapStateToProps = (state) => ({
-  privilegio: state.userData.privilegio
+  privilegio: state.userData.privilegio,
 });
 
 export default connect(mapStateToProps)(ContentBarList);

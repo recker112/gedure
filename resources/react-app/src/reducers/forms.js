@@ -8,6 +8,12 @@ const initialState = {
 			checkbox: true,
 		},
 	},
+	registros: {
+		loading: false,
+		inputs: {
+			radioSelect: 'all',
+		},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -17,12 +23,10 @@ export default (state = initialState, { type, payload }) => {
 			
 			let data;
 			
-			if (form === 'login') {
-				if (inputs) {
-					data = inputs;
-				}else {
-					data = state.login.inputs;
-				}
+			if (inputs) {
+				data = inputs;
+			}else {
+				data = state[form].inputs;
 			}
 			
 			return {

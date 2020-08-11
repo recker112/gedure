@@ -56,7 +56,7 @@ function Routers({ auth, theme }) {
 					<ShowNotice />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/contactanos' exact notSeeBeforeAuth>
+				<PublicRoute auth={auth} path='/contactanos' exact>
 					<PageContacto />
 				</PublicRoute>
 				

@@ -73,7 +73,7 @@ function HeaderButton (props) {
 	);
 }
 
-function ReturnSelected (props) {
+export function ReturnSelected (props) {
 	const { url, handle, children } = props;
 	
 	const classes = useStyles();

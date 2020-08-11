@@ -114,32 +114,37 @@ class LoginController extends Controller
 	
 	public function logout()
 	{
-		request()->user()->token()->revoke();
+		$user = request()->user();
+		
+		$user->token()->revoke();
 		
 		$jsonMessage = [
 			'code' => 200,
 			'msg'=>'logout',
-			'description' => 'Sección cerrada'
+			'description' => 'Sesión cerrada'
 		];
+		
+		$Log = new Log;
+		$Log->cedula = $user->cedula;
+		$Log->action = 'Cierre de sesión.';
+		$Log->save();
 		
 		return response()->json($jsonMessage, 200);
 	}
 	
 	public function logoutAllTokens()
 	{
-		$tokens = request()->user()->tokens;
+		$user = request()->user();
+		$tokens = $user->tokens;
 		
 		foreach ($tokens as $token) {
 			$token->revoke();
 		}
 		
-		return response('ok', 200);
-		
-		$jsonMessage = [
-			'code' => 200,
-			'msg'=>'logoutAll',
-			'description' => 'Secciones cerradas'
-		];
+		$Log = new Log;
+		$Log->cedula = $user->cedula;
+		$Log->action = 'Cierre de todas las sesiones.';
+		$Log->save();
 		
 		return response()->json($jsonMessage, 200);
 	}
@@ -154,6 +159,11 @@ class LoginController extends Controller
 			'user' => $user,
 			'permissions' => $permissions
 		];
+		
+		$Log = new Log;
+		$Log->cedula = $user->cedula;
+		$Log->action = 'Inicio de sessión por relogin.';
+		$Log->save();
 		
 		return response()->json($jsonMessage, 200);
 	}

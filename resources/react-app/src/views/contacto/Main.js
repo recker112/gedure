@@ -4,6 +4,8 @@ import { Container, Grid, Typography, Paper } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { connect } from 'react-redux';
+
 import Footer from '../../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,20 +22,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Contacto () {
+function Contacto ({ auth }) {
 	const classes = useStyles();
 	
 	return (
 		<React.Fragment>
 			<main className={classes.root} ref={()=>{
-					document.title = 'La Candelaria - Contáctanos';
+					document.title = 'La Candelaria - Contรกctanos';
 				}}>
 				<Container maxWidth='md'>
 					<Paper className={`${classes.margin} ${classes.padding}`}>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
 								<Typography className='box__title'>
-									Direcciรณn
+									Dirección
 								</Typography>
 							</Grid>
 							<Grid container justify='space-between' alignItems='center' item xs={12}>
@@ -75,9 +77,18 @@ function Contacto () {
 					</Paper>
 				</Container>
 			</main>
-			<Footer />
+			{!auth && (
+				<footer className='footer'>
+					<Footer />
+				</footer>
+			)}
 		</React.Fragment>
 	);
 }
 
-export default Contacto;
+//REDUX
+const mapStateToProps = (state) => ({
+	auth: state.userData.auth
+});
+
+export default connect(mapStateToProps, null)(Contacto);

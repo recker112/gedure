@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	headOptions: {
 		height: 50,
 		width: 200,
-		background: theme.palette.primary.main + '70'
+		background: theme.palette.primary.main + '90'
 	},
 	drawer__button: {
 		opacity: 0.9,
@@ -49,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
 				backgroundColor: theme.palette.primary.main
 			}
 		}
+	},
+	avatarColor: {
+    color: theme.palette.getContrastText(theme.palette.secondary.main),
+    backgroundColor: theme.palette.secondary.main,
 	}
 }));
 
@@ -96,7 +100,11 @@ function AvatarButton({ user, logoutApp }) {
 					size='small' 
 					onClick={handleClick}
 				>
-					<Avatar src={user.avatar}>
+					<Avatar 
+						alt='Avatar User' 
+						src={user.avatar} 
+						className={classes.avatarColor}
+					>
 						{user.nombre.substring(0, 1).toUpperCase()}
 					</Avatar>
 				</IconButton>

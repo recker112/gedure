@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
-
 import {
 	AppBar,
 	Toolbar,
@@ -9,7 +7,6 @@ import {
 	Tooltip
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 
 import { connect } from 'react-redux';
@@ -17,6 +14,7 @@ import updateTheme from './../../actions/updateTheme';
 
 import { HiddeOnScroll } from './../Header';
 import AvatarButton from './AvatarButton';
+import DrawerButton from './DrawerButton';
 
 const useStyles = makeStyles((theme) => ({
 	margin: {
@@ -56,13 +54,7 @@ function HeaderAuth({ updateTheme, tema }) {
 			<AppBar>
 				<Toolbar className={classes.appBar}>
 					<div className={classes.drawer__itemExpand}>
-						<Link to='/panel'>
-							<Tooltip  title="Menú" arrow leaveDelay={200}>
-								<IconButton>
-									<MenuIcon />
-								</IconButton>
-							</Tooltip>
-						</Link>
+						<DrawerButton />
 					</div>
 					<ChangeTheme updateTheme={updateTheme}>
 						<Tooltip title={temaText} arrow leaveDelay={200}>
