@@ -1,13 +1,46 @@
 import React, { useState } from 'react';
 
 //Material-UI
-import { TextField, InputAdornment, IconButton } from '@material-ui/core';
+import {
+	TextField,
+	InputAdornment,
+	IconButton,
+	FormControl,
+	FormLabel,
+	FormControlLabel,
+	Radio,
+	RadioGroup,
+} from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+export function RenderRadios({ registerInput, data, defaultValue=null }) {
+	return (
+		<FormControl component="fieldset">
+			<FormLabel color={data.color} component="legend">
+				{data.title}
+			</FormLabel>
+			<RadioGroup defaultValue={defaultValue} aria-label={data.name} name={data.name} row>
+				{data.values.map((element, i) => {
+					return (
+						<FormControlLabel
+							key={i}
+							value={element.value}
+							inputRef={registerInput}
+							control={<Radio  color={data.color} />}
+							label={element.name}
+							labelPlacement="end"
+						/>
+					);
+				})}
+			</RadioGroup>
+		</FormControl>
+	);
+}
+
 export function RenderInput(props) {
 	const {
-		type='text',
+		type = 'text',
 		name,
 		registerInput,
 		errors,
@@ -52,7 +85,7 @@ export function RenderInput(props) {
 				endAdornment: passwordMode ? (
 					<InputAdornment position="end">
 						<IconButton onClick={handleClick} size={size}>
-							{visibility ?  <VisibilityOff /> : <Visibility />}
+							{visibility ? <VisibilityOff /> : <Visibility />}
 						</IconButton>
 					</InputAdornment>
 				) : null,

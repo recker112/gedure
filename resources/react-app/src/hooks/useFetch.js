@@ -1,8 +1,12 @@
 import { useSnackbar } from 'notistack';
 
-function useFetch(logout){
+import { useDispatch } from "react-redux";
+import logoutApp from './../actions/logoutApp';
+
+function useFetch(){
 	const axios = window.axios;
 	
+	const dispatch = useDispatch();
 	const { enqueueSnackbar } = useSnackbar();
 	
 	const fetchData = async (prepareData)=>{
@@ -42,9 +46,11 @@ function useFetch(logout){
 						variant: 'warning'
 					});
 				}else if (status === 401){
-					enqueueSnackbar('Sesiรณn expirada', {
+					enqueueSnackbar('Sesión expirada', {
 						variant: 'info'
 					});
+					
+					dispatch(logoutApp());
 				}else if (status === 403){
 					enqueueSnackbar('No tienes permisos para esta acciรณn', {
 						variant: 'error'

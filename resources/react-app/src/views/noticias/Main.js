@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import { Container, Paper, Grid, Box, Typography, Avatar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -87,7 +89,7 @@ function Noticia(props) {
 	);
 }
 
-function Noticias() {
+function Noticias({ auth }) {
 	const classes = useStyles();
 
 	const dataList = [
@@ -131,9 +133,18 @@ function Noticias() {
 					))}
 				</Container>
 			</main>
-			<Footer />
+			{!auth && (
+				<footer className='footer'>
+					<Footer />
+				</footer>
+			)}
 		</React.Fragment>
 	);
 }
 
-export default Noticias;
+//REDUX
+const mapStateToProps = (state) => ({
+	auth: state.userData.auth
+});
+
+export default connect(mapStateToProps, null)(Noticias);

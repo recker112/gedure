@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Index() {
+function Index({ auth }) {
 	const classes = useStyles();
 
 	return (
@@ -299,7 +299,9 @@ function Index() {
 					</Grid>
 				</Container>
 			</main>
-			<Footer />
+			<footer className='footer'>
+				<Footer />
+			</footer>
 		</React.Fragment>
 	);
 }

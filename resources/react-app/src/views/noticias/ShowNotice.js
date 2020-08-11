@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import { Container, Paper, Grid, Box, Typography, Avatar, IconButton, Collapse, Menu, MenuItem } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles';
@@ -64,7 +66,7 @@ function MoreOptions () {
 	);
 }
 
-function ShowNotice () {
+function ShowNotice ({ auth }) {
 	let { id } = useParams();
 	
 	const classes = useStyles();
@@ -263,7 +265,7 @@ function ShowNotice () {
 							<Grid container justify='center' spacing={2} item xs sm>
 								<TextZone />
 								<Grid container justify='center' alignItems='center' spacing={2} item xs={12}>
-									{imgs && <ImgZone img={imgs} />}
+									{imgs && <ImgZone imgs={imgs} />}
 								</Grid>
 								{archives && (
 									<Grid container item xs={12}>
@@ -291,9 +293,18 @@ function ShowNotice () {
 					</Paper>
 				</Container>
 			</main>
-			<Footer />
+			{!auth && (
+				<footer className='footer'>
+					<Footer />
+				</footer>
+			)}
 		</React.Fragment>
 	);
 }
 
-export default ShowNotice;
+//REDUX
+const mapStateToProps = (state) => ({
+	auth: state.userData.auth
+});
+
+export default connect(mapStateToProps, null)(ShowNotice);
