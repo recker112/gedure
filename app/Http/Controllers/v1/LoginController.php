@@ -96,8 +96,9 @@ class LoginController extends Controller
 		}
 		
 		$Log = new Log;
-		$Log->cedula = $user->cedula;
+		$Log->log_owner = $user->cedula;
 		$Log->action = 'Inicio de sesión.';
+		$Log->type = 'session';
 		$Log->save();
 		
 		$permissions = $this->makePermissions($user->cedula, $user->privilegio);
@@ -125,8 +126,9 @@ class LoginController extends Controller
 		];
 		
 		$Log = new Log;
-		$Log->cedula = $user->cedula;
+		$Log->log_owner = $user->cedula;
 		$Log->action = 'Cierre de sesión.';
+		$Log->type = 'session';
 		$Log->save();
 		
 		return response()->json($jsonMessage, 200);
@@ -142,8 +144,9 @@ class LoginController extends Controller
 		}
 		
 		$Log = new Log;
-		$Log->cedula = $user->cedula;
+		$Log->log_owner = $user->cedula;
 		$Log->action = 'Cierre de todas las sesiones.';
+		$Log->type = 'session';
 		$Log->save();
 		
 		return response()->json($jsonMessage, 200);
@@ -161,8 +164,9 @@ class LoginController extends Controller
 		];
 		
 		$Log = new Log;
-		$Log->cedula = $user->cedula;
+		$Log->log_owner = $user->cedula;
 		$Log->action = 'Inicio de sessión por relogin.';
+		$Log->type = 'session';
 		$Log->save();
 		
 		return response()->json($jsonMessage, 200);

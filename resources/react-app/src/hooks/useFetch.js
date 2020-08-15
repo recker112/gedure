@@ -12,7 +12,8 @@ function useFetch(){
 	const fetchData = async (prepareData)=>{
 		const { 
 			url, 
-			data=null, 
+			data=null,
+			messageToFinish=true,
 			successText=false, 
 			type='post', 
 			variant='success' 
@@ -27,9 +28,11 @@ function useFetch(){
 				res = await axios.get(url, data);
 			}
 			
-			enqueueSnackbar(successText ? successText : res.data.description, {
-				variant: variant
-			});
+			if (messageToFinish) {
+				enqueueSnackbar(successText ? successText : res.data.description, {
+					variant: variant
+				});
+			}
 			
 			return res.data;
 		} catch (error) {
@@ -52,7 +55,7 @@ function useFetch(){
 					
 					dispatch(logoutApp());
 				}else if (status === 403){
-					enqueueSnackbar('No tienes permisos para esta acciรณn', {
+					enqueueSnackbar('No tienes permisos para esta acción', {
 						variant: 'error'
 					});
 				}else if (status === 500){

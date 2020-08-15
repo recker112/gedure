@@ -38,4 +38,13 @@ Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\v1'], func
 		Notes: Es necesario pasar el token via Header (Bearer).
 	*/
 	Route::middleware(['auth:api'])->post('logout', 'LoginController@logout');
+	
+	
+	// Login maneger
+	/*
+		/login
+		Requeriments: none,
+		Notes: Es necesario ser administrador
+	*/
+	Route::get('logs', 'LogsController@get');
 });
