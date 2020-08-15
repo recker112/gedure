@@ -21,7 +21,7 @@ class User extends Authenticatable
 	];
 	
 	protected $hidden = [
-			'created_at', 'updated_at', 'password', 'deleted_at'
+		'created_at', 'updated_at', 'password', 'deleted_at'
 	];
 	
 	//Encriptado de contraseña.

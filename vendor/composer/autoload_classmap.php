@@ -31,6 +31,7 @@ return array(
     'App\\Imports\\StudiendsImport' => $baseDir . '/app/Imports/StudiendsImport.php',
     'App\\Imports\\WhitSheetsMatricula' => $baseDir . '/app/Imports/WhitSheetsMatricula.php',
     'App\\Log' => $baseDir . '/app/Log.php',
+    'App\\News' => $baseDir . '/app/News.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

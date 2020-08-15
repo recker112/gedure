@@ -699,6 +699,7 @@ class ComposerStaticInitac469232a121b8d4d13971cef30581de
         'App\\Imports\\StudiendsImport' => __DIR__ . '/../..' . '/app/Imports/StudiendsImport.php',
         'App\\Imports\\WhitSheetsMatricula' => __DIR__ . '/../..' . '/app/Imports/WhitSheetsMatricula.php',
         'App\\Log' => __DIR__ . '/../..' . '/app/Log.php',
+        'App\\News' => __DIR__ . '/../..' . '/app/News.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

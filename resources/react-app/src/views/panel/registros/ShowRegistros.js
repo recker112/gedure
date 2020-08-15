@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { Container, Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,9 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 
 import { useForm } from 'react-hook-form';
-import updateForms from './../../../actions/updateForms';
 
 import { useSelector, useDispatch } from 'react-redux';
+import updateForms from './../../../actions/updateForms';
+
+import useFetch from './../../../hooks/useFetch';
 
 import LoadingComponent from './../../../components/LoadingComponent';
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
@@ -25,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Main() {
+	const tableRef = useRef(null);
+	
 	const { register, handleSubmit } = useForm();
 	
 	const { inputs, loading } = useSelector(state => ({
@@ -32,6 +36,8 @@ function Main() {
 		loading: state.forms.registros.loading
 	}));
 	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
 	
@@ -43,14 +49,46 @@ function Main() {
 			{ value: 'gedure', name: 'Gedure' },
 			{ value: 'class', name: 'Clases' },
 			{ value: 'session', name: 'Sesión' },
-			{ value: 'password', name: 'Cambio de contraseña' }
+			{ value: 'user', name: 'Cambios de usuario' }
 		],
 		color: 'primary'
 	};
 	
 	const onSubmit = data => {
 		dispatch(updateForms('registros', true, data));
-		console.log(data);
+		
+		tableRef.current && tableRef.current.onQueryChange();
+	}
+	
+	const onFetch = async query => {
+		console.log(query);
+		if (loading) {
+			query.page = 0;
+			dispatch(updateForms('registros', false));
+		}
+		
+		const prepare = {
+			url: `v1/logs?page=${query.page}&per_page=${query.pageSize}&type=${inputs.radioSelect}&search=${query.search}`,
+			type: 'get',
+			messageToFinish: false,
+		}
+		
+		const res = await fetchData(prepare);
+		
+		if (res) {
+			const result = {
+				data: res.data,
+				page: res.page,
+				totalCount: res.totalLogs
+			}
+			return result;
+		}else {
+			return {
+				data: [],
+				page: 0,
+				totalCount: 0
+			}
+		}
 	}
 	
 	return (
@@ -76,7 +114,7 @@ function Main() {
 											type='submit' 
 											variant='outlined'
 										>
-											Buscar
+											Cambiar
 										</Button>
 									</LoadingComponent>
 								</Grid>
@@ -86,6 +124,7 @@ function Main() {
 				</Grid>
 			</Grid>
 			<MaterialTable
+				tableRef={tableRef}
 				title="Registros del sistema" 
 				icons={tableIcons}
 				columns={[
@@ -94,7 +133,7 @@ function Main() {
 					{title: 'Acción', field: 'action'},
 					{title: 'Fecha', field: 'fecha'}
 				]}
-				data={[]}
+				data={onFetch}
 				localization={tableLocation}
 			/>
 		</Container>

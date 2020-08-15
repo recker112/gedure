@@ -16,7 +16,8 @@ class CreateLogsTable extends Migration
 		Schema::create('logs', function (Blueprint $table) {
 			$table->id();
 			$table->char("action", 250);
-			$table->char("cedula", 30);
+			$table->enum("type", ["session", "gedure", "user", "class"]);
+			$table->char("log_owner", 30);
 			$table->timestamp('created_at', 0);
 		});
 	}
