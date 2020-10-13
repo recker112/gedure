@@ -7,7 +7,8 @@ import PanelRouters from './PanelRouters';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(8),
-		flexGrow: 1
+		flexGrow: 1,
+		marginBottom: theme.spacing(4),
 	}
 }));
 
@@ -15,13 +16,11 @@ function Panel() {
 	const classess = useStyles();
 	
 	return (
-		<React.Fragment>
-			<main className={classess.root} ref={()=>{
-			document.title = 'La Candelaria - Panel';
+		<main className={classess.root} ref={()=>{
+		document.title = 'La Candelaria - Panel';
 		}}>
-				<PanelRouters />
-			</main>
-		</React.Fragment>
+			<PanelRouters />
+		</main>
 	);
 }
 

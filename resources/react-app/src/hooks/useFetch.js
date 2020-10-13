@@ -20,13 +20,7 @@ function useFetch(){
 		} = prepareData;
 		
 		try {
-			let res;
-			
-			if (type === 'post') {
-				res = await axios.post(url, data);
-			}else if (type === 'get') {
-				res = await axios.get(url, data);
-			}
+			const res = await axios[type](url, data);
 			
 			if (messageToFinish) {
 				enqueueSnackbar(successText ? successText : res.data.description, {
@@ -49,13 +43,13 @@ function useFetch(){
 						variant: 'warning'
 					});
 				}else if (status === 401){
-					enqueueSnackbar('Sesión expirada', {
+					enqueueSnackbar('Sesiรณn expirada', {
 						variant: 'info'
 					});
 					
 					dispatch(logoutApp());
 				}else if (status === 403){
-					enqueueSnackbar('No tienes permisos para esta acción', {
+					enqueueSnackbar('No tienes permisos para esta acciรณn', {
 						variant: 'error'
 					});
 				}else if (status === 500){

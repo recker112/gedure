@@ -87,7 +87,7 @@ function RenderDrawer({ state, close }) {
 					seeIt: Boolean(permissions.administrar.registro?.ver)
 				},
 				{
-					url: '/panel/users',
+					url: '/panel/usuarios',
 					text: 'Usuarios',
 					icon: <PeopleIcon />,
 					seeIt: Boolean(permissions.administrar.user?.ver)
@@ -158,6 +158,9 @@ function RenderDrawer({ state, close }) {
 						<Box component='span' className='drawer__title'>
 							La Candelaria
 						</Box>
+						<IconButton>
+							
+						</IconButton>
 					</Container>
 				</Grid>
 				<Container>

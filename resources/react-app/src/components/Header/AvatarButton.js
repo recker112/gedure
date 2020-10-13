@@ -73,7 +73,7 @@ function AvatarButton({ user, logoutApp }) {
 	};
 	
 	const handleOptions = () => {
-		history.push('/account');
+		history.push('/cuenta');
 	}
 	
 	const handleLogout = async () => {

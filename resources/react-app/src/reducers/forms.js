@@ -14,6 +14,12 @@ const initialState = {
 			radioSelect: 'all',
 		},
 	},
+	usuarios: {
+		loading: false,
+		inputs: {
+			radioSelect: 'all',
+		},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
