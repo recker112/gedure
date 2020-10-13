@@ -46,5 +46,5 @@ Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\v1'], func
 		Requeriments: none,
 		Notes: Es necesario ser administrador
 	*/
-	Route::get('logs', 'LogsController@get');
+	Route::middleware(['auth:api'])->get('logs', 'LogsController@get');
 });

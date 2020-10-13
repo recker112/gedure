@@ -15,21 +15,25 @@ import useFetch from './../../../hooks/useFetch';
 import LoadingComponent from './../../../components/LoadingComponent';
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
 import { RenderRadios } from './../../../components/RendersGlobals';
+import LocationShow from './../../../components/LocationShow';
 
 const useStyles = makeStyles((theme) => ({
+	breadCrumbs: {
+		marginBottom: theme.spacing(2),
+	},
 	margin: {
 		marginTop: theme.spacing(4),
-		marginBottom: theme.spacing(4),
+		marginBottom: theme.spacing(3),
 	},
 	padding: {
 		padding: theme.spacing(2),
-	},
+	}
 }));
 
 function Main() {
 	const tableRef = useRef(null);
 	
-	const { register, handleSubmit } = useForm();
+	const { register, handleSubmit, watch } = useForm();
 	
 	const { inputs, loading } = useSelector(state => ({
 		inputs: state.forms.registros.inputs,
@@ -61,7 +65,6 @@ function Main() {
 	}
 	
 	const onFetch = async query => {
-		console.log(query);
 		if (loading) {
 			query.page = 0;
 			dispatch(updateForms('registros', false));
@@ -93,7 +96,10 @@ function Main() {
 	
 	return (
 		<Container maxWidth='md'>
-			<Grid container className={classes.margin}>
+			<Grid container className={classes.margin} spacing={2}>
+				<Grid item xs={12}>
+					<LocationShow />
+				</Grid>
 				<Grid item xs={12}>
 					<Typography className='box__title'>
 						Filtrador
@@ -113,6 +119,7 @@ function Main() {
 										<Button 
 											type='submit' 
 											variant='outlined'
+											disabled={inputs.radioSelect === watch('radioSelect') ? true : false}
 										>
 											Cambiar
 										</Button>

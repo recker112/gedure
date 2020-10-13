@@ -66,46 +66,9 @@ class User extends Authenticatable
 		return $this->password;
 	}
 	
-	public function getData($privilegio, $cedula)
+	public function permissionsAdmin()
 	{
-		$dataUser = null;
-		if ($privilegio === 'V-') {
-			$dataUser = User::select(
-				'id',
-				'cedula', 
-				'nombre', 
-				'privilegio', 
-				'avatar', 
-				'email')
-				->where('cedula', $cedula)
-				->first();
-		}
-		
-		if ($privilegio === 'A-') {
-			$dataUser = User::select(
-				'id',
-				'cedula', 
-				'nombre', 
-				'privilegio', 
-				'avatar', 
-				'email')
-				->where('cedula', $cedula)
-				->first();
-		}
-		
-		if ($privilegio === 'P-') {
-			$dataUser = User::select(
-				'id',
-				'cedula', 
-				'nombre', 
-				'privilegio', 
-				'avatar', 
-				'email')
-				->where('cedula', $cedula)
-				->first();
-		}
-		
-		return $dataUser;
+		return $this->hasOne('App\AdminConfig', 'cedula', 'cedula');
 	}
 	
 	// public function getUserData($privilegio, $cedula)

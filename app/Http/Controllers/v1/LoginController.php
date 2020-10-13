@@ -101,7 +101,9 @@ class LoginController extends Controller
 		$Log->type = 'session';
 		$Log->save();
 		
-		$permissions = $this->makePermissions($user->cedula, $user->privilegio);
+		$permissions = $this->makePermissionsJSON($user);
+		
+		$user->makeHidden('permissionsAdmin');
 		
 		$jsonMessage = [
 			'access_key' => $tokenResult->accessToken,
@@ -156,7 +158,9 @@ class LoginController extends Controller
 	{
 		$user = request()->user();
 		
-		$permissions = $this->makePermissions($user->cedula, $user->privilegio);
+		$permissions = $this->makePermissionsJSON($user);
+		
+		$user->makeHidden('permissionsAdmin');
 		
 		$jsonMessage = [
 			'user' => $user,
@@ -172,10 +176,10 @@ class LoginController extends Controller
 		return response()->json($jsonMessage, 200);
 	}
 	
-	public function makePermissions($cedula, $privilegio)
+	public function makePermissionsJSON($user)
 	{
-		if ($privilegio === 'A-') {
-			$permissionsDB = AdminConfig::find($cedula);
+		if ($user->privilegio === 'A-') {
+			$permissionsDB = $user->permissionsAdmin;
 			
 			$listA = array();
 			$listG = array();
@@ -190,7 +194,7 @@ class LoginController extends Controller
 				}
 				
 				if ($permissionsDB->user_modify) {
-					$listA['user']['ver'] = true;
+					$listA['user']['modify'] = true;
 				}
 				
 				if ($permissionsDB->gedure_control) {
@@ -222,7 +226,5 @@ class LoginController extends Controller
 		}
 			
 		return $permissions;
-		
-		
 	}
 }

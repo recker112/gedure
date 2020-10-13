@@ -6,13 +6,22 @@ import { useSelector } from 'react-redux';
 
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
+const Inicio = lazy(() =>
+	import('./inicio/ShowIndex')
+);
+
 const RegistrosAdmin = lazy(() =>
 	import('./registros/ShowRegistros')
 );
 
+const UsuariosAdmin = lazy(() =>
+	import('./usuarios/ShowUsers')
+);
+
 function PanelRouters () {
-	const { privilegio } = useSelector(state => ({
-		privilegio: state.userData.user.privilegio
+	const { privilegio, permissions } = useSelector(state => ({
+		privilegio: state.userData.user.privilegio,
+		permissions: state.userData.permissions
 	}));
 	
 	let { url } = useRouteMatch();
@@ -22,7 +31,13 @@ function PanelRouters () {
 	const listA = [
 		{
 			path: `${url}/registros`,
-			component: <RegistrosAdmin />
+			component: <RegistrosAdmin />,
+			iCanSee: Boolean(permissions.administrar.registro?.ver),
+		},
+		{
+			path: `${url}/usuarios`,
+			component: <UsuariosAdmin />,
+			iCanSee: Boolean(permissions.administrar.user?.ver),
 		}
 	];
 	
@@ -31,7 +46,7 @@ function PanelRouters () {
 	return (
 		<Switch>
 			<Route path={`${url}/`} exact>
-				PANEL
+				<Inicio />
 			</Route>
 			
 			{privilegio === 'V-' && listV.map((data, i) => {
@@ -44,11 +59,15 @@ function PanelRouters () {
 			
 			
 			{privilegio === 'A-' && listA.map((data, i) => {
-				return (
-					<Route key={i} path={data.path} exact>
-						{data.component}
-					</Route>
-				);
+				if (data.iCanSee) {
+					return (
+						<Route key={i} path={data.path} exact>
+							{data.component}
+						</Route>
+					);
+				}
+				
+				return null;
 			})}
 			
 			{privilegio === 'CR-' && listC.map((data, i) => {
@@ -60,7 +79,7 @@ function PanelRouters () {
 			})}
 			
 			<Route>
-				<NoFound />
+				<NoFound styleUse={false} />
 			</Route>
 		</Switch>
 	)

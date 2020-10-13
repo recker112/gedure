@@ -38,7 +38,7 @@ function Noticia(props) {
 
 	return (
 		<Paper className={`${classes.margin} ${classes.padding}`} id={`NID_${id}`}>
-			<Grid container spacing={2}>
+			<Grid container justify="center" spacing={2}>
 				<Grid
 					container
 					direction="column"

@@ -260,7 +260,7 @@ function ShowNotice ({ auth }) {
 				<Container maxWidth="md">
 					<OptionsBar />
 					<Paper className={`${classes.margin} ${classes.padding}`}>
-						<Grid container justify='space-between' alignItems='flex-start'>
+						<Grid container justify='center' alignItems='flex-start'>
 							<AvatarZone />
 							<Grid container justify='center' spacing={2} item xs sm>
 								<TextZone />

@@ -26,6 +26,7 @@ const PageContacto = lazy(() => import('./contacto/Main'));
 const Login = lazy(() => import('./login/Main'));
 const Recovery = lazy(() => import('./login/Recovery'));
 const PagePanel = lazy(() => import('./panel/Main'));
+const PageAccount = lazy(() => import('./cuenta/Main'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -70,6 +71,10 @@ function Routers({ auth, theme }) {
 				
 				<ProtectRoute auth={auth} path='/panel'>
 					<PagePanel />
+				</ProtectRoute>
+				
+				<ProtectRoute auth={auth} path='/cuenta'>
+					<PageAccount />
 				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>
@@ -161,11 +166,11 @@ export function Loader(props){
 	)
 }
 
-export function NoFound() {
+export function NoFound({ styleUse=true }) {
 	const classes = useStyles();
 	
 	return (
-		<h1 className={classes.root}>Página no encontrada</h1>
+		<h1 className={styleUse && classes.root}>Página no encontrada</h1>
 	);
 }
 

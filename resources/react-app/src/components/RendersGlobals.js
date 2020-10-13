@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //Material-UI
 import {
@@ -8,13 +8,50 @@ import {
 	FormControl,
 	FormLabel,
 	FormControlLabel,
+	FormHelperText,
 	Radio,
 	RadioGroup,
+	Select,
+	InputLabel,
+	CircularProgress
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-export function RenderRadios({ registerInput, data, defaultValue=null }) {
+import { Controller } from 'react-hook-form';
+
+export function RenderSelectFormHook({
+	id,
+	name,
+	nameLabel,
+	control,
+	defaultValue,
+	children,
+	errors,
+	customWidth = false,
+	...props
+}) {
+	return (
+		<FormControl {...props} style={{ width: customWidth ? (customWidth) : '100%' }} error={errors[name]}>
+			<InputLabel id={id + '-label'}>{nameLabel}</InputLabel>
+			<Controller
+				as={
+					<Select labelId={id + '-label'} id={id}>
+						{children}
+					</Select>
+				}
+				name={name}
+				control={control}
+				defaultValue={defaultValue}
+				rules={{ required: { value: true, message: 'Campo requerido.' } }}
+			/>
+			<FormHelperText>{errors[name]?.message}</FormHelperText>
+		</FormControl>
+	);
+}
+
+export function RenderRadios({ registerInput, data, defaultValue = null }) {
 	return (
 		<FormControl component="fieldset">
 			<FormLabel color={data.color} component="legend">
@@ -27,7 +64,7 @@ export function RenderRadios({ registerInput, data, defaultValue=null }) {
 							key={i}
 							value={element.value}
 							inputRef={registerInput}
-							control={<Radio  color={data.color} />}
+							control={<Radio color={data.color} />}
 							label={element.name}
 							labelPlacement="end"
 						/>
@@ -91,6 +128,76 @@ export function RenderInput(props) {
 				) : null,
 			}}
 			{...textareaConfig}
+		/>
+	);
+}
+
+export function RenderAutocompleteAsync({ id, query }) {
+	const [open, setOpen] = useState(false);
+	const [options, setOptions] = useState([]);
+	const loading = open && options.length === 0;
+	
+	useEffect(()=>{
+		let cancel = false;
+		
+		if (!loading) {
+			return undefined;
+		}
+		
+		const queryAsync = async () => {
+			let result = await query();
+			
+			if (!cancel){
+				console.log(result);
+			}
+		}
+		
+		queryAsync();
+		
+		return ()=>{
+			cancel = true;
+		}
+		
+	}, [loading, query]);
+	
+	//Clear data
+	useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
+	
+	return (
+		<Autocomplete 
+			id={id}
+			open={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+			onClose={() => {
+        setOpen(false);
+      }}
+			loading={loading}
+			loadingText="Cargando..."
+			noOptionsText="Sin resultados"
+			options={options}
+			getOptionSelected={(option, value) => option.estado === value}
+			getOptionLabel={data => data.estado}
+			renderInput={(params) => (
+				<TextField {...params} 
+					label="Estado" 
+					variant="outlined"
+					size="small" 
+					InputProps={{
+					...params.InputProps,
+					endAdornment: (
+						<React.Fragment>
+							{loading ? <CircularProgress color="inherit" size={20} /> : null}
+							{params.InputProps.endAdornment}
+						</React.Fragment>
+					)}}
+					/>
+			)}
 		/>
 	);
 }
