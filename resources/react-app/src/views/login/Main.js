@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -139,7 +139,7 @@ function Form({ state }) {
 		}
 	};
 
-	const onSubmit = async (data) => {
+	const onSubmit = useCallback(async (data) => {
 		updateForms('login', true, data);
 
 		const prepareDate = {
@@ -165,7 +165,7 @@ function Form({ state }) {
 		}
 
 		updateForms('login', false);
-	};
+	}, [fetchData, updateAuth, updateDataUser, updateForms]);
 
 	return (
 		<Slide in={true} direction="left" mountOnEnter unmountOnExit>

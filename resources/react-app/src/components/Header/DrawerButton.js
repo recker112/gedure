@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -23,6 +23,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 import Footer from './../Footer';
 import { ReturnSelected } from './HeaderNoAuth';
@@ -57,7 +58,7 @@ function RenderDrawer({ state, close }) {
 	
 	const classes = useStyles();
 	
-	const DrawerList = [
+	const DrawerList = useMemo(()=>[
 		{
 			title: 'Inicio',
 			iCanSeeIt: 1,
@@ -101,7 +102,7 @@ function RenderDrawer({ state, close }) {
 				{
 					url: '/panel/matricula',
 					text: 'Matricula',
-					icon: <AnnouncementIcon />,
+					icon: <AttachMoneyIcon />,
 					seeIt: Boolean(permissions.administrar.upload?.matricula)
 				}
 			]
@@ -148,7 +149,7 @@ function RenderDrawer({ state, close }) {
 				}
 			]
 		}
-	];
+	], [permissions]);
 	
 	return (
 		<Drawer open={open} onClose={close}>
@@ -164,7 +165,7 @@ function RenderDrawer({ state, close }) {
 					</Container>
 				</Grid>
 				<Container>
-					{DrawerList.map((section, i) => {
+					{DrawerList.map(useCallback((section, i) => {
 						if (section.iCanSeeIt) {
 							return (
 								<Box className={classes.margin} key={i}>
@@ -196,7 +197,9 @@ function RenderDrawer({ state, close }) {
 						}
 						
 						return null;
-					})}
+						
+						// eslint-disable-next-line
+					}, [permissions]))}
 					<Footer style={{margin: '30px 0', opacity: 0.7}} />
 				</Container>
 			</div>
