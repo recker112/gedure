@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 
 import { Container, Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -64,7 +64,7 @@ function Main() {
 		tableRef.current && tableRef.current.onQueryChange();
 	}
 	
-	const onFetch = async query => {
+	const onFetch = useCallback(async query => {
 		if (loading) {
 			query.page = 0;
 			dispatch(updateForms('registros', false));
@@ -92,7 +92,8 @@ function Main() {
 				totalCount: 0
 			}
 		}
-	}
+		// eslint-disable-next-line
+	}, []);
 	
 	return (
 		<Container maxWidth='md'>

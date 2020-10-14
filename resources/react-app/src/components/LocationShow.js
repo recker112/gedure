@@ -20,6 +20,7 @@ function LocationShow(){
 	let location = useLocation();
 	
 	let BreadCrumbsRouters = location.pathname.split('/');
+	// eslint-disable-next-line
 	let removed = BreadCrumbsRouters.splice(0,1);
 	
 	return (

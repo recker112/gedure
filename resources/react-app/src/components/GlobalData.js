@@ -446,7 +446,7 @@ export const buscarMunicipioVE = (estado) => {
 	}
 };
 
-export const buscarParroquiaVE = (municipio, estado) => {
+export const buscarParroquiaVE = (estado, municipio) => {
 	let arreglo;
 
 	// Amazonas

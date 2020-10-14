@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { lazy, useMemo } from 'react';
 
 import { NoFound } from '../Routers';
 
@@ -28,7 +28,7 @@ function PanelRouters () {
 	
 	const listV = [];
 	
-	const listA = [
+	const listA = useMemo(() => [
 		{
 			path: `${url}/registros`,
 			component: <RegistrosAdmin />,
@@ -39,7 +39,7 @@ function PanelRouters () {
 			component: <UsuariosAdmin />,
 			iCanSee: Boolean(permissions.administrar.user?.ver),
 		}
-	];
+	], [permissions, url]);
 	
 	const listC = [];
 	

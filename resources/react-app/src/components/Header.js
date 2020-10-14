@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
 
@@ -49,13 +49,13 @@ function ScrollTop(props) {
     threshold: 800,
   });
 
-  const handleClick = (event) => {
+  const handleClick = useCallback((event) => {
     const anchor = (event.target.ownerDocument || document).querySelector('#top-anchor');
 
     if (anchor) {
       anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  };
+  }, []);
 
   return (
     <Zoom in={trigger}>
