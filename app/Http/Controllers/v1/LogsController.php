@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use Illuminate\Http\Request;
 use App\Log;
+use Illuminate\Database\Eloquent\Builder;
 
 class LogsController extends Controller
 {
@@ -20,11 +21,7 @@ class LogsController extends Controller
 			return response()->json($jsonMessage, 403);
 		}
 
-		if (empty(request()->search)) {
-			$search = '';
-		}else {
-			$search = request()->search;
-		}
+		$search = request()->search;
 
 		$perPage = request()->per_page;
 		$page = request()->page * $perPage;
@@ -32,21 +29,25 @@ class LogsController extends Controller
 		$logs = Log::orderBy('created_at', 'desc')
 			->offset($page)
 			->limit($perPage)
-			->where('log_owner', 'LIKE', "%$search%")
+			->whereHas('user', function (Builder $query) {
+				$search = request()->search;
+				$query->where('cedula', 'LIKE', "%$search%");
+			})
 			->orWhere('created_at', 'LIKE', "%$search%")
 			->get();
-
-		$logsCount = Log::count();
 
 		$arrayLogs = array();
 		foreach ($logs as $log) {
 			array_push($arrayLogs, [
-				'cedula' => $log->log_owner,
-				'name' => $log->relUser->nombre,
+				'cedula' => $log->user->privilegio . $log->user->cedula,
+				'name' => $log->user->nombre,
 				'action' => $log->action,
 				'fecha' => $log->created_at->format('Y-m-d H:i:s')
 			]);
 		}
+		
+		//Total de logs
+		$logsCount = Log::count();
 
 		$jsonMessage = [
 			'data' => $arrayLogs,

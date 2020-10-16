@@ -15,7 +15,7 @@ class CreateAdminConfigsTable extends Migration
 	{
 		Schema::create('admin_configs', function (Blueprint $table) {
 			$table->id();
-			$table->char('cedula', 30)->unique();
+			$table->bigInteger('user_id');
 			$table->boolean('registros_ver')->default(1);
 			$table->boolean('user_ver')->default(1);
 			$table->boolean('user_modify')->default(1);

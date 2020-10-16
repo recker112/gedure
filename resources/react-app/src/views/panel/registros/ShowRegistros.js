@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	padding: {
 		padding: theme.spacing(2),
+	},
+	marginFinish: {
+		marginBottom: theme.spacing(3),
 	}
 }));
 
@@ -96,7 +99,7 @@ function Main() {
 	}, []);
 	
 	return (
-		<Container maxWidth='md'>
+		<Container maxWidth='md' className={classes.marginFinish}>
 			<Grid container className={classes.margin} spacing={2}>
 				<Grid item xs={12}>
 					<LocationShow />

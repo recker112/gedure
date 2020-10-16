@@ -11,9 +11,9 @@ class Log extends Model
 		'id'
 	];
 	
-	public function relUser()
+	public function user()
 	{
-		return $this->hasOne('App\User', 'cedula', 'log_owner');
+		return $this->belongsTo('App\User');
 	}
 	
 	public $timestamps = ["created_at"];

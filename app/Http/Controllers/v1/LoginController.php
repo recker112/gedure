@@ -13,12 +13,7 @@ use App\Log;
 use App\AdminConfig;
 
 class LoginController extends Controller
-{
-	public function username()
-	{
-			return 'cedula';
-	}
-	
+{	
 	public function login()
 	{
 		// Verificar baneos
@@ -63,16 +58,13 @@ class LoginController extends Controller
 			return response()->json($jsonMessage, 400);
 		}
 		
-		// Limpiar baneos
-		$clearBan = Bloqueos::find($dataValidate['user']);
-
-		if ($clearBan) {
-			$clearBan->delete();
-		}
-
-
 		// Obtener datos.
 		$user = request()->user();
+		
+		// Limpiar baneos
+		if ($user->bloqueos){
+			$user->bloqueos->delete();
+		}
 		
 		// Token
 		$tokenResult = $user->createToken($user->cedula.' access', ['*']);
@@ -83,26 +75,16 @@ class LoginController extends Controller
 			$token->expires_at =now()->addMonths(6);
 		}
 		$token->save();
-
-		// Verificar que el privilegio de esa persona esté registrado.
-		if (!$user) {
-			$jsonMessage = [
-					'code' => 400,
-					'msg'=>'not_found_privilegio',
-					'description' => 'No se pudo encontrar el usuario en el sistema'
-			];
-
-			return response()->json($jsonMessage, 400);
-		}
 		
 		$Log = new Log;
-		$Log->log_owner = $user->cedula;
+		$Log->user_id = $user->id;
 		$Log->action = 'Inicio de sesión.';
 		$Log->type = 'session';
 		$Log->save();
 		
 		$permissions = $this->makePermissionsJSON($user);
 		
+		//Ocultar permissions en la variable $user
 		$user->makeHidden('permissionsAdmin');
 		
 		$jsonMessage = [
@@ -128,7 +110,7 @@ class LoginController extends Controller
 		];
 		
 		$Log = new Log;
-		$Log->log_owner = $user->cedula;
+		$Log->user_id = $user->id;
 		$Log->action = 'Cierre de sesión.';
 		$Log->type = 'session';
 		$Log->save();
@@ -146,7 +128,7 @@ class LoginController extends Controller
 		}
 		
 		$Log = new Log;
-		$Log->log_owner = $user->cedula;
+		$Log->user_id = $user->id;
 		$Log->action = 'Cierre de todas las sesiones.';
 		$Log->type = 'session';
 		$Log->save();
@@ -168,7 +150,7 @@ class LoginController extends Controller
 		];
 		
 		$Log = new Log;
-		$Log->log_owner = $user->cedula;
+		$Log->user_id = $user->id;
 		$Log->action = 'Inicio de sessión por relogin.';
 		$Log->type = 'session';
 		$Log->save();
