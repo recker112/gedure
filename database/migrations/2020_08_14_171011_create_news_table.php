@@ -19,9 +19,9 @@ class CreateNewsTable extends Migration
 			$table->longText('content');
 			$table->json('imgs');
 			$table->json('archives');
-			$table->char('owner', 30);
+			$table->bigInteger('user_id_owner');
 			$table->boolean('public')->default(1);
-			$table->char('onlyCurso', 5)->nullable()->default(null);
+			$table->boolean('onlyUsers')->default(0);
 			$table->timestamps();
 		});
 	}

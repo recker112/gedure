@@ -11,12 +11,8 @@ class Bloqueos extends Model
 {
 	protected $table = 'bloqueos';
 	
-	protected $primaryKey = 'cedula';
-	
-	protected $keyType = 'string';
-	
 	public static function getStatus($cedula) {
-		$dataBan = Bloqueos::find($cedula);
+		$dataBan = Bloqueos::firstWhere('cedula', $cedula);
 
 		//Verificar si no existe
 		if (!$dataBan) {
@@ -50,7 +46,7 @@ class Bloqueos extends Model
 	
 	public static function checkAttemps($cedula)
 	{
-		$userExist = User::where('cedula', $cedula);
+		$userExist = User::firstWhere('cedula', $cedula);
 
 		//Verificar que exista el usuario
 		if (!$userExist) {
@@ -62,7 +58,7 @@ class Bloqueos extends Model
 		}
 
 		//Buscar usuario en baneos
-		$datosBlock = Bloqueos::find($cedula);
+		$datosBlock = Bloqueos::find($userExist->id);
 
 		//Si el usario existe verificar los attemps
 		if ($datosBlock) {
@@ -90,8 +86,9 @@ class Bloqueos extends Model
 					'msg'=>'account_block',
 					'description' => "Cuenta bloqueada, espere $time minutos"
 				];
+				
 				$Log = new Log;
-				$Log->log_owner = $cedula;
+				$Log->user_id = $userExist->id;
 				$Log->action = "Bloqueo de cuenta nivel: $nivel.";
 				$Log->save();
 			}else if ($datosBlock->attemps >= 5) {

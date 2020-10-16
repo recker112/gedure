@@ -17,7 +17,7 @@ class CreateLogsTable extends Migration
 			$table->id();
 			$table->char("action", 250);
 			$table->enum("type", ["session", "gedure", "user", "class"]);
-			$table->char("log_owner", 30);
+			$table->bigInteger("user_id");
 			$table->timestamp('created_at', 0);
 		});
 	}

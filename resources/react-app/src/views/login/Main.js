@@ -124,10 +124,9 @@ function PanelWelcome() {
 }
 
 function Form({ state }) {
-	const { loading, inputs, updateForms, updateDataUser, updateAuth } = state;
+	const { loading, updateForms, updateDataUser, updateAuth } = state;
 	const { fetchData } = useFetch();
 	const { register, handleSubmit, errors } = useForm();
-	const { user, password } = inputs;
 
 	let history = useHistory();
 
@@ -140,7 +139,7 @@ function Form({ state }) {
 	};
 
 	const onSubmit = useCallback(async (data) => {
-		updateForms('login', true, data);
+		updateForms('login', true);
 
 		const prepareDate = {
 			url: 'v1/login',
@@ -187,7 +186,7 @@ function Form({ state }) {
 							<RenderInput
 								name="user"
 								label="Usuario"
-								defaultValue={user}
+								defaultValue=""
 								errors={errors.user}
 								registerInput={register({
 									required: { value: true, message: 'Campo requerido.' },
@@ -202,7 +201,7 @@ function Form({ state }) {
 								passwordMode
 								name="password"
 								label="Contraseña"
-								defaultValue={password}
+								defaultValue=""
 								errors={errors.password}
 								registerInput={register({
 									required: { value: true, message: 'Campo requerido.' },
@@ -284,7 +283,6 @@ function Login(props) {
 //REDUX
 const mapStateToProps = (state) => ({
 	loading: state.forms.login.loading,
-	inputs: state.forms.login.inputs,
 });
 
 const mapDispatchToProps = {

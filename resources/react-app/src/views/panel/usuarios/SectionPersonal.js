@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { RenderInput, RenderSelectFormHook } from './../../../components/RendersGlobals';
 import { estadosVE, buscarMunicipioVE, buscarParroquiaVE } from './../../../components/GlobalData';
 
-import { Grid, MenuItem, TextField } from '@material-ui/core';
+import { Grid, MenuItem, TextField, Typography, Box } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Rating from '@material-ui/lab/Rating';
 
 import { Controller } from 'react-hook-form';
 
-export function SectionMom({ form, classes, data, loading }) {
+export function SectionMom({ form, data, loading }) {
 	const { register, errors, control } = form;
 
 	return (
@@ -94,7 +95,7 @@ export function SectionMom({ form, classes, data, loading }) {
 	);
 }
 
-export function SectionDad({ form, classes, data, loading }) {
+export function SectionDad({ form, data, loading }) {
 	const { register, errors, control } = form;
 
 	return (
@@ -179,7 +180,7 @@ export function SectionDad({ form, classes, data, loading }) {
 	);
 }
 
-export function SectionRepresentante({ form, classes, data, loading }) {
+export function SectionRepresentante({ form, data, loading }) {
 	const { register, errors, control } = form;
 
 	const LimitDate = new Date();
@@ -274,8 +275,8 @@ export function SectionRepresentante({ form, classes, data, loading }) {
 					errors={errors}
 					disabled={loading}
 				>
-					<MenuItem value="F">Femenino</MenuItem>
-					<MenuItem value="M">Masculino</MenuItem>
+					<MenuItem value="Femenino">Femenino</MenuItem>
+					<MenuItem value="Masculino">Masculino</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
 
@@ -366,7 +367,7 @@ export function SectionRepresentante({ form, classes, data, loading }) {
 	);
 }
 
-export function SectionUbicacionRepre({ form, classes, data, loading }) {
+export function SectionUbicacionRepre({ form, data, loading }) {
 	const { register, errors, watch, control, setValue } = form;
 
 	useEffect(() => {
@@ -524,7 +525,7 @@ export function SectionUbicacionRepre({ form, classes, data, loading }) {
 				<RenderSelectFormHook
 					id="empleoRepresentante-editUser"
 					name="dataPersonal.representante.empleo"
-					nameLabel="Tiene empleo"
+					nameLabel="¿Tiene empleo?"
 					defaultValue={data.dataPersonal?.representante?.empleo}
 					control={control}
 					errors={errors}
@@ -534,6 +535,345 @@ export function SectionUbicacionRepre({ form, classes, data, loading }) {
 					<MenuItem value='No'>No</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
+			
+			{watch('dataPersonal.representante.empleo') === 'Si' && (
+				<React.Fragment>
+					<Grid item xs={12} sm={6} md={5}>
+						<RenderInput
+							name="dataPersonal.representante.empleoData.profesion"
+							label="Profesión"
+							defaultValue={data.dataPersonal?.representante?.empleoData?.profesion}
+							errors={errors.dataPersonal?.representante?.empleoData?.profesion}
+							registerInput={register({
+								required: { value: true, message: 'Campo requerido.' },
+								minLength: { value: 4, message: 'Campo no válido.' },
+							})}
+							disabledOnLoading={loading}
+							size="small"
+						/>
+					</Grid>
+					
+					<Grid item xs={12} sm={6} md={5}>
+						<RenderInput
+							name="dataPersonal.representante.empleoData.lugar"
+							label="Lugar donde trabaja"
+							defaultValue={data.dataPersonal?.representante?.empleoData?.lugar}
+							errors={errors.dataPersonal?.representante?.empleoData?.lugar}
+							registerInput={register({
+								required: { value: true, message: 'Campo requerido.' },
+								minLength: { value: 8, message: 'Campo no válido.' },
+							})}
+							disabledOnLoading={loading}
+							size="small"
+						/>
+					</Grid>
+				</React.Fragment>
+			)}
+		</React.Fragment>
+	);
+}
+
+export function SectionEstudiante({ form, data, loading }) {
+	const { register, errors, control, setValue, watch } = form;
+	
+	useEffect(()=>{
+		register('dataPersonal.estudiante.estadoNacimiento', {
+			required: { value: true, message: 'Campo requerido.' },
+		});
+
+
+		//NOTE (RECKER): Fix data void
+		/* Debido a problemas con los AutoComplete's es necesario actualizar el value manualmente para que no cree errores al insertarse el value en los inputs. */
+		setValue(
+			'dataPersonal.estudiante.estadoNacimiento',
+			data.dataPersonal?.estudiante?.estadoNacimiento,
+			{ shouldValidate: true }
+		);
+		// eslint-disable-next-line
+	}, [])
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="sexoEstudiante-editUser"
+					name="dataPersonal.estudiante.sexo"
+					nameLabel="Sexo"
+					defaultValue={data.dataPersonal?.estudiante?.sexo}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Femenino">Femenino</MenuItem>
+					<MenuItem value="Masculino">Masculino</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="estadoCivilEstudiante-editUser"
+					name="dataPersonal.estudiante.estadoCivil"
+					nameLabel="Estado civil"
+					defaultValue={data.dataPersonal?.estudiante?.estadoCivil}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Soltero">Soltero</MenuItem>
+					<MenuItem value="Concubino">Concubino</MenuItem>
+					<MenuItem value="Casado">Casado</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="lateralidadEstudiante-editUser"
+					name="dataPersonal.estudiante.lateralidad"
+					nameLabel="Lateralidad"
+					defaultValue={data.dataPersonal?.estudiante?.lateralidad}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Derecho">Derecho</MenuItem>
+					<MenuItem value="Zurdo">Zurdo</MenuItem>
+					<MenuItem value="Ambidiestro">Ambidiestro</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="nacionalidadEstudiante-editUser"
+					name="dataPersonal.estudiante.nacionalidad"
+					nameLabel="Nacionalidad"
+					defaultValue={data.dataPersonal?.estudiante?.nacionalidad}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="V">Venezolano</MenuItem>
+					<MenuItem value="E">Extranjero</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			{watch('dataPersonal.estudiante.nacionalidad') === 'V' && (
+				<Grid item xs={12} sm={6} md={4}>
+					<Autocomplete
+						id="estadoNacimientoEstu-editUser"
+						options={estadosVE}
+						getOptionLabel={(option) => option}
+						defaultValue={data.dataPersonal?.estudiante?.estadoNacimiento}
+						onChange={(event, value) => {
+							setValue('dataPersonal.estudiante.estadoNacimiento', value, {
+								shouldValidate: true,
+							});
+						}}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								label="Estado"
+								variant="outlined"
+								size="small"
+								error={Boolean(errors.dataPersonal?.estudiante?.estadoNacimiento)}
+								helperText={errors.dataPersonal?.estudiante?.estadoNacimiento?.message}
+							/>
+						)}
+					/>
+				</Grid>
+			)}
+			
+			<Grid item xs={12} sm={6} md={5}>
+				<RenderInput
+					name="dataPersonal.estudiante.lugarNacimiento"
+					label="Lugar de nacimiento"
+					defaultValue={data.dataPersonal?.estudiante?.lugarNacimiento}
+					errors={errors.dataPersonal?.estudiante?.lugarNacimiento}
+					registerInput={register({
+						required: { value: true, message: 'Campo requerido.' },
+						minLength: { value: 6, message: 'Campo no válido.' },
+					})}
+					disabledOnLoading={loading}
+					size="small"
+				/>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
+export function SectionUbiEstudiante({ form, data, loading }) {
+	const { errors, control, watch } = form;
+	const [labelRanking, setLabelRanking] = useState(data.dataPersonal?.estudiante?.viviendaDetalles?.condiInfra);
+	
+	const labels = {
+		1: 'Deplorable',
+		2: 'Deteriorada',
+		3: 'Regular',
+		4: 'Buena',
+		5: 'Excelente',
+	};
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="tipoViviendaEstu-editUser"
+					name="dataPersonal.estudiante.viviendaDetalles.tipo"
+					nameLabel="Tipo vivienda"
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.tipo}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Apto">Apto</MenuItem>
+					<MenuItem value="Apto-quinta">Apto-quinta</MenuItem>
+					<MenuItem value="Casa">Casa</MenuItem>
+					<MenuItem value="Casa-quinta">Apto</MenuItem>
+					<MenuItem value="Quinta">Quinta</MenuItem>
+					<MenuItem value="Rancho barrio">Rancho barrio</MenuItem>
+					<MenuItem value="Refugio">Refugio</MenuItem>
+					<MenuItem value="Casa de vecindad">Casa de vecindad</MenuItem>
+					<MenuItem value="Improvisado">Improvisado</MenuItem>
+					<MenuItem value="Rancho rural">Rancho rural</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="ubiViviendaEstu-editUser"
+					name="dataPersonal.estudiante.viviendaDetalles.ubicacion"
+					nameLabel="Ubicacion vivienda"
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.ubicacion}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Rancho">Rancho</MenuItem>
+					<MenuItem value="Caserio">Caserio</MenuItem>
+					<MenuItem value="Urbanización">Ubrbanización</MenuItem>
+					<MenuItem value="Zona residencial">Zona residencial</MenuItem>
+					<MenuItem value="Otros">Otros</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="zonaViviendaEstu-editUser"
+					name="dataPersonal.estudiante.viviendaDetalles.zona"
+					nameLabel="Zona vivienda"
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.zona}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Rural">Rural</MenuItem>
+					<MenuItem value="Urbana">Urbana</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={3}>
+				<Typography>Cond. de Infraestructura</Typography>
+				<Controller 
+					name='dataPersonal.estudiante.viviendaDetalles.condiInfra'
+					as={
+						<Rating
+							onChangeActive={(event, newHover) => {
+								setLabelRanking(newHover);
+							}}
+						/>
+					}
+					control={control}
+					defaultValue={data.dataPersonal.estudiante?.viviendaDetalles?.condiInfra}
+				/>
+				<Box>{labels[labelRanking !== -1 ? labelRanking : watch('dataPersonal.estudiante.viviendaDetalles.condiInfra')]}</Box>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={3}>
+				<RenderSelectFormHook
+					id="condicionVivienda2Estu-editUser"
+					name="dataPersonal.estudiante.viviendaDetalles.condiVivienda"
+					nameLabel="Cond. de vivienda"
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.condiVivienda}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value="Al cuido">Al cuido</MenuItem>
+					<MenuItem value="Alquilada">Alquilada</MenuItem>
+					<MenuItem value="Propia pagada">Propia pagada</MenuItem>
+					<MenuItem value="Propia pagandose">Propia pagandose</MenuItem>
+					<MenuItem value="Otro">Otro</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
+export function SectionOtrosEstudiante({ form, data, loading }) {
+	const { register, errors, control, watch } = form;
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="laNASA-editUser"
+					name="dataPersonal.estudiante.canaima"
+					nameLabel="¿Posee canaima?"
+					defaultValue={data.dataPersonal?.estudiante?.canaima}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value='Si'>Si</MenuItem>
+					<MenuItem value='No'>No</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="laNASA-editUser"
+					name="dataPersonal.estudiante.beca"
+					nameLabel="¿Posee beca?"
+					defaultValue={data.dataPersonal?.estudiante?.beca}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value='Si'>Si</MenuItem>
+					<MenuItem value='No'>No</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={3}>
+				<RenderSelectFormHook
+					id="laNASA-editUser"
+					name="dataPersonal.estudiante.alojado"
+					nameLabel="¿Vive con el representante?"
+					defaultValue={data.dataPersonal?.estudiante?.alojado}
+					control={control}
+					errors={errors}
+					disabled={loading}
+				>
+					<MenuItem value='Si'>Si</MenuItem>
+					<MenuItem value='No'>No</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			{watch('dataPersonal.estudiante.alojado') === 'No' && (
+				<Grid item xs={12} sm={6} md={5}>
+					<RenderInput
+						name="dataPersonal.estudiante.direccion"
+						label="Direccion"
+						defaultValue={data.dataPersonal?.estudiante?.direccion}
+						errors={errors.dataPersonal?.estudiante?.direccion}
+						registerInput={register({
+							required: { value: true, message: 'Campo requerido.' },
+							minLength: { value: 8, message: 'Campo no válido.' },
+						})}
+						disabledOnLoading={loading}
+						size="small"
+					/>
+				</Grid>
+			)}
 		</React.Fragment>
 	);
 }

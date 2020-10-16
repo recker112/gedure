@@ -12,7 +12,7 @@ class AdminConfigSeeder extends Seeder
 	public function run()
 	{
 		DB::table('admin_configs')->insert([
-			'cedula' => 'recker',
+			'user_id' => 1,
 			'created_at' => now(),
 			'updated_at' => now()
 		]);

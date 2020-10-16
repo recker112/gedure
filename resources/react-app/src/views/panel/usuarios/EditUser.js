@@ -34,6 +34,9 @@ import {
 	SectionDad,
 	SectionRepresentante,
 	SectionUbicacionRepre,
+	SectionEstudiante,
+	SectionUbiEstudiante,
+	SectionOtrosEstudiante,
 } from './SectionPersonal';
 import { generatePassword } from './../../../components/GlobalGenerate';
 
@@ -91,7 +94,7 @@ function a11yProps(index) {
 	};
 }
 
-function EditUser({ action, callback }) {
+function EditUser() {
 	const [tabsEdit, setTabsEdit] = useState(0);
 
 	const { open, loading, data } = useSelector((state) => ({
@@ -114,18 +117,35 @@ function EditUser({ action, callback }) {
 	};
 
 	const onSubmit = (submitData) => {
+		//NOTE (RECKER): Añadir variables existentes en el store.
+		if (tabsEdit === 1) {
+			submitData.dataPersonal = { ...data.dataPersonal, ...submitData.dataPersonal }
+			submitData.user = { ...data.user, ...submitData.user }
+		}else {
+			submitData.user = { ...data.user, ...submitData.user }
+		}
+		
 		dispatch(updateDialogs('editUser', true, true, submitData));
-		callback();
 	};
+	
+	useEffect(()=> {
+		const consult = async () => {
+			setTimeout(()=>{dispatch(updateDialogs('editUser', true, false,));}, 4000)
+		}
+		
+		if (loading) {
+			console.log(data);
+			
+			//Consulta
+			consult();
+		}
+	}, [loading, data, dispatch]);
 
 	return (
 		<Dialog
 			open={open}
 			TransitionComponent={AnimationDialog}
 			fullScreen
-			onClose={handleClose}
-			aria-labelledby="confirm-dialog-title"
-			aria-describedby="confirm-dialog-description"
 		>
 			<AppBar className={classes.appBar}>
 				<Toolbar>
@@ -243,6 +263,7 @@ function EditUser({ action, callback }) {
 					<DialogContentText>
 						AVISO: Tenga en cuenta que al guardar solo se cargarán los datos de la pestaña actual, las demás no se verán afectadas.
 					</DialogContentText>
+					<input type="hidden" ref={register} name='option' value={tabsEdit} />
 					<input type="submit" style={{ display: 'none' }} id="id-submit-editUser" />
 				</form>
 			</DialogContent>
@@ -264,6 +285,7 @@ function SectionUser({ form, classes, data, loading }) {
 				container
 				alignItems="center"
 				justify="flex-start"
+				spacing={2}
 				item
 				xs
 			>
@@ -283,6 +305,23 @@ function SectionUser({ form, classes, data, loading }) {
 						maxWidth="300px"
 					/>
 				</Grid>
+				
+				<Grid container className={classes.dataUserSection} item xs={12}>
+					<RenderInput
+						name="user.cedula"
+						label="Cédula"
+						defaultValue={data.user?.cedula}
+						errors={errors.user?.cedula}
+						registerInput={register({
+							required: { value: true, message: 'Campo requerido.' },
+							minLength: { value: 6, message: 'Campo no válido.' },
+						})}
+						disabledOnLoading={loading}
+						size="small"
+						maxWidth="300px"
+					/>
+				</Grid>
+				
 				<Grid container className={classes.dataUserSection} item xs>
 					<Button disabled={loading}>Cambiar Avatar</Button>
 					<Button disabled={loading}>Quitar Avatar</Button>
@@ -326,6 +365,30 @@ function SectionPersonalEstudiante(props) {
 			</Grid>
 
 			<SectionUbicacionRepre {...props} />
+			
+			<Grid item xs={12}>
+				<Typography className="box__subtitle box__title--opacity box_title--margin">
+					Datos del estudiante
+				</Typography>
+			</Grid>
+			
+			<SectionEstudiante {...props} />
+			
+			<Grid item xs={12}>
+				<Typography className="box__subtitle box__title--opacity box_title--margin">
+					Datos de ubicación domicilio del estudiante
+				</Typography>
+			</Grid>
+			
+			<SectionUbiEstudiante {...props} />
+			
+			<Grid item xs={12}>
+				<Typography className="box__subtitle box__title--opacity box_title--margin">
+					Otros datos del estudiante
+				</Typography>
+			</Grid>
+			
+			<SectionOtrosEstudiante {...props} />
 		</Grid>
 	);
 }

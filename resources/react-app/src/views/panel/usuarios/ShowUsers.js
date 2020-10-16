@@ -19,12 +19,16 @@ import { RenderSelectFormHook } from './../../../components/RendersGlobals';
 import LocationShow from './../../../components/LocationShow';
 import ConfirmAction from './ConfirmAction';
 import EditUser from './EditUser';
+import VerUser from './VerUser';
 
 const useStyles = makeStyles((theme) => ({
 	margin: {
 		marginTop: theme.spacing(4),
 		marginBottom: theme.spacing(3),
 	},
+	marginFinish: {
+		marginBottom: theme.spacing(3),
+	}
 }));
 
 function ShowUsers() {
@@ -37,7 +41,7 @@ function ShowUsers() {
 	const classes = useStyles();
 
 	return (
-		<Container maxWidth="md">
+		<Container maxWidth="md" className={classes.marginFinish}>
 			<Grid container className={classes.margin} spacing={2}>
 				<Grid item xs={12}>
 					<LocationShow />
@@ -107,6 +111,7 @@ function ShowUsers() {
 				data={[
 					{
 						user: {
+							id: 1,
 							cedula: 1234567890,
 							name: 'Recker',
 							avatar: 'test',
@@ -143,7 +148,7 @@ function ShowUsers() {
 								cedula: '19385748',
 								telefono: '483769548143',
 								direccion: 'Turmero, Cagua',
-								sexo: 'F',
+								sexo: 'Femenino',
 								tipoFamiliar: 'Madre',
 								estadoCivil: 'Casado',
 								nacimiento: '10/08/2001',
@@ -154,6 +159,28 @@ function ShowUsers() {
 									municipio: 'Santiago Mariño',
 									parroquia: 'Parroquia Turmero',
 									via: 'Calle',
+								},
+								empleoData: {
+									profesion: 'Profesor',
+									lugar: 'Turmero, cagua',
+								}
+							},
+							estudiante: {
+								sexo: 'Masculino',
+								estadoCivil: 'Soltero',
+								lateralidad: 'Derecho',
+								nacionalidad: 'V',
+								estadoNacimiento: 'Aragua',
+								lugarNacimiento: 'Maracay, al lado de chavez',
+								canaima: 'Si',
+								beca: 'No',
+								alojado: 'Si',
+								viviendaDetalles: {
+									tipo: 'Apto',
+									ubicacion: 'Urbanización',
+									zona: 'Urbana',
+									condiInfra: 4,
+									condiVivienda: 'Propia pagandose'
 								}
 							}
 						}
@@ -195,9 +222,8 @@ function ShowUsers() {
 }
 
 function DialogsComponentShow() {
-	const { data, form } = useSelector((state) => ({
+	const { data } = useSelector((state) => ({
 		data: state.dialogs.confirmAction.data,
-		form: state.dialogs.editUser.data,
 	}));
 	const dispatch = useDispatch();
 
@@ -207,21 +233,14 @@ function DialogsComponentShow() {
 		}, 4000);
 	};
 
-	const EditUserConsult = async () => {
-		console.log(form);
-		await setTimeout(() => {
-			dispatch(updateDialogs('editUser', true, false));
-			console.log(`El usuario que usted va a usar es: ${form.user.name}`);
-		}, 4000);
-	};
-
 	return (
 		<React.Fragment>
 			<ConfirmAction
-				action={`Eliminar usuario: ${data.privilegio + data.cedula}`}
+				action={`Eliminar usuario: ${data.user.privilegio + data.user.cedula}`}
 				callback={ConfirmDelete}
 			/>
-			<EditUser callback={EditUserConsult} />
+			<EditUser />
+			<VerUser />
 		</React.Fragment>
 	);
 }

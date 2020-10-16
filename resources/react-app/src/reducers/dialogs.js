@@ -21,7 +21,7 @@ export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_DIALOG': {
 			const { dialog, open, loading, data } = payload;
-			
+
 			if (data === 'clear') {
 				return {
 					...state,
@@ -29,12 +29,12 @@ export default (state = initialState, { type, payload }) => {
 						open,
 						loading,
 						data: {
-							...initialState[dialog].data
+							...initialState[dialog].data,
 						},
 					},
 				};
 			}
-			
+
 			//NOTE (RECKER): No hacer nada
 			/* Esto se pone para que al la data venir como null no realize ningún cambio en el estado */
 			if (data === null) {
@@ -44,23 +44,23 @@ export default (state = initialState, { type, payload }) => {
 						open,
 						loading,
 						data: {
-							...state[dialog].data
-						}
+							...state[dialog].data,
+						},
 					},
 				};
 			}
 
 			//NOTE (RECKER): Fix useSelector
 			/* Debido a que la referencia del objeto no cambia, es necesario refrescarla de esa manera, así se pueden refrescar los datos */
-			Object.assign(state[dialog].data,data);
-			
+
 			return {
 				...state,
 				[dialog]: {
 					open,
 					loading,
 					data: {
-						...state[dialog].data
+						...state[dialog].data,
+						...data,
 					},
 				},
 			};

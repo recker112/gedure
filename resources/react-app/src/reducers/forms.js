@@ -1,12 +1,7 @@
 //Inicar valor del state.
 const initialState = {
 	login: {
-		loading: false,
-		inputs: {
-			user: '',
-			password: '',
-			checkbox: true,
-		},
+		loading: false
 	},
 	registros: {
 		loading: false,
