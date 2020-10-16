@@ -1,45 +1,79 @@
-//React
+// React
 import React, { Suspense, lazy } from 'react';
 
-//React Router
+// React Router
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-//redux
+// Material-Ui
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+// redux
 import { connect } from 'react-redux';
 
-//Loading
+// Loading
 import ReactLoading from 'react-loading';
 
-//Componentes
-const PageIndex = lazy(() => import('./index/PageIndex'));
-const PageNews = lazy(() => import('./news/PageNews'));
-const PagePanel = lazy(() => import('./panel/PagePanel'));
-const PageAccount = lazy(() => import('./account/PageAccount'));
+// Componentes
+import logoL from './../imgs/favicon_no_fondo.png';
+import logoD from './../imgs/favicon_no_fondo_white.png';
 
-function Routers({ auth }) {
+// Routers
+const PageIndex = lazy(() => import('./index/Main'));
+const PageNews = lazy(() => import('./noticias/Main'));
+const ShowNotice = lazy(() => import('./noticias/ShowNotice'));
+const PageContacto = lazy(() => import('./contacto/Main'));
+const Login = lazy(() => import('./login/Main'));
+const Recovery = lazy(() => import('./login/Recovery'));
+const PagePanel = lazy(() => import('./panel/Main'));
+const PageAccount = lazy(() => import('./cuenta/Main'));
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		marginTop: theme.spacing(8),
+		flexGrow: 1
+	},
+	loading: {
+		flexGrow: 1
+	}
+}));
+
+function Routers({ auth, theme }) {
 	return (
 		/* Switch sirve para escojer la ruta la que mas se acerque a la
     ruta actual, es decir, que de todas esas rutas, la app escogerรก
     la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
-		<Suspense fallback={<Loader />}>
+		<Suspense fallback={<Loader theme={theme} />}>
 			<Switch>
-				<PublicRoute exact auth={auth} path="/">
+				<PublicRoute auth={auth} path='/' exact notSeeBeforeAuth>
 					<PageIndex />
 				</PublicRoute>
 				
-				<PublicRoute exact auth={auth} path="/login">
-					<Redirect to='/' />
-				</PublicRoute>
-				
-				<PublicRoute exact auth={auth} path="/news">
+				<PublicRoute auth={auth} path='/noticias' exact>
 					<PageNews />
 				</PublicRoute>
 				
-				<ProtectRoute auth={auth} path="/panel">
+				<PublicRoute auth={auth} path='/noticias/:id' exact>
+					<ShowNotice />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/contactanos' exact>
+					<PageContacto />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/entrar' exact>
+					<Login />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/recovery' exact>
+					<Recovery />
+				</PublicRoute>
+				
+				<ProtectRoute auth={auth} path='/panel'>
 					<PagePanel />
 				</ProtectRoute>
 				
-				<ProtectRoute auth={auth} path="/account">
+				<ProtectRoute auth={auth} path='/cuenta'>
 					<PageAccount />
 				</ProtectRoute>
 				
@@ -51,25 +85,29 @@ function Routers({ auth }) {
 	);
 }
 
-export function PublicRoute({ children, auth, onlyUsers = null, ...rest }) {
-	//AccessKey
-	const keyL = JSON.parse(localStorage.getItem('key'));
-	const keyS = JSON.parse(sessionStorage.getItem('key'));
+export function PublicRoute({ children, auth, notSeeBeforeAuth=false, ...rest }) {
+	// AccessKey
+	const keyL = JSON.parse(localStorage.getItem('access_key'));
+	const keyS = JSON.parse(sessionStorage.getItem('access_key'));
 	
-	//Redireccionar al Login si existe una Access key almacenada
+	// Redireccionar al Login si existe una Access key almacenada
 	return (
 		<Route
 			{...rest}
 			render={({ location }) => {
-				if (auth) {
+				if (auth && !notSeeBeforeAuth) {
 					return	(children);
+				}else if (auth && notSeeBeforeAuth){
+					return (
+						<Redirect to={'/panel'} />
+					);
 				}else {
-					//Verificar si existen AccesKeys por validar y si el path actual
-					//es diferente a "/"
-					if ((keyL || keyS) && location.pathname !== "/") {
+					// Verificar si existen AccesKeys por validar y si el path actual
+					// es diferente a "/entrar"
+					if ((keyL || keyS) && location.pathname !== "/entrar") {
 						return (
 							<Redirect to={{
-								pathname: "/",
+								pathname: "/entrar",
 								state: { from: location, protect: false }
 							}} />
 						);
@@ -82,7 +120,7 @@ export function PublicRoute({ children, auth, onlyUsers = null, ...rest }) {
 	);
 }
 
-export function ProtectRoute({ children, auth, onlyUsers = null, ...rest }) {
+export function ProtectRoute({ children, auth, ...rest }) {
 	return (
 		<Route
 			{...rest}
@@ -92,7 +130,7 @@ export function ProtectRoute({ children, auth, onlyUsers = null, ...rest }) {
 				}else {
 					return (
 						<Redirect to={{
-              pathname: "/",
+              pathname: "/entrar",
               state: { from: location, protect: true }
             }} />
 					);
@@ -102,34 +140,44 @@ export function ProtectRoute({ children, auth, onlyUsers = null, ...rest }) {
 	);
 }
 
-export function Loader(){
+export function Loader(props){
+	const { theme='light' } = props;
+	
+	const classes = useStyles();
+	
 	return (
-		<main className="BoxPage">
-			<div className="loading" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "80vh"}}>
-				<ReactLoading type="bars" color="#6B8DD6" width={150} height={100} />
-			</div>
-		</main>
+		<Grid container direction='column' justify='center' alignItems='center' className={classes.loading}>
+			{theme === 'light' ? 
+				(
+				<React.Fragment>
+					<img src={logoL} alt='Logo de la institución' className='loading__img' />
+					<ReactLoading type="bars" color="#00000080" width={150} height={100} />
+				</React.Fragment>
+				)
+			:
+				(
+				<React.Fragment>
+					<img src={logoD} alt='Logo de la institución' className='loading__img' />
+					<ReactLoading type="bars" color="#FFFFFF80" width={150} height={100} />
+				</React.Fragment>
+				)
+			}
+		</Grid>
 	)
 }
 
-export function NoFound() {
+export function NoFound({ styleUse=true }) {
+	const classes = useStyles();
+	
 	return (
-		<main className="Container" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-			<h1 style={{fontSize: 50, marginBottom: 0, marginTop: 0}}>
-				4<span style={{color: '#6B8DD6'}}>0</span>4
-			</h1>
-			<ReactLoading type="cylon" color="#6B8DD6" />
-			<p style={{marginTop: 0, textAlign: "center"}}>
-				La página solicitada no se ha podido encontrar, por favor intente
-				con una diferente.
-			</p>
-		</main>
+		<h1 className={styleUse && classes.root}>Página no encontrada</h1>
 	);
 }
 
 //REDUX
 const mapStateToProps = state => ({
-	auth: state.loginStatus.auth
+	auth: state.userData.auth,
+	theme: state.settings.tema,
 });
 
 export default connect(mapStateToProps, null)(Routers);

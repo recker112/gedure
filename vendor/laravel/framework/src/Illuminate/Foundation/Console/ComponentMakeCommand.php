@@ -53,11 +53,7 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function writeView()
     {
-        $view = collect(explode('/', $this->argument('name')))
-            ->map(function ($part) {
-                return Str::kebab($part);
-            })
-            ->implode('.');
+        $view = $this->getView();
 
         $path = resource_path('views').'/'.str_replace('.', '/', 'components.'.$view);
 
@@ -84,16 +80,32 @@ class ComponentMakeCommand extends GeneratorCommand
         if ($this->option('inline')) {
             return str_replace(
                 'DummyView',
-                "<<<'blade'\n<div>\n    ".Inspiring::quote()."\n</div>\nblade",
+                "<<<'blade'\n<div>\n    <!-- ".Inspiring::quote()." -->\n</div>\nblade",
                 parent::buildClass($name)
             );
         }
 
         return str_replace(
             'DummyView',
-            'view(\'components.'.Str::kebab(class_basename($name)).'\')',
+            'view(\'components.'.$this->getView().'\')',
             parent::buildClass($name)
         );
+    }
+
+    /**
+     * Get the view name relative to the components directory.
+     *
+     * @return string view
+     */
+    protected function getView()
+    {
+        $name = str_replace('\\', '/', $this->argument('name'));
+
+        return collect(explode('/', $name))
+            ->map(function ($part) {
+                return Str::kebab($part);
+            })
+            ->implode('.');
     }
 
     /**

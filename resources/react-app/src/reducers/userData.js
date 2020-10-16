@@ -1,21 +1,11 @@
-import clearAllData from '../components/reutilizar/clearAllData';
-
 //Inicar valor del state.
 const initialState = {
-	cedula: '',
-	name: '',
-	curso: '',
-	seccion: '',
-	lista: '',
-	horario: '',
-	profeGuia: '',
-	privilegio: '',
-	avatar: '',
-	access_key: ''
+	auth: false,
+	access_key: '',
+	user: {},
+	permissions: {}
 };
 
-// action es el valor devuelto por el action
-//action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_DATA_USER': {
@@ -24,12 +14,23 @@ export default (state = initialState, { type, payload }) => {
 				...payload
 			};
 		}
+			
+		case 'AUTH_UPDATE': {
+			return {
+				...state,
+				auth: payload
+			};
+		}
+			
 		case 'LOGOUT': {
-			clearAllData();
+			sessionStorage.removeItem('access_key');
+			localStorage.removeItem('access_key');
+			
 			return {
 				...initialState
-			}
+			};
 		}
+			
 		default: {
 			return state;
 		}

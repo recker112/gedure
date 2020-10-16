@@ -4,25 +4,11 @@ if (!localStorage.getItem('theme')) {
 	localStorage.setItem('theme', 'light');
 }
 
-//Verificar si la lista contiene algo
-if (
-	!localStorage.getItem('notSeeInfoDialog') ||
-	typeof JSON.parse(localStorage.getItem('notSeeInfoDialog')) !== 'object'
-) {
-	//Setear dada
-	localStorage.setItem('notSeeInfoDialog', JSON.stringify([]));
-}
-
 //Inicar valor del state.
 const initialState = {
-	tema: localStorage.getItem('theme'),
-	showInfo: {
-		masterPath: ''
-	}
+	tema: localStorage.getItem('theme')
 };
 
-// action es el valor devuelto por el action
-//action.payload será el valor que quiero añadir, borrar, etc
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_THEME': {
@@ -42,14 +28,6 @@ export default (state = initialState, { type, payload }) => {
 			};
 		}
 			
-		case 'UPDATE_MASTER_PATH': {
-			return {
-				...state,
-				showInfo: {
-					masterPath: payload
-				}
-			};
-		}
 		default: {
 			return state;
 		}
