@@ -236,7 +236,7 @@ function DialogsComponentShow() {
 	return (
 		<React.Fragment>
 			<ConfirmAction
-				action={`Eliminar usuario: ${data.user.privilegio + data.user.cedula}`}
+				action={`Eliminar usuario: ${data.user?.privilegio + data.user?.cedula}`}
 				callback={ConfirmDelete}
 			/>
 			<EditUser />
