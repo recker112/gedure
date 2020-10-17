@@ -37,6 +37,7 @@ import {
 	SectionEstudiante,
 	SectionUbiEstudiante,
 	SectionOtrosEstudiante,
+	SectionDocente,
 } from './SectionPersonal';
 import { generatePassword } from './../../../components/GlobalGenerate';
 
@@ -63,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'center',
 		},
 	},
+	button: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
 function TabPanel(props) {
@@ -149,12 +153,16 @@ function EditUser() {
 		>
 			<AppBar className={classes.appBar}>
 				<Toolbar>
-					<Button disabled={loading} onClick={handleClose}>
+					<Button disabled={loading} onClick={handleClose} className={classes.button}>
 						Cerrar
 					</Button>
 					<LoadingComponent loading={loading} color="inherit">
 						<label htmlFor="id-submit-editUser">
-							<Button variant="contained" component="span" endIcon={<SaveIcon />}>
+							<Button 
+								variant="contained" 
+								component="span" 
+								endIcon={<SaveIcon />}
+							>
 								Guardar
 							</Button>
 						</label>
@@ -209,6 +217,15 @@ function EditUser() {
 									<Container maxWidth="md">
 										{data.user?.privilegio === 'V-' && (
 											<SectionPersonalEstudiante
+												form={{ register, errors, control, watch, setValue }}
+												classes={classes}
+												data={data}
+												loading={loading}
+											/>
+										)}
+										
+										{data.user?.privilegio !== 'V-' && (
+											<SectionPersonalDocente
 												form={{ register, errors, control, watch, setValue }}
 												classes={classes}
 												data={data}
@@ -314,7 +331,7 @@ function SectionUser({ form, classes, data, loading }) {
 						errors={errors.user?.cedula}
 						registerInput={register({
 							required: { value: true, message: 'Campo requerido.' },
-							minLength: { value: 6, message: 'Campo no válido.' },
+							minLength: { value: 3, message: 'Campo no válido.' },
 						})}
 						disabledOnLoading={loading}
 						size="small"
@@ -331,7 +348,7 @@ function SectionUser({ form, classes, data, loading }) {
 	);
 }
 
-function SectionPersonalEstudiante(props) {
+export function SectionPersonalEstudiante(props) {
 	return (
 		<Grid container alignItems="center" spacing={2}>
 			<Grid item xs={12}>
@@ -389,6 +406,20 @@ function SectionPersonalEstudiante(props) {
 			</Grid>
 			
 			<SectionOtrosEstudiante {...props} />
+		</Grid>
+	);
+}
+
+export function SectionPersonalDocente(props) {
+	return (
+		<Grid container alignItems="center" spacing={2}>
+			<Grid item xs={12}>
+				<Typography className="box__subtitle box__title--opacity box_title--margin">
+					Información de la persona
+				</Typography>
+			</Grid>
+
+			<SectionDocente {...props} />
 		</Grid>
 	);
 }
@@ -484,7 +515,7 @@ function SectionPassword({ form, classes, data, loading }) {
 							required: { value: true, message: 'Campo requerido.' },
 							minLength: { value: 5, message: 'Campo no válido.' },
 							validate: {
-								verifyPass: (value) => value === watch('newPass'),
+								verifyPass: (value) => value === watch('user.newPass'),
 							},
 						})}
 						disabledOnLoading={loading}

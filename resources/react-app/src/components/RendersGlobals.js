@@ -33,7 +33,7 @@ export function RenderSelectFormHook({
 	...props
 }) {
 	return (
-		<FormControl {...props} style={{ width: customWidth ? (customWidth) : '100%' }} error={errors[name]}>
+		<FormControl {...props} style={{ width: customWidth ? (customWidth) : '100%' }} error={Boolean(errors)}>
 			<InputLabel id={id + '-label'}>{nameLabel}</InputLabel>
 			<Controller
 				as={
@@ -46,7 +46,7 @@ export function RenderSelectFormHook({
 				defaultValue={defaultValue}
 				rules={{ required: { value: true, message: 'Campo requerido.' } }}
 			/>
-			<FormHelperText>{errors[name]?.message}</FormHelperText>
+			<FormHelperText>{errors?.message}</FormHelperText>
 		</FormControl>
 	);
 }

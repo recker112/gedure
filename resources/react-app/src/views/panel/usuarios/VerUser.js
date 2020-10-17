@@ -130,59 +130,11 @@ function VerUser() {
 				</TabPanel>
 
 				<TabPanel value={tabsVer} index={1}>
-					{data.user?.privilegio === 'V-' && (
-						<Grid container spacing={2}>
-							<Grid item xs={12}>
-								<Typography className="box__title box__title--opacity box__title--marginBottom">
-									Datos personales
-								</Typography>
-							</Grid>
+					{data.user?.privilegio === 'V-' && <SectionDataEstudiante data={data} />}
 
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionMom data={data?.dataPersonal?.madre} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionDad data={data?.dataPersonal?.padre} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionRepresentante data={data?.dataPersonal?.representante} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionUbiRepresentante data={data?.dataPersonal?.representante} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionEstudiante data={data?.dataPersonal?.estudiante} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionUbiEstudiante data={data?.dataPersonal?.estudiante?.viviendaDetalles} />
-								</Container>
-							</Grid>
-
-							<Grid container item xs={12}>
-								<Container maxWidth="md">
-									<SectionOtrosEstudiante data={data?.dataPersonal?.estudiante} />
-								</Container>
-							</Grid>
-						</Grid>
-					)}
+					{data.user?.privilegio !== 'V-' && <SectionDataUser data={data} />}
 				</TabPanel>
-				
+
 				{privilegio === 'A-' && (
 					<TabPanel value={tabsVer} index={2}>
 						<Grid container>
@@ -192,14 +144,14 @@ function VerUser() {
 										title="Actividad del usuario"
 										icons={tableIcons}
 										columns={[
-											{ title: 'Fecha', field: 'fecha'},
-											{ title: 'Acción', field: 'action'}
+											{ title: 'Fecha', field: 'fecha' },
+											{ title: 'Acción', field: 'action' },
 										]}
 										data={[
-											{fecha: '20/20/2020', action: 'descargar juegos'},
-											{fecha: '20/20/2020', action: 'Iniciar sesión'},
-											{fecha: '20/20/2020', action: 'Subir tarea'},
-											{fecha: '20/20/2020', action: 'Crear un ticket'}
+											{ fecha: '20/20/2020', action: 'descargar juegos' },
+											{ fecha: '20/20/2020', action: 'Iniciar sesión' },
+											{ fecha: '20/20/2020', action: 'Subir tarea' },
+											{ fecha: '20/20/2020', action: 'Crear un ticket' },
 										]}
 										localization={tableLocation}
 									/>
@@ -210,6 +162,171 @@ function VerUser() {
 				)}
 			</DialogContent>
 		</Dialog>
+	);
+}
+
+function SectionDataUser({ data }) {
+	const {
+		nacimiento,
+		telefono,
+		sexo,
+		direccion,
+		docente,
+		titulo,
+		ingresoMPPE,
+		ingresoInstituto,
+	} = data.dataPersonal;
+
+	return (
+		<Grid container spacing={2}>
+			<Grid item xs={12}>
+				<Typography className="box__title box__title--opacity box__title--marginBottom">
+					Datos personales
+				</Typography>
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<Typography className="box__subtitle box__title--opacity box_title--margin">
+								Información del usuario
+							</Typography>
+						</Grid>
+
+						<Grid item xs={12} sm={4} md={3}>
+							<Typography>
+								<b>Fecha de nacimiento:</b> {nacimiento}
+							</Typography>
+						</Grid>
+
+						<Grid item xs={12} sm={4} md={3}>
+							<Typography>
+								<b>Teléfono:</b> {telefono}
+							</Typography>
+						</Grid>
+
+						<Grid item xs={12} sm={4} md={3}>
+							<Typography>
+								<b>Sexo:</b> {sexo}
+							</Typography>
+						</Grid>
+
+						<Grid item xs={12} sm={4} md={3}>
+							<Typography>
+								<b>Dirección:</b> {direccion}
+							</Typography>
+						</Grid>
+
+						<Grid item xs={12} sm={4} md={3}>
+							<Typography>
+								<b>Docente:</b> {docente}
+							</Typography>
+						</Grid>
+
+						{docente === 'Si' && (
+							<React.Fragment>
+								<Grid item xs={12} sm={4} md={3}>
+									<Typography>
+										<b>Título:</b> {titulo}
+									</Typography>
+								</Grid>
+
+								<Grid item xs={12} sm={4} md={3}>
+									<Typography>
+										<b>Año de ingreso al MPPE:</b> {ingresoMPPE}
+									</Typography>
+								</Grid>
+
+								<Grid item xs={12} sm={4} md={3}>
+									<Typography>
+										<b>Año de ingreso al Instituto:</b> {ingresoInstituto}
+									</Typography>
+								</Grid>
+							</React.Fragment>
+						)}
+					</Grid>
+				</Container>
+			</Grid>
+		</Grid>
+	);
+}
+
+function SectionDataEstudiante({ data }) {
+	return (
+		<Grid container spacing={2}>
+			<Grid item xs={12}>
+				<Typography className="box__title box__title--opacity box__title--marginBottom">
+					Datos personales
+				</Typography>
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionMom data={data?.dataPersonal?.madre} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionDad data={data?.dataPersonal?.padre} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionRepresentante data={data?.dataPersonal?.representante} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionUbiRepresentante data={data?.dataPersonal?.representante} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionEstudiante data={data?.dataPersonal?.estudiante} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionUbiEstudiante data={data?.dataPersonal?.estudiante?.viviendaDetalles} />
+				</Container>
+			</Grid>
+			
+			<Grid item xs={12}>
+				<Divider />
+			</Grid>
+
+			<Grid container item xs={12}>
+				<Container maxWidth="md">
+					<SectionOtrosEstudiante data={data?.dataPersonal?.estudiante} />
+				</Container>
+			</Grid>
+		</Grid>
 	);
 }
 
@@ -242,7 +359,7 @@ function SectionUser({ data, classes }) {
 
 				<Grid container className={classes.dataUserSection} item xs={12}>
 					<Typography>
-						<b>Sexo:</b> {data.dataPersonal?.estudiante?.sexo}
+						<b>Sexo:</b> {data.dataPersonal?.estudiante?.sexo || data.dataPersonal?.sexo}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -430,11 +547,7 @@ function SectionRepresentante({ data }) {
 }
 
 function SectionUbiRepresentante({ data }) {
-	const {
-		empleo,
-		empleoData,
-		ubicacion,
-	} = data;
+	const { empleo, empleoData, ubicacion } = data;
 
 	return (
 		<Grid container spacing={2}>
@@ -473,7 +586,7 @@ function SectionUbiRepresentante({ data }) {
 					<b>Empleo:</b> {empleo}
 				</Typography>
 			</Grid>
-			
+
 			{empleo === 'Si' && (
 				<React.Fragment>
 					<Grid item xs={12} sm={4} md={3}>
@@ -494,13 +607,7 @@ function SectionUbiRepresentante({ data }) {
 }
 
 function SectionEstudiante({ data }) {
-	const {
-		estadoCivil,
-		lateralidad,
-		nacionalidad,
-		estadoNacimiento,
-		lugarNacimiento,
-	} = data;
+	const { estadoCivil, lateralidad, nacionalidad, estadoNacimiento, lugarNacimiento } = data;
 
 	return (
 		<Grid container spacing={2}>
@@ -527,7 +634,7 @@ function SectionEstudiante({ data }) {
 					<b>Nacionalidad:</b> {nacionalidad}
 				</Typography>
 			</Grid>
-			
+
 			{nacionalidad === 'V' && (
 				<Grid item xs={12} sm={4} md={3}>
 					<Typography>
@@ -546,14 +653,8 @@ function SectionEstudiante({ data }) {
 }
 
 function SectionUbiEstudiante({ data }) {
-	const {
-		tipo,
-		ubicacion,
-		zona,
-		condiInfra,
-		condiVivienda,
-	} = data;
-	
+	const { tipo, ubicacion, zona, condiInfra, condiVivienda } = data;
+
 	const labels = {
 		1: 'Deplorable',
 		2: 'Deteriorada',
@@ -569,7 +670,7 @@ function SectionUbiEstudiante({ data }) {
 					Datos de ubicación domicilio del estudiante
 				</Typography>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={4} md={3}>
 				<Typography>
 					<b>Tipo de vivienda:</b> {tipo}
@@ -604,12 +705,7 @@ function SectionUbiEstudiante({ data }) {
 }
 
 function SectionOtrosEstudiante({ data }) {
-	const {
-		canaima,
-		beca,
-		alojado,
-		direccion,
-	} = data;
+	const { canaima, beca, alojado, direccion } = data;
 
 	return (
 		<Grid container spacing={2}>
@@ -636,7 +732,7 @@ function SectionOtrosEstudiante({ data }) {
 					<b>Vive con sus padres:</b> {alojado}
 				</Typography>
 			</Grid>
-			
+
 			{alojado === 'No' && (
 				<Grid item xs={12} sm={4} md={3}>
 					<Typography>

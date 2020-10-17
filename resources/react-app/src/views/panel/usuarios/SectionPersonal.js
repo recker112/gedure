@@ -35,9 +35,9 @@ export function SectionMom({ form, data, loading }) {
 					id="nacionalidadMadre-editUser"
 					name="dataPersonal.madre.nacionalidad"
 					nameLabel="Nacionalidad"
-					defaultValue={data.dataPersonal?.madre?.nacionalidad}
+					defaultValue={data.dataPersonal?.madre?.nacionalidad || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.madre?.nacionalidad}
 					disabled={loading}
 				>
 					<MenuItem value="V">Venezolano</MenuItem>
@@ -120,9 +120,9 @@ export function SectionDad({ form, data, loading }) {
 					id="nacionalidadPadre-editUser"
 					name="dataPersonal.padre.nacionalidad"
 					nameLabel="Nacionalidad"
-					defaultValue={data.dataPersonal?.padre?.nacionalidad}
+					defaultValue={data.dataPersonal?.padre?.nacionalidad || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.padre?.nacionalidad}
 					disabled={loading}
 				>
 					<MenuItem value="V">Venezolano</MenuItem>
@@ -208,9 +208,9 @@ export function SectionRepresentante({ form, data, loading }) {
 					id="nacionalidad-editUser"
 					name="dataPersonal.representante.nacionalidad"
 					nameLabel="Nacionalidad"
-					defaultValue={data.dataPersonal?.representante?.nacionalidad}
+					defaultValue={data.dataPersonal?.representante?.nacionalidad || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.nacionalidad}
 					disabled={loading}
 				>
 					<MenuItem value="V">Venezolano</MenuItem>
@@ -270,9 +270,9 @@ export function SectionRepresentante({ form, data, loading }) {
 					id="sexoR-editUser"
 					name="dataPersonal.representante.sexo"
 					nameLabel="Sexo"
-					defaultValue={data.dataPersonal?.representante?.sexo}
+					defaultValue={data.dataPersonal?.representante?.sexo || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.sexo}
 					disabled={loading}
 				>
 					<MenuItem value="Femenino">Femenino</MenuItem>
@@ -285,9 +285,9 @@ export function SectionRepresentante({ form, data, loading }) {
 					id="tipoFamiliarR-editUser"
 					name="dataPersonal.representante.tipoFamiliar"
 					nameLabel="Tipo de familiar"
-					defaultValue={data.dataPersonal?.representante?.tipoFamiliar}
+					defaultValue={data.dataPersonal?.representante?.tipoFamiliar || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.tipoFamiliar}
 					disabled={loading}
 				>
 					<MenuItem value="Madre">Madre</MenuItem>
@@ -305,9 +305,9 @@ export function SectionRepresentante({ form, data, loading }) {
 					id="estadoCivil-editUser"
 					name="dataPersonal.representante.estadoCivil"
 					nameLabel="Estado civil"
-					defaultValue={data.dataPersonal?.representante?.estadoCivil}
+					defaultValue={data.dataPersonal?.representante?.estadoCivil || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.estadoCivil}
 					disabled={loading}
 				>
 					<MenuItem value="Soltero">Soltero</MenuItem>
@@ -503,9 +503,9 @@ export function SectionUbicacionRepre({ form, data, loading }) {
 					id="viaRepresentante-editUser"
 					name="dataPersonal.representante.ubicacion.via"
 					nameLabel="Tipo de via"
-					defaultValue={data.dataPersonal?.representante?.ubicacion?.via}
+					defaultValue={data.dataPersonal?.representante?.ubicacion?.via || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.ubicacion?.via}
 					disabled={loading}
 				>
 					<MenuItem value="Aut">Aut</MenuItem>
@@ -526,16 +526,16 @@ export function SectionUbicacionRepre({ form, data, loading }) {
 					id="empleoRepresentante-editUser"
 					name="dataPersonal.representante.empleo"
 					nameLabel="¿Tiene empleo?"
-					defaultValue={data.dataPersonal?.representante?.empleo}
+					defaultValue={data.dataPersonal?.representante?.empleo || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.representante?.empleo}
 					disabled={loading}
 				>
-					<MenuItem value='Si'>Si</MenuItem>
-					<MenuItem value='No'>No</MenuItem>
+					<MenuItem value="Si">Si</MenuItem>
+					<MenuItem value="No">No</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			{watch('dataPersonal.representante.empleo') === 'Si' && (
 				<React.Fragment>
 					<Grid item xs={12} sm={6} md={5}>
@@ -552,7 +552,7 @@ export function SectionUbicacionRepre({ form, data, loading }) {
 							size="small"
 						/>
 					</Grid>
-					
+
 					<Grid item xs={12} sm={6} md={5}>
 						<RenderInput
 							name="dataPersonal.representante.empleoData.lugar"
@@ -575,12 +575,14 @@ export function SectionUbicacionRepre({ form, data, loading }) {
 
 export function SectionEstudiante({ form, data, loading }) {
 	const { register, errors, control, setValue, watch } = form;
-	
-	useEffect(()=>{
+
+	const LimitDate = new Date();
+	LimitDate.setDate(LimitDate.getDate() - 368);
+
+	useEffect(() => {
 		register('dataPersonal.estudiante.estadoNacimiento', {
 			required: { value: true, message: 'Campo requerido.' },
 		});
-
 
 		//NOTE (RECKER): Fix data void
 		/* Debido a problemas con los AutoComplete's es necesario actualizar el value manualmente para que no cree errores al insertarse el value en los inputs. */
@@ -590,8 +592,8 @@ export function SectionEstudiante({ form, data, loading }) {
 			{ shouldValidate: true }
 		);
 		// eslint-disable-next-line
-	}, [])
-	
+	}, []);
+
 	return (
 		<React.Fragment>
 			<Grid item xs={12} sm={6} md={2}>
@@ -599,24 +601,24 @@ export function SectionEstudiante({ form, data, loading }) {
 					id="sexoEstudiante-editUser"
 					name="dataPersonal.estudiante.sexo"
 					nameLabel="Sexo"
-					defaultValue={data.dataPersonal?.estudiante?.sexo}
+					defaultValue={data.dataPersonal?.estudiante?.sexo || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.sexo}
 					disabled={loading}
 				>
 					<MenuItem value="Femenino">Femenino</MenuItem>
 					<MenuItem value="Masculino">Masculino</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="estadoCivilEstudiante-editUser"
 					name="dataPersonal.estudiante.estadoCivil"
 					nameLabel="Estado civil"
-					defaultValue={data.dataPersonal?.estudiante?.estadoCivil}
+					defaultValue={data.dataPersonal?.estudiante?.estadoCivil || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.estadoCivil}
 					disabled={loading}
 				>
 					<MenuItem value="Soltero">Soltero</MenuItem>
@@ -624,15 +626,15 @@ export function SectionEstudiante({ form, data, loading }) {
 					<MenuItem value="Casado">Casado</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="lateralidadEstudiante-editUser"
 					name="dataPersonal.estudiante.lateralidad"
 					nameLabel="Lateralidad"
-					defaultValue={data.dataPersonal?.estudiante?.lateralidad}
+					defaultValue={data.dataPersonal?.estudiante?.lateralidad || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.lateralidad}
 					disabled={loading}
 				>
 					<MenuItem value="Derecho">Derecho</MenuItem>
@@ -640,22 +642,48 @@ export function SectionEstudiante({ form, data, loading }) {
 					<MenuItem value="Ambidiestro">Ambidiestro</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="nacionalidadEstudiante-editUser"
 					name="dataPersonal.estudiante.nacionalidad"
 					nameLabel="Nacionalidad"
-					defaultValue={data.dataPersonal?.estudiante?.nacionalidad}
+					defaultValue={data.dataPersonal?.estudiante?.nacionalidad || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.nacionalidad}
 					disabled={loading}
 				>
 					<MenuItem value="V">Venezolano</MenuItem>
 					<MenuItem value="E">Extranjero</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
+			<Grid item xs={12} sm={6} md={4}>
+				<Controller
+					as={
+						<KeyboardDatePicker
+							disableFuture
+							variant="inline"
+							inputVariant="outlined"
+							format="dd/MM/yyyy"
+							openTo="year"
+							views={['year', 'month', 'date']}
+							id="fecha-estudiante"
+							label="Nacimiento"
+							maxDateMessage="Fecha no válida."
+							maxDate={LimitDate}
+							KeyboardButtonProps={{
+								'aria-label': 'change date',
+							}}
+						/>
+					}
+					name="dataPersonal.estudiante.nacimiento"
+					control={control}
+					defaultValue={data.dataPersonal?.estudiante?.nacimiento}
+					rules={{ required: { value: true, message: 'Campo necesario.' } }}
+				/>
+			</Grid>
+
 			{watch('dataPersonal.estudiante.nacionalidad') === 'V' && (
 				<Grid item xs={12} sm={6} md={4}>
 					<Autocomplete
@@ -681,7 +709,7 @@ export function SectionEstudiante({ form, data, loading }) {
 					/>
 				</Grid>
 			)}
-			
+
 			<Grid item xs={12} sm={6} md={5}>
 				<RenderInput
 					name="dataPersonal.estudiante.lugarNacimiento"
@@ -702,8 +730,10 @@ export function SectionEstudiante({ form, data, loading }) {
 
 export function SectionUbiEstudiante({ form, data, loading }) {
 	const { errors, control, watch } = form;
-	const [labelRanking, setLabelRanking] = useState(data.dataPersonal?.estudiante?.viviendaDetalles?.condiInfra);
-	
+	const [labelRanking, setLabelRanking] = useState(
+		data.dataPersonal?.estudiante?.viviendaDetalles?.condiInfra
+	);
+
 	const labels = {
 		1: 'Deplorable',
 		2: 'Deteriorada',
@@ -711,7 +741,7 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 		4: 'Buena',
 		5: 'Excelente',
 	};
-	
+
 	return (
 		<React.Fragment>
 			<Grid item xs={12} sm={6} md={2}>
@@ -719,9 +749,9 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 					id="tipoViviendaEstu-editUser"
 					name="dataPersonal.estudiante.viviendaDetalles.tipo"
 					nameLabel="Tipo vivienda"
-					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.tipo}
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.tipo || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.viviendaDetalles?.tipo}
 					disabled={loading}
 				>
 					<MenuItem value="Apto">Apto</MenuItem>
@@ -736,15 +766,15 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 					<MenuItem value="Rancho rural">Rancho rural</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="ubiViviendaEstu-editUser"
 					name="dataPersonal.estudiante.viviendaDetalles.ubicacion"
 					nameLabel="Ubicacion vivienda"
-					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.ubicacion}
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.ubicacion || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.viviendaDetalles?.ubicacion}
 					disabled={loading}
 				>
 					<MenuItem value="Rancho">Rancho</MenuItem>
@@ -754,26 +784,26 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 					<MenuItem value="Otros">Otros</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="zonaViviendaEstu-editUser"
 					name="dataPersonal.estudiante.viviendaDetalles.zona"
 					nameLabel="Zona vivienda"
-					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.zona}
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.zona || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.viviendaDetalles?.zona}
 					disabled={loading}
 				>
 					<MenuItem value="Rural">Rural</MenuItem>
 					<MenuItem value="Urbana">Urbana</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={3}>
 				<Typography>Cond. de Infraestructura</Typography>
-				<Controller 
-					name='dataPersonal.estudiante.viviendaDetalles.condiInfra'
+				<Controller
+					name="dataPersonal.estudiante.viviendaDetalles.condiInfra"
 					as={
 						<Rating
 							onChangeActive={(event, newHover) => {
@@ -784,17 +814,25 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 					control={control}
 					defaultValue={data.dataPersonal.estudiante?.viviendaDetalles?.condiInfra}
 				/>
-				<Box>{labels[labelRanking !== -1 ? labelRanking : watch('dataPersonal.estudiante.viviendaDetalles.condiInfra')]}</Box>
+				<Box>
+					{
+						labels[
+							labelRanking !== -1
+								? labelRanking
+								: watch('dataPersonal.estudiante.viviendaDetalles.condiInfra')
+						]
+					}
+				</Box>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={3}>
 				<RenderSelectFormHook
 					id="condicionVivienda2Estu-editUser"
 					name="dataPersonal.estudiante.viviendaDetalles.condiVivienda"
 					nameLabel="Cond. de vivienda"
-					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.condiVivienda}
+					defaultValue={data.dataPersonal?.estudiante?.viviendaDetalles?.condiVivienda || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.viviendaDetalles?.condiVivienda}
 					disabled={loading}
 				>
 					<MenuItem value="Al cuido">Al cuido</MenuItem>
@@ -810,7 +848,7 @@ export function SectionUbiEstudiante({ form, data, loading }) {
 
 export function SectionOtrosEstudiante({ form, data, loading }) {
 	const { register, errors, control, watch } = form;
-	
+
 	return (
 		<React.Fragment>
 			<Grid item xs={12} sm={6} md={2}>
@@ -818,46 +856,46 @@ export function SectionOtrosEstudiante({ form, data, loading }) {
 					id="laNASA-editUser"
 					name="dataPersonal.estudiante.canaima"
 					nameLabel="¿Posee canaima?"
-					defaultValue={data.dataPersonal?.estudiante?.canaima}
+					defaultValue={data.dataPersonal?.estudiante?.canaima || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.canaima}
 					disabled={loading}
 				>
-					<MenuItem value='Si'>Si</MenuItem>
-					<MenuItem value='No'>No</MenuItem>
+					<MenuItem value="Si">Si</MenuItem>
+					<MenuItem value="No">No</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={2}>
 				<RenderSelectFormHook
 					id="laNASA-editUser"
 					name="dataPersonal.estudiante.beca"
 					nameLabel="¿Posee beca?"
-					defaultValue={data.dataPersonal?.estudiante?.beca}
+					defaultValue={data.dataPersonal?.estudiante?.beca || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.beca}
 					disabled={loading}
 				>
-					<MenuItem value='Si'>Si</MenuItem>
-					<MenuItem value='No'>No</MenuItem>
+					<MenuItem value="Si">Si</MenuItem>
+					<MenuItem value="No">No</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			<Grid item xs={12} sm={6} md={3}>
 				<RenderSelectFormHook
 					id="laNASA-editUser"
 					name="dataPersonal.estudiante.alojado"
 					nameLabel="¿Vive con el representante?"
-					defaultValue={data.dataPersonal?.estudiante?.alojado}
+					defaultValue={data.dataPersonal?.estudiante?.alojado || ''}
 					control={control}
-					errors={errors}
+					errors={errors.dataPersonal?.estudiante?.alojado}
 					disabled={loading}
 				>
-					<MenuItem value='Si'>Si</MenuItem>
-					<MenuItem value='No'>No</MenuItem>
+					<MenuItem value="Si">Si</MenuItem>
+					<MenuItem value="No">No</MenuItem>
 				</RenderSelectFormHook>
 			</Grid>
-			
+
 			{watch('dataPersonal.estudiante.alojado') === 'No' && (
 				<Grid item xs={12} sm={6} md={5}>
 					<RenderInput
@@ -873,6 +911,181 @@ export function SectionOtrosEstudiante({ form, data, loading }) {
 						size="small"
 					/>
 				</Grid>
+			)}
+		</React.Fragment>
+	);
+}
+
+export function SectionDocente({ form, data, loading }) {
+	const { register, errors, control, watch, setValue } = form;
+
+	const LimitDate = new Date();
+	LimitDate.setDate(LimitDate.getDate() - 368);
+	
+	useEffect(()=>{
+		//NOTA (RECKER): Forzar re-render
+		/* forzamos el re-render para que así watch() pueda recuperar valores. */
+		setValue('dataPersonal.docente', data.dataPersonal?.docente);
+		// eslint-disable-next-line
+	}, [])
+
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6} md={4}>
+				<Controller
+					as={
+						<KeyboardDatePicker
+							disableFuture
+							variant="inline"
+							inputVariant="outlined"
+							format="dd/MM/yyyy"
+							openTo="year"
+							views={['year', 'month', 'date']}
+							id="fecha-docente"
+							label="Nacimiento"
+							maxDateMessage="Fecha no válida."
+							maxDate={LimitDate}
+							KeyboardButtonProps={{
+								'aria-label': 'change date',
+							}}
+						/>
+					}
+					name="dataPersonal.nacimiento"
+					defaultValue={data.dataPersonal?.nacimiento || new Date()}
+					control={control}
+					rules={{ required: { value: true, message: 'Campo necesario.' } }}
+				/>
+			</Grid>
+
+			<Grid item xs={12} sm={6} md={5}>
+				<RenderInput
+					name="dataPersonal.telefono"
+					label="Teléfono"
+					defaultValue={data.dataPersonal?.telefono || ''}
+					errors={errors.dataPersonal?.telefono}
+					registerInput={register({
+						required: { value: true, message: 'Campo requerido.' },
+						minLength: { value: 8, message: 'Campo no válido.' },
+					})}
+					disabledOnLoading={loading}
+					size="small"
+				/>
+			</Grid>
+							 
+			<Grid item xs={12} sm={6} md={3}>
+				<RenderSelectFormHook
+					id="docente-editUser"
+					name="dataPersonal.sexo"
+					nameLabel="Sexo"
+					defaultValue={data.dataPersonal?.sexo || ''}
+					control={control}
+					errors={errors.dataPersonal?.sexo}
+					disabled={loading}
+				>
+					<MenuItem value="Femenino">Femenino</MenuItem>
+					<MenuItem value="Masculino">Masculino</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+			
+			<Grid item xs={12} sm={6} md={5}>
+				<RenderInput
+					name="dataPersonal.direccion"
+					label="Dirección"
+					defaultValue={data.dataPersonal?.direccion || ''}
+					errors={errors.dataPersonal?.direccion}
+					registerInput={register({
+						required: { value: true, message: 'Campo requerido.' },
+						minLength: { value: 6, message: 'Campo no válido.' },
+					})}
+					disabledOnLoading={loading}
+					size="small"
+				/>
+			</Grid>
+
+			<Grid item xs={12} sm={6} md={2}>
+				<RenderSelectFormHook
+					id="docente-editUser"
+					name="dataPersonal.docente"
+					nameLabel="¿Es docente?"
+					defaultValue={data.dataPersonal?.docente || ''}
+					control={control}
+					errors={errors.dataPersonal?.docente}
+					disabled={loading}
+				>
+					<MenuItem value="Si">Si</MenuItem>
+					<MenuItem value="No">No</MenuItem>
+				</RenderSelectFormHook>
+			</Grid>
+
+			{watch('dataPersonal.docente') === 'Si' && (
+				<React.Fragment>
+					<Grid item xs={12} sm={6} md={5}>
+						<RenderInput
+							name="dataPersonal.titulo"
+							label="Título"
+							defaultValue={data.dataPersonal?.titulo || ''}
+							errors={errors.dataPersonal?.titulo}
+							registerInput={register({
+								required: { value: true, message: 'Campo requerido.' },
+								minLength: { value: 6, message: 'Campo no válido.' },
+							})}
+							disabledOnLoading={loading}
+							size="small"
+						/>
+					</Grid>
+
+					<Grid item xs={12} sm={6} md={4}>
+						<Controller
+							as={
+								<KeyboardDatePicker
+									disableFuture
+									variant="inline"
+									inputVariant="outlined"
+									format="dd/MM/yyyy"
+									openTo="year"
+									views={['year', 'month', 'date']}
+									id="fechaMPPE-docente"
+									label="Año de ingreso al MPPE"
+									maxDateMessage="Fecha no válida."
+									maxDate={LimitDate}
+									KeyboardButtonProps={{
+										'aria-label': 'change date',
+									}}
+								/>
+							}
+							name="dataPersonal.ingresoMPPE"
+							control={control}
+							defaultValue={data.dataPersonal?.ingresoMPPE || new Date()}
+							rules={{ required: { value: true, message: 'Campo necesario.' } }}
+						/>
+					</Grid>
+
+					<Grid item xs={12} sm={6} md={4}>
+						<Controller
+							as={
+								<KeyboardDatePicker
+									disableFuture
+									variant="inline"
+									inputVariant="outlined"
+									format="dd/MM/yyyy"
+									openTo="year"
+									views={['year', 'month', 'date']}
+									id="fechaInstituto-docente"
+									label="Año de ingreso al Instituto"
+									maxDateMessage="Fecha no válida."
+									maxDate={LimitDate}
+									KeyboardButtonProps={{
+										'aria-label': 'change date',
+									}}
+								/>
+							}
+							name="dataPersonal.ingresoInstituto"
+							control={control}
+							defaultValue={data.dataPersonal?.ingresoInstituto || ''}
+							rules={{ required: { value: true, message: 'Campo necesario.' } }}
+						/>
+					</Grid>
+				</React.Fragment>
 			)}
 		</React.Fragment>
 	);

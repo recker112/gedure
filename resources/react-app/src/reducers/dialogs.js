@@ -5,6 +5,11 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	createUser: {
+		open: false,
+		loading: false,
+		data: {}
+	},
 	verUser: {
 		open: false,
 		loading: false,
