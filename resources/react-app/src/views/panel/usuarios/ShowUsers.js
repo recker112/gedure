@@ -18,6 +18,7 @@ import { tableIcons, tableLocation } from './../../../components/TableConfig';
 import { RenderSelectFormHook } from './../../../components/RendersGlobals';
 import LocationShow from './../../../components/LocationShow';
 import ConfirmAction from './ConfirmAction';
+import CreateUser from './CreateUser';
 import EditUser from './EditUser';
 import VerUser from './VerUser';
 
@@ -39,6 +40,10 @@ function ShowUsers() {
 	const { control, errors } = useForm();
 
 	const classes = useStyles();
+	
+	const handleCreate = () => {
+		dispatch(updateDialogs('createUser', true, false));
+	}
 
 	return (
 		<Container maxWidth="md" className={classes.marginFinish}>
@@ -54,7 +59,7 @@ function ShowUsers() {
 							nameLabel="Tipo de usuarios"
 							defaultValue="all"
 							control={control}
-							errors={errors}
+							errors={errors.selectListUser}
 						>
 							<MenuItem value="all">Todos</MenuItem>
 							<MenuItem value="estudi">Estudiantes</MenuItem>
@@ -69,7 +74,7 @@ function ShowUsers() {
 							nameLabel="Ver estudiantes en curso"
 							defaultValue=""
 							control={control}
-							errors={errors}
+							errors={errors.viewCurso}
 						>
 							<MenuItem value="estudi">Estudiantes</MenuItem>
 							<MenuItem value="profe">Profesores</MenuItem>
@@ -78,7 +83,12 @@ function ShowUsers() {
 					</Grid>
 				</Grid>
 				<Grid container item justify="flex-end" alignItems="center" xs={12} sm={3} md={6}>
-					<Button variant="contained" color="primary" startIcon={<AddIcon />}>
+					<Button 
+						onClick={handleCreate} 
+						variant="contained" 
+						color="primary" 
+						startIcon={<AddIcon />}
+					>
 						Añadir
 					</Button>
 				</Grid>
@@ -105,22 +115,50 @@ function ShowUsers() {
 					{
 						title: 'Cédula', 
 						field: 'cedula',
-						render: (rowData) => rowData.user.cedula,
+						render: (rowData) => rowData.user.privilegio + rowData.user.cedula,
 					},
 				]}
 				data={[
 					{
 						user: {
 							id: 1,
-							cedula: 1234567890,
+							cedula: '1234567890',
 							name: 'Recker',
 							avatar: 'test',
 							privilegio: 'A-',
 							correo: 'recker@testing.es',
 						},
+						dataPersonal: {
+							nacimiento: '10/08/2001',
+							docente: 'No',
+							telefono: '04268574630',
+							sexo: 'Masculino',
+							direccion: 'Turmero, cagua',
+						}
 					},
 					{
 						user: {
+							id: 2,
+							cedula: '020432842',
+							name: 'Docente',
+							avatar: 'test',
+							privilegio: 'P-',
+							correo: 'docente@testing.es',
+						},
+						dataPersonal: {
+							nacimiento: '10/08/1989',
+							telefono: '04268574630',
+							sexo: 'Masculino',
+							direccion: 'Turmero, cagua',
+							docente: 'Si',
+							titulo: 'Magister en petro',
+							ingresoMPPE: '07/22/2000',
+							ingresoInstituto: '10/30/2000',
+						}
+					},
+					{
+						user: {
+							id: 3,
 							cedula: '987654321',
 							name: 'José Antonio Ortiz Garcia',
 							avatar: 'test',
@@ -172,6 +210,7 @@ function ShowUsers() {
 								nacionalidad: 'V',
 								estadoNacimiento: 'Aragua',
 								lugarNacimiento: 'Maracay, al lado de chavez',
+								nacimiento: '10/08/2001',
 								canaima: 'Si',
 								beca: 'No',
 								alojado: 'Si',
@@ -235,6 +274,7 @@ function DialogsComponentShow() {
 
 	return (
 		<React.Fragment>
+			<CreateUser />
 			<ConfirmAction
 				action={`Eliminar usuario: ${data.user?.privilegio + data.user?.cedula}`}
 				callback={ConfirmDelete}
