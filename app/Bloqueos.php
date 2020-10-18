@@ -111,6 +111,7 @@ class Bloqueos extends Model
 
 		//Si no existe, registralo
 		$newBlock = new Bloqueos;
+		$newBlock->user_id = $userExist->id;
 		$newBlock->cedula = $cedula;
 		$newBlock->attemps = 1;
 		$newBlock->locks = 0;

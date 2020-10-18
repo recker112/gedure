@@ -76,6 +76,11 @@ class User extends Authenticatable
 		return $this->hasOne('App\Bloqueos');
 	}
 	
+	public function news()
+	{
+		return $this->hasMany('App\News', 'user_id_owner');
+	}
+	
 	public function logs()
 	{
 		return $this->hasMany('App\Bloqueos');

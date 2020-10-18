@@ -24,6 +24,7 @@ import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import PublicIcon from '@material-ui/icons/Public';
 
 import Footer from './../Footer';
 import { ReturnSelected } from './HeaderNoAuth';
@@ -92,6 +93,12 @@ function RenderDrawer({ state, close }) {
 					text: 'Usuarios',
 					icon: <PeopleIcon />,
 					seeIt: Boolean(permissions.administrar.user?.ver)
+				},
+				{
+					url: '/panel/noticias',
+					text: 'Noticias',
+					icon: <PublicIcon />,
+					seeIt: Boolean(permissions.publicaciones?.modify),
 				},
 				{
 					url: '/panel/boletas',

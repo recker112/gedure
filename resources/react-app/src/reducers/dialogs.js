@@ -20,6 +20,11 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	createNotice: {
+		open: false,
+		loading: false,
+		data: {}
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -46,11 +51,9 @@ export default (state = initialState, { type, payload }) => {
 				return {
 					...state,
 					[dialog]: {
+						...state[dialog],
 						open,
 						loading,
-						data: {
-							...state[dialog].data,
-						},
 					},
 				};
 			}

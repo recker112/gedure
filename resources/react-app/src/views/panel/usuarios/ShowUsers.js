@@ -9,9 +9,6 @@ import Delete from '@material-ui/icons/Delete';
 
 import MaterialTable from 'material-table';
 
-import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from './../../../actions/updateDialogs';
-
 import { useForm } from 'react-hook-form';
 
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
@@ -21,6 +18,12 @@ import ConfirmAction from './ConfirmAction';
 import CreateUser from './CreateUser';
 import EditUser from './EditUser';
 import VerUser from './VerUser';
+
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from './../../../actions/updateDialogs';
+
+//NOTA (RECKER): Eliminar el react-hook-form
+/* No es rentable tener el manejo de los selects con el hook-form, es preferible hacerlo por el método onClick y ya. */
 
 const useStyles = makeStyles((theme) => ({
 	margin: {
@@ -242,7 +245,6 @@ function ShowUsers() {
 						},
 					},
 					{
-						iconProps: { style: { color: 'green' } },
 						icon: () => <Delete />,
 						tooltip: 'Eliminar',
 						onClick: (event, rowData) => {
