@@ -13,14 +13,15 @@ function useFetch(){
 		const { 
 			url, 
 			data=null,
+			otherData=null,
 			messageToFinish=true,
 			successText=false, 
 			type='post', 
-			variant='success' 
+			variant='success'
 		} = prepareData;
 		
 		try {
-			const res = await axios[type](url, data);
+			const res = await axios[type](url, data, otherData);
 			
 			if (messageToFinish) {
 				enqueueSnackbar(successText ? successText : res.data.description, {
@@ -62,7 +63,7 @@ function useFetch(){
 					});
 				}
 			}else {
-				enqueueSnackbar('Error interno en el sistema', {
+				enqueueSnackbar('Error interno en la app', {
 					variant: 'error'
 				});
 			}

@@ -18,6 +18,10 @@ const UsuariosAdmin = lazy(() =>
 	import('./usuarios/ShowUsers')
 );
 
+const NoticiasAdmin = lazy(() =>
+	import('./noticias/ShowNoticias')
+);
+
 function PanelRouters () {
 	const { privilegio, permissions } = useSelector(state => ({
 		privilegio: state.userData.user.privilegio,
@@ -38,6 +42,11 @@ function PanelRouters () {
 			path: `${url}/usuarios`,
 			component: <UsuariosAdmin />,
 			iCanSee: Boolean(permissions.administrar.user?.ver),
+		},
+		{
+			path: `${url}/noticias`,
+			component: <NoticiasAdmin />,
+			iCanSee: Boolean(permissions.publicaciones?.modify),
 		}
 	], [permissions, url]);
 	

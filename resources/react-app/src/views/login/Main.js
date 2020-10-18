@@ -185,7 +185,7 @@ function Form({ state }) {
 						<Grid container item>
 							<RenderInput
 								name="user"
-								label="Usuario"
+								label="Cédula o usuario"
 								defaultValue=""
 								errors={errors.user}
 								registerInput={register({
@@ -255,7 +255,7 @@ function Login(props) {
 
 	return (
 		<ReloginComponent>
-			<main className={classes.root} ref={()=>{
+			<main className={`${classes.root} ${classes.margin}`} ref={()=>{
 					document.title = 'La Candelaria - Login';
 				}}>
 				<Container maxWidth="md" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>

@@ -266,7 +266,7 @@ function CreateUser() {
 						</div>
 					) : (
 						<FormProvider {...methods}>
-							<form onSubmit={methods.handleSubmit(handleNext)}>
+							<form onSubmit={methods.handleSubmit(handleNext)} autoComplete="off">
 								{getStepContent(activeStep)}
 
 								<input 

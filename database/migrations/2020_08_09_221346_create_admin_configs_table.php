@@ -16,14 +16,14 @@ class CreateAdminConfigsTable extends Migration
 		Schema::create('admin_configs', function (Blueprint $table) {
 			$table->id();
 			$table->bigInteger('user_id');
-			$table->boolean('registros_ver')->default(0);
-			$table->boolean('user_ver')->default(0);
-			$table->boolean('user_modify')->default(0);
-			$table->boolean('gedure_control')->default(0);
-			$table->boolean('upload_boletas')->default(0);
-			$table->boolean('upload_matricula')->default(0);
-			$table->boolean('post_modify')->default(0);
-			$table->boolean('post_delete_other')->default(0);
+			$table->boolean('registros_ver')->default(1);
+			$table->boolean('user_ver')->default(1);
+			$table->boolean('user_modify')->default(1);
+			$table->boolean('gedure_control')->default(1);
+			$table->boolean('upload_boletas')->default(1);
+			$table->boolean('upload_matricula')->default(1);
+			$table->boolean('noticia_modify')->default(1);
+			$table->boolean('noticia_modify_otros')->default(1);
 			$table->timestamps();
 		});
 	}

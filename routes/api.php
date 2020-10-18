@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Primera versiรณn de la API Gedure
 */
-Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\v1'], function () {
-	// Login maneger
+Route::group(['prefix' => 'v1'], function () {
 	/*
 		/login
 		Requeriments: [user(string), password(string), ?checkbox(boolean)]
@@ -40,11 +39,25 @@ Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\v1'], func
 	Route::middleware(['auth:api'])->post('logout', 'LoginController@logout');
 	
 	
-	// Login maneger
 	/*
-		/login
+		/Logs
 		Requeriments: none,
 		Notes: Es necesario ser administrador
 	*/
 	Route::middleware(['auth:api'])->get('logs', 'LogsController@get');
+	
+	
+	/*
+		/Crear noticia
+		Requeriments: [title(string), content(string), ?onlyUsers(bollean), ?imgs(array)],
+		Notes: Es necesario ser administrador
+	*/
+	Route::middleware(['auth:api'])->post('noticias', 'NewsController@create');
+	
+	/*
+		/Obtener noticias
+		Requeriments: none,
+		Notes: Es necesario ser administrador
+	*/
+	Route::middleware(['auth:api'])->get('noticias/admin', 'NewsController@storeAdmin');
 });

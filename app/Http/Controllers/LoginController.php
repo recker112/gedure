@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 // Validaciรณn en try
@@ -104,7 +104,6 @@ class LoginController extends Controller
 		$user->token()->revoke();
 		
 		$jsonMessage = [
-			'code' => 200,
 			'msg'=>'logout',
 			'description' => 'Sesión cerrada'
 		];
@@ -191,12 +190,12 @@ class LoginController extends Controller
 					$listA['upload']['matricula'] = true;
 				}
 				
-				if ($permissionsDB->post_modify) {
+				if ($permissionsDB->noticia_modify) {
 					$listP['modify'] = true;
 				}
 				
-				if ($permissionsDB->post_delete_other) {
-					$listP['delete_other'] = true;
+				if ($permissionsDB->noticia_modify_otros) {
+					$listP['modify_otros'] = true;
 				}
 			}
 			

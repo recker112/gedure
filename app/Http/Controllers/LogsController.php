@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Log;
@@ -12,11 +12,11 @@ class LogsController extends Controller
 		$user = request()->user();
 
 		if ($user->privilegio !== 'A-' || !$user->permissionsAdmin->registros_ver) {
-		$jsonMessage = [
-				'code' => 403,
-				'msg'=>'logout',
-				'description' => 'No tienes permisos'
-		];
+			$jsonMessage = [
+					'code' => 403,
+					'msg'=>'not_permissions',
+					'description' => 'No tienes permisos'
+			];
 
 			return response()->json($jsonMessage, 403);
 		}
