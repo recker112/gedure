@@ -14,8 +14,9 @@ import useFetch from './../../../hooks/useFetch';
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
 import LocationShow from './../../../components/LocationShow';
 import CreateNotice from './CreateNotice';
+import ConfirmAction from './../usuarios/ConfirmAction';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from './../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,12 +40,28 @@ function ShowNoticias() {
 
 	const classes = useStyles();
 	
+	const { data } = useSelector((state) => ({
+		data: state.dialogs.confirmAction.data,
+	}));
 	const dispatch = useDispatch();
 	
 	const { fetchData } = useFetch();
 	
 	const handleCreate = () => {
 		dispatch(updateDialogs('createNotice', true, false));
+	}
+	
+	const confirm = async () => {
+		const prepare = {
+			url: `v1/noticias/${data.id}`,
+			type: 'delete',
+		}
+		
+		const response = await fetchData(prepare);
+		
+		tableRef.current && tableRef.current.onQueryChange();
+		
+		dispatch(updateDialogs('confirmAction', false, false, 'clear'));
 	}
 	
 	const onFetch = useCallback(async query => {
@@ -91,6 +108,7 @@ function ShowNoticias() {
 				</Grid>
 			</Grid>
 			<MaterialTable
+				tableRef={tableRef}
 				title="Lista de noticias" 
 				icons={tableIcons}
 				columns={[
@@ -122,7 +140,7 @@ function ShowNoticias() {
 						icon: () => <Delete />,
 						tooltip: 'Eliminar',
 						onClick: (event, rowData) => {
-							//
+							dispatch(updateDialogs('confirmAction', true, false, { id: rowData.id }));
 						},
 					},
 				]}
@@ -132,6 +150,10 @@ function ShowNoticias() {
 			/>
 			
 			<CreateNotice tableRef={tableRef} />
+			<ConfirmAction
+				action={`Eliminar noticia #${data.id}`}
+				callback={confirm}
+			/>
 		</Container>
 	);
 }

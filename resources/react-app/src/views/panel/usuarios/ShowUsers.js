@@ -268,7 +268,7 @@ function DialogsComponentShow() {
 	}));
 	const dispatch = useDispatch();
 
-	const ConfirmDelete = async () => {
+	const confirm = async () => {
 		await setTimeout(() => {
 			dispatch(updateDialogs('confirmAction', false, true, {}));
 		}, 4000);
@@ -279,7 +279,7 @@ function DialogsComponentShow() {
 			<CreateUser />
 			<ConfirmAction
 				action={`Eliminar usuario: ${data.user?.privilegio + data.user?.cedula}`}
-				callback={ConfirmDelete}
+				callback={confirm}
 			/>
 			<EditUser />
 			<VerUser />
