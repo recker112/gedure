@@ -17,7 +17,7 @@ class CreateNewsTable extends Migration
 			$table->id();
 			$table->char('title', 100);
 			$table->longText('content');
-			$table->json('imgs')->nulleable();
+			$table->json('imgs')->nulleable()->default(null);
 			$table->bigInteger('user_id_owner');
 			$table->boolean('onlyUsers')->default(0);
 			$table->timestamps();

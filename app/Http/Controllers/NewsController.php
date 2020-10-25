@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 //Storage
 use Illuminate\Support\Facades\Storage;
+//Carbon
+use Carbon\Carbon;
 //Models
 use App\News;
 use App\User;
@@ -14,6 +16,79 @@ use App\Log;
 
 class NewsController extends Controller
 {
+	private $path = "Noticias";
+	
+	public function store()
+	{
+		$offset = request()->offset;
+		$limit = request()->limit;
+		
+		$allNoticias = News::with('user')
+			->orderBy('id', 'Desc')
+			->offset($offset)
+			->limit($limit)
+			->where('onlyUsers', '!=', 1)
+			->get();
+		
+		//Total de logs
+		$lastNoticia = News::first()->toArray();
+		
+		$finish = false;
+		foreach($allNoticias as $noticia) {
+			if ($noticia->id === $lastNoticia['id']) {
+				$finish = true;
+			}
+			
+			//Set Fecha
+			$parse1 = Carbon::parse($noticia->created_at);
+			$parse1 = Carbon::parse($noticia->updated_at);
+			$noticia->fechaHumano = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+		}
+		
+		$jsonMessage = [
+			'data' => $allNoticias,
+			'finish' => $finish,
+		];
+		
+		return response()->json($jsonMessage, 200);
+	}
+	
+	public function storeUser()
+	{
+		$offset = request()->offset;
+		$limit = request()->limit;
+		
+		$allNoticias = News::with('user')
+			->orderBy('id', 'Desc')
+			->offset($offset)
+			->limit($limit)
+			->get();
+		
+		//Total de logs
+		$lastNoticia = News::first()->toArray();
+		
+		$finish = false;
+		foreach($allNoticias as $noticia) {
+			if ($noticia->id === $lastNoticia['id']) {
+				$finish = true;
+			}
+			
+			//Set Fecha
+			$parse1 = Carbon::parse($noticia->created_at);
+			$parse1 = Carbon::parse($noticia->updated_at);
+			$noticia->fechaHumano = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+		}
+		
+		$jsonMessage = [
+			'data' => $allNoticias,
+			'finish' => $finish,
+		];
+		
+		return response()->json($jsonMessage, 200);
+	}
+	
 	public function storeAdmin()
 	{
 		$user = request()->user();
@@ -105,14 +180,13 @@ class NewsController extends Controller
 			], 422);
 		}
 		
-		$noticiaNewId = News::count() + 1;
-		
 		$noticia = new News();
 		
 		$noticia->title = request()->title;
 		$noticia->content = request()->content;
 		$noticia->user_id_owner = $user->id;
 		$noticia->onlyUsers = json_decode(request()->onlyUsers);
+		$noticia->save();
 		
 		//Cargar imágenes
 		$errorLogs = [];
@@ -158,12 +232,12 @@ class NewsController extends Controller
 				if (!$error) {
 					//Mover archivo
 					Storage::disk('public')->putFileAs(
-						"Noticias/$noticiaNewId", $file, $filenameOriginal
+						"$this->path/$noticia->id", $file, $filenameOriginal
 					);
 					
 					//URL
 					$url = Storage::disk('public')
-						->url("Noticias/$noticiaNewId/$filenameOriginal");
+						->url("$this->path/$noticia->id/$filenameOriginal");
 					
 					$imgsUploaded[$i] = $url;
 					$i++;
@@ -180,7 +254,7 @@ class NewsController extends Controller
 		//Log
 		$Log = new Log;
 		$Log->user_id = $user->id;
-		$Log->action = 'Noticia #'.$noticiaNewId.' creada.' ;
+		$Log->action = 'Noticia #'.$noticia->id.' creada.' ;
 		$Log->type = 'user';
 		$Log->save();
 		
@@ -232,6 +306,7 @@ class NewsController extends Controller
 		}
 		
 		if ($user->permissionsAdmin->noticia_modify_otros) {
+			Storage::disk('public')->deleteDirectory("$this->path/$id");
 			$noticia->delete();
 			
 			$jsonMessage = [
@@ -241,10 +316,13 @@ class NewsController extends Controller
 			];
 		}else {
 			if ($noticia->user_id_owner === $user->id) {
+				Storage::disk('public')->deleteDirectory("$this->path/$id");
+				$noticia->delete();
+				
 				$jsonMessage = [
 					'code' => 200,
 					'msg'=>'notice_deleted',
-					'description' => 'Noticia borrada correctamente'
+					'description' => 'Noticia permiso OC'
 				];
 			}else {
 				$jsonMessage = [
@@ -252,8 +330,12 @@ class NewsController extends Controller
 					'msg'=>'not_permissions',
 					'description' => 'No tienes permiso para borrar esta noticia'
 				];
+				
+				return response()->json($jsonMessage, 403);
 			}
 		}
+		
+		return response()->json($jsonMessage, 200);;
 	}
 	
 	//funciones reutilizables

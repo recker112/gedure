@@ -86,7 +86,7 @@ export function ReturnSelected (props) {
 	});
 	
 	const handleClick = () => {
-		history.push(url)
+		history.push(url);
 		handle();
 	}
 	
