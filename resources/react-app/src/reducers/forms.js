@@ -40,6 +40,26 @@ export default (state = initialState, { type, payload }) => {
 				},
 			};
 		}
+	
+		case 'UPDATE_FORM_DATA': {
+			const { form, loading, data } = payload;
+			
+			let dataSave;
+			
+			if (data) {
+				dataSave = data;
+			}else {
+				dataSave = state[form].data;
+			}
+			
+			return {
+				...state,
+				[form]: {
+					loading,
+					data: dataSave
+				},
+			};
+		}
 
 		default: {
 			return state;

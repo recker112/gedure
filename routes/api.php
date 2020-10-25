@@ -55,9 +55,28 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api'])->post('noticias', 'NewsController@create');
 	
 	/*
-		/Obtener noticias
+		/Obtener noticias para Administrar
 		Requeriments: none,
 		Notes: Es necesario ser administrador
 	*/
 	Route::middleware(['auth:api'])->get('noticias/admin', 'NewsController@storeAdmin');
+	
+	/*
+		/Obtener noticias
+		Requeriments: none,
+	*/
+	Route::get('noticias', 'NewsController@store');
+	
+	/*
+		/Obtener noticias
+		Requeriments: usuario_registrado,
+	*/
+	Route::middleware(['auth:api'])->get('noticias/user', 'NewsController@storeUser');
+	
+	/*
+		/Borrar noticias
+		Requeriments: id, permission:?deleteOther
+		Notes: Es necesario ser administrador, tambien es posible que se necesite un permiso extra para poder borrar noticias de las cuales no eres dueño.
+	*/
+	Route::middleware(['auth:api'])->delete('noticias/{id}', 'NewsController@remove');
 });
