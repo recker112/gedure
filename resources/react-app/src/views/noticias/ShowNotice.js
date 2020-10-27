@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
 
-import { connect } from 'react-redux';
-
-import { Container, Paper, Grid, Box, Typography, Avatar, IconButton, Collapse, Menu, MenuItem } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab'
+import { Container, Paper, Grid, Box, Typography, Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import GetAppIcon from '@material-ui/icons/GetApp';
+
+import useFetch from '../../hooks/useFetch';
 
 import Footer from '../../components/Footer';
+
+import { useSelector, useDispatch } from 'react-redux';
+import updateAppData from '../../actions/updateAppData';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -66,96 +67,60 @@ function MoreOptions () {
 	);
 }
 
-function ShowNotice ({ auth }) {
+function ShowNotice () {
 	let { id } = useParams();
+	
+	const { fetchData } = useFetch();
+	
+	const { auth, loading, noticeData, permissions, userData } = useSelector((state) => ({
+		auth: state.userData.auth,
+		loading: state.appData.noticiaSelected.loading,
+		noticeData: state.appData.noticiaSelected.data,
+		permissions: state.userData.permissions,
+		userData: state.userData.user
+	}));
+	const dispatch = useDispatch();
 	
 	const classes = useStyles();
 	
-	const dataList = [
-		{
-			id: 1,
-			nombre: 'Recker Ortiz',
-			avatar: null,
-			titulo: '¿Chavez murió? ¿O solo se multiplicó?',
-			contenido:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a',
-			fecha: 'Publicado hace 2 días',
-			archives: [
-				{
-					name: 'Archivo de prueba 1',
-					size: '400KB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 2',
-					size: '400KB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 3',
-					size: '4MB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 4',
-					size: '650KB',
-					url: 'url1'
-				}
-			]
-		},
-		{
-			id: 2,
-			nombre: 'Recker Ortiz',
-			avatar: null,
-			titulo: '¿Chavez se sacrificó por todos nosotros? Aquí las pruebas',
-			contenido:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a',
-			fecha: 'Publicado hace 1 semana',
-			imgs: ['url1', 'url2', 'url3', 'url4'],
-		},
-		{
-			id: 3,
-			nombre: 'Recker Ortiz',
-			avatar: null,
-			titulo: 'Nuevo sistema en construcción, a ver si aprenden a leer',
-			contenido:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nec diam quis viverra. Phasellus interdum tempor nunc, sit amet malesuada mi tempor ac. Etiam interdum elementum nibh sit amet placerat. Fusce sed elit massa. Integer sodales massa a mauris blandit, et aliquam massa vulputate. Cras dignissim sem ut nisl iaculis, at blandit leo gravida. Etiam fermentum ligula ut tristique ultrices. Vestibulum consequat feugiat sapien, at dictum tellus pellentesque a',
-			fecha: 'publicado el 10/04/2020',
-			imgs: ['url1', 'url2', 'url3', 'url4'],
-			archives: [
-				{
-					name: 'Archivo de prueba 1',
-					size: '400KB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 2',
-					size: '400KB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 3',
-					size: '4MB',
-					url: 'url1'
-				},
-				{
-					name: 'Archivo de prueba 4',
-					size: '650KB',
-					url: 'url1'
-				}
-			]
-		},
-	];
+	useEffect(()=>{
+		const consult = async () => {
+			let url;
+
+			if (auth) {
+				url = `v1/noticias/user/${id}`;
+			}else {
+				url = `v1/noticias/${id}`;
+			}
+
+			const prepare = {
+				url: url,
+				type: 'get',
+				messageToFinish: false,
+			};
+
+			const response = await fetchData(prepare);
+
+			if (response) {
+				dispatch(updateAppData('noticiaSelected', false, response));
+			}else {
+				dispatch(updateAppData('noticiaSelected', false));
+			}
+		}
+		
+		console.log(noticeData, permissions);
+		if (loading) {
+			consult()
+		}
+		
+		// eslint-disable-next-line
+	}, [loading])
 	
-	const [expand, setExpand] = useState(false);
+	const { title, content, imgs, fechaHumano, user_id_owner, user } = noticeData;
 	
-	const handleExpand = () => {
-		setExpand(!expand);
+	function createMarkup() {
+		return {__html: content};
 	}
-	
-	const selectData = dataList[id - 1];
-	const { nombre, avatar, titulo, contenido, fecha, imgs, archives } = selectData;
-	const animation = expand ? 'noticia__animation1' : '';
 	
 	function OptionsBar(){
 		return (
@@ -166,7 +131,10 @@ function ShowNotice ({ auth }) {
 							<ArrowBackIcon />
 						</IconButton>
 					</Link>
-					<MoreOptions />
+					
+					{((user_id_owner === userData.id || permissions.publicaciones?.modify_otros) && !loading && noticeData?.content) && (
+						<MoreOptions />
+					)}
 				</Grid>
 			</Paper>
 		);
@@ -174,15 +142,15 @@ function ShowNotice ({ auth }) {
 	
 	function AvatarZone(){
 		return (
-			<Grid container justify='flex-start' alignItems='center' direction='column' spacing={1} item xs={12} sm={2}>
-				<Grid item xs={12}>
-					<Avatar src={avatar} alt="Avatar del usuario" className={classes.largeAvatar}>
-						{nombre.substring(0, 1).toUpperCase()}
+			<Grid container alignContent="flex-start" spacing={1} item xs={12} sm={2}>
+				<Grid container justify="center" item xs={12}>
+					<Avatar src={user.avatar} alt="Avatar del usuario" className={classes.largeAvatar}>
+						{user.nombre.substring(0, 1).toUpperCase()}
 					</Avatar>
 				</Grid>
-				<Grid item xs>
+				<Grid container justify="center" item xs>
 					<Box component="span" textAlign="center" className=''>
-						{nombre}
+						{user.nombre}
 					</Box>
 				</Grid>
 			</Grid>
@@ -194,20 +162,23 @@ function ShowNotice ({ auth }) {
 			<React.Fragment>
 				<Grid item xs={12}>
 					<Typography component="span" className="noticia__title">
-						{titulo}
+						{title}
 					</Typography>
 				</Grid>
 				<Grid container item xs={12}>
-					<Box component="span" className={classes.noticia__text} textAlign="justify">
-						{contenido}
-					</Box>
+					<Box 
+						dangerouslySetInnerHTML={createMarkup()} 
+						component="span"
+					/>
 				</Grid>
 			</React.Fragment>
 		);
 	}
 	
 	function ImgZone({imgs}) {
-		const imagenes = imgs.map((img, i)=>{
+		const imgsParse = JSON.parse(imgs) || [];
+		
+		const imagenes = imgsParse.map((img, i)=>{
 			return (
 				<Grid item xs={6} sm key={i}>
 					<Skeleton variant='rect' height={150} />
@@ -218,79 +189,42 @@ function ShowNotice ({ auth }) {
 		return imagenes;
 	}
 	
-	function ArchivesZone({ state }) {
-		const { expand, archives } = state;
-		
+	function Notice() {
 		return (
-			<Collapse in={expand}>
-				{archives.map((archive, i)=>{
-					return (
-						<React.Fragment key={i}>
-							<Grid container justify='space-between' alignItems='center'>
-								<Grid container alignItems='center' item xs={11}>
-									<Avatar>
-										L
-									</Avatar>
-									<Box component='span' className='noticia__titleArchive'>
-										{archive.name}
-									</Box>
-									<Box component='span' className='noticia__sizeArchive'>
-										({archive.size})
-									</Box>
-								</Grid>
-								<Grid item xs={1}>
-									<IconButton>
-										<GetAppIcon />
-									</IconButton>
-								</Grid>
-							</Grid>
-							<hr />
-						</React.Fragment>
-					);
-				})}
-			</Collapse>
+			<Paper className={`${classes.margin} ${classes.padding}`}>
+				<Grid container spacing={1}>
+					<AvatarZone />
+					<Grid container justify='center' spacing={2} item xs sm>
+						<TextZone />
+						<Grid container justify='center' alignItems='center' spacing={2} item xs={12}>
+							{imgs && <ImgZone imgs={imgs} />}
+						</Grid>
+						<hr width='100%' />
+						<Grid container justify='flex-end' item xs={12}>
+							<Box component="span" textAlign="center" className="noticia__fecha">
+								{fechaHumano}
+							</Box>
+						</Grid>
+					</Grid>
+				</Grid>
+			</Paper>
 		)
 	}
 	
 	return (
 		<React.Fragment>
 			<main className={classes.root} ref={()=>{
-					document.title = 'La Candelaria - '+titulo;
+					document.title = title ? `La Candelaria - ${title}` : 'La Candelaria - Cargando..';
 				}}>
 				<Container maxWidth="md">
 					<OptionsBar />
-					<Paper className={`${classes.margin} ${classes.padding}`}>
-						<Grid container justify='center' alignItems='flex-start'>
-							<AvatarZone />
-							<Grid container justify='center' spacing={2} item xs sm>
-								<TextZone />
-								<Grid container justify='center' alignItems='center' spacing={2} item xs={12}>
-									{imgs && <ImgZone imgs={imgs} />}
-								</Grid>
-								{archives && (
-									<Grid container item xs={12}>
-										<Grid container justify='space-between' alignItems='center' item xs={12}>
-											<Box component='span' className='noticia__archives'>
-												Archivos ({archives.length})
-											</Box>
-											<IconButton onClick={handleExpand}>
-												<ExpandMoreIcon className={`noticia__expand ${animation}`} />
-											</IconButton>
-										</Grid>
-										<Grid item xs>
-											<ArchivesZone state={{expand, archives}} />
-										</Grid>
-									</Grid>
-								)}
-								<hr width='100%' />
-								<Grid container justify='flex-end' item xs={12}>
-									<Box component="span" textAlign="center" className="noticia__fecha">
-										{fecha}
-									</Box>
-								</Grid>
-							</Grid>
-						</Grid>
-					</Paper>
+					{noticeData?.content && (<Notice />)}
+					{(!noticeData?.content && loading) && (<NoticeSkeleton />)}
+					{(!noticeData?.content && !loading) && (
+						<p style={{ textAlign: 'center' }}>
+							<b>Noticia no disponible.</b>
+						</p>
+					)}
 				</Container>
 			</main>
 			{!auth && (
@@ -302,9 +236,66 @@ function ShowNotice ({ auth }) {
 	);
 }
 
-//REDUX
-const mapStateToProps = (state) => ({
-	auth: state.userData.auth
-});
+function NoticeSkeleton () {
+	const classes = useStyles();
+	
+	return (
+		<Paper className={`${classes.margin} ${classes.padding}`}>
+			<Grid container spacing={1}>
+				<Grid container alignContent="flex-start" spacing={2} item xs={12} sm={2}>
+					<Grid container justify="center" item xs={12}>
+						<Skeleton variant="circle" className={classes.largeAvatar} />
+					</Grid>
+					<Grid container justify="center" item xs>
+						<Skeleton variant="text" width={80} />
+					</Grid>
+				</Grid>
+				<Grid container spacing={2} justify="center" item xs={12} sm>
+					<Grid item xs={12}>
+						<Skeleton variant="text" width={200} height={35} />
+					</Grid>
+					<Grid container spacing={1} item xs={12}>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+						<Grid item xs={12}>
+							<Skeleton variant="text" />
+						</Grid>
+					</Grid>
+					<Grid container spacing={2} item xs={12}>
+						<Grid item xs={6} sm>
+							<Skeleton variant='rect' height={150} />
+						</Grid>
+						<Grid item xs={6} sm>
+							<Skeleton variant='rect' height={150} />
+						</Grid>
+						<Grid item xs={6} sm>
+							<Skeleton variant='rect' height={150} />
+						</Grid>
+						<Grid item xs={6} sm>
+							<Skeleton variant='rect' height={150} />
+						</Grid>
+					</Grid>
+					<hr width='100%' />
+					<Grid container justify='flex-end' item xs={12}>
+						<Skeleton variant="text" width={150} />
+					</Grid>
+				</Grid>
+			</Grid>
+		</Paper>
+	)
+}
 
-export default connect(mapStateToProps, null)(ShowNotice);
+export default ShowNotice;

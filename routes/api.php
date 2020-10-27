@@ -74,6 +74,18 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api'])->get('noticias/user', 'NewsController@storeUser');
 	
 	/*
+		/Obtener noticia
+		Requeriments: none,
+	*/
+	Route::get('noticias/{id}', 'NewsController@get');
+	
+	/*
+		/Obtener noticia
+		Requeriments: usuario_registrado,
+	*/
+	Route::middleware(['auth:api'])->get('noticias/user/{id}', 'NewsController@getUser');
+	
+	/*
 		/Borrar noticias
 		Requeriments: id, permission:?deleteOther
 		Notes: Es necesario ser administrador, tambien es posible que se necesite un permiso extra para poder borrar noticias de las cuales no eres dueño.
