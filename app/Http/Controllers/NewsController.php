@@ -30,7 +30,7 @@ class NewsController extends Controller
 			->where('onlyUsers', '!=', 1)
 			->get();
 		
-		//Total de logs
+		//Primer registro
 		$lastNoticia = News::first()->toArray();
 		
 		$finish = false;
@@ -65,7 +65,7 @@ class NewsController extends Controller
 			->limit($limit)
 			->get();
 		
-		//Total de logs
+		//Primer registro
 		$lastNoticia = News::first()->toArray();
 		
 		$finish = false;
@@ -87,6 +87,40 @@ class NewsController extends Controller
 		];
 		
 		return response()->json($jsonMessage, 200);
+	}
+	
+	public function get($id)
+	{
+		$noticia = News::with('user')
+			->where('id', $id)
+			->where('onlyUsers', '!=', 1)
+			->get();
+		
+		if ($noticia) {
+			//Set Fecha
+			$parse1 = Carbon::parse($noticia->created_at);
+			$parse1 = Carbon::parse($noticia->updated_at);
+			$noticia->fechaHumano = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+		}
+		
+		return response()->json($noticia, 200);
+	}
+	
+	public function getUser($id)
+	{
+		$noticia = News::with('user')
+			->firstWhere('id', $id);
+		
+		if ($noticia) {
+			//Set Fecha
+			$parse1 = Carbon::parse($noticia->created_at);
+			$parse1 = Carbon::parse($noticia->updated_at);
+			$noticia->fechaHumano = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+		}
+		
+		return response()->json($noticia, 200);
 	}
 	
 	public function storeAdmin()

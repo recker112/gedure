@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import Skeleton from '@material-ui/lab/Skeleton';
-
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import useFetch from '../../hooks/useFetch';
 
 import { Container, Paper, Grid, Box, Typography, Avatar, Button } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Footer from '../../components/Footer';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateAppData from '../../actions/updateAppData';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -37,10 +37,28 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Noticia(props) {
-	const { user, title, content, fechaHumano, id } = props.data;
+function Noticia({ data }) {
+	const { user, title, content, fechaHumano, id } = data;
 
 	const classes = useStyles();
+	
+	const dispatch = useDispatch();
+	
+	const handleClick = () => {
+		dispatch(updateAppData('noticiaSelected', false, data));
+	}
+	
+	function createMarkup() {
+		let texto
+		
+		if (content.length > 400) {
+			texto = content.substring(0,400) + "..."
+		}else {
+			texto = content
+		}
+		
+		return {__html: texto};
+	}
 
 	return (
 		<Paper className={`${classes.padding} ${classes.margin}`} id={`NID_${id}`}>
@@ -77,9 +95,11 @@ function Noticia(props) {
 						</Typography>
 					</Grid>
 					<Grid container item xs={12}>
-						<Box component="span" textAlign="justify">
-							{content.substring(0,100)}
-						</Box>
+						<Box 
+							dangerouslySetInnerHTML={createMarkup()} 
+							component="span" 
+							textAlign="justify"
+						/>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -90,7 +110,7 @@ function Noticia(props) {
 					</Box>
 				</Grid>
 				<Grid container justify="flex-end" item xs>
-					<Link to={`noticias/${id}`}>
+					<Link to={`noticias/${id}`} onClick={handleClick}>
 						<Button color="secondary">Ver Publicación</Button>
 					</Link>
 				</Grid>
@@ -190,11 +210,12 @@ function Noticias() {
 		const response = await fetchData(prepare);
 		
 		if (response) {
-			setData(response.data);
+			setData([ ...data, ...response.data ]);
 			setHasFinish(response.finish);
 		}
 		
 		setLoading(false);
+		// eslint-disable-next-line
 	};
 
 	useEffect(() => {
