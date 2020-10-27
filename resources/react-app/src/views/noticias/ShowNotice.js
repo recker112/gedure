@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 
 import { Container, Paper, Grid, Box, Typography, Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
@@ -11,9 +11,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useFetch from '../../hooks/useFetch';
 
 import Footer from '../../components/Footer';
+import ConfirmAction from '../../components/ConfirmAction';
 
 import { useSelector, useDispatch } from 'react-redux';
 import updateAppData from '../../actions/updateAppData';
+import updateDialogs from '../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -37,16 +39,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function MoreOptions () {
-	const [anchorEl, setAnchorEl] = useState();
+function MoreOptions ({ data, handleClick, handleClose, anchorEl }) {
+	const dispatch = useDispatch();
 	
-	const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-	
-	const handleClose = (event) => {
-    setAnchorEl(null);
-  };
+	const handleDelete = () => {
+		dispatch(updateDialogs('confirmAction', true, false, { id: data.id }));
+		handleClose();
+	}
 	
 	return (
 		<React.Fragment>
@@ -61,7 +60,7 @@ function MoreOptions () {
 				onClose={handleClose}
 			>
 				<MenuItem onClick={handleClose}>Editar</MenuItem>
-				<MenuItem onClick={handleClose}>Eliminar</MenuItem>
+				<MenuItem onClick={handleDelete}>Eliminar</MenuItem>
 			</Menu>
 		</React.Fragment>
 	);
@@ -80,6 +79,8 @@ function ShowNotice () {
 		userData: state.userData.user
 	}));
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const classes = useStyles();
 	
@@ -108,13 +109,27 @@ function ShowNotice () {
 			}
 		}
 		
-		console.log(noticeData, permissions);
 		if (loading) {
 			consult()
 		}
 		
 		// eslint-disable-next-line
-	}, [loading])
+	}, [loading]);
+	
+	const confirm = async () => {
+		const prepare = {
+			url: `v1/noticias/${noticeData.id}`,
+			type: 'delete',
+		};
+
+		const response = await fetchData(prepare);
+
+		if (response) {
+			history.push("/noticias");
+		}
+
+		dispatch(updateDialogs('confirmAction', false, true));
+	}
 	
 	const { title, content, imgs, fechaHumano, user_id_owner, user } = noticeData;
 	
@@ -123,6 +138,16 @@ function ShowNotice () {
 	}
 	
 	function OptionsBar(){
+		const [anchorEl, setAnchorEl] = useState();
+		
+		const handleClick = (event) => {
+			setAnchorEl(event.currentTarget);
+		};
+		
+		const handleClose = (event) => {
+			setAnchorEl(null);
+		};
+		
 		return (
 			<Paper className={`${classes.margin} ${classes.paddingSmall}`}>
 				<Grid container justify='space-between'>
@@ -133,7 +158,12 @@ function ShowNotice () {
 					</Link>
 					
 					{((user_id_owner === userData.id || permissions.publicaciones?.modify_otros) && !loading && noticeData?.content) && (
-						<MoreOptions />
+						<MoreOptions 
+							data={noticeData} 
+							handleClick={handleClick}
+							handleClose={handleClose}
+							anchorEl={anchorEl}
+						/>
 					)}
 				</Grid>
 			</Paper>
@@ -193,7 +223,7 @@ function ShowNotice () {
 		return (
 			<Paper className={`${classes.margin} ${classes.padding}`}>
 				<Grid container spacing={1}>
-					<AvatarZone />
+					{user && <AvatarZone />}
 					<Grid container justify='center' spacing={2} item xs sm>
 						<TextZone />
 						<Grid container justify='center' alignItems='center' spacing={2} item xs={12}>
@@ -225,6 +255,7 @@ function ShowNotice () {
 							<b>Noticia no disponible.</b>
 						</p>
 					)}
+					<ConfirmAction action={`Eliminar noticia #${noticeData.id}`} callback={confirm} />
 				</Container>
 			</main>
 			{!auth && (

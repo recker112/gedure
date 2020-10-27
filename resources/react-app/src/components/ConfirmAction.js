@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
 
-import AnimationDialog from './../../../components/AnimationDialog';
+import AnimationDialog from './AnimationDialog';
 
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from './../../../actions/updateDialogs';
+import updateDialogs from '../actions/updateDialogs';
 
 function ConfirmAction({ action, callback }){
 	const { open, loading } = useSelector(state => ({
