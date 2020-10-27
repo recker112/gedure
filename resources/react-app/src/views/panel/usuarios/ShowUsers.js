@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
 import { RenderSelectFormHook } from './../../../components/RendersGlobals';
 import LocationShow from './../../../components/LocationShow';
-import ConfirmAction from './ConfirmAction';
+import ConfirmAction from './../../../components/ConfirmAction';
 import CreateUser from './CreateUser';
 import EditUser from './EditUser';
 import VerUser from './VerUser';

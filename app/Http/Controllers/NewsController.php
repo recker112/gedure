@@ -31,11 +31,11 @@ class NewsController extends Controller
 			->get();
 		
 		//Primer registro
-		$lastNoticia = News::first()->toArray();
+		$firstNoticia = News::first();
 		
 		$finish = false;
 		foreach($allNoticias as $noticia) {
-			if ($noticia->id === $lastNoticia['id']) {
+			if ($noticia->id === $firstNoticia->id) {
 				$finish = true;
 			}
 			
@@ -66,11 +66,17 @@ class NewsController extends Controller
 			->get();
 		
 		//Primer registro
-		$lastNoticia = News::first()->toArray();
+		$firstNoticia = News::first();
 		
-		$finish = false;
+		//Verificar existencia de noticias
+		if (!$firstNoticia) {
+			$finish = true;
+		}else {
+			$finish = false;
+		}
+		
 		foreach($allNoticias as $noticia) {
-			if ($noticia->id === $lastNoticia['id']) {
+			if ($noticia->id === $firstNoticia->id) {
 				$finish = true;
 			}
 			
@@ -94,7 +100,7 @@ class NewsController extends Controller
 		$noticia = News::with('user')
 			->where('id', $id)
 			->where('onlyUsers', '!=', 1)
-			->get();
+			->first();
 		
 		if ($noticia) {
 			//Set Fecha
@@ -143,22 +149,24 @@ class NewsController extends Controller
 		
 		if ($user->permissionsAdmin->noticia_modify_otros) {
 			$allNoticias = News::with('user')
-				->offset($page)
-				->limit($perPage)
 				->whereHas('user', function ($query) {
 					$search = request()->search;
 					$query->where('cedula', 'LIKE', "%$search%");})
 				->orWhere('created_at', 'LIKE', "%$search%")
+				->offset($page)
+				->limit($perPage)
 				->get()
 				->toArray();
 		}else {
-			$allNoticias = News::with('user')->where('user_id_owner', $user->id)
+			$allNoticias = News::with('user')
+				->where('user_id_owner', $user->id)
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('title', 'LIKE', "%$search%")
+						->orWhere('created_at', 'LIKE', "%$search%");
+				})
 				->offset($page)
 				->limit($perPage)
-				->whereHas('user', function ($query) {
-					$search = request()->search;
-					$query->where('cedula', 'LIKE', "%$search%");})
-				->orWhere('created_at', 'LIKE', "%$search%")
 				->get()
 				->toArray();
 		}
@@ -356,7 +364,7 @@ class NewsController extends Controller
 				$jsonMessage = [
 					'code' => 200,
 					'msg'=>'notice_deleted',
-					'description' => 'Noticia permiso OC'
+					'description' => 'Noticia borrada correctamente'
 				];
 			}else {
 				$jsonMessage = [

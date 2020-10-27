@@ -63,31 +63,33 @@ function Noticia({ data }) {
 	return (
 		<Paper className={`${classes.padding} ${classes.margin}`} id={`NID_${id}`}>
 			<Grid container justify="center" spacing={2}>
-				<Grid
-					container
-					direction="column"
-					alignItems="center"
-					justify="center"
-					spacing={1}
-					item
-					xs={12}
-					sm={3}
-				>
-					<Grid container justify="center" item>
-						<Avatar 
-							src={user.avatar} 
-							alt="Avatar del usuario" 
-							className={classes.largeAvatar}
-						>
-							{user.nombre.substring(0, 1).toUpperCase()}
-						</Avatar>
+				{user && (
+					<Grid
+						container
+						direction="column"
+						alignItems="center"
+						justify="center"
+						spacing={1}
+						item
+						xs={12}
+						sm={3}
+					>
+						<Grid container justify="center" item>
+							<Avatar 
+								src={user.avatar} 
+								alt="Avatar del usuario" 
+								className={classes.largeAvatar}
+							>
+								{user.nombre.substring(0, 1).toUpperCase()}
+							</Avatar>
+						</Grid>
+						<Grid container justify="center" item>
+							<Box component="span" textAlign="center">
+								{user.nombre}
+							</Box>
+						</Grid>
 					</Grid>
-					<Grid container justify="center" item>
-						<Box component="span" textAlign="center">
-							{user.nombre}
-						</Box>
-					</Grid>
-				</Grid>
+				)}
 				<Grid container spacing={2} justify="flex-start" item xs={12} sm={9}>
 					<Grid container item xs={12}>
 						<Typography component="span" className="noticia__title">
