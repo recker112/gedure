@@ -228,6 +228,17 @@ function Noticias() {
 
 		// eslint-disable-next-line
 	}, [loading]);
+	
+	//Force reload on logoutApp
+	useEffect(()=>{
+		if (!auth) {
+			console.log('Logout');
+			setLoading(true);
+			setData([]);
+			setHasFinish(false);
+		}
+		
+	}, [auth]);
 
 	return (
 		<React.Fragment>

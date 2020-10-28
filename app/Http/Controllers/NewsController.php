@@ -153,6 +153,7 @@ class NewsController extends Controller
 					$search = request()->search;
 					$query->where('cedula', 'LIKE', "%$search%");})
 				->orWhere('created_at', 'LIKE', "%$search%")
+				->orderBy('id', 'Desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
@@ -165,6 +166,7 @@ class NewsController extends Controller
 					$query->where('title', 'LIKE', "%$search%")
 						->orWhere('created_at', 'LIKE', "%$search%");
 				})
+				->orderBy('id', 'Desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
