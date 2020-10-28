@@ -51,7 +51,6 @@ function App({ tema, access_key }) {
 			<CssBaseline />
 			<SnackbarProvider
 				maxSnack={3}
-				preventDuplicate
 				//Botones con acciones.
 				action={key => (
 					<IconButton size="small" onClick={onClickDismiss(key)}>

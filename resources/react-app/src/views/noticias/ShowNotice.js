@@ -110,11 +110,19 @@ function ShowNotice () {
 		}
 		
 		if (loading) {
-			consult()
+			consult();
 		}
 		
 		// eslint-disable-next-line
 	}, [loading]);
+	
+	//Unmount
+	useEffect(()=>{
+		return () => {
+			dispatch(updateAppData('noticiaSelected', true, 'clear'));
+		}
+		// eslint-disable-next-line
+	}, []);
 	
 	const confirm = async () => {
 		const prepare = {

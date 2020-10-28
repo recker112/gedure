@@ -11,6 +11,17 @@ export default (state = initialState, { type, payload }) => {
 		case 'UPDATE_APPDATA': {
 			const { selected, loading, data } = payload;
 			
+			if (data === 'clear') {
+				return {
+					...state,
+					[selected]: {
+						...state[selected],
+						loading,
+						data: {}
+					}
+				}
+			}
+			
 			return {
 				...state,
 				[selected]: {
