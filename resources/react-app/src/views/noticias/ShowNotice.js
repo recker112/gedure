@@ -12,6 +12,7 @@ import useFetch from '../../hooks/useFetch';
 
 import Footer from '../../components/Footer';
 import ConfirmAction from '../../components/ConfirmAction';
+import EditNotice from '../../views/panel/noticias/EditNotice';
 
 import { useSelector, useDispatch } from 'react-redux';
 import updateAppData from '../../actions/updateAppData';
@@ -47,6 +48,11 @@ function MoreOptions ({ data, handleClick, handleClose, anchorEl }) {
 		handleClose();
 	}
 	
+	const handleEdit = () => {
+		dispatch(updateDialogs('editNotice', true, false, data));
+		handleClose();
+	}
+	
 	return (
 		<React.Fragment>
 			<IconButton aria-controls="menu-options" aria-haspopup="true" onClick={handleClick}>
@@ -59,7 +65,7 @@ function MoreOptions ({ data, handleClick, handleClose, anchorEl }) {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={handleClose}>Editar</MenuItem>
+				<MenuItem onClick={handleEdit}>Editar</MenuItem>
 				<MenuItem onClick={handleDelete}>Eliminar</MenuItem>
 			</Menu>
 		</React.Fragment>
@@ -124,7 +130,7 @@ function ShowNotice () {
 		// eslint-disable-next-line
 	}, []);
 	
-	const confirm = async () => {
+	const confirmCallback = async () => {
 		const prepare = {
 			url: `v1/noticias/${noticeData.id}`,
 			type: 'delete',
@@ -137,6 +143,10 @@ function ShowNotice () {
 		}
 
 		dispatch(updateDialogs('confirmAction', false, true));
+	}
+	
+	const editCallback = () => {
+		dispatch(updateAppData('noticiaSelected', true, 'clear'));
 	}
 	
 	const { title, content, imgs, fechaHumano, user_id_owner, user } = noticeData;
@@ -263,7 +273,11 @@ function ShowNotice () {
 							<b>Noticia no disponible.</b>
 						</p>
 					)}
-					<ConfirmAction action={`Eliminar noticia #${noticeData.id}`} callback={confirm} />
+					<ConfirmAction 
+						action={`Eliminar noticia #${noticeData.id}`} 
+						callback={confirmCallback}
+					/>
+					<EditNotice callback={editCallback} />
 				</Container>
 			</main>
 			{!auth && (

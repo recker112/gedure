@@ -65,6 +65,11 @@ a {
 	font-weight: 900 !important;
 }
 
+.Noticia__Content--OverFlow {
+	max-height: 100px;
+	overflow: hidden;
+}
+
 .footer {
 	height: 90px;
 	background: #1F2228;

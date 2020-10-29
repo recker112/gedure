@@ -81,9 +81,15 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	/*
 		/Obtener noticia
-		Requeriments: usuario_registrado,
+		Requeriments: none,
 	*/
 	Route::middleware(['auth:api'])->get('noticias/user/{id}', 'NewsController@getUser');
+	
+	/*
+		/Editar noticia
+		Requeriments: title(string), content(string), imgsUpdate(boolean), onlyUsers(boolean), ?imgs(array),
+	*/
+	Route::middleware(['auth:api'])->post('noticias/{id}', 'NewsController@modify');
 	
 	/*
 		/Borrar noticias

@@ -107,7 +107,7 @@ export function ListNoticias({ list, updateNewsNoticias }) {
 				loader={<SkeletonNoticia />}
 				endMessage={
 					<p style={{ textAlign: 'center' }}>
-						<b>No hay más noticias que cargar.</b>
+						<b>No hay mรกs noticias que cargar.</b>
 					</p>
 				}
 			>
@@ -181,7 +181,7 @@ export function Noticia({ news }) {
 	}
 	
 	const verifyHeight = (element) => {
-		if (element && !overFlowText && overFlowText!== null) {
+		if (element && !overFlowText && overFlowText !== null) {
 			const height = element.clientHeight;
 			if (height > 400) {
 				setOverFlow(true);
@@ -227,7 +227,7 @@ export function Noticia({ news }) {
 					<Button size='small' color="secondary" onClick={()=>{
 							setOverFlow(null);
 						}}>
-						Ver publicación completa
+						Ver publicaciรณn completa
 					</Button>
 				}
 			</CardContent>

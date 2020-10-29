@@ -234,7 +234,12 @@ function RenderDrawer({ reduxState, close }) {
 
 								if (seeSection && privilegioAccess) {
 									return (
-										<Grid container direction="column" className={classes.sectionDrawer}>
+										<Grid 
+											container 
+											direction="column" 
+											className={classes.sectionDrawer}
+											key={i}
+										>
 											<Grid item>
 												<span className="drawer__subTitle">{section.title}</span>
 											</Grid>
