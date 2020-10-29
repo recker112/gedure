@@ -21,20 +21,35 @@ class LogsController extends Controller
 			return response()->json($jsonMessage, 403);
 		}
 
-		$search = request()->search;
+		$search = json_decode(request()->search);
+		$type = request()->type;
 
 		$perPage = request()->per_page;
 		$page = request()->page * $perPage;
-
-		$logs = Log::orderBy('created_at', 'desc')
-			->offset($page)
-			->limit($perPage)
-			->whereHas('user', function (Builder $query) {
-				$search = request()->search;
-				$query->where('cedula', 'LIKE', "%$search%");
-			})
-			->orWhere('created_at', 'LIKE', "%$search%")
-			->get();
+		
+		if ($type !== 'all') {
+			$logs = Log::orderBy('created_at', 'desc')
+				->offset($page)
+				->limit($perPage)
+				->whereHas('user', function (Builder $query) {
+					$search = request()->search;
+					$query->where('cedula', 'LIKE', "%$search%");
+				})
+				->orWhere('created_at', 'LIKE', "%$search%")
+				->orWhere('action', 'LIKE', "%$search%")
+				->get();
+		}else {
+			$logs = Log::orderBy('created_at', 'desc')
+				->offset($page)
+				->limit($perPage)
+				->whereHas('user', function (Builder $query) {
+					$search = request()->search;
+					$query->where('cedula', 'LIKE', "%$search%");
+				})
+				->orWhere('created_at', 'LIKE', "%$search%")
+				->orWhere('action', 'LIKE', "%$search%")
+				->get();
+		}
 
 		$arrayLogs = array();
 		foreach ($logs as $log) {
@@ -47,7 +62,14 @@ class LogsController extends Controller
 		}
 		
 		//Total de logs
-		$logsCount = Log::count();
+		$logsCount = Log::orderBy('created_at', 'desc')
+			->whereHas('user', function (Builder $query) {
+				$search = request()->search;
+				$query->where('cedula', 'LIKE', "%$search%");
+			})
+			->orWhere('created_at', 'LIKE', "%$search%")
+			->orWhere('action', 'LIKE', "%$search%")
+			->count();
 
 		$jsonMessage = [
 			'data' => $arrayLogs,

@@ -73,8 +73,12 @@ function Main() {
 			dispatch(updateForms('registros', false));
 		}
 		
+		if (query.search) {
+			query.search = query.search.replace("#", "_");
+		}
+		
 		const prepare = {
-			url: `v1/logs?page=${query.page}&per_page=${query.pageSize}&type=${inputs.radioSelect}&search=${query.search}`,
+			url: `v1/logs?page=${query.page}&per_page=${query.pageSize}&type=${inputs.radioSelect}&search=${JSON.stringify(query.search)}&type=${inputs.radioSelect}`,
 			type: 'get',
 			messageToFinish: false,
 		}
@@ -96,7 +100,7 @@ function Main() {
 			}
 		}
 		// eslint-disable-next-line
-	}, []);
+	}, [inputs]);
 	
 	return (
 		<Container maxWidth='md' className={classes.marginFinish}>

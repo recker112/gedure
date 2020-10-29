@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Noticia({ data }) {
+	const [overFlowText, setOverFlow] = useState(false);
 	const { user, title, content, fechaHumano, id } = data;
 
 	const classes = useStyles();
@@ -48,17 +49,20 @@ function Noticia({ data }) {
 		dispatch(updateAppData('noticiaSelected', false, data));
 	}
 	
-	function createMarkup() {
-		let texto
-		
-		if (content.length > 400) {
-			texto = content.substring(0,400) + "..."
-		}else {
-			texto = content
+	const verifyHeight = (element) => {
+		if (element && !overFlowText) {
+			const height = element.clientHeight;
+			if (height >= 110) {
+				setOverFlow(true);
+			}
 		}
-		
-		return {__html: texto};
 	}
+	
+	function createMarkup() {
+		return {__html: content};
+	}
+	
+	let overFlowClass =  overFlowText ? 'Noticia__Content--OverFlow' : '';
 
 	return (
 		<Paper className={`${classes.padding} ${classes.margin}`} id={`NID_${id}`}>
@@ -97,10 +101,13 @@ function Noticia({ data }) {
 						</Typography>
 					</Grid>
 					<Grid container item xs={12}>
-						<Box 
-							dangerouslySetInnerHTML={createMarkup()} 
-							component="span" 
-							textAlign="justify"
+						<span 
+							ref={(el)=>{
+								verifyHeight(el);
+							}}
+							style={{textAlign: 'justify'}}
+							dangerouslySetInnerHTML={createMarkup()}
+							className={overFlowClass}
 						/>
 					</Grid>
 				</Grid>

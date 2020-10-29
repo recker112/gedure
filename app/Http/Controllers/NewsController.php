@@ -31,7 +31,7 @@ class NewsController extends Controller
 			->get();
 		
 		//Primer registro
-		$firstNoticia = News::first();
+		$firstNoticia = News::where('onlyUsers', 0)->first();
 		
 		$finish = false;
 		foreach($allNoticias as $noticia) {
@@ -41,9 +41,12 @@ class NewsController extends Controller
 			
 			//Set Fecha
 			$parse1 = Carbon::parse($noticia->created_at);
-			$parse1 = Carbon::parse($noticia->updated_at);
+			$parse2 = Carbon::parse($noticia->updated_at);
 			$noticia->fechaHumano = $parse1->diffForHumans();
-			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse2->diffForHumans();
+			if ($parse1 !== $parse2) {
+				$noticia->modificado = true;
+			}
 		}
 		
 		$jsonMessage = [
@@ -82,9 +85,12 @@ class NewsController extends Controller
 			
 			//Set Fecha
 			$parse1 = Carbon::parse($noticia->created_at);
-			$parse1 = Carbon::parse($noticia->updated_at);
+			$parse2 = Carbon::parse($noticia->updated_at);
 			$noticia->fechaHumano = $parse1->diffForHumans();
-			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse2->diffForHumans();
+			if ($parse1 !== $parse2) {
+				$noticia->modificado = true;
+			}
 		}
 		
 		$jsonMessage = [
@@ -105,9 +111,12 @@ class NewsController extends Controller
 		if ($noticia) {
 			//Set Fecha
 			$parse1 = Carbon::parse($noticia->created_at);
-			$parse1 = Carbon::parse($noticia->updated_at);
+			$parse2 = Carbon::parse($noticia->updated_at);
 			$noticia->fechaHumano = $parse1->diffForHumans();
-			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse2->diffForHumans();
+			if ($parse1 !== $parse2) {
+				$noticia->modificado = true;
+			}
 		}
 		
 		return response()->json($noticia, 200);
@@ -121,9 +130,13 @@ class NewsController extends Controller
 		if ($noticia) {
 			//Set Fecha
 			$parse1 = Carbon::parse($noticia->created_at);
-			$parse1 = Carbon::parse($noticia->updated_at);
+			$parse2 = Carbon::parse($noticia->updated_at);
+			$noticia->sapo = "SAPO";
 			$noticia->fechaHumano = $parse1->diffForHumans();
-			$noticia->fechaHumanoModify = $parse1->diffForHumans();
+			$noticia->fechaHumanoModify = $parse2->diffForHumans();
+			if ($parse1 !== $parse2) {
+				$noticia->modificado = true;
+			}
 		}
 		
 		return response()->json($noticia, 200);
@@ -292,7 +305,7 @@ class NewsController extends Controller
 			}
 		}
 		
-		$noticia->imgs = json_encode($imgsUploaded);
+		$noticia->imgs = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
 		$noticia->save();
 		
 		//Log
@@ -323,6 +336,159 @@ class NewsController extends Controller
 		], 200);
 	}
 	
+	public function modify($id)
+	{
+		$user = request()->user();
+		$imgs = request()->file('imgs');
+		$imgsUpdate = json_decode(request()->imgsUpdate);
+		
+		if ($user->privilegio !== 'A-' || !$user->permissionsAdmin->noticia_modify) {
+			$jsonMessage = [
+				'code' => 403,
+				'msg'=>'not_permissions',
+				'description' => 'No tienes permisos'
+			];
+			return response()->json($jsonMessage, 403);
+		}
+			
+		//ValidateData
+		try {
+			$dataValidate = request()->validate([
+				'title' => 'required|string|min:6|max:100',
+				'content' => 'required|string|min:20|max:50000',
+			], [
+				/*
+				Custom message
+				GLOBAL [propiedad] = required
+				ESPECIFICO [value].[propiedad] = user.required
+				*/
+				'required' => 'Campo obigatorio',
+				'string' => 'No válido',
+				'min' => 'No válido',
+
+			]);
+		} catch (ValidationException $exception) {
+			return response()->json([
+				'code' => 422,
+				'msg'    => 'validation_error',
+				'errors' => $exception->errors(),
+				'description' => 'El servidor rechazó su solicitud'
+			], 422);
+		}
+		
+		$noticia = News::find($id);
+		
+		if ($noticia->user_id_owner !== $user->id || !$user->permissionsAdmin->noticia_modify_otros) {
+			$jsonMessage = [
+				'code' => 403,
+				'msg'=>'not_permissions',
+				'description' => 'No tienes permisos'
+			];
+			return response()->json($jsonMessage, 403);
+		}
+		
+		$noticia->title = request()->title;
+		$noticia->content = request()->content;
+		$noticia->onlyUsers = json_decode(request()->onlyUsers);
+		
+		//Cargar imágenes
+		$errorLogs = [];
+		$imgsUploaded = null;
+		$e = 0;
+		if ($imgsUpdate) {
+			if (!empty($imgs)){
+				//Limpiar path
+				$files = Storage::disk('public')->allFiles("$this->path/$noticia->id");
+				Storage::disk('public')->delete($files);
+				
+				//Guardar cada archivo
+				$i = 0;
+				foreach($imgs as $file) {
+					//Datos
+					$error = [];
+					$mimeType = $file->getMimeType();
+					$size = $file->getSize();
+					//Nombre del archivo completo
+					$filenameOriginal = $file->getClientOriginalName();
+					//Extension
+					$extension = $file->extension();
+					//Nombre solo
+					$filename = explode('.', $filenameOriginal);
+					$filename = $filename[0];
+
+					//Verificar MIME
+					$verifyMIME = $this->verifyMime($mimeType, [
+						'image/png',
+						'image/jpeg'
+					]);
+
+					if (!$verifyMIME) {
+						$error = [
+							'type_error' => 'mime',
+							'msg' => 'Solo se aceptan imagenes .png/.jpg/.jpeg'
+						];
+					}else if ($size / 1024 > 5120){
+						//Verificar SIZE
+						$error = [
+							'type_error' => 'size',
+							'msg' => 'El archivo supera el tamaño máximo'
+						];
+					}
+
+					//Upload
+					if (!$error) {
+						//Mover archivo
+						Storage::disk('public')->putFileAs(
+							"$this->path/$noticia->id", $file, $filenameOriginal
+						);
+
+						//URL
+						$url = Storage::disk('public')
+							->url("$this->path/$noticia->id/$filenameOriginal");
+
+						$imgsUploaded[$i] = $url;
+						$i++;
+					}else {
+						$errorLogs[$e] = $error;
+						$e++;
+					}
+				}
+			}
+		}
+		
+		if ($imgsUpdate) {
+			$noticia->imgs = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
+		}
+		$noticia->save();
+		
+		//Log
+		$Log = new Log;
+		$Log->user_id = $user->id;
+		$Log->action = 'Noticia #'.$noticia->id.' editada.' ;
+		$Log->type = 'user';
+		$Log->save();
+		
+		//Verificar Errores
+		if ($imgs && count($errorLogs) === count($imgs)) {
+			return response()->json([
+				'msg' => 'new_publicate_without_img',
+				'description' => 'No se pudo cargar ninguna imagen',
+				'errors' => $errorLogs,
+			], 400);
+		}else if (count($errorLogs) > 0) {
+			return response()->json([
+				'msg' => 'new_publicate_without_some_img',
+				'description' => 'Algunas imagenes fueron cargadas',
+				'errors' => $errorLogs
+			], 200);
+		}
+		
+		return response()->json([
+			'msg' => 'new_publicate',
+			'description' => 'Noticia editada correctamente'
+		], 200);
+	}
+	
 	public function remove($id)
 	{
 		$user = request()->user();
@@ -350,6 +516,13 @@ class NewsController extends Controller
 		}
 		
 		if ($user->permissionsAdmin->noticia_modify_otros) {
+			//Log
+			$Log = new Log;
+			$Log->user_id = $user->id;
+			$Log->action = 'Noticia #'.$noticia->id.' borrada.' ;
+			$Log->type = 'user';
+			$Log->save();
+			
 			Storage::disk('public')->deleteDirectory("$this->path/$id");
 			$noticia->delete();
 			
@@ -360,6 +533,13 @@ class NewsController extends Controller
 			];
 		}else {
 			if ($noticia->user_id_owner === $user->id) {
+				//Log
+				$Log = new Log;
+				$Log->user_id = $user->id;
+				$Log->action = 'Noticia #'.$noticia->id.' borrada.' ;
+				$Log->type = 'user';
+				$Log->save();
+				
 				Storage::disk('public')->deleteDirectory("$this->path/$id");
 				$noticia->delete();
 				

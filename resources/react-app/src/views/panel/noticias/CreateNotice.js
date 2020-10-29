@@ -159,96 +159,94 @@ function CreateNotice({ tableRef }) {
 					</Grid>
 					<Container maxWidth="md">
 						<form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-							<Grid container>
-								<Grid container spacing={2} item xs={12}>
-									<Grid container justify="center" item xs={12}>
+							<Grid container spacing={2} item xs={12}>
+								<Grid container justify="center" item xs={12}>
+									<RenderInput
+										name="title"
+										label="Título"
+										defaultValue={data.title || ''}
+										errors={errors?.title}
+										registerInput={register({
+											required: { value: true, message: 'Campo requerido.' },
+											minLength: { value: 6, message: 'Campo no válido.' },
+											maxLength: { value: 100, message: 'Campo demaciado grande.' },
+										})}
+										disabledOnLoading={loading}
+										size="small"
+										maxWidth="400px"
+										focus
+									/>
+								</Grid>
+
+								<Grid container justify="center" item xs={12}>
+									<Grid item xs={12}>
 										<RenderInput
-											name="title"
-											label="Título"
-											defaultValue={data.title || ''}
-											errors={errors?.title}
+											name="content"
+											label="Contenido"
+											defaultValue={data.content || ''}
+											errors={errors?.content}
 											registerInput={register({
 												required: { value: true, message: 'Campo requerido.' },
-												minLength: { value: 6, message: 'Campo no válido.' },
-												maxLength: { value: 100, message: 'Campo demaciado grande.' },
+												minLength: { value: 20, message: 'Campo no válido.' },
+												maxLength: {
+													value: contentMaxLength,
+													message: 'Campo demaciado grande.',
+												},
 											})}
 											disabledOnLoading={loading}
-											size="small"
-											maxWidth="400px"
-											focus
+											textarea
+											maxRows={16}
 										/>
 									</Grid>
-
-									<Grid container justify="center" item xs={12}>
-										<Grid item xs={12}>
-											<RenderInput
-												name="content"
-												label="Contenido"
-												defaultValue={data.content || ''}
-												errors={errors?.content}
-												registerInput={register({
-													required: { value: true, message: 'Campo requerido.' },
-													minLength: { value: 20, message: 'Campo no válido.' },
-													maxLength: {
-														value: contentMaxLength,
-														message: 'Campo demaciado grande.',
-													},
-												})}
-												disabledOnLoading={loading}
-												textarea
-												maxRows={16}
-											/>
-										</Grid>
-										{errors?.contenido ? (
-											<Typography style={{ color: '#f44336' }} className={classes.showCaracteres}>
-												{`${(watch('content') || '').length}/${contentMaxLength} caracteres`}
-											</Typography>
-										) : (
-											<Typography className={classes.showCaracteres}>
-												{`${(watch('content') || '').length}/${contentMaxLength} caracteres`}
-											</Typography>
-										)}
-									</Grid>
-
-									<Grid item xs={12}>
-										<Typography className="box__subtitle box__title--opacity box_title--margin">
-											Opciones adicionales
+									{errors?.contenido ? (
+										<Typography style={{ color: '#f44336' }} className={classes.showCaracteres}>
+											{`${(watch('content') || '').length}/${contentMaxLength} caracteres`}
 										</Typography>
-									</Grid>
+									) : (
+										<Typography className={classes.showCaracteres}>
+											{`${(watch('content') || '').length}/${contentMaxLength} caracteres`}
+										</Typography>
+									)}
+								</Grid>
 
-									<Grid item xs={12}>
-										<FormControlLabel
-											control={<Switch name="onlyUsers" inputRef={register} color="secondary" />}
-											label="Disponible solo para usuarios"
-										/>
-									</Grid>
+								<Grid item xs={12}>
+									<Typography className="box__subtitle box__title--opacity box_title--margin">
+										Opciones adicionales
+									</Typography>
+								</Grid>
 
-									<Grid item xs={12}>
-										<DropzoneAreaBase
-											fileObjects={files}
-											acceptedFiles={['image/png', 'image/jpeg']}
-											showPreviewsInDropzone={false}
-											showPreviews={true}
-											previewText="Imagenes selecionadas:"
-											onAdd={handleAdd}
-											onDelete={handleDelete}
-											filesLimit={10}
-											showAlerts={false}
-											previewGridProps={{ container: { spacing: 2 }, item: { xs: true } }}
-											maxFileSize={5000000}
-											getFileLimitExceedMessage={(filesLimit) =>
-												`Solo se permiten hasta ${filesLimit} imagenes`
-											}
-											getFileAddedMessage={(fileName) => `Archivo ${fileName} agregado`}
-											getFileRemovedMessage={(fileName) => `Archivo ${fileName} removido`}
-											onAlert={(messaje, variant) => {
-												enqueueSnackbar(messaje, {
-													variant: variant,
-												});
-											}}
-											dropzoneText="Arrastrar o cargar imagenes"
-										/>
-									</Grid>
+								<Grid item xs={12}>
+									<FormControlLabel
+										control={<Switch name="onlyUsers" inputRef={register} color="secondary" />}
+										label="Disponible solo para usuarios"
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
+									<DropzoneAreaBase
+										fileObjects={files}
+										acceptedFiles={['image/png', 'image/jpeg']}
+										showPreviewsInDropzone={false}
+										showPreviews={true}
+										previewText="Imagenes selecionadas:"
+										onAdd={handleAdd}
+										onDelete={handleDelete}
+										filesLimit={10}
+										showAlerts={false}
+										previewGridProps={{ container: { spacing: 2 }, item: { xs: true } }}
+										maxFileSize={5000000}
+										getFileLimitExceedMessage={(filesLimit) =>
+											`Solo se permiten hasta ${filesLimit} imagenes`
+										}
+										getFileAddedMessage={(fileName) => `Archivo ${fileName} agregado`}
+										getFileRemovedMessage={(fileName) => `Archivo ${fileName} removido`}
+										onAlert={(messaje, variant) => {
+											enqueueSnackbar(messaje, {
+												variant: variant,
+											});
+										}}
+										dropzoneText="Arrastrar o cargar imagenes"
+									/>
 								</Grid>
 							</Grid>
 							<input type="submit" style={{ display: 'none' }} id="submit-createNotice" />
