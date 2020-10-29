@@ -25,6 +25,11 @@ const initialState = {
 		loading: false,
 		data: {}
 	},
+	editNotice: {
+		open: false,
+		loading: false,
+		data: {}
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

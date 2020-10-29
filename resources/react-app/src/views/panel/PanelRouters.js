@@ -36,17 +36,17 @@ function PanelRouters () {
 		{
 			path: `${url}/registros`,
 			component: <RegistrosAdmin />,
-			iCanSee: Boolean(permissions.administrar.registro?.ver),
+			iCanSee: Boolean(permissions?.administrar?.registro_ver),
 		},
 		{
 			path: `${url}/usuarios`,
 			component: <UsuariosAdmin />,
-			iCanSee: Boolean(permissions.administrar.user?.ver),
+			iCanSee: Boolean(permissions?.administrar?.user_ver),
 		},
 		{
 			path: `${url}/noticias`,
 			component: <NoticiasAdmin />,
-			iCanSee: Boolean(permissions.publicaciones?.modify),
+			iCanSee: Boolean(permissions?.publicaciones?.modify),
 		}
 	], [permissions, url]);
 	

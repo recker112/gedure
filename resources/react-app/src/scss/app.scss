@@ -26,7 +26,11 @@ a {
 }
 
 .drawer {
-	width: 270px;
+	width: 280px;
+	overflow: auto;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .drawer__title {

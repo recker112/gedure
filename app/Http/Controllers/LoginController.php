@@ -167,15 +167,15 @@ class LoginController extends Controller
 			$listP = array();
 			foreach ($permissionsDB as $perm) {
 				if ($permissionsDB->registros_ver) {
-					$listA['registro']['ver'] = true;
+					$listA['registro_ver'] = true;
 				}
 				
 				if ($permissionsDB->user_ver) {
-					$listA['user']['ver'] = true;
+					$listA['user_ver'] = true;
 				}
 				
 				if ($permissionsDB->user_modify) {
-					$listA['user']['modify'] = true;
+					$listA['user_modify'] = true;
 				}
 				
 				if ($permissionsDB->gedure_control) {
@@ -183,11 +183,11 @@ class LoginController extends Controller
 				}
 				
 				if ($permissionsDB->upload_boletas) {
-					$listA['upload']['boletas'] = true;
+					$listA['upload_boletas'] = true;
 				}
 				
 				if ($permissionsDB->upload_matricula) {
-					$listA['upload']['matricula'] = true;
+					$listA['upload_matricula'] = true;
 				}
 				
 				if ($permissionsDB->noticia_modify) {
