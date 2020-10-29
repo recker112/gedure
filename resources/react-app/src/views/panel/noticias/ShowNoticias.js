@@ -16,6 +16,7 @@ import useFetch from './../../../hooks/useFetch';
 import { tableIcons, tableLocation } from './../../../components/TableConfig';
 import LocationShow from './../../../components/LocationShow';
 import CreateNotice from './CreateNotice';
+import EditNotice from './EditNotice';
 import ConfirmAction from './../../../components/ConfirmAction';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -148,7 +149,7 @@ function ShowNoticias() {
 						icon: () => <Edit />,
 						tooltip: 'Editar',
 						onClick: (event, rowData) => {
-							//
+							dispatch(updateDialogs('editNotice', true, false, rowData));
 						},
 					},
 					{
@@ -165,6 +166,7 @@ function ShowNoticias() {
 			/>
 
 			<CreateNotice tableRef={tableRef} />
+			<EditNotice tableRef={tableRef} />
 			<ConfirmAction action={`Eliminar noticia #${data.id}`} callback={confirm} />
 		</Container>
 	);

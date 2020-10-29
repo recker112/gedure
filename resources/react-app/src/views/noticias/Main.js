@@ -232,7 +232,6 @@ function Noticias() {
 	//Force reload on logoutApp
 	useEffect(()=>{
 		if (!auth) {
-			console.log('Logout');
 			setLoading(true);
 			setData([]);
 			setHasFinish(false);

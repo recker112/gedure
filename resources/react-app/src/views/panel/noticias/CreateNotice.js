@@ -121,6 +121,7 @@ function CreateNotice({ tableRef }) {
 				tableRef.current && tableRef.current.onQueryChange();
 				dispatch(updateDialogs('createNotice', true, false, 'clear'));
 				setFiles([]);
+				setProgress(0);
 			} else {
 				dispatch(updateDialogs('createNotice', true, false));
 			}
