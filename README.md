@@ -1,29 +1,24 @@
 # Gedure
-Gedure es un sistema de gestión educativa enfocado en los grados de primaria y bachillerato.
+Gedure es una App web de gestión educativa enfocado en los grados de primaria y bachillerato, utilizando un diseño moderno y simple para la comodidad de los usuarios.
 
-## Funcionalidades
-- Publicaciones de Noticias y anuncios, teniendo las noticias la opción de poder cargar imagenes y archivos.
-- Gestión de boletas, permitiendo solo tener 1 boleta por estudiante.
+## Funcionalidades (5.0.0b1)
+- Modo oscuro
+- Página principal del instituto.
+- Gestión y visualización de boletas.
 - Sistema de bloqueo de cuentas por cantidad de errores ocurridos durante el login.
-- Modo oscuro y claro.
+- Alertas de errores en el sistema.
+- Creación, edición y borrado de administradores, estudiantes y docentes.
+- Recuperación de contraseña (solo si el correo se encuentra registrado).
+- Archivos descargables (constancias u otros).
+- Soporte y ayuda dentro del sistema.
+Fecha estimada de salida: ningua por el momento.
 
-## Futuras opciones
-- Multibles boletas por estudiante.
-- Soft delete.
+## Funcionalidades futuras
 - Clases en linea.
-- Archivos descargables (constancias u otros)
-- Inscripciones y re-inscripciones.
-- Comunicación entre los estudiantes y los administradores.
-- Avisos por correo.
-- Recuperar contraseña.
-- Nuevo sistema de baneos (desbloqueo de cuenta por mensaje al correo).
-- Implementación de docentes adentro del sistema.
-- Carga de notas por materia.
-- Verificación de pagos por transferencias.
-
-### Herramientas utilizadas
-- Laravel (Backend).
-- React (Frontent).
+- Verificación de pagos.
+- Solicitud de cupo.
+- Sistema de inscripción.
+- Carga de notas dentro del sistema.
 
 ### Desarrolladores del proyecto
 - **Recker** - Frontend y Backend.
