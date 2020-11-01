@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Controllers
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::middleware('auth:api')->post('relogin', [LoginController::class, 'relogin
 Route::middleware('auth:api')->post('logout', [LoginController::class, 'logout']);
 
 Route::middleware('auth:api')->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
+
+Route::middleware(['auth:api', 'scopes:admin'])->get('logs', [LogController::class, 'index']);

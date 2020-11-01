@@ -13,7 +13,7 @@ class PostControllerTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testGetPosts()
     {
         $response = $this->get('/');
 
