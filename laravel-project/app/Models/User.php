@@ -36,6 +36,11 @@ class User extends Authenticatable
 		'created_at', 'updated_at', 'password', 'deleted_at'
 	];
 	
+	public function permissionsAdmin()
+	{
+		return $this->hasOne('App\Models\AdminConfig');
+	}
+	
 	public function blocks()
 	{
 		return $this->hasMany('App\Models\Block');
