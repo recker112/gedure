@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 // Models
+use App\Models\User;
 use App\Models\Block;
 use App\Models\Log;
 
@@ -36,7 +37,7 @@ class LoginController extends Controller
 		
 		// Token
 		if ($user->privilegio === 'A-') {
-			$tokenResult = $user->createToken($user->cedula.' access', ['admin']);
+			$tokenResult = $user->createToken($user->cedula.' access', ['*']);
 		}else if ($user->privilegio === 'P-') {
 			$tokenResult = $user->createToken($user->cedula.' access', ['profesor']);
 		}else {
@@ -56,12 +57,17 @@ class LoginController extends Controller
 			'action' => "Inicio de sesión.",
 			'type' => 'session'
 		]);
+		
+		$permissions = $this->makePermissions($user);
+		
+		//Ocultar permissions en la variable $user
+		$user->makeHidden('permissionsAdmin');
 
 		//Regresar datos
 		return response()->json([
 			'access_key' => $tokenResult->accessToken,
 			'user' => $user,
-			'permissions' => null
+			'permissions' => $permissions
 		], 200);
 	}
 	
@@ -69,16 +75,20 @@ class LoginController extends Controller
 	{
 		$user = request()->user();
 		
-		return response()->json([
-			'user' => $user,
-			'permissions' => null
-		], 200);
-		
 		Log::create([
 			'user_id' => $user->id,
 			'action' => "Inicio de sesión por relogin.",
 			'type' => 'session'
 		]);
+		
+		$permissions = $this->makePermissions($user);
+		
+		$user->makeHidden('permissionsAdmin');
+		
+		return response()->json([
+			'user' => $user,
+			'permissions' => $permissions
+		], 200);
 	}
 	
 	public function logout()
@@ -118,5 +128,57 @@ class LoginController extends Controller
 			'msg'=>'logout_all',
 			'description' => 'Sesiones cerradas'
 		], 200);
+	}
+	
+	public function makePermissions($user)
+	{
+		if ($user->privilegio === 'A-') {
+			$permissionsDB = $user->permissionsAdmin;
+			
+			$listA = array();
+			$listG = array();
+			$listP = array();
+			foreach ($permissionsDB as $perm) {
+				if ($permissionsDB->registros_ver) {
+					$listA['registro_ver'] = true;
+				}
+				
+				if ($permissionsDB->user_ver) {
+					$listA['user_ver'] = true;
+				}
+				
+				if ($permissionsDB->user_modify) {
+					$listA['user_modify'] = true;
+				}
+				
+				if ($permissionsDB->gedure_control) {
+					$listG['control'] = true;
+				}
+				
+				if ($permissionsDB->upload_boletas) {
+					$listA['upload_boletas'] = true;
+				}
+				
+				if ($permissionsDB->upload_matricula) {
+					$listA['upload_matricula'] = true;
+				}
+				
+				if ($permissionsDB->noticia_modify) {
+					$listP['modify'] = true;
+				}
+				
+				if ($permissionsDB->noticia_modify_otros) {
+					$listP['modify_otros'] = true;
+				}
+			}
+			
+			$permissions = [
+				'administrar' => $listA,
+				'gedure' => $listG,
+				'publicaciones' => $listP
+			];
+		}
+			
+		return $permissions;
 	}
 }

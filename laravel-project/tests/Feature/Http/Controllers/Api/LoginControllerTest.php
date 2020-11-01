@@ -5,9 +5,11 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+// Passport
 use Laravel\Passport\Passport;
+// Models
 use App\Models\User;
+use App\Models\AdminConfig;
 
 class LoginControllerTest extends TestCase
 {
@@ -17,6 +19,18 @@ class LoginControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
+	public function testLoginValidation()
+	{
+		//$this->withoutExceptionHandling();
+		$response = $this->postJson('/api/login', [
+			'cedula' => '', 
+			'password' => ''
+		]);
+
+		$response->assertStatus(422)
+			->assertJsonValidationErrors(['cedula', 'password']);
+	}
+	
 	public function testLogin()
 	{
 		//$this->withoutExceptionHandling();
@@ -27,7 +41,23 @@ class LoginControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonPath('user.cedula', 'recker')
-			->assertJsonPath('user.email', 'recker@testing.test');
+			->assertJsonPath('user.email', 'recker@testing.test')
+			->assertJsonStructure([
+				'access_key',
+				'user' => [
+					'id',
+					'cedula',
+					'nombre',
+					'privilegio',
+					'avatar',
+					'email',
+				],
+				'permissions' => [
+					'administrar' => [
+						'user_ver'
+					]
+				]
+			]);
 	}
 	
 	public function testLoginFailed()
@@ -59,18 +89,6 @@ class LoginControllerTest extends TestCase
 			->assertJsonFragment([
 				'msg'=>'account_block',
 			]);
-	}
-	
-	public function testLoginValidation()
-	{
-		//$this->withoutExceptionHandling();
-		$response = $this->postJson('/api/login', [
-			'cedula' => '', 
-			'password' => ''
-		]);
-
-		$response->assertStatus(422)
-			->assertJsonValidationErrors(['cedula', 'password']);
 	}
 	
 	public function testLogout()
@@ -109,11 +127,15 @@ class LoginControllerTest extends TestCase
 	
 	public function testRelogin()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::factory()->create(),
 			['admin']
 		);
+		
+		AdminConfig::factory()->create([
+			'user_id' => $user->id,
+		]);
 		
 		$response = $this->postJson('/api/relogin');
 
@@ -121,6 +143,19 @@ class LoginControllerTest extends TestCase
 			->assertJsonFragment([
 				'cedula' => $user->cedula,
 				'email' => $user->email,
-			]);
+			])
+			->assertJsonStructure([
+				'user' => [
+					'id',
+					'cedula',
+					'nombre',
+					'privilegio',
+				],
+				'permissions' => [
+					'administrar' => [
+						'user_ver'
+					]
+				]
+			]);;
 	}
 }
