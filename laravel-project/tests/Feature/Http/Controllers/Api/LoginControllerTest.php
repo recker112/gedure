@@ -156,6 +156,6 @@ class LoginControllerTest extends TestCase
 						'user_ver'
 					]
 				]
-			]);;
+			]);
 	}
 }
