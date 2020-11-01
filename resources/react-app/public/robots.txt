@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://lacandelaria.com.ve/sitemap.xml
