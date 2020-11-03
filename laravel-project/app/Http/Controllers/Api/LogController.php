@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Log;
@@ -18,23 +19,49 @@ class LogController extends Controller
 			], 200);
 		}
 
-		$search = json_decode($request->search);
+		$search = $request->search;
 		$type = $request->type;
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		if ($type !== 'all') {
-			$logs = Log::orderBy('created_at', 'desc')
+		if (empty($type)) {
+			$logs = Log::where('type', $type)
+				->orderBy('created_at', 'desc')
 				->offset($page)
 				->limit($perPage)
 				->get();
+			
+			//Total de logs
+			$logsCount = Log::count();
 		}else {
-			$logs = Log::orderBy('created_at', 'desc')
+			$logs = Log::where('type', $type)
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('action', 'like', "%".$search."%")
+						->orWhere('created_at', 'like', "%".$search."%")
+						->orWhereHas('user', function (Builder $query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
+					})
+				->orderBy('created_at', 'desc')
 				->offset($page)
 				->limit($perPage)
-				->where('type', $type)
 				->get();
+			
+			//Total de logs
+			$logsCount = Log::where('type', $type)
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('action', 'like', "%".$search."%")
+						->orWhere('created_at', 'like', "%".$search."%")
+						->orWhereHas('user', function (Builder $query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
+					})
+				->count();
 		}
 
 		$arrayLogs = array();
@@ -46,10 +73,6 @@ class LogController extends Controller
 				'fecha' => $log->created_at->format('Y-m-d H:i:s')
 			]);
 		}
-		
-		//Total de logs
-		$logsCount = Log::orderBy('created_at', 'desc')
-			->count();
 
 		return response()->json([
 			'data' => $arrayLogs,

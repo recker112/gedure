@@ -102,4 +102,36 @@ class LogControllerTest extends TestCase
 				'totalLogs'
 			]);
 	}
+	
+	public function testGetLogsByTypeAndSearch()
+	{
+		$this->withoutExceptionHandling();
+		$user = Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$logs = Log::factory(10)->create([
+			'user_id' => 1,
+			'type' => 'gedure'
+		]);
+		
+		$logs = Log::factory()->create([
+			'user_id' => 1,
+			'type' => 'gedure',
+			'action' => 'Test'
+		]);
+		
+		$response = $this->getJson('/api/logs?per_page=10&page=0&type=gedure&search=test');
+		
+		$response->assertOk()
+			->assertJsonFragment([
+				'cedula' => $user->privilegio . $user->cedula
+			])
+			->assertJsonStructure([
+				'data',
+				'page',
+				'totalLogs'
+			]);
+	}
 }
