@@ -70,7 +70,7 @@ class LogController extends Controller
 				'cedula' => $log->user->privilegio . $log->user->cedula,
 				'name' => $log->user->nombre,
 				'action' => $log->action,
-				'fecha' => $log->created_at->format('Y-m-d H:i:s')
+				'fecha' => $log->created_at
 			]);
 		}
 
