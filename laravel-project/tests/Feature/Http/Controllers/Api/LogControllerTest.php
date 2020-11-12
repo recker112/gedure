@@ -3,7 +3,6 @@
 namespace Tests\Feature\Http\Controllers\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 // Passport
 use Laravel\Passport\Passport;
@@ -31,7 +30,7 @@ class LogControllerTest extends TestCase
 			'user_id' => 1
 		]);
 		
-		$response = $this->getJson('/api/logs?per_page=5&page=1');
+		$response = $this->getJson('/api/v1/logs?per_page=5&page=1');
 
 		$response->assertOk()
 			->assertJsonStructure([
@@ -60,7 +59,7 @@ class LogControllerTest extends TestCase
 			'user_id' => 1
 		]);
 		
-		$response = $this->getJson('/api/logs?per_page=5&page=5');
+		$response = $this->getJson('/api/v1/logs?per_page=5&page=5');
 
 		$response->assertOk()
 			->assertJsonStructure([
@@ -83,7 +82,7 @@ class LogControllerTest extends TestCase
 			'type' => 'gedure'
 		]);
 		
-		$response = $this->getJson('/api/logs?per_page=5&page=1&type=gedure');
+		$response = $this->getJson('/api/v1/logs?per_page=5&page=1&type=gedure');
 
 		$response->assertOk()
 			->assertJsonFragment([
@@ -122,7 +121,7 @@ class LogControllerTest extends TestCase
 			'action' => 'Test'
 		]);
 		
-		$response = $this->getJson('/api/logs?per_page=10&page=0&type=gedure&search=test');
+		$response = $this->getJson('/api/v1/logs?per_page=10&page=0&type=gedure&search=test');
 		
 		$response->assertOk()
 			->assertJsonFragment([

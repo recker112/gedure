@@ -22,7 +22,7 @@ class LoginControllerTest extends TestCase
 	public function testLoginValidation()
 	{
 		//$this->withoutExceptionHandling();
-		$response = $this->postJson('/api/login', [
+		$response = $this->postJson('/api/v1/login', [
 			'cedula' => '', 
 			'password' => ''
 		]);
@@ -34,7 +34,7 @@ class LoginControllerTest extends TestCase
 	public function testLogin()
 	{
 		//$this->withoutExceptionHandling();
-		$response = $this->postJson('/api/login', [
+		$response = $this->postJson('/api/v1/login', [
 			'cedula' => 'recker', 
 			'password' => 'reckersito'
 		]);
@@ -63,7 +63,7 @@ class LoginControllerTest extends TestCase
 	public function testLoginFailed()
 	{
 		//$this->withoutExceptionHandling();
-		$response = $this->postJson('/api/login', [
+		$response = $this->postJson('/api/v1/login', [
 			'cedula' => 'recker', 
 			'password' => 'MALssjdahsd'
 		]);
@@ -79,7 +79,7 @@ class LoginControllerTest extends TestCase
 	{
 		//$this->withoutExceptionHandling();
 		for($i=0;$i < 5;$i++) {
-			$response = $this->postJson('/api/login', [
+			$response = $this->postJson('/api/v1/login', [
 				'cedula' => 'recker', 
 				'password' => 'MALs'
 			]);
@@ -99,7 +99,7 @@ class LoginControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/logout');
+		$response = $this->postJson('/api/v1/logout');
 
 		$response->assertOk()
 			->assertJson([
@@ -116,7 +116,7 @@ class LoginControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/logoutAll');
+		$response = $this->postJson('/api/v1/logoutAll');
 
 		$response->assertOk()
 			->assertJson([
@@ -137,7 +137,7 @@ class LoginControllerTest extends TestCase
 			'user_id' => $user->id,
 		]);
 		
-		$response = $this->postJson('/api/relogin');
+		$response = $this->postJson('/api/v1/relogin');
 
 		$response->assertOk()
 			->assertJsonFragment([
