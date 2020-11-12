@@ -41,5 +41,20 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api'])->get('posts/auth', [PostController::class, 'indexAuth']);
 	
 	// GetPost
-	Route::get('posts/{slug}', [PostController::class, 'indexAuth']);
+	Route::get('posts/{slug}', [PostController::class, 'show']);
+	
+	// GetPostAuth
+	Route::middleware(['auth:api'])->get('posts/auth/{slug}', [PostController::class, 'showAuth']);
+	
+	// CreatePost
+	Route::middleware(['auth:api', 'scopes:admin'])->post('posts', [PostController::class, 'create']);
+	
+	// EditPost
+	Route::middleware(['auth:api', 'scopes:admin'])->put('posts/{slug}', [PostController::class, 'edit']);
+	
+	// DeletePost
+	Route::middleware(['auth:api', 'scopes:admin'])->delete('posts/{slug}', [PostController::class, 'delete']);
+	
+	// TableAdminPost
+	Route::middleware(['auth:api', 'scopes:admin'])->get('table-posts', [PostController::class, 'tableAdmin']);
 });
