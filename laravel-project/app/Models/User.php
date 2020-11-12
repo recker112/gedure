@@ -48,6 +48,11 @@ class User extends Authenticatable
 	
 	public function logs()
 	{
-		return $this->hasMany('App\Bloqueos');
+		return $this->hasMany('App\Models\Log');
+	}
+	
+	public function posts()
+	{
+		return $this->hasMany('App\Models\Post');
 	}
 }
