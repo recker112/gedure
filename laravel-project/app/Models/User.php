@@ -75,18 +75,21 @@ class User extends Authenticatable
 	*/
 	public function config()
 	{
+		/*
+			NOTA (RECKER): Esto es solo una verificacion de si el usuario fue soft deleteado para asi poder recuperar sus datos.
+		*/
 		if ($this->trashed()) {
 			if ($this->attributes['privilegio'] === 'V-') {
 				return null;
 			}else {
 				return $this->configAdmin()->onlyTrashed()->first();
 			}
-		}
-		
-		if ($this->attributes['privilegio'] === 'V-') {
-			return null;
 		}else {
-			return $this->configAdmin()->first();
+			if ($this->attributes['privilegio'] === 'V-') {
+				return null;
+			}else {
+				return $this->configAdmin()->first();
+			}
 		}
 	}
 	
@@ -98,12 +101,12 @@ class User extends Authenticatable
 			}else {
 				return $this->personalDataAdmin()->onlyTrashed()->first();
 			}
-		}
-		
-		if ($this->attributes['privilegio'] === 'V-') {
-			return $this->personalDataUser()->first();
 		}else {
-			return $this->personalDataAdmin()->first();
+			if ($this->attributes['privilegio'] === 'V-') {
+				return $this->personalDataUser()->first();
+			}else {
+				return $this->personalDataAdmin()->first();
+			}
 		}
 	}
 	
