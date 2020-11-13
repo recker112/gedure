@@ -22,8 +22,9 @@ class CreateAdminConfigsTable extends Migration
 			$table->boolean('gedure_control')->default(1);
 			$table->boolean('upload_boletas')->default(1);
 			$table->boolean('upload_matricula')->default(1);
-			$table->boolean('noticia_modify')->default(1);
-			$table->boolean('noticia_modify_otros')->default(1);
+			$table->boolean('post_modify')->default(1);
+			$table->boolean('post_modify_otros')->default(1);
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

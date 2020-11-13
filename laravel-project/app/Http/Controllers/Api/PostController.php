@@ -105,7 +105,7 @@ class PostController extends Controller
 		$user = $request->user();
 		$imgs = $request->file('imgs');
 		
-		if (!$user->permissionsAdmin->noticia_modify) {
+		if (!$user->config()->post_modify) {
 			return response([
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
@@ -120,7 +120,7 @@ class PostController extends Controller
 		$post->only_users = json_decode($request->only_users);
 		$post->save();
 		
-		//Cargar imágenes
+		//Cargar imรกgenes
 		$imgsUploaded = null;
 		$i=0;
 		if (!empty($imgs)) {
@@ -159,7 +159,7 @@ class PostController extends Controller
 		$post = Post::firstWhere('slug', $slug);
 		
 		// Verificar si puede modificar todas las publicaciones
-		$verify = $user->permissionsAdmin->noticia_modify_otros ? false
+		$verify = $user->config()->post_modify_otros ? false
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
@@ -179,7 +179,7 @@ class PostController extends Controller
 		$post->content = $request->content;
 		$post->only_users = json_decode($request->only_users);
 		
-		//Cargar imágenes
+		//Cargar imรกgenes
 		$imgsUploaded = null;
 		$i=0;
 		if ($imgsUpdate && !empty($imgs)) {
@@ -221,7 +221,7 @@ class PostController extends Controller
 		$post = Post::firstWhere('slug', $slug);
 		
 		// Verificar si puede modificar todas las publicaciones
-		$verify = $user->permissionsAdmin->noticia_modify_otros ? false
+		$verify = $user->config()->post_modify_otros ? false
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
@@ -258,7 +258,7 @@ class PostController extends Controller
 	{
 		$user = $resquest->user();
 		
-		if (!$user->permissionsAdmin->noticia_modify) {
+		if (!$user->config()->post_modify) {
 			return response([
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
@@ -270,7 +270,7 @@ class PostController extends Controller
 		$perPage = $resquest->per_page || 5;
 		$page = $resquest->page * $perPage || 0;
 		
-		if ($user->permissionsAdmin->noticia_modify_otros) {
+		if ($user->config()->post_modify_otros) {
 			$allPosts = Post::with('user')
 				->whereHas('user', function ($query) {
 					$search = request()->search;
