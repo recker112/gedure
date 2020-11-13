@@ -6,16 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AdminConfig extends Model
+class PersonalDataAdmin extends Model
 {
   use HasFactory, SoftDeletes;
 	
 	protected $fillable = [
-		'user_id',
+		'nacimiento',
+		'telefono',
+		'sexo',
+		'direccion',
+		'docente',
+		'docente_ingreso_MPPE',
+		'docente_ingreso',
+		'user_id'
 	];
 	
 	protected $hidden = [
-		'created_at', 'updated_at', 'user_id', 'id', 'deleted_at'
+		'created_at', 'updated_at'
 	];
 	
 	public function user()

@@ -36,9 +36,23 @@ class User extends Authenticatable
 		'created_at', 'updated_at', 'password', 'deleted_at'
 	];
 	
-	public function permissionsAdmin()
+	/*
+		RELACIONES
+	*/
+	
+	public function configAdmin()
 	{
 		return $this->hasOne('App\Models\AdminConfig');
+	}
+	
+	public function personalDataUser()
+	{
+		return $this->hasOne('App\Models\PersonalDataUser');
+	}
+	
+	public function personalDataAdmin()
+	{
+		return $this->hasOne('App\Models\PersonalDataAdmin');
 	}
 	
 	public function blocks()
@@ -55,4 +69,75 @@ class User extends Authenticatable
 	{
 		return $this->hasMany('App\Models\Post');
 	}
+	
+	/*
+		FUNCIONES ESPECIALES
+	*/
+	public function config()
+	{
+		if ($this->trashed()) {
+			if ($this->attributes['privilegio'] === 'V-') {
+				return null;
+			}else {
+				return $this->configAdmin()->onlyTrashed()->first();
+			}
+		}
+		
+		if ($this->attributes['privilegio'] === 'V-') {
+			return null;
+		}else {
+			return $this->configAdmin()->first();
+		}
+	}
+	
+	public function personalData()
+	{
+		if ($this->trashed()) {
+			if ($this->attributes['privilegio'] === 'V-') {
+				return $this->personalDataUser()->onlyTrashed()->first();
+			}else {
+				return $this->personalDataAdmin()->onlyTrashed()->first();
+			}
+		}
+		
+		if ($this->attributes['privilegio'] === 'V-') {
+			return $this->personalDataUser()->first();
+		}else {
+			return $this->personalDataAdmin()->first();
+		}
+	}
+	
+	/*
+		BOOT FUNCTION
+		
+		NOTA (RECKER): Esta funcion ayuda a eliminar todas las relaciones de la base de datos usando soft delete, hay que poner manualmente las relaciones que se deben de eliminar y las que se deben de restaurar.
+	*/
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function($user) {
+			$user->personalData()->delete();
+			$user->config()->delete();
+			
+			if ($user->privilegio === 'A-') {
+				foreach($user->posts as $post) {
+					$post->user_id = null;
+					$post->save();
+				}
+			}
+		});
+		
+		static::restoring(function($user) {
+			if ($user->privilegio === 'V-') {
+				$user->personalDataUser()->restore();
+			} else if ($user->privilegio === 'A-') {
+				$user->configAdmin()->restore();
+				$user->personalDataAdmin()->restore();
+			}
+		});
+	}
+	
+	/*
+		ATRIBUTOS
+	*/
 }

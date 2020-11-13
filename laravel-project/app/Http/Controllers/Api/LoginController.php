@@ -59,9 +59,6 @@ class LoginController extends Controller
 		]);
 		
 		$permissions = $this->makePermissions($user);
-		
-		//Ocultar permissions en la variable $user
-		$user->makeHidden('permissionsAdmin');
 
 		//Regresar datos
 		return response()->json([
@@ -82,8 +79,6 @@ class LoginController extends Controller
 		]);
 		
 		$permissions = $this->makePermissions($user);
-		
-		$user->makeHidden('permissionsAdmin');
 		
 		return response()->json([
 			'user' => $user,
@@ -133,7 +128,7 @@ class LoginController extends Controller
 	public function makePermissions($user)
 	{
 		if ($user->privilegio === 'A-') {
-			$permissionsDB = $user->permissionsAdmin;
+			$permissionsDB = $user->config();
 			
 			$listA = array();
 			$listG = array();

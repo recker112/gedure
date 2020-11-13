@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
 			$table->string("avatar", 500)->nullable()->default(null);
 			$table->string("email")->unique()->nullable()->default(null);
 			$table->timestamps();
-			$table->softDeletes('deleted_at', 0);
+			$table->softDeletes();
 		});
 	}
 

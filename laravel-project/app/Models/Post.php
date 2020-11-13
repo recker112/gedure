@@ -45,7 +45,7 @@ class Post extends Model
 	}
 	
 	/*
-		ATTRIBUTES
+		ATRIBUTOS
 	*/
 	public function getExtractoAttribute()
 	{

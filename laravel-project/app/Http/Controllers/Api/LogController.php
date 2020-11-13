@@ -10,9 +10,9 @@ use App\Models\Log;
 class LogController extends Controller
 {
 	public function index(Request $request) {
-		$user = request()->user();
+		$user = $request->user();
 
-		if (!$user->permissionsAdmin->registros_ver) {
+		if (!$user->config()->registros_ver) {
 			return response()->json( [
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
