@@ -39,6 +39,9 @@ class Post extends Model
 		];
 	}
 	
+	/*
+		RELACIONES
+	*/
 	public function user()
 	{
 		return $this->belongsTo('App\Models\User');

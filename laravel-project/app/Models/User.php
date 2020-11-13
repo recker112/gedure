@@ -45,6 +45,11 @@ class User extends Authenticatable
 		return $this->hasOne('App\Models\AdminConfig');
 	}
 	
+	public function configUser()
+	{
+		return $this->hasOne('App\Models\UserConfig');
+	}
+	
 	public function personalDataUser()
 	{
 		return $this->hasOne('App\Models\PersonalDataUser');
@@ -53,6 +58,11 @@ class User extends Authenticatable
 	public function personalDataAdmin()
 	{
 		return $this->hasOne('App\Models\PersonalDataAdmin');
+	}
+	
+	public function alumno()
+	{
+		return $this->hasOne('App\Models\Alumno');
 	}
 	
 	public function blocks()
@@ -80,13 +90,13 @@ class User extends Authenticatable
 		*/
 		if ($this->trashed()) {
 			if ($this->attributes['privilegio'] === 'V-') {
-				return null;
+				return $this->configUser()->onlyTrashed()->first();
 			}else {
 				return $this->configAdmin()->onlyTrashed()->first();
 			}
 		}else {
 			if ($this->attributes['privilegio'] === 'V-') {
-				return null;
+				return $this->configUser()->first();
 			}else {
 				return $this->configAdmin()->first();
 			}
@@ -126,6 +136,10 @@ class User extends Authenticatable
 				foreach($user->posts as $post) {
 					$post->user_id = null;
 					$post->save();
+				}
+			}else if($user->privilegio === 'V-') {
+				if ($user->alumno()){
+					$user->alumno()->delete();
 				}
 			}
 		});

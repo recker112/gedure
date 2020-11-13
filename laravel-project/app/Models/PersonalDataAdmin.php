@@ -22,7 +22,7 @@ class PersonalDataAdmin extends Model
 	];
 	
 	protected $hidden = [
-		'created_at', 'updated_at'
+		'created_at', 'updated_at', 'user_id', 'id', 'deleted_at'
 	];
 	
 	public function user()
