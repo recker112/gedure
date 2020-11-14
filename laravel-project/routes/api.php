@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ContactoController;
+use App\Http\Controllers\Api\CursoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +55,26 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin'])->put('posts/{slug}', [PostController::class, 'edit']);
 	
 	// DeletePost
-	Route::middleware(['auth:api', 'scopes:admin'])->delete('posts/{slug}', [PostController::class, 'delete']);
+	Route::middleware(['auth:api', 'scopes:admin'])->delete('posts/{slug}', [PostController::class, 'destroy']);
 	
 	// TableAdminPost
 	Route::middleware(['auth:api', 'scopes:admin'])->get('table-posts', [PostController::class, 'tableAdmin']);
+	
+	// CreateContacto
+	Route::post('contacto', [ContactoController::class, 'create']);
+	
+	// GetContactos
+	Route::get('contacto', [ContactoController::class, 'index']);
+	
+	// DestroyContacto
+	Route::delete('contacto/{id}', [ContactoController::class, 'destroy']);
+	
+	// GetCursos
+	Route::middleware(['auth:api', 'scopes:admin'])->get('curso', [CursoController::class, 'index']);
+	
+	// CreateCurso
+	Route::middleware(['auth:api', 'scopes:admin'])->post('curso', [CursoController::class, 'create']);
+	
+	// DeleteCurso
+	Route::middleware(['auth:api', 'scopes:admin'])->delete('curso/{id}', [CursoController::class, 'destroy']);
 });

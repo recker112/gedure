@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Contacto extends Model
 {
-	use HasFactory;
+  use HasFactory;
 	
 	protected $fillable = [
-		'action',
-		'type',
-		'user_id'
+		'nombre',
+		'email',
+		'telefono',
+		'asunto',
+		'content'
 	];
 	
 	protected $hidden = [
-		'id'
+		'updated_at'
 	];
 	
 	protected $casts = [
@@ -26,9 +28,4 @@ class Log extends Model
 	
 	public $timestamps = ["created_at"];
 	const UPDATED_AT = null;
-	
-	public function user()
-	{
-		return $this->belongsTo('App\Models\User');
-	}
 }
