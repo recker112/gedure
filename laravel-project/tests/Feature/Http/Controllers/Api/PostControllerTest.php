@@ -401,7 +401,7 @@ class PostControllerTest extends TestCase
 			'user_id' => $user->id
 		]);
 		
-		$response = $this->getJson('/api/v1/table-posts?$page=0&perPage=5');
+		$response = $this->getJson('/api/v1/table-posts?page=0&per_page=5');
 		
 		$response->assertOk()
 			->assertJsonStructure([

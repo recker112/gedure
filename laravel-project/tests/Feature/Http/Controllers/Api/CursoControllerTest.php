@@ -8,11 +8,8 @@ use Tests\TestCase;
 // Passport
 use Laravel\Passport\Passport;
 // Models
-use App\Models\User;
 use App\Models\Curso;
-use App\Models\Alumno;
-
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CursoControllerTest extends TestCase
 {
@@ -22,51 +19,57 @@ class CursoControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testPruebas()
-	{
-		$user = User::find(2);
-		$curso = Curso::firstWhere('code', '5-A');
+	public function testGetCursos() {
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
 		
-		$json = [
-			"user" => $user->toArray(),
-			'alumno_data' => $user->alumno->toArray(),
-			'curso_data' => $user->alumno->curso->toArray()
-		];
+		Curso::create([
+			'code' => '1-A',
+			'name' => '1',
+			'seccion' => 'A'
+		]);
 		
-		$this->orderAlumnos($curso->id);
+		$response = $this->getJson('/api/v1/curso?page=0&per_page=5');
 		
-		$users = array();
-		$i=0;
-		foreach($curso->alumnos as $alumno) {
-			$users[$i] = [
-				'alumno' => $alumno->toArray(),
-				'user' => $alumno->user->toArray(),
-				'personalData' => $alumno->user->personalData()->toArray(),
-				'config' => $alumno->user->config()->toArray()
-			];
-			$i++;
-		}
-		dd($users);
-		$response = $this->get('/');
-
-		$response->assertStatus(200);
+		$response->assertOk()
+			->assertJsonFragment([
+				'name' => '1'
+			]);
 	}
 	
-	public function orderAlumnos($code){
-		$studiendsInCurso = Alumno::select('alumnos.n_lista', 'alumnos.id', DB::raw('CAST(cedula AS UNSIGNED) AS converted'))
-			->join('users', 'users.id', '=', 'alumnos.user_id')
-			->where('curso_id', $code)
-			->orderBy('converted', 'Asc')
-			->get();
+	public function testCreateCurso() {
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
 		
-		$list = 1;
-		foreach ($studiendsInCurso as $row) {
-			$alumno = Alumno::find($row->id);
-			$alumno->n_lista = $list;
-			$alumno->save();
-			$list++;
-		}
+		$response = $this->postJson('/api/v1/curso', [
+			'name' => '1G',
+			'seccion' => 'B',
+		]);
 		
-		return true;
+		$response->assertCreated()
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testDestroyCurso() {
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$response = $this->deleteJson('/api/v1/curso/1');
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
+			]);
 	}
 }

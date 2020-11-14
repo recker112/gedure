@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\TableRequest;
 use Illuminate\Support\Facades\Storage;
 
 // Models
@@ -214,7 +215,7 @@ class PostController extends Controller
 		], 200);
 	}
 	
-	public function delete(Request $resquest, $slug)
+	public function destroy(Request $resquest, $slug)
 	{
 		$user = $resquest->user();
 		
@@ -254,9 +255,9 @@ class PostController extends Controller
 		], 200);
 	}
 	
-	public function tableAdmin(Request $resquest)
+	public function tableAdmin(TableRequest $request)
 	{
-		$user = $resquest->user();
+		$user = $request->user();
 		
 		if (!$user->config()->post_modify) {
 			return response([
@@ -265,10 +266,10 @@ class PostController extends Controller
 			])->json($jsonMessage, 403);
 		}
 		
-		$search = $resquest->search;
+		$search = $request->search;
 
-		$perPage = $resquest->per_page || 5;
-		$page = $resquest->page * $perPage || 0;
+		$perPage = $request->per_page;
+		$page = $request->page * $perPage;
 		
 		if ($user->config()->post_modify_otros) {
 			$allPosts = Post::with('user')
@@ -300,12 +301,10 @@ class PostController extends Controller
 		//Total de logs
 		$post_count = Post::count();
 		
-		$jsonMessage = [
+		return response()->json([
 			'data' => $allPosts,
 			'page' => request()->page * 1, 
 			'totalPosts' => $post_count
-		];
-		
-		return response()->json($jsonMessage, 200);
+		], 200);
 	}
 }

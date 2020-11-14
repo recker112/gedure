@@ -20,7 +20,7 @@ class LogControllerTest extends TestCase
 	 */
 	public function testGetAllLogs()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

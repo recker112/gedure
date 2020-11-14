@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\TableRequest;
 use App\Models\Log;
 
 class LogController extends Controller
 {
-	public function index(Request $request) {
+	public function index(TableRequest $request) {
 		$user = $request->user();
 
 		if (!$user->config()->registros_ver) {
@@ -35,7 +36,8 @@ class LogController extends Controller
 			//Total de logs
 			$logsCount = Log::count();
 		}else {
-			$logs = Log::where('type', $type)
+			$logs = Log::with('user')
+				->where('type', $type)
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
@@ -51,7 +53,8 @@ class LogController extends Controller
 				->get();
 			
 			//Total de logs
-			$logsCount = Log::where('type', $type)
+			$logsCount = Log::with('user')
+				->where('type', $type)
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
