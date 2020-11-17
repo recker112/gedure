@@ -5,11 +5,15 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
+//Mails
+use App\Mail\CodeSecurity;
 // Passport
 use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\AdminConfig;
+use App\Models\RecoveryPassword;
 
 class LoginControllerTest extends TestCase
 {
@@ -41,7 +45,7 @@ class LoginControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonPath('user.cedula', 'recker')
-			->assertJsonPath('user.email', 'recker@testing.test')
+			->assertJsonPath('user.email', 'joseortiz112001@gmail.com')
 			->assertJsonStructure([
 				'access_key',
 				'user' => [
@@ -156,6 +160,61 @@ class LoginControllerTest extends TestCase
 						'user_ver'
 					]
 				]
+			]);
+	}
+	
+	public function testRecoveryPassword()
+	{
+		//$this->withoutExceptionHandling();
+		
+		$response = $this->postJson('/api/v1/recovery-password', [
+			'email' => 'joseortiz112001@gmail.com'
+		]);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testRecoveryPasswordVerifyCode()
+	{
+		//$this->withoutExceptionHandling();
+		$user = User::find(1);
+		
+		RecoveryPassword::factory()->create([
+			'user_id' => $user->id
+		]);
+		
+		$response = $this->postJson('/api/v1/recovery-verify', [
+			'email' => 'joseortiz112001@gmail.com',
+			'code' => '12345'
+		]);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testRecoveryChangePass()
+	{
+		//$this->withoutExceptionHandling();
+		$user = User::find(1);
+		
+		RecoveryPassword::factory()->create([
+			'user_id' => $user->id,
+			'confirm' => 1,
+		]);
+		
+		$response = $this->postJson('/api/v1/recovery-chpass', [
+			'email' => 'joseortiz112001@gmail.com',
+			'password' => 'Vhxdlsfers'
+		]);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
 			]);
 	}
 }

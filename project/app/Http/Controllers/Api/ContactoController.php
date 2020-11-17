@@ -42,13 +42,7 @@ class ContactoController extends Controller
 	}
 	
 	public function destroy($id) {
-		$contacto = Contacto::find($id);
-		
-		if (!$contacto) {
-			return response()->json([
-				'msg' => 'Contacto no encontrado'
-			], 404);
-		}
+		$contacto = Contacto::findOrFail($id);
 		
 		$contacto->delete();
 		

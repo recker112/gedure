@@ -76,13 +76,7 @@ class PostController extends Controller
 			->orderBy('id', 'Desc')
 			->where('slug', $slug)
 			->where('only_users', 0)
-			->first();
-		
-		if (!$post) {
-			return response()->json([
-				'msg' => 'Post not found'
-			], 404);
-		}
+			->firstOrFail();
 		
 		return response()->json($post, 200);
 	}
@@ -90,13 +84,8 @@ class PostController extends Controller
 	public function showAuth($slug) {
 		$post = Post::with('user')
 			->orderBy('id', 'Desc')
-			->firstWhere('slug', $slug);
-		
-		if (!$post) {
-			return response()->json([
-				'msg' => 'Post not found'
-			], 404);
-		}
+			->where('slug', $slug)
+			->firstOrFail();
 		
 		return response()->json($post, 200);
 	}
@@ -157,7 +146,8 @@ class PostController extends Controller
 		$imgs = $request->file('imgs');
 		$imgsUpdate = json_decode($request->imgsUpdate);
 		
-		$post = Post::firstWhere('slug', $slug);
+		$post = Post::where('slug', $slug)
+			->firstOrFail();
 		
 		// Verificar si puede modificar todas las publicaciones
 		$verify = $user->config()->post_modify_otros ? false
@@ -168,12 +158,6 @@ class PostController extends Controller
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
 			])->json($jsonMessage, 403);
-		}
-		
-		if (!$post) {
-			return response()->json([
-				'msg' => 'Post not found'
-			], 404);
 		}
 		
 		$post->title = $request->title;
@@ -219,7 +203,8 @@ class PostController extends Controller
 	{
 		$user = $resquest->user();
 		
-		$post = Post::firstWhere('slug', $slug);
+		$post = Post::where('slug', $slug)
+			->firstOrFail();
 		
 		// Verificar si puede modificar todas las publicaciones
 		$verify = $user->config()->post_modify_otros ? false
@@ -230,12 +215,6 @@ class PostController extends Controller
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
 			])->json($jsonMessage, 403);
-		}
-		
-		if (!$post) {
-			return response()->json([
-				'msg' => 'Post not found'
-			], 404);
 		}
 		
 		Storage::disk('public')->deleteDirectory("$this->path/$post->id");

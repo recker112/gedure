@@ -114,9 +114,6 @@ class ContactoControllerTest extends TestCase
 		
 		$response = $this->deleteJson('/api/v1/contacto/1');
 
-		$response->assertStatus(404)
-			->assertJsonStructure([
-				'msg',
-			]);
+		$response->assertStatus(404);
 	}
 }

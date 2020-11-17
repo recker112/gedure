@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
 			'cedula' => 'recker',
 			'nombre' => 'Recker Ortiz',
 			'privilegio' => 'A-',
-			'email' => 'recker@testing.test',
+			'email' => 'joseortiz112001@gmail.com',
 			'password' => bcrypt('reckersito'),
 		]);
 		

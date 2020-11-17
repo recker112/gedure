@@ -60,6 +60,11 @@ class User extends Authenticatable
 		return $this->hasOne('App\Models\PersonalDataAdmin');
 	}
 	
+	public function recoveryPassword()
+	{
+		return $this->hasOne('App\Models\RecoveryPassword');
+	}
+	
 	public function alumno()
 	{
 		return $this->hasOne('App\Models\Alumno');
