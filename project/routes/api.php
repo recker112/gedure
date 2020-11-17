@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ContactoController;
 use App\Http\Controllers\Api\CursoController;
+use App\Http\Controllers\Api\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,15 @@ Route::group(['prefix' => 'v1'], function () {
 
 	// LogoutAll
 	Route::middleware('auth:api')->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
+	
+	// RecoveryPassword
+	Route::post('recovery-password', [LoginController::class, 'recoveryPassword']);
+	
+	// RecoveryPassword
+	Route::post('recovery-verify', [LoginController::class, 'recoveryPasswordVerifyCode']);
+	
+	// RecoveryChangePass
+	Route::post('recovery-chpass', [LoginController::class, 'recoveryChangePassword']);
 
 	// GetLogs
 	Route::middleware(['auth:api', 'scopes:admin'])->get('logs', [LogController::class, 'index']);

@@ -63,19 +63,13 @@ class CursoController extends Controller
 	}
 	
 	public function destroy($id) {
-		$curso = Curso::find(1);
+		$curso = Curso::findOrFail(1);
 		
-		if ($curso) {
-			$curso->delete();
+		$curso->delete();
 			
-			return response()->json([
-				'msg' => 'Curso eliminado'
-			], 200);
-		}else {
-			return response()->json([
-				'msg' => 'Curso no encontrado',
-			], 400);
-		}
+		return response()->json([
+			'msg' => 'Curso eliminado'
+		], 200);
 	}
 	
 	public function testPruebas()

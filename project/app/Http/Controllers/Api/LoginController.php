@@ -3,7 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RecoveryPassRequest;
+use App\Http\Requests\RecoveryVerifyRequest;
+use App\Http\Requests\RecoveryChangeRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+
+//Mails
+use App\Mail\CodeSecurity;
 
 // Auth Class
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Block;
 use App\Models\Log;
+use App\Models\RecoveryPassword;
 
 class LoginController extends Controller
 {
@@ -21,7 +31,7 @@ class LoginController extends Controller
 		$blockStatus = Block::getStatus($request->cedula);
 		
 		if ($blockStatus !== 'ok') {
-			
+			return response()->json($blockStatus, 400);
 		}
 		
 		$credenciales = $request->only(['cedula', 'password']);
@@ -123,6 +133,82 @@ class LoginController extends Controller
 			'msg'=>'logout_all',
 			'description' => 'Sesiones cerradas'
 		], 200);
+	}
+	
+	public function recoveryPassword(RecoveryPassRequest $request)
+	{
+		$user = User::where('email', $request->email)->firstOrFail();
+		
+		if ($user->recoveryPassword) {
+			$user->recoveryPassword->delete();
+		}
+		
+		$code = $this->generateCode(5);
+			
+		RecoveryPassword::create([
+			'code' => Hash::make($code),
+			'user_id' => $user->id,
+		]);
+		
+		Mail::to($user)->queue(new CodeSecurity($user, $code));
+		
+		return response()->json([
+			'msg' => 'waiting_code',
+			'description' => 'Esperando código'
+		], 200);
+	}
+	
+	public function recoveryPasswordVerifyCode(RecoveryVerifyRequest $request)
+	{
+		$user = User::where('email', $request->email)->firstOrFail();
+		
+		$hashCode = $user->recoveryPassword->code;
+		
+		if (!Hash::check($request->code, $hashCode)) {
+			return response()->json([
+				'msg' => 'Error al verificar el codigo'
+			], 400);
+		}
+			
+		$user->recoveryPassword->confirm = 1;
+		$user->recoveryPassword->save();
+		
+		return response()->json([
+			'msg' => 'code_confirmed',
+			'description' => 'Codigo confirmado'
+		], 200);
+	}
+	
+	public function recoveryChangePassword(RecoveryChangeRequest $request)
+	{
+		$user = User::where('email', $request->email)->firstOrFail();
+		
+		if (!$user->recoveryPassword->confirm) {
+			return response()->json([
+				'msg' => 'No se ha verificado el correo'
+			], 400);
+		}
+		
+		$user->password = bcrypt($request->password);
+		$user->save();
+		$user->recoveryPassword->delete();
+		
+		return response()->json([
+			'msg' => 'password_changed',
+			'description' => 'Contraseña cambiada'
+		], 200);
+	}
+	
+	public function generateCode($size)
+	{
+		$charset = "ABCDEFGHIJKMNOPQRSTUVWXYZ0123456789";
+		$charsetLen = strlen($charset) - 1;
+		$password = array();
+		for ($i = 0; $i < $size; ++$i) {
+			$n = rand(0, $charsetLen);
+			$password[] = $charset[$n];
+		}
+		return implode($password);
 	}
 	
 	public function makePermissions($user)

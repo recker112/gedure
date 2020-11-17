@@ -149,10 +149,7 @@ class PostControllerTest extends TestCase
 		
 		$response = $this->getJson('/api/v1/posts/testing-allow');
 
-		$response->assertStatus(404)
-			->assertJsonStructure([
-				'msg',
-			]);
+		$response->assertStatus(404);
 	}
 	
 	public function testCreatePost()
@@ -334,10 +331,7 @@ class PostControllerTest extends TestCase
 			'only_users' => 0,
 		]);
 		
-		$response->assertStatus(404)
-			->assertJsonStructure([
-				'msg',
-			]);
+		$response->assertStatus(404);
 	}
 	
 	public function testDeletePost() {
@@ -384,10 +378,7 @@ class PostControllerTest extends TestCase
 		
 		$response = $this->deleteJson('/api/v1/posts/test-de-ayer');
 		
-		$response->assertStatus(404)
-			->assertJsonStructure([
-				'msg',
-			]);
+		$response->assertStatus(404);
 	}
 	
 	public function testTableAdminPost() {
