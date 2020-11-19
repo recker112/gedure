@@ -28,6 +28,7 @@ class Post extends Model
 	
 	protected $hidden = [
 		'imgs',
+		'user_id',
 	];
 	
 	public function sluggable()

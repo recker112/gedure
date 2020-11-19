@@ -35,6 +35,6 @@ class CreatePersonalDataAdminsTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('perosanl_data_admins');
+		Schema::dropIfExists('personal_data_admins');
 	}
 }
