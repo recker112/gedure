@@ -2,3 +2,58 @@
 	height: 500px;
 	background: $red;
 }
+
+.BoxIndex--OverFlow {
+	max-height: 360px;
+	overflow: hidden;
+}
+
+.boxIndex {
+	padding: 10px 20px;
+	color: white;
+}
+
+.boxIndex--margin {
+	margin-top: 20px !important;
+	margin-bottom: 40px !important;
+}
+
+.boxIndex__subText {
+	opacity: 0.7;
+}
+
+.boxIndex--big {
+	padding: 15px 0px !important;
+}
+
+.boxIndex--carmesi {
+	background: #cd3f4e;
+}
+
+.boxIndex--azul {
+	background: #6B8DD6;
+}
+
+.boxIndex--naranja {
+	background: #FC8948;
+}
+
+.boxIndex--rojo {
+	background: #FC4850;
+}
+
+.boxIndex--negro {
+	background: #2F2F2F;
+}
+
+.boxIndex--rosa {
+	background: #DC7F9B;
+}
+
+.boxIndex--morado {
+	background: #9055A2;
+}
+
+.boxIndex--verde {
+	background: #55A2A2;
+}

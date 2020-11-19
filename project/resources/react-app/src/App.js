@@ -42,7 +42,7 @@ function App() {
 				default: tema === 'light' ? '#f4f6f8' : '#1c2025',
 				paper: tema === 'light' ? '#fff' : '#282C34'
 			}
-		}
+		},
 	}),[tema]);
 
 	//Añadir action a todos los snackbar

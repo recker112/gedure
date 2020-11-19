@@ -20,6 +20,9 @@ import { useSelector } from 'react-redux';
 
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
+const PageShowNoticia = lazy(() => import('./noticias/PageShowNoticia'));
+const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,6 +48,18 @@ function Routers() {
 			<Switch>
 				<PublicRoute auth={auth} path='/' exact notSeeBeforeAuth>
 					<PageIndex />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/noticias' exact>
+					<PageNoticias />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/noticias/:slug' exact>
+					<PageShowNoticia />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/contactanos' exact>
+					<PageContactanos />
 				</PublicRoute>
 				
 				<PublicRoute auth={auth}>

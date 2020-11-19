@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
@@ -141,6 +142,10 @@ function MobileMenuIndex() {
 											<ListItemIcon><AnnouncementIcon /></ListItemIcon>
 											<ListItemText>Noticias</ListItemText>
 										</ReturnSelected>
+										<ReturnSelected url='/solicitud' handle={handleClose}>
+											<ListItemIcon><AssignmentIcon /></ListItemIcon>
+											<ListItemText>Solicitud de cupo</ListItemText>
+										</ReturnSelected>
 										<ReturnSelected url='/contactanos' handle={handleClose}>
 											<ListItemIcon><ContactMailIcon /></ListItemIcon>
 											<ListItemText>Contáctanos</ListItemText>
@@ -178,6 +183,9 @@ function HeaderNoAuth() {
 						</HeaderButton>
 						<HeaderButton url='/noticias'>
 							Noticias
+						</HeaderButton>
+						<HeaderButton url='/solicitud'>
+							Solicitud de cupo
 						</HeaderButton>
 						<HeaderButton url='/contactanos'>
 							Contáctanos

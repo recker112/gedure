@@ -19,16 +19,20 @@ class PostController extends Controller
 	public function index(Request $request) {
 		$offset = $request->offset;
 		$limit = $request->limit;
+		$search = urldecode($request->search);
 		
 		$allPosts = Post::with('user')
 			->orderBy('id', 'Desc')
 			->offset($offset)
 			->limit($limit)
 			->where('only_users', 0)
+			->where('title', 'like', '%'.$search.'%')
 			->get();
 		
 		//Primer registro
-		$firstPost = Post::where('only_users', 0)->first();
+		$firstPost = Post::where('only_users', 0)
+			->where('title', 'like', '%'.$search.'%')
+			->first();
 		
 		//Verificar existencia de noticias
 		$finish = false;
@@ -47,15 +51,18 @@ class PostController extends Controller
 	public function indexAuth(Request $request) {
 		$offset = $request->offset;
 		$limit = $request->limit;
+		$search = urldecode($request->search);
 		
 		$allPosts = Post::with('user')
+			->where('title', 'like', '%'.$search.'%')
 			->orderBy('id', 'Desc')
 			->offset($offset)
 			->limit($limit)
 			->get();
 		
 		//Primer registro
-		$firstPost = Post::first();
+		$firstPost = Post::where('title', 'like', '%'.$search.'%')
+			->first();
 		
 		//Verificar existencia de noticias
 		$finish = false;
