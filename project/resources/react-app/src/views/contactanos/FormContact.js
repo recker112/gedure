@@ -68,7 +68,7 @@ function FormContact() {
 							Envianos un mensaje
 						</Typography>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -82,10 +82,11 @@ function FormContact() {
 							size='small'
 							error={Boolean(errors?.nombre)}
 							helperText={errors?.nombre?.message ? errors.nombre.message : 'Ingresar un nombre válido'}
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -102,10 +103,11 @@ function FormContact() {
 							size='small'
 							error={Boolean(errors?.email)}
 							helperText={errors?.email?.message ? errors.email.message : 'Ingrasar un correo activo'}
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -124,13 +126,14 @@ function FormContact() {
 							size='small'
 							error={Boolean(errors?.telefono)}
 							helperText={errors?.telefono?.message ? errors.telefono.message : 'Ingrese un número telefónico válido'}
+							disabled={loading}
 							fullWidth
 							InputProps={{
 								startAdornment: <InputAdornment position='start'>+58</InputAdornment>
 							}}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -144,6 +147,7 @@ function FormContact() {
 							size='small'
 							error={Boolean(errors?.asunto)}
 							helperText={errors?.asunto?.message ? errors.asunto.message : 'El asunto debe ser corto y preciso'}
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
@@ -162,6 +166,7 @@ function FormContact() {
 							multiline
 							error={Boolean(errors?.content)}
 							helperText={errors?.content?.message ? errors.content.message : 'Escriba el mensaje que desea enviar'}
+							disabled={loading}
 							rows={8}
 							fullWidth
 						/>

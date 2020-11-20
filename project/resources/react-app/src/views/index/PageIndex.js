@@ -153,7 +153,7 @@ function BoxInfo(props) {
 				</Grid>
 				<Grid item xs={12}>
 					<Typography 
-						className={!img && overFlowClass}
+						className={!img ? overFlowClass : ''}
 						dangerouslySetInnerHTML={createMarkup()} 
 						style={{textAlign: 'justify'}} 
 						variant="body1" 
@@ -178,7 +178,7 @@ function Etapas() {
 			<Grid
 				container
 				direction="column"
-				className={className}
+				className={className.toString()}
 				justify="center"
 				alignItems="center"
 				item

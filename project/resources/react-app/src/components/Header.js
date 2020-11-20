@@ -13,6 +13,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // Components
 import HeaderNoAuth from './Header/HeaderNoAuth';
+import HeaderAuth from './Header/HeaderAuth';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -78,13 +79,14 @@ function Header() {
 	});
 	
 	const match2 = useRouteMatch({
-		path: '/recovery',
+		path: '/recuperar',
 		exact: true
 	});
 	
 	return (
 		<React.Fragment>
 			{(!auth && (!match1 && !match2)) && <HeaderNoAuth />}
+			{auth && <HeaderAuth />}
 			<ScrollTop>
 				<Fab color="secondary" size="small">
 					<KeyboardArrowUpIcon />

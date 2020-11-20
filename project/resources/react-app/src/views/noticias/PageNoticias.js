@@ -109,7 +109,7 @@ function PageNoticias() {
 		
 		if (loading) {
 			const offset = data.length;
-			getNotices(offset, 6);
+			getNotices(offset, 8);
 		}
 		
 		return () => {
@@ -181,7 +181,7 @@ function PageNoticias() {
 										}}
 										style={{overflow: 'hidden'}}
 										className='MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-xs-center'
-										scrollThreshold={0.6}
+										scrollThreshold={0.8}
 										loader={<NoticiaSkeleton view={view} />}
 										endMessage={
 											<Grid item xs={12}>

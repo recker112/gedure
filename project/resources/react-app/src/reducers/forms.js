@@ -10,6 +10,16 @@ const initialState = {
 		status: null,
 		data: {},
 	},
+	login: {
+		loading: false,
+		status: null,
+		data: {},
+	},
+	recuperar: {
+		loading: false,
+		status: null,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

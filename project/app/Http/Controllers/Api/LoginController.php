@@ -109,8 +109,7 @@ class LoginController extends Controller
 		]);
 		
 		return response()->json([
-			'msg'=>'logout',
-			'description' => 'Sesión cerrada'
+			'msg'=>'Sesión cerrada',
 		], 200);
 	}
 	
@@ -130,8 +129,7 @@ class LoginController extends Controller
 		]);
 		
 		return response()->json([
-			'msg'=>'logout_all',
-			'description' => 'Sesiones cerradas'
+			'msg' => 'Sesiones cerradas'
 		], 200);
 	}
 	
@@ -153,8 +151,7 @@ class LoginController extends Controller
 		Mail::to($user)->queue(new CodeSecurity($user, $code));
 		
 		return response()->json([
-			'msg' => 'waiting_code',
-			'description' => 'Esperando código'
+			'msg' => 'Correo enviado'
 		], 200);
 	}
 	
@@ -174,8 +171,7 @@ class LoginController extends Controller
 		$user->recoveryPassword->save();
 		
 		return response()->json([
-			'msg' => 'code_confirmed',
-			'description' => 'Codigo confirmado'
+			'msg' => 'Codigo confirmado'
 		], 200);
 	}
 	
@@ -194,8 +190,7 @@ class LoginController extends Controller
 		$user->recoveryPassword->delete();
 		
 		return response()->json([
-			'msg' => 'password_changed',
-			'description' => 'Contraseña cambiada'
+			'msg' => 'Contraseña cambiada'
 		], 200);
 	}
 	
@@ -258,6 +253,8 @@ class LoginController extends Controller
 				'gedure' => $listG,
 				'publicaciones' => $listP
 			];
+		}else {
+			$permissions = [];
 		}
 			
 		return $permissions;

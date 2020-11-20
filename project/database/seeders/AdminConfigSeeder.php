@@ -17,5 +17,9 @@ class AdminConfigSeeder extends Seeder
 		AdminConfig::create([
 			'user_id' => 1,
 		]);
+		
+		AdminConfig::create([
+			'user_id' => 2,
+		]);
 	}
 }

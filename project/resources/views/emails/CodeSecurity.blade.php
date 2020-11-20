@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-	<title>Código de confirmación</title>
+	<title>C贸digo de confirmaci贸n</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 	<style>
 		* {
@@ -13,7 +13,7 @@
 		}
 		
 		.container {
-			background: #f4f6f8;
+			background: #dadbdc;
 		}
 		
 		.header {

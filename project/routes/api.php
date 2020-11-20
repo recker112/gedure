@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('login', [LoginController::class, 'login']);
 
 	// Relogin
-	Route::middleware('auth:api')->post('relogin', [LoginController::class, 'relogin']);
+	Route::middleware('auth:api')->get('relogin', [LoginController::class, 'relogin']);
 
 	// Logout
 	Route::middleware('auth:api')->post('logout', [LoginController::class, 'logout']);

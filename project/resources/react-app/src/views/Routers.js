@@ -14,6 +14,7 @@ import ReactLoading from 'react-loading';
 // Componentes
 import logoL from '../imgs/Farvicon_no_fondo.png';
 import logoD from '../imgs/Farvicon_no_fondo_white.png';
+import NotFound from '../components/NotFound';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -22,13 +23,12 @@ import { useSelector } from 'react-redux';
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
 const PageShowNoticia = lazy(() => import('./noticias/PageShowNoticia'));
+const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
+const PageLogin = lazy(() => import('./login/PageLogin'));
+const PageRecovery = lazy(() => import('./login/PageRecovery'));
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		marginTop: theme.spacing(8),
-		flexGrow: 1
-	},
 	loading: {
 		flexGrow: 1
 	}
@@ -58,12 +58,24 @@ function Routers() {
 					<PageShowNoticia />
 				</PublicRoute>
 				
+				<PublicRoute auth={auth} path='/solicitud' exact>
+					<PageSolicitud />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/entrar' exact>
+					<PageLogin />
+				</PublicRoute>
+				
+				<PublicRoute auth={auth} path='/recuperar' exact notSeeBeforeAuth>
+					<PageRecovery />
+				</PublicRoute>
+				
 				<PublicRoute auth={auth} path='/contactanos' exact>
 					<PageContactanos />
 				</PublicRoute>
 				
 				<PublicRoute auth={auth}>
-					<NoFound />
+					<NotFound />
 				</PublicRoute>
 			</Switch>
 		</Suspense>
@@ -149,14 +161,6 @@ export function Loader(props){
 			}
 		</Grid>
 	)
-}
-
-export function NoFound({ styleUse=true }) {
-	const classes = useStyles();
-	
-	return (
-		<h1 className={styleUse && classes.root}>Página no encontrada</h1>
-	);
 }
 
 export default Routers;
