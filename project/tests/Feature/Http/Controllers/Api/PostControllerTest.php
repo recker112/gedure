@@ -204,10 +204,10 @@ class PostControllerTest extends TestCase
 		];
 		
 		$response = $this->postJson('/api/v1/posts', [
-			'title' => 'Título de la publicación',
+			'title' => 'testing TDD',
 			'content' => 'Contenido de la publicación',
 			'only_users' => 0,
-			'imgs' => $files
+			'imgs' => $files,
 		]);
 
 		$response->assertStatus(201)
@@ -215,28 +215,15 @@ class PostControllerTest extends TestCase
 				'msg',
 			]);
 		
-		Storage::disk('public')->assertExists('posts/1/'.$files[0]->name);
+		$postCreated = Post::firstWhere('slug', 'testing-tdd');
 		
-		$postCreated = Post::find(1);
-		
-		$response = $this->getJson('/api/v1/posts/'.$postCreated->slug);
-		
-		$response->assertOk()
-			->assertJsonStructure([
-				'title',
-				'content',
-				'slug',
-				'extracto',
-				'user',
-				'fecha_humano',
-				'fecha_humano_modify'
-			]);
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
 		
 		//Clear files
-		$filesDelete = Storage::disk('public')->allFiles('posts/1');
+		$filesDelete = Storage::disk('public')->allFiles('posts/'.$postCreated->id);
 		Storage::disk('public')->delete($filesDelete);
 		
-		Storage::disk('public')->assertMissing('posts/1/'.$files[0]->name);
+		Storage::disk('public')->assertMissing('posts/'.$postCreated->id.'/'.$files[0]->name);
 	}
 	
 	public function testEditPost() {
@@ -268,7 +255,9 @@ class PostControllerTest extends TestCase
 			['admin']
 		);
 		
-		$post = Post::factory()->create();
+		$post = Post::factory()->create([
+			'title' => 'testing TDD'
+		]);
 		
 		Storage::fake('post');
 		
@@ -280,7 +269,7 @@ class PostControllerTest extends TestCase
 		
 		// Modificar el post número 5
 		$response = $this->putJson('/api/v1/posts/'.$post->slug, [
-			'title' => 'Título de la publicación',
+			'title' => 'testing TDD',
 			'content' => 'Contenido de la publicación',
 			'only_users' => 0,
 			'imgs' => $files,
@@ -292,13 +281,15 @@ class PostControllerTest extends TestCase
 				'msg',
 			]);
 		
-		Storage::disk('public')->assertExists('posts/1/'.$files[0]->name);
+		$postCreated = Post::firstWhere('slug', 'testing-tdd');
+		
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
 		
 		//Clear files
-		$filesDelete = Storage::disk('public')->allFiles('posts/1');
+		$filesDelete = Storage::disk('public')->allFiles('posts/'.$postCreated->id);
 		Storage::disk('public')->delete($filesDelete);
 		
-		Storage::disk('public')->assertMissing('posts/1/'.$files[0]->name);
+		Storage::disk('public')->assertMissing('posts/'.$postCreated->id.'/'.$files[0]->name);
 	}
 	
 	public function testErrorEditPost() {
