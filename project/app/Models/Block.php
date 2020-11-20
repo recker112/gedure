@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
 use App\Models\Log;
+use Carbon\Carbon;
 
 class Block extends Model
 {
@@ -24,6 +25,29 @@ class Block extends Model
 		return $this->belongsTo('App\Models\User');
 	}
 	
+	/* 
+		CONFIG SYSTEM BLOCK 
+	*/
+	// NOTA (RECKER): Sistema de bloqueo.
+	/* Esta variable define si el sistema de bloqueo estará activo en el sistema.
+		 En caso de no estar activa no se bloqueara la cuenta en ningún momento.*/
+	public static $blockSystem = true;
+	// NOTA (RECKER): Máximo de errores antes de ser bloqueado.
+	/* Esta variable controla el máximo de errores que un usuario puede cometer
+		 antes de que su cuenta quede bloqueada. Tenga en cuenta que el 0 es un valor
+		 contable. (4 = 5)*/
+	public static $maxErorresBeforeBlock = 4;
+
+	// NOTA (RECKER): Minutos de bloqueos.
+	/* Esta variable controla la cantidad de minutos de bloqueo que recibirá la
+		 cuenta, esta cantidad aumenta progresivamente por el nivel del bloqueo */
+	public static $minutesOfBlock = 2;
+
+	// NOTA (RECKER): Nivel máximo.
+	/* Esta variable controla la cantidad de niveles que se pueden obtener en el 
+		 sistema de bloqueos, esta variable va de la mano con $minutesOfBlock */
+	public static $maxNivel = 2;
+	
 	public static function getStatus($cedula) {
 		$dataBan = Block::firstWhere('cedula', $cedula);
 
@@ -32,10 +56,12 @@ class Block extends Model
 			return 'ok';
 		}
 
-		if ($dataBan->attemps >= 5) {
+		if ($dataBan->attemps >= self::$maxErorresBeforeBlock + 1 && self::$blockSystem) {
 			$locks = $dataBan->locks;
 			$dateBan = $dataBan->updated_at;
-			$dateNow = Carbon::now()->sub(2 * ($dataBan->locks + 1), 'minutes');
+			$dateNow = Carbon::now()->sub(
+				self::$minutesOfBlock * ($dataBan->locks + 1), 'minutes'
+			);
 
 			//Verificar tiempo de bloqueo
 			if($dateBan >= $dateNow){
@@ -46,8 +72,7 @@ class Block extends Model
 				$wait = $minutes.'m y '.$seconds.'s';
 
 				return $jsonMessage = [
-					'msg'=>'account_lock',
-					'description' => "Cuenta bloqueada, espere $wait"
+					'msg' => "Cuenta bloqueada, espere $wait"
 				];
 			}
 		}
@@ -63,8 +88,7 @@ class Block extends Model
 		//Verificar que exista el usuario
 		if (!$userExist) {
 			return [
-				'msg'=>'credentials_error',//Not found
-				'description' => 'Usuario y/o contraseña incorrecta'
+				'msg' => 'Usuario y/o contraseña incorrecta',//Not found
 			];
 		}
 
@@ -73,22 +97,14 @@ class Block extends Model
 
 		//Si el usario existe verificar los attemps
 		if ($datosBlock) {
-			//Si attemps es < 4
-			if ($datosBlock->attemps < 4){
-				$datosBlock->attemps = $datosBlock->attemps + 1;
-				$datosBlock->save();
-				return [
-					'msg'=>'credentials_error',//add_attemps
-					'description' => 'Usuario y/o contraseña incorrecta'
-				];
-			}else if ($datosBlock->attemps == 4) {
-				//Si attemps es === 4
+			if ($datosBlock->attemps == self::$maxErorresBeforeBlock && self::$blockSystem) {
+				//Si attemps es === $maxErorresBeforeBlock
 				
 				$datosBlock->attemps = $datosBlock->attemps + 1;
 				$datosBlock->save();
 				
 				$nivel = $datosBlock->locks + 1;
-				$time = 2 * $nivel;
+				$time = self::$minutesOfBlock * $nivel;
 				
 				Log::create([
 					'user_id' => $userExist->id,
@@ -97,21 +113,26 @@ class Block extends Model
 				]);
 				
 				return [
-					'msg'=>'account_block',
-					'description' => "Cuenta bloqueada, espere $time minutos"
+					'msg' => "Cuenta bloqueada, espere $time minutos",//Account Block
 				];
-			}else if ($datosBlock->attemps >= 5) {
-				//Si attemps es >= 5
+			} else if ($datosBlock->attemps >= (self::$maxErorresBeforeBlock + 1) && self::$blockSystem) {
+				//Si attemps es >= $maxErorresBeforeBlock + 1
 				$datosBlock->attemps = 0;
 				
-				if ($datosBlock->locks < 2) {
+				if ($datosBlock->locks < self::$maxNivel) {
 					$datosBlock->locks = $datosBlock->locks + 1;
 				}
 				
 				$datosBlock->save();
 				return [
-					'msg'=>'check_credentials',
-					'description' => 'Revisa tus datos, los sigues poniendo mal'
+					'msg' => 'Revisa tus datos, los sigues poniendo mal',//Check credentials
+				];
+			} else {
+				//Si attemps es < $maxErorresBeforeBlock
+				$datosBlock->attemps = $datosBlock->attemps + 1;
+				$datosBlock->save();
+				return [
+					'msg' => 'Usuario y/o contraseña incorrecta',//Add Attemps
 				];
 			}
 		}
@@ -123,9 +144,9 @@ class Block extends Model
 			'attemps' => 1,
 			'locks' => 0
 		]);
+		
 		return [
-			'msg'=>'credentials_error',
-			'description' => 'Usuario y/o contraseña incorrecta'
+			'msg' => 'Usuario y/o contraseña incorrecta',//First Error
 		];;
 	}
 }

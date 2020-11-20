@@ -74,8 +74,7 @@ class LoginControllerTest extends TestCase
 
 		$response->assertStatus(400)
 			->assertJson([
-				'msg'=>'credentials_error',
-				'description' => 'Usuario y/o contraseña incorrecta'
+				'msg' => 'Usuario y/o contraseña incorrecta'
 			]);
 	}
 	
@@ -90,8 +89,8 @@ class LoginControllerTest extends TestCase
 		}
 
 		$response->assertStatus(400)
-			->assertJsonFragment([
-				'msg'=>'account_block',
+			->assertJsonStructure([
+				'msg'
 			]);
 	}
 	
