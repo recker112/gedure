@@ -107,8 +107,7 @@ class LoginControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJson([
-				'msg'=>'logout',
-				'description' => 'Sesión cerrada'
+				'msg' => 'Sesión cerrada'
 			]);
 	}
 	
@@ -124,14 +123,13 @@ class LoginControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJson([
-				'msg'=>'logout_all',
-				'description' => 'Sesiones cerradas'
+				'msg' => 'Sesiones cerradas'
 			]);
 	}
 	
 	public function testRelogin()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::factory()->create(),
 			['admin']
@@ -141,7 +139,7 @@ class LoginControllerTest extends TestCase
 			'user_id' => $user->id,
 		]);
 		
-		$response = $this->postJson('/api/v1/relogin');
+		$response = $this->getJson('/api/v1/relogin');
 
 		$response->assertOk()
 			->assertJsonFragment([

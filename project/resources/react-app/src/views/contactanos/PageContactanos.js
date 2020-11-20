@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
+		
 		marginBottom: theme.spacing(8),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '48px',
@@ -42,12 +43,12 @@ function SectionDirection() {
 					Dirección
 				</Typography>
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={12} sm={6}>
 				<Typography variant='body1'>
 					Contenido de la ubicación
 				</Typography>
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={12} sm={6}>
 				<Skeleton variant='rect' height={300} />
 			</Grid>
 		</React.Fragment>
@@ -57,11 +58,11 @@ function SectionDirection() {
 function SectionDirectivo() {
 	const classes = useStyles();
 	
-	const Box = (props) => {
+	const BoxDirectivo = (props) => {
 		const { avatar, nombre, cargo, alt } = props;
 		
 		return (
-			<Grid container alignItems='center' item xs={4}>
+			<Grid container alignItems='center' item xs={12} sm={6} md={4}>
 				<Grid item xs={3}>
 					<Avatar 
 						className={classes.avatarLarge} 
@@ -128,7 +129,7 @@ function SectionDirectivo() {
 				</Typography>
 			</Grid>
 			<Grid container spacing={3} justify='center' item xs={12}>
-				{personas.map(useCallback((data,i)=> (<Box key={i} {...data} />),[]))}
+				{personas.map(useCallback((data,i)=> (<BoxDirectivo key={i} {...data} />),[]))}
 			</Grid>
 		</React.Fragment>
 	);

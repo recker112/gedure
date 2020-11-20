@@ -17,6 +17,8 @@ function useFetch() {
 			messageToFinish = true,
 			messageTo422 = false,
 			message422 = 'Error al verificar los datos',
+			message400 = false,
+			message404 = false,
 			successText = false,
 			type = 'post',
 			variant = 'success',
@@ -26,7 +28,7 @@ function useFetch() {
 			const res = await axios[type](url, data, otherData);
 
 			if (messageToFinish) {
-				enqueueSnackbar(successText ? successText : res.data.description, {
+				enqueueSnackbar(successText ? successText : res.data.msg, {
 					variant: variant,
 				});
 			}
@@ -40,7 +42,7 @@ function useFetch() {
 				const { status, data } = error.response;
 
 				if (status === 400) {
-					enqueueSnackbar(data.description, {
+					enqueueSnackbar(message400 ? message400 : data.msg, {
 						variant: 'warning',
 					});
 				} else if (status === 401) {
@@ -50,8 +52,12 @@ function useFetch() {
 
 					dispatch(logoutApp());
 				} else if (status === 403) {
-					enqueueSnackbar('No tienes permisos para esta acciรณn', {
+					enqueueSnackbar('No tienes permisos para esta acción', {
 						variant: 'error',
+					});
+				} else if (status === 404) {
+					enqueueSnackbar(message404 ? message404 : data.msg, {
+						variant: 'warning',
 					});
 				} else if (status === 422) {
 					if (messageTo422) {
@@ -60,7 +66,9 @@ function useFetch() {
 						});
 					}
 
-					return '422';
+					if (!messageTo422) {
+						return '422';
+					}
 				} else if (status === 500) {
 					enqueueSnackbar('No se ha podido conectar con la base de datos', {
 						variant: 'error',
@@ -75,8 +83,6 @@ function useFetch() {
 					variant: 'error',
 				});
 			}
-			
-			console.log(error);
 
 			return false;
 		}
