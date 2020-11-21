@@ -27,6 +27,7 @@ const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./login/PageLogin'));
 const PageRecovery = lazy(() => import('./login/PageRecovery'));
+const RoutersPanel = lazy(() => import('./panel/Routers'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -62,6 +63,10 @@ function Routers() {
 					<PageSolicitud />
 				</PublicRoute>
 				
+				<PublicRoute auth={auth} path='/contactanos' exact>
+					<PageContactanos />
+				</PublicRoute>
+				
 				<PublicRoute auth={auth} path='/entrar' exact>
 					<PageLogin />
 				</PublicRoute>
@@ -70,9 +75,9 @@ function Routers() {
 					<PageRecovery />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/contactanos' exact>
-					<PageContactanos />
-				</PublicRoute>
+				<ProtectRoute auth={auth} path='/panel'>
+					<RoutersPanel />
+				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>
 					<NotFound />
