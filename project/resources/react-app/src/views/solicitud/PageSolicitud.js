@@ -35,7 +35,7 @@ function PageSolicitud() {
 	return (
 		<React.Fragment>
 			<main className={classes.containerMain} ref={()=>{
-					document.title = 'La Candelaria - Noticias';
+					document.title = 'La Candelaria - Solicitud de cupo';
 				}}>
 				<Container maxWidth='md' className='container--margin'>
 					<Typography align='center'>

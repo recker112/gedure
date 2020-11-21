@@ -45,6 +45,8 @@ class LoginController extends Controller
 		
 		$user = $request->user();
 		
+		Block::firstWhere('user_id', $user->id)->delete();
+		
 		// Token
 		if ($user->privilegio === 'A-') {
 			$tokenResult = $user->createToken($user->cedula.' access', ['*']);
