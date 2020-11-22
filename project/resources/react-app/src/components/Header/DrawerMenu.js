@@ -15,7 +15,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import History from '@material-ui/icons/History';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import PeopleIcon from '@material-ui/icons/People';
-import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -87,31 +86,31 @@ function DrawerMenu() {
 					url: '/panel/registros',
 					text: 'Registros',
 					icon: <History />,
-					seeIt: Boolean(permissions.administrar.registro_ver)
+					seeIt: Boolean(permissions.administrar?.registro_ver)
 				},
 				{
 					url: '/panel/usuarios',
 					text: 'Usuarios',
 					icon: <PeopleIcon />,
-					seeIt: Boolean(permissions.administrar.user_ver)
+					seeIt: Boolean(permissions.administrar?.user_ver)
 				},
 				{
 					url: '/panel/noticias',
 					text: 'Noticias',
 					icon: <PublicIcon />,
-					seeIt: Boolean(permissions.publicaciones.modify),
+					seeIt: Boolean(permissions.publicaciones?.post_modify),
 				},
 				{
 					url: '/panel/boletas',
 					text: 'Boletas',
 					icon: <AnnouncementIcon />,
-					seeIt: Boolean(permissions.administrar.upload_boletas)
+					seeIt: Boolean(permissions.administrar?.upload_boletas)
 				},
 				{
 					url: '/panel/matricula',
 					text: 'Matricula',
 					icon: <AttachMoneyIcon />,
-					seeIt: Boolean(permissions.administrar.upload_matricula)
+					seeIt: Boolean(permissions.administrar?.upload_matricula)
 				}
 			]
 		},
@@ -125,19 +124,6 @@ function DrawerMenu() {
 					text: 'Configuración',
 					icon: <SettingsRoundedIcon />,
 					seeIt: Boolean(permissions.gedure?.control)
-				}
-			]
-		},
-		{
-			title: 'Publicaciones',
-			iCanSeeIt: Boolean(Object.keys(permissions?.publicaciones || []).length),
-			access: ['A-'],
-			listItems: [
-				{
-					url: '/panel/publicaciones',
-					text: 'Administrar publicaciones',
-					icon: <NewReleasesIcon />,
-					seeIt: Boolean(permissions.publicaciones?.modify)
 				}
 			]
 		},

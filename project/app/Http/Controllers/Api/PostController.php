@@ -252,7 +252,7 @@ class PostController extends Controller
 			])->json($jsonMessage, 403);
 		}
 		
-		$search = $request->search;
+		$search = urldecode($request->search);
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
@@ -263,29 +263,54 @@ class PostController extends Controller
 					$search = request()->search;
 					$query->where('cedula', 'LIKE', "%$search%");
 				})
+				->orWhere('title', 'LIKE', "%$search%")
 				->orWhere('created_at', 'LIKE', "%$search%")
 				->orderBy('id', 'Desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
 				->toArray();
+			
+			//Total de logs
+			$post_count = Post::with('user')
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('title', 'LIKE', "%$search%")
+						->orWhere('created_at', 'LIKE', "%$search%");
+				})
+				->count();
 		}else {
 			$allPosts = Post::with('user')
 				->where('user_id', $user->id)
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%");
+						->orWhere('created_at', 'LIKE', "%$search%")
+						->whereHas('user', function ($query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
 				})
 				->orderBy('id', 'Desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
 				->toArray();
+			
+			//Total de logs
+			$post_count = Post::with('user')
+				->where('user_id', $user->id)
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('title', 'LIKE', "%$search%")
+						->orWhere('created_at', 'LIKE', "%$search%")
+						->whereHas('user', function ($query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
+				})
+				->count();
 		}
-		
-		//Total de logs
-		$post_count = Post::count();
 		
 		return response()->json([
 			'data' => $allPosts,

@@ -373,7 +373,7 @@ class PostControllerTest extends TestCase
 	}
 	
 	public function testTableAdminPost() {
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
+const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
 
 function Routers() {
 	let { url } = useRouteMatch();
@@ -26,6 +27,11 @@ function Routers() {
 			path: `${url}/registros`,
 			component: <PageRegistros />,
 			iCanSee: Boolean(permissions?.administrar?.registro_ver),
+		},
+		{
+			path: `${url}/noticias`,
+			component: <PageNoticias />,
+			iCanSee: Boolean(permissions?.publicaciones?.post_modify),
 		},
 	], [permissions, url]);
 	

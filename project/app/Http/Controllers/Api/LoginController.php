@@ -259,12 +259,12 @@ class LoginController extends Controller
 					$listA['upload_matricula'] = true;
 				}
 				
-				if ($permissionsDB->noticia_modify) {
-					$listP['modify'] = true;
+				if ($permissionsDB->post_modify) {
+					$listP['post_modify'] = true;
 				}
 				
-				if ($permissionsDB->noticia_modify_otros) {
-					$listP['modify_otros'] = true;
+				if ($permissionsDB->post_modify_otros) {
+					$listP['post_modify_otros'] = true;
 				}
 			}
 			
