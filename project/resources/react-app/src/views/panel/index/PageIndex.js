@@ -2,14 +2,17 @@ import React from 'react';
 
 import { 
 	Container,
-	Typography
+	Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+// Components
+import ShowLocation from '../../../components/ShowLocation';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		marginBottom: theme.spacing(8),
+		marginBottom: theme.spacing(6),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '48px',
 		},
@@ -27,9 +30,11 @@ function PageIndex() {
 			document.title = 'La Candelaria - Panel';
 		}}>
 			<Container maxWidth='md' className='container--margin'>
-				<Typography>
-					Index
-				</Typography>
+				<Grid container>
+					<Grid item xs={12}>
+						<ShowLocation />
+					</Grid>
+				</Grid>
 			</Container>
 		</main>
 	);

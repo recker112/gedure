@@ -33,7 +33,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		marginBottom: theme.spacing(8),
+		marginBottom: theme.spacing(6),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '48px',
 		},
