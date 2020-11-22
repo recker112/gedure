@@ -20,8 +20,7 @@ class Log extends Model
 	];
 	
 	protected $casts = [
-		'created_at' => 'date: d-m-Y h:i A',
-		'updated_at' => 'date: d-m-Y h:i A',
+		'created_at' => 'date: Y-d-m h:i A',
 	];
 	
 	public $timestamps = ["created_at"];

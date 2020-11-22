@@ -20,6 +20,13 @@ const initialState = {
 		status: null,
 		data: {},
 	},
+	registros: {
+		loading: false,
+		status: null,
+		data: {
+			type: 'all'
+		},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

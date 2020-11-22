@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Models\Log;
+use Carbon\Carbon; 
 
 class LogController extends Controller
 {
@@ -20,22 +21,13 @@ class LogController extends Controller
 			], 200);
 		}
 
-		$search = $request->search;
+		$search = urldecode($request->search);
 		$type = $request->type;
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		if (empty($type)) {
-			$logs = Log::where('type', $type)
-				->orderBy('created_at', 'desc')
-				->offset($page)
-				->limit($perPage)
-				->get();
-			
-			//Total de logs
-			$logsCount = Log::count();
-		}else {
+		if (!empty($type) && $type !== 'all') {
 			$logs = Log::with('user')
 				->where('type', $type)
 				->where(function ($query) {
@@ -47,14 +39,42 @@ class LogController extends Controller
 							$query->where('cedula', 'LIKE', "%$search%");
 						});
 					})
-				->orderBy('created_at', 'desc')
+				->orderBy('id', 'desc')
+				->offset($page)
+				->limit($perPage)
+				->get()
+				->toJson();
+			
+			//Total de logs
+			$logsCount = Log::where('type', $type)
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('action', 'like', "%".$search."%")
+						->orWhere('created_at', 'like', "%".$search."%")
+						->orWhereHas('user', function (Builder $query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
+					})
+				->count();
+		}else {
+			$logs = Log::with('user')
+				->where(function ($query) {
+					$search = request()->search;
+					$query->where('action', 'like', "%".$search."%")
+						->orWhere('created_at', 'like', "%".$search."%")
+						->orWhereHas('user', function (Builder $query) {
+							$search = request()->search;
+							$query->where('cedula', 'LIKE', "%$search%");
+						});
+					})
+				->orderBy('id', 'desc')
 				->offset($page)
 				->limit($perPage)
 				->get();
 			
 			//Total de logs
 			$logsCount = Log::with('user')
-				->where('type', $type)
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
@@ -68,7 +88,7 @@ class LogController extends Controller
 		}
 
 		$arrayLogs = array();
-		foreach ($logs as $log) {
+		foreach (json_decode($logs) as $log) {
 			array_push($arrayLogs, [
 				'cedula' => $log->user->privilegio . $log->user->cedula,
 				'name' => $log->user->nombre,
@@ -80,7 +100,7 @@ class LogController extends Controller
 		return response()->json([
 			'data' => $arrayLogs,
 			'page' => $request->page * 1, 
-			'totalLogs' => $logsCount
+			'totalLogs' => $logsCount,
 		], 200);
 	}
 }

@@ -34,7 +34,7 @@ import updateForms from '../../actions/updateForms';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		marginBottom: theme.spacing(8),
+		marginBottom: theme.spacing(6),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '48px',
 		},

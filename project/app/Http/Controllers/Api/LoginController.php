@@ -68,13 +68,13 @@ class LoginController extends Controller
 		
 		$token->save();
 		
+		$permissions = $this->makePermissions($user);
+		
 		Log::create([
 			'user_id' => $user->id,
 			'action' => "Inicio de sesión.",
 			'type' => 'session'
 		]);
-		
-		$permissions = $this->makePermissions($user);
 
 		//Regresar datos
 		return response()->json([
@@ -156,6 +156,13 @@ class LoginController extends Controller
 		
 		Mail::to($user)->queue(new CodeSecurity($user, $code));
 		
+		//Log
+		Log::create([
+			'user_id' => $user->id,
+			'action' => 'Correo de recuperación enviado.',
+			'type' => 'user'
+		]);
+		
 		return response()->json([
 			'msg' => 'Correo enviado'
 		], 200);
@@ -194,6 +201,13 @@ class LoginController extends Controller
 		$user->password = bcrypt($request->password);
 		$user->save();
 		$user->recoveryPassword->delete();
+		
+		//Log
+		Log::create([
+			'user_id' => $user->id,
+			'action' => 'Contraseña cambiada via correo.',
+			'type' => 'user'
+		]);
 		
 		return response()->json([
 			'msg' => 'Contraseña cambiada'

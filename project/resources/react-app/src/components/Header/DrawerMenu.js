@@ -198,7 +198,7 @@ function DrawerMenu() {
 
 							if (seeSection && privilegioAccess) {
 								return (
-									<Grid container direction='column' item kei={i}>
+									<Grid container direction='column' item key={i}>
 										<Grid item className={classes.title}>
 											<Typography className="text__opacity--semi text__bold--semi">
 												{section.title}
