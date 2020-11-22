@@ -79,7 +79,7 @@ export function NoticiaPreview(props) {
 						</Tooltip>
 					}
 					action={
-						((permissions.publicaciones.post_modify && userData.id === user.id) || permissions.publicaciones.post_modify_otros) && (
+						((permissions?.publicaciones?.post_modify && userData?.id === user.id) || permissions?.publicaciones?.post_modify_otros) && (
 							<IconButton>
 								<MoreVertIcon />
 							</IconButton>
@@ -94,7 +94,7 @@ export function NoticiaPreview(props) {
 				<CardActions>
 					<Link style={{ marginLeft: 'auto' }} to={`/noticias/${slug}`}>
 						<Button color='secondary' onClick={handleClick}>
-							Ver publicación
+							Ver publicaciรณn
 						</Button>
 					</Link>
 				</CardActions>
