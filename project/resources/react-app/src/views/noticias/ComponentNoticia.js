@@ -36,8 +36,9 @@ export function NoticiaPreview(props) {
 		slug,
 	} = props;
 
-	const { auth } = useSelector((state) => ({
-		auth: state.userData.auth,
+	const { permissions, userData } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+		userData: state.userData.user
 	}));
 	const dispatch = useDispatch();
 
@@ -78,7 +79,7 @@ export function NoticiaPreview(props) {
 						</Tooltip>
 					}
 					action={
-						auth && (
+						((permissions.publicaciones.post_modify && userData.id === user.id) || permissions.publicaciones.post_modify_otros) && (
 							<IconButton>
 								<MoreVertIcon />
 							</IconButton>
@@ -105,10 +106,6 @@ export function NoticiaPreview(props) {
 export function NoticiaSkeleton(props) {
 	const { view } = props;
 
-	const { auth } = useSelector((state) => ({
-		auth: state.userData.auth,
-	}));
-
 	const theme = useTheme();
 
 	return (
@@ -123,13 +120,6 @@ export function NoticiaSkeleton(props) {
 								style={{ backgroundColor: theme.palette.secondary.main }}
 							/>
 						</Tooltip>
-					}
-					action={
-						auth && (
-							<IconButton>
-								<MoreVertIcon />
-							</IconButton>
-						)
 					}
 					title={<Skeleton variant="text" width="100%" />}
 					subheader={<Skeleton variant="text" width="70%" />}

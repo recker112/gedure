@@ -45,8 +45,6 @@ function FormSelectType({ tableRef }) {
 		loading: state.forms.registros.loading,
 	}));
 	
-	console.log(loading);
-	
 	const { register, handleSubmit } = useForm();
 	
 	const dispatch = useDispatch();
@@ -155,9 +153,9 @@ function PageRegistros() {
 		
 		if (res) {
 			const result = {
-				data: res.data,
-				page: res.page,
-				totalCount: res.totalLogs
+				data: res.data || [],
+				page: res.page || 0,
+				totalCount: res.totalLogs || 0
 			}
 			return result;
 		}else {

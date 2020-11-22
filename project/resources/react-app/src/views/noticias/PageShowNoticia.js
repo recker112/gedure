@@ -185,7 +185,7 @@ function PageShowNoticia() {
 			if (cancelAxios) {
 				cancelAxios.cancel();
 			}
-			dispatch(updateForms('noticia', true));
+			dispatch(updateForms('noticia', true, {}));
 		}
 		// eslint-disable-next-line
 	}, []);
