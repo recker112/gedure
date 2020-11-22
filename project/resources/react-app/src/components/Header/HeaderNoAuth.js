@@ -16,6 +16,7 @@ import {
 	Container,
 	Grid,
 	Box,
+	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -119,18 +120,20 @@ function MobileMenuIndex() {
 			</IconButton>
 			<Drawer open={open} onClose={handleClose}>
 				<div role="presentation" className='drawer'>
-					<Grid container alignItems='center' className={classes.HeadDrawer}>
+					<Grid container alignItems="center" className={classes.HeadDrawer}>
 						<Container>
-							<Box component='span' className='drawer__title'>
+							<Typography className='text__bold--semi'>
 								La Candelaria
-							</Box>
+							</Typography>
 						</Container>
 					</Grid>
 					<Container>
 						<Box className={classes.margin}>
 							<Grid container direction='column'>
 								<Grid item>
-									<span className='drawer__subTitle'>Navegación</span>
+									<Typography className="text__opacity--semi text__bold--semi">
+										Navegación
+									</Typography>
 								</Grid>
 								<Grid container direction='column' item>
 									<List>

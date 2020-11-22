@@ -45,7 +45,11 @@ class LoginController extends Controller
 		
 		$user = $request->user();
 		
-		Block::firstWhere('user_id', $user->id)->delete();
+		$block = Block::firstWhere('user_id', $user->id);
+		
+		if ($block) {
+			$block->delete();
+		}
 		
 		// Token
 		if ($user->privilegio === 'A-') {

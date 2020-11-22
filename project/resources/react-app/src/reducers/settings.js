@@ -6,7 +6,8 @@ if (!localStorage.getItem('theme')) {
 
 //Inicar valor del state.
 const initialState = {
-	tema: localStorage.getItem('theme')
+	tema: localStorage.getItem('theme'),
+	drawer: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -25,6 +26,13 @@ export default (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				tema: changeThemeTo
+			};
+		}
+		
+		case 'UPDATE_DRAWER': {
+			return {
+				...state,
+				drawer: payload
 			};
 		}
 			
