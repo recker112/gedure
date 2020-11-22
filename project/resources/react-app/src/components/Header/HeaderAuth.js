@@ -12,6 +12,8 @@ import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 // Components
 import { HiddeOnScroll } from './../Header';
 import AvatarButton from './AvatarButton';
+import DrawerButton from './DrawerButton';
+import DrawerMenu from './DrawerMenu';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -53,9 +55,7 @@ function HeaderAuth() {
 		<HiddeOnScroll>
 			<AppBar>
 				<Toolbar>
-					<div className={classes.drawerButton}>
-						M
-					</div>
+					<DrawerButton className={classes.drawerButton} />
 					<ChangeTheme className={classes.menuButtom}>
 						<Tooltip title={temaText} arrow leaveDelay={200}>
 							<IconButton>
@@ -65,6 +65,7 @@ function HeaderAuth() {
 					</ChangeTheme>
 					<AvatarButton className={classes.menuButtom} />
 				</Toolbar>
+				<DrawerMenu />
 			</AppBar>
 		</HiddeOnScroll>
 	);
