@@ -8,24 +8,23 @@ import {
 	Avatar,
 	Tooltip,
 	Button,
-	IconButton,
 	Card,
 	CardHeader,
 	CardContent,
 	CardActions,
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { useTheme } from '@material-ui/core/styles';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import updateForms from '../../actions/updateForms';
 
 export function NoticiaPreview(props) {
 	const {
 		view,
+		id,
 		user,
 		title,
 		extracto,
@@ -34,12 +33,9 @@ export function NoticiaPreview(props) {
 		url_imgs,
 		fecha_humano_modify,
 		slug,
+		only_users,
 	} = props;
-
-	const { permissions, userData } = useSelector((state) => ({
-		permissions: state.userData.permissions,
-		userData: state.userData.user
-	}));
+	
 	const dispatch = useDispatch();
 
 	function createMarkup() {
@@ -50,14 +46,15 @@ export function NoticiaPreview(props) {
 
 	const handleClick = () => {
 		const prepareData = {
+			id,
 			user,
 			title,
-			extracto,
 			content,
 			fecha_humano,
 			slug,
 			url_imgs,
 			fecha_humano_modify,
+			only_users,
 		};
 		dispatch(updateForms('noticia', false, prepareData));
 	};
@@ -78,14 +75,7 @@ export function NoticiaPreview(props) {
 							</Avatar>
 						</Tooltip>
 					}
-					action={
-						((permissions?.publicaciones?.post_modify && userData?.id === user.id) || permissions?.publicaciones?.post_modify_otros) && (
-							<IconButton>
-								<MoreVertIcon />
-							</IconButton>
-						)
-					}
-					title={title.length > 20 && view === 'module' ? `${title.substring(0, 20)}...` : title}
+					title={title.length > 25 && view === 'module' ? `${title.substring(0, 25)}...` : title}
 					subheader={`Publicado ${fecha_humano}`}
 				/>
 				<CardContent>

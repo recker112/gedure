@@ -6,6 +6,7 @@ import {
 	Toolbar,
 	Button,
 	DialogContent,
+	DialogContentText,
 	Grid,
 	Typography,
 	Container,
@@ -15,7 +16,7 @@ import {
 	Switch,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 import { DropzoneAreaBase } from 'material-ui-dropzone';
 
@@ -49,14 +50,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function CreateNoticia({ tableRef=null }) {
+function EditNoticia({ tableRef=null, callback=null }) {
 	const [files, setFiles] = useState([]);
 	const [progress, setProgress] = useState(0);
+	const [updateImgs, setUpdateImgs] = useState(false);
 	const contentMaxLength = 50000;
 	
-	const { open, loading } = useSelector((state) => ({
-		open: state.dialogs.crearNoticia.open,
-		loading: state.dialogs.crearNoticia.loading,
+	const { open, loading, data } = useSelector((state) => ({
+		open: state.dialogs.editNoticia.open,
+		loading: state.dialogs.editNoticia.loading,
+		data: state.dialogs.editNoticia.data,
 	}));
 	const dispatch = useDispatch();
 	
@@ -72,7 +75,7 @@ function CreateNoticia({ tableRef=null }) {
 	
 	const handleClose = () => {
 		setFiles([]);
-		dispatch(updateDialogs('crearNoticia', false, false, {}));
+		dispatch(updateDialogs('editNoticia', false, false, {}));
 	}
 	
 	const handleAdd = (newFiles) => {
@@ -84,6 +87,10 @@ function CreateNoticia({ tableRef=null }) {
 		setFiles(files.filter((f) => f !== deleted));
 	};
 	
+	const handleConfirm = () => {
+		setUpdateImgs(true);
+	}
+	
 	const onUploadProgress = useCallback((progressEvent) => {
 		let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 
@@ -92,20 +99,29 @@ function CreateNoticia({ tableRef=null }) {
 	}, []);
 	
 	const onSubmit = async (submitData) => {
-		dispatch(updateDialogs('crearNoticia', true, true, {}));
+		dispatch(updateDialogs('editNoticia', true, true, {}));
 		submitData.imgs = files;
 		const formData = new FormData();
 		formData.append('title', submitData.title);
 		formData.append('content', submitData.content.replace(/\r?\n/g,"</br>"));
 		formData.append('only_users', submitData.only_users);
-		submitData.imgs.forEach(img => {
-			formData.append('imgs[]', img.file);
-		});
+		
+		if (updateImgs) {
+			formData.append('imgs_update', true);
+			submitData.imgs.forEach(img => {
+				formData.append('imgs[]', img.file);
+			});
+		}else {
+			formData.append('imgs_update', false);
+		}
+		
+		formData.append('_method', 'PUT');
 
 		const prepare = {
-			url: `v1/posts`,
+			url: `v1/posts/${data.slug}`,
 			type: 'post',
 			data: formData,
+			message404: 'La noticia fue eliminada por otro usuario',
 			otherData: {
 				headers: {
 					'Content-Type': 'multipart/form-data'
@@ -117,12 +133,13 @@ function CreateNoticia({ tableRef=null }) {
 		const response = await fetchData(prepare);
 
 		if (response) {
-			tableRef.current && tableRef.current.onQueryChange();
+			callback && callback();
+			tableRef?.current && tableRef.current.onQueryChange();
 			setFiles([]);
 			setProgress(0);
 		}
 		
-		dispatch(updateDialogs('crearNoticia', true, false));
+		dispatch(updateDialogs('editNoticia', false, false));
 	}
 	
 	return (
@@ -130,7 +147,7 @@ function CreateNoticia({ tableRef=null }) {
 			<AppBar className={classes.appBar}>
 				<Toolbar>
 					<Button disabled={loading} onClick={handleClose} className={classes.button}>
-						Cerrar
+						Cancelar
 					</Button>
 					<LoadingComponent 
 						loading={loading} 
@@ -138,9 +155,9 @@ function CreateNoticia({ tableRef=null }) {
 						progress={progress} 
 						color="inherit"
 					>
-						<label htmlFor="submit-createNotice">
-							<Button variant="contained" component="span" endIcon={<AddIcon />}>
-								Crear
+						<label htmlFor="submit-editNoticia">
+							<Button variant="contained" component="span" endIcon={<SaveIcon />}>
+								Cambiar
 							</Button>
 						</label>
 					</LoadingComponent>
@@ -161,7 +178,7 @@ function CreateNoticia({ tableRef=null }) {
 										<TextField 
 											name="title"
 											label="Título"
-											defaultValue=''
+											defaultValue={data.title || ''}
 											variant='outlined'
 											inputRef={register({
 												required: { value: true, message: 'Campo requerido' },
@@ -181,7 +198,7 @@ function CreateNoticia({ tableRef=null }) {
 										<TextField 
 											name="content"
 											label="Contenido"
-											defaultValue=''
+											defaultValue={data.content?.replaceAll("</br>", "\n") || ''}
 											variant='outlined'
 											inputRef={register({
 												required: { value: true, message: 'Campo requerido' },
@@ -203,7 +220,7 @@ function CreateNoticia({ tableRef=null }) {
 										<Box 
 											color={Boolean(errors?.content) ? '#f44336' : 'text.primary'}
 										>
-											{watch('content', []).length}/{contentMaxLength} Caracteres
+											{watch('content', data.content?.replaceAll("</br>", "\n") || []).length}/{contentMaxLength} Caracteres
 										</Box>
 									</Grid>
 									<Grid item xs={12}>
@@ -217,34 +234,52 @@ function CreateNoticia({ tableRef=null }) {
 											label="Disponible solo para usuarios"
 										/>
 									</Grid>
-									<Grid item xs={12}>
-										<DropzoneAreaBase
-											fileObjects={files}
-											acceptedFiles={['image/png', 'image/jpeg']}
-											showPreviewsInDropzone={false}
-											showPreviews={true}
-											previewText="Imagenes selecionadas:"
-											onAdd={handleAdd}
-											onDelete={handleDelete}
-											filesLimit={10}
-											showAlerts={false}
-											previewGridProps={{ container: { spacing: 2 }, item: { xs: true } }}
-											maxFileSize={5000000}
-											getFileLimitExceedMessage={(filesLimit) =>
-												`Solo se permiten hasta ${filesLimit} imagenes`
-											}
-											getFileAddedMessage={(fileName) => `Archivo ${fileName} agregado`}
-											getFileRemovedMessage={(fileName) => `Archivo ${fileName} removido`}
-											onAlert={(messaje, variant) => {
-												enqueueSnackbar(messaje, {
-													variant: variant,
-												});
-											}}
-											dropzoneText="Arrastrar o cargar imagenes"
-										/>
-									</Grid>
+									{updateImgs ? (
+										<Grid item xs={12}>
+											<DropzoneAreaBase
+												fileObjects={files}
+												acceptedFiles={['image/png', 'image/jpeg']}
+												showPreviewsInDropzone={false}
+												showPreviews={true}
+												previewText="Imagenes selecionadas:"
+												onAdd={handleAdd}
+												onDelete={handleDelete}
+												filesLimit={10}
+												showAlerts={false}
+												previewGridProps={{ container: { spacing: 2 }, item: { xs: true } }}
+												maxFileSize={5000000}
+												getFileLimitExceedMessage={(filesLimit) =>
+													`Solo se permiten hasta ${filesLimit} imagenes`
+												}
+												getFileAddedMessage={(fileName) => `Archivo ${fileName} agregado`}
+												getFileRemovedMessage={(fileName) => `Archivo ${fileName} removido`}
+												onAlert={(messaje, variant) => {
+													enqueueSnackbar(messaje, {
+														variant: variant,
+													});
+												}}
+												dropzoneText="Arrastrar o cargar imagenes"
+											/>
+										</Grid>
+									)
+									:
+									(
+										<Grid item container spacing={2}>
+											<Grid item xs={12}>
+												<DialogContentText>
+													Las imagenes de esta noticia serán reemplazadas por las que coloque, si deja este campo vacio se entenderá que quiere quitar las fotos de esta publicación.
+												</DialogContentText>
+											</Grid>
+
+											<Grid container justify="center" item xs={12}>
+												<Button onClick={handleConfirm}>
+													Deseo cambiar o quitar las fotos
+												</Button>
+											</Grid>
+										</Grid>
+									)}
 								</Grid>
-								<input type="submit" style={{display: 'none'}} id="submit-createNotice" />
+								<input type="submit" style={{display: 'none'}} id="submit-editNoticia" />
 							</form>
 						</Container> 
 					</Grid>
@@ -254,4 +289,4 @@ function CreateNoticia({ tableRef=null }) {
 	);
 }
 
-export default CreateNoticia;
+export default EditNoticia;

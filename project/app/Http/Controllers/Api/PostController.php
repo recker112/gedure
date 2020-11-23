@@ -103,10 +103,9 @@ class PostController extends Controller
 		$imgs = $request->file('imgs');
 		
 		if (!$user->config()->post_modify) {
-			return response([
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			])->json($jsonMessage, 403);
+			return response()->json([
+				'msg' => 'No tienes permisos'
+			], 403);
 		}
 		
 		$post = new Post();
@@ -143,7 +142,7 @@ class PostController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => 'Post publicated',
+			'msg' => 'Noticia creada',
 		], 201);
 	}
 	
@@ -151,7 +150,7 @@ class PostController extends Controller
 	{
 		$user = $request->user();
 		$imgs = $request->file('imgs');
-		$imgsUpdate = json_decode($request->imgsUpdate);
+		$imgsUpdate = json_decode($request->imgs_update);
 		
 		$post = Post::where('slug', $slug)
 			->firstOrFail();
@@ -161,10 +160,9 @@ class PostController extends Controller
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
-			return response([
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			])->json($jsonMessage, 403);
+			return response()->json([
+				'msg' => 'No tienes permisos'
+			], 403);
 		}
 		
 		$post->title = $request->title;
@@ -176,7 +174,7 @@ class PostController extends Controller
 		$i=0;
 		if ($imgsUpdate && !empty($imgs)) {
 			// Clear old files
-			$filesDelete = Storage::disk('public')->allFiles('posts/1');
+			$filesDelete = Storage::disk('public')->allFiles('posts/'.$post->id);
 			Storage::disk('public')->delete($filesDelete);
 			foreach($imgs as $file) {
 				//Mover archivo
@@ -201,7 +199,7 @@ class PostController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => 'Post modificated',
+			'msg' => 'Noticia modificada',
 			'data' => $post,
 		], 200);
 	}
@@ -218,10 +216,9 @@ class PostController extends Controller
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
-			return response([
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			])->json($jsonMessage, 403);
+			return response()->json([
+				'msg' => 'No tienes permisos'
+			], 403);
 		}
 		
 		Storage::disk('public')->deleteDirectory("$this->path/$post->id");
@@ -236,8 +233,7 @@ class PostController extends Controller
 		$post->delete();
 		
 		return response()->json([
-			'msg'=>'notice_deleted',
-			'description' => 'Noticia borrada correctamente'
+			'msg' => 'Noticia borrada'
 		], 200);
 	}
 	
@@ -246,10 +242,9 @@ class PostController extends Controller
 		$user = $request->user();
 		
 		if (!$user->config()->post_modify) {
-			return response([
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			])->json($jsonMessage, 403);
+			return response()->json([
+				'msg' => 'No tienes permisos'
+			], 403);
 		}
 		
 		$search = urldecode($request->search);

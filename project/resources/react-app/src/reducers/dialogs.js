@@ -6,6 +6,18 @@ const initialState = {
 		status: null,
 		data: {},
 	},
+	editNoticia: {
+		open: false,
+		loading: false,
+		status: null,
+		data: {},
+	},
+	deleteConfirmation: {
+		open: false,
+		loading: false,
+		status: null,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

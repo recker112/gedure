@@ -273,7 +273,7 @@ class PostControllerTest extends TestCase
 			'content' => 'Contenido de la publicación',
 			'only_users' => 0,
 			'imgs' => $files,
-			'imgsUpdate' => true
+			'imgs_update' => true
 		]);
 		
 		$response->assertStatus(200)
