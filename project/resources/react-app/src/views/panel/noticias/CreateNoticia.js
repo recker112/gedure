@@ -54,10 +54,9 @@ function CreateNoticia({ tableRef=null }) {
 	const [progress, setProgress] = useState(0);
 	const contentMaxLength = 50000;
 	
-	const { open, loading, data } = useSelector((state) => ({
+	const { open, loading } = useSelector((state) => ({
 		open: state.dialogs.crearNoticia.open,
 		loading: state.dialogs.crearNoticia.loading,
-		data: state.dialogs.crearNoticia.data,
 	}));
 	const dispatch = useDispatch();
 	
@@ -162,7 +161,7 @@ function CreateNoticia({ tableRef=null }) {
 										<TextField 
 											name="title"
 											label="Título"
-											defaultValue={data.title || ''}
+											defaultValue=''
 											variant='outlined'
 											inputRef={register({
 												required: { value: true, message: 'Campo requerido' },
@@ -182,7 +181,7 @@ function CreateNoticia({ tableRef=null }) {
 										<TextField 
 											name="content"
 											label="Contenido"
-											defaultValue={data.content || ''}
+											defaultValue=''
 											variant='outlined'
 											inputRef={register({
 												required: { value: true, message: 'Campo requerido' },

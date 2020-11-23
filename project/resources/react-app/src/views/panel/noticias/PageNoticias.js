@@ -2,11 +2,7 @@ import React, { useRef, useCallback } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import { 
-	Container,
-	Grid,
-	Button,
-} from '@material-ui/core';
+import { Container, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -21,9 +17,11 @@ import useFetch from '../../../hooks/useFetch';
 import ShowLocation from '../../../components/ShowLocation';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import CreateNoticia from './CreateNoticia';
+import EditNoticia from './EditNoticia';
+import DeleteConfirmation from '../../../components/DeleteConfirmation';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,56 +39,78 @@ const useStyles = makeStyles((theme) => ({
 
 function PageIndex() {
 	const tableRef = useRef(null);
-	
+
+	const { data } = useSelector((state) => ({
+		data: state.dialogs.deleteConfirmation.data,
+	}));
 	const dispatch = useDispatch();
-	
+
 	const { fetchData } = useFetch();
-	
+
 	const history = useHistory();
-	
+
 	const classes = useStyles();
-	
+
 	const handleCreate = () => {
 		dispatch(updateDialogs('crearNoticia', true, false));
-	}
+	};
 	
-	const onFetch = useCallback(
-		async (query) => {
-			const prepare = {
-				url: `v1/table-posts?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(query.search)}`,
-				type: 'get',
-				messageToFinish: false,
+	const handleDelete = async () => {
+		const prepare = {
+			url: `v1/posts/${data.slug}`,
+			type: 'delete',
+			message404: 'Esta noticia ya no existe',
+		};
+
+		const response = await fetchData(prepare);
+
+		dispatch(updateDialogs('deleteConfirmation', false, true));
+
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+	};
+
+	const onFetch = useCallback(async (query) => {
+		const prepare = {
+			url: `v1/table-posts?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+				query.search
+			)}`,
+			type: 'get',
+			messageToFinish: false,
+		};
+
+		const response = await fetchData(prepare);
+
+		if (response) {
+			return {
+				data: response.data || [],
+				page: response.page || 0,
+				totalCount: response.totalPosts || 0,
 			};
+		} else {
+			return {
+				data: [],
+				page: 0,
+				totalCount: 0,
+			};
+		}
+		// eslint-disable-next-line
+	}, []);
 
-			const response = await fetchData(prepare);
-
-			if (response) {
-				return {
-					data: response.data || [],
-					page: response.page || 0,
-					totalCount: response.totalPosts || 0,
-				};
-			} else {
-				return {
-					data: [],
-					page: 0,
-					totalCount: 0,
-				};
-			}
-			// eslint-disable-next-line
-		}, []
-	);
-	
 	return (
-		<main className={classes.containerMain} ref={()=>{
-			document.title = 'La Candelaria - Noticias';
-		}}>
-			<Container maxWidth='md' className='container--margin'>
+		<main
+			className={classes.containerMain}
+			ref={() => {
+				document.title = 'La Candelaria - Noticias';
+			}}
+		>
+			<Container maxWidth="md" className="container--margin">
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<ShowLocation />
 					</Grid>
-					<Grid container justify='flex-end' item xs={12}>
+					<Grid container justify="flex-end" item xs={12}>
 						<Button
 							variant="contained"
 							color="primary"
@@ -118,24 +138,35 @@ function PageIndex() {
 							localization={tableLocation}
 							actions={[
 								{
-									icon: () => <VisibilityIcon />,
+									icon: () => (<VisibilityIcon />),
 									tooltip: 'Ver',
 									onClick: (event, rowData) => {
 										history.push('/noticias/' + rowData.slug);
 									},
 								},
 								{
-									icon: () => <Edit />,
+									icon: () => (<Edit />),
 									tooltip: 'Editar',
 									onClick: (event, rowData) => {
-										//
+										const data = {
+											slug: rowData.slug,
+											title: rowData.title,
+											content: rowData.content,
+										};
+										
+										dispatch(updateDialogs('editNoticia', true, false, data));
 									},
 								},
 								{
-									icon: () => <Delete />,
+									icon: () => (<Delete />),
 									tooltip: 'Eliminar',
 									onClick: (event, rowData) => {
-										//
+										const data = {
+											slug: rowData.slug,
+											id: rowData.id,
+										};
+										
+										dispatch(updateDialogs('deleteConfirmation', true, false, data));
 									},
 								},
 							]}
@@ -146,6 +177,11 @@ function PageIndex() {
 					</Grid>
 				</Grid>
 				<CreateNoticia tableRef={tableRef} />
+				<EditNoticia tableRef={tableRef} />
+				<DeleteConfirmation 
+					action={`Eliminar noticia #${data.id}`} 
+					callback={handleDelete} 
+				/>
 			</Container>
 		</main>
 	);
