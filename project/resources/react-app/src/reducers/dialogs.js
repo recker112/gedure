@@ -18,6 +18,12 @@ const initialState = {
 		status: null,
 		data: {},
 	},
+	showSoliContacto: {
+		open: false,
+		loading: false,
+		status: null,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

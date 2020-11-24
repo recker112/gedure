@@ -11,7 +11,7 @@ use App\Models\Contacto;
 class ContactoController extends Controller
 {
 	public function index(Request $request) {
-		$search = $request->search;
+		$search = urldecode($request->search);
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
@@ -22,7 +22,8 @@ class ContactoController extends Controller
 			->offset($page)
 			->limit($perPage)
 			->orderBy('created_at', 'Desc')
-			->get();
+			->get()
+			->toArray();
 		
 		$contactoCount = Contacto::count();
 		
@@ -47,7 +48,7 @@ class ContactoController extends Controller
 		$contacto->delete();
 		
 		return response()->json([
-			'msg' => 'Mensaje enviado'
+			'msg' => 'Solicitud eliminada'
 		], 200);
 	}
 }
