@@ -9,7 +9,6 @@ use App\Http\Requests\RecoveryPassRequest;
 use App\Http\Requests\RecoveryVerifyRequest;
 use App\Http\Requests\RecoveryChangeRequest;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash;
 
 //Mails
 use App\Mail\CodeSecurity;
@@ -143,18 +142,56 @@ class LoginController extends Controller
 	{
 		$user = User::where('email', $request->email)->firstOrFail();
 		
-		if ($user->recoveryPassword) {
-			$user->recoveryPassword->delete();
-		}
-		
 		$code = $this->generateCode(5);
-			
-		RecoveryPassword::create([
-			'code' => Hash::make($code),
-			'user_id' => $user->id,
-		]);
+		$timeNow = now();
+		$step;
 		
-		Mail::to($user)->queue(new CodeSecurity($user, $code));
+		
+		if (!$user->recoveryPassword) {
+			// Crear un nuevo code
+			RecoveryPassword::create([
+				'code' => $code,
+				'user_id' => $user->id,
+			]);
+			
+			Mail::to($user)->queue(new CodeSecurity($user, $code));
+			$step=0;
+		}else {
+			// Si existe un registro
+			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(2);
+			$timeCreated = $user->recoveryPassword->created_at->addMinutes(10);
+			
+			if ($user->recoveryPassword && $timeNow >= $timeCreated) {
+				// Regenerar code después de 10 minutos
+				$user->recoveryPassword->delete();
+				
+				// Crear un nuevo code
+				RecoveryPassword::create([
+					'code' => $code,
+					'user_id' => $user->id,
+				]);
+				
+				Mail::to($user)->queue(new CodeSecurity($user, $code));
+				$step=2;
+			}else if ($user->recoveryPassword && $timeNow >= $timeUpdated) {
+				// Reenviar code si han pasado más de dos minutos
+				$codeRegistred = $user->recoveryPassword->code;
+				$user->recoveryPassword->updated_at = $timeNow;
+				$user->recoveryPassword->save();
+
+				Mail::to($user)->queue(new CodeSecurity($user, $codeRegistred));
+				$step=1;
+			} else {
+				$waitSeconds = $timeUpdated->diffInSeconds($timeNow);
+				$minutes = $timeUpdated->diffInMinutes($timeNow);
+				$seconds = $waitSeconds % 60;
+				$wait = $minutes.'m y '.$seconds.'s';
+
+				return response()->json([
+					'msg' => "Espere $wait para reenviar el correo"
+				], 400);
+			}
+		}
 		
 		//Log
 		Log::create([
@@ -164,7 +201,8 @@ class LoginController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => 'Correo enviado'
+			'msg' => 'Correo enviado',
+			'step' => $step,
 		], 200);
 	}
 	
