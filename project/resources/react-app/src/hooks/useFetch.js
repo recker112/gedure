@@ -17,7 +17,9 @@ function useFetch() {
 			messageToFinish = true,
 			messageTo422 = false,
 			message422 = 'Error al verificar los datos',
+			messageTo400 = true,
 			message400 = false,
+			return400 = false,
 			message404 = false,
 			successText = false,
 			type = 'post',
@@ -42,11 +44,17 @@ function useFetch() {
 				const { status, data } = error.response;
 
 				if (status === 400) {
-					enqueueSnackbar(message400 ? message400 : data.msg, {
-						variant: 'warning',
-					});
+					if (messageTo400) {
+						enqueueSnackbar(message400 ? message400 : data.msg, {
+							variant: 'warning',
+						});
+					}
+					
+					if (return400) {
+						return data;
+					}
 				} else if (status === 401) {
-					enqueueSnackbar('Sesiรณn expirada', {
+					enqueueSnackbar('Sesión expirada', {
 						variant: 'info',
 					});
 

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
+const SolicitudContacto = lazy(() => import('./soli_contacto/SolicitudContacto'));
 
 function Routers() {
 	let { url } = useRouteMatch();
@@ -32,6 +33,11 @@ function Routers() {
 			path: `${url}/noticias`,
 			component: <PageNoticias />,
 			iCanSee: Boolean(permissions?.publicaciones?.post_modify),
+		},
+		{
+			path: `${url}/solicitudes_contacto`,
+			component: <SolicitudContacto />,
+			iCanSee: 1,
 		},
 	], [permissions, url]);
 	

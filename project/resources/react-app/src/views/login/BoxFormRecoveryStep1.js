@@ -51,6 +51,8 @@ function BoxFormRecoveryStep1(props) {
 			successText: 'Correo enviado',
 			message404: 'Correo no encontrado',
 			messageTo422: true,
+			messageTo400: false,
+			return400: true,
 		}
 		
 		const response = await fetchData(prepareDate);

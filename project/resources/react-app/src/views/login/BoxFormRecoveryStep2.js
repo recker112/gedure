@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { 
 	Typography,
@@ -19,6 +19,56 @@ import LoadingComponent from '../../components/LoadingComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../actions/updateForms';
 
+function ResendEmail(props) {
+	const { loading, handleSendEmail, dataR, classes } = props;
+	const [wait, setWait] = useState(120);
+	let divisor_for_minutes = wait % (60 * 60);
+	let minutes = Math.floor(divisor_for_minutes / 60);
+	let divisor_for_seconds = divisor_for_minutes % 60;
+	let seconds = Math.ceil(divisor_for_seconds);
+	
+	useEffect(()=>{
+		const waitTwoMinutes = () => {
+			let seconds = wait - 1;
+			if (wait) {
+				setWait(seconds);
+			}
+		}
+		
+		let timer;
+		if (wait) {
+			timer = setTimeout(waitTwoMinutes,1000);
+		}else if (loading) {
+			setWait(120);
+		}
+		
+		return ()=> clearTimeout(timer);
+	},[wait, loading]);
+	
+	if (wait) {
+		return (
+			<Typography
+				align='center'
+				variant='body1'
+			>
+				Espere {minutes}min y {seconds}s para reenviar el correo.
+			</Typography>
+		);
+	}
+	
+	return (
+		<Typography 
+			align='center' 
+			className={classes.textButton} 
+			variant='body1' 
+			color='primary'
+			onClick={()=>{!loading && handleSendEmail(dataR)}}
+		>
+			Reenviar mensaje
+		</Typography>
+	);
+}
+
 function BoxFormRecoveryStep2(props) {
 	const { classes, nextStep } = props;
 	
@@ -33,10 +83,6 @@ function BoxFormRecoveryStep2(props) {
 	const { register, handleSubmit, errors } = useForm({
 		mode: 'onTouched'
 	});
-	
-	const handleBack = () => {
-		nextStep(1);
-	}
 	
 	const onSubmit = useCallback(async (data) => {
 		dispatch(updateForms('recuperar', true));
@@ -62,21 +108,23 @@ function BoxFormRecoveryStep2(props) {
 	},[dispatch, fetchData, dataR, nextStep]);
 	
 	const handleSendEmail = useCallback(async (data) => {
-		dispatch(updateForms('recuperar', true));
+		if (!loading) {
+			dispatch(updateForms('recuperar', true));
 		
-		const prepareDate = {
-			url: 'v1/recovery-password',
-			data: data,
-			successText: 'Correo enviado',
-			message404: 'Correo no encontrado',
-			messageTo422: true,
+			const prepareDate = {
+				url: 'v1/recovery-password',
+				data: data,
+				successText: 'Correo enviado',
+				message404: 'Correo no encontrado',
+				messageTo422: true,
+			}
+
+			// eslint-disable-next-line
+			const response = await fetchData(prepareDate);
+
+			dispatch(updateForms('recuperar', false, data));
 		}
-		
-		// eslint-disable-next-line
-		const response = await fetchData(prepareDate);
-		
-		dispatch(updateForms('recuperar', false, data));
-	},[dispatch, fetchData]);
+	},[dispatch, fetchData, loading]);
 	
 	return (
 		<Fade in={true}>
@@ -123,26 +171,12 @@ function BoxFormRecoveryStep2(props) {
 						</LoadingComponent>
 					</Grid>
 					<Grid item xs={12}>
-						<Typography 
-							align='center' 
-							className={classes.textButton} 
-							variant='body1' 
-							color='primary'
-							onClick={()=>{handleSendEmail(dataR)}}
-						>
-							Reenviar mensaje
-						</Typography>
-					</Grid>
-					<Grid item xs={12}>
-						<Typography 
-							align='center' 
-							className={classes.textButton} 
-							variant='body1' 
-							color='primary'
-							onClick={handleBack}
-						>
-							Cambiar correo
-						</Typography>
+						<ResendEmail
+							loading={loading}
+							handleSendEmail={handleSendEmail}
+							dataR={dataR}
+							classes={classes}
+						/>
 					</Grid>
 				</Grid>
 			</form>
