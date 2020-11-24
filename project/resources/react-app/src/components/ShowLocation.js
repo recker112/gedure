@@ -24,7 +24,12 @@ function LocationShow(){
 	let removed = BreadCrumbsRouters.splice(0,1);
 	
 	return (
-		<Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" className={classes.breadCrumbs}>
+		<Breadcrumbs 
+			data-tour="showSection" 
+			separator={<NavigateNextIcon fontSize="small" />} 
+			aria-label="breadcrumb" 
+			className={classes.breadCrumbs}
+		>
 			{BreadCrumbsRouters.map((route, i) => {
 				const lastItem = (i + 1) === BreadCrumbsRouters.length;
 				if (route === "panel") {

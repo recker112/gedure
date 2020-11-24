@@ -210,9 +210,9 @@ class LoginController extends Controller
 	{
 		$user = User::where('email', $request->email)->firstOrFail();
 		
-		$hashCode = $user->recoveryPassword->code;
+		$serverCode = $user->recoveryPassword->code;
 		
-		if (!Hash::check($request->code, $hashCode)) {
+		if ($request->code !== $serverCode) {
 			return response()->json([
 				'msg' => 'Error al verificar el codigo'
 			], 400);

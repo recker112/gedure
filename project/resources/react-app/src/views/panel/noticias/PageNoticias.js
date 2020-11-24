@@ -19,6 +19,7 @@ import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import CreateNoticia from './CreateNoticia';
 import EditNoticia from './EditNoticia';
 import DeleteConfirmation from '../../../components/DeleteConfirmation';
+import TourNoticias from './TourNoticias';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -112,6 +113,7 @@ function PageIndex() {
 					</Grid>
 					<Grid container justify="flex-end" item xs={12}>
 						<Button
+							data-tour="add__noticia"
 							variant="contained"
 							color="primary"
 							startIcon={<AddIcon />}
@@ -120,7 +122,7 @@ function PageIndex() {
 							Añadir
 						</Button>
 					</Grid>
-					<Grid item xs={12}>
+					<Grid data-tour="table__noticia" item xs={12}>
 						<MaterialTable
 							tableRef={tableRef}
 							title="Lista de noticias"
@@ -138,14 +140,14 @@ function PageIndex() {
 							localization={tableLocation}
 							actions={[
 								{
-									icon: () => (<VisibilityIcon />),
+									icon: () => (<VisibilityIcon data-tour="show__noticia" />),
 									tooltip: 'Ver',
 									onClick: (event, rowData) => {
 										history.push('/noticias/' + rowData.slug);
 									},
 								},
 								{
-									icon: () => (<Edit />),
+									icon: () => (<Edit data-tour="edit__noticia" />),
 									tooltip: 'Editar',
 									onClick: (event, rowData) => {
 										const data = {
@@ -158,7 +160,7 @@ function PageIndex() {
 									},
 								},
 								{
-									icon: () => (<Delete />),
+									icon: () => (<Delete data-tour="delete__noticia" />),
 									tooltip: 'Eliminar',
 									onClick: (event, rowData) => {
 										const data = {
@@ -182,6 +184,7 @@ function PageIndex() {
 					action={`Eliminar noticia #${data.id}`} 
 					callback={handleDelete} 
 				/>
+				<TourNoticias />
 			</Container>
 		</main>
 	);

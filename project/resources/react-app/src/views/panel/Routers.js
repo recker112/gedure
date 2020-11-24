@@ -42,27 +42,29 @@ function Routers() {
 	], [permissions, url]);
 	
 	return (
-		<Switch>
-			<Route path={`${url}/`} exact>
-				<PageIndex />
-			</Route>
-			
-			{privilegio === 'A-' && listA.map((data, i) => {
-				if (data.iCanSee) {
-					return (
-						<Route key={i} path={data.path} exact>
-							{data.component}
-						</Route>
-					);
-				}
-				
-				return null;
-			})}
-			
-			<Route>
-				<NotFound />
-			</Route>
-		</Switch>
+		<React.Fragment>
+			<Switch>
+				<Route path={`${url}/`} exact>
+					<PageIndex />
+				</Route>
+
+				{privilegio === 'A-' && listA.map((data, i) => {
+					if (data.iCanSee) {
+						return (
+							<Route key={i} path={data.path} exact>
+								{data.component}
+							</Route>
+						);
+					}
+
+					return null;
+				})}
+
+				<Route>
+					<NotFound />
+				</Route>
+			</Switch>
+		</React.Fragment>
 	);
 }
 

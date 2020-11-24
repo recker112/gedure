@@ -15,8 +15,8 @@ class Post extends Model
   use HasFactory, Sluggable;
 	
 	protected $casts = [
-		'created_at' => 'date: d-m-Y h:i A',
-		'updated_at' => 'date: d-m-Y h:i A',
+		'created_at' => 'date: Y-d-m h:i A',
+		'updated_at' => 'date: Y-d-m h:i A',
 	];
 	
 	protected $appends = [

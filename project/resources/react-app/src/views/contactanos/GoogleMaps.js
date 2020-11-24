@@ -4,7 +4,6 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import { 
 	Typography, 
 } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 export function MapGoogle(props) {
 	const [marker, setMarker] = useState(null);

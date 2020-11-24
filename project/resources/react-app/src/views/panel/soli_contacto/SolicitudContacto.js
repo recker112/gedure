@@ -17,6 +17,7 @@ import ShowLocation from '../../../components/ShowLocation';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import DeleteConfirmation from '../../../components/DeleteConfirmation';
 import ShowSolicitudContacto from './ShowSolicitudContacto';
+import TourSoliContacto from './TourSoliContacto';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -99,7 +100,7 @@ function SolicitudContacto() {
 					<Grid item xs={12}>
 						<ShowLocation />
 					</Grid>
-					<Grid item xs={12}>
+					<Grid data-tour="table__soliContacto" item xs={12}>
 						<MaterialTable 
 							tableRef={tableRef}
 							title="Lista de solicitudes"
@@ -110,18 +111,18 @@ function SolicitudContacto() {
 								{ title: 'Asunto', field: 'asunto' },
 								{ title: 'Nombre', field: 'nombre' },
 								{ title: 'Correo', field: 'email'},
-								{ title: 'Fecha de creación', field: 'created_at' },
+								{ title: 'Fecha de creaciรณn', field: 'created_at' },
 							]}
 							actions={[
 								{
-									icon: () => (<VisibilityIcon />),
+									icon: () => (<VisibilityIcon data-tour="show__soliContacto" />),
 									tooltip: 'Ver',
 									onClick: (event, rowData) => {
 										dispatch(updateDialogs('showSoliContacto', true, false, rowData));
 									},
 								},
 								{
-									icon: () => (<Delete />),
+									icon: () => (<Delete data-tour="delete__soliContacto" />),
 									tooltip: 'Eliminar',
 									onClick: (event, rowData) => {
 										const data = {
@@ -143,6 +144,7 @@ function SolicitudContacto() {
 					action={`Eliminar solicitud de contacto #${data.id}`} 
 					callback={handleDelete}
 				/>
+				<TourSoliContacto />
 			</Container>
 		</main>
 	);

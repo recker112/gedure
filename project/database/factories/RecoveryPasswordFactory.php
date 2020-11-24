@@ -23,7 +23,7 @@ class RecoveryPasswordFactory extends Factory
 	public function definition()
 	{
 		return [
-			'code' => Hash::make('12345'),
+			'code' => '12345',
 			'user_id' => rand(1,5),
 		];
 	}

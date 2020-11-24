@@ -135,6 +135,18 @@ function SectionDirectivo() {
 			cargo: 'Coordinadora de Evaluación',
 			alt: 'Foto de Maria Puerta'
 		},
+		{
+			avatar: null,
+			nombre: 'Erika Arguinzone',
+			cargo: 'Coordinadora de Pasantías',
+			alt: 'Foto de Erika Arguinzone'
+		},
+		{
+			avatar: null,
+			nombre: 'Ardis Arteaga',
+			cargo: 'Coordinadora de Pastoral',
+			alt: 'Foto de Ardis Arteaga'
+		},
 	];
 	
 	return (

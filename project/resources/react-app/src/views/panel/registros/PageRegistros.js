@@ -8,6 +8,7 @@ import {
 	FormControlLabel,
 	RadioGroup,
 	Radio,
+	Typography,
 	Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,6 +23,7 @@ import useFetch from '../../../hooks/useFetch';
 import ShowLocation from '../../../components/ShowLocation';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import LoadingComponent from '../../../components/LoadingComponent';
+import TourRegistros from './TourRegistros';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -55,7 +57,7 @@ function FormSelectType({ tableRef }) {
 	}
 	
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} data-tour="filter__registros">
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<FormControl disabled={loading}  component="fieldset">
@@ -180,7 +182,7 @@ function PageRegistros() {
 					<Grid item xs={12}>
 						<FormSelectType tableRef={tableRef} />
 					</Grid>
-					<Grid item xs={12}>
+					<Grid data-tour="table__registros" item xs={12}>
 						<MaterialTable
 							tableRef={tableRef}
 							title="Registros del sistema" 
@@ -197,6 +199,7 @@ function PageRegistros() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourRegistros />
 		</main>
 	);
 }
