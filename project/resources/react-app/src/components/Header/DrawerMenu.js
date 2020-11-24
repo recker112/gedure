@@ -120,7 +120,7 @@ function DrawerMenu() {
 			access: ['A-'],
 			listItems: [
 				{
-					url: '/gedure',
+					url: '/panel/gedure',
 					text: 'Configuración',
 					icon: <SettingsRoundedIcon />,
 					seeIt: Boolean(permissions.gedure?.control)
@@ -130,6 +130,12 @@ function DrawerMenu() {
 		{
 			title: 'Ayuda',
 			listItems: [
+				{
+					url: '/panel/solicitudes_contacto',
+					text: 'Solicitudes de contacto',
+					icon: <HelpRoundedIcon />,
+					seeIt: 1
+				},
 				{
 					url: '/soporte',
 					text: 'Preguntas y reclamos',

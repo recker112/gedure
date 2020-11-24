@@ -37,6 +37,16 @@ function LocationShow(){
 					</Typography>);
 				}
 				
+				if (route === "solicitudes_contacto") {
+					return (
+						<Typography 
+							key={i} 
+							color={lastItem ? "textPrimary" : "initial"}
+						>
+						Solicitudes de contacto
+					</Typography>);
+				}
+				
 				const RouteName = route[0].toUpperCase() + route.slice(1);
 				
 				return (

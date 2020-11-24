@@ -39,7 +39,7 @@ function App() {
 				contrastText: '#fff'
 			},
 			background: {
-				default: tema === 'light' ? '#f4f6f8' : '#1c2025',
+				default: tema === 'light' ? '#efefef' : '#1c2025',
 				paper: tema === 'light' ? '#fff' : '#282C34'
 			}
 		},
