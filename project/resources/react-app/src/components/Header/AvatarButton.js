@@ -106,6 +106,7 @@ function AvatarButton({ ...rest }) {
 					aria-controls="AvatarButton" 
 					aria-haspopup="true"
 					size='small' 
+					data-tour='avatar__menu'
 					onClick={handleClick}
 					{...rest}
 				>
@@ -133,7 +134,7 @@ function AvatarButton({ ...rest }) {
 					horizontal: 'right',
 				}}
 			>
-				<Paper>
+				<Paper data-tour='avatar__menu--despliegue'>
 					<Grid container alignItems='center' className={classes.headOptions}>
 						<span className={classes.margin}>{user.nombre}</span>
 					</Grid>

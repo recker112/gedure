@@ -58,7 +58,7 @@ function HeaderAuth() {
 					<DrawerButton className={classes.drawerButton} />
 					<ChangeTheme className={classes.menuButtom}>
 						<Tooltip title={temaText} arrow leaveDelay={200}>
-							<IconButton>
+							<IconButton data-tour='theme__button'>
 								<WbIncandescentIcon />
 							</IconButton>
 						</Tooltip>

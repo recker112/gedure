@@ -176,7 +176,7 @@ class LoginControllerTest extends TestCase
 	
 	public function testRecoveryPasswordVerifyCode()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$user = User::find(1);
 		
 		RecoveryPassword::factory()->create([

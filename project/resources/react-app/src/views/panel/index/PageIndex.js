@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Components
 import ShowLocation from '../../../components/ShowLocation';
+import TourIndex from './TourIndex';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -36,6 +37,7 @@ function PageIndex() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourIndex />
 		</main>
 	);
 }
