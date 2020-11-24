@@ -6,13 +6,13 @@ import {
 	Grid, 
 	Avatar,
 } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Components
 import FooterText from '../../components/FooterText';
 import AjaxBox from '../../components/AjaxBox';
 import FormContact from './FormContact';
+import GoogleMaps from './GoogleMaps';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -45,11 +45,27 @@ function SectionDirection() {
 			</Grid>
 			<Grid item xs={12} sm={6}>
 				<Typography variant='body1'>
-					Contenido de la ubicación
+					Localidad: Turmero (Lat: 10° 14'26''N;Long: 67° 28' 24''O)
+					<br/>
+					Alt: 446 msnm; Sup: 10Km2
+					<br/>
+					Parroquia: Capital Turmero
+					<br/>
+					Municipio: Santiago Mariño
+					<br/>
+					Dirección: Av. Bolivar N°9
+					<br/>
+					Norte: Av. Bolivar interceptada con la calle Páez
+					<br/>
+					Sur: Av. Mariño
+					<br/>
+					Este: Calle Camilo Torrres
+					<br/>
+					Oeste: Calle Ribas - Plaza Mariño de Turmero
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={6}>
-				<Skeleton variant='rect' height={300} />
+				<GoogleMaps />
 			</Grid>
 		</React.Fragment>
 	);
@@ -153,9 +169,11 @@ function PageContactanos() {
 						<Grid container spacing={2} justify='center'>
 							<SectionDirection />
 							<SectionDirectivo />
-							<Grid item xs={12}>
-								<FormContact />
-							</Grid>
+							{!auth && (
+								<Grid item xs={12}>
+									<FormContact />
+								</Grid>
+							)}
 						</Grid>
 					)}
 					{(status && status === '422') && (

@@ -36,6 +36,7 @@ function FormContact() {
 	
 	const onSubmit = async (data) => {
 		dispatch(updateForms('contacto', true));
+		data.content = data.content.replace(/\r?\n/g,"</br>");
 		
 		const prepareDate = {
 			url: 'v1/contacto',

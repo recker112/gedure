@@ -28,7 +28,7 @@ class ContactoRequest extends FormRequest
 			'email' => 'required|email|unique:contactos',
 			'telefono' => 'required|string|min:8|max:12',
 			'asunto' => 'required|string|min:4|max:30',
-			'content' => 'required|string|min:10|max:350'
+			'content' => 'required|string|min:10|max:750'
 		];
 	}
 }

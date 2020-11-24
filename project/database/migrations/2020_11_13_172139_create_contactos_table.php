@@ -19,7 +19,7 @@ class CreateContactosTable extends Migration
 			$table->string("email")->unique();
 			$table->bigInteger('telefono');
 			$table->char("asunto", 30);
-			$table->longText('content', 350);
+			$table->longText('content');
 			$table->timestamps();
 		});
 	}
