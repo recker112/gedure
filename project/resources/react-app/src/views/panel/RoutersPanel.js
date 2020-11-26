@@ -12,10 +12,11 @@ import { useSelector } from 'react-redux';
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
+const RoutersPanelUsers = lazy(() => import('./usuarios/RoutersPanelUsers'));
 const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
 const SolicitudContacto = lazy(() => import('./soli_contacto/SolicitudContacto'));
 
-function Routers() {
+function RoutersPanel() {
 	let { url } = useRouteMatch();
 	
 	const { permissions, privilegio } = useSelector((state) => ({
@@ -27,12 +28,19 @@ function Routers() {
 		{
 			path: `${url}/registros`,
 			component: <PageRegistros />,
+			exact: true,
 			iCanSee: Boolean(permissions?.administrar?.registro_ver),
 		},
 		{
 			path: `${url}/noticias`,
 			component: <PageNoticias />,
 			iCanSee: Boolean(permissions?.publicaciones?.post_modify),
+		},
+		{
+			path: `${url}/usuarios`,
+			component: <RoutersPanelUsers />,
+			enableNoExact: true,
+			iCanSee: Boolean(permissions?.administrar?.user_modify),
 		},
 		{
 			path: `${url}/solicitudes_contacto`,
@@ -51,7 +59,7 @@ function Routers() {
 				{privilegio === 'A-' && listA.map((data, i) => {
 					if (data.iCanSee) {
 						return (
-							<Route key={i} path={data.path} exact>
+							<Route key={i} path={data.path} exact={!Boolean(data?.enableNoExact)}>
 								{data.component}
 							</Route>
 						);
@@ -68,4 +76,4 @@ function Routers() {
 	);
 }
 
-export default Routers;
+export default RoutersPanel;

@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ContactoController;
 use App\Http\Controllers\Api\CursoController;
-use App\Http\Controllers\Api\MailController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +22,9 @@ use App\Http\Controllers\Api\MailController;
 |
 */
 Route::group(['prefix' => 'v1'], function () {
+	/*
+	LOGIN
+	*/
 	// Login
 	Route::post('login', [LoginController::class, 'login']);
 
@@ -42,10 +45,16 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	// RecoveryChangePass
 	Route::post('recovery-chpass', [LoginController::class, 'recoveryChangePassword']);
-
+	
+	/*
+	LOGS
+	*/
 	// GetLogs
 	Route::middleware(['auth:api', 'scopes:admin'])->get('logs', [LogController::class, 'index']);
 	
+	/*
+	POSTS
+	*/
 	// GetPosts
 	Route::get('posts', [PostController::class, 'index']);
 	
@@ -70,6 +79,9 @@ Route::group(['prefix' => 'v1'], function () {
 	// TableAdminPost
 	Route::middleware(['auth:api', 'scopes:admin'])->get('table-posts', [PostController::class, 'tableAdmin']);
 	
+	/*
+	CONTACTO
+	*/
 	// CreateContacto
 	Route::post('contacto', [ContactoController::class, 'create']);
 	
@@ -79,6 +91,9 @@ Route::group(['prefix' => 'v1'], function () {
 	// DestroyContacto
 	Route::delete('contacto/{id}', [ContactoController::class, 'destroy']);
 	
+	/*
+	CURSOS
+	*/
 	// GetCursos
 	Route::middleware(['auth:api', 'scopes:admin'])->get('curso', [CursoController::class, 'index']);
 	
@@ -87,4 +102,9 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	// DeleteCurso
 	Route::middleware(['auth:api', 'scopes:admin'])->delete('curso/{id}', [CursoController::class, 'destroy']);
+	
+	/*
+	USERS
+	*/
+	Route::middleware(['auth:api', 'scopes:admin'])->get('table-users', [UserController::class, 'index']);
 });

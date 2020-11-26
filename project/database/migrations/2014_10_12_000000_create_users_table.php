@@ -18,11 +18,12 @@ class CreateUsersTable extends Migration
 			$table->char("cedula", 30)->unique();
 			$table->char("nombre", 90);
 			$table->enum("privilegio", ["V-", "A-", "P-"]);
-			$table->string('password');
+			$table->string('password')->nullable()->default(null);
 			$table->string("avatar", 500)->nullable()->default(null);
 			$table->string("email")->unique()->nullable()->default(null);
 			$table->timestamps();
 			$table->softDeletes();
+			$table->timestamp('registred_at')->nullable()->default(null);
 		});
 	}
 

@@ -16,7 +16,11 @@ class Alumno extends Model
 	];
 	
 	protected $hidden = [
-		'created_at', 'updated_at', 'curso_id'
+		'created_at', 'updated_at', 'curso_id', 'user_id'
+	];
+	
+	protected $appends = [
+		'curso',
 	];
 	
 	/*
@@ -33,5 +37,10 @@ class Alumno extends Model
 	public function curso()
 	{
 		return $this->belongsTo('App\Models\Curso');
+	}
+	
+	public function getCursoAttribute()
+	{
+		return $this->curso()->first();
 	}
 }
