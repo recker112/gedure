@@ -27,7 +27,7 @@ const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./login/PageLogin'));
 const PageRecovery = lazy(() => import('./login/PageRecovery'));
-const RoutersPanel = lazy(() => import('./panel/Routers'));
+const RoutersPanel = lazy(() => import('./panel/RoutersPanel'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {

@@ -24,6 +24,10 @@ if (!localStorage.getItem('tour-solicitudContacto-v1')) {
 const initialState = {
 	tema: localStorage.getItem('theme'),
 	drawer: false,
+	steppers: {
+		active: 0,
+		skipped: new Set(),
+	},
 	tour: {
 		index: JSON.parse(localStorage.getItem('tour-index-v1')),
 		registros: JSON.parse(localStorage.getItem('tour-registros-v1')),
@@ -55,6 +59,27 @@ export default (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				drawer: payload
+			};
+		}
+			
+		case 'UPDATE_STEPPER_ACTIVE': {
+			return {
+				...state,
+				steppers: {
+					...state.steppers,
+					active: payload
+				}
+			};
+		}
+	
+		case 'UPDATE_STEPPER_SKIPPED': {
+			
+			return {
+				...state,
+				steppers: {
+					...state.steppers,
+					skipped: payload
+				}
 			};
 		}
 			

@@ -36,6 +36,11 @@ class User extends Authenticatable
 		'created_at', 'updated_at', 'password', 'deleted_at'
 	];
 	
+	protected $appends = [
+		'personal_data',
+		'estudiante_data',
+	];
+	
 	/*
 		RELACIONES
 	*/
@@ -106,6 +111,8 @@ class User extends Authenticatable
 				return $this->configAdmin()->first();
 			}
 		}
+		
+		return null;
 	}
 	
 	public function personalData()
@@ -162,4 +169,13 @@ class User extends Authenticatable
 	/*
 		ATRIBUTOS
 	*/
+	public function getPersonalDataAttribute()
+	{
+		return $this->personalData();
+	}
+	
+	public function getEstudianteDataAttribute()
+	{
+		return $this->alumno()->first();
+	}
 }

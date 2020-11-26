@@ -18,7 +18,7 @@ class LogController extends Controller
 			return response()->json( [
 				'msg'=>'not_permissions',
 				'description' => 'No tienes permisos'
-			], 200);
+			], 403);
 		}
 
 		$search = urldecode($request->search);
@@ -71,7 +71,8 @@ class LogController extends Controller
 				->orderBy('id', 'desc')
 				->offset($page)
 				->limit($perPage)
-				->get();
+				->get()
+				->toJson();
 			
 			//Total de logs
 			$logsCount = Log::with('user')
