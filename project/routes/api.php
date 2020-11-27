@@ -29,13 +29,16 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('login', [LoginController::class, 'login']);
 
 	// Relogin
-	Route::middleware('auth:api')->get('relogin', [LoginController::class, 'relogin']);
+	Route::middleware('auth:api')
+		->get('relogin', [LoginController::class, 'relogin']);
 
 	// Logout
-	Route::middleware('auth:api')->post('logout', [LoginController::class, 'logout']);
+	Route::middleware('auth:api')
+		->post('logout', [LoginController::class, 'logout']);
 
 	// LogoutAll
-	Route::middleware('auth:api')->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
+	Route::middleware('auth:api')
+		->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
 	
 	// RecoveryPassword
 	Route::post('recovery-password', [LoginController::class, 'recoveryPassword']);
@@ -50,7 +53,8 @@ Route::group(['prefix' => 'v1'], function () {
 	LOGS
 	*/
 	// GetLogs
-	Route::middleware(['auth:api', 'scopes:admin'])->get('logs', [LogController::class, 'index']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:registros_index'])
+		->get('logs', [LogController::class, 'index']);
 	
 	/*
 	POSTS
@@ -68,16 +72,20 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api'])->get('posts/auth/{slug}', [PostController::class, 'showAuth']);
 	
 	// CreatePost
-	Route::middleware(['auth:api', 'scopes:admin'])->post('posts', [PostController::class, 'create']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_create'])
+		->post('posts', [PostController::class, 'create']);
 	
 	// EditPost
-	Route::middleware(['auth:api', 'scopes:admin'])->put('posts/{slug}', [PostController::class, 'edit']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_edit'])
+		->put('posts/{slug}', [PostController::class, 'edit']);
 	
 	// DeletePost
-	Route::middleware(['auth:api', 'scopes:admin'])->delete('posts/{slug}', [PostController::class, 'destroy']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_destroy'])
+		->delete('posts/{slug}', [PostController::class, 'destroy']);
 	
 	// TableAdminPost
-	Route::middleware(['auth:api', 'scopes:admin'])->get('table-posts', [PostController::class, 'tableAdmin']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index'])
+		->get('table-posts', [PostController::class, 'tableAdmin']);
 	
 	/*
 	CONTACTO
@@ -86,10 +94,12 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('contacto', [ContactoController::class, 'create']);
 	
 	// GetContactos
-	Route::get('contacto', [ContactoController::class, 'index']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:soliContact_index'])
+		->get('contacto', [ContactoController::class, 'index']);
 	
 	// DestroyContacto
-	Route::delete('contacto/{id}', [ContactoController::class, 'destroy']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:soliContact_destroy'])
+		->delete('contacto/{id}', [ContactoController::class, 'destroy']);
 	
 	/*
 	CURSOS
@@ -106,5 +116,6 @@ Route::group(['prefix' => 'v1'], function () {
 	/*
 	USERS
 	*/
-	Route::middleware(['auth:api', 'scopes:admin'])->get('table-users', [UserController::class, 'index']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
+		->get('table-users', [UserController::class, 'index']);
 });

@@ -39,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
 function SolicitudContacto() {
 	const tableRef = useRef(null);
 
-	const { data } = useSelector((state) => ({
+	const { data, permissions } = useSelector((state) => ({
 		data: state.dialogs.deleteConfirmation.data,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -111,7 +112,7 @@ function SolicitudContacto() {
 								{ title: 'Asunto', field: 'asunto' },
 								{ title: 'Nombre', field: 'nombre' },
 								{ title: 'Correo', field: 'email'},
-								{ title: 'Fecha de creaciรณn', field: 'created_at' },
+								{ title: 'Fecha de creación', field: 'created_at' },
 							]}
 							actions={[
 								{
@@ -131,6 +132,7 @@ function SolicitudContacto() {
 										
 										dispatch(updateDialogs('deleteConfirmation', true, false, data));
 									},
+									disabled: permissions.administrar.soliContact_destroy,
 								},
 							]}
 							options={{

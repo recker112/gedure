@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Models\Block;
 use App\Models\Log;
 use App\Models\RecoveryPassword;
+use Spatie\Permission\Models\Permission;
 
 class LoginController extends Controller
 {
@@ -266,55 +267,80 @@ class LoginController extends Controller
 	
 	public function makePermissions($user)
 	{
+		$permissionsDB = $user->permissions;
+		if (!count($permissionsDB) && $user->hasRole('soy-admin')) {
+			$permissionsDB = Permission::all();
+		}
+		
 		if ($user->privilegio === 'A-') {
-			$permissionsDB = $user->config();
-			
 			$listA = array();
 			$listG = array();
-			$listP = array();
 			foreach ($permissionsDB as $perm) {
-				if ($permissionsDB->registros_ver) {
-					$listA['registro_ver'] = true;
+				if ($perm->name === 'registros_index') {
+					$listA['registros_index'] = true;
 				}
 				
-				if ($permissionsDB->user_ver) {
-					$listA['user_ver'] = true;
+				if ($perm->name === 'registros_user') {
+					$listA['registros_user'] = true;
 				}
 				
-				if ($permissionsDB->user_modify) {
-					$listA['user_modify'] = true;
+				if ($perm->name === 'users_index') {
+					$listA['users_index'] = true;
 				}
 				
-				if ($permissionsDB->gedure_control) {
-					$listG['control'] = true;
+				if ($perm->name === 'users_show') {
+					$listA['users_show'] = true;
 				}
 				
-				if ($permissionsDB->upload_boletas) {
-					$listA['upload_boletas'] = true;
+				if ($perm->name === 'users_create') {
+					$listA['users_create'] = true;
 				}
 				
-				if ($permissionsDB->upload_matricula) {
-					$listA['upload_matricula'] = true;
+				if ($perm->name === 'users_edit') {
+					$listA['users_edit'] = true;
 				}
 				
-				if ($permissionsDB->post_modify) {
-					$listP['post_modify'] = true;
+				if ($perm->name === 'users_delete') {
+					$listA['users_delete'] = true;
 				}
 				
-				if ($permissionsDB->post_modify_otros) {
-					$listP['post_modify_otros'] = true;
+				if ($perm->name === 'soliContact_index') {
+					$listA['soliContact_index'] = true;
+				}
+				
+				if ($perm->name === 'soliContact_destroy') {
+					$listA['soliContact_destroy'] = true;
+				}
+				
+				if ($perm->name === 'posts_index') {
+					$listA['posts_index'] = true;
+				}
+				
+				if ($perm->name === 'posts_create') {
+					$listA['posts_create'] = true;
+				}
+				
+				if ($perm->name === 'posts_edit') {
+					$listA['posts_edit'] = true;
+				}
+				
+				if ($perm->name === 'posts_destroy') {
+					$listA['posts_destroy'] = true;
+				}
+				
+				if ($perm->name === 'posts_others') {
+					$listA['posts_others'] = true;
 				}
 			}
 			
 			$permissions = [
 				'administrar' => $listA,
 				'gedure' => $listG,
-				'publicaciones' => $listP
 			];
 		}else {
 			$permissions = [];
 		}
-			
+		
 		return $permissions;
 	}
 }

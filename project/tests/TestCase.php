@@ -14,5 +14,6 @@ abstract class TestCase extends BaseTestCase
 		\Artisan::call('migrate', ['-vvv' => true]);
 		\Artisan::call('passport:install', ['-vvv' => true]);
 		\Artisan::call('db:seed', ['-vvv' => true]);
+		$this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
 	}
 }

@@ -12,7 +12,6 @@ use App\Mail\CodeSecurity;
 use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
-use App\Models\AdminConfig;
 use App\Models\RecoveryPassword;
 
 class LoginControllerTest extends TestCase
@@ -58,7 +57,7 @@ class LoginControllerTest extends TestCase
 				],
 				'permissions' => [
 					'administrar' => [
-						'user_ver'
+						'users_index'
 					]
 				]
 			]);
@@ -130,13 +129,9 @@ class LoginControllerTest extends TestCase
 	{
 		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
-			User::factory()->create(),
+			User::find(1),
 			['admin']
 		);
-		
-		AdminConfig::factory()->create([
-			'user_id' => $user->id,
-		]);
 		
 		$response = $this->getJson('/api/v1/relogin');
 
@@ -154,7 +149,7 @@ class LoginControllerTest extends TestCase
 				],
 				'permissions' => [
 					'administrar' => [
-						'user_ver'
+						'users_index'
 					]
 				]
 			]);

@@ -7,6 +7,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { useFormContext } from "react-hook-form";
+
 // Components
 import { isStepOptional, getSteps } from './PageUsuariosCrear';
 
@@ -27,6 +29,8 @@ function StepperControls() {
 		skipped: state.settings.steppers.skipped,
 	}));
 	const dispatch = useDispatch();
+	
+	const { handleSubmit } = useFormContext();
 	
 	const classes = useStyles();
 	
@@ -70,8 +74,8 @@ function StepperControls() {
 		history.push('/panel/usuarios');
 	}
 	
-	const handleRequest1 = () => {
-		handleNext();
+	const onRequest1 = (data) => {
+		alert("TODO OK");
 	}
 	
 	return (
@@ -99,15 +103,7 @@ function StepperControls() {
 					variant="contained" 
 					className={classes.buttonMargin} 
 					color="primary"
-					onClick={
-						() => {
-							if (activeStep === 0) {
-								handleNext();
-							}else if (activeStep === 1) {
-								handleRequest1();
-							}
-						}	
-					}
+					onClick={handleSubmit(activeStep === 1 ? onRequest1 : handleNext)}
 				>
 					{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
 				</Button>

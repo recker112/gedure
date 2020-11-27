@@ -29,23 +29,23 @@ function RoutersPanel() {
 			path: `${url}/registros`,
 			component: <PageRegistros />,
 			exact: true,
-			iCanSee: Boolean(permissions?.administrar?.registro_ver),
+			iCanSee: Boolean(permissions?.administrar?.registros_index),
 		},
 		{
 			path: `${url}/noticias`,
 			component: <PageNoticias />,
-			iCanSee: Boolean(permissions?.publicaciones?.post_modify),
+			iCanSee: Boolean(permissions?.administrar?.posts_index),
 		},
 		{
 			path: `${url}/usuarios`,
 			component: <RoutersPanelUsers />,
 			enableNoExact: true,
-			iCanSee: Boolean(permissions?.administrar?.user_modify),
+			iCanSee: Boolean(permissions?.administrar?.users_index),
 		},
 		{
-			path: `${url}/solicitudes_contacto`,
+			path: `${url}/solicitudes-contacto`,
 			component: <SolicitudContacto />,
-			iCanSee: 1,
+			iCanSee: Boolean(permissions?.administrar?.soliContact_index),
 		},
 	], [permissions, url]);
 	

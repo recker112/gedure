@@ -23,7 +23,7 @@ class UserFactory extends Factory
 	public function definition()
 	{
 		return [
-			'cedula' => $this->faker->name(20),
+			'cedula' => $this->faker->unique()->firstName,
 			'nombre' => $this->faker->name,
 			'privilegio' => 'A-',
 			'email' => $this->faker->unique()->safeEmail,

@@ -15,10 +15,12 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import History from '@material-ui/icons/History';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import PeopleIcon from '@material-ui/icons/People';
-import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
-import ContactMailIcon from '@material-ui/icons/ContactMail';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import PublicIcon from '@material-ui/icons/Public';
+import EmailIcon from '@material-ui/icons/Email';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 
 // Components
 import FooterText from '../../components/FooterText';
@@ -86,19 +88,19 @@ function DrawerMenu() {
 					url: '/panel/registros',
 					text: 'Registros',
 					icon: <History />,
-					seeIt: Boolean(permissions.administrar?.registro_ver)
+					seeIt: Boolean(permissions.administrar?.registros_index)
 				},
 				{
 					url: '/panel/usuarios',
 					text: 'Usuarios',
 					icon: <PeopleIcon />,
-					seeIt: Boolean(permissions.administrar?.user_ver)
+					seeIt: Boolean(permissions.administrar?.users_index)
 				},
 				{
 					url: '/panel/noticias',
 					text: 'Noticias',
 					icon: <PublicIcon />,
-					seeIt: Boolean(permissions.publicaciones?.post_modify),
+					seeIt: Boolean(permissions.administrar?.posts_index),
 				},
 				{
 					url: '/panel/boletas',
@@ -111,7 +113,13 @@ function DrawerMenu() {
 					text: 'Matricula',
 					icon: <AttachMoneyIcon />,
 					seeIt: Boolean(permissions.administrar?.upload_matricula)
-				}
+				},
+				{
+					url: '/panel/solicitudes-contacto',
+					text: 'Solicitudes de contacto',
+					icon: <EmailIcon />,
+					seeIt: Boolean(permissions.administrar?.soliContact_index)
+				},
 			]
 		},
 		{
@@ -131,15 +139,15 @@ function DrawerMenu() {
 			title: 'Ayuda',
 			listItems: [
 				{
-					url: '/panel/solicitudes_contacto',
-					text: 'Solicitudes de contacto',
-					icon: <HelpRoundedIcon />,
+					url: '/soporte',
+					text: 'Soporte',
+					icon: <ContactSupportIcon />,
 					seeIt: 1
 				},
 				{
-					url: '/soporte',
-					text: 'Preguntas y reclamos',
-					icon: <HelpRoundedIcon />,
+					url: '/preguntas-frecuentes',
+					text: 'Preguntas frecuentes',
+					icon: <QuestionAnswerIcon />,
 					seeIt: 1
 				},
 				{

@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import useFetch from '../../../../hooks/useFetch';
 
+import { useForm, FormProvider } from "react-hook-form";
+
 // Components
 import ShowLocation from '../../../../components/ShowLocation';
 import StepperControls from './StepperControls';
@@ -63,6 +65,10 @@ function PageUsuariosCrear() {
 	}));
 	const dispatch = useDispatch();
 	
+	const methods = useForm({
+		mode: 'onTouched'
+	});
+	
   const steps = getSteps();
 	
 	const classes = useStyles();
@@ -87,47 +93,51 @@ function PageUsuariosCrear() {
 			document.title = 'La Candelaria - Crear usuario';
 		}}>
 			<Container maxWidth='md' className='container--margin'>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<ShowLocation />
-					</Grid>
-					<Grid item xs={12}>
-						<Stepper activeStep={activeStep} alternativeLabel>
-							{steps.map((label, index) => {
-								const stepProps = {};
-								const labelProps = {};
-								if (isStepOptional(index)) {
-									labelProps.optional = (
-										<Typography 
-											component='div' 
-											align='center' variant="caption"
-										>
-											Opcional
-										</Typography>
-									);
-								}
-								if (isStepSkipped(index)) {
-									stepProps.completed = false;
-								}
-								return (
-									<Step key={index} {...stepProps}>
-										<StepLabel {...labelProps}>{label}</StepLabel>
-									</Step>
-								);
-							})}
-						</Stepper>
-					</Grid>
-					<Grid item xs={12}>
-						{activeStep === steps.length ? (
-							<Typography>Finish proccess</Typography>
-						) : (
-							getStepContent(activeStep)
-						)}
-					</Grid>
-					<Grid container justify='flex-end' item xs={12}>
-						<StepperControls />
-					</Grid>
-				</Grid>
+				<FormProvider {...methods}>
+					<form>
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<ShowLocation />
+							</Grid>
+							<Grid item xs={12}>
+								<Stepper activeStep={activeStep} alternativeLabel>
+									{steps.map((label, index) => {
+										const stepProps = {};
+										const labelProps = {};
+										if (isStepOptional(index)) {
+											labelProps.optional = (
+												<Typography 
+													component='div' 
+													align='center' variant="caption"
+												>
+													Opcional
+												</Typography>
+											);
+										}
+										if (isStepSkipped(index)) {
+											stepProps.completed = false;
+										}
+										return (
+											<Step key={index} {...stepProps}>
+												<StepLabel {...labelProps}>{label}</StepLabel>
+											</Step>
+										);
+									})}
+								</Stepper>
+							</Grid>
+							<Grid item xs={12}>
+								{activeStep === steps.length ? (
+									<Typography>Finish proccess</Typography>
+								) : (
+									getStepContent(activeStep)
+								)}
+							</Grid>
+							<Grid container justify='flex-end' item xs={12}>
+								<StepperControls />
+							</Grid>
+						</Grid>
+					</form>
+				</FormProvider>
 			</Container>
 		</main>
 	);

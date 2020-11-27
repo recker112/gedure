@@ -71,7 +71,7 @@ class LogControllerTest extends TestCase
 	
 	public function testGetLogsByType()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -104,7 +104,7 @@ class LogControllerTest extends TestCase
 	
 	public function testGetLogsByTypeAndSearch()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']

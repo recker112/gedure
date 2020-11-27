@@ -102,12 +102,6 @@ class PostController extends Controller
 		$user = $request->user();
 		$imgs = $request->file('imgs');
 		
-		if (!$user->config()->post_modify) {
-			return response()->json([
-				'msg' => 'No tienes permisos'
-			], 403);
-		}
-		
 		$post = new Post();
 		
 		$post->title = $request->title;
@@ -156,7 +150,7 @@ class PostController extends Controller
 			->firstOrFail();
 		
 		// Verificar si puede modificar todas las publicaciones
-		$verify = $user->config()->post_modify_otros ? false
+		$verify = $user->can('posts_others') ? false
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
@@ -212,7 +206,7 @@ class PostController extends Controller
 			->firstOrFail();
 		
 		// Verificar si puede modificar todas las publicaciones
-		$verify = $user->config()->post_modify_otros ? false
+		$verify = $user->can('posts_others') ? false
 			: $post->user_id !== $user->id;
 		
 		if ($verify) {
@@ -241,18 +235,12 @@ class PostController extends Controller
 	{
 		$user = $request->user();
 		
-		if (!$user->config()->post_modify) {
-			return response()->json([
-				'msg' => 'No tienes permisos'
-			], 403);
-		}
-		
 		$search = urldecode($request->search);
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		if ($user->config()->post_modify_otros) {
+		if ($user->can('posts_others')) {
 			$allPosts = Post::with('user')
 				->whereHas('user', function ($query) {
 					$search = request()->search;

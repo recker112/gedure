@@ -31,7 +31,7 @@ function LocationShow(){
 			className={classes.breadCrumbs}
 		>
 			{BreadCrumbsRouters.map((route, i) => {
-				const lastItem = (i + 1) === BreadCrumbsRouters.length;
+				const lastItem = i === (BreadCrumbsRouters.length - 1);
 				if (route === "panel") {
 					return (
 						<Typography 
@@ -42,7 +42,7 @@ function LocationShow(){
 					</Typography>);
 				}
 				
-				if (route === "solicitudes_contacto") {
+				if (route === "solicitudes-contacto") {
 					return (
 						<Typography 
 							key={i} 

@@ -5,7 +5,10 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+// Passport
+use Laravel\Passport\Passport;
 // Models
+use App\Models\User;
 use App\Models\Contacto;
 
 class ContactoControllerTest extends TestCase
@@ -52,6 +55,11 @@ class ContactoControllerTest extends TestCase
 	public function testGetContactos()
 	{
 		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
 		Contacto::create([
 			'nombre' => 'Juan alcachofa',
 			'telefono' => '4260394581',
@@ -92,6 +100,11 @@ class ContactoControllerTest extends TestCase
 	public function testDestroyContacto()
 	{
 		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
 		Contacto::create([
 			'nombre' => 'Juan alcachofa',
 			'telefono' => '4260394581',
@@ -111,6 +124,10 @@ class ContactoControllerTest extends TestCase
 	public function testErrorDestroyContacto()
 	{
 		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
 		
 		$response = $this->deleteJson('/api/v1/contacto/1');
 

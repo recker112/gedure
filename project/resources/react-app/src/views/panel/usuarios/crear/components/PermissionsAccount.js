@@ -20,10 +20,40 @@ function PasswordAccount({ classes }) {
 						</Typography>
 					</Grid>
 					<Grid item xs={3}>
-						<FormControlLabel control={<Switch />} label="Boletas" />
+						<FormControlLabel control={
+								<Switch
+									name="permissions.boletas"
+								/>
+							} 
+							label="Boletas" 
+						/>
 					</Grid>
 					<Grid item xs={3}>
-						<FormControlLabel control={<Switch />} label="Tickets" />
+						<FormControlLabel control={
+								<Switch
+									name="permissions.horarios"
+								/>
+							} 
+							label="Horarios"
+						/>
+					</Grid>
+					<Grid item xs={3}>
+						<FormControlLabel control={
+								<Switch
+									name="permissions.soporte"
+								/>
+							} 
+							label="Soporte" 
+						/>
+					</Grid>
+					<Grid item xs={3}>
+						<FormControlLabel control={
+								<Switch 
+									name="permissions.account_exonerada"
+								/>
+							} 
+							label="Cuenta exonerada"
+						/>
 					</Grid>
 				</Grid>
 			</Paper>

@@ -157,7 +157,7 @@ function EditNoticia({ tableRef=null, callback=null }) {
 					>
 						<label htmlFor="submit-editNoticia">
 							<Button variant="contained" component="span" endIcon={<SaveIcon />}>
-								Cambiar
+								Guardar
 							</Button>
 						</label>
 					</LoadingComponent>

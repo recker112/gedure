@@ -14,13 +14,6 @@ class UserController extends Controller
 	{
 		$user = $request->user();
 
-		if (!$user->config()->user_modify) {
-			return response()->json( [
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			], 403);
-		}
-
 		$search = urldecode($request->search);
 		$type = $request->type;
 

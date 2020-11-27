@@ -37,5 +37,12 @@ class AuthServiceProvider extends ServiceProvider
 			'admin' => 'administrador dentro del sistema',
 			'profe' => 'profesor dentro del sistema'
 		]);
+		
+		// Implicitly grant "Super Admin" role all permission checks using can()
+		Gate::before(function ($user, $ability) {
+			if ($user->hasRole('soy-admin')) {
+				return true;
+			}
+		});
 	}
 }
