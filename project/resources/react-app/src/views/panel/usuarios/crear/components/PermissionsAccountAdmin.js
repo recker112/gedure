@@ -245,7 +245,7 @@ function PermissionsAccountAdmin() {
 					<Grid item xs={3}>
 						<FormControlLabel control={
 								<Switch
-									name="super_usuario"
+									name="super_admin"
 									inputRef={register}
 									disabled={loading}
 								/>
@@ -255,10 +255,10 @@ function PermissionsAccountAdmin() {
 					</Grid>
 					<Grid item xs={12}>
 						<Typography>
-							Al activar este permiso el usuario tendrá poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
+							Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrรก usar todo lo actual y lo futuro. Use esta opciรณn con cautela.
 						</Typography>
 					</Grid>
-					{!watch('super_usuario', false) && (
+					{!watch('super_admin', false) && (
 						<NoSuperUser />
 					)}
 				</Grid>
