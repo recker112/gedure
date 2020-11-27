@@ -54,7 +54,7 @@ function DataAccount() {
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
-								minLength: { value: 3, message: 'Es my corto' },
+								minLength: { value: 3, message: 'Es muy corto' },
 								maxLength: { value: 30, message: 'Es demaciado largo' },
 							})}
 							error={Boolean(errors?.cedula)}
