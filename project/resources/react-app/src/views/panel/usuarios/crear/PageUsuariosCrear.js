@@ -16,6 +16,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import ShowLocation from '../../../../components/ShowLocation';
 import StepperControls from './StepperControls';
 import StepRegisterUser from './StepRegisterUser';
+import StepDataPersonal from './StepDataPersonal';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -44,7 +45,7 @@ function getStepContent(stepIndex) {
     case 0:
       return <StepRegisterUser />;
     case 1:
-      return 'Etapa2';
+      return <StepDataPersonal />;
     case 2:
       return 'Etapa3';
     default:
