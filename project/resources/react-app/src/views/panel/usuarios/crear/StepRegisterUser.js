@@ -1,41 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
 	Typography,
 	Grid,
-	Select,
 	MenuItem,
-	InputLabel,
-	FormControl,
-	FormHelperText,
 	Paper,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+
+import { useFormContext } from "react-hook-form";
 
 // Components
+import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
 import DataAccount from './components/DataAccount';
 import PasswordAccount from './components/PasswordAccount';
-import PermissionsAccount from './components/PermissionsAccount';
+import Curso from './components/Curso';
+import PermissionsAccountStudiend from './components/PermissionsAccountStudiend';
+import PermissionsAccountAdmin from './components/PermissionsAccountAdmin';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-		transition: '.5s',
-  	'&:hover': {
-			transform: 'scale(1.05)',
-		},
-  },
-	formControlSelect: {
-    minWidth: '100%',
-  },
-}));
+// Redux
+import { useSelector } from 'react-redux';
 
 function StepRegisterUser() {
-	const [typeRegister, setTypeRegister] = useState('manual');
-	const classes = useStyles();
+	const { loading } = useSelector((state) => ({
+		loading: state.forms.registerUser.loading,
+	}));
 	
-	const handleChange = (event) => {
-		setTypeRegister(event.target.value);
-	}
+	const { watch, control, errors } = useFormContext();
 	
 	return (
 		<Grid container spacing={2}>
@@ -48,19 +38,19 @@ function StepRegisterUser() {
 							</Typography>
 						</Grid>
 						<Grid item xs={3}>
-							<FormControl className={classes.formControlSelect}>
-								<InputLabel id="register-user-type-label">Tipo de registro</InputLabel>
-								<Select
-									labelId="register-user-type-label"
-									id="register-user-type"
-									value={typeRegister}
-									onChange={handleChange}
+							<RenderSelectFormHook
+								id='type-register'
+								name='type_register'
+								nameLabel='Tipo de registro'
+								control={control}
+								defaultValue='manual'
+								errors={errors.type_register}
+								helperText='Seleccione el modo que desea usar'
+								disabled={loading}
 								>
-									<MenuItem value='manual'>Manual</MenuItem>
-									<MenuItem value='invitacion'>invitación</MenuItem>
-								</Select>
-								<FormHelperText>Seleccione el modo que deséa usar</FormHelperText>
-							</FormControl>
+								<MenuItem value='manual'>Manual</MenuItem>
+								<MenuItem value='invitacion'>invitación</MenuItem>
+							</RenderSelectFormHook>
 						</Grid>
 						<Grid item xs={12}>
 							<Typography>
@@ -73,11 +63,21 @@ function StepRegisterUser() {
 					</Grid>
 				</Paper>
 			</Grid>
-			{typeRegister === 'manual' && (
+			{watch('type_register') === 'manual' && (
 				<React.Fragment>
-					<DataAccount classes={classes} />
+					<DataAccount />
 					<PasswordAccount />
-					<PermissionsAccount />
+					{watch('privilegio', '') === 'V-' && (
+						<Curso />
+					)}
+					
+					{watch('privilegio', '') === 'V-' && (
+						<PermissionsAccountStudiend />
+					)}
+					
+					{watch('privilegio', '') === 'A-' && (
+						<PermissionsAccountAdmin />
+					)}
 				</React.Fragment>
 			)}
 		</Grid>

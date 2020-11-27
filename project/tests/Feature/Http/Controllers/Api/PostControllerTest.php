@@ -171,20 +171,9 @@ class PostControllerTest extends TestCase
 				'msg',
 			]);
 		
-		$postCreated = Post::find(1);
-		
-		$response = $this->getJson('/api/v1/posts/'.$postCreated->slug);
-		
-		$response->assertOk()
-			->assertJsonStructure([
-				'title',
-				'content',
-				'slug',
-				'extracto',
-				'user',
-				'fecha_humano',
-				'fecha_humano_modify'
-			]);
+		$this->assertDatabaseHas('posts', [
+        'title' => 'Título de la publicación',
+    ]);
 	}
 	
 	public function testCreatePostWithImg()
@@ -214,6 +203,10 @@ class PostControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+		
+		$this->assertDatabaseHas('posts', [
+        'title' => 'testing TDD',
+    ]);
 		
 		$postCreated = Post::firstWhere('slug', 'testing-tdd');
 		
@@ -246,6 +239,10 @@ class PostControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+		
+		$this->assertDatabaseHas('posts', [
+        'title' => 'Título de la publicación',
+    ]);
 	}
 	
 	public function testEditPostWithFiles() {
@@ -346,6 +343,10 @@ class PostControllerTest extends TestCase
 			'only_users' => 0,
 			'imgs' => $files
 		]);
+		
+		$this->assertDatabaseHas('posts', [
+        'title' => 'test de ayer',
+    ]);
 
 		$response->assertStatus(201)
 			->assertJsonStructure([
@@ -358,6 +359,10 @@ class PostControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+		
+		$this->assertDatabaseMissing('posts', [
+        'title' => 'test de ayer',
+    ]);
 	}
 	
 	public function testErrorDeletePostNotFount() {

@@ -117,5 +117,9 @@ Route::group(['prefix' => 'v1'], function () {
 	USERS
 	*/
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
-		->get('table-users', [UserController::class, 'index']);
+		->get('users', [UserController::class, 'index']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_create'])
+		->post('users', [UserController::class, 'create']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_delete'])
+		->delete('users/{id}', [UserController::class, 'delete']);
 });

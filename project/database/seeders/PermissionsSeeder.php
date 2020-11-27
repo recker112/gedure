@@ -51,7 +51,7 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'soporte']);
 		Permission::create(['name' => 'account_exonerada']);
 		
-		$ADMIN = Role::create(['name' => 'soy-admin']);
+		$ADMIN = Role::create(['name' => 'super-admin']);
 		
 		$user = User::find(1); //Italo Morales
 		$user->assignRole($ADMIN);

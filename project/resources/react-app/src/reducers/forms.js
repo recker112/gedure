@@ -27,6 +27,11 @@ const initialState = {
 			type: 'all'
 		},
 	},
+	registerUser: {
+		loading: false,
+		status: null,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

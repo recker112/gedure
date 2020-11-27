@@ -8,7 +8,17 @@ import {
 	Switch,
 } from '@material-ui/core';
 
-function PasswordAccount({ classes }) {
+import { useFormContext } from "react-hook-form";
+
+// Redux
+import { useSelector } from 'react-redux';
+
+function PermissionsAccountStudiend() {
+	const { register } = useFormContext();
+	
+	const { loading } = useSelector((state) => ({
+		loading: state.forms.registerUser.loading,
+	}));
 	
 	return (
 		<Grid item xs={12}>
@@ -23,6 +33,8 @@ function PasswordAccount({ classes }) {
 						<FormControlLabel control={
 								<Switch
 									name="permissions.boletas"
+									inputRef={register}
+									disabled={loading}
 								/>
 							} 
 							label="Boletas" 
@@ -32,6 +44,8 @@ function PasswordAccount({ classes }) {
 						<FormControlLabel control={
 								<Switch
 									name="permissions.horarios"
+									inputRef={register}
+									disabled={loading}
 								/>
 							} 
 							label="Horarios"
@@ -41,6 +55,8 @@ function PasswordAccount({ classes }) {
 						<FormControlLabel control={
 								<Switch
 									name="permissions.soporte"
+									inputRef={register}
+									disabled={loading}
 								/>
 							} 
 							label="Soporte" 
@@ -50,6 +66,8 @@ function PasswordAccount({ classes }) {
 						<FormControlLabel control={
 								<Switch 
 									name="permissions.account_exonerada"
+									inputRef={register}
+									disabled={loading}
 								/>
 							} 
 							label="Cuenta exonerada"
@@ -61,4 +79,4 @@ function PasswordAccount({ classes }) {
 	);
 }
 
-export default PasswordAccount;
+export default PermissionsAccountStudiend;

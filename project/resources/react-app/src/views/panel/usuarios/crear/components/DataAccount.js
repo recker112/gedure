@@ -3,19 +3,25 @@ import React from 'react';
 import {
 	Typography,
 	Grid,
-	Select,
 	MenuItem,
-	InputLabel,
-	FormControl,
-	FormHelperText,
 	TextField,
 	Paper,
 } from '@material-ui/core';
 
 import { useFormContext } from "react-hook-form";
 
-function DataAccount({ classes }) {
-	const { register, errors } = useFormContext();
+// Components
+import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
+
+// Redux
+import { useSelector } from 'react-redux';
+
+function DataAccount() {
+	const { register, errors, control } = useFormContext();
+	
+	const { loading } = useSelector((state) => ({
+		loading: state.forms.registerUser.loading,
+	}));
 	
 	return (
 		<Grid item xs={12}>
@@ -27,20 +33,22 @@ function DataAccount({ classes }) {
 						</Typography>
 					</Grid>
 					<Grid item xs={3}>
-						<FormControl className={classes.formControlSelect}>
-							<InputLabel id="register-user-type-label">
-								Tipo de cuenta *
-							</InputLabel>
-							<Select
-								labelId="register-user-type-label"
-								id="register-user-type"
-								defaultValue='V-'
+						<RenderSelectFormHook
+							id='register-user-type'
+							name='privilegio'
+							nameLabel='Tipo de cuenta *'
+							control={control}
+							defaultValue=''
+							errors={errors.privilegio}
+							helperText='Seleccione un tipo de cuenta'
+							disabled={loading}
 							>
-								<MenuItem value='V-'>Estudiante</MenuItem>
-								<MenuItem value='A-'>Administrador</MenuItem>
-							</Select>
-							<FormHelperText>Seleccione un tipo de cuenta</FormHelperText>
-						</FormControl>
+							<MenuItem value=''>
+								<em>Ninguno</em>
+							</MenuItem>
+							<MenuItem value='V-'>Estudiante</MenuItem>
+							<MenuItem value='A-'>Administrador</MenuItem>
+						</RenderSelectFormHook>
 					</Grid>
 					<Grid item xs={4}>
 						<TextField 
@@ -55,6 +63,7 @@ function DataAccount({ classes }) {
 							name='cedula'
 							label='Cédula o usuario *'
 							size='small'
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
@@ -71,16 +80,27 @@ function DataAccount({ classes }) {
 							name='nombre'
 							label='Nombre y apellido *'
 							size='small'
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
 					<Grid item xs={4}>
 						<TextField 
+							inputRef={register({
+								required: { value: true, message: 'Este campo es obligatorio' },
+								pattern: {
+									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+									message: 'El correo no es válido',
+								},
+							})}
+							error={Boolean(errors?.email)}
+							helperText={errors?.email?.message ? errors.email.message : 'Ingrasar un correo válido'}
+							type='email'
 							variant='outlined'
 							name='email'
 							label='Correo *'
-							helperText='Ingrese un correo activo'
 							size='small'
+							disabled={loading}
 							fullWidth
 						/>
 					</Grid>

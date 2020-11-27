@@ -15,7 +15,7 @@ import AnimationDialog from './AnimationDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../actions/updateDialogs';
 
-function DeleteConfirmation({ action, callback }) {
+function DeleteConfirmation({ action, callback, yesBack = false }) {
 	const { open, loading } = useSelector((state) => ({
 		open: state.dialogs.deleteConfirmation.open,
 		loading: state.dialogs.deleteConfirmation.loading,
@@ -35,9 +35,17 @@ function DeleteConfirmation({ action, callback }) {
 		>
 			<DialogTitle id="confirm-dialog-title">¿Seguro?</DialogTitle>
 			<DialogContent>
-				<DialogContentText id="confirm-dialog-description">
-					Una vez realizada la acción "{action}" no se podrán deshacer los cambios.
-				</DialogContentText>
+				{!yesBack ? (
+					<DialogContentText id="confirm-dialog-description">
+						Una vez realizada la acción "{action}" no se podrán deshacer los cambios.
+					</DialogContentText>
+				)
+				:
+				(
+					<DialogContentText id="confirm-dialog-description">
+						Está a punto de realizar la acción "{action}".
+					</DialogContentText>
+				)}
 			</DialogContent>
 			<DialogActions>
 				<Button disabled={loading} onClick={handleClose} color="secondary">

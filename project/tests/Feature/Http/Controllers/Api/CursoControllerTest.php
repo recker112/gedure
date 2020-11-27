@@ -26,9 +26,9 @@ class CursoControllerTest extends TestCase
 			['admin']
 		);
 		
-		Curso::create([
+		$curso = Curso::create([
 			'code' => '1-A',
-			'name' => '1',
+			'curso' => '1',
 			'seccion' => 'A'
 		]);
 		
@@ -36,7 +36,7 @@ class CursoControllerTest extends TestCase
 		
 		$response->assertOk()
 			->assertJsonFragment([
-				'name' => '1'
+				'curso' => '1'
 			]);
 	}
 	
@@ -48,7 +48,7 @@ class CursoControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/curso', [
-			'name' => '1G',
+			'curso' => '1G',
 			'seccion' => 'B',
 		]);
 		
@@ -56,10 +56,14 @@ class CursoControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+		
+		$this->assertDatabaseHas('cursos', [
+        'curso' => '1G',
+    ]);
 	}
 	
 	public function testDestroyCurso() {
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

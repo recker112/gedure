@@ -9,28 +9,35 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { useFormContext } from "react-hook-form";
 
+import useFetch from '../../../../hooks/useFetch';
+
 // Components
 import { isStepOptional, getSteps } from './PageUsuariosCrear';
+import LoadingComponent from '../../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateSteppersActive from '../../../../actions/updateSteppersActive';
 import updateSteppersSkipped from '../../../../actions/updateSteppersSkipped';
+import updateForms from '../../../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
   buttonMargin: {
-		marginLeft: 5,
+		marginLeft: 10,
   },
 }));
 
 function StepperControls() {
-	const { activeStep, skipped } = useSelector((state) => ({
+	const { activeStep, skipped, loading } = useSelector((state) => ({
 		activeStep: state.settings.steppers.active,
 		skipped: state.settings.steppers.skipped,
+		loading: state.forms.registerUser.loading,
 	}));
 	const dispatch = useDispatch();
 	
 	const { handleSubmit } = useFormContext();
+	
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
 	
@@ -74,8 +81,25 @@ function StepperControls() {
 		history.push('/panel/usuarios');
 	}
 	
-	const onRequest1 = (data) => {
-		alert("TODO OK");
+	const onRequest1 = async (data) => {
+		dispatch(updateForms('registerUser', true, data));
+		
+		const prepare = {
+			url: `v1/users`,
+			type: 'post',
+			data: data,
+			messageTo422: true,
+			message422: 'El correo ya existe',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			dispatch(updateForms('registerUser', false));
+			handleNext();
+		}else {
+			dispatch(updateForms('registerUser', false, {}));
+		}
 	}
 	
 	return (
@@ -83,6 +107,7 @@ function StepperControls() {
 			{activeStep !== 1 && (
 				<Button
 					onClick={handleReturn}
+					disabled={loading}
 				>
 					{activeStep === 2 ? 'Cerrar' : 'Cancelar'}
 				</Button>
@@ -93,20 +118,23 @@ function StepperControls() {
 					variant="contained"
 					color="primary"
 					onClick={handleSkip}
+					disabled={loading}
 				>
 					Saltar
 				</Button>
 			)}
 
 			{activeStep < 2 && (
-				<Button 
-					variant="contained" 
-					className={classes.buttonMargin} 
-					color="primary"
-					onClick={handleSubmit(activeStep === 1 ? onRequest1 : handleNext)}
-				>
-					{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
-				</Button>
+				<LoadingComponent className={classes.buttonMargin} loading={loading}>
+					<Button 
+						variant="contained" 
+						className={classes.buttonMargin} 
+						color="primary"
+						onClick={handleSubmit(activeStep === 0 ? onRequest1 : handleNext)}
+					>
+						{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
+					</Button>
+				</LoadingComponent>
 			)}
 
 			{activeStep === 2 && (

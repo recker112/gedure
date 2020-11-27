@@ -103,7 +103,7 @@ function FormContact() {
 							variant='outlined'
 							size='small'
 							error={Boolean(errors?.email)}
-							helperText={errors?.email?.message ? errors.email.message : 'Ingrasar un correo activo'}
+							helperText={errors?.email?.message ? errors.email.message : 'Ingrasar un correo válido'}
 							disabled={loading}
 							fullWidth
 						/>

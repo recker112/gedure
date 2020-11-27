@@ -45,6 +45,14 @@ class LoginController extends Controller
 		
 		$user = $request->user();
 		
+		// Verificar cuenta activa
+		if (!$user->registred_at) {
+			return response()->json([
+				'msg' => 'La cuenta no está activa'
+			], 400);
+		}
+		
+		// Verificar bloqueos
 		$block = Block::firstWhere('user_id', $user->id);
 		
 		if ($block) {
@@ -268,7 +276,7 @@ class LoginController extends Controller
 	public function makePermissions($user)
 	{
 		$permissionsDB = $user->permissions;
-		if (!count($permissionsDB) && $user->hasRole('soy-admin')) {
+		if (!count($permissionsDB) && $user->hasRole('super-admin')) {
 			$permissionsDB = Permission::all();
 		}
 		
