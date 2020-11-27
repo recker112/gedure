@@ -130,7 +130,9 @@ function StepperControls() {
 						variant="contained" 
 						className={classes.buttonMargin} 
 						color="primary"
-						onClick={handleSubmit(activeStep === 0 ? onRequest1 : handleNext)}
+						onClick={
+							handleNext//handleSubmit(activeStep === 0 ? onRequest1 : handleNext)
+						}
 					>
 						{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
 					</Button>
