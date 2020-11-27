@@ -12,7 +12,10 @@ import {
 	Paper,
 } from '@material-ui/core';
 
+import { useFormContext } from "react-hook-form";
+
 function DataAccount({ classes }) {
+	const { register, errors } = useFormContext();
 	
 	return (
 		<Grid item xs={12}>
@@ -41,20 +44,32 @@ function DataAccount({ classes }) {
 					</Grid>
 					<Grid item xs={4}>
 						<TextField 
+							inputRef={register({
+								required: { value: true, message: 'Este campo es obligatorio' },
+								minLength: { value: 3, message: 'Es my corto' },
+								maxLength: { value: 30, message: 'Es demaciado largo' },
+							})}
+							error={Boolean(errors?.cedula)}
+							helperText={errors?.cedula?.message ? errors.cedula.message : 'Ingrese una cédula o un usuario'}
 							variant='outlined'
 							name='cedula'
 							label='Cédula o usuario *'
-							helperText='Ingrese una cédula o un usuario'
 							size='small'
 							fullWidth
 						/>
 					</Grid>
 					<Grid item xs={5}>
 						<TextField 
+							inputRef={register({
+								required: { value: true, message: 'Este campo es obligatorio' },
+								minLength: { value: 8, message: 'El nombre es muy corto' },
+								maxLength: { value: 90, message: 'El nombre es demaciado largo' },
+							})}
+							error={Boolean(errors?.nombre)}
+							helperText={errors?.nombre?.message ? errors.nombre.message : 'Ingrese el nombre y apellido'}
 							variant='outlined'
 							name='nombre'
 							label='Nombre y apellido *'
-							helperText='Ingrese el nombre y apellido'
 							size='small'
 							fullWidth
 						/>

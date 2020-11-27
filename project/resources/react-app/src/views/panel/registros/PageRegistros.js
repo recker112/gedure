@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 
 import { 
 	Container,
@@ -54,6 +54,13 @@ function FormSelectType({ tableRef }) {
 		dispatch(updateForms('registros', true, data));
 		tableRef.current && tableRef.current.onQueryChange();
 	}
+	
+	useEffect(()=>{
+		return () => {
+			dispatch(updateForms('registros', false, {type:'all'}));
+		}
+		// eslint-disable-next-line
+	},[]);
 	
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} data-tour="filter__registros">

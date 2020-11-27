@@ -41,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
 function PageIndex() {
 	const tableRef = useRef(null);
 
-	const { data } = useSelector((state) => ({
+	const { data, permissions } = useSelector((state) => ({
 		data: state.dialogs.deleteConfirmation.data,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 
@@ -118,6 +119,7 @@ function PageIndex() {
 							color="primary"
 							startIcon={<AddIcon />}
 							onClick={handleCreate}
+							disabled={!permissions.administrar.posts_create}
 						>
 							Añadir
 						</Button>
@@ -158,6 +160,7 @@ function PageIndex() {
 										
 										dispatch(updateDialogs('editNoticia', true, false, data));
 									},
+									disabled: !permissions.administrar.posts_edit
 								},
 								{
 									icon: () => (<Delete data-tour="delete__noticia" />),
@@ -170,6 +173,7 @@ function PageIndex() {
 										
 										dispatch(updateDialogs('deleteConfirmation', true, false, data));
 									},
+									disabled: !permissions.administrar.posts_destroy
 								},
 							]}
 							options={{

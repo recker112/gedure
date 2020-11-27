@@ -101,6 +101,29 @@ class CursoController extends Controller
 			];
 			$i++;
 		}
+		
+		//PERMISOS
+		$test = User::find(1);
+		$form = [
+			'products_index' => true,
+			'products_show' => false,
+		];
+		$test->syncPermissions([]);
+		foreach($form as $clave => $value) {
+			if ($value) {
+				$test->givePermissionTo($clave);
+			}
+		}
+		
+		$back = $test->getAllPermissions();
+		$permissions = [];
+		$i = 0;
+		foreach($back as $permiso) {
+			$permissions[$i] = $permiso->name;
+			$i++;
+		}
+		dd($permissions);
+		
 		//dd($users);
 		$response = $this->get('/');
 

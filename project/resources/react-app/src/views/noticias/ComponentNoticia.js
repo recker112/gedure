@@ -84,7 +84,7 @@ export function NoticiaPreview(props) {
 				<CardActions>
 					<Link style={{ marginLeft: 'auto' }} to={`/noticias/${slug}`}>
 						<Button color='secondary' onClick={handleClick}>
-							Ver publicaciรณn
+							Ver publicación
 						</Button>
 					</Link>
 				</CardActions>

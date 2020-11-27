@@ -202,13 +202,13 @@ export function Noticia(props) {
 					anchorEl={anchorEl}
 					keepMounted
 					open={Boolean(anchorEl)}
-					onClose={handleClose}
+					onClose={handleClose} 
 				>
-					{auth && userRedux.privilegio === 'A-' && ((user.id === userRedux.id && permissions.publicaciones.post_modify) || permissions.publicaciones.post_modify_otros) && (
-						[
-							<MenuItem onClick={handleEdit}>Editar</MenuItem>,
-							<MenuItem onClick={handleDelete}>Eliminar</MenuItem>
-						]
+					{((auth && userRedux.privilegio === 'A-') && ((user.id === userRedux.id && permissions.administrar.posts_edit) || (permissions.administrar.posts_edit && permissions.administrar.posts_others))) && (
+						<MenuItem onClick={handleEdit}>Editar</MenuItem>
+					)}
+					{((auth && userRedux.privilegio === 'A-') && ((user.id === userRedux.id && permissions.administrar.posts_destroy) || (permissions.administrar.posts_destroy && permissions.administrar.posts_others))) && (
+						<MenuItem onClick={handleDelete}>Eliminar</MenuItem>
 					)}
 					<MenuItem onClick={handleReturn}>Regresar</MenuItem>
 				</Menu>

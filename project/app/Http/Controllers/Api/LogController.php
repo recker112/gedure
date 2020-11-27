@@ -14,13 +14,6 @@ class LogController extends Controller
 	public function index(TableRequest $request) {
 		$user = $request->user();
 
-		if (!$user->config()->registros_ver) {
-			return response()->json( [
-				'msg'=>'not_permissions',
-				'description' => 'No tienes permisos'
-			], 403);
-		}
-
 		$search = urldecode($request->search);
 		$type = $request->type;
 

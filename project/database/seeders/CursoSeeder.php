@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Curso;
 use App\Models\Alumno;
-use App\Models\UserConfig;
 use App\Models\PersonalDataUser;
 
 class CursoSeeder extends Seeder
@@ -27,10 +26,6 @@ class CursoSeeder extends Seeder
 			'password' => bcrypt('estudiante'),
 		]);
 		
-		UserConfig::create([
-			'user_id' => $user->id,
-		]);
-		
 		PersonalDataUser::create([
 			'user_id' => $user->id,
 		]);
@@ -41,10 +36,6 @@ class CursoSeeder extends Seeder
 			'privilegio' => 'V-',
 			'email' => 'estudiante2@testing.test',
 			'password' => bcrypt('estudiante'),
-		]);
-		
-		UserConfig::create([
-			'user_id' => $user2->id,
 		]);
 		
 		PersonalDataUser::create([

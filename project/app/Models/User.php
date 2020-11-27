@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-	use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+	use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -44,16 +45,6 @@ class User extends Authenticatable
 	/*
 		RELACIONES
 	*/
-	
-	public function configAdmin()
-	{
-		return $this->hasOne('App\Models\AdminConfig');
-	}
-	
-	public function configUser()
-	{
-		return $this->hasOne('App\Models\UserConfig');
-	}
 	
 	public function personalDataUser()
 	{
@@ -93,30 +84,12 @@ class User extends Authenticatable
 	/*
 		FUNCIONES ESPECIALES
 	*/
-	public function config()
+	
+	public function personalData()
 	{
 		/*
 			NOTA (RECKER): Esto es solo una verificacion de si el usuario fue soft deleteado para asi poder recuperar sus datos.
 		*/
-		if ($this->trashed()) {
-			if ($this->attributes['privilegio'] === 'V-') {
-				return $this->configUser()->onlyTrashed()->first();
-			}else {
-				return $this->configAdmin()->onlyTrashed()->first();
-			}
-		}else {
-			if ($this->attributes['privilegio'] === 'V-') {
-				return $this->configUser()->first();
-			}else {
-				return $this->configAdmin()->first();
-			}
-		}
-		
-		return null;
-	}
-	
-	public function personalData()
-	{
 		if ($this->trashed()) {
 			if ($this->attributes['privilegio'] === 'V-') {
 				return $this->personalDataUser()->onlyTrashed()->first();
@@ -142,7 +115,6 @@ class User extends Authenticatable
 
 		static::deleting(function($user) {
 			$user->personalData()->delete();
-			$user->config()->delete();
 			
 			if ($user->privilegio === 'A-') {
 				foreach($user->posts as $post) {
@@ -160,7 +132,6 @@ class User extends Authenticatable
 			if ($user->privilegio === 'V-') {
 				$user->personalDataUser()->restore();
 			} else if ($user->privilegio === 'A-') {
-				$user->configAdmin()->restore();
 				$user->personalDataAdmin()->restore();
 			}
 		});

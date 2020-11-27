@@ -22,6 +22,9 @@ import useFetch from '../../../../hooks/useFetch';
 import ShowLocation from '../../../../components/ShowLocation';
 import { tableIcons, tableLocation } from '../../../../components/TableConfig';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
@@ -40,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
 
 function PageUsuarios() {
 	const tableRef = useRef(null);
+	
+	const { permissions } = useSelector(state => ({
+		permissions: state.userData.permissions,
+	}))
 	
 	const classes = useStyles();
 	
@@ -88,7 +95,12 @@ function PageUsuarios() {
 						<ShowLocation />
 					</Grid>
 					<Grid item xs={12}>
-						<Button color="primary" variant="contained" onClick={handleCreate}>
+						<Button 
+							color="primary" 
+							variant="contained" 
+							onClick={handleCreate}
+							disabled={!permissions.administrar.users_create}
+						>
 							Crear
 						</Button>
 					</Grid>
