@@ -25,7 +25,8 @@ class User extends Authenticatable
 		'email',
 		'password',
 		'avatar',
-		'privilegio'
+		'privilegio',
+		'registred_at',
 	];
 
 	/**
@@ -114,7 +115,15 @@ class User extends Authenticatable
 		parent::boot();
 
 		static::deleting(function($user) {
-			$user->personalData()->delete();
+			if ($user->isForceDeleting()) {
+				if ($user->personalData()) {
+					$user->personalData()->forceDelete();
+				}
+			}else {
+				if ($user->personalData()) {
+					$user->personalData()->delete();
+				}
+			}
 			
 			if ($user->privilegio === 'A-') {
 				foreach($user->posts as $post) {

@@ -21,9 +21,11 @@ import useFetch from '../../../../hooks/useFetch';
 // Components
 import ShowLocation from '../../../../components/ShowLocation';
 import { tableIcons, tableLocation } from '../../../../components/TableConfig';
+import DeleteConfirmation from '../../../../components/DeleteConfirmation';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from '../../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -44,9 +46,11 @@ const useStyles = makeStyles((theme) => ({
 function PageUsuarios() {
 	const tableRef = useRef(null);
 	
-	const { permissions } = useSelector(state => ({
+	const { permissions, data } = useSelector(state => ({
 		permissions: state.userData.permissions,
-	}))
+		data: state.dialogs.deleteConfirmation.data,
+	}));
+	const dispatch = useDispatch();
 	
 	const classes = useStyles();
 	
@@ -60,7 +64,7 @@ function PageUsuarios() {
 	
 	const onFetch = useCallback(async (query) => {
 		const prepare = {
-			url: `v1/table-users?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+			url: `v1/users?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
 			)}`,
 			type: 'get',
@@ -84,6 +88,22 @@ function PageUsuarios() {
 		}
 		// eslint-disable-next-line
 	}, []);
+	
+	const handleDelete = async () => {
+		const prepare = {
+			url: `v1/users/${data.id}`,
+			type: 'delete',
+			message404: 'Esta noticia ya no existe',
+		};
+
+		const response = await fetchData(prepare);
+
+		dispatch(updateDialogs('deleteConfirmation', false, true));
+
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+	}
 	
 	return (
 		<main className={classes.containerMain} ref={()=>{
@@ -149,24 +169,30 @@ function PageUsuarios() {
 							]}
 							actions={[
 								{
-									icon: () => <PersonIcon />,
+									icon: () => (<PersonIcon />),
 									tooltip: 'Ver',
 									onClick: (event, rowData) => {
 										//
 									},
 								},
 								{
-									icon: () => <Edit />,
+									icon: () => (<Edit />),
 									tooltip: 'Editar',
 									onClick: (event, rowData) => {
 										//
 									},
 								},
 								{
-									icon: () => <Delete />,
+									icon: () => (<Delete />),
 									tooltip: 'Eliminar',
 									onClick: (event, rowData) => {
-										//
+										const user = {
+											id: rowData.id,
+											privilegio: rowData.privilegio,
+											cedula: rowData.cedula,
+										}
+										
+										dispatch(updateDialogs('deleteConfirmation', true, false, user));
 									},
 								},
 							]}
@@ -176,6 +202,11 @@ function PageUsuarios() {
 						/>
 					</Grid>
 				</Grid>
+				<DeleteConfirmation
+					action={`Eliminar usuario ${data.privilegio + data.cedula}`} 
+					callback={handleDelete} 
+					yesBack
+				/>
 			</Container>
 		</main>
 	);

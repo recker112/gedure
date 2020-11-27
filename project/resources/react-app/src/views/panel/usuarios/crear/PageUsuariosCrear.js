@@ -10,8 +10,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import useFetch from '../../../../hooks/useFetch';
-
 import { useForm, FormProvider } from "react-hook-form";
 
 // Components
@@ -73,8 +71,6 @@ function PageUsuariosCrear() {
 	
 	const classes = useStyles();
 	
-	const { fetchData } = useFetch();
-	
 	const isStepSkipped = (step) => {
 		return skipped.has(step);
 	};
@@ -94,7 +90,7 @@ function PageUsuariosCrear() {
 		}}>
 			<Container maxWidth='md' className='container--margin'>
 				<FormProvider {...methods}>
-					<form>
+					<form autoComplete='off'>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
 								<ShowLocation />

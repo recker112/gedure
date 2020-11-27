@@ -47,7 +47,7 @@ class CursoController extends Controller
 	
 	public function create(CursoRequest $request) {
 		$data = $request->toArray();
-		$data['code'] = $data['name'].'-'.$data['seccion'];
+		$data['code'] = $data['curso'].'-'.$data['seccion'];
 		
 		$curso = Curso::create($data);
 		
@@ -130,10 +130,10 @@ class CursoController extends Controller
 		$response->assertStatus(200);
 	}
 	
-	public function orderAlumnos($code){
+	public static function orderAlumnos($id){
 		$studiendsInCurso = Alumno::select('alumnos.n_lista', 'alumnos.id', DB::raw('CAST(cedula AS UNSIGNED) AS converted'))
 			->join('users', 'users.id', '=', 'alumnos.user_id')
-			->where('curso_id', $code)
+			->where('curso_id', $id)
 			->orderBy('converted', 'Asc')
 			->get();
 		

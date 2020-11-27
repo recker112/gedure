@@ -35,6 +35,10 @@ class ContactoControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+		
+		$this->assertDatabaseHas('contactos', [
+        'email' => 'contacto@team.es',
+    ]);
 	}
 	
 	public function testErrorCreateMessaje()
@@ -50,6 +54,10 @@ class ContactoControllerTest extends TestCase
 
 		$response->assertStatus(422)
 			->assertJsonValidationErrors(['email']);
+		
+		$this->assertDatabaseMissing('contactos', [
+        'email' => 'contacto@team.es',
+    ]);
 	}
 	
 	public function testGetContactos()
@@ -105,7 +113,7 @@ class ContactoControllerTest extends TestCase
 			['admin']
 		);
 		
-		Contacto::create([
+		$message = Contacto::create([
 			'nombre' => 'Juan alcachofa',
 			'telefono' => '4260394581',
 			'email' => 'paco@steam.es',
@@ -119,6 +127,8 @@ class ContactoControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+		
+		$this->assertDeleted($message);
 	}
 	
 	public function testErrorDestroyContacto()

@@ -44,7 +44,7 @@ class CursoSeeder extends Seeder
 		
 		$curso = Curso::create([
 			'code' => '5-A',
-			'name' => '5',
+			'curso' => '5',
 			'seccion' => 'A'
 		]);
 		

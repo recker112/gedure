@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
 			'privilegio' => 'A-',
 			'email' => 'joseortiz112001@gmail.com',
 			'password' => bcrypt('reckersito'),
+			'registred_at' => now(),
 		]);
 		
 		PersonalDataAdmin::create([
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
 			'privilegio' => 'A-',
 			'email' => 'uepapep.lacandelaria@gmail.com',
 			'password' => bcrypt('12345'),
+			'registred_at' => now(),
 		]);
 		
 		PersonalDataAdmin::create([
