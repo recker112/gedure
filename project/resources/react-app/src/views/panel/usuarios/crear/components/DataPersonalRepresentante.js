@@ -7,9 +7,16 @@ import {
 	TextField,
 	Paper,
 	InputAdornment,
+	FormControl,
+	FormLabel,
+	FormControlLabel,
+	RadioGroup,
+	Radio,
 } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import { useFormContext } from "react-hook-form";
+import { Controller } from 'react-hook-form';
 
 // Components
 import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
@@ -98,7 +105,7 @@ function DataPersonalRepresentante() {
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
 								minLength: { value: 6, message: 'Teléfono no válido' },
-								maxLength: { value: 90, message: 'Teléfono no válido' },
+								maxLength: { value: 30, message: 'Teléfono no válido' },
 								pattern: {
 									value: /^[0-9]*$/,
 									message: 'Ingrese solo números',
@@ -130,6 +137,122 @@ function DataPersonalRepresentante() {
 							variant='outlined'
 							name='personalData.repre_direccion'
 							label='Dirección de domicilio *'
+							size='small'
+							disabled={loading}
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={4}>
+						<FormControl component="fieldset">
+							<FormLabel component="legend">Sexo</FormLabel>
+							<RadioGroup 
+								aria-label="sexo" 
+								defaultValue='Masculino' 
+								name='personalData.repre_sexo' 
+								row
+							>
+								<FormControlLabel 
+									value="Masculino" 
+									control={
+										<Radio inputRef={register} />
+									} 
+									label="Masculino"
+								/>
+								<FormControlLabel 
+									value="Femenino" 
+									control={
+										<Radio inputRef={register} />
+									} 
+									label="Femenino"
+								/>
+							</RadioGroup>
+						</FormControl>
+					</Grid>
+					<Grid item xs={4}>
+						<RenderSelectFormHook
+							id='datosPersonal-representate-tipoFamiliar'
+							name='personalData.repre_tipo_familiar'
+							nameLabel='Tipo de familiar *'
+							control={control}
+							defaultValue=''
+							errors={errors.personalData?.repre_tipo_familiar}
+							helperText='Seleccione el tipo de familiar'
+							disabled={loading}
+							>
+							<MenuItem value=''>
+								<em>Ninguno</em>
+							</MenuItem>
+							<MenuItem value="Madre">Madre</MenuItem>
+							<MenuItem value="Padre">Padre</MenuItem>
+							<MenuItem value="Abuela(o)">Abuela(o)</MenuItem>
+							<MenuItem value="Padrastro">Padrastro</MenuItem>
+							<MenuItem value="Madastra">Madastra</MenuItem>
+							<MenuItem value="Tia(o)">Tia(o)</MenuItem>
+							<MenuItem value="Otro">Otro</MenuItem>
+						</RenderSelectFormHook>
+					</Grid>
+					<Grid item xs={4}>
+						<RenderSelectFormHook
+							id='datosPersonal-representate-estadoCivil'
+							name='personalData.repre_estado_civil'
+							nameLabel='Estado civil *'
+							control={control}
+							defaultValue=''
+							errors={errors.personalData?.repre_estado_civil}
+							helperText='Seleccione el estado civil'
+							disabled={loading}
+							>
+							<MenuItem value=''>
+								<em>Ninguno</em>
+							</MenuItem>
+							<MenuItem value="Soltero">Soltero</MenuItem>
+							<MenuItem value="Casado">Casado</MenuItem>
+							<MenuItem value="Viudo">Viudo</MenuItem>
+							<MenuItem value="Concubino">Concubino</MenuItem>
+							<MenuItem value="Divorciado">Divorciado</MenuItem>
+						</RenderSelectFormHook>
+					</Grid>
+					<Grid item xs={4}>
+						<Controller
+							as={
+								<KeyboardDatePicker
+									disableFuture
+									variant="inline"
+									inputVariant="outlined"
+									format="dd/MM/yyyy"
+									views={['year', 'month', 'date']}
+									openTo="year"
+									label="Nacimiento *"
+									helperText={errors?.dataPersonal?.repre_nacimiento?.message ? errors.dataPersonal.repre_nacimiento.message : "Fecha de nacimiento"}
+									error={Boolean(errors?.dataPersonal?.repre_nacimiento)}
+									KeyboardButtonProps={{
+										'aria-label': 'change date',
+									}}
+								/>
+							}
+							name="dataPersonal.repre_nacimiento"
+							control={control}
+							defaultValue={null}
+							rules={{ 
+								required: { value: true, message: 'Este campo es necesario' },
+							}}
+						/>
+					</Grid>
+					<Grid item xs={5}>
+						<TextField 
+							inputRef={register({
+								required: { value: true, message: 'Este campo es obligatorio' },
+								pattern: {
+									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+									message: 'El correo no es válido',
+								},
+							})}
+							error={Boolean(errors?.dataPersonal?.repre_email)}
+							helperText={errors?.dataPersonal?.repre_email?.message ? errors.dataPersonal.repre_email.message : 'Ingrasar un correo válido'}
+							type='email'
+							variant='outlined'
+							name='dataPersonal.repre_email'
+							label='Correo *'
 							size='small'
 							disabled={loading}
 							fullWidth

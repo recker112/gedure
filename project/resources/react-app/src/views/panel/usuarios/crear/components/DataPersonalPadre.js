@@ -98,7 +98,7 @@ function DataPersonalMadre() {
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
 								minLength: { value: 6, message: 'Teléfono no válido' },
-								maxLength: { value: 90, message: 'Teléfono no válido' },
+								maxLength: { value: 30, message: 'Teléfono no válido' },
 								pattern: {
 									value: /^[0-9]*$/,
 									message: 'Ingrese solo números',

@@ -137,7 +137,7 @@ function PageUsuarios() {
 									field: 'nombre',
 									render: (rowData) => (
 										<Grid container alignItems="center" spacing={2}>
-											<Grid item xs={4}>
+											<Grid item xs={12} md={4}>
 												<Avatar 
 													className={classes.avatar}
 													src={rowData.avatar} 
