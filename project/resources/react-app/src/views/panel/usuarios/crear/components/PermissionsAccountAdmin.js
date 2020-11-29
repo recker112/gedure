@@ -22,7 +22,7 @@ function SwitchsUsuario() {
 	
 	return (
 		<React.Fragment>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="users_show"
@@ -33,7 +33,7 @@ function SwitchsUsuario() {
 					label="Ver usuario" 
 				/>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="users_create"
@@ -44,7 +44,7 @@ function SwitchsUsuario() {
 					label="Crear usuario" 
 				/>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="users_edit"
@@ -55,7 +55,7 @@ function SwitchsUsuario() {
 					label="Editar usuario" 
 				/>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="users_delete"
@@ -79,7 +79,7 @@ function SwitchsPosts() {
 	
 	return (
 		<React.Fragment>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="posts_create"
@@ -90,7 +90,7 @@ function SwitchsPosts() {
 					label="Crear noticia" 
 				/>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="posts_edit"
@@ -101,7 +101,7 @@ function SwitchsPosts() {
 					label="Editar noticia" 
 				/>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="posts_destroy"
@@ -112,7 +112,7 @@ function SwitchsPosts() {
 					label="Eliminar noticia" 
 				/>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={12} sm={6} md={4}>
 				<FormControlLabel control={
 						<Switch
 							name="posts_others"
@@ -141,7 +141,7 @@ function NoSuperUser() {
 					Registros
 				</Typography>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={12}>
 				<FormControlLabel control={
 						<Switch
 							name="registros_index"
@@ -157,7 +157,7 @@ function NoSuperUser() {
 					Usuarios
 				</Typography>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="users_index"
@@ -176,7 +176,7 @@ function NoSuperUser() {
 					Noticias
 				</Typography>
 			</Grid>
-			<Grid item xs={3}>
+			<Grid item xs={12} sm={6} md={3}>
 				<FormControlLabel control={
 						<Switch
 							name="posts_index"
@@ -195,7 +195,7 @@ function NoSuperUser() {
 					Solicitudes de contacto
 				</Typography>
 			</Grid>
-			<Grid item xs={4}>
+			<Grid item xs={12} sm={6} md={4}>
 				<FormControlLabel control={
 						<Switch
 							name="soliContact_index"
@@ -206,7 +206,7 @@ function NoSuperUser() {
 					label="Ver solicitudes de contacto" 
 				/>
 			</Grid>
-			<Grid item xs={5}>
+			<Grid item xs={12} sm={6} md={5}>
 				<FormControlLabel control={
 						<Switch
 							name="soliContact_destroy"
@@ -242,7 +242,7 @@ function PermissionsAccountAdmin() {
 							Super usuario
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12}>
 						<FormControlLabel control={
 								<Switch
 									name="super_admin"
@@ -255,7 +255,7 @@ function PermissionsAccountAdmin() {
 					</Grid>
 					<Grid item xs={12}>
 						<Typography>
-							Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrรก usar todo lo actual y lo futuro. Use esta opciรณn con cautela.
+							Al activar este permiso el usuario tendráก poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
 						</Typography>
 					</Grid>
 					{!watch('super_admin', false) && (

@@ -10,7 +10,7 @@ import NotFound from '../../../components/NotFound';
 const PageUsuarios = lazy(() => import('./index/PageUsuarios'));
 const PageUsuariosCrear = lazy(() => import('./crear/PageUsuariosCrear'));
 
-function RoutersUser() {
+function RoutersPanelUsers() {
 	let { url } = useRouteMatch();
 	
 	return (
@@ -32,4 +32,4 @@ function RoutersUser() {
 	);
 }
 
-export default RoutersUser;
+export default RoutersPanelUsers;

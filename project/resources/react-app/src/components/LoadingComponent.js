@@ -16,12 +16,12 @@ function LoadingComponent(props) {
 	const { loading, backDrop = false, children } = props;
 
 	const SelectProgressBar = (props) => {
-		const { color = 'primary', progressLabel, progressLoading, progress, ...rest } = props;
+		const { color = 'primary', progressLabel, progressLoading, progress, className='' } = props;
 		const classes = useStyles();
 
 		if (progressLoading && progress <= 99) {
 			return (
-				<Grid container justify="center" alignItems="center" {...rest}>
+				<Grid container justify="center" alignItems="center" className={className}>
 					<Grid container justify="center" alignItems="center" item xs={12}>
 						<CircularProgress color={color} variant="static" value={progress} />
 					</Grid>
@@ -35,7 +35,7 @@ function LoadingComponent(props) {
 			);
 		}
 
-		return <CircularProgress color={color} {...rest} />;
+		return <CircularProgress color={color} className={className} />;
 	};
 
 	if (loading && !backDrop) {
