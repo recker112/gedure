@@ -37,7 +37,7 @@ function StepRegisterUser() {
 								Tipo de registro
 							</Typography>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs={12} sm={5} md={3}>
 							<RenderSelectFormHook
 								id='type-register'
 								name='type_register'
@@ -68,11 +68,10 @@ function StepRegisterUser() {
 					<DataAccount />
 					<PasswordAccount />
 					{watch('privilegio', '') === 'V-' && (
-						<Curso />
-					)}
-					
-					{watch('privilegio', '') === 'V-' && (
-						<PermissionsAccountStudiend />
+						<React.Fragment>
+							<Curso />
+							<PermissionsAccountStudiend />
+						</React.Fragment>
 					)}
 					
 					{watch('privilegio', '') === 'A-' && (

@@ -48,7 +48,7 @@ function PasswordAccount() {
 							Contraseña de la cuenta
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderInputPassword 
 							registerInput={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -65,7 +65,7 @@ function PasswordAccount() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderInputPassword 
 							registerInput={register({
 								required: { value: true, message: 'Este campo es obligatorioi' },

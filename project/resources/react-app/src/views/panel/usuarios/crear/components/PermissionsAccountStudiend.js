@@ -29,7 +29,7 @@ function PermissionsAccountStudiend() {
 							Permisos
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={6} sm={3}>
 						<FormControlLabel control={
 								<Switch
 									name="permissions.boletas"
@@ -40,7 +40,7 @@ function PermissionsAccountStudiend() {
 							label="Boletas" 
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={6} sm={3}>
 						<FormControlLabel control={
 								<Switch
 									name="permissions.horarios"
@@ -51,7 +51,7 @@ function PermissionsAccountStudiend() {
 							label="Horarios"
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={6} sm={3}>
 						<FormControlLabel control={
 								<Switch
 									name="permissions.soporte"
@@ -62,7 +62,7 @@ function PermissionsAccountStudiend() {
 							label="Soporte" 
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={6} sm={3}>
 						<FormControlLabel control={
 								<Switch 
 									name="permissions.account_exonerada"

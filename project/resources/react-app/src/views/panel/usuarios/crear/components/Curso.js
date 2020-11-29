@@ -32,7 +32,7 @@ function Curso() {
 							Curso
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='register-curso'
 							name='curso'
@@ -48,7 +48,7 @@ function Curso() {
 							),[]))}
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='register-seccion'
 							name='seccion'

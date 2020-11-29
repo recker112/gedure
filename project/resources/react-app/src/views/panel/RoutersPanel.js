@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
-const RoutersPanelUser = lazy(() => import('./usuarios/RoutersUser'));
+const RoutersPanelUsers = lazy(() => import('./usuarios/RoutersPanelUsers'));
 const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
 const SolicitudContacto = lazy(() => import('./soli_contacto/SolicitudContacto'));
 
@@ -38,7 +38,7 @@ function RoutersPanel() {
 		},
 		{
 			path: `${url}/usuarios`,
-			component: <RoutersPanelUser />,
+			component: <RoutersPanelUsers />,
 			enableNoExact: true,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
 		},
