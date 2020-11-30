@@ -10,6 +10,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { useFormContext } from "react-hook-form";
+import { Controller } from 'react-hook-form';
 
 // Components
 import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
@@ -18,7 +19,7 @@ import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
 import { useSelector } from 'react-redux';
 
 function DataPersonalUbiRepre() {
-	const { register, errors, control, watch } = useFormContext();
+	const { errors, control, watch } = useFormContext();
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -33,89 +34,122 @@ function DataPersonalUbiRepre() {
 							Ubicación del representante
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
-						<Autocomplete
-							id="datosPersonal-representante-ubicacionEsta"
-							getOptionLabel={(option) => option}
-							options={[
-								'amazonas'
-							]}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Estado *"
-									variant="outlined"
-									size="small"
-									name='dataPersonal.repre_ubi_estado'
-									inputRef={register({
-										required: { value: true, message: 'Este campo es obligatorio' },
-									})}
-									error={Boolean(errors?.dataPersonal?.repre_ubi_estado)}
-									helperText={errors?.dataPersonal?.repre_ubi_estado?.message ? errors.dataPersonal.repre_ubi_estado.message : 'Seleccione un estado'}
+					<Grid item xs={12} sm={6} md={4}>
+						<Controller 
+							render={({onChange, onBlur, value, ref})=> (
+								<Autocomplete
+									id="datosPersonal-representante-ubicacionEsta"
+									getOptionLabel={(option) => option}
+									options={[
+										'amazonas'
+									]}
+									onBlur={onBlur}
+									onChange={(e,selected) => {onChange(selected)}}
+									value={value}
+									disabled={loading}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Estado *"
+											variant="outlined"
+											size="small"
+											inputRef={ref}
+											error={Boolean(errors?.personalData?.repre_ubi_estado)}
+											helperText={errors?.personalData?.repre_ubi_estado?.message ? errors.personalData.repre_ubi_estado.message : 'Seleccione un estado'}
+										/>
+									)}
 								/>
 							)}
+							control={control}
+							name='personalData.repre_ubi_estado'
+							defaultValue={null}
+							rules={{
+								required: { value: true, message: 'Este campo es obligatorio' },
+							}}
 						/>
 					</Grid>
-					<Grid item xs={4}>
-						<Autocomplete
-							id="datosPersonal-representante-ubicacionMuni"
-							getOptionLabel={(option) => option}
-							options={
-								watch('dataPersonal.repre_ubi_estado', '') !== ''
-							? ['Amazonas']
-							: []
-							}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Municipio *"
-									variant="outlined"
-									size="small"
-									name='dataPersonal.repre_ubi_municipio'
-									inputRef={register({
-										required: { value: true, message: 'Este campo es obligatorio' },
-									})}
-									error={Boolean(errors?.dataPersonal?.repre_ubi_municipio)}
-									helperText={errors?.dataPersonal?.repre_ubi_municipio?.message ? errors.dataPersonal.repre_ubi_municipio.message : 'Seleccione un municipio'}
+					<Grid item xs={12} sm={6} md={4}>
+						<Controller 
+							render={({onChange, onBlur, value, ref})=> (
+								<Autocomplete
+									id="datosPersonal-representante-ubicacionMuni"
+									getOptionLabel={(option) => option}
+									options={
+										watch('personalData.repre_ubi_estado', null) !== null
+										? ['Amazonas']
+										: []
+									}
+									onBlur={onBlur}
+									onChange={(e,selected) => {onChange(selected)}}
+									value={value}
+									disabled={loading}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Municipio *"
+											variant="outlined"
+											size="small"
+											inputRef={ref}
+											error={Boolean(errors?.personalData?.repre_ubi_municipio)}
+											helperText={errors?.personalData?.repre_ubi_municipio?.message ? errors.personalData.repre_ubi_municipio.message : 'Seleccione un municipio'}
+										/>
+									)}
 								/>
 							)}
+							control={control}
+							name='personalData.repre_ubi_municipio'
+							defaultValue={null}
+							rules={{
+								required: { value: true, message: 'Este campo es obligatorio' },
+							}}
 						/>
 					</Grid>
-					<Grid item xs={5}>
-						<Autocomplete
-							id="datosPersonal-representante-ubicacionParro"
-							getOptionLabel={(option) => option}
-							options={
-								watch('dataPersonal.repre_ubi_municipio', '') !== '' &&
-								watch('dataPersonal.repre_ubi_estado', '') !== '' ?
-									['Amazonas']
-								:
-									[]
-							}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Parroquia *"
-									variant="outlined"
-									size="small"
-									name='dataPersonal.repre_ubi_parroquia'
-									inputRef={register({
-										required: { value: true, message: 'Este campo es obligatorio' },
-									})}
-									error={Boolean(errors?.dataPersonal?.repre_ubi_parroquia)}
-									helperText={errors?.dataPersonal?.repre_ubi_parroquia?.message ? errors.dataPersonal.repre_ubi_parroquia.message : 'Seleccione una parroquia'}
+					<Grid item xs={12} sm={6} md={4}>
+						<Controller 
+							render={({onChange, onBlur, value, ref})=> (
+								<Autocomplete
+									id="datosPersonal-representante-ubicacionParro"
+									getOptionLabel={(option) => option}
+									options={
+										watch('personalData.repre_ubi_municipio', null) !== null &&
+										watch('personalData.repre_ubi_estado', null) !== null ?
+											['Amazonas']
+										:
+											[]
+									}
+									onBlur={onBlur}
+									onChange={(e,selected) => {onChange(selected)}}
+									value={value}
+									disabled={loading}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Parroquia *"
+											variant="outlined"
+											size="small"
+											inputRef={ref}
+											error={Boolean(errors?.personalData?.repre_ubi_parroquia)}
+											helperText={errors?.personalData?.repre_ubi_parroquia?.message ? errors.personalData.repre_ubi_parroquia.message : 'Seleccione una parroquia'}
+										/>
+									)}
 								/>
 							)}
+							control={control}
+							name='personalData.repre_ubi_parroquia'
+							defaultValue={null}
+							rules={{
+								required: { value: true, message: 'Este campo es obligatorio' },
+							}}
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='datosPersonal-viaRepresentante'
-							name='dataPersonal.repre_ubi_via'
+							name='personalData.repre_ubi_via'
 							nameLabel='Tipo de via *'
 							control={control}
 							defaultValue=''
-							errors={errors?.dataPersonal?.repre_ubi_via}
+							errors={errors?.personalData?.repre_ubi_via}
 							helperText='Seleccione un tipo de via'
 							disabled={loading}
 							>
@@ -126,7 +160,7 @@ function DataPersonalUbiRepre() {
 							<MenuItem value="Av">Av</MenuItem>
 							<MenuItem value="Blvr">Blvr</MenuItem>
 							<MenuItem value="Calle">Calle</MenuItem>
-							<MenuItem value="Callejรณn">Callejรณn</MenuItem>
+							<MenuItem value="Callejón">Callejón</MenuItem>
 							<MenuItem value="Carretera">Carretera</MenuItem>
 							<MenuItem value="Manzana">Manzana</MenuItem>
 							<MenuItem value="Prolongaciรณn">Prolongaciรณn</MenuItem>

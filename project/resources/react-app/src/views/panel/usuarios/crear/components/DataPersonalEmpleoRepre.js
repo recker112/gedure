@@ -33,13 +33,14 @@ function DataPersonalEmpleoRepre() {
 							Empleo del representante
 						</Typography>
 					</Grid>
-					<Grid item xs={2}>
+					<Grid item xs={12} sm={6} md={2}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">¿Tiene empleo?</FormLabel>
 							<RadioGroup 
 								aria-label="empleo" 
 								defaultValue='No' 
 								name='personalData.repre_empleo' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -61,34 +62,34 @@ function DataPersonalEmpleoRepre() {
 					</Grid>
 					{watch('personalData.repre_empleo') === 'Si' && (
 						<React.Fragment>
-							<Grid item xs={5}>
+							<Grid item xs={12} sm={6} md={5}>
 								<TextField 
 									inputRef={register({
 										required: { value: true, message: 'Este campo es obligatorio' },
 										minLength: { value: 3, message: 'Es muy corto' },
 										maxLength: { value: 30, message: 'Es demaciado largo' },
 									})}
-									error={Boolean(errors?.dataPersonal?.repre_empleo_profesion)}
-									helperText={errors?.dataPersonal?.repre_empleo_profesion?.message ? errors.dataPersonal.repre_empleo_profesion.message : 'Ingrese su profesión'}
+									error={Boolean(errors?.personalData?.repre_empleo_profesion)}
+									helperText={errors?.personalData?.repre_empleo_profesion?.message ? errors.personalData.repre_empleo_profesion.message : 'Ingrese su profesión'}
 									variant='outlined'
-									name='dataPersonal.repre_empleo_profesion'
+									name='personalData.repre_empleo_profesion'
 									label='Profesión *'
 									size='small'
 									disabled={loading}
 									fullWidth
 								/>
 							</Grid>
-							<Grid item xs={5}>
+							<Grid item xs={12} sm={6} md={5}>
 								<TextField 
 									inputRef={register({
 										required: { value: true, message: 'Este campo es obligatorio' },
 										minLength: { value: 3, message: 'Es muy corto' },
 										maxLength: { value: 30, message: 'Es demaciado largo' },
 									})}
-									error={Boolean(errors?.dataPersonal?.repre_empleo_lugar)}
-									helperText={errors?.dataPersonal?.repre_empleo_lugar?.message ? errors.dataPersonal.repre_empleo_lugar.message : 'Ingrese su lugar de trabajo'}
+									error={Boolean(errors?.personalData?.repre_empleo_lugar)}
+									helperText={errors?.personalData?.repre_empleo_lugar?.message ? errors.personalData.repre_empleo_lugar.message : 'Ingrese su lugar de trabajo'}
 									variant='outlined'
-									name='dataPersonal.repre_empleo_lugar'
+									name='personalData.repre_empleo_lugar'
 									label='Lugar donde trabaja *'
 									size='small'
 									disabled={loading}

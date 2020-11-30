@@ -23,8 +23,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { useSelector } from 'react-redux';
 
 function StepDataPersonal() {
-	const { loading, data } = useSelector((state) => ({
-		loading: state.forms.registerUser.loading,
+	const { data } = useSelector((state) => ({
 		data: state.forms.registerUser.data,
 	}));
 	

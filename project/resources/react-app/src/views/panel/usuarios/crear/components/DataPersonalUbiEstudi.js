@@ -43,14 +43,14 @@ function DataPersonalUbiRepre() {
 							Ubicación del estudiante
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-estudiante-vivienda'
-							name='dataPersonal.estudi_ubi'
+							name='personalData.estudi_ubi'
 							nameLabel='Vivienda *'
 							control={control}
 							defaultValue=''
-							errors={errors?.dataPersonal?.estudi_ubi}
+							errors={errors?.personalData?.estudi_ubi}
 							helperText='Seleccione una vivienda'
 							disabled={loading}
 							>
@@ -64,14 +64,14 @@ function DataPersonalUbiRepre() {
 							<MenuItem value="Otros">Otros</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-estudiante-viviendaType'
-							name='dataPersonal.estudi_ubi_tipo'
+							name='personalData.estudi_ubi_tipo'
 							nameLabel='Tipo de vivienda *'
 							control={control}
 							defaultValue=''
-							errors={errors?.dataPersonal?.estudi_ubi_tipo}
+							errors={errors?.personalData?.estudi_ubi_tipo}
 							helperText='Seleccione un tipo de vivienda'
 							disabled={loading}
 							>
@@ -90,14 +90,14 @@ function DataPersonalUbiRepre() {
 							<MenuItem value="Rancho rural">Rancho rural</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-estudiante-viviendaZona'
-							name='dataPersonal.estudi_ubi_zona'
+							name='personalData.estudi_ubi_zona'
 							nameLabel='Zona de la vivienda *'
 							control={control}
 							defaultValue=''
-							errors={errors?.dataPersonal?.estudi_ubi_zona}
+							errors={errors?.personalData?.estudi_ubi_zona}
 							helperText='Seleccione una zona'
 							disabled={loading}
 							>
@@ -108,10 +108,10 @@ function DataPersonalUbiRepre() {
 							<MenuItem value="Urbana">Urbana</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<Typography>Cond. de Infraestructura</Typography>
 						<Controller 
-							name="dataPersonal.estudi_ubi_condiInfra"
+							name="personalData.estudi_ubi_condiInfra"
 							as={
 								<Rating 
 									onChangeActive={(event, newHover) => {
@@ -124,19 +124,19 @@ function DataPersonalUbiRepre() {
 						/>
 						<Typography>
 							{
-								labels[labelRanking !== -1 ? labelRanking : watch('dataPersonal.estudi_ubi_condiInfra', 3)]
+								labels[labelRanking !== -1 ? labelRanking : watch('personalData.estudi_ubi_condiInfra', 3)]
 							}
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-estudiante-viviendaCondi'
-							name='dataPersonal.estudi_ubi_condiVivienda'
+							name='personalData.estudi_ubi_condiVivienda'
 							nameLabel='Condición de la vivienda *'
 							control={control}
 							defaultValue=''
-							errors={errors?.dataPersonal?.estudi_ubi_condiVivienda}
-							helperText='Seleccione una condiciรณn'
+							errors={errors?.personalData?.estudi_ubi_condiVivienda}
+							helperText='Seleccione una condición'
 							disabled={loading}
 							>
 							<MenuItem value=''>
