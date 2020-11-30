@@ -40,7 +40,7 @@ function DataPersonalRepresentante() {
 							Información del representante
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='datosPersonal-representate-nacionalidad'
 							name='personalData.repre_nacionalidad'
@@ -58,7 +58,7 @@ function DataPersonalRepresentante() {
 							<MenuItem value='E'>Extranjero</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<TextField 
 							id='datosPersonal-representate-cedula'
 							inputRef={register({
@@ -80,7 +80,7 @@ function DataPersonalRepresentante() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={5}>
+					<Grid item xs={12} sm={6} md={5}>
 						<TextField 
 							id='datosPersonal-padre-nombre'
 							inputRef={register({
@@ -98,7 +98,7 @@ function DataPersonalRepresentante() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6} md={6}>
 						<TextField 
 							type='tel'
 							id='datosPersonal-padre-teléfono'
@@ -124,7 +124,7 @@ function DataPersonalRepresentante() {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6} md={6}>
 						<TextField 
 							id='datosPersonal-padre-direccion'
 							inputRef={register({
@@ -142,13 +142,14 @@ function DataPersonalRepresentante() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">Sexo</FormLabel>
 							<RadioGroup 
 								aria-label="sexo" 
 								defaultValue='Masculino' 
 								name='personalData.repre_sexo' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -168,7 +169,7 @@ function DataPersonalRepresentante() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-representate-tipoFamiliar'
 							name='personalData.repre_tipo_familiar'
@@ -191,7 +192,7 @@ function DataPersonalRepresentante() {
 							<MenuItem value="Otro">Otro</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='datosPersonal-representate-estadoCivil'
 							name='personalData.repre_estado_civil'
@@ -212,9 +213,9 @@ function DataPersonalRepresentante() {
 							<MenuItem value="Divorciado">Divorciado</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<Controller
-							as={
+							render={({onChange, onBlur, value, ref}) => (
 								<KeyboardDatePicker
 									disableFuture
 									variant="inline"
@@ -223,14 +224,22 @@ function DataPersonalRepresentante() {
 									views={['year', 'month', 'date']}
 									openTo="year"
 									label="Nacimiento *"
-									helperText={errors?.dataPersonal?.repre_nacimiento?.message ? errors.dataPersonal.repre_nacimiento.message : "Fecha de nacimiento"}
-									error={Boolean(errors?.dataPersonal?.repre_nacimiento)}
+									onBlur={onBlur}
+									inputRef={ref}
+									onChange={(date) => {onChange(date)}}
+									value={value}
+									helperText={errors?.personalData?.repre_nacimiento?.message ? errors.personalData.repre_nacimiento.message : "Fecha de nacimiento"}
+									error={Boolean(errors?.personalData?.repre_nacimiento)}
+									fullWidth
+									disabled={loading}
+									size='small'
 									KeyboardButtonProps={{
+										size: 'small',
 										'aria-label': 'change date',
 									}}
 								/>
-							}
-							name="dataPersonal.repre_nacimiento"
+							)}
+							name="personalData.repre_nacimiento"
 							control={control}
 							defaultValue={null}
 							rules={{ 
@@ -238,7 +247,7 @@ function DataPersonalRepresentante() {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={5}>
+					<Grid item xs={12} sm={6} md={5}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },
@@ -247,11 +256,11 @@ function DataPersonalRepresentante() {
 									message: 'El correo no es válido',
 								},
 							})}
-							error={Boolean(errors?.dataPersonal?.repre_email)}
-							helperText={errors?.dataPersonal?.repre_email?.message ? errors.dataPersonal.repre_email.message : 'Ingrasar un correo válido'}
+							error={Boolean(errors?.personalData?.repre_email)}
+							helperText={errors?.personalData?.repre_email?.message ? errors.personalData.repre_email.message : 'Ingrasar un correo válido'}
 							type='email'
 							variant='outlined'
-							name='dataPersonal.repre_email'
+							name='personalData.repre_email'
 							label='Correo *'
 							size='small'
 							disabled={loading}

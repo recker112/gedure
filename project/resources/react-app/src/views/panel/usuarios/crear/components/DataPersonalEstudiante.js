@@ -40,13 +40,14 @@ function DataPersonalEstudiante() {
 							Datos del estudiante
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">Sexo</FormLabel>
 							<RadioGroup 
 								aria-label="sexo" 
 								defaultValue='Masculino' 
 								name='personalData.estudi_sexo' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -66,7 +67,7 @@ function DataPersonalEstudiante() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='personalData-estudiante-sexo'
 							name='personalData.estudi_estado_civil'
@@ -85,7 +86,7 @@ function DataPersonalEstudiante() {
 							<MenuItem value="Casado">Casado</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<RenderSelectFormHook
 							id='personalData-estudiante-lateralidad'
 							name='personalData.estudi_lateralidad'
@@ -104,7 +105,7 @@ function DataPersonalEstudiante() {
 							<MenuItem value="Ambidiestro">Ambidiestro</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='personalData-estudiante-nacionalidad'
 							name='personalData.estudi_nacionalidad'
@@ -122,9 +123,9 @@ function DataPersonalEstudiante() {
 							<MenuItem value="E">Extranjero</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<Controller
-							as={
+							render={({onChange, onBlur, value, ref}) => (
 								<KeyboardDatePicker
 									disableFuture
 									variant="inline"
@@ -133,14 +134,21 @@ function DataPersonalEstudiante() {
 									views={['year', 'month', 'date']}
 									openTo="year"
 									label="Nacimiento *"
-									helperText={errors?.dataPersonal?.estudi_nacimiento?.message ? errors.dataPersonal.estudi_nacimiento.message : "Fecha de nacimiento"}
-									error={Boolean(errors?.dataPersonal?.estudi_nacimiento)}
+									onBlur={onBlur}
+									inputRef={ref}
+									onChange={(date) => {onChange(date)}}
+									value={value}
+									helperText={errors?.personalData?.estudi_nacimiento?.message ? errors.personalData.estudi_nacimiento.message : "Fecha de nacimiento"}
+									error={Boolean(errors?.personalData?.estudi_nacimiento)}
+									fullWidth
+									size='small'
 									KeyboardButtonProps={{
+										size: 'small',
 										'aria-label': 'change date',
 									}}
 								/>
-							}
-							name="dataPersonal.estudi_nacimiento"
+							)}
+							name="personalData.estudi_nacimiento"
 							control={control}
 							defaultValue={null}
 							rules={{ 
@@ -149,31 +157,42 @@ function DataPersonalEstudiante() {
 						/>
 					</Grid>
 					{watch('personalData.estudi_nacionalidad', '') === 'V' && (
-						<Grid item xs={5}>
-							<Autocomplete
-								id="datosPersonal-estudiante-ubicacionEsta"
-								getOptionLabel={(option) => option}
-								options={[
-									'amazonas'
-								]}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label="Estado *"
-										variant="outlined"
-										size="small"
-										name='dataPersonal.estudi_nacimiento_estado'
-										inputRef={register({
-											required: { value: true, message: 'Este campo es obligatorio' },
-										})}
-										error={Boolean(errors?.dataPersonal?.estudi_nacimiento_estado)}
-										helperText={errors?.dataPersonal?.estudi_nacimiento_estado?.message ? errors.dataPersonal.estudi_nacimiento_estado.message : 'Seleccione un estado'}
+						<Grid item xs={12} sm={6} md={5}>
+							<Controller 
+								render={({onChange, onBlur, value, ref})=> (
+									<Autocomplete
+										id="datosPersonal-estudiante-ubicacionEsta"
+										getOptionLabel={(option) => option}
+										options={[
+											'amazonas'
+										]}
+										onBlur={onBlur}
+										onChange={(e,selected) => {onChange(selected)}}
+										value={value}
+										disabled={loading}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												label="Estado *"
+												variant="outlined"
+												size="small"
+												inputRef={ref}
+												error={Boolean(errors?.personalData?.repre_ubi_estado)}
+												helperText={errors?.personalData?.repre_ubi_estado?.message ? errors.personalData.repre_ubi_estado.message : 'Seleccione un estado'}
+											/>
+										)}
 									/>
 								)}
+								control={control}
+								name='personalData.estudi_nacimiento_estado'
+								defaultValue={null}
+								rules={{
+									required: { value: true, message: 'Este campo es obligatorio' },
+								}}
 							/>
 						</Grid>
 					)}
-					<Grid item xs={5}>
+					<Grid item xs={12} sm={6} md={5}>
 						<TextField 
 							inputRef={register({
 								required: { value: true, message: 'Este campo es obligatorio' },

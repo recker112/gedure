@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function getSteps() {
-  return ['Registrar usuario', 'Registrar usuario'];
+  return ['Registrar usuario', 'Datos de los padres', 'Datos del representante', 'Datos del estudiante'];
 }
 
 function getStepContent(stepIndex) {

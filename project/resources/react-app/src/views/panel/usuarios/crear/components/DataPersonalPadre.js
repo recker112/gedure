@@ -33,7 +33,7 @@ function DataPersonalMadre() {
 							Información del padre
 						</Typography>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={12} sm={6} md={3}>
 						<RenderSelectFormHook
 							id='datosPersonal-padre-nacionalidad'
 							name='personalData.padre_nacionalidad'
@@ -51,7 +51,7 @@ function DataPersonalMadre() {
 							<MenuItem value='E'>Extranjero</MenuItem>
 						</RenderSelectFormHook>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<TextField 
 							id='datosPersonal-padre-cedula'
 							inputRef={register({
@@ -73,7 +73,7 @@ function DataPersonalMadre() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={5}>
+					<Grid item xs={12} sm={6} md={5}>
 						<TextField 
 							id='datosPersonal-padre-nombre'
 							inputRef={register({
@@ -91,7 +91,7 @@ function DataPersonalMadre() {
 							fullWidth
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6} md={6}>
 						<TextField 
 							type='tel'
 							id='datosPersonal-padre-teléfono'
@@ -117,7 +117,7 @@ function DataPersonalMadre() {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={12} sm={6} md={6}>
 						<TextField 
 							id='datosPersonal-padre-direccion'
 							inputRef={register({

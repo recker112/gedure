@@ -102,6 +102,10 @@ function StepperControls() {
 		}
 	}
 	
+	const onRequest2 = async (data) => {
+		console.log(data);
+	}
+	
 	return (
 		<React.Fragment>
 			{activeStep !== 1 && (
@@ -131,7 +135,7 @@ function StepperControls() {
 						className={classes.buttonMargin} 
 						color="primary"
 						onClick={
-							handleNext//handleSubmit(activeStep === 0 ? onRequest1 : handleNext)
+							handleNext//handleSubmit(activeStep === 0 ? handleNext : onRequest2)
 						}
 					>
 						{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}

@@ -33,13 +33,14 @@ function DataPersonalOtrosEstudiante() {
 							Otros datos del estudiante
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">¿Tiene canaima?</FormLabel>
 							<RadioGroup 
 								aria-label="MASTER-RIZE" 
 								defaultValue='No' 
 								name='personalData.estudi_otros_canaima' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -59,13 +60,14 @@ function DataPersonalOtrosEstudiante() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">¿Tiene beca?</FormLabel>
 							<RadioGroup 
 								aria-label="estudiante-beca" 
 								defaultValue='No' 
 								name='personalData.estudi_otros_beca' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -85,13 +87,14 @@ function DataPersonalOtrosEstudiante() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={12} sm={6} md={4}>
 						<FormControl component="fieldset">
 							<FormLabel component="legend">¿Vive con el representante?</FormLabel>
 							<RadioGroup 
 								aria-label="estudiante-alojado" 
 								defaultValue='Si' 
 								name='personalData.estudi_otros_alojado' 
+								disabled={loading}
 								row
 							>
 								<FormControlLabel 
@@ -112,7 +115,7 @@ function DataPersonalOtrosEstudiante() {
 						</FormControl>
 					</Grid>
 					{watch('personalData.estudi_otros_alojado') === 'No' && (
-						<Grid item xs={5}>
+						<Grid item xs={12} sm={6} md={5}>
 							<TextField 
 								id='datosPersonal-otros-direccion'
 								inputRef={register({
@@ -120,8 +123,8 @@ function DataPersonalOtrosEstudiante() {
 									minLength: { value: 10, message: 'Es muy corta' },
 									maxLength: { value: 40, message: 'Es muy larga' },
 								})}
-								error={Boolean(errors?.personalData?.madre_cedula)}
-								helperText={errors?.personalData?.madre_cedula?.message ? errors.personalData.madre_cedula.message : 'Ingrese la dirección'}
+								error={Boolean(errors?.personalData?.estudi_otros_direccion)}
+								helperText={errors?.personalData?.estudi_otros_direccion?.message ? errors.personalData.estudi_otros_direccion.message : 'Ingrese la dirección'}
 								variant='outlined'
 								name='personalData.estudi_otros_direccion'
 								label='Direccion *'
