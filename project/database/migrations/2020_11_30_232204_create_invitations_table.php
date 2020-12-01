@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogsTable extends Migration
+class CreateInvitationsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,12 +13,11 @@ class CreateLogsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('logs', function (Blueprint $table) {
+		Schema::create('invitations', function (Blueprint $table) {
 			$table->id();
-			$table->bigInteger("user_id");
-			$table->char("action", 250);
-			$table->enum("type", ["session", "gedure", "user", "class"]);
-			$table->timestamp('created_at', 0);
+			$table->bigInteger('user_id');
+			$table->string('invitation_key')->unique();
+			$table->timestamps();
 		});
 	}
 
@@ -29,6 +28,6 @@ class CreateLogsTable extends Migration
 	 */
 	public function down()
 	{
-			Schema::dropIfExists('logs');
+		Schema::dropIfExists('invitations');
 	}
 }

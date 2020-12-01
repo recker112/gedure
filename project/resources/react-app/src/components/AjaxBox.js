@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AjaxBox(props) {
-	const { title, content, form, error=false } = props;
+	const { title, content, form, error=false, disableButton=false } = props;
 	
 	const dispatch = useDispatch();
 	
@@ -74,17 +74,19 @@ function AjaxBox(props) {
 								{content}
 							</Typography>
 						</Grid>
-						<Grid container justify='center' item xs={12}>
-							<Button 
-								className={classes.button}
-								color='primary' 
-								variant='contained' 
-								onClick={handleContinue}
-								disableElevation
-							>
-								Continuar
-							</Button>
-						</Grid>
+						{!disableButton && (
+							<Grid container justify='center' item xs={12}>
+								<Button 
+									className={classes.button}
+									color='primary' 
+									variant='contained' 
+									onClick={handleContinue}
+									disableElevation
+								>
+									Continuar
+								</Button>
+							</Grid>
+						)}
 					</Grid>
 				</Paper>
 			</Grid>

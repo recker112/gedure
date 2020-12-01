@@ -21,6 +21,7 @@ function useFetch() {
 			message400 = false,
 			return400 = false,
 			message404 = 'No encontrado',
+			message404Server = false,
 			successText = false,
 			type = 'post',
 			variant = 'success',
@@ -64,9 +65,15 @@ function useFetch() {
 						variant: 'error',
 					});
 				} else if (status === 404) {
-					enqueueSnackbar(message404, {
-						variant: 'warning',
-					});
+					if (message404Server) {
+						enqueueSnackbar(data.msg, {
+							variant: 'warning',
+						});
+					}else {
+						enqueueSnackbar(message404, {
+							variant: 'warning',
+						});	
+					}
 				} else if (status === 422) {
 					if (messageTo422) {
 						enqueueSnackbar(message422, {

@@ -59,7 +59,7 @@ function DataPersonalUbiRepre() {
 							</MenuItem>
 							<MenuItem value="Rancho">Rancho</MenuItem>
 							<MenuItem value="Caserio">Caserio</MenuItem>
-							<MenuItem value="Urbanizaciรณn">Ubrbanizaciรณn</MenuItem>
+							<MenuItem value="Urbanización">Ubrbanizaciรณn</MenuItem>
 							<MenuItem value="Zona residencial">Zona residencial</MenuItem>
 							<MenuItem value="Otros">Otros</MenuItem>
 						</RenderSelectFormHook>
@@ -81,7 +81,7 @@ function DataPersonalUbiRepre() {
 							<MenuItem value="Apto">Apto</MenuItem>
 							<MenuItem value="Apto-quinta">Apto-quinta</MenuItem>
 							<MenuItem value="Casa">Casa</MenuItem>
-							<MenuItem value="Casa-quinta">Apto</MenuItem>
+							<MenuItem value="Casa-quinta">Casa-quinta</MenuItem>
 							<MenuItem value="Quinta">Quinta</MenuItem>
 							<MenuItem value="Rancho barrio">Rancho barrio</MenuItem>
 							<MenuItem value="Refugio">Refugio</MenuItem>
@@ -132,11 +132,11 @@ function DataPersonalUbiRepre() {
 						<RenderSelectFormHook
 							id='datosPersonal-estudiante-viviendaCondi'
 							name='personalData.estudi_ubi_condiVivienda'
-							nameLabel='Condición de la vivienda *'
+							nameLabel='Condiciรณn de la vivienda *'
 							control={control}
 							defaultValue=''
 							errors={errors?.personalData?.estudi_ubi_condiVivienda}
-							helperText='Seleccione una condición'
+							helperText='Seleccione una condiciรณn'
 							disabled={loading}
 							>
 							<MenuItem value=''>

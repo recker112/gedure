@@ -13,6 +13,7 @@ import DataPersonalEmpleoRepre from './components/DataPersonalEmpleoRepre';
 import DataPersonalEstudiante from './components/DataPersonalEstudiante';
 import DataPersonalUbiEstudi from './components/DataPersonalUbiEstudi';
 import DataPersonalOtrosEstudiante from './components/DataPersonalOtrosEstudiante';
+import DataPersonalUser from './components/DataPersonalUser';
 
 import DateFnsUtils from '@date-io/date-fns';
 import esLocale from "date-fns/locale/es";
@@ -29,7 +30,7 @@ function StepDataPersonal() {
 	
 	return (
 		<Grid container spacing={2}>
-			{(data.privilegio === 'V-' || true) && (
+			{(data.privilegio === 'V-') && (
 				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
 					<DataPersonalMadre />
 					<DataPersonalPadre />
@@ -39,6 +40,12 @@ function StepDataPersonal() {
 					<DataPersonalEstudiante />
 					<DataPersonalUbiEstudi />
 					<DataPersonalOtrosEstudiante />
+				</MuiPickersUtilsProvider>
+			)}
+			
+			{(data.privilegio === 'A-') && (
+				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
+					<DataPersonalUser />
 				</MuiPickersUtilsProvider>
 			)}
 		</Grid>

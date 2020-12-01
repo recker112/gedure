@@ -49,7 +49,7 @@ function StepRegisterUser() {
 								disabled={loading}
 								>
 								<MenuItem value='manual'>Manual</MenuItem>
-								<MenuItem value='invitacion'>invitación</MenuItem>
+								<MenuItem value='invitacion'>Invitación</MenuItem>
 							</RenderSelectFormHook>
 						</Grid>
 						<Grid item xs={12}>
@@ -63,21 +63,21 @@ function StepRegisterUser() {
 					</Grid>
 				</Paper>
 			</Grid>
+			<DataAccount />
+			
 			{watch('type_register') === 'manual' && (
+				<PasswordAccount />
+			)}
+			
+			{watch('privilegio', '') === 'V-' && (
 				<React.Fragment>
-					<DataAccount />
-					<PasswordAccount />
-					{watch('privilegio', '') === 'V-' && (
-						<React.Fragment>
-							<Curso />
-							<PermissionsAccountStudiend />
-						</React.Fragment>
-					)}
-					
-					{watch('privilegio', '') === 'A-' && (
-						<PermissionsAccountAdmin />
-					)}
+					<Curso />
+					<PermissionsAccountStudiend />
 				</React.Fragment>
+			)}
+			
+			{watch('privilegio', '') === 'A-' && (
+				<PermissionsAccountAdmin />
 			)}
 		</Grid>
 	);

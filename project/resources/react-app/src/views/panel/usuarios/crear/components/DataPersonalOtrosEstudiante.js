@@ -12,13 +12,17 @@ import {
 	Radio,
 } from '@material-ui/core';
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 // Redux
 import { useSelector } from 'react-redux';
 
 function DataPersonalOtrosEstudiante() {
-	const { register, errors, watch } = useFormContext();
+	const { register, errors } = useFormContext();
+	const estudi_otros_alojado = useWatch({
+    name: 'personalData.estudi_otros_alojado',
+    defaultValue: 'Si'
+  });
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -114,7 +118,7 @@ function DataPersonalOtrosEstudiante() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					{watch('personalData.estudi_otros_alojado') === 'No' && (
+					{estudi_otros_alojado === 'No' && (
 						<Grid item xs={12} sm={6} md={5}>
 							<TextField 
 								id='datosPersonal-otros-direccion'
