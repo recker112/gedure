@@ -128,7 +128,7 @@ function SwitchsPosts() {
 }
 
 function NoSuperUser() {
-	const { register, watch } = useFormContext();
+	const { register } = useFormContext();
 	const users_index = useWatch({
     name: 'users_index',
     defaultValue: false

@@ -99,7 +99,7 @@ function StepperControls() {
 		
 		if (data.type_register === 'manual') {
 			const prepare = {
-				url: `v1/users`,
+				url: `v1/user`,
 				type: 'post',
 				data: data,
 				messageToFinish: false,
@@ -124,9 +124,10 @@ function StepperControls() {
 	
 	const updatePersonalRequest = async (data) => {
 		dispatch(updateForms('registerUser', true));
+		data._method= 'PUT';
 		
 		const prepare = {
-			url: `v1/users-datap/${dataStorage.id}`,
+			url: `v1/user-data/${dataStorage.id}`,
 			type: 'post',
 			data: data,
 			messageToFinish: false,
