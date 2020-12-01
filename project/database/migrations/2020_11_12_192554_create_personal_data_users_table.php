@@ -15,12 +15,13 @@ class CreatePersonalDataUsersTable extends Migration
 	{
 		Schema::create('personal_data_users', function (Blueprint $table) {
 			$table->id();
+			$table->bigInteger('user_id');
 			/*
 				MADRE
 			*/
 			$table->char("madre_nombre", 90)->nullable()->default(null);
 			$table->enum("madre_nacionalidad", ['V', 'E'])->nullable()->default(null);
-			$table->integer('madre_cedula')->nullable()->default(null);
+			$table->bigInteger('madre_cedula')->nullable()->default(null);
 			$table->bigInteger('madre_telefono')->nullable()->default(null);
 			$table->string('madre_direccion')->nullable()->default(null);
 			
@@ -29,7 +30,7 @@ class CreatePersonalDataUsersTable extends Migration
 			*/
 			$table->char("padre_nombre", 90)->nullable()->default(null);
 			$table->enum("padre_nacionalidad", ['V', 'E'])->nullable()->default(null);
-			$table->integer('padre_cedula')->nullable()->default(null);
+			$table->bigInteger('padre_cedula')->nullable()->default(null);
 			$table->bigInteger('padre_telefono')->nullable()->default(null);
 			$table->string('padre_direccion')->nullable()->default(null);
 			
@@ -38,7 +39,7 @@ class CreatePersonalDataUsersTable extends Migration
 			*/
 			$table->char("repre_nombre", 90)->nullable()->default(null);
 			$table->enum("repre_nacionalidad", ['V', 'E'])->nullable()->default(null);
-			$table->integer('repre_cedula')->nullable()->default(null);
+			$table->bigInteger('repre_cedula')->nullable()->default(null);
 			$table->bigInteger('repre_telefono')->nullable()->default(null);
 			$table->string('repre_direccion')->nullable()->default(null);
 			$table->enum("repre_sexo", ['Masculino', 'Femenino'])->nullable()->default(null);
@@ -68,10 +69,10 @@ class CreatePersonalDataUsersTable extends Migration
 				'Av',
 				'Blvr',
 				'Calle',
-				'Callejon',
+				'Callejón',
 				'Carretera',
 				'Manzana',
-				'Prolongacion',
+				'Prolongación',
 				'Transversal',
 				'Vereda',
 			])->nullable()->default(null);
@@ -103,8 +104,8 @@ class CreatePersonalDataUsersTable extends Migration
 			$table->enum("estudi_ubi", [
 				'Barrio',
 				'Caserio',
-				'Urbanizaciรณn',
-				'Zona-residencial',
+				'Urbanización',
+				'Zona residencial',
 				'Otros',
 			])->nullable()->default(null);
 			$table->enum("estudi_ubi_tipo", [
@@ -113,11 +114,11 @@ class CreatePersonalDataUsersTable extends Migration
 				'Casa',
 				'Casa-quinta',
 				'Quinta',
-				'Rancho-barrio',
+				'Rancho barrio',
 				'Refugio',
-				'Casa-de-vecindad',
+				'Casa de vecindad',
 				'Improvisado',
-				'Rancho-rural'
+				'Rancho rural'
 			])->nullable()->default(null);
 			$table->enum("estudi_ubi_zona", [
 				'Rural',
@@ -127,10 +128,10 @@ class CreatePersonalDataUsersTable extends Migration
 				1,2,3,4,5
 			])->nullable()->default(null);
 			$table->enum("estudi_ubi_condiVivienda", [
-				'Al-cuido',
+				'Al cuido',
 				'Alquilada',
-				'Propia-pagada',
-				'Propia-pagandose',
+				'Propia pagada',
+				'Propia pagandose',
 				'Otro',
 			])->nullable()->default(null);
 			$table->enum("estudi_otros_canaima", [
@@ -145,12 +146,8 @@ class CreatePersonalDataUsersTable extends Migration
 				'Si',
 				'No',
 			])->nullable()->default(null);
-			$table->enum("estudi_otros_direccion", [
-				'Si',
-				'No',
-			])->nullable()->default(null);
+			$table->string("estudi_otros_direccion")->nullable()->default(null);
 			
-			$table->bigInteger('user_id');
 			$table->timestamps();
 			$table->softDeletes();
 		});

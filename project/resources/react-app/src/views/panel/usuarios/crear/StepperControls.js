@@ -28,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function StepperControls() {
-	const { activeStep, skipped, loading } = useSelector((state) => ({
+	const { activeStep, skipped, loading, dataStorage } = useSelector((state) => ({
 		activeStep: state.settings.steppers.active,
 		skipped: state.settings.steppers.skipped,
 		loading: state.forms.registerUser.loading,
+		dataStorage: state.forms.registerUser.data,
 	}));
 	const dispatch = useDispatch();
 	
@@ -60,6 +61,18 @@ function StepperControls() {
 		dispatch(updateSteppersActive(step + 1));
 		dispatch(updateSteppersSkipped(newSkipped));
   };
+	
+	const handleFinish = () => {
+		let step = activeStep;
+		let newSkipped = skipped;
+		if (isStepSkipped(activeStep)) {
+			newSkipped = new Set(newSkipped.values());
+			newSkipped.delete(activeStep);
+		}
+		
+		dispatch(updateSteppersActive(step + 2));
+		dispatch(updateSteppersSkipped(newSkipped));
+  };
 
 	const handleSkip = () => {
 		let step = activeStep;
@@ -81,29 +94,52 @@ function StepperControls() {
 		history.push('/panel/usuarios');
 	}
 	
-	const onRequest1 = async (data) => {
-		dispatch(updateForms('registerUser', true, data));
+	const createRequest = async (data) => {
+		dispatch(updateForms('registerUser', true));
+		
+		if (data.type_register === 'manual') {
+			const prepare = {
+				url: `v1/users`,
+				type: 'post',
+				data: data,
+				messageToFinish: false,
+				message404Server: true,
+				messageTo422: true,
+				message422: 'El correo ya existe',
+			};
+
+			const response = await fetchData(prepare);
+
+			if (response) {
+				dispatch(updateForms('registerUser', false, response));
+				handleNext();
+			}else {
+				dispatch(updateForms('registerUser', false));
+			}	
+		}else {
+			dispatch(updateForms('registerUser', false));
+			handleFinish();
+		}
+	}
+	
+	const updatePersonalRequest = async (data) => {
+		dispatch(updateForms('registerUser', true));
 		
 		const prepare = {
-			url: `v1/users`,
+			url: `v1/users-datap/${dataStorage.id}`,
 			type: 'post',
 			data: data,
-			messageTo422: true,
-			message422: 'El correo ya existe',
+			messageToFinish: false,
 		};
 		
 		const response = await fetchData(prepare);
 		
 		if (response) {
-			dispatch(updateForms('registerUser', false));
+			dispatch(updateForms('registerUser', false, {}));
 			handleNext();
 		}else {
-			dispatch(updateForms('registerUser', false, {}));
+			dispatch(updateForms('registerUser', false));
 		}
-	}
-	
-	const onRequest2 = async (data) => {
-		console.log(data);
 	}
 	
 	return (
@@ -113,7 +149,7 @@ function StepperControls() {
 					onClick={handleReturn}
 					disabled={loading}
 				>
-					{activeStep === 2 ? 'Cerrar' : 'Cancelar'}
+					{activeStep === 2 ? 'Volver' : 'Cancelar'}
 				</Button>
 			)}
 
@@ -135,7 +171,7 @@ function StepperControls() {
 						className={classes.buttonMargin} 
 						color="primary"
 						onClick={
-							handleNext//handleSubmit(activeStep === 0 ? handleNext : onRequest2)
+							handleSubmit(activeStep === 0 ? createRequest : updatePersonalRequest)
 						}
 					>
 						{activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}

@@ -15,9 +15,9 @@ class CreateLogsTable extends Migration
 	{
 		Schema::create('logs', function (Blueprint $table) {
 			$table->id();
+			$table->bigInteger("user_id");
 			$table->char("action", 250);
 			$table->enum("type", ["session", "gedure", "user", "class"]);
-			$table->bigInteger("user_id");
 			$table->timestamp('created_at', 0);
 		});
 	}

@@ -8,7 +8,7 @@ import {
 	Switch,
 } from '@material-ui/core';
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -129,6 +129,14 @@ function SwitchsPosts() {
 
 function NoSuperUser() {
 	const { register, watch } = useFormContext();
+	const users_index = useWatch({
+    name: 'users_index',
+    defaultValue: false
+  });
+	const posts_index = useWatch({
+    name: 'posts_index',
+    defaultValue: false
+  });
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -168,7 +176,7 @@ function NoSuperUser() {
 					label="Ver tabla de usuarios" 
 				/>
 			</Grid>
-			{watch('users_index', false) && (
+			{users_index && (
 				<SwitchsUsuario />
 			)}
 			<Grid item xs={12}>
@@ -187,7 +195,7 @@ function NoSuperUser() {
 					label="Ver noticias publicadas" 
 				/>
 			</Grid>
-			{watch('posts_index', false) && (
+			{posts_index && (
 				<SwitchsPosts />
 			)}
 			<Grid item xs={12}>
@@ -222,7 +230,11 @@ function NoSuperUser() {
 }
 
 function PermissionsAccountAdmin() {
-	const { register, watch } = useFormContext();
+	const { register } = useFormContext();
+	const super_admin = useWatch({
+    name: 'super_admin',
+    defaultValue: false
+  });
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -258,7 +270,7 @@ function PermissionsAccountAdmin() {
 							Al activar este permiso el usuario tendráก poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
 						</Typography>
 					</Grid>
-					{!watch('super_admin', false) && (
+					{!super_admin && (
 						<NoSuperUser />
 					)}
 				</Grid>

@@ -304,6 +304,10 @@ class LoginController extends Controller
 					$listA['users_create'] = true;
 				}
 				
+				if ($perm->name === 'users_update') {
+					$listA['users_update'] = true;
+				}
+				
 				if ($perm->name === 'users_edit') {
 					$listA['users_edit'] = true;
 				}

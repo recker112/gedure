@@ -16,9 +16,16 @@ class PersonalDataAdmin extends Model
 		'sexo',
 		'direccion',
 		'docente',
+		'docente_titulo',
 		'docente_ingreso_MPPE',
 		'docente_ingreso',
 		'user_id'
+	];
+	
+	protected $dates = [
+		'nacimiento',
+		'docente_ingreso',
+		'docente_ingreso_MPPE',
 	];
 	
 	protected $hidden = [

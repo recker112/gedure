@@ -12,13 +12,17 @@ import {
 	RadioGroup,
 } from '@material-ui/core';
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 // Redux
 import { useSelector } from 'react-redux';
 
 function DataPersonalEmpleoRepre() {
-	const { register, errors, watch } = useFormContext();
+	const { register, errors } = useFormContext();
+	const repre_empleo = useWatch({
+    name: 'personalData.repre_empleo',
+    defaultValue: 'No'
+  });
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -60,7 +64,7 @@ function DataPersonalEmpleoRepre() {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					{watch('personalData.repre_empleo') === 'Si' && (
+					{repre_empleo === 'Si' && (
 						<React.Fragment>
 							<Grid item xs={12} sm={6} md={5}>
 								<TextField 

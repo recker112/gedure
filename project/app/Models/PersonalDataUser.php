@@ -56,6 +56,11 @@ class PersonalDataUser extends Model
 		'user_id',
 	];
 	
+	protected $dates = [
+		'repre_nacimiento',
+		'estudi_nacimiento',
+	];
+	
 	protected $hidden = [
 		'created_at', 'updated_at', 'user_id', 'id', 'deleted_at'
 	];

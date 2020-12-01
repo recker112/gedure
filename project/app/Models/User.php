@@ -82,26 +82,47 @@ class User extends Authenticatable
 		return $this->hasMany('App\Models\Post');
 	}
 	
+	public function invitation()
+	{
+		return $this->hasOne('App\Models\Invitation');
+	}
+	
 	/*
 		FUNCIONES ESPECIALES
 	*/
 	
-	public function personalData()
+	public function personalData($first = true)
 	{
 		/*
 			NOTA (RECKER): Esto es solo una verificacion de si el usuario fue soft deleteado para asi poder recuperar sus datos.
 		*/
 		if ($this->trashed()) {
 			if ($this->attributes['privilegio'] === 'V-') {
-				return $this->personalDataUser()->onlyTrashed()->first();
+				if ($first) {
+					return $this->personalDataUser()->onlyTrashed()->first();	
+				}else {
+					return $this->personalDataUser()->onlyTrashed();
+				}
 			}else {
-				return $this->personalDataAdmin()->onlyTrashed()->first();
+				if ($first) {
+					return $this->personalDataAdmin()->onlyTrashed()->first();
+				}else {
+					return $this->personalDataAdmin()->onlyTrashed();
+				}
 			}
 		}else {
 			if ($this->attributes['privilegio'] === 'V-') {
-				return $this->personalDataUser()->first();
+				if ($first) {
+					return $this->personalDataUser()->first();
+				}else {
+					return $this->personalDataUser();
+				}
 			}else {
-				return $this->personalDataAdmin()->first();
+				if ($first) {
+					return $this->personalDataAdmin()->first();
+				}else {
+					return $this->personalDataAdmin();
+				}
 			}
 		}
 	}

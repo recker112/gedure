@@ -15,8 +15,7 @@ import {
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { useFormContext } from "react-hook-form";
-import { Controller } from 'react-hook-form';
+import { useFormContext, useWatch, Controller } from "react-hook-form";
 
 // Components
 import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
@@ -25,7 +24,11 @@ import { RenderSelectFormHook } from '../../../../../components/RendersGlobals';
 import { useSelector } from 'react-redux';
 
 function DataPersonalEstudiante() {
-	const { register, errors, control, watch } = useFormContext();
+	const { register, errors, control } = useFormContext();
+	const estudi_nacionalidad = useWatch({
+    name: 'personalData.estudi_nacionalidad',
+    defaultValue: ''
+  });
 	
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.registerUser.loading,
@@ -142,6 +145,7 @@ function DataPersonalEstudiante() {
 									error={Boolean(errors?.personalData?.estudi_nacimiento)}
 									fullWidth
 									size='small'
+									disabled={loading}
 									KeyboardButtonProps={{
 										size: 'small',
 										'aria-label': 'change date',
@@ -156,7 +160,7 @@ function DataPersonalEstudiante() {
 							}}
 						/>
 					</Grid>
-					{watch('personalData.estudi_nacionalidad', '') === 'V' && (
+					{estudi_nacionalidad === 'V' && (
 						<Grid item xs={12} sm={6} md={5}>
 							<Controller 
 								render={({onChange, onBlur, value, ref})=> (
@@ -177,8 +181,8 @@ function DataPersonalEstudiante() {
 												variant="outlined"
 												size="small"
 												inputRef={ref}
-												error={Boolean(errors?.personalData?.repre_ubi_estado)}
-												helperText={errors?.personalData?.repre_ubi_estado?.message ? errors.personalData.repre_ubi_estado.message : 'Seleccione un estado'}
+												error={Boolean(errors?.personalData?.estudi_nacimiento_estado)}
+												helperText={errors?.personalData?.estudi_nacimiento_estado?.message ? errors.personalData.estudi_nacimiento_estado.message : 'Seleccione un estado'}
 											/>
 										)}
 									/>

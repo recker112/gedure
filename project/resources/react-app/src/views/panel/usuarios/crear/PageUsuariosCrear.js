@@ -17,6 +17,7 @@ import ShowLocation from '../../../../components/ShowLocation';
 import StepperControls from './StepperControls';
 import StepRegisterUser from './StepRegisterUser';
 import StepDataPersonal from './StepDataPersonal';
+import StepFinish from './StepFinish';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function getSteps() {
-  return ['Registrar usuario', 'Datos de los padres', 'Datos del representante', 'Datos del estudiante'];
+  return ['Registrar usuario', 'Datos personales'];
 }
 
 function getStepContent(stepIndex) {
@@ -46,8 +47,6 @@ function getStepContent(stepIndex) {
       return <StepRegisterUser />;
     case 1:
       return <StepDataPersonal />;
-    case 2:
-      return 'Etapa3';
     default:
       return 'Etapa no encontrada.';
   }
@@ -124,7 +123,7 @@ function PageUsuariosCrear() {
 							</Grid>
 							<Grid item xs={12}>
 								{activeStep === steps.length ? (
-									<Typography>Finish proccess</Typography>
+									<StepFinish />
 								) : (
 									getStepContent(activeStep)
 								)}

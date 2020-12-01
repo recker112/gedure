@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
 			'nombre' => 'required|string|min:8|max:90',
 			'privilegio' => 'required|string|min:2|max:4',
 			'email' => 'required|email|unique:users',
-			'password' => 'required|string|min:4',
+			'password' => 'nullable|string|min:4',
 			'curso' => 'nullable|min:1|max:4',
 			'seccion' => 'nullable|min:1|max:4',
 			'permissions' => 'nullable|array',

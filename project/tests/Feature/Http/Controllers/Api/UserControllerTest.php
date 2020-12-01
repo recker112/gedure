@@ -71,7 +71,7 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
-				'msg'
+				'id'
 			]);
 		
 		$this->assertDatabaseHas('users', [
@@ -81,7 +81,7 @@ class UserControllerTest extends TestCase
 	
 	public function testCreateAdmin()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -103,7 +103,7 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
-				'msg'
+				'id'
 			]);
 		
 		$this->assertDatabaseHas('users', [
@@ -130,11 +130,71 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
+				'id'
+			]);
+		
+		$this->assertDatabaseHas('users', [
+        'email' => 'test@test.test',
+    ]);
+	}
+	
+	public function testCreateStudiantForInvitation()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$response = $this->postJson('/api/v1/invite/users', [
+			'cedula' => 'luis',
+			'nombre' => 'Luis Enrrique',
+			'email' => 'test@test.test',
+			'privilegio' => 'V-',
+			'curso' => '5',
+			'seccion' => 'A',
+			'permissions' => [
+				'boletas' => true,
+				'horarios' => true,
+				'soporte' => true,
+				'account_exonerada' => false,
+			]
+		]);
+		
+		$response->assertCreated()
+			->assertJsonStructure([
 				'msg'
 			]);
 		
 		$this->assertDatabaseHas('users', [
         'email' => 'test@test.test',
+    ]);
+	}
+	
+	public function testUpdateDataPersonal()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$response = $this->postJson('/api/v1/users-datap/1', [
+			'personalData' => [
+				'sexo' => 'Masculino',
+				'telefono' => '4269403957',
+				'direccion' => 'Direcciรณn de la persona a la cual se le hace una request. :u',
+				'docente' => 'No',
+			]
+		]);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
+		
+		$this->assertDatabaseHas('personal_data_admins', [
+        'sexo' => 'Masculino',
     ]);
 	}
 	
