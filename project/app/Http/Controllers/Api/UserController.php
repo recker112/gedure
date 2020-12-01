@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\CursoController;
-use Carbon\Carbon;
-
-// Mails
-use App\Mail\Invitation;
 
 // Models
 use App\Models\User;
@@ -71,7 +65,7 @@ class UserController extends Controller
 			
 			if (!$curso) {
 				return response()->json([
-					'msg' => 'El curso '.$request->curso.'-'.$request->seccion.' no existe',
+					'msg' => 'El curso '.$code.' no existe',
 				],404);
 			}
 		}
@@ -81,9 +75,7 @@ class UserController extends Controller
 		$dataUser['registred_at'] = now();
 		$user = User::create($dataUser);
 		
-		$user->personalData(false)->create([
-			'user_id' => $user->id,
-		]);
+		$user->personalData(false)->create();
 		
 		if ($user->privilegio === 'V-') {
 			$user->alumno()->create([
@@ -109,68 +101,27 @@ class UserController extends Controller
 		return response()->json($user->only(['id', 'cedula', 'email', 'nombre', 'privilegio']),201);
 	}
 	
-	public function invite(UserRequest $request) 
+	public function update(Request $request, $id)
 	{
-		// Verificar no existencia
-		$userCedulaExist = User::withTrashed()
-			->firstWhere('cedula', $request->cedula);
+		$user = User::findOrFail($id);
 		
-		if ($userCedulaExist) {
+		if (User::firstWhere('email', $request->email)) {
 			return response()->json([
-				'msg' => "La cédula o usuario $request->cedula ya existe"
+				'msg' => 'El correo ya existe',
 			],400);
 		}
 		
-		// Verificar existencia del curso
-		if ($request->privilegio === 'V-') {
-			$code = $request->curso.'-'.$request->seccion;
-			$curso = Curso::firstWhere('code', $code);
-			
-			if (!$curso) {
-				return response()->json([
-					'msg' => 'El curso '.$request->curso.'-'.$request->seccion.' no existe',
-				],404);
-			}
+		if (User::firstWhere('cedula', $request->cedula)) {
+			return response()->json([
+				'msg' => 'El usuario '.$request->cedula.' ya existe',
+			],400);
 		}
 		
-		$dataUser = $request->only(['cedula', 'nombre', 'privilegio', 'email']);
-		$user = User::create($dataUser);
-		
-		$user->personalData(false)->create([
-			'user_id' => $user->id,
-		]);
-		
-		if ($user->privilegio === 'V-') {
-			$user->alumno()->create([
-				'curso_id' => $curso->id,
-				'user_id' => $user->id,
-				'n_lista' => 99,
-			]);
-			
-			CursoController::orderAlumnos($curso->id);
-		}
-		
-		// Permissions
-		if ($request->super_admin && $user->privilegio === 'A-') {
-			$user->assignRole('super-admin');
-		}else {
-			foreach($request->permissions as $clave => $value) {
-				if ($value) {
-					$user->givePermissionTo($clave);
-				}
-			}
-		}
-		
-		// Crear y enviar invitación
-		$user->invitation()->create([
-			'invitation_key' => Str::random(40),
-		]);
-		
-		Mail::to($user)->queue(new Invitation($user, $user->invitation->invitation_key));
+		$user->update($request->only(['cedula', 'nombre', 'email', 'password', 'avatar']));
 		
 		return response()->json([
-			'msg' => 'Invitación enviada'
-		],201);
+			'msg' => "Datos actualizados"
+		],200);
 	}
 	
 	public function updatePersonalData(Request $request, $id)

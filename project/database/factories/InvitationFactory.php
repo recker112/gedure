@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\AdminConfig;
+use App\Models\Invitation;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AdminConfigFactory extends Factory
+class InvitationFactory extends Factory
 {
 	/**
 	 * The name of the factory's corresponding model.
 	 *
 	 * @var string
 	 */
-	protected $model = AdminConfig::class;
+	protected $model = Invitation::class;
 
 	/**
 	 * Define the model's default state.
@@ -23,6 +24,7 @@ class AdminConfigFactory extends Factory
 	{
 		return [
 			'user_id' => rand(1,5),
+			'invitation_key' => Str::random(40)
 		];
 	}
 }

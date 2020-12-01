@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controller\Api;
+namespace Tests\Feature\Http\Controllers\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -53,7 +53,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users', [
+		$response = $this->postJson('/api/v1/user', [
 			'cedula' => 'luis',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'test@test.test',
@@ -87,7 +87,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users', [
+		$response = $this->postJson('/api/v1/user', [
 			'cedula' => 'luis',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'test@test.test',
@@ -119,7 +119,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users', [
+		$response = $this->postJson('/api/v1/user', [
 			'cedula' => 'luis',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'test@test.test',
@@ -138,30 +138,24 @@ class UserControllerTest extends TestCase
     ]);
 	}
 	
-	public function testCreateStudiantForInvitation()
+	public function testEditUser()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/invite/users', [
+		$user = User::factory()->create();
+		
+		$response = $this->putJson('/api/v1/user/'.$user->id, [
 			'cedula' => 'luis',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'test@test.test',
-			'privilegio' => 'V-',
-			'curso' => '5',
-			'seccion' => 'A',
-			'permissions' => [
-				'boletas' => true,
-				'horarios' => true,
-				'soporte' => true,
-				'account_exonerada' => false,
-			]
+			'password' => '1234',
 		]);
 		
-		$response->assertCreated()
+		$response->assertOk()
 			->assertJsonStructure([
 				'msg'
 			]);
@@ -179,11 +173,11 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users-datap/1', [
+		$response = $this->putJson('/api/v1/user-data/1', [
 			'personalData' => [
 				'sexo' => 'Masculino',
 				'telefono' => '4269403957',
-				'direccion' => 'Direcciรณn de la persona a la cual se le hace una request. :u',
+				'direccion' => 'Dirección de la persona a la cual se le hace una request. :u',
 				'docente' => 'No',
 			]
 		]);
@@ -206,7 +200,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users', [
+		$response = $this->postJson('/api/v1/user', [
 			'cedula' => 'recker',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'test@test.test',
@@ -234,7 +228,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/users', [
+		$response = $this->postJson('/api/v1/user', [
 			'cedula' => 'luis',
 			'nombre' => 'Luis Enrrique',
 			'email' => 'joseortiz112001@gmail.com',
@@ -269,7 +263,7 @@ class UserControllerTest extends TestCase
 				'n_lista' => 99
 			]);
 		
-		$response = $this->deleteJson('/api/v1/users/'.$user->id);
+		$response = $this->deleteJson('/api/v1/user/'.$user->id);
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([

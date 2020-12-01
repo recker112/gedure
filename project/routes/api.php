@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ContactoController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\MailController;
 
 /*
@@ -123,19 +124,29 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	// Create users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
-		->post('users', [UserController::class, 'create']);
+		->post('user', [UserController::class, 'create']);
 	
-	// Invite users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
-		->post('invite/users', [UserController::class, 'invite']);
-	
-	// Update data personal
+	// Update user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
-		->post('users-datap/{id}', [UserController::class, 'updatePersonalData']);
+		->put('user/{id}', [UserController::class, 'update']);
 	
 	// Soft delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
-		->delete('users/{id}', [UserController::class, 'delete']);
+		->delete('user/{id}', [UserController::class, 'delete']);
+	
+	// Update data personal
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
+		->put('user-data/{id}', [UserController::class, 'updatePersonalData']);
+	
+	/*
+	INVITATION
+	*/
+	// Invite users
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
+		->post('invitation/users', [InvitationController::class, 'invite']);
+	
+	// Register user
+	Route::post('invitation/register', [InvitationController::class, 'register']);
 	
 	Route::get('send', [MailController::class, 'email']);
 });

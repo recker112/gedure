@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-	<title>Inticación al sistema</title>
+	<title>Invitación al sistema</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 	<style>
 		* {
@@ -48,11 +48,14 @@
 			margin-top: 10px;
 		}
 		
-		.main__code {
+		.main__button {
 			text-align: center;
-			color: #64a7d6;
 			margin-top: 20px;
 			font-size: 40px;
+		}
+		
+		.button {
+			background-color: #64a7d6 !important;
 		}
 		
 		.footer {
@@ -64,6 +67,11 @@
 			opacity: 0.6;
 		}
 	</style>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 	<div class='container'>
@@ -78,12 +86,11 @@
 			<p class='main__line main__text'>
 				Fuiste invitado al sistema, de click en el botón para iniciar el proceso de registro.
 			</p>
-			<Button>
-				Iniciar registro
-			</Button>
-			<p class='main__code main__line'>
-				{{ $key }}
-			</p>
+			<div class='main__button main__line'>
+				<a target='_blank' href='{{ config('app.url', '') }}/invitacion?key={{ $key }}' class="waves-effect waves-light btn button">
+					Aceptar invitación
+				</a>
+			</div>
 		</div>
 		<footer class='footer'>
 			<p>
