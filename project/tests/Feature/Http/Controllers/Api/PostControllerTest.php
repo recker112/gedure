@@ -35,7 +35,6 @@ class PostControllerTest extends TestCase
 						'title',
 						'content',
 						'slug',
-						'extracto',
 						'user',
 						'fecha_humano',
 						'fecha_humano_modify'
@@ -66,7 +65,6 @@ class PostControllerTest extends TestCase
 						'title',
 						'user',
 						'slug',
-						'extracto',
 						'fecha_humano',
 						'fecha_humano_modify'
 					]
@@ -89,7 +87,6 @@ class PostControllerTest extends TestCase
 			->assertJsonStructure([
 				'title',
 				'content',
-				'extracto',
 				'slug',
 				'user',
 				'fecha_humano',
@@ -117,7 +114,6 @@ class PostControllerTest extends TestCase
 				'title',
 				'content',
 				'slug',
-				'extracto',
 				'user',
 				'fecha_humano',
 				'fecha_humano_modify'
@@ -397,7 +393,6 @@ class PostControllerTest extends TestCase
 						'title',
 						'user',
 						'slug',
-						'extracto',
 						'fecha_humano',
 						'fecha_humano_modify',
 						'url_imgs'

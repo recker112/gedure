@@ -10,6 +10,11 @@ const initialState = {
 		status: null,
 		data: {},
 	},
+	solicitudCupo: {
+		loading: false,
+		status: null,
+		data: {},
+	},
 	login: {
 		loading: false,
 		status: null,

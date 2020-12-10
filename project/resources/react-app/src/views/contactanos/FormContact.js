@@ -6,8 +6,7 @@ import {
 	Paper, 
 	TextField,
 	InputAdornment,
-	Button,
-	Box
+	Button
 } from '@material-ui/core';
 
 import { useForm } from 'react-hook-form';
@@ -41,16 +40,14 @@ function FormContact() {
 		const prepareDate = {
 			url: 'v1/contacto',
 			data: data,
-			messageToFinish: false,
-			messageTo422: false,
+			message422: 'Ya tiene una solicitud en cola',
+			successText: 'Mensaje enviado',
 		}
 		
 		const response = await fetchData(prepareDate);
 		
-		if (typeof response === 'object') {
-			dispatch(updateForms('contacto', false, null, '200'));
-		}else if (typeof response === 'string') {
-			dispatch(updateForms('contacto', false, null, response));
+		if (response) {
+			dispatch(updateForms('contacto', false));
 		}else {
 			dispatch(updateForms('contacto', false));
 		}
@@ -166,17 +163,11 @@ function FormContact() {
 							size='small'
 							multiline
 							error={Boolean(errors?.content)}
-							helperText={errors?.content?.message ? errors.content.message : 'Escriba el mensaje que desea enviar'}
+							helperText={errors?.content?.message ? errors.content.message : `${watch('content', []).length}/${maxMensaje} Caracteres`}
 							disabled={loading}
 							rows={8}
 							fullWidth
 						/>
-						<Box 
-							align='center' 
-							color={Boolean(errors?.content) ? '#f44336' : 'text.primary'}
-						>
-							{watch('content', []).length}/{maxMensaje} Caracteres
-						</Box>
 					</Grid>
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>

@@ -1,55 +1,50 @@
 import React, { useCallback } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
-
-import {
-	useScrollTrigger,
-	Slide,
-	Fab,
+import { 
+	useScrollTrigger, 
+	Slide, 
 	Zoom,
+	Fab,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // Components
 import HeaderNoAuth from './Header/HeaderNoAuth';
-import HeaderAuth from './Header/HeaderAuth';
 
 // Redux
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+	root: {
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-	margin: {
-		marginTop: `${theme.spacing(2)}px`
-	}
 }));
 
 export function HiddeOnScroll(props) {
-  const { children } = props;
-	
-  const trigger = useScrollTrigger();
+	const { children } = props;
 
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
+	const trigger = useScrollTrigger();
+
+	return (
+		<Slide appear={false} direction="down" in={!trigger}>
+			{children}
+		</Slide>
+	);
 }
 
 function ScrollTop(props) {
   const { children } = props;
 	
-	const classes = useStyles();
-	
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 800,
   });
+	
+	const classes = useStyles();
 
   const handleClick = useCallback((event) => {
     const anchor = (event.target.ownerDocument || document).querySelector('#top-anchor');
@@ -72,21 +67,25 @@ function Header() {
 	const { auth } = useSelector((state) => ({
 		auth: state.userData.auth,
 	}));
-	
+
 	const match1 = useRouteMatch({
 		path: '/entrar',
-		exact: true
+		exact: true,
 	});
-	
+
 	const match2 = useRouteMatch({
 		path: '/recuperar',
-		exact: true
+		exact: true,
 	});
 	
+	const match3 = useRouteMatch({
+		path: '/solicitud',
+		exact: true,
+	});
+
 	return (
 		<React.Fragment>
-			{(!auth && (!match1 && !match2)) && <HeaderNoAuth />}
-			{auth && <HeaderAuth />}
+			{(!auth && (!match1 && !match2 && !match3)) && <HeaderNoAuth />}
 			<ScrollTop>
 				<Fab color="secondary" size="small">
 					<KeyboardArrowUpIcon />

@@ -43,7 +43,7 @@ export function RenderSelectFormHook({
 				name={name}
 				control={control}
 				defaultValue={defaultValue}
-				rules={{ required: { value: true, message: 'Este campo es obligatorio' } }}
+				rules={{ required: { value: true, message: '* Campo requerido' } }}
 			/>
 			<FormHelperText>{errors?.message ? errors?.message : helperText}</FormHelperText>
 		</FormControl>

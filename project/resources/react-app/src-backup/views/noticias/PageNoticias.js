@@ -126,7 +126,7 @@ function PageNoticias() {
 					document.title = 'La Candelaria - Noticias';
 				}}>
 				<Container maxWidth='md' className='container--margin'>
-					<Grid container justify='center' spacing={2}>
+					<Grid container justify='center'>
 						<Grid container alignItems='center' item xs={12}>
 							<Grid item xs>
 								<Hidden xsDown>

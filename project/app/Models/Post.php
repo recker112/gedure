@@ -21,8 +21,7 @@ class Post extends Model
 	
 	protected $appends = [
 		'fecha_humano', 
-		'fecha_humano_modify', 
-		'extracto',
+		'fecha_humano_modify',
 		'url_imgs'
 	];
 	
@@ -51,11 +50,6 @@ class Post extends Model
 	/*
 		ATRIBUTOS
 	*/
-	public function getExtractoAttribute()
-	{
-		$extracto = str_split($this->attributes['content'], 150);
-		return $extracto[0];
-	}
 	
 	public function getUrlImgsAttribute()
 	{
