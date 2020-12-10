@@ -15,7 +15,7 @@ function useFetch() {
 			data = null,
 			otherData = null,
 			messageToFinish = true,
-			messageTo422 = false,
+			messageTo422 = true,
 			message422 = 'Error al verificar los datos',
 			messageTo400 = true,
 			message400 = false,
@@ -55,13 +55,13 @@ function useFetch() {
 						return data;
 					}
 				} else if (status === 401) {
-					enqueueSnackbar('Sesión expirada', {
+					enqueueSnackbar('Sesiรณn expirada', {
 						variant: 'info',
 					});
 
 					dispatch(logoutApp());
 				} else if (status === 403) {
-					enqueueSnackbar('No tienes permisos para esta acción', {
+					enqueueSnackbar('No tienes permisos para esta acciรณn', {
 						variant: 'error',
 					});
 				} else if (status === 404) {
@@ -79,10 +79,6 @@ function useFetch() {
 						enqueueSnackbar(message422, {
 							variant: 'error',
 						});
-					}
-
-					if (!messageTo422) {
-						return '422';
 					}
 				} else if (status === 500) {
 					enqueueSnackbar('No se ha podido conectar con la base de datos', {

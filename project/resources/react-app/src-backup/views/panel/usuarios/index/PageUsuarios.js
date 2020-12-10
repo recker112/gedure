@@ -179,7 +179,7 @@ function PageUsuarios() {
 									icon: () => (<Edit />),
 									tooltip: 'Editar',
 									onClick: (event, rowData) => {
-										dispatch(updateDialogs('editUser', true, false, rowData.id));
+										history.push(`/panel/usuarios/editar/${rowData.id}`);
 									},
 								},
 								{

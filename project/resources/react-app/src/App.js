@@ -31,12 +31,10 @@ function App() {
 		palette: {
 			type: tema,
 			primary: {
-				main: tema === 'light' ? '#64a7d6' : '#2b668e', // #3E92CC MAIN
-				contrastText: '#fff'
+				main: '#1976d2',
 			},
 			secondary: {
-				main: tema === 'light' ? '#10263a' : '#455f75', // #173753 MAIN
-				contrastText: '#fff'
+				main: '#173753',
 			},
 			background: {
 				default: tema === 'light' ? '#efefef' : '#1c2025',

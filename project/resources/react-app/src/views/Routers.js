@@ -14,20 +14,18 @@ import ReactLoading from 'react-loading';
 // Componentes
 import logoL from '../imgs/Farvicon_no_fondo.png';
 import logoD from '../imgs/Farvicon_no_fondo_white.png';
-import NotFound from '../components/NotFound';
 
 // Redux
 import { useSelector } from 'react-redux';
 
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
-const PageNoticias = lazy(() => import('./noticias/PageNoticias'));
-const PageShowNoticia = lazy(() => import('./noticias/PageShowNoticia'));
+const PageNews = lazy(() => import('./noticias/PageNews'));
+const PageShowNews = lazy(() => import('./noticias/PageShowNews'));
 const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
-const PageLogin = lazy(() => import('./login/PageLogin'));
-const PageRecovery = lazy(() => import('./login/PageRecovery'));
-const RoutersPanel = lazy(() => import('./panel/RoutersPanel'));
+const PageLogin = lazy(() => import('./entrar/PageLogin'));
+const PageRecovery = lazy(() => import('./entrar/PageRecovery'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -36,27 +34,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Routers() {
-	const { theme, auth } = useSelector((state) => ({
+	const { auth } = useSelector((state) => ({
 		auth: state.userData.auth,
-		theme: state.settings.tema,
 	}));
 	
 	return (
 		/* Switch sirve para escojer la ruta la que mas se acerque a la
     ruta actual, es decir, que de todas esas rutas, la app escogerรก
     la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
-		<Suspense fallback={<Loader theme={theme} />}>
+		<Suspense fallback={<Loader />}>
 			<Switch>
 				<PublicRoute auth={auth} path='/' exact notSeeBeforeAuth>
 					<PageIndex />
 				</PublicRoute>
 				
 				<PublicRoute auth={auth} path='/noticias' exact>
-					<PageNoticias />
+					<PageNews />
 				</PublicRoute>
 				
 				<PublicRoute auth={auth} path='/noticias/:slug' exact>
-					<PageShowNoticia />
+					<PageShowNews />
 				</PublicRoute>
 				
 				<PublicRoute auth={auth} path='/solicitud' exact>
@@ -71,16 +68,12 @@ function Routers() {
 					<PageLogin />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/recuperar' exact notSeeBeforeAuth>
+				<PublicRoute auth={auth} path='/recuperar' exact>
 					<PageRecovery />
 				</PublicRoute>
 				
-				<ProtectRoute auth={auth} path='/panel'>
-					<RoutersPanel />
-				</ProtectRoute>
-				
 				<PublicRoute auth={auth}>
-					<NotFound />
+					No encontrado
 				</PublicRoute>
 			</Switch>
 		</Suspense>
@@ -143,7 +136,9 @@ export function ProtectRoute({ children, auth, ...rest }) {
 }
 
 export function Loader(props){
-	const { theme='light' } = props;
+	const { theme } = useSelector((state) => ({
+		theme: state.settings.tema,
+	}));
 	
 	const classes = useStyles();
 	

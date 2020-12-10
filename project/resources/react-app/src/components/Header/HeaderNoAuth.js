@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 
-import { Link, useRouteMatch, useHistory } from 'react-router-dom';
+import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 
-import {
-	AppBar,
+import { 
+	useScrollTrigger, 
+	AppBar, 
 	Toolbar,
-	Button,
+	Link,
 	Hidden,
-	Drawer,
-	ListItem,
-	List,
-	ListItemIcon,
-	ListItemText,
 	IconButton,
+	Drawer,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemIcon,
 	Container,
 	Grid,
-	Box,
-	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -27,80 +26,64 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 // Components
-import { HiddeOnScroll } from './../Header';
+import { HiddeOnScroll } from '../Header';
+import gedureLogo from '../../imgs/Gedure-Logo.png';
 
 const useStyles = makeStyles((theme) => ({
-	appBar: {
-		justifyContent: 'flex-end'
+	toolBar: {
+		justifyContent: 'flex-end',
 	},
-	HeadDrawer: {
-		background: theme.palette.primary.main,
-		height: 56,
+	item: {
+		marginRight: 15,
+		textDecoration: 'none',
 	},
-	margin: {
-		marginTop: `${theme.spacing(2)}px`
-	},
-	drawer__button: {
+	button: {
 		opacity: 0.9,
 		transition: '0.5s',
 		borderRadius: '5px',
 		'&:hover': {
 			opacity: 1,
-			backgroundColor: theme.palette.primary.main + '60'
 		},
 		'&.Mui-selected': {
-			backgroundColor: theme.palette.primary.main + '60',
+			background: 'linear-gradient(270deg, #2F80ED 0%, #0BA6E0 100%)',
+			opacity: 0.8,
+			color: 'white',
 			'&:hover': {
-				backgroundColor: theme.palette.primary.main
-			}
-		}
+				opacity: 1,
+			},
+		},
+		'&.Mui-selected .MuiListItemIcon-root': {
+			color: 'white !important',
+		},
 	}
 }));
-
-function HeaderButton (props) {
-	const { url, children } = props;
-	
-	const match = useRouteMatch({
-		path: url,
-		exact: true
-	});
-	
-	return (
-		<Link to={url}>
-			<Button>
-				<span className={match ? 'header__selected' : ''}>
-					{children}
-				</span>
-			</Button>
-		</Link>
-	);
-}
 
 export function ReturnSelected (props) {
 	const { url, handle, children } = props;
 	
 	const classes = useStyles();
 	
-	let history = useHistory();
-	
 	const match = useRouteMatch({
 		path: url,
 		exact: true
 	});
 	
-	const handleClick = () => {
-		history.push(url);
-		handle();
-	}
-	
 	return (
-		<ListItem button dense selected={Boolean(match)} className={classes.drawer__button} onClick={handleClick}>
+		<ListItem 
+			button 
+			dense 
+			selected={Boolean(match)} 
+			className={classes.button}
+			onClick={handle}
+			component={RouterLink}
+			to={url}
+		>
 			{children}
 		</ListItem>	
 	);
 }
 
-function MobileMenuIndex() {
+function MobileMenu() {
 	const [open, setOpen] = useState(false);
 	
 	const classes = useStyles();
@@ -116,51 +99,50 @@ function MobileMenuIndex() {
 	return (
 		<React.Fragment>
 			<IconButton onClick={handleClick}>
-				<MenuIcon />
+				<MenuIcon style={{ color: 'white' }} />
 			</IconButton>
 			<Drawer open={open} onClose={handleClose}>
 				<div role="presentation" className='drawer'>
-					<Grid container alignItems="center" className={classes.HeadDrawer}>
-						<Container>
-							<Typography className='text__bold--semi'>
-								La Candelaria
-							</Typography>
-						</Container>
-					</Grid>
-					<Container>
-						<Box className={classes.margin}>
-							<Grid container direction='column'>
-								<Grid item>
-									<Typography className="text__opacity--semi text__bold--semi">
-										Navegación
-									</Typography>
-								</Grid>
-								<Grid container direction='column' item>
-									<List>
-										<ReturnSelected url='/' handle={handleClose}>
-											<ListItemIcon><HomeIcon /></ListItemIcon>
-											<ListItemText>Inicio</ListItemText>
-										</ReturnSelected>
-										<ReturnSelected url='/noticias' handle={handleClose}>
-											<ListItemIcon><AnnouncementIcon /></ListItemIcon>
-											<ListItemText>Noticias</ListItemText>
-										</ReturnSelected>
-										<ReturnSelected url='/solicitud' handle={handleClose}>
-											<ListItemIcon><AssignmentIcon /></ListItemIcon>
-											<ListItemText>Solicitud de cupo</ListItemText>
-										</ReturnSelected>
-										<ReturnSelected url='/contactanos' handle={handleClose}>
-											<ListItemIcon><ContactMailIcon /></ListItemIcon>
-											<ListItemText>Contáctanos</ListItemText>
-										</ReturnSelected>
-										<ReturnSelected url='/entrar' handle={handleClose}>
-											<ListItemIcon><VpnKeyIcon /></ListItemIcon>
-											<ListItemText>Entrar</ListItemText>
-										</ReturnSelected>
-									</List>
-								</Grid>
+					<AppBar color='transparent' position='static' elevation={0}>
+						<Toolbar>
+							<Grid container justify='center' alignItems='center'>
+								<img src={gedureLogo} alt='logo de Gedure' height='25' />
 							</Grid>
-						</Box>
+						</Toolbar>
+					</AppBar>
+					<Container>
+						<List component="nav">
+							<ReturnSelected url='/' handle={handleClose}>
+								<ListItemIcon>
+									<HomeIcon className={classes.colorWhite} />
+								</ListItemIcon>
+								<ListItemText primary='Inicio' /> 
+							</ReturnSelected>
+							<ReturnSelected url='/noticias' handle={handleClose}>
+								<ListItemIcon>
+									<AnnouncementIcon />
+								</ListItemIcon>
+								<ListItemText primary='Noticias' /> 
+							</ReturnSelected>
+							<ReturnSelected url='/solicitud' handle={handleClose}>
+								<ListItemIcon>
+									<AssignmentIcon />
+								</ListItemIcon>
+								<ListItemText primary='Solicitud de cupo' /> 
+							</ReturnSelected>
+							<ReturnSelected url='/contactanos' handle={handleClose}>
+								<ListItemIcon>
+									<ContactMailIcon />
+								</ListItemIcon>
+								<ListItemText primary='Contáctanos' /> 
+							</ReturnSelected>
+							<ReturnSelected url='/entrar' handle={handleClose}>
+								<ListItemIcon>
+									<VpnKeyIcon />
+								</ListItemIcon>
+								<ListItemText primary='Entrar' /> 
+							</ReturnSelected>
+						</List>
 					</Container>
 				</div>
 			</Drawer>
@@ -171,31 +153,66 @@ function MobileMenuIndex() {
 function HeaderNoAuth() {
 	const classes = useStyles();
 	
+	const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 350,
+  });
+	
+	const match0 = useRouteMatch({
+		path: '/',
+		exact: true,
+	});
+	
 	return (
 		<HiddeOnScroll>
-			<AppBar>
+			<AppBar color={(!trigger && match0) ? 'transparent' : 'primary'} elevation={0}>
 				<Hidden smUp>
-					<Toolbar className={classes.appBar}>
-						<MobileMenuIndex />
+					<Toolbar>
+						<MobileMenu />
 					</Toolbar>
 				</Hidden>
 				<Hidden xsDown>
-					<Toolbar className={classes.appBar}>
-						<HeaderButton url='/'>
+					<Toolbar className={classes.toolBar}>
+						<Link 
+							color="initial" 
+							className={classes.item} 
+							component={RouterLink} 
+							to="/"
+						>
 							Inicio
-						</HeaderButton>
-						<HeaderButton url='/noticias'>
+						</Link>
+						<Link 
+							color="initial"
+							className={classes.item} 
+							component={RouterLink} 
+							to="/noticias"
+						>
 							Noticias
-						</HeaderButton>
-						<HeaderButton url='/solicitud'>
+						</Link>
+						<Link 
+							color="initial"
+							className={classes.item} 
+							component={RouterLink} 
+							to="/solicitud"
+						>
 							Solicitud de cupo
-						</HeaderButton>
-						<HeaderButton url='/contactanos'>
+						</Link>
+						<Link 
+							color="initial"
+							className={classes.item} 
+							component={RouterLink} 
+							to="/contactanos"
+						>
 							Contáctanos
-						</HeaderButton>
-						<HeaderButton url='/entrar'>
+						</Link>
+						<Link 
+							color="initial"
+							className={classes.item} 
+							component={RouterLink} 
+							to="/entrar"
+						>
 							Entrar
-						</HeaderButton>
+						</Link>
 					</Toolbar>
 				</Hidden>
 			</AppBar>

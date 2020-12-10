@@ -9,6 +9,7 @@ import NotFound from '../../../components/NotFound';
 // Routers
 const PageUsuarios = lazy(() => import('./index/PageUsuarios'));
 const PageUsuariosCrear = lazy(() => import('./crear/PageUsuariosCrear'));
+const PageUsuariosEditar = lazy(() => import('./editar/PageUsuariosEditar'));
 
 function RoutersPanelUsers() {
 	let { url } = useRouteMatch();
@@ -22,6 +23,10 @@ function RoutersPanelUsers() {
 				
 				<Route path={`${url}/crear`}>
 					<PageUsuariosCrear />
+				</Route>
+				
+				<Route path={`${url}/editar/:user_id`}>
+					<PageUsuariosEditar />
 				</Route>
 				
 				<Route>

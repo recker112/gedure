@@ -9,8 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 // Components
-import FooterText from '../../components/FooterText';
-import AjaxBox from '../../components/AjaxBox';
+import Footer from '../../components/Footer';
 import FormContact from './FormContact';
 import GoogleMaps from './GoogleMaps';
 
@@ -20,13 +19,12 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		
-		marginBottom: theme.spacing(6),
+		marginBottom: theme.spacing(10),
 		[theme.breakpoints.up('xs')]: {
-			marginTop: '48px',
+			marginTop: '80px',
 		},
 		[theme.breakpoints.up('sm')]: {
-			marginTop: theme.spacing(8),
+			marginTop: theme.spacing(12),
 		},
 	},
 	avatarLarge: {
@@ -164,52 +162,29 @@ function SectionDirectivo() {
 }
 
 function PageContactanos() {
-	const { auth, status } = useSelector((state) => ({
+	document.title = 'La Candelaria - Contáctanos';
+	const { auth } = useSelector((state) => ({
 		auth: state.userData.auth,
-		status: state.forms.contacto.status,
 	}));
 	
 	const classes = useStyles();
 	
 	return (
 		<React.Fragment>
-			<main className={classes.containerMain} ref={()=>{
-					document.title = 'La Candelaria - Contáctanos';
-				}}>
-				<Container maxWidth='md' className='container--margin'>
-					{!status && (
-						<Grid container spacing={2} justify='center'>
-							<SectionDirection />
-							<SectionDirectivo />
-							{!auth && (
-								<Grid item xs={12}>
-									<FormContact />
-								</Grid>
-							)}
-						</Grid>
-					)}
-					{(status && status === '422') && (
-						<AjaxBox 
-							title='Solicitud rechazada'
-							content='Ya hay un mensaje en nuestra lista, por favor espere a que nos comuniquemos con usted antes de enviar otro mensaje.'
-							form='contacto'
-							error={true}
-						/>
-					)}
-					{(status && status === '200') && (
-						<AjaxBox 
-							title='Mensaje enviado'
-							content='Su mensaje fue enviado exitosamente, nos comunicaremos con usted lo antes posible.'
-							form='contacto'
-						/>
-					)}
+			<main className={classes.containerMain}>
+				<Container>
+					<Grid container spacing={2} justify='center'>
+						<SectionDirection />
+						<SectionDirectivo />
+						{!auth && (
+							<Grid item xs={12}>
+								<FormContact />
+							</Grid>
+						)}
+					</Grid>
 				</Container>
 			</main>
-			{!auth && (
-				<footer className='footer'>
-					<FooterText />
-				</footer>
-			)}
+			{!auth && (<Footer />)}
 		</React.Fragment>
 	);
 }
