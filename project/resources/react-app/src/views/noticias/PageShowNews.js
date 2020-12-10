@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
 		minHeight: 500,
-		marginBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(10),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
