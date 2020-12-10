@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { useRouteMatch } from 'react-router-dom';
+
 import { 
 	useScrollTrigger, 
 	Slide, 
@@ -12,6 +13,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // Components
 import HeaderNoAuth from './Header/HeaderNoAuth';
+import HeaderAuth from './Header/HeaderAuth';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -86,6 +88,7 @@ function Header() {
 	return (
 		<React.Fragment>
 			{(!auth && (!match1 && !match2 && !match3)) && <HeaderNoAuth />}
+			{auth && <HeaderAuth />}
 			<ScrollTop>
 				<Fab color="secondary" size="small">
 					<KeyboardArrowUpIcon />
