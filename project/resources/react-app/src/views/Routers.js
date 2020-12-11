@@ -26,6 +26,7 @@ const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./entrar/PageRecovery'));
+const RoutersPanel = lazy(() => import('./panel/RoutersPanel'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -71,6 +72,10 @@ function Routers() {
 				<PublicRoute auth={auth} path='/recuperar' exact>
 					<PageRecovery />
 				</PublicRoute>
+				
+				<ProtectRoute auth={auth} path='/panel'>
+					<RoutersPanel />
+				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>
 					No encontrado
