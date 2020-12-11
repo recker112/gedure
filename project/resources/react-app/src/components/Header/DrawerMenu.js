@@ -26,6 +26,7 @@ import { mdiFaceAgent } from '@mdi/js';
 import { ReturnSelected } from './HeaderNoAuth';
 import gedureLogo from '../../imgs/Gedure-Logo.png';
 import UserList from './UserList';
+import AdminList from './AdminList';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -104,8 +105,12 @@ function DrawerMenu() {
 							</ListItemIcon>
 							<ListItemText primary='Noticias' /> 
 						</ReturnSelected>
-						{(privilegio === 'V-' || true) && (
+						{privilegio === 'V-' && (
 							<UserList handleClose={handleClose} />
+						)}
+						
+						{privilegio === 'A-' && (
+							<AdminList handleClose={handleClose} />
 						)}
 						<ReturnSelected handle={handleExpandHelp}>
 							<ListItemIcon>
