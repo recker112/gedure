@@ -281,11 +281,12 @@ class LoginController extends Controller
 		}
 		
 		if ($user->privilegio === 'A-') {
+			$listNA = array();
 			$listA = array();
 			$listG = array();
 			foreach ($permissionsDB as $perm) {
 				if ($perm->name === 'registros_index') {
-					$listA['registros_index'] = true;
+					$listNA['registros_index'] = true;
 				}
 				
 				if ($perm->name === 'registros_user') {
@@ -346,6 +347,7 @@ class LoginController extends Controller
 			}
 			
 			$permissions = [
+				'sin_asignar' => $listNA,
 				'administrar' => $listA,
 				'gedure' => $listG,
 			];
