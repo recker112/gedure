@@ -55,11 +55,31 @@ const useStyles = makeStyles((theme) => ({
 		'&.Mui-selected .MuiListItemIcon-root': {
 			color: 'white !important',
 		},
-	}
+	},
+	nested: {
+		opacity: 0.9,
+		transition: '0.5s',
+		borderRadius: '5px',
+		paddingLeft: theme.spacing(4),
+		'&:hover': {
+			opacity: 1,
+		},
+		'&.Mui-selected': {
+			background: 'linear-gradient(270deg, #2F80ED 0%, #0BA6E0 100%)',
+			opacity: 0.8,
+			color: 'white',
+			'&:hover': {
+				opacity: 1,
+			},
+		},
+		'&.Mui-selected .MuiListItemIcon-root': {
+			color: 'white !important',
+		},
+	},
 }));
 
 export function ReturnSelected (props) {
-	const { url, handle, children } = props;
+	const { url=null, handle, nested, children } = props;
 	
 	const classes = useStyles();
 	
@@ -73,9 +93,9 @@ export function ReturnSelected (props) {
 			button 
 			dense 
 			selected={Boolean(match)} 
-			className={classes.button}
+			className={nested ? classes.nested : classes.button}
 			onClick={handle}
-			component={RouterLink}
+			component={url !== null && RouterLink}
 			to={url}
 		>
 			{children}
@@ -85,8 +105,6 @@ export function ReturnSelected (props) {
 
 function MobileMenu() {
 	const [open, setOpen] = useState(false);
-	
-	const classes = useStyles();
 	
 	const handleClick = () => {
 		setOpen(true);
@@ -114,7 +132,7 @@ function MobileMenu() {
 						<List component="nav">
 							<ReturnSelected url='/' handle={handleClose}>
 								<ListItemIcon>
-									<HomeIcon className={classes.colorWhite} />
+									<HomeIcon />
 								</ListItemIcon>
 								<ListItemText primary='Inicio' /> 
 							</ReturnSelected>
@@ -134,7 +152,7 @@ function MobileMenu() {
 								<ListItemIcon>
 									<ContactMailIcon />
 								</ListItemIcon>
-								<ListItemText primary='Contáctanos' /> 
+								<ListItemText primary='Contรกctanos' /> 
 							</ReturnSelected>
 							<ReturnSelected url='/entrar' handle={handleClose}>
 								<ListItemIcon>
@@ -203,7 +221,7 @@ function HeaderNoAuth() {
 							component={RouterLink} 
 							to="/contactanos"
 						>
-							Contáctanos
+							Contรกctanos
 						</Link>
 						<Link 
 							color="initial"
