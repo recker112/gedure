@@ -55,13 +55,13 @@ function useFetch() {
 						return data;
 					}
 				} else if (status === 401) {
-					enqueueSnackbar('Sesiรณn expirada', {
+					enqueueSnackbar('Sesión expirada', {
 						variant: 'info',
 					});
 
 					dispatch(logoutApp());
 				} else if (status === 403) {
-					enqueueSnackbar('No tienes permisos para esta acciรณn', {
+					enqueueSnackbar('No tienes permisos para esta acción', {
 						variant: 'error',
 					});
 				} else if (status === 404) {

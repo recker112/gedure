@@ -71,7 +71,7 @@ class LoginController extends Controller
 		
 		// expired_at
 		if($request->checkbox) {
-			$token->expires_at =now()->addMonths(6);
+			$token->expires_at = now()->addMonths(6);
 		}
 		
 		$token->save();

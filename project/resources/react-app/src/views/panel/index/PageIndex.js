@@ -3,8 +3,9 @@ import React from 'react';
 import { 
 	Grid, 
 	Container,
-	Typography,
 	Box,
+	Slide,
+	Fade,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -42,24 +43,18 @@ function Header() {
 		<Container>
 			<Grid container justify='space-between'>
 				<Grid item xs>
-					<Box color='primary.contrastText'>
-						<Typography className='text__bold--semi' variant='h4'>
-							<Box color='secondary.main' component='span'>Hola</Box> {nombre},
-						</Typography>
-					<Typography className='text__bold--semi' variant='h5'>
+					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi'>
+						<Box color='secondary.main' component='span'>Hola</Box> {nombre},
+					</Box>
+					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi'>
 						Bienveido a <Box color='secondary.main' component='span'>Gedure</Box>
-						</Typography>
 					</Box>
 				</Grid>
-				<Grid container justify='flex-end' item xs>
-					<Box color='primary.contrastText'>
-						<Typography align='right' className='text__bold--semi' variant='h4'>
-							Hora del sistema
-						</Typography>
-					<Typography align='right' className='text__bold--semi' variant='h5'>
-						<Box color='secondary.main' component='span'>08:12 PM</Box>
-						</Typography>
+				<Grid item xs>
+					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
+						Hora del sistema
 					</Box>
+					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>08:12 PM</Box>
 				</Grid>
 			</Grid>
 		</Container>
@@ -77,24 +72,28 @@ function PageIndex() {
 	
 	return (
 		<main className={classes.containerMain}>
-			<Grid container>
-				<Grid container alignItems='center' item xs={12} className={classes.header}>
-					<Header />
+			<Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
+				<Grid container>
+					<Grid container alignItems='center' item xs={12} className={classes.header}>
+						<Header />
+					</Grid>
 				</Grid>
-			</Grid>
-			<Container>
-				<Grid container spacing={2} item xs={12} className={classes.content}>
-					{(privilegio === 'V-' || true) && (
-						<React.Fragment>
-							<NoticiasList />
-							<SoporteList />
-							<BoletasList />
-							<MoneyStatus />
-							<DeudasStatus />
-						</React.Fragment>
-					)}
-				</Grid>
-			</Container>
+			</Slide>
+			<Fade in={true} style={{ transitionDelay: '1000ms' }}>
+				<Container>
+					<Grid container justify='center' spacing={2} item xs={12} className={classes.content}>
+						{(privilegio === 'V-') && (
+							<React.Fragment>
+								<NoticiasList />
+								<SoporteList />
+								<BoletasList />
+								<MoneyStatus />
+								<DeudasStatus />
+							</React.Fragment>
+						)}
+					</Grid>
+				</Container>
+			</Fade>
 		</main>
 	)
 }
