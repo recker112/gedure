@@ -29,14 +29,16 @@ class LogController extends Controller
 						->orWhere('created_at', 'like', "%".$search."%")
 						->orWhereHas('user', function (Builder $query) {
 							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
+							$query->where('username', 'LIKE', "%$search%");
 						});
 					})
 				->orderBy('id', 'desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->toJson();
+				->makeVisible('id')
+				->makeHidden('user')
+				->toArray();
 			
 			//Total de logs
 			$logsCount = Log::where('type', $type)
@@ -46,7 +48,7 @@ class LogController extends Controller
 						->orWhere('created_at', 'like', "%".$search."%")
 						->orWhereHas('user', function (Builder $query) {
 							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
+							$query->where('username', 'LIKE', "%$search%");
 						});
 					})
 				->count();
@@ -58,14 +60,16 @@ class LogController extends Controller
 						->orWhere('created_at', 'like', "%".$search."%")
 						->orWhereHas('user', function (Builder $query) {
 							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
+							$query->where('username', 'LIKE', "%$search%");
 						});
 					})
 				->orderBy('id', 'desc')
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->toJson();
+				->makeVisible('id')
+				->makeHidden('user')
+				->toArray();
 			
 			//Total de logs
 			$logsCount = Log::with('user')
@@ -75,24 +79,14 @@ class LogController extends Controller
 						->orWhere('created_at', 'like', "%".$search."%")
 						->orWhereHas('user', function (Builder $query) {
 							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
+							$query->where('username', 'LIKE', "%$search%");
 						});
 					})
 				->count();
 		}
 
-		$arrayLogs = array();
-		foreach (json_decode($logs) as $log) {
-			array_push($arrayLogs, [
-				'cedula' => $log->user->privilegio . $log->user->cedula,
-				'name' => $log->user->nombre,
-				'action' => $log->action,
-				'fecha' => $log->created_at
-			]);
-		}
-
 		return response()->json([
-			'data' => $arrayLogs,
+			'data' => $logs,
 			'page' => $request->page * 1, 
 			'totalLogs' => $logsCount,
 		], 200);

@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 
 function RoutersPanel() {
@@ -18,12 +19,21 @@ function RoutersPanel() {
 		privilegio: state.userData.user.privilegio,
 	}));
 	
+	const listA = useMemo(() => [
+		{
+			path: `${url}/registros`,
+			component: <PageRegistros />,
+			exact: true,
+			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
+		},
+	], [permissions, url]);
+	
 	const listV = useMemo(() => [
 		{
 			path: `${url}/boletas`,
 			component: <PageBoletas />,
 			exact: true,
-			iCanSee: Boolean(permissions?.administrar?.registros_index),
+			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
 		},
 	], [permissions, url]);
 	
@@ -33,6 +43,18 @@ function RoutersPanel() {
 				<Route path={`${url}/`} exact>
 					<PageIndex />
 				</Route>
+				
+				{privilegio === 'A-' && listA.map((data, i) => {
+					if (data.iCanSee) {
+						return (
+							<Route key={i} path={data.path} exact={!Boolean(data?.enableNoExact)}>
+								{data.component}
+							</Route>
+						);
+					}
+
+					return null;
+				})}
 				
 				{privilegio === 'V-' && listV.map((data, i) => {
 					if (data.iCanSee) {

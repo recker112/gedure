@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Auth;
 // Models
 use App\Models\User;
 use App\Models\Block;
-use App\Models\Log;
-use App\Models\RecoveryPassword;
 use Spatie\Permission\Models\Permission;
 
 class LoginController extends Controller
@@ -28,18 +26,18 @@ class LoginController extends Controller
   public function login(LoginRequest $request)
 	{
 		// Verificar baneos
-		$blockStatus = Block::getStatus($request->cedula);
+		$blockStatus = Block::getStatus($request->username);
 		
 		if ($blockStatus !== 'ok') {
 			return response()->json($blockStatus, 400);
 		}
 		
-		$credenciales = $request->only(['cedula', 'password']);
+		$credenciales = $request->only(['username', 'password']);
 		
 		$verifyAuth = Auth::attempt($credenciales);
 		
 		if (!$verifyAuth) {
-			$jsonMessage = Block::checkAttemps($request->cedula);
+			$jsonMessage = Block::checkAttemps($request->username);
 			return response()->json($jsonMessage, 400);
 		}
 		
@@ -78,9 +76,8 @@ class LoginController extends Controller
 		
 		$permissions = $this->makePermissions($user);
 		
-		Log::create([
-			'user_id' => $user->id,
-			'action' => "Inicio de sesión.",
+		$user->logs()->create([
+			'action' => "Inicio de sesión",
 			'type' => 'session'
 		]);
 
@@ -96,9 +93,8 @@ class LoginController extends Controller
 	{
 		$user = request()->user();
 		
-		Log::create([
-			'user_id' => $user->id,
-			'action' => "Inicio de sesión por relogin.",
+		$user->logs()->create([
+			'action' => "Inicio de sesión por relogin",
 			'type' => 'session'
 		]);
 		
@@ -116,9 +112,8 @@ class LoginController extends Controller
 		
 		$user->token()->revoke();
 		
-		Log::create([
-			'user_id' => $user->id,
-			'action' => "Sesión cerrada.",
+		$user->logs()->create([
+			'action' => "Sesión cerrada",
 			'type' => 'session'
 		]);
 		
@@ -136,9 +131,13 @@ class LoginController extends Controller
 			$token->revoke();
 		}
 		
-		Log::create([
-			'user_id' => $user->id,
-			'action' => "Sesiones cerradas.",
+		$payload = [
+			'tokens' => count($tokens)
+		];
+		
+		$user->logs()->create([
+			'action' => "Sesiones cerradas",
+			'payload' => json_encode($payload),
 			'type' => 'session'
 		]);
 		
@@ -158,9 +157,8 @@ class LoginController extends Controller
 		
 		if (!$user->recoveryPassword) {
 			// Crear un nuevo code
-			RecoveryPassword::create([
+			$user->recoveryPassword()->create([
 				'code' => $code,
-				'user_id' => $user->id,
 			]);
 			
 			Mail::to($user)->queue(new CodeSecurity($user, $code));
@@ -175,9 +173,8 @@ class LoginController extends Controller
 				$user->recoveryPassword->delete();
 				
 				// Crear un nuevo code
-				RecoveryPassword::create([
+				$user->recoveryPassword()->create([
 					'code' => $code,
-					'user_id' => $user->id,
 				]);
 				
 				Mail::to($user)->queue(new CodeSecurity($user, $code));
@@ -203,9 +200,8 @@ class LoginController extends Controller
 		}
 		
 		//Log
-		Log::create([
-			'user_id' => $user->id,
-			'action' => 'Correo de recuperación enviado.',
+		$user->logs()->create([
+			'action' => 'Correo de recuperación',
 			'type' => 'user'
 		]);
 		
@@ -250,14 +246,14 @@ class LoginController extends Controller
 		$user->recoveryPassword->delete();
 		
 		//Log
-		Log::create([
+		$user->logs()->create([
 			'user_id' => $user->id,
-			'action' => 'Contraseña cambiada via correo.',
+			'action' => 'Contraseña cambiada via correo',
 			'type' => 'user'
 		]);
 		
 		return response()->json([
-			'msg' => 'Contraseña cambiada'
+			'msg' => 'Contraseña cambiada via correo'
 		], 200);
 	}
 	

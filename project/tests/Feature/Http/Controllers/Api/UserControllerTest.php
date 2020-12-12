@@ -33,8 +33,8 @@ class UserControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
-						'cedula',
-						'nombre',
+						'username',
+						'name',
 						'privilegio',
 						'email',
 						'avatar',
@@ -54,8 +54,8 @@ class UserControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/user', [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
 			'password' => '1234',
@@ -88,8 +88,8 @@ class UserControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/user', [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'A-',
 			'password' => '1234',
@@ -120,8 +120,8 @@ class UserControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/user', [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'A-',
 			'password' => '1234',
@@ -177,7 +177,7 @@ class UserControllerTest extends TestCase
 			'personalData' => [
 				'sexo' => 'Masculino',
 				'telefono' => '4269403957',
-				'direccion' => 'Dirección de la persona a la cual se le hace una request. :u',
+				'direccion' => 'Direcciรณn de la persona a la cual se le hace una request. :u',
 				'docente' => 'No',
 			]
 		]);
@@ -201,8 +201,8 @@ class UserControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/user', [
-			'cedula' => 'recker',
-			'nombre' => 'Luis Enrrique',
+			'username' => 'recker',
+			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
 			'password' => '1234',

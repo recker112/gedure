@@ -16,7 +16,6 @@ class CreateBlocksTable extends Migration
 		Schema::create('blocks', function (Blueprint $table) {
 			$table->id('id');
 			$table->bigInteger('user_id');
-			$table->char('cedula', 30);
 			$table->smallInteger('attemps')->default(0);
 			$table->smallInteger('locks')->default(0);
 			$table->timestamps();

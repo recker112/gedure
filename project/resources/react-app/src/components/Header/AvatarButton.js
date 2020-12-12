@@ -113,7 +113,7 @@ function AvatarButton({ ...rest }) {
 						src={user.avatar} 
 						className={classes.avatarColor}
 					>
-						{user.nombre.substring(0, 1).toUpperCase()}
+						{user.name.substring(0, 1).toUpperCase()}
 					</Avatar>
 				</IconButton>
 			</Tooltip>
@@ -140,12 +140,12 @@ function AvatarButton({ ...rest }) {
 								src={user.avatar} 
 								className={classes.avatarMenu}
 							>
-								{user.nombre.substring(0, 1).toUpperCase()}
+								{user.name.substring(0, 1).toUpperCase()}
 							</Avatar>
 						</Grid>
 						<Grid style={{maxWidth: 250}} container justify='center' item>
 							<Typography align='center' className='text__bold--semi'>
-								{user.nombre}
+								{user.name}
 							</Typography>
 						</Grid>
 						<Grid container justify='center' item>

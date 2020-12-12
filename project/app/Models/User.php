@@ -20,8 +20,8 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $fillable = [
-		'cedula',
-		'nombre',
+		'username',
+		'name',
 		'email',
 		'password',
 		'avatar',
@@ -69,7 +69,7 @@ class User extends Authenticatable
 	
 	public function blocks()
 	{
-		return $this->hasMany('App\Models\Block');
+		return $this->hasOne('App\Models\Block');
 	}
 	
 	public function logs()

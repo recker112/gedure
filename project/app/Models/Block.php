@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Models\Log;
 use Carbon\Carbon;
 
 class Block extends Model
@@ -15,7 +14,6 @@ class Block extends Model
 	
 	protected $fillable = [
 		'user_id',
-		'cedula',
 		'locks',
 		'attemps'
 	];
@@ -48,9 +46,11 @@ class Block extends Model
 		 sistema de bloqueos, esta variable va de la mano con $minutesOfBlock */
 	public static $maxNivel = 2;
 	
-	public static function getStatus($cedula) {
-		$dataBan = Block::firstWhere('cedula', $cedula);
+	public static function getStatus($username) {
+		$user = User::firstWhere('username', $username);
 
+		$dataBan = $user->blocks;
+		
 		//Verificar si no existe
 		if (!$dataBan) {
 			return 'ok';
@@ -81,19 +81,19 @@ class Block extends Model
 		return 'ok';
 	}
 	
-	public static function checkAttemps($cedula)
+	public static function checkAttemps($username)
 	{
-		$userExist = User::firstWhere('cedula', $cedula);
+		$userExist = User::firstWhere('username', $username);
 
 		//Verificar que exista el usuario
 		if (!$userExist) {
 			return [
-				'msg' => 'Usuario y/o contraseña incorrecta',//Not found
+				'msg' => 'Usuario y/o contraseña incorrecta ',//Not found
 			];
 		}
 
 		//Buscar usuario en baneos
-		$datosBlock = Block::firstWhere('user_id', $userExist->id);
+		$datosBlock = $userExist->blocks;
 
 		//Si el usario existe verificar los attemps
 		if ($datosBlock) {
@@ -106,9 +106,14 @@ class Block extends Model
 				$nivel = $datosBlock->locks + 1;
 				$time = self::$minutesOfBlock * $nivel;
 				
-				Log::create([
-					'user_id' => $userExist->id,
-					'action' => "Bloqueo de cuenta nivel: $nivel.",
+				$payload = [
+					'nivel' => $nivel,
+					'time_block' => $time
+				];
+				
+				$userExist->logs()->create([
+					'action' => "Bloqueo de cuenta",
+					'payload' => json_encode($payload),
 					'type' => 'session'
 				]);
 				
@@ -138,9 +143,7 @@ class Block extends Model
 		}
 
 		//Si no existe, registralo
-		Block::create([
-			'user_id' => $userExist->id,
-			'cedula' => $cedula,
+		$userExist->blocks()->create([
 			'attemps' => 1,
 			'locks' => 0
 		]);

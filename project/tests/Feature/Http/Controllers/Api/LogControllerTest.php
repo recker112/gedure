@@ -36,10 +36,10 @@ class LogControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
-						'cedula',
+						'username',
 						'name',
 						'action',
-						'fecha'
+						'created_at'
 					]
 				],
 				'page',
@@ -86,15 +86,15 @@ class LogControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonFragment([
-				'cedula' => $user->privilegio . $user->cedula
+				'username' => $user->privilegio . $user->username
 			])
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
-						'cedula',
+						'username',
 						'name',
 						'action',
-						'fecha'
+						'created_at'
 					]
 				],
 				'page',
@@ -125,7 +125,7 @@ class LogControllerTest extends TestCase
 		
 		$response->assertOk()
 			->assertJsonFragment([
-				'cedula' => $user->privilegio . $user->cedula
+				'username' => $user->privilegio . $user->username
 			])
 			->assertJsonStructure([
 				'data',

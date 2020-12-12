@@ -1,24 +1,6 @@
 //Inicar valor del state.
 const initialState = {
-	crearNoticia: {
-		open: false,
-		loading: false,
-		status: null,
-		data: {},
-	},
-	editNoticia: {
-		open: false,
-		loading: false,
-		status: null,
-		data: {},
-	},
-	deleteConfirmation: {
-		open: false,
-		loading: false,
-		status: null,
-		data: {},
-	},
-	showSoliContacto: {
+	showRegistros: {
 		open: false,
 		loading: false,
 		status: null,

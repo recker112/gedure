@@ -23,11 +23,11 @@ class InvitationController extends Controller
 	{
 		// Verificar no existencia
 		$userCedulaExist = User::withTrashed()
-			->firstWhere('cedula', $request->cedula);
+			->firstWhere('username', $request->username);
 		
 		if ($userCedulaExist) {
 			return response()->json([
-				'msg' => "La cédula o usuario $request->cedula ya existe"
+				'msg' => "La cédula o usuario $request->username ya existe"
 			],400);
 		}
 		
@@ -43,7 +43,7 @@ class InvitationController extends Controller
 			}
 		}
 		
-		$dataUser = $request->only(['cedula', 'nombre', 'privilegio', 'email']);
+		$dataUser = $request->only(['username', 'name', 'privilegio', 'email']);
 		$user = User::create($dataUser);
 		
 		$user->personalData(false)->create();

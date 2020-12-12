@@ -31,8 +31,8 @@ class InvitationControllerTest extends TestCase
 		);
 		
 		$response = $this->postJson('/api/v1/invitation/users', [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
 			'curso' => '5',
