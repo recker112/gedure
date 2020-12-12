@@ -25,31 +25,31 @@ class LoginControllerTest extends TestCase
 	{
 		//$this->withoutExceptionHandling();
 		$response = $this->postJson('/api/v1/login', [
-			'cedula' => '', 
+			'username' => '', 
 			'password' => ''
 		]);
 
 		$response->assertStatus(422)
-			->assertJsonValidationErrors(['cedula', 'password']);
+			->assertJsonValidationErrors(['username', 'password']);
 	}
 	
 	public function testLogin()
 	{
 		//$this->withoutExceptionHandling();
 		$response = $this->postJson('/api/v1/login', [
-			'cedula' => 'recker', 
+			'username' => 'recker', 
 			'password' => 'reckersito'
 		]);
 
 		$response->assertOk()
-			->assertJsonPath('user.cedula', 'recker')
+			->assertJsonPath('user.username', 'recker')
 			->assertJsonPath('user.email', 'joseortiz112001@gmail.com')
 			->assertJsonStructure([
 				'access_key',
 				'user' => [
 					'id',
-					'cedula',
-					'nombre',
+					'username',
+					'name',
 					'privilegio',
 					'avatar',
 					'email',
@@ -66,7 +66,7 @@ class LoginControllerTest extends TestCase
 	{
 		//$this->withoutExceptionHandling();
 		$response = $this->postJson('/api/v1/login', [
-			'cedula' => 'recker', 
+			'username' => 'recker', 
 			'password' => 'MALssjdahsd'
 		]);
 
@@ -81,7 +81,7 @@ class LoginControllerTest extends TestCase
 		//$this->withoutExceptionHandling();
 		for($i=0;$i < 5;$i++) {
 			$response = $this->postJson('/api/v1/login', [
-				'cedula' => 'recker', 
+				'username' => 'recker', 
 				'password' => 'MALs'
 			]);
 		}
@@ -136,14 +136,14 @@ class LoginControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonFragment([
-				'cedula' => $user->cedula,
+				'username' => $user->username,
 				'email' => $user->email,
 			])
 			->assertJsonStructure([
 				'user' => [
 					'id',
-					'cedula',
-					'nombre',
+					'username',
+					'name',
 					'privilegio',
 				],
 				'permissions' => [

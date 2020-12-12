@@ -24,8 +24,8 @@ class UserController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$users = User::where('cedula', 'like', '%'.$search.'%')
-			->orWhere('nombre', 'like', '%'.$search.'%')
+		$users = User::where('username', 'like', '%'.$search.'%')
+			->orWhere('name', 'like', '%'.$search.'%')
 			->orWhere('email', 'like', '%'.$search.'%')
 			->orderBy('id', 'desc')
 			->offset($page)
@@ -34,8 +34,8 @@ class UserController extends Controller
 			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
-		$usersCount = User::where('cedula', 'like', '%'.$search.'%')
-			->orWhere('nombre', 'like', '%'.$search.'%')
+		$usersCount = User::where('username', 'like', '%'.$search.'%')
+			->orWhere('name', 'like', '%'.$search.'%')
 			->orWhere('email', 'like', '%'.$search.'%')
 			->count();
 		
@@ -49,12 +49,12 @@ class UserController extends Controller
 	public function create(UserRequest $request) 
 	{
 		// Verificar no existencia
-		$userCedulaExist = User::withTrashed()
-			->firstWhere('cedula', $request->cedula);
+		$userExist = User::withTrashed()
+			->firstWhere('username', $request->username);
 		
-		if ($userCedulaExist) {
+		if ($userExist) {
 			return response()->json([
-				'msg' => "La cédula o usuario $request->cedula ya existe"
+				'msg' => "La cédula o usuario $request->username ya existe"
 			],400);
 		}
 		
@@ -70,7 +70,7 @@ class UserController extends Controller
 			}
 		}
 		
-		$dataUser = $request->only(['cedula', 'nombre', 'privilegio', 'email', 'password']);
+		$dataUser = $request->only(['username', 'name', 'privilegio', 'email', 'password']);
 		$dataUser['password'] = bcrypt($dataUser['password']);
 		$dataUser['registred_at'] = now();
 		$user = User::create($dataUser);
@@ -98,7 +98,7 @@ class UserController extends Controller
 			}
 		}
 		
-		return response()->json($user->only(['id', 'cedula', 'email', 'nombre', 'privilegio']),201);
+		return response()->json($user->only(['id', 'username', 'email', 'name', 'privilegio']),201);
 	}
 	
 	public function update(Request $request, $id)
@@ -111,13 +111,13 @@ class UserController extends Controller
 			],400);
 		}
 		
-		if (User::firstWhere('cedula', $request->cedula)) {
+		if (User::firstWhere('username', $request->username)) {
 			return response()->json([
-				'msg' => 'El usuario '.$request->cedula.' ya existe',
+				'msg' => 'El usuario '.$request->username.' ya existe',
 			],400);
 		}
 		
-		$user->update($request->only(['cedula', 'nombre', 'email', 'password', 'avatar']));
+		$user->update($request->only(['username', 'name', 'email', 'password', 'avatar']));
 		
 		return response()->json([
 			'msg' => "Datos actualizados"

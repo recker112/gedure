@@ -19,8 +19,8 @@ class CursoSeeder extends Seeder
 	public function run()
 	{
 		$user = User::create([
-			'cedula' => '500',
-			'nombre' => 'José Ortiz',
+			'username' => '500',
+			'name' => 'José Ortiz',
 			'privilegio' => 'V-',
 			'email' => 'estudiante@testing.test',
 			'password' => bcrypt('estudiante'),
@@ -31,8 +31,8 @@ class CursoSeeder extends Seeder
 		]);
 		
 		$user2 = User::create([
-			'cedula' => '400',
-			'nombre' => 'José Ortiz',
+			'username' => '400',
+			'name' => 'José Ortiz',
 			'privilegio' => 'V-',
 			'email' => 'estudiante2@testing.test',
 			'password' => bcrypt('estudiante'),

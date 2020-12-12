@@ -94,7 +94,7 @@ function useFetch() {
 					variant: 'error',
 				});
 			}
-
+			console.log(error.response);
 			return false;
 		}
 	};

@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header() {
-	const { nombre } = useSelector((state) => ({
-		nombre: state.userData.user.nombre,
+	const { name } = useSelector((state) => ({
+		name: state.userData.user.name,
 	}));
 	
 	return (
@@ -44,7 +44,7 @@ function Header() {
 			<Grid container justify='space-between'>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi'>
-						<Box color='secondary.main' component='span'>Hola</Box> {nombre},
+						<Box color='secondary.main' component='span'>Hola</Box> {name},
 					</Box>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi'>
 						Bienveido a <Box color='secondary.main' component='span'>Gedure</Box>

@@ -24,8 +24,8 @@ class UserRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'cedula' => 'required|string|min:3|max:30',
-			'nombre' => 'required|string|min:8|max:90',
+			'username' => 'required|string|min:3|max:30',
+			'name' => 'required|string|min:8|max:90',
 			'privilegio' => 'required|string|min:2|max:4',
 			'email' => 'required|email|unique:users',
 			'password' => 'nullable|string|min:4',

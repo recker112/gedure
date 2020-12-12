@@ -131,7 +131,7 @@ class CursoController extends Controller
 	}
 	
 	public static function orderAlumnos($id){
-		$studiendsInCurso = Alumno::select('alumnos.n_lista', 'alumnos.id', DB::raw('CAST(cedula AS UNSIGNED) AS converted'))
+		$studiendsInCurso = Alumno::select('alumnos.n_lista', 'alumnos.id', DB::raw('CAST(username AS UNSIGNED) AS converted'))
 			->join('users', 'users.id', '=', 'alumnos.user_id')
 			->where('curso_id', $id)
 			->orderBy('converted', 'Asc')

@@ -94,7 +94,7 @@ function FormLogin() {
 						})}
 						error={Boolean(errors?.user)}
 						helperText={errors?.user?.message ? errors.user.message : '* Campo requerido'}
-						name='cedula'
+						name='username'
 						variant='outlined'
 						label='Usuario o cédula'
 						fullWidth
