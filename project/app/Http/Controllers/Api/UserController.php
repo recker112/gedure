@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\UserRequest;
@@ -18,15 +19,29 @@ class UserController extends Controller
 	{
 		$user = $request->user();
 
-		$search = urldecode($request->search);
+		$search = urldecode(request()->search);
 		$type = $request->type;
+		$curso = $request->curso;
+		$seccion = $request->seccion;
 
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$users = User::where('username', 'like', '%'.$search.'%')
-			->orWhere('name', 'like', '%'.$search.'%')
-			->orWhere('email', 'like', '%'.$search.'%')
+		$users = User::where('privilegio', 'like', '%'.$type.'%')
+			->where(function ($query) {
+				$search = urldecode(request()->search);
+				$query->where('username', 'like', '%'.$search.'%')
+					->orWhere('name', 'like', '%'.$search.'%')
+					->orWhere('email', 'like', '%'.$search.'%');
+			})
+			->when($type === 'V-', function ($query) {
+				$query->whereHas('alumno', function (Builder $query) {
+					$query->whereHas('curso', function (Builder $query) {
+						$code = request()->curso.'-'.request()->seccion;
+						$query->where('code', 'like', '%'.$code.'%');
+					});
+				});
+			})
 			->orderBy('id', 'desc')
 			->offset($page)
 			->limit($perPage)
@@ -34,9 +49,13 @@ class UserController extends Controller
 			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
-		$usersCount = User::where('username', 'like', '%'.$search.'%')
-			->orWhere('name', 'like', '%'.$search.'%')
-			->orWhere('email', 'like', '%'.$search.'%')
+		$usersCount = User::where('privilegio', 'like', '%'.$type.'%')
+			->where(function ($query) {
+				$search = urldecode(request()->search);
+				$query->where('username', 'like', '%'.$search.'%')
+					->orWhere('name', 'like', '%'.$search.'%')
+					->orWhere('email', 'like', '%'.$search.'%');
+			})
 			->count();
 		
 		return response()->json([

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
+const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 
 function RoutersPanel() {
 	let { url } = useRouteMatch();
@@ -25,7 +26,13 @@ function RoutersPanel() {
 			component: <PageRegistros />,
 			exact: true,
 			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
-		},
+		}, 
+		{
+			path: `${url}/usuarios`,
+			component: <RoutersUsers />,
+			exact: false,
+			iCanSee: Boolean(permissions?.administrar?.users_index),
+		}
 	], [permissions, url]);
 	
 	const listV = useMemo(() => [
@@ -38,41 +45,39 @@ function RoutersPanel() {
 	], [permissions, url]);
 	
 	return (
-		<React.Fragment>
-			<Switch>
-				<Route path={`${url}/`} exact>
-					<PageIndex />
-				</Route>
-				
-				{privilegio === 'A-' && listA.map((data, i) => {
-					if (data.iCanSee) {
-						return (
-							<Route key={i} path={data.path} exact={!Boolean(data?.enableNoExact)}>
-								{data.component}
-							</Route>
-						);
-					}
+		<Switch>
+			<Route path={`${url}/`} exact>
+				<PageIndex />
+			</Route>
 
-					return null;
-				})}
-				
-				{privilegio === 'V-' && listV.map((data, i) => {
-					if (data.iCanSee) {
-						return (
-							<Route key={i} path={data.path} exact={!Boolean(data?.enableNoExact)}>
-								{data.component}
-							</Route>
-						);
-					}
+			{privilegio === 'A-' && listA.map((data, i) => {
+				if (data.iCanSee) {
+					return (
+						<Route key={i} path={data.path} exact={data.exact}>
+							{data.component}
+						</Route>
+					);
+				}
 
-					return null;
-				})}
-				
-				<Route>
-					No encontrado
-				</Route>
-			</Switch>
-		</React.Fragment>
+				return null;
+			})}
+
+			{privilegio === 'V-' && listV.map((data, i) => {
+				if (data.iCanSee) {
+					return (
+						<Route key={i} path={data.path} exact={data.exact}>
+							{data.component}
+						</Route>
+					);
+				}
+
+				return null;
+			})}
+
+			<Route>
+				No encontrado
+			</Route>
+		</Switch>
 	);
 }
 

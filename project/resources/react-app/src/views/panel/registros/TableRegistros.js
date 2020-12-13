@@ -16,7 +16,7 @@ import updateForms from '../../../actions/updateForms';
 import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TableRegistros({ tableRef, filters }) {
-	const { loading, data } = useSelector((state) => ({
+	const { loading } = useSelector((state) => ({
 		loading: state.forms.registros.loading,
 	}));
 	const dispatch = useDispatch();
@@ -55,7 +55,7 @@ export default function TableRegistros({ tableRef, filters }) {
 			}
 		}
 		// eslint-disable-next-line
-	}, [data, loading, filters]);
+	}, [loading, filters]);
 	
 	return (
 		<MaterialTable
@@ -65,7 +65,7 @@ export default function TableRegistros({ tableRef, filters }) {
 			columns={[
 				{title: 'Usuario', field: 'username'},
 				{title: 'Nombre', field: 'name'},
-				{title: 'Acción', field: 'action'},
+				{title: 'Acciรณn', field: 'action'},
 				{title: 'Fecha', field: 'created_at'}
 			]}
 			data={onFetch}
