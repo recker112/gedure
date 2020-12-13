@@ -67,7 +67,7 @@ export default function TableUsers({ tableRef, filters }) {
 			};
 		}
 		// eslint-disable-next-line
-	}, [filters]);
+	}, [loading]);
 	
 	return (
 		<MaterialTable
@@ -93,7 +93,13 @@ export default function TableUsers({ tableRef, filters }) {
 				{
 					title: 'Usuario',
 					field: 'username',
-					render: (rowData) => rowData.privilegio + rowData.username,
+					render: (rowData) => {
+						if (rowData.privilegio === 'V-') {
+							return `${rowData.privilegio}${rowData.username} (N° lista ${rowData.estudiante_data.n_lista})`
+						}else {
+							return `${rowData.privilegio}${rowData.username}`
+						}
+					},
 				},
 				{
 					title: 'Nombre', 

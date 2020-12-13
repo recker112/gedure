@@ -152,7 +152,7 @@ function MobileMenu() {
 								<ListItemIcon>
 									<ContactMailIcon />
 								</ListItemIcon>
-								<ListItemText primary='Contรกctanos' /> 
+								<ListItemText primary='Contáctanos' /> 
 							</ReturnSelected>
 							<ReturnSelected url='/entrar' handle={handleClose}>
 								<ListItemIcon>
@@ -221,7 +221,7 @@ function HeaderNoAuth() {
 							component={RouterLink} 
 							to="/contactanos"
 						>
-							Contรกctanos
+							Contáctanos
 						</Link>
 						<Link 
 							color="initial"
