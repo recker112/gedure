@@ -94,12 +94,14 @@ function AdminList({ handleClose }) {
 			</ReturnSelected>
 			<Collapse in={control} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
-					<ReturnSelected url='/panel/usuarios' handle={handleClose} nested>
-						<ListItemIcon>
-							<AccountMultipleIcon />
-						</ListItemIcon>
-						<ListItemText primary="Usuarios" />
-					</ReturnSelected>
+					{permissions?.administrar?.users_index && (
+						<ReturnSelected url='/panel/usuarios' handle={handleClose} nested>
+							<ListItemIcon>
+								<AccountMultipleIcon />
+							</ListItemIcon>
+							<ListItemText primary="Usuarios" />
+						</ReturnSelected>
+					)}
 					<ReturnSelected url='/panel/publicaciones' handle={handleClose} nested>
 						<ListItemIcon>
 							<PostIcon />

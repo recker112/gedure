@@ -24,7 +24,7 @@ class LogController extends Controller
 			$logs = Log::with('user')
 				->where('type', $type)
 				->where(function ($query) {
-					$search = request()->search;
+					$search = urldecode(request()->search);
 					$query->where('action', 'like', "%".$search."%")
 						->orWhere('created_at', 'like', "%".$search."%")
 						->orWhereHas('user', function (Builder $query) {

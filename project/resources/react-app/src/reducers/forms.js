@@ -28,15 +28,12 @@ const initialState = {
 	registros: {
 		loading: false,
 		status: null,
-		data: {
-			type: 'all'
-		},
 	},
-	registerUser: {
+	usersIndex: {
 		loading: false,
 		status: null,
 		data: {},
-	},
+	}
 };
 
 export default (state = initialState, { type, payload }) => {
