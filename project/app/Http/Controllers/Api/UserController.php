@@ -46,7 +46,7 @@ class UserController extends Controller
 			->offset($page)
 			->limit($perPage)
 			->get()
-			->makeHidden(['personal_data', 'estudiante_data'])
+			->makeHidden(['personal_data'])
 			->toArray();
 		
 		$usersCount = User::where('privilegio', 'like', '%'.$type.'%')
