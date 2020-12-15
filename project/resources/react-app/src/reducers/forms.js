@@ -33,7 +33,12 @@ const initialState = {
 		loading: false,
 		status: null,
 		data: {},
-	}
+	},
+	crearUser: {
+		loading: false,
+		status: null,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

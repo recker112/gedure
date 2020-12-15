@@ -84,11 +84,16 @@ function Header() {
 		path: '/solicitud',
 		exact: true,
 	});
+	
+	const match4 = useRouteMatch({
+		path: '/panel/usuarios/crear',
+		exact: true,
+	});
 
 	return (
 		<React.Fragment>
 			{(!auth && (!match1 && !match2 && !match3)) && <HeaderNoAuth />}
-			{auth && <HeaderAuth />}
+			{(auth && !match4) && <HeaderAuth />}
 			<ScrollTop>
 				<Fab color="secondary" size="small">
 					<KeyboardArrowUpIcon />
