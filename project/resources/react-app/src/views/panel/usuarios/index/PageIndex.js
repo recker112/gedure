@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { 
 	Grid, 
 	Container,
@@ -18,10 +20,12 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 // Components
 import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
 import TableUsers from './TableUsers';
+import CreateUser from './CreateUser';
 
 // Redux
 import { useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
+import updateDialogs from '../../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -37,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		marginRight: theme.spacing(1),
 	},
+	filter: {
+		marginBottom: theme.spacing(2),
+	}
 }));
 
 export default function PageIndex() {
@@ -46,6 +53,8 @@ export default function PageIndex() {
 	const tableRef = useRef(null);
 	
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const classes = useStyles();
 	
@@ -72,16 +81,16 @@ export default function PageIndex() {
 			<Container>
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Usuarios</Box>
 				<Grid container>
-					<Grid container spacing={1} justify='flex-end' item xs={12}>
-						<Button className={classes.button} variant='contained' color='primary'>
+					<Grid container justify='flex-end' item xs={12}>
+						<Button onClick={()=>history.push('/panel/usuarios/cargar')} className={classes.button} variant='contained' color='primary'>
 							Cargar estudiantes
 						</Button>
-						<Button variant='contained' color='primary'>
+						<Button onClick={()=> dispatch(updateDialogs('crearUser', true, false))} variant='contained' color='primary'>
 							Crear cuenta
 						</Button>
 					</Grid>
-					<Grid container spacing={2} item xs={12}>
-						<Grid item xs={12}>
+					<Grid container item xs={12}>
+						<Grid item xs={12} className={classes.filter}>
 							<Badge badgeContent={Object.keys(countFilters).length} color="primary">
 								<Button 
 									onClick={()=> setOpenFilter(!openFilter)} 
@@ -122,8 +131,8 @@ export default function PageIndex() {
 													name='curso'
 												>
 													<MenuItem value=''><em>Todos</em></MenuItem>
-													{CursosList.map(data => (
-														<MenuItem value={data.value}>{data.name}</MenuItem>
+													{CursosList.map((data, i) => (
+														<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
 													))}
 												</Select>
 											</FormControl>
@@ -140,8 +149,8 @@ export default function PageIndex() {
 													name='seccion'
 												>
 													<MenuItem value=''><em>Todos</em></MenuItem>
-													{SeccionList.map(data => (
-														<MenuItem value={data.value}>{data.name}</MenuItem>
+													{SeccionList.map((data, i) => (
+														<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
 													))}
 												</Select>
 											</FormControl>
@@ -169,6 +178,7 @@ export default function PageIndex() {
 						</Grid>
 					</Grid>
 				</Grid>
+				<CreateUser />
 			</Container>
 		</main>
 	);

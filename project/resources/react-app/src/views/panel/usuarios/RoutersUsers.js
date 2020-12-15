@@ -5,6 +5,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageCrear = lazy(() => import('./crear/PageCrear'));
 
 function RoutersPanel() {
 	let { url } = useRouteMatch();
@@ -14,6 +15,10 @@ function RoutersPanel() {
 			<Switch>
 				<Route path={`${url}/`} exact>
 					<PageIndex />
+				</Route>
+				
+				<Route path={`${url}/crear`} exact>
+					<PageCrear />
 				</Route>
 				
 				<Route>
