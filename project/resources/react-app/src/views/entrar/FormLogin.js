@@ -92,10 +92,9 @@ function FormLogin() {
 							minLength: { value: 3, message: 'Error: No válido' },
 							maxLength: { value: 30, message: 'Error: No válida' },
 						})}
-						error={Boolean(errors?.user)}
-						helperText={errors?.user?.message ? errors.user.message : '* Campo requerido'}
+						error={Boolean(errors?.username)}
+						helperText={errors?.username?.message ? errors.username.message : '* Campo requerido'}
 						name='username'
-						variant='outlined'
 						label='Usuario o cédula'
 						fullWidth
 						disabled={loading}
@@ -104,7 +103,7 @@ function FormLogin() {
 				
 				<Grid item xs={12}>
 					<RenderInputPassword
-						registerInput={register({
+						inputRef={register({
 							required: { value: true, message: '* Campo requerido' },
 							minLength: { value: 4, message: 'Error: No válido' },
 							maxLength: { value: 25, message: 'Error: No válida' },
@@ -113,6 +112,7 @@ function FormLogin() {
 						error={Boolean(errors?.password)}
 						helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
 						label='Contraseña'
+						fullWidth
 						disabled={loading}
 					/>
 				</Grid>

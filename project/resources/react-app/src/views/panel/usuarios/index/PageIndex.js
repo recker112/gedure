@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
 import { 
 	Grid, 
 	Container,
@@ -21,6 +19,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
 import TableUsers from './TableUsers';
 import CreateUser from './CreateUser';
+import UploadMatricula from './UploadMatricula';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -54,8 +53,6 @@ export default function PageIndex() {
 	
 	const dispatch = useDispatch();
 	
-	const history = useHistory();
-	
 	const classes = useStyles();
 	
 	const handleChange = (event) => {
@@ -82,10 +79,10 @@ export default function PageIndex() {
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Usuarios</Box>
 				<Grid container>
 					<Grid container justify='flex-end' item xs={12}>
-						<Button onClick={()=>history.push('/panel/usuarios/cargar')} className={classes.button} variant='contained' color='primary'>
+						<Button onClick={()=>dispatch(updateDialogs('uploadMatricula', true, false))} className={classes.button} variant='contained' color='primary'>
 							Cargar estudiantes
 						</Button>
-						<Button onClick={()=> dispatch(updateDialogs('crearUser', true, false))} variant='contained' color='primary'>
+						<Button onClick={()=>dispatch(updateDialogs('crearUser', true, false))} variant='contained' color='primary'>
 							Crear cuenta
 						</Button>
 					</Grid>
@@ -179,6 +176,7 @@ export default function PageIndex() {
 					</Grid>
 				</Grid>
 				<CreateUser />
+				<UploadMatricula />
 			</Container>
 		</main>
 	);

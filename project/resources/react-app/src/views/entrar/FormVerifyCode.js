@@ -158,7 +158,6 @@ function FormVerifyCode({ nextStep }) {
 							error={Boolean(errors?.email)}
 							helperText={errors?.email?.message ? errors.email.message : '* Campo requerido'}
 							name='code'
-							variant='outlined'
 							label='Código'
 							fullWidth
 							disabled={loading}

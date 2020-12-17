@@ -80,13 +80,12 @@ function FormChangePassword() {
 
 					<Grid item xs={12}>
 						<RenderInputPassword 
-							registerInput={register({
+							inputRef={register({
 								required: { value: true, message: '* Campo requerido' },
 								minLength: { value: 4, message: 'Error: Demaciado corto' },
 							})}
 							name='password'
 							label='Contraseña'
-							variant='outlined'
 							error={Boolean(errors?.password)}
 							helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
 							disabled={loading}
@@ -96,7 +95,7 @@ function FormChangePassword() {
 					
 					<Grid item xs={12}>
 						<RenderInputPassword 
-							registerInput={register({
+							inputRef={register({
 								required: { value: true, message: '* Campo requerido' },
 								minLength: { value: 4, message: 'Error: Demaciado corto' },
 								validate: {
