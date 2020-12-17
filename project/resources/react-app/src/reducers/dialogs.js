@@ -3,13 +3,16 @@ const initialState = {
 	showRegistros: {
 		open: false,
 		loading: false,
-		status: null,
 		data: {},
 	},
 	crearUser: {
 		open: false,
 		loading: false,
-		status: null,
+		data: {},
+	},
+	uploadMatricula: {
+		open: false,
+		loading: false,
 		data: {},
 	},
 };

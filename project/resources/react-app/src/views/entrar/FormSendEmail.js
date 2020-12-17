@@ -81,13 +81,12 @@ function FormSendEmail({ nextStep }) {
 								required: { value: true, message: '* Campo requerido' },
 								pattern: {
 									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-									message: 'Error: Correo no válido',
+									message: 'Error: Correo no vรกlido',
 								},
 							})}
 							error={Boolean(errors?.email)}
 							helperText={errors?.email?.message ? errors.email.message : '* Campo requerido'}
 							name='email'
-							variant='outlined'
 							label='Correo electrónico'
 							fullWidth
 							disabled={loading}

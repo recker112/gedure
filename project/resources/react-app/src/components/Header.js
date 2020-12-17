@@ -86,7 +86,7 @@ function Header() {
 	});
 	
 	const match4 = useRouteMatch({
-		path: '/panel/usuarios/crear',
+		path: '/panel/usuarios/cargar',
 		exact: true,
 	});
 

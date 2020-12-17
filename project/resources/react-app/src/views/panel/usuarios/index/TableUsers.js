@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import {
 	Avatar,
 	Chip,
@@ -7,7 +9,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import PersonIcon from '@material-ui/icons/Person';
-import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 
 import useFetch from '../../../../hooks/useFetch';
@@ -35,6 +36,8 @@ export default function TableUsers({ tableRef, filters }) {
 	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
+	
+	const history = useHistory();
 	
 	const onFetch = useCallback(async (query) => {
 		if (loading) {
@@ -122,14 +125,7 @@ export default function TableUsers({ tableRef, filters }) {
 					icon: () => (<PersonIcon />),
 					tooltip: 'Ver',
 					onClick: (event, rowData) => {
-						//
-					},
-				},
-				{
-					icon: () => (<Edit />),
-					tooltip: 'Editar',
-					onClick: (event, rowData) => {
-						//history.push(`/panel/usuarios/editar/${rowData.id}`);
+						history.push(`/panel/usuarios/ver/${rowData.id}`);
 					},
 				},
 				{
