@@ -4,7 +4,7 @@ import React, { lazy } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Routers
-const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageUserIndex = lazy(() => import('./index/PageUserIndex'));
 const PageShow = lazy(() => import('./show/PageShow'));
 
 function RoutersPanel() {
@@ -14,7 +14,7 @@ function RoutersPanel() {
 		<React.Fragment>
 			<Switch>
 				<Route path={`${url}/`} exact>
-					<PageIndex />
+					<PageUserIndex />
 				</Route>
 				
 				<Route path={`${url}/ver/:id`}>

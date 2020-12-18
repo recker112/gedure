@@ -9,11 +9,39 @@ import {
 	InputLabel,
 	FormHelperText,
 	Select,
+	Switch,
+	FormControlLabel,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { Controller } from 'react-hook-form';
+
+export function RenderSwitchFormHook(props) {
+	const { name, defaultValue, control, label, ...rest } = props;
+	
+	return (
+		<FormControlLabel
+			control={
+				<Controller 
+					render={({onChange, onBlur, value, ref})=>(
+						<Switch
+							inputRef={ref}
+							onBlur={onBlur}
+							onChange={e => onChange(e.currentTarget.checked)}
+							checked={value}
+							{...rest} 
+						/>
+					)}
+					name={name}
+					defaultValue={defaultValue}
+					control={control}
+				/>
+			}
+			label={label}
+		/>
+	);
+}
 
 export function RenderSelectFormHook({
 	id,

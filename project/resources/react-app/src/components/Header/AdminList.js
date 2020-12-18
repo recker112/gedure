@@ -95,7 +95,7 @@ function AdminList({ handleClose }) {
 			<Collapse in={control} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{permissions?.administrar?.users_index && (
-						<ReturnSelected url='/gedure/usuarios' handle={handleClose} nested>
+						<ReturnSelected url='/gedure/usuarios' handle={handleClose} nested noExact>
 							<ListItemIcon>
 								<AccountMultipleIcon />
 							</ListItemIcon>

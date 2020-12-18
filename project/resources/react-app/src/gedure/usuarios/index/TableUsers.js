@@ -125,7 +125,7 @@ export default function TableUsers({ tableRef, filters }) {
 					icon: () => (<PersonIcon />),
 					tooltip: 'Ver',
 					onClick: (event, rowData) => {
-						history.push(`/panel/usuarios/ver/${rowData.id}`);
+						history.push(`/gedure/usuarios/ver/${rowData.id}`);
 					},
 				},
 				{

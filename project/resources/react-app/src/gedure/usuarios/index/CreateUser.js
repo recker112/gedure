@@ -120,7 +120,7 @@ export default function CreateUser() {
 					</Grid>
 					<PasswordSection register={register} errors={errors} control={control} />
 					<StudiendSection register={register} errors={errors} control={control} />
-					<PermissionsSection register={register} control={control} />
+					<PermissionsSection control={control} />
 				</Grid>
 			</DialogContent>
 			<DialogActions>
