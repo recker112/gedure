@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	header: {
 		background: theme.palette.primary.main,
 		height: 400,
+		borderRadius: '0px 0px 15px 15px'
 	},
 	content: {
 		position: 'relative',
@@ -82,7 +83,7 @@ function PageIndex() {
 			<Fade in={true} style={{ transitionDelay: '1000ms' }}>
 				<Container>
 					<Grid container justify='center' spacing={2} item xs={12} className={classes.content}>
-						{(privilegio === 'V-') && (
+						{(privilegio === 'V-' || true) && (
 							<React.Fragment>
 								<NoticiasList />
 								<SoporteList />
