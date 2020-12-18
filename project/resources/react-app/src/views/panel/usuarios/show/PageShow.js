@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 
 import { 
 	Switch, 
@@ -16,8 +16,12 @@ import {
 	Avatar,
 	Typography,
 	Box,
+	CircularProgress,
+	Collapse,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+const Perfil = lazy(() => import('./Perfil'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -33,25 +37,32 @@ const useStyles = makeStyles((theme) => ({
 	avatar: {
 		backgroundColor: theme.palette.secondary.main,
 		color: theme.palette.secondary.contrastText,
+	},
+	button: {
+		cursor: 'pointer',
+	},
+	buttonNested: {
+		cursor: 'pointer',
+		marginLeft: theme.spacing(2),
 	}
 }));
 
 function ReturnSelected(props) {
-	const { children, url } = props;
+	const { children, url, onClick, nested } = props;
+	
+	const classes = useStyles();
 	
 	const match = useRouteMatch({
 		path: url,
-		exact: true,
+		exact: !Boolean(onClick),
 	});
 	
 	const history = useHistory();
 	
-	const handleClick = () => {
-		history.push(url);
-	}
+	const handleClick = () => history.push(url);
 	
 	return (
-		<Box style={{cursor: 'pointer'}} component='span' fontSize='body1.fontSize' color={!match ? "text.secondary" : null} onClick={handleClick}>
+		<Box className={classes[nested ? 'buttonNested' : 'button']} component='span' fontSize='body1.fontSize' color={!match ? "text.secondary" : null} onClick={onClick ? onClick : handleClick}>
 			{children}
 		</Box>
 	);
@@ -71,7 +82,7 @@ function BreadCrumbs() {
 	return (
 		<Grid container alignItems='center' spacing={2}>
 			<Grid item>
-				<Avatar className={classes.avatar} alt='Avatar de' />
+				<Avatar className={classes.avatar} alt='Avatar de Recker' />
 			</Grid>
 			<Grid item>
 				<Typography variant='h6' className='text__bold--semi'>Usuario</Typography>
@@ -90,27 +101,56 @@ function BreadCrumbs() {
 
 function Navs() {
 	const { id } = useParams();
+	const [personalNav, setPersonalNav] = useState(false);
+	
+	const handleClick = () => setPersonalNav(!personalNav);
 	
 	return (
-		<Grid container spacing={1} item xs={4}>
-			<Grid item xs={12}>
+		<Grid item xs={3}>
+			<Box mb={1}>
 				<ReturnSelected url={`/panel/usuarios/ver/${id}/`}>
 					Perfil
 				</ReturnSelected>
-			</Grid>
-			<Grid item xs={12}>
-				<ReturnSelected url={`/panel/usuarios/ver/${id}/datos-personales`}>
+			</Box>
+			<Box mb={1}>
+				<ReturnSelected url={`/panel/usuarios/ver/${id}/personal`} onClick={handleClick}>
 					Datos personales
 				</ReturnSelected>
-			</Grid>
-			<Grid item xs={12}>
+			</Box>
+			<Collapse in={personalNav} timeout="auto" unmountOnExit>
+				<Box mb={1}>
+					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-estudiante`} nested>
+						Estudiante
+					</ReturnSelected>
+				</Box>
+				<Box mb={1}>
+					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-representante`} nested>
+						Representante
+					</ReturnSelected>
+				</Box>
+				<Box mb={1}>
+					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-padres`} nested>
+						Padres
+					</ReturnSelected>
+				</Box>
+			</Collapse>
+			<Box mb={1}>
+				<ReturnSelected url={`/panel/usuarios/ver/${id}/configuracion`}>
+					Contraseña
+				</ReturnSelected>
+			</Box>
+			<Box mb={1}>
 				<ReturnSelected url={`/panel/usuarios/ver/${id}/configuracion`}>
 					Configuración
 				</ReturnSelected>
-			</Grid>
+			</Box>
 		</Grid>
 	);
 }
+
+const Loading = () => <Grid container justify='center' item xs={8}>
+	<CircularProgress />
+</Grid>;
 
 export default function PageShow() {
 	document.title = 'La Candelaria - Ver usuario';
@@ -126,29 +166,29 @@ export default function PageShow() {
 				</Box>
 				<Grid container spacing={2}>
 					<Navs />
-					<Switch>
-						<Route path={`${url}/`} exact>
-							<Grid item xs={8}>
-								Perfil
-							</Grid>
-						</Route>
-						
-						<Route path={`${url}/datos-personales`} exact>
-							<Grid item xs={8}>
-								Datos personales
-							</Grid>
-						</Route>
-						
-						<Route path={`${url}/configuracion`} exact>
-							<Grid item xs={8}>
-								Configuración
-							</Grid>
-						</Route>
-						
-						<Route>
-							<Redirect to={`${url}/`} />
-						</Route>
-					</Switch>
+					<Suspense fallback={<Loading />}>
+						<Switch>
+							<Route path={`${url}/`} exact>
+								<Perfil />
+							</Route>
+
+							<Route path={`${url}/personal-estudiante`} exact>
+								<Grid item xs={8}>
+									Datos del estudiante como: Fecha de nacimiento, nacionalidad, religión, edad y otros.
+								</Grid>
+							</Route>
+
+							<Route path={`${url}/configuracion`} exact>
+								<Grid item xs={8}>
+									Configuraciรณn
+								</Grid>
+							</Route>
+
+							<Route>
+								<Redirect to={`${url}/`} />
+							</Route>
+						</Switch>
+					</Suspense>
 				</Grid>
 			</Container>
 		</main>
