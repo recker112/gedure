@@ -8,9 +8,9 @@ import {
 	Box,
 } from '@material-ui/core';
 
-export default function Password() {
+export default function ShowUserPassword() {
 	return (
-		<Box mb={4}>
+		<Box>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Box mb={1} fontSize='h6.fontSize' className='text__bold--semi'>Cambiar contraseña</Box>

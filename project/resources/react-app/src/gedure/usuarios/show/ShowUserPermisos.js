@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 // Components
 import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
 
-export default function Password() {
+export default function ShowUserPermisos() {
 	const { control } = useForm();
 	
 	return (

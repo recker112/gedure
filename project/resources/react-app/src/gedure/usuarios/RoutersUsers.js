@@ -5,7 +5,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Routers
 const PageUserIndex = lazy(() => import('./index/PageUserIndex'));
-const PageShow = lazy(() => import('./show/PageShow'));
+const PageShowUser = lazy(() => import('./show/PageShowUser'));
 
 function RoutersPanel() {
 	let { url } = useRouteMatch();
@@ -18,7 +18,7 @@ function RoutersPanel() {
 				</Route>
 				
 				<Route path={`${url}/ver/:id`}>
-					<PageShow />
+					<PageShowUser />
 				</Route>
 				
 				<Route>

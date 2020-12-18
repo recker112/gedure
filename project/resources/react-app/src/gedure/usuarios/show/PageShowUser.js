@@ -21,9 +21,11 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Perfil = lazy(() => import('./Perfil'));
-const Password = lazy(() => import('./Password'));
-const Permisos = lazy(() => import('./Permisos'));
+const ShowUserPerfil = lazy(() => import('./ShowUserPerfil'));
+const ShowUserPassword = lazy(() => import('./ShowUserPassword'));
+const ShowUserPermisos = lazy(() => import('./ShowUserPermisos'));
+const PersonalEstudiante = lazy(() => import('./PersonalEstudiante'));
+const ShowUserOpciones = lazy(() => import('./ShowUserOpciones'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -151,6 +153,11 @@ function Navs() {
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/opciones`}>
+					Opciones
+				</ReturnSelected>
+			</Box>
+			<Box mb={1}>
 				<ReturnSelected onClick={handleReturn}>
 					Regresar
 				</ReturnSelected>
@@ -163,7 +170,7 @@ const Loading = () => <Grid container justify='center' item xs={8}>
 	<CircularProgress />
 </Grid>;
 
-export default function PageShow() {
+export default function PageShowUser() {
 	document.title = 'La Candelaria - Ver usuario';
 	let { url } = useRouteMatch();
 	
@@ -181,21 +188,25 @@ export default function PageShow() {
 						<Suspense fallback={<Loading />}>
 							<Switch>
 								<Route path={`${url}/`} exact>
-									<Perfil />
+									<ShowUserPerfil />
 								</Route>
 
 								<Route path={`${url}/personal-estudiante`} exact>
-									Datos del estudiante como: Fecha de nacimiento, nacionalidad, religión, edad y otros.
+									<PersonalEstudiante />
 								</Route>
 
 								<Route path={`${url}/contraseña`} exact>
-									<Password />
+									<ShowUserPassword />
 								</Route>
 
 								<Route path={`${url}/permisos`} exact>
-									<Permisos />
+									<ShowUserPermisos />
 								</Route>
 
+								<Route path={`${url}/opciones`} exact>
+									<ShowUserOpciones />
+								</Route>
+								
 								<Route>
 									<Redirect to={`${url}/`} />
 								</Route>

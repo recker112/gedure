@@ -132,7 +132,7 @@ function AvatarButton({ ...rest }) {
 					horizontal: 'right',
 				}}
 			>
-				<Paper data-tour='avatar__menu--despliegue'>
+				<Paper style={{minWidth: 200}} data-tour='avatar__menu--despliegue'>
 					<Grid container direction='column' className={classes.padding}>
 						<Grid container justify='center' item>
 							<Avatar 
@@ -143,7 +143,7 @@ function AvatarButton({ ...rest }) {
 								{user.name.substring(0, 1).toUpperCase()}
 							</Avatar>
 						</Grid>
-						<Grid style={{maxWidth: 250}} container justify='center' item>
+						<Grid style={{maxWidth: 200}} container justify='center' item>
 							<Typography align='center' className='text__bold--semi'>
 								{user.name}
 							</Typography>

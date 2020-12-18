@@ -57,7 +57,7 @@ function Form() {
 	// eslint-disable-next-line
 	const [loading, setLoading] = useState(false);
 	// eslint-disable-next-line
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 	
 	const { activeStep } = useSelector((state) => ({
 		activeStep: state.settings.steppers.active,
