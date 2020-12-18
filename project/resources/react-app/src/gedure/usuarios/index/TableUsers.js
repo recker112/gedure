@@ -11,14 +11,14 @@ import MaterialTable from 'material-table';
 import PersonIcon from '@material-ui/icons/Person';
 import Delete from '@material-ui/icons/Delete';
 
-import useFetch from '../../../../hooks/useFetch';
+import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { tableIcons, tableLocation } from '../../../../components/TableConfig';
+import { tableIcons, tableLocation } from '../../../components/TableConfig';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../../../actions/updateForms';
+import updateForms from '../../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	avatar: {

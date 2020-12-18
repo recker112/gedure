@@ -5,7 +5,7 @@ import { Redirect, useLocation } from 'react-router-dom';
 import useFetch from './../../hooks/useFetch';
 
 // Components
-import { Loader } from '../Routers';
+import { Loader } from '../../Routers';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -85,7 +85,7 @@ function ReloginComponent(props) {
 	}
 	
 	if (auth && from.pathname === '/') {
-		return <Redirect to='/panel' />;
+		return <Redirect to='/gedure' />;
 	} else if (auth && from.pathname !== '/') {
 		return <Redirect to={from} />;
 	}

@@ -21,7 +21,7 @@ import ShowRegistro from './ShowRegistro';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import updateForms from '../../../actions/updateForms';
+import updateForms from '../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -95,7 +95,7 @@ export default function PageRegistros() {
 											>
 												<MenuItem value='all'><em>Todos</em></MenuItem>
 												<MenuItem value='gedure'>Gedure</MenuItem>
-												<MenuItem value='session'>Sesión</MenuItem>
+												<MenuItem value='session'>Sesiรณn</MenuItem>
 												<MenuItem value='user'>Usuario</MenuItem>
 											</Select>
 										</FormControl>

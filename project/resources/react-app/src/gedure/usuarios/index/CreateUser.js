@@ -16,15 +16,15 @@ import {
 import { useForm } from "react-hook-form";
 
 // Component
-import AnimationDialog from '../../../../components/AnimationDialog';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
+import AnimationDialog from '../../../components/AnimationDialog';
+import { RenderSelectFormHook } from '../../../components/RendersGlobals';
 import PasswordSection from './PasswordSection';
 import StudiendSection from './StudiendSection';
 import PermissionsSection from './PermissionsSection';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../../actions/updateDialogs';
+import updateDialogs from '../../../actions/updateDialogs';
 
 export default function CreateUser() {
 	const { open } = useSelector((state) => ({

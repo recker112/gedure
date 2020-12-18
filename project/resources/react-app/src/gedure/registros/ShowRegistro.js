@@ -10,11 +10,11 @@ import {
 } from '@material-ui/core';
 
 // Components
-import AnimationDialog from '../../../components/AnimationDialog';
+import AnimationDialog from '../../components/AnimationDialog';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import updateDialogs from '../../actions/updateDialogs';
 
 export default function ShowRegistros() {
 	const { open, data } = useSelector((state) => ({

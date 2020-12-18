@@ -85,19 +85,19 @@ function UserList({ handleClose }) {
 			</ReturnSelected>
 			<Collapse in={control} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
-					<ReturnSelected url='/panel/boletas' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/boletas' handle={handleClose} nested>
 						<ListItemIcon>
 							<FilePdfIcon />
 						</ListItemIcon>
 						<ListItemText primary="Boletas" />
 					</ReturnSelected>
-					<ReturnSelected url='/panel/horario' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/horario' handle={handleClose} nested>
 						<ListItemIcon>
 							<WatchLaterIcon />
 						</ListItemIcon>
 						<ListItemText primary="Horario" />
 					</ReturnSelected>
-					<ReturnSelected url='/panel/constancias' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/constancias' handle={handleClose} nested>
 						<ListItemIcon>
 							<FileWordIcon />
 						</ListItemIcon>
@@ -109,18 +109,18 @@ function UserList({ handleClose }) {
 				<ListItemIcon>
 					<HammerWrenchIcon />
 				</ListItemIcon>
-				<ListItemText primary='Administración' /> 
+				<ListItemText primary='Administraciรณn' /> 
 				{admin ? <ExpandLess /> : <ExpandMore />}
 			</ReturnSelected>
 			<Collapse in={admin} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
-					<ReturnSelected url='/panel/saldo' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/saldo' handle={handleClose} nested>
 						<ListItemIcon>
 							<AttachMoneyIcon />
 						</ListItemIcon>
 						<ListItemText primary="Saldo" />
 					</ReturnSelected>
-					<ReturnSelected url='/panel/deudas' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/deudas' handle={handleClose} nested>
 						<ListItemIcon>
 							<BookAlertIcon />
 						</ListItemIcon>
@@ -128,7 +128,7 @@ function UserList({ handleClose }) {
 					</ReturnSelected>
 				</List>
 			</Collapse>
-			<ReturnSelected url='/panel/tienda' handle={handleClose}>
+			<ReturnSelected url='/gedure/tienda' handle={handleClose}>
 				<ListItemIcon>
 					<ShoppingCartIcon />
 				</ListItemIcon>

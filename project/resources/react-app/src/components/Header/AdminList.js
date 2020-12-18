@@ -78,7 +78,7 @@ function AdminList({ handleClose }) {
 	return (
 		<React.Fragment>
 			{permissions?.sin_asignar?.registros_index && (
-				<ReturnSelected url='/panel/registros' handle={handleClose}>
+				<ReturnSelected url='/gedure/registros' handle={handleClose}>
 					<ListItemIcon>
 						<ConsoleLineIcon />
 					</ListItemIcon>
@@ -95,20 +95,20 @@ function AdminList({ handleClose }) {
 			<Collapse in={control} timeout="auto" unmountOnExit>
 				<List component="div" disablePadding>
 					{permissions?.administrar?.users_index && (
-						<ReturnSelected url='/panel/usuarios' handle={handleClose} nested>
+						<ReturnSelected url='/gedure/usuarios' handle={handleClose} nested>
 							<ListItemIcon>
 								<AccountMultipleIcon />
 							</ListItemIcon>
 							<ListItemText primary="Usuarios" />
 						</ReturnSelected>
 					)}
-					<ReturnSelected url='/panel/publicaciones' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/publicaciones' handle={handleClose} nested>
 						<ListItemIcon>
 							<PostIcon />
 						</ListItemIcon>
 						<ListItemText primary="Publicaciones" />
 					</ReturnSelected>
-					<ReturnSelected url='/panel/boletas' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/boletas' handle={handleClose} nested>
 						<ListItemIcon>
 							<FilePdfIcon />
 						</ListItemIcon>
@@ -116,23 +116,23 @@ function AdminList({ handleClose }) {
 					</ReturnSelected>
 				</List>
 			</Collapse>
-			<ReturnSelected url='/panel/saldo' handle={handleClose}>
+			<ReturnSelected url='/gedure/saldo' handle={handleClose}>
 				<ListItemIcon>
 					<AttachMoneyIcon />
 				</ListItemIcon>
 				<ListItemText primary='Saldo' /> 
 			</ReturnSelected>
-			<ReturnSelected url='/panel/tienda' handle={handleClose}>
+			<ReturnSelected url='/gedure/tienda' handle={handleClose}>
 				<ListItemIcon>
 					<ShoppingCartIcon />
 				</ListItemIcon>
 				<ListItemText primary='Tienda' /> 
 			</ReturnSelected>
-			<ReturnSelected url='/gedure' handle={handleClose}>
+			<ReturnSelected url='/gedure/configuracion' handle={handleClose}>
 				<ListItemIcon>
 					
 				</ListItemIcon>
-				<ListItemText primary='Gedure' /> 
+				<ListItemText primary='Configurar Gedure' /> 
 			</ReturnSelected>
 		</React.Fragment>
 	);

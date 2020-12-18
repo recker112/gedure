@@ -108,39 +108,39 @@ function Navs() {
 	return (
 		<Grid item xs={3}>
 			<Box mb={1}>
-				<ReturnSelected url={`/panel/usuarios/ver/${id}/`}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/`}>
 					Perfil
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
-				<ReturnSelected url={`/panel/usuarios/ver/${id}/personal`} onClick={handleClick}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal`} onClick={handleClick}>
 					Datos personales
 				</ReturnSelected>
 			</Box>
 			<Collapse in={personalNav} timeout="auto" unmountOnExit>
 				<Box mb={1}>
-					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-estudiante`} nested>
+					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-estudiante`} nested>
 						Estudiante
 					</ReturnSelected>
 				</Box>
 				<Box mb={1}>
-					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-representante`} nested>
+					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-representante`} nested>
 						Representante
 					</ReturnSelected>
 				</Box>
 				<Box mb={1}>
-					<ReturnSelected url={`/panel/usuarios/ver/${id}/personal-padres`} nested>
+					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-padres`} nested>
 						Padres
 					</ReturnSelected>
 				</Box>
 			</Collapse>
 			<Box mb={1}>
-				<ReturnSelected url={`/panel/usuarios/ver/${id}/configuracion`}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/configuracion`}>
 					Contraseña
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
-				<ReturnSelected url={`/panel/usuarios/ver/${id}/configuracion`}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/configuracion`}>
 					Configuración
 				</ReturnSelected>
 			</Box>

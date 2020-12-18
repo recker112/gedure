@@ -27,6 +27,9 @@ import updateSteppersActive from '../../actions/updateSteppersActive';
 const useStylesStepper = makeStyles((theme) => ({
 	root: {
     background: theme.palette.primary.main,
+		'& .MuiStepConnector-line': {
+			borderColor: '#bdbdbd',
+		}
   },
 	active: {
 		color: 'rgba(255, 255, 255, 0.87) !important',
