@@ -130,7 +130,7 @@ export default function TableUsers({ tableRef, filters }) {
 				},
 				{
 					icon: () => (<Delete />),
-					tooltip: 'Eliminar',
+					tooltip: 'Desactivar',
 					onClick: (event, rowData) => {
 						/*const user = {
 							id: rowData.id,
