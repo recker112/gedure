@@ -8,8 +8,8 @@ import {
 import { useWatch } from "react-hook-form";
 
 // Components
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
-import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
+import { RenderSelectFormHook } from '../../../components/RendersGlobals';
+import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 
 export default function StudiendSection({ register, errors, control }) {
   const privilegio = useWatch({
@@ -47,7 +47,7 @@ export default function StudiendSection({ register, errors, control }) {
 					<RenderSelectFormHook
 						id='user-curso'
 						name='seccion'
-						nameLabel='Sección'
+						nameLabel='Secciรณn'
 						control={control}
 						defaultValue=''
 						errors={errors?.seccion}

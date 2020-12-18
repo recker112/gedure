@@ -93,7 +93,7 @@ function DrawerMenu() {
 				</AppBar>
 				<Container>
 					<List component="nav">
-						<ReturnSelected url='/panel' handle={handleClose}>
+						<ReturnSelected url='/gedure' handle={handleClose}>
 							<ListItemIcon>
 								<HomeIcon />
 							</ListItemIcon>
@@ -121,7 +121,7 @@ function DrawerMenu() {
 						</ReturnSelected>
 						<Collapse in={helpSection} timeout="auto" unmountOnExit>
 							<List component="div" disablePadding>
-								<ReturnSelected url='/panel/preguntas-frecuentes' handle={handleClose} nested>
+								<ReturnSelected url='/gedure/preguntas-frecuentes' handle={handleClose} nested>
 									<ListItemIcon>
 										<FAQIcon />
 									</ListItemIcon>

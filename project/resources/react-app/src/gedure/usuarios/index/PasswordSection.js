@@ -9,7 +9,7 @@ import {
 import { useWatch } from "react-hook-form";
 
 // Components
-import { RenderInputPassword } from '../../../../components/RendersGlobals';
+import { RenderInputPassword } from '../../../components/RendersGlobals';
 
 export default function PasswordSection({ register, errors, control }) {
   const password_registred = useWatch({

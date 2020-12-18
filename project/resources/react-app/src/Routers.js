@@ -12,21 +12,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import ReactLoading from 'react-loading';
 
 // Componentes
-import logoL from '../imgs/Farvicon_no_fondo.png';
-import logoD from '../imgs/Farvicon_no_fondo_white.png';
+import logoL from './imgs/Farvicon_no_fondo.png';
+import logoD from './imgs/Farvicon_no_fondo_white.png';
 
 // Redux
 import { useSelector } from 'react-redux';
 
 // Routers
-const PageIndex = lazy(() => import('./index/PageIndex'));
-const PageNews = lazy(() => import('./noticias/PageNews'));
-const PageShowNews = lazy(() => import('./noticias/PageShowNews'));
-const PageSolicitud = lazy(() => import('./solicitud/PageSolicitud'));
-const PageContactanos = lazy(() => import('./contactanos/PageContactanos'));
-const PageLogin = lazy(() => import('./entrar/PageLogin'));
-const PageRecovery = lazy(() => import('./entrar/PageRecovery'));
-const RoutersPanel = lazy(() => import('./panel/RoutersPanel'));
+const PageIndex = lazy(() => import('./page/index/PageIndex'));
+const PageNews = lazy(() => import('./page/noticias/PageNews'));
+const PageShowNews = lazy(() => import('./page/noticias/PageShowNews'));
+const PageSolicitud = lazy(() => import('./page/solicitud/PageSolicitud'));
+const PageContactanos = lazy(() => import('./page/contactanos/PageContactanos'));
+const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
+const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
+const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -73,8 +73,8 @@ function Routers() {
 					<PageRecovery />
 				</PublicRoute>
 				
-				<ProtectRoute auth={auth} path='/panel'>
-					<RoutersPanel />
+				<ProtectRoute auth={auth} path='/gedure'>
+					<RoutersGedure />
 				</ProtectRoute>
 				
 				<PublicRoute auth={auth}>
@@ -99,7 +99,7 @@ export function PublicRoute({ children, auth, notSeeBeforeAuth=false, ...rest })
 					return	(children);
 				}else if (auth && notSeeBeforeAuth){
 					return (
-						<Redirect to={'/panel'} />
+						<Redirect to={'/gedure'} />
 					);
 				}else {
 					// Verificar si existen AccesKeys por validar y si el path actual

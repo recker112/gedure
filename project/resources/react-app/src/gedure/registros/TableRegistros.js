@@ -3,17 +3,17 @@ import React, { useCallback } from 'react';
 import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
-import useFetch from '../../../hooks/useFetch';
+import useFetch from '../../hooks/useFetch';
 
 import { format } from 'date-fns';
 
 // Components
-import { tableIcons, tableLocation } from '../../../components/TableConfig';
+import { tableIcons, tableLocation } from '../../components/TableConfig';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../../actions/updateForms';
-import updateDialogs from '../../../actions/updateDialogs';
+import updateForms from '../../actions/updateForms';
+import updateDialogs from '../../actions/updateDialogs';
 
 export default function TableRegistros({ tableRef, filters }) {
 	const { loading } = useSelector((state) => ({

@@ -16,15 +16,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 // Components
-import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
+import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 import TableUsers from './TableUsers';
 import CreateUser from './CreateUser';
 import UploadMatricula from './UploadMatricula';
 
 // Redux
 import { useDispatch } from 'react-redux';
-import updateForms from '../../../../actions/updateForms';
-import updateDialogs from '../../../../actions/updateDialogs';
+import updateForms from '../../../actions/updateForms';
+import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function PageIndex() {
+export default function PageUserIndex() {
 	document.title = 'La Candelaria - Usuarios';
 	const [openFilter, setOpenFilter] = useState(false);
 	const [countFilters, setCountFilters] = useState({});
@@ -136,7 +136,7 @@ export default function PageIndex() {
 										</Grid>
 										<Grid item xs={12} sm={3} md={2}>
 											<FormControl style={{ width: '100%' }}>
-												<InputLabel id="users-filter-seccion">Sección</InputLabel>
+												<InputLabel id="users-filter-seccion">Secciรณn</InputLabel>
 												<Select
 													labelId="users-filter-seccion"
 													id="users-filter-seccion-select"

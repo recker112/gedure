@@ -18,11 +18,11 @@ import {
 import { useForm } from "react-hook-form";
 
 // Components
-import AnimationDialog from '../../../../components/AnimationDialog';
+import AnimationDialog from '../../../components/AnimationDialog';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../../actions/updateDialogs';
+import updateDialogs from '../../../actions/updateDialogs';
 
 export default function UploadMatricula() {
 	const { open } = useSelector((state) => ({

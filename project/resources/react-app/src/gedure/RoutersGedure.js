@@ -12,7 +12,7 @@ const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 
-function RoutersPanel() {
+export default function RoutersGedure() {
 	let { url } = useRouteMatch();
 	
 	const { permissions, privilegio } = useSelector((state) => ({
@@ -80,5 +80,3 @@ function RoutersPanel() {
 		</Switch>
 	);
 }
-
-export default RoutersPanel;
