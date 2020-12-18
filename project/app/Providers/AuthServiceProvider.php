@@ -28,13 +28,10 @@ class AuthServiceProvider extends ServiceProvider
 
 		Passport::routes();
 		
-		Passport::tokensExpireIn(now()->addHours(8));
-		Passport::refreshTokensExpireIn(now()->addHours(8));
-		Passport::personalAccessTokensExpireIn(now()->addHours(8));
+		Passport::personalAccessTokensExpireIn(now()->addMonths(6));
 		
 		Passport::tokensCan([
 			'user' => 'usuario dentro del sistema',
-			'admin' => 'administrador dentro del sistema',
 			'profe' => 'profesor dentro del sistema'
 		]);
 		

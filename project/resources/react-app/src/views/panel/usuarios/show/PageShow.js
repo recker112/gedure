@@ -105,7 +105,7 @@ function Navs() {
 			</Grid>
 			<Grid item xs={12}>
 				<ReturnSelected url={`/panel/usuarios/ver/${id}/configuracion`}>
-					Configuraciรณn
+					Configuración
 				</ReturnSelected>
 			</Grid>
 		</Grid>

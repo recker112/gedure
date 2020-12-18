@@ -43,13 +43,6 @@ class LoginController extends Controller
 		
 		$user = $request->user();
 		
-		// Verificar cuenta activa
-		if (!$user->registred_at) {
-			return response()->json([
-				'msg' => 'La cuenta no está activa'
-			], 400);
-		}
-		
 		// Verificar bloqueos
 		$block = Block::firstWhere('user_id', $user->id);
 		
@@ -68,8 +61,8 @@ class LoginController extends Controller
     $token = $tokenResult->token;
 		
 		// expired_at
-		if($request->checkbox) {
-			$token->expires_at = now()->addMonths(6);
+		if(!$request->checkbox) {
+			$token->expires_at = now()->addHours(8);
 		}
 		
 		$token->save();
