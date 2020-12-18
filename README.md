@@ -1,4 +1,4 @@
-# ![Gedure logo](./project/resources/react-app/src/imgs/Gedure-Logo.png)
+# <img src='./project/resources/react-app/src/imgs/Gedure-Logo.png' alt='Gedure Logo' width='300' />
 Gedure es una App web de gestión educativa enfocado en los grados de primaria y bachillerato, utilizando un diseño moderno y simple para la comodidad de los usuarios.
 
 ## Funcionalidades previstas para la versión 5.0.0b1
