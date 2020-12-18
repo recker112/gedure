@@ -22,11 +22,13 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 const Perfil = lazy(() => import('./Perfil'));
+const Password = lazy(() => import('./Password'));
+const Permisos = lazy(() => import('./Permisos'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(3),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
@@ -103,10 +105,14 @@ function Navs() {
 	const { id } = useParams();
 	const [personalNav, setPersonalNav] = useState(false);
 	
+	const history = useHistory();
+	
 	const handleClick = () => setPersonalNav(!personalNav);
 	
+	const handleReturn = () => history.push('/gedure/usuarios');
+	
 	return (
-		<Grid item xs={3}>
+		<Grid item xs={12} sm={3}>
 			<Box mb={1}>
 				<ReturnSelected url={`/gedure/usuarios/ver/${id}/`}>
 					Perfil
@@ -135,13 +141,18 @@ function Navs() {
 				</Box>
 			</Collapse>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/configuracion`}>
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/configuracion`}>
-					Configuración
+				<ReturnSelected url={`/gedure/usuarios/ver/${id}/permisos`}>
+					Permisos
+				</ReturnSelected>
+			</Box>
+			<Box mb={1}>
+				<ReturnSelected onClick={handleReturn}>
+					Regresar
 				</ReturnSelected>
 			</Box>
 		</Grid>
@@ -166,29 +177,31 @@ export default function PageShow() {
 				</Box>
 				<Grid container spacing={2}>
 					<Navs />
-					<Suspense fallback={<Loading />}>
-						<Switch>
-							<Route path={`${url}/`} exact>
-								<Perfil />
-							</Route>
+					<Grid item xs={12} sm={9}>
+						<Suspense fallback={<Loading />}>
+							<Switch>
+								<Route path={`${url}/`} exact>
+									<Perfil />
+								</Route>
 
-							<Route path={`${url}/personal-estudiante`} exact>
-								<Grid item xs={8}>
+								<Route path={`${url}/personal-estudiante`} exact>
 									Datos del estudiante como: Fecha de nacimiento, nacionalidad, religión, edad y otros.
-								</Grid>
-							</Route>
+								</Route>
 
-							<Route path={`${url}/configuracion`} exact>
-								<Grid item xs={8}>
-									Configuraciรณn
-								</Grid>
-							</Route>
+								<Route path={`${url}/contraseña`} exact>
+									<Password />
+								</Route>
 
-							<Route>
-								<Redirect to={`${url}/`} />
-							</Route>
-						</Switch>
-					</Suspense>
+								<Route path={`${url}/permisos`} exact>
+									<Permisos />
+								</Route>
+
+								<Route>
+									<Redirect to={`${url}/`} />
+								</Route>
+							</Switch>
+						</Suspense>
+					</Grid>
 				</Grid>
 			</Container>
 		</main>

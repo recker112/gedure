@@ -79,13 +79,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ReturnSelected (props) {
-	const { url=null, handle, nested, children } = props;
+	const { url=null, handle, nested, children, noExact } = props;
 	
 	const classes = useStyles();
 	
 	const match = useRouteMatch({
 		path: url,
-		exact: true
+		exact: !noExact,
 	});
 	
 	return (
@@ -152,7 +152,7 @@ function MobileMenu() {
 								<ListItemIcon>
 									<ContactMailIcon />
 								</ListItemIcon>
-								<ListItemText primary='Contáctanos' /> 
+								<ListItemText primary='Contรกctanos' /> 
 							</ReturnSelected>
 							<ReturnSelected url='/entrar' handle={handleClose}>
 								<ListItemIcon>
@@ -221,7 +221,7 @@ function HeaderNoAuth() {
 							component={RouterLink} 
 							to="/contactanos"
 						>
-							Contáctanos
+							Contรกctanos
 						</Link>
 						<Link 
 							color="initial"

@@ -162,7 +162,7 @@ function AvatarButton({ ...rest }) {
 							onClick={handleOptions}
 						>
 							<ListItemIcon><SettingsIcon /></ListItemIcon>
-							<ListItemText>Opciones</ListItemText>
+							<ListItemText>Cuenta</ListItemText>
 						</ListItem>
 						<ListItem 
 							button 
