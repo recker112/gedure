@@ -244,7 +244,7 @@ class PostController extends Controller
 			$allPosts = Post::with('user')
 				->whereHas('user', function ($query) {
 					$search = request()->search;
-					$query->where('cedula', 'LIKE', "%$search%");
+					$query->where('username', 'LIKE', "%$search%");
 				})
 				->orWhere('title', 'LIKE', "%$search%")
 				->orWhere('created_at', 'LIKE', "%$search%")
@@ -289,7 +289,7 @@ class PostController extends Controller
 						->orWhere('created_at', 'LIKE', "%$search%")
 						->whereHas('user', function ($query) {
 							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
+							$query->where('username', 'LIKE', "%$search%");
 						});
 				})
 				->count();
