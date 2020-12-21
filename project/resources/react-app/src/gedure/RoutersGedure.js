@@ -11,6 +11,7 @@ const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
+const PagePublicaciones = lazy(() => import('./publicaciones/PagePublicaciones'));
 
 export default function RoutersGedure() {
 	let { url } = useRouteMatch();
@@ -32,6 +33,12 @@ export default function RoutersGedure() {
 			component: <RoutersUsers />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
+		},
+		{
+			path: `${url}/publicaciones`,
+			component: <PagePublicaciones />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar?.posts_index),
 		}
 	], [permissions, url]);
 	

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Controllers
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\RecoveryPasswordController;
 use App\Http\Controllers\Api\LogController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ContactoController;
@@ -43,13 +44,13 @@ Route::group(['prefix' => 'v1'], function () {
 		->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
 	
 	// RecoveryPassword
-	Route::post('recovery-password', [LoginController::class, 'recoveryPassword']);
+	Route::post('recovery-password', [RecoveryPasswordController::class, 'recoveryPassword']);
 	
 	// RecoveryPassword
-	Route::post('recovery-verify', [LoginController::class, 'recoveryPasswordVerifyCode']);
+	Route::post('recovery-verify', [RecoveryPasswordController::class, 'recoveryPasswordVerifyCode']);
 	
 	// RecoveryChangePass
-	Route::post('recovery-chpass', [LoginController::class, 'recoveryChangePassword']);
+	Route::post('recovery-chpass', [RecoveryPasswordController::class, 'recoveryChangePassword']);
 	
 	/*
 	LOGS
