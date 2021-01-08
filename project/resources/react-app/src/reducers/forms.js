@@ -2,43 +2,39 @@
 const initialState = {
 	contacto: {
 		loading: false,
-		status: null,
 		data: {},
 	},
 	noticia: {
 		loading: true,
-		status: null,
 		data: {},
 	},
 	solicitudCupo: {
 		loading: false,
-		status: null,
 		data: {},
 	},
 	login: {
 		loading: false,
-		status: null,
 		data: {},
 	},
 	recuperar: {
 		loading: false,
-		status: null,
 		data: {},
 	},
 	registros: {
 		loading: false,
-		status: null,
 	},
 	usersIndex: {
 		loading: false,
-		status: null,
 		data: {},
 	},
 	crearUser: {
 		loading: false,
-		status: null,
 		data: {},
 	},
+	crearPost: {
+		loading: false,
+		data: {},
+	}
 };
 
 export default (state = initialState, { type, payload }) => {

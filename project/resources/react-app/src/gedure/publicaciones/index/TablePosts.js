@@ -7,19 +7,18 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 
-import useFetch from '../../hooks/useFetch';
+import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { tableIcons, tableLocation } from '../../components/TableConfig';
+import { tableIcons, tableLocation } from '../../../components/TableConfig';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function TablePosts({ tableRef }) {
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
-	const dispatch = useDispatch();
 	
 	const history = useHistory();
 	
@@ -78,12 +77,7 @@ export default function TablePosts({ tableRef }) {
 					icon: () => (<Edit data-tour="edit__noticia" />),
 					tooltip: 'Editar',
 					onClick: (event, rowData) => {
-						const data = {
-							slug: rowData.slug,
-							title: rowData.title,
-							content: rowData.content,
-						};
-
+						
 						//dispatch(updateDialogs('editNoticia', true, false, data));
 					},
 					disabled: !permissions.administrar.posts_edit
@@ -92,10 +86,6 @@ export default function TablePosts({ tableRef }) {
 					icon: () => (<Delete data-tour="delete__noticia" />),
 					tooltip: 'Eliminar',
 					onClick: (event, rowData) => {
-						const data = {
-							slug: rowData.slug,
-							id: rowData.id,
-						};
 
 						//dispatch(updateDialogs('deleteConfirmation', true, false, data));
 					},

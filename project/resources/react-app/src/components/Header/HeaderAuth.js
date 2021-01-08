@@ -58,7 +58,7 @@ function HeaderAuth() {
 				<Toolbar>
 					<DrawerButton className={classes.drawerButton} />
 					<ChangeTheme className={classes.menuButtom}>
-						<Tooltip title={temaText} arrow leaveDelay={200}>
+						<Tooltip title={temaText} arrow>
 							<IconButton data-tour='theme__button'>
 								<WbIncandescentIcon style={{ color: 'white' }} />
 							</IconButton>
