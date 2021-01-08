@@ -19,7 +19,7 @@ function DrawerButton({ ...rest }) {
 	
 	return (
 		<div {...rest}>
-			<Tooltip title="Menú" arrow leaveDelay={200}>
+			<Tooltip title="Menú" arrow>
 				<IconButton data-tour="drawer__button" onClick={handleClick}>
 					<MenuIcon style={{color: 'white'}} />
 				</IconButton>

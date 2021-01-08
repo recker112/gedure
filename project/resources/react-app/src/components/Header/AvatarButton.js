@@ -99,7 +99,7 @@ function AvatarButton({ ...rest }) {
 	
 	return (
 		<React.Fragment>
-			<Tooltip title='Opciones' arrow leaveDelay={200}>
+			<Tooltip title='Opciones' arrow>
 				<IconButton 
 					aria-controls="AvatarButton" 
 					aria-haspopup="true"

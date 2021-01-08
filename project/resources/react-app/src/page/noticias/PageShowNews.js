@@ -226,7 +226,7 @@ function PageShowNews() {
 				url: url,
 				type: 'get',
 				messageToFinish: false,
-				message404: 'Noticia no encontrada',
+				messageTo404: false,
 				data: {
 					cancelToken: cancelAxios.token,
 				}

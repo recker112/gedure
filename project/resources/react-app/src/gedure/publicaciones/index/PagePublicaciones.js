@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { 
 	Grid, 
 	Container,
@@ -28,7 +30,13 @@ export default function PagePublicaciones() {
 	document.title = 'La Candelaria - Publicaciones';
 	const tableRef = useRef(null);
 	
+	const history = useHistory();
+	
 	const classes = useStyles();
+	
+	const handleClick = () => {
+		history.push('/gedure/publicaciones/crear');
+	}
 	
 	return (
 		<main className={classes.containerMain}>
@@ -36,7 +44,7 @@ export default function PagePublicaciones() {
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Publicaciones</Box>
 				<Grid container spacing={2}>
 					<Grid container justify='flex-end' item xs={12}>
-						<Button variant='contained' color='primary'>
+						<Button onClick={handleClick} variant='contained' color='primary'>
 							Crear
 						</Button>
 					</Grid>
