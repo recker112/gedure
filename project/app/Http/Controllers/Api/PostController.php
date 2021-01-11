@@ -100,7 +100,8 @@ class PostController extends Controller
 	public function create(PostRequest $request)
 	{
 		$user = $request->user();
-		$imgs = $request->file('imgs');
+		$galery = $request->file('galery');
+		$portada = $request->file('portada');
 		
 		$post = new Post();
 		
@@ -110,22 +111,31 @@ class PostController extends Controller
 		$post->only_users = json_decode($request->only_users);
 		$post->save();
 		
-		//Cargar imรกgenes
+		// Cargar portada
+		if (!empty($portada)) {
+			$path = $portada->storeAs(
+				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
+			);
+			
+			$post->portada = $path;
+		}
+		
+		//Cargar galeria
 		$imgsUploaded = null;
 		$i=0;
-		if (!empty($imgs)) {
-			foreach($imgs as $file) {
+		if (!empty($galery)) {
+			foreach($galery as $file) {
 				//Mover archivo
 				$path = $file->storeAs(
-						"$this->path/$post->id", $file->getClientOriginalName(), 'public'
-					);
+					"$this->path/$post->id", $file->getClientOriginalName(), 'public'
+				);
 
 				$imgsUploaded[$i] = $path;
 				$i++;
 			}
 		}
 		
-		$post->imgs = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
+		$post->galery = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
 		$post->save();
 		
 		//Log
@@ -143,8 +153,10 @@ class PostController extends Controller
 	public function edit(PostRequest $request, $slug)
 	{
 		$user = $request->user();
-		$imgs = $request->file('imgs');
-		$imgsUpdate = json_decode($request->imgs_update);
+		$portada = $request->file('portada');
+		$galery = $request->file('galery');
+		$delete_galery = json_decode($request->delete_galery);
+		$delete_portada = json_decode($request->delete_portada);
 		
 		$post = Post::where('slug', $slug)
 			->firstOrFail();
@@ -163,15 +175,42 @@ class PostController extends Controller
 		$post->content = $request->content;
 		$post->only_users = json_decode($request->only_users);
 		
-		//Cargar imรกgenes
-		$imgsUploaded = null;
-		$i=0;
-		if ($imgsUpdate && !empty($imgs)) {
+		// Eliminar portada
+		if ($delete_portada) {
+			Storage::disk('public')->delete($post->portada);
+			$post->portada = null;
+		}
+		
+		// Eliminar galeria
+		if ($delete_galery) {
 			// Clear old files
-			$filesDelete = Storage::disk('public')->allFiles('posts/'.$post->id);
+			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
 			Storage::disk('public')->delete($filesDelete);
-			foreach($imgs as $file) {
-				//Mover archivo
+			$post->galery = null;
+		}
+		
+		// Actualizar portada
+		if (!empty($portada) && !$delete_portada) {
+			// Clear files
+			Storage::disk('public')->delete($post->portada);
+			$path = $portada->storeAs(
+				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
+			);
+			
+			$post->portada = $path;
+		}
+		
+		// Actualizar galeria
+		if (!empty($galery) && !$delete_galery) {
+			$imgsUploaded = null;
+			$i=0;
+			
+			// Clear old files excluding portada
+			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
+			$filesDelete = array_diff($filesDelete, [$post->portada]);
+			Storage::disk('public')->delete($filesDelete);
+			foreach($galery as $file) {
+				// Mover archivo
 				$path = $file->storeAs(
 						"$this->path/$post->id", $file->getClientOriginalName(), 'public'
 					);
@@ -179,9 +218,8 @@ class PostController extends Controller
 				$imgsUploaded[$i] = $path;
 				$i++;
 			}
-		}
-		if ($imgsUpdate) {
-			$post->imgs = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
+			
+			$post->galery = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
 		}
 		$post->save();
 		
