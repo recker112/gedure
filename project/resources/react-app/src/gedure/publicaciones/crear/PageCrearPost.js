@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { 
 	Grid, 
@@ -14,12 +14,14 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import { useForm, FormProvider } from "react-hook-form";
 
+import useFetch from '../../../hooks/useFetch';
+
 // Components
 import MakePost from './MakePost';
 import ShowPreview from './ShowPreview';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,8 +40,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PageCrearPost() {
 	document.title = 'La Candelaria - Crear publicaciones';
 	const [preview, setPreview] = useState(false);
+	const [progress, setProgress] = useState(0);
 	
+	const { loading } = useSelector((state) => ({
+		loading: state.forms.crearPost.loading,
+	}));
 	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
 	
@@ -55,9 +63,45 @@ export default function PageCrearPost() {
 		setPreview(!preview);
 	}
 	
-	const onSubmit = submitData => {
-		alert("X");
-		console.log(submitData);
+	const onUploadProgress = useCallback((progressEvent) => {
+		let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+		setProgress(percentCompleted);
+		// eslint-disable-next-line
+	}, []);
+	
+	const onSubmit = async submitData => {
+		dispatch(updateForms('crearPost', true, {}));
+		
+		// FormData
+		const formData = new FormData();
+		formData.append('title', submitData.title);
+		formData.append('content', submitData.content);
+		formData.append('only_users', submitData.only_users);
+		formData.append('portada', submitData.portada[0]);
+		submitData.galery.forEach(img => {
+			formData.append('galery[]', img);
+		});
+		
+		const prepare = {
+			url: `v1/posts`,
+			type: 'post',
+			data: formData,
+			otherData: {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				},
+				onUploadProgress: onUploadProgress,
+			},
+		};
+		
+		const response = await fetchData(prepare);
+
+		if (response) {
+			setProgress(0);
+		}
+		
+		dispatch(updateForms('crearPost', false, {}));
 	}
 	
 	return(
@@ -68,19 +112,19 @@ export default function PageCrearPost() {
 						<Box mb={3}>
 							<Grid container justify='space-between'>
 								<Tooltip title='Volver' arrow>
-									<IconButton aria-label="return">
+									<IconButton disabled={loading} aria-label="return">
 										<ArrowBackIcon />
 									</IconButton>
 								</Tooltip>
 								<Tooltip title={preview ? 'Editar' : 'Visualizar'} arrow>
-									<IconButton onClick={methods.handleSubmit(handlePreview)} aria-label="preview">
+									<IconButton disabled={loading} onClick={methods.handleSubmit(handlePreview)} aria-label="preview">
 										{preview ? (<EditIcon />) : (<VisibilityIcon />)}
 									</IconButton>
 								</Tooltip>
 							</Grid>
 						</Box>
 						{!preview && (
-							<MakePost />
+							<MakePost progressUpload={progress} />
 						)}
 					</Container>
 				</form>

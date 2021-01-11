@@ -18,7 +18,7 @@ import LinkIcon from '@material-ui/icons/Link';
 
 import { useFormContext, Controller, useWatch } from "react-hook-form";
 
-function ToolBar({ textRef, value }) {
+function ToolBar({ textRef, value, disabled }) {
 	const formats = {
 		'bold': '**',
 		'italic': '*',
@@ -79,46 +79,46 @@ function ToolBar({ textRef, value }) {
 	return (
 		<Grid item xs={12}>
 			<Tooltip title='Negrita' arrow>
-				<IconButton onClick={()=>handleFormat('bold')} aria-label="format bold">
+				<IconButton onClick={()=>handleFormat('bold')} disabled={disabled} aria-label="format bold">
 					<FormatBoldIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<Tooltip title='Curva' arrow>
-				<IconButton onClick={()=>handleFormat('italic')} aria-label="format italic">
+				<IconButton onClick={()=>handleFormat('italic')} disabled={disabled} aria-label="format italic">
 					<FormatItalicIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<ButtonGroup variant="text" aria-label="button group headers">
 				<Tooltip title='Encabezado 1' arrow>
-					<Button onClick={()=>{handleFormatLine('header1')}}>H1</Button>
+					<Button onClick={()=>{handleFormatLine('header1')}} disabled={disabled}>H1</Button>
 				</Tooltip>
 				<Tooltip title='Encabezado 2' arrow>
-					<Button onClick={()=>{handleFormatLine('header2')}}>H2</Button>
+					<Button onClick={()=>{handleFormatLine('header2')}} disabled={disabled}>H2</Button>
 				</Tooltip>
 				<Tooltip title='Encabezado 3' arrow>
-					<Button onClick={()=>{handleFormatLine('header3')}}>H3</Button>
+					<Button onClick={()=>{handleFormatLine('header3')}} disabled={disabled}>H3</Button>
 				</Tooltip>
 				<Tooltip title='Encabezado 4' arrow>
-					<Button onClick={()=>{handleFormatLine('header4')}}>H4</Button>
+					<Button onClick={()=>{handleFormatLine('header4')}} disabled={disabled}>H4</Button>
 				</Tooltip>
 			</ButtonGroup>
 			<Tooltip title='Lista desordenada' arrow>
-				<IconButton onClick={()=>handleFormatLine('list')} aria-label="format list">
+				<IconButton onClick={()=>handleFormatLine('list')} disabled={disabled} aria-label="format list">
 					<FormatListBulletedIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<Tooltip title='Lista ordenada' arrow>
-				<IconButton onClick={()=>handleFormatLine('listOrden')} aria-label="format listOrden">
+				<IconButton onClick={()=>handleFormatLine('listOrden')} disabled={disabled} aria-label="format listOrden">
 					<FormatListNumberedIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<Tooltip title='Tabla' arrow>
-				<IconButton onClick={handleFormatTable} aria-label="format table">
+				<IconButton onClick={handleFormatTable} disabled={disabled} aria-label="format table">
 					<TableChartIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
 			<Tooltip title='Tabla' arrow>
-				<IconButton onClick={handleFormatLink} aria-label="format link">
+				<IconButton onClick={handleFormatLink} disabled={disabled} aria-label="format link">
 					<LinkIcon fontSize="small" />
 				</IconButton>
 			</Tooltip>
@@ -126,7 +126,7 @@ function ToolBar({ textRef, value }) {
 	)
 }
 
-export default function MarkDown({ defaultValue }) {
+export default function MarkDown({ defaultValue, disabled }) {
 	const textAreaRef = useRef(null);
 	
 	const { control, errors } = useFormContext();
@@ -138,7 +138,7 @@ export default function MarkDown({ defaultValue }) {
 	
 	return(
 		<React.Fragment>
-			<ToolBar textRef={textAreaRef} value={watch} />
+			<ToolBar textRef={textAreaRef} value={watch} disabled={disabled} />
 			<Divider style={{margin: '5px 0', width: '100%'}} />
 			<Grid item xs={12}>
 				<Controller
@@ -157,6 +157,7 @@ export default function MarkDown({ defaultValue }) {
 							label='Contenido'
 							error={Boolean(errors.markdown)}
 							helperText={errors?.markdown?.message ? errors.markdown.message : `${watch?.length} Caracteres`}
+							disabled={disabled}
 							value={value} 
 							onChange={onChange} 
 							inputRef={textAreaRef}

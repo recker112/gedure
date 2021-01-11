@@ -15,14 +15,16 @@ import { useFormContext } from "react-hook-form";
 import MarkDown from './MarkDown';
 import DropAreaGalery from './DropAreaGalery';
 import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector } from 'react-redux';
 
-export default function MakePost() {
+export default function MakePost({ progressUpload }) {
 	
-	const { data } = useSelector((state) => ({
+	const { data, loading } = useSelector((state) => ({
 		data: state.forms.crearPost.data,
+		loading: state.forms.crearPost.loading,
 	}));
 	
 	const { register, errors, control, watch, setValue } = useFormContext();
@@ -45,6 +47,7 @@ export default function MakePost() {
 							minLength: { value: 6, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado largo' },
 						})}
+						disabled={loading}
 						name='title'
 						error={Boolean(errors.title)}
 						helperText={errors?.title?.message ? errors.title.message : 'Ingrese un título para su publicación'}
@@ -58,6 +61,7 @@ export default function MakePost() {
 				<Grid container item xs={12}>
 					<MarkDown
 						defaultValue={data.markdown || ''}
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -75,7 +79,7 @@ export default function MakePost() {
 						type="file"
 					/>
 					<label htmlFor="button-file-portada">
-						<Button color='primary' variant='contained' component='span' disableElevation>
+						<Button color='primary' disabled={loading} variant='contained' component='span' disableElevation>
 							Cargar portada
 						</Button>
 					</label>
@@ -96,9 +100,16 @@ export default function MakePost() {
 					<DropAreaGalery defaultValue={data.galery || []} />
 				</Grid>
 				<Grid container justify='flex-end' item xs={12}>
-					<Button type='submit' color='primary' variant='contained' disableElevation>
-						Crear
-					</Button>
+					<LoadingComponent 
+						loading={loading} 
+						progressLoading 
+						progress={progressUpload}
+						color="inherit"
+					>
+						<Button type='submit' color='primary' variant='contained' disableElevation>
+							Crear
+						</Button>
+					</LoadingComponent>
 				</Grid>
 			</Grid>
 		</Paper>
