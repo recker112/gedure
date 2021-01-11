@@ -22,7 +22,8 @@ class Post extends Model
 	protected $appends = [
 		'fecha_humano', 
 		'fecha_humano_modify',
-		'url_imgs'
+		'url_imgs',
+		'url_portada'
 	];
 	
 	protected $hidden = [
@@ -50,14 +51,24 @@ class Post extends Model
 	/*
 		ATRIBUTOS
 	*/
+	public function getUrlPortadaAttribute()
+	{
+		$portada = json_decode($this->attributes['portada']);
+		if($portada) {
+			$url = Storage::disk('public')->url($portada);
+		}else {
+			$url = null;
+		}
+		return $url;
+	}
 	
 	public function getUrlImgsAttribute()
 	{
-		$imgs = json_decode($this->attributes['imgs']);
-		if($imgs) {
+		$galery = json_decode($this->attributes['galery']);
+		if($galery) {
 			$urls = array();
 			$i = 0;
-			foreach($imgs as $img) {
+			foreach($galery as $img) {
 				$urls[$i] = Storage::disk('public')
 					->url($img);
 				$i++;

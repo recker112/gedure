@@ -25,9 +25,13 @@ class PostRequest extends FormRequest
 	{
 		return [
 			'title' => 'required|string|min:6|max:100',
-			'content' => 'required|string|min:20|max:50000',
-			'imgs' => 'nullable',
-			'imgs.*' => 'nullable|max:5120|mimes:png,jpeg,jpg'
+			'content' => 'required|string|min:10',
+			'only_users' => 'required|boolean',
+			'delete_portada' => 'nullable|boolean',
+			'delete_galery' => 'nullable|boolean',
+			'portada' => 'nullable|mimes:png,jpeg,jpg',
+			'galery' => 'nullable',
+			'galery.*' => 'nullable|max:5120|mimes:png,jpeg,jpg'
 		];
 	}
 }
