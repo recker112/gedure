@@ -19,7 +19,8 @@ class CreatePostsTable extends Migration
 			$table->char('title', 100);
 			$table->string('slug')->unique();
 			$table->longText('content');
-			$table->json('imgs')->nullable()->default(null);
+			$table->json('portada')->nullable()->default(null);
+			$table->json('galery')->nullable()->default(null);
 			$table->boolean('only_users')->default(0);
 			$table->timestamps();
 		});

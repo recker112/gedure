@@ -18,12 +18,13 @@ export default function DropAreaGalery({ defaultValue }) {
 	
 	useEffect(() => {
 		register('galery');
+		setValue('galery', []);
 		// eslint-disable-next-line
 	},[])
 	
 	const handleAdd = (newFiles) => {
 		newFiles = newFiles.filter((file) => !value.find((f) => f.data === file.data));
-		setValue('galery', [...value, ...newFiles])
+		setValue('galery', [...value, ...newFiles]);
 	};
 
 	const handleDelete = (deleted) => {
