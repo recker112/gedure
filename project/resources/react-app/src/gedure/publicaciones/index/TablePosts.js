@@ -13,12 +13,14 @@ import useFetch from '../../../hooks/useFetch';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TablePosts({ tableRef }) {
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
+	const dispatch = useDispatch();
 	
 	const history = useHistory();
 	
@@ -86,8 +88,12 @@ export default function TablePosts({ tableRef }) {
 					icon: () => (<Delete data-tour="delete__noticia" />),
 					tooltip: 'Eliminar',
 					onClick: (event, rowData) => {
+						const data = {
+							slug: rowData.slug,
+							title: rowData.title,
+						}
 
-						//dispatch(updateDialogs('deleteConfirmation', true, false, data));
+						dispatch(updateDialogs('deleteConfirmation', true, false, data));
 					},
 					disabled: !permissions.administrar.posts_destroy
 				},

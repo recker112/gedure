@@ -10,8 +10,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import useFetch from '../../../hooks/useFetch';
+
 // Components
 import TablePosts from './TablePosts';
+import DialogConfirmation from '../../../components/DialogConfirmation';
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -30,12 +37,37 @@ export default function PagePublicaciones() {
 	document.title = 'La Candelaria - Publicaciones';
 	const tableRef = useRef(null);
 	
+	const { data } = useSelector((state) => ({
+		data: state.dialogs.deleteConfirmation.data,
+	}));
+	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
+	
 	const history = useHistory();
 	
 	const classes = useStyles();
 	
 	const handleClick = () => {
 		history.push('/gedure/publicaciones/crear');
+	}
+	
+	const onConfirm = async handleClose => {
+		const prepare = {
+			url: `v1/posts/${data.slug}`,
+			type: 'delete',
+			message404: 'Esta noticia ya no existe',
+		};
+		
+		const response = await fetchData(prepare);
+
+		dispatch(updateDialogs('deleteConfirmation', false, true));
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
 	}
 	
 	return (
@@ -50,6 +82,9 @@ export default function PagePublicaciones() {
 					</Grid>
 					<Grid item xs={12}>
 						<TablePosts tableRef={tableRef} />
+						<DialogConfirmation callback={onConfirm}>
+							Está a punto de eliminar la noticia <strong>{data.title}</strong>. Esta acción una vez realizada no se puede deshacer.
+						</DialogConfirmation>
 					</Grid>
 				</Grid>
 			</Container>

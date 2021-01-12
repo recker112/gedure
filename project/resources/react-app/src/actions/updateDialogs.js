@@ -1,6 +1,6 @@
 const updateDialogs = (dialog, open, loading, data = null) => {
   return {
-    type: `UPDATE_DIALOG_DATA`,
+    type: `UPDATE_DIALOGS_DATA`,
     payload: {dialog, open, loading, data}
   }
 }
