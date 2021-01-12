@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
+import { Link as RouteLink } from 'react-router-dom';
+
 import { 
 	Grid, 
 	Container,
@@ -76,9 +78,9 @@ export default function PageCrearPost() {
 		// FormData
 		const formData = new FormData();
 		formData.append('title', submitData.title);
-		formData.append('content', submitData.content);
+		formData.append('content', submitData.markdown);
 		formData.append('only_users', submitData.only_users);
-		formData.append('portada', submitData.portada[0]);
+		submitData.portada[0] && formData.append('portada', submitData.portada[0]);
 		submitData.galery.forEach(img => {
 			formData.append('galery[]', img);
 		});
@@ -112,7 +114,7 @@ export default function PageCrearPost() {
 						<Box mb={3}>
 							<Grid container justify='space-between'>
 								<Tooltip title='Volver' arrow>
-									<IconButton disabled={loading} aria-label="return">
+									<IconButton disabled={loading} component={RouteLink} to='/gedure/publicaciones' aria-label="return">
 										<ArrowBackIcon />
 									</IconButton>
 								</Tooltip>

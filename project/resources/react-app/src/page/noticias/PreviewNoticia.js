@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 	colorsito: {
 		backgroundColor: theme.palette.secondary.main,
 		height: 200,
-		borderRadius: 5,
+		borderRadius: 4,
 		color: theme.palette.secondary.contrastText,
 	},
 	withImg: {
-		backgroundColor: theme.palette.secondary.main + '90',
+		backgroundColor: theme.palette.secondary.main + 'A9',
 		height: 200,
-		borderRadius: 5,
+		borderRadius: 4,
 		color: theme.palette.secondary.contrastText,
 	},
 	button: {
@@ -38,6 +38,7 @@ function PreviewNoticia(props) {
 		title,
 		slug,
 		fecha_humano,
+		url_portada,
 	} = props;
 	
 	const dispatch = useDispatch();
@@ -45,36 +46,16 @@ function PreviewNoticia(props) {
 	const classes = useStyles();
 	
 	const handleClick = () => {
-		const { 
-			id,
-			user,
-			title,
-			content,
-			fecha_humano,
-			slug,
-			url_imgs,
-			fecha_humano_modify,
-			only_users,
-		} = props;
-		
 		const prepareData = {
-			id,
-			user,
-			title,
-			content,
-			fecha_humano,
-			slug,
-			url_imgs,
-			fecha_humano_modify,
-			only_users,
+			...props
 		};
 		dispatch(updateForms('noticia', false, prepareData));
 	};
 	
 	return (
 		<Grid item xs={12} sm={6} md={4}>
-			<Paper>
-				<Grid container alignItems='space-between' className={`${classes.colorsito} paper--padding`}>
+			<Paper style={{background: url_portada ? `url(${url_portada})` : ''}}>
+				<Grid container alignItems='space-between' className={`${url_portada ? classes.withImg : classes.colorsito } paper--padding`}>
 					<Grid item xs={12}>
 						<Typography>
 							{title.length > 100 ? `${title.substring(0, 100)}...` : title}

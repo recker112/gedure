@@ -26,9 +26,9 @@ class PostRequest extends FormRequest
 		return [
 			'title' => 'required|string|min:6|max:100',
 			'content' => 'required|string|min:10',
-			'only_users' => 'required|boolean',
-			'delete_portada' => 'nullable|boolean',
-			'delete_galery' => 'nullable|boolean',
+			'only_users' => 'required|string',
+			'delete_portada' => 'nullable|string',
+			'delete_galery' => 'nullable|string',
 			'portada' => 'nullable|mimes:png,jpeg,jpg',
 			'galery' => 'nullable',
 			'galery.*' => 'nullable|max:5120|mimes:png,jpeg,jpg'

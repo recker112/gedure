@@ -60,6 +60,12 @@ export default (state = initialState, { type, payload }) => {
 				},
 			};
 		}
+		
+		case 'LOGOUT': {
+			return {
+				...initialState
+			};
+		}
 
 		default: {
 			return state;

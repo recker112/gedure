@@ -27,7 +27,8 @@ class PostController extends Controller
 			->limit($limit)
 			->where('only_users', 0)
 			->where('title', 'like', '%'.$search.'%')
-			->get();
+			->get()
+			->makeHidden(['portada', 'galery']);
 		
 		//Primer registro
 		$firstPost = Post::where('only_users', 0)
@@ -58,7 +59,8 @@ class PostController extends Controller
 			->orderBy('id', 'Desc')
 			->offset($offset)
 			->limit($limit)
-			->get();
+			->get()
+			->makeHidden(['portada', 'galery']);
 		
 		//Primer registro
 		$firstPost = Post::where('title', 'like', '%'.$search.'%')
@@ -83,7 +85,8 @@ class PostController extends Controller
 			->orderBy('id', 'Desc')
 			->where('slug', $slug)
 			->where('only_users', 0)
-			->firstOrFail();
+			->firstOrFail()
+			->makeHidden(['portada', 'galery']);
 		
 		return response()->json($post, 200);
 	}
@@ -92,7 +95,8 @@ class PostController extends Controller
 		$post = Post::with('user')
 			->orderBy('id', 'Desc')
 			->where('slug', $slug)
-			->firstOrFail();
+			->firstOrFail()
+			->makeHidden(['portada', 'galery']);
 		
 		return response()->json($post, 200);
 	}
@@ -117,7 +121,7 @@ class PostController extends Controller
 				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
 			);
 			
-			$post->portada = $path;
+			$post->portada = json_encode($path);
 		}
 		
 		//Cargar galeria
@@ -197,7 +201,7 @@ class PostController extends Controller
 				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
 			);
 			
-			$post->portada = $path;
+			$post->portada = json_encode($path);
 		}
 		
 		// Actualizar galeria
@@ -290,6 +294,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
+				->makeHidden(['portada', 'galery'])
 				->toArray();
 			
 			//Total de logs
@@ -316,6 +321,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
+				->makeHidden(['portada', 'galery'])
 				->toArray();
 			
 			//Total de logs
