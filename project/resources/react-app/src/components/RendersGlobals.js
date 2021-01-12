@@ -11,11 +11,27 @@ import {
 	Select,
 	Switch,
 	FormControlLabel,
+	Table,
+	TableCell,
+	TableRow,
+	TableBody,
+	TableHead,
+	Typography,
+	TableContainer,
+	Paper,
+	Link,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { Controller } from 'react-hook-form';
+
+const useStyles = makeStyles((theme) => ({
+	separer: {
+		marginBottom: theme.spacing(2)
+	},
+}));
 
 export function RenderSwitchFormHook(props) {
 	const { name, defaultValue, control, label, ...rest } = props;
@@ -102,3 +118,84 @@ export function RenderInputPassword(props) {
 		/>
 	);
 }
+
+function MarkdownTable(props) {
+	const classes = useStyles();
+	
+	return (
+		<TableContainer component={Paper} className={classes.separer}>
+			<Table size="small" aria-label="a dense table">{props.children}</Table>
+		</TableContainer>
+	);
+}
+
+function MarkdownTableCell(props) {
+    return <TableCell>{props.children}</TableCell>
+}
+
+function MarkdownTableRow(props) {
+    return <TableRow>{props.children}</TableRow>
+}
+
+function MarkdownTableBody(props) {
+    return <TableBody>{props.children}</TableBody>
+}
+
+function MarkdownTableHead(props) {
+    return <TableHead>{props.children}</TableHead>
+}
+
+const MarkdownListItem = ({ ...props }) => {
+	return (
+		<li>
+			<Typography component="span">{props.children}</Typography>
+		</li>
+	);
+};
+
+function MarkdownParagraph(props) {
+	const classes = useStyles();
+	
+	return <Typography className={classes.separer}>{props.children}</Typography>
+}
+
+const MarkdownHeading = ({ ...props }) => {
+	let variant;
+	switch (props.level) {
+		case 1:
+				variant = "h5";
+				break;
+		case 2:
+				variant = "h6";
+				break;
+		case 3:
+				variant = "subtitle1";
+				break;
+		case 4:
+				variant = "subtitle2";
+				break;
+		default:
+				variant = "h6";
+				break;
+	}
+	return (
+		<Typography
+			gutterBottom
+			variant={variant}
+		>
+			{props.children}
+		</Typography>
+	);
+}
+
+export const renderersMarkdown = {
+	heading: MarkdownHeading,
+	link: Link,
+	paragraph: MarkdownParagraph,
+	table: MarkdownTable,
+	tableHead: MarkdownTableHead,
+	tableBody: MarkdownTableBody,
+	tableRow: MarkdownTableRow,
+	tableCell: MarkdownTableCell,
+	listItem: MarkdownListItem,
+};

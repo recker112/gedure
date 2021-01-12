@@ -33,7 +33,6 @@ class PostControllerTest extends TestCase
 				'data' => [
 					'*' => [
 						'title',
-						'portada',
 						'slug',
 						'user',
 						'fecha_humano',
@@ -63,7 +62,6 @@ class PostControllerTest extends TestCase
 				'data' => [
 					'*' => [
 						'title',
-						'portada',
 						'user',
 						'slug',
 						'fecha_humano',

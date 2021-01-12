@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { 
 	Container, 
@@ -8,17 +8,24 @@ import {
 	Grid,
 	CircularProgress,
 	Divider,
+	IconButton,
+	Box,
+	Tooltip,
+	Menu,
+	MenuItem,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import useFetch from '../../hooks/useFetch';
 
-import { LazyImage } from 'react-lazy-images';
-
 // Components
 import Footer from '../../components/Footer';
-import VisorImgReact from '../../components/VisorImgReact';
+import RenderGalery from './RenderGalery';
+import { renderersMarkdown } from '../../components/RendersGlobals';
+import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -38,92 +45,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	divider: {
 		margin: `${theme.spacing(3)}px 0`
-	}
+	},
+	portada: {
+		marginBottom: theme.spacing(2),
+		objectFit: 'cover',
+	},
+	separer: {
+		marginBottom: theme.spacing(2)
+	},
 }));
-
-function RenderImgs({ imgs }) {
-	const [openView, setOpenView] = useState(false);
-	const [currentImg, setCurrentImg] = useState(0);
-	
-	const closeView = () =>{
-		//Reset bar
-		document.body.style.overflow = "auto";
-		
-		setCurrentImg(0);
-		setOpenView(false);
-	}
-	
-	const lastImg = 6;
-	const restante = imgs.length - lastImg;
-	const imagenes = imgs.map((img, i) => {
-		if (i === lastImg) {
-			return (
-				<Grid container justify='center' item xs={6} sm={4} md={3} key={i}>
-					<span 
-						key={i} 
-						className="imagePreview__More"
-						onClick={()=>{
-							setOpenView(true);
-							setCurrentImg(lastImg);
-						}}
-					>
-						+{restante}
-					</span>
-				</Grid>
-			);
-		} else if (i < lastImg) {
-			return (
-				<Grid container justify='center' item xs={6} sm={4} md={3} key={i}>
-					<LazyImage
-						alt={`imagen${i + 1}`}
-						src={img}
-						className="imagePreview"
-						width={110}
-						height={100}
-						placeholder={({ imageProps, ref }) => (
-							<Skeleton ref={ref} key={i} variant="rect" {...imageProps} />
-						)}
-						actual={({ imageProps }) => 
-							<img 
-								key={i}
-								alt={`imagen${i + 1}`}
-								{...imageProps} 
-								onClick={()=>{
-									setOpenView(true);
-									setCurrentImg(i);
-								}}
-							/>}
-						error={() => (
-							<div style={{ 
-									width: '110px', 
-									height: '100px', 
-									background: 'rgb(252, 72, 80)'
-								}}>
-								<p>Error al obtener imagen</p>
-							</div>
-						)}
-					/>
-				</Grid>
-			);
-		}
-		
-		return null;
-	});
-	
-	return (
-		<Grid container justify='center' spacing={2} item xs={12}>
-			{imagenes}
-			{openView && (
-				<VisorImgReact
-					src={imgs}
-					onClose={closeView}
-					currentImg={currentImg}
-					setCurrentImg={setCurrentImg}
-				/>
-			)}
-		</Grid>
-	);
-}
 
 function Noticia(props) {
 	const {
@@ -132,6 +62,7 @@ function Noticia(props) {
 		fecha_humano,
 		user,
 		url_imgs,
+		url_portada,
 		only_users,
 		created_at,
 		updated_at,
@@ -161,15 +92,14 @@ function Noticia(props) {
 		);
 	}
 	
-	const NoticiaContent = () => {
-		function createMarkup() {
-			return { __html: content};
-		}
-		
-		return (
-			<Typography dangerouslySetInnerHTML={createMarkup()} align="justify" />
-		);
-	}
+	const NoticiaContent = () => (
+		<React.Fragment>
+			{url_portada ? (
+				<img className={classes.portada} src={url_portada} alt='portada de la publicaciรณn' width='100%' height={250} />
+			) : null}
+			<ReactMarkdown plugins={[gfm]} children={content} renderers={renderersMarkdown} />
+		</React.Fragment>
+	)
 	
 	return (
 		<React.Fragment>
@@ -182,7 +112,7 @@ function Noticia(props) {
 					</Grid>
 				</Grid>
 				{url_imgs?.length && (
-					<RenderImgs imgs={['plas.png']} />
+					<RenderGalery imgs={url_imgs} />
 				)}
 				{auth && userRedux.privilegio && (
 					<Grid item xs={12}>
@@ -196,17 +126,70 @@ function Noticia(props) {
 	);
 }
 
+function Options() {
+	const [anchorEl, setAnchorEl] = useState(null);
+	
+	const { userRedux, permissions, user, auth } = useSelector((state) => ({
+		userRedux: state.userData.user,
+		permissions: state.userData.permissions,
+		user: state.forms.noticia.data.user,
+		auth: state.userData.auth,
+	}));
+	
+	const handleOpen = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	
+	const handleClose = (event) => {
+		setAnchorEl(null);
+	};
+	
+	if ((auth && userRedux.privilegio === 'A-') && (user?.id === userRedux.id || permissions.administrar.posts_others)) {
+		const renderMenu = permissions.administrar.posts_edit || permissions.administrar.posts_destroy;
+		
+		return (
+			<React.Fragment>
+				<Tooltip title='Opciones' arrow>
+					<IconButton onClick={handleOpen} aria-label="opciones">
+						<MoreVertIcon />
+					</IconButton>
+				</Tooltip>
+				{renderMenu && (
+					<Menu
+						id="menu-options"
+						anchorEl={anchorEl}
+						keepMounted
+						open={Boolean(anchorEl)}
+						onClose={handleClose} 
+					>
+						{permissions.administrar.posts_edit && (
+							<MenuItem>Editar</MenuItem>
+						)}
+						{permissions.administrar.posts_destroy && (
+							<MenuItem>Eliminar</MenuItem>
+						)}
+					</Menu>
+				)}
+			</React.Fragment>
+		)
+	}
+	
+	return <div></div>;
+}
+
 function PageShowNews() {
 	let { slug } = useParams();
 	let cancelAxios = window.axios.CancelToken.source();
 	
-	const { auth, loading,  data } = useSelector((state) => ({
+	const { auth, loading, data } = useSelector((state) => ({
 		auth: state.userData.auth,
 		loading: state.forms.noticia.loading,
 		data: state.forms.noticia.data,
 	}));
 	const dispatch = useDispatch();
 	document.title = data.title ? `La Candelaria - ${data.title}` : `La Candelaria`;
+	
+	const history = useHistory();
 	
 	const { fetchData } = useFetch();
 	
@@ -248,9 +231,29 @@ function PageShowNews() {
 		// eslint-disable-next-line
 	}, [loading]);
 	
+	const handleReturn = () => {
+		if (history.length > 2) {
+			history.goBack();
+		}else {
+			history.push('/noticias');
+		}
+	}
+	
 	return (
 		<React.Fragment>
 			<main className={classes.containerMain}>
+				<Container>
+					<Box mb={3}>
+						<Grid container justify='space-between'>
+							<Tooltip title='Volver' arrow>
+								<IconButton onClick={handleReturn} aria-label="return">
+									<ArrowBackIcon />
+								</IconButton>
+							</Tooltip>
+							<Options />
+						</Grid>
+					</Box>
+				</Container>
 				{data?.slug && (
 					<Noticia {...data} />
 				)}
