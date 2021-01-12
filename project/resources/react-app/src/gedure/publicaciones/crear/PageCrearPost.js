@@ -76,13 +76,14 @@ export default function PageCrearPost() {
 		dispatch(updateForms('crearPost', true, {}));
 		
 		// FormData
+		console.log(submitData);
 		const formData = new FormData();
 		formData.append('title', submitData.title);
 		formData.append('content', submitData.markdown);
 		formData.append('only_users', submitData.only_users);
 		submitData.portada[0] && formData.append('portada', submitData.portada[0]);
 		submitData.galery.forEach(img => {
-			formData.append('galery[]', img);
+			formData.append('galery[]', img.file);
 		});
 		
 		const prepare = {

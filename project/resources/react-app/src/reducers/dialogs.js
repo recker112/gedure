@@ -15,12 +15,17 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	deleteConfirmation: {
+		open: false,
+		loading: false,
+		data: {},
+	}
 };
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'UPDATE_DIALOG_DATA': {
-			const { dialog, open, loading, data, status } = payload;
+		case 'UPDATE_DIALOGS_DATA': {
+			const { dialog, open, loading, data } = payload;
 			
 			let dataSave;
 
@@ -36,7 +41,6 @@ export default (state = initialState, { type, payload }) => {
 					...state[dialog],
 					open,
 					loading,
-					status,
 					data: dataSave,
 				},
 			};

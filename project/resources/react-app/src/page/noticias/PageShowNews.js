@@ -23,6 +23,7 @@ import useFetch from '../../hooks/useFetch';
 // Components
 import Footer from '../../components/Footer';
 import RenderGalery from './RenderGalery';
+import DialogConfirmation from '../../components/DialogConfirmation';
 import { renderersMarkdown } from '../../components/RendersGlobals';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
@@ -30,6 +31,7 @@ import gfm from 'remark-gfm';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../actions/updateForms';
+import updateDialogs from '../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -129,12 +131,17 @@ function Noticia(props) {
 function Options() {
 	const [anchorEl, setAnchorEl] = useState(null);
 	
-	const { userRedux, permissions, user, auth } = useSelector((state) => ({
+	const { userRedux, permissions, user, slug, title, auth } = useSelector((state) => ({
 		userRedux: state.userData.user,
 		permissions: state.userData.permissions,
 		user: state.forms.noticia.data.user,
+		slug: state.forms.noticia.data.slug,
+		title: state.forms.noticia.data.title,
 		auth: state.userData.auth,
 	}));
+	const dispatch = useDispatch();
+		
+	const { fetchData } = useFetch();
 	
 	const handleOpen = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -146,6 +153,29 @@ function Options() {
 	
 	if ((auth && userRedux.privilegio === 'A-') && (user?.id === userRedux.id || permissions.administrar.posts_others)) {
 		const renderMenu = permissions.administrar.posts_edit || permissions.administrar.posts_destroy;
+		
+		const handleConfirm = () => {
+			dispatch(updateDialogs('deleteConfirmation', true, false));
+			handleClose();
+		}
+		
+		const onConfirm = async close => {
+			const prepare = {
+				url: `v1/posts/${slug}`,
+				type: 'delete',
+				message404: 'Esta noticia ya no existe',
+			};
+
+			const response = await fetchData(prepare);
+			
+			if (response) {
+				dispatch(updateForms('noticia', true, {}));
+			}
+
+			dispatch(updateDialogs('deleteConfirmation', false, true));
+
+			close();
+		}
 		
 		return (
 			<React.Fragment>
@@ -166,10 +196,13 @@ function Options() {
 							<MenuItem>Editar</MenuItem>
 						)}
 						{permissions.administrar.posts_destroy && (
-							<MenuItem>Eliminar</MenuItem>
+							<MenuItem onClick={handleConfirm}>Eliminar</MenuItem>
 						)}
 					</Menu>
 				)}
+				<DialogConfirmation callback={onConfirm}>
+					Está a punto de eliminar la noticia <strong>{title}</strong>. Esta acción una vez realizada no se puede deshacer.
+				</DialogConfirmation>
 			</React.Fragment>
 		)
 	}
