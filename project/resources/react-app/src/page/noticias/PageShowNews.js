@@ -36,8 +36,7 @@ import updateDialogs from '../../actions/updateDialogs';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		minHeight: 500,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(5),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
