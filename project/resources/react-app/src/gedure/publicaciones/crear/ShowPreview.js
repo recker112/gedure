@@ -39,7 +39,7 @@ export default function ShowPreview() {
 				{data.title}
 			</Typography>
 			<Typography className='text__bold--big text__opacity--semi' variant='h6'>
-				Fecha de publicaciรณn
+				Fecha de publicación
 				<Typography className='text__bold--big' variant='h6' component='span' color='primary'> - {user.name}</Typography>
 			</Typography>
 		</Container>

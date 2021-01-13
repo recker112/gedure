@@ -29,7 +29,7 @@ import updateForms from '../../../actions/updateForms';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(5),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
@@ -59,7 +59,6 @@ export default function PageCrearPost() {
 	
 	const handlePreview = submitData => {
 		if (Object.keys(submitData).length > 1) {
-			console.log(submitData);
 			dispatch(updateForms('crearPost', false, submitData));
 		}
 		setPreview(!preview);

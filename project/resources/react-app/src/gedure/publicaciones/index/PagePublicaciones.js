@@ -23,7 +23,7 @@ import updateDialogs from '../../../actions/updateDialogs';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(5),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
@@ -83,7 +83,7 @@ export default function PagePublicaciones() {
 					<Grid item xs={12}>
 						<TablePosts tableRef={tableRef} />
 						<DialogConfirmation callback={onConfirm}>
-							Está a punto de eliminar la noticia <strong>{data.title}</strong>. Esta acción una vez realizada no se puede deshacer.
+							Estáก a punto de eliminar la noticia <strong>{data.title}</strong>. Esta acción una vez realizada no se puede deshacer.
 						</DialogConfirmation>
 					</Grid>
 				</Grid>

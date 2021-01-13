@@ -91,13 +91,14 @@ export default function MakePost({ progressUpload }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={data.only_users || false}
+						disabled={loading}
 						name='only_users'
 						label='Disponible solo para usuarios'
 						color='secondary'
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<DropAreaGalery defaultValue={data.galery || []} />
+					<DropAreaGalery label='Galería de imágenes, arrastre o de click para cargar imágenes' defaultValue={data.galery || []} />
 				</Grid>
 				<Grid container justify='flex-end' item xs={12}>
 					<LoadingComponent 
