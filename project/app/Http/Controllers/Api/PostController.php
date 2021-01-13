@@ -294,7 +294,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery'])
+				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano', 'fecha_humano_modify', 'updated_at'])
 				->toArray();
 			
 			//Total de logs
@@ -321,7 +321,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery'])
+				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano', 'fecha_humano_modify', 'updated_at'])
 				->toArray();
 			
 			//Total de logs

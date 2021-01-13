@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 
 import { useFormContext, useWatch } from "react-hook-form";
 
-export default function DropAreaGalery({ defaultValue }) {
+export default function DropAreaGalery({ defaultValue, label }) {
 	const { register, control, setValue } = useFormContext();
 	const value = useWatch({
     control,
@@ -54,7 +54,7 @@ export default function DropAreaGalery({ defaultValue }) {
 					variant: variant,
 				});
 			}}
-			dropzoneText="Galería de imágenes, arrastre o de click para cargar imágenes"
+			dropzoneText={label}
 		/>
 	);
 }

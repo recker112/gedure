@@ -397,11 +397,8 @@ class PostControllerTest extends TestCase
 				'data' => [
 					'*' => [
 						'title',
-						'user',
 						'slug',
-						'fecha_humano',
-						'fecha_humano_modify',
-						'url_imgs'
+						'id'
 					]
 				],
 				'page',

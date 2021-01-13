@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		marginBottom: theme.spacing(10),
+		marginBottom: theme.spacing(5),
 	},
 	header: {
 		background: theme.palette.primary.main,

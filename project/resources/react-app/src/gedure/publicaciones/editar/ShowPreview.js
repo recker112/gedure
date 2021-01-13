@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ShowPreview() {
 	const { data, user } = useSelector((state) => ({
-		data: state.forms.crearPost.data,
+		data: state.forms.editPost.data,
 		user: state.userData.user,
 	}));
 	

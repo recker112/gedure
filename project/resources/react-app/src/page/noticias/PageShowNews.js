@@ -139,6 +139,8 @@ function Options() {
 		auth: state.userData.auth,
 	}));
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 		
 	const { fetchData } = useFetch();
 	
@@ -152,6 +154,10 @@ function Options() {
 	
 	if ((auth && userRedux.privilegio === 'A-') && (user?.id === userRedux.id || permissions.administrar.posts_others)) {
 		const renderMenu = permissions.administrar.posts_edit || permissions.administrar.posts_destroy;
+		
+		const handleEdit = () => {
+			history.push('gedure/publicaciones/edit/'+slug);
+		}
 		
 		const handleConfirm = () => {
 			dispatch(updateDialogs('deleteConfirmation', true, false));
@@ -192,7 +198,7 @@ function Options() {
 						onClose={handleClose} 
 					>
 						{permissions.administrar.posts_edit && (
-							<MenuItem>Editar</MenuItem>
+							<MenuItem onClick={handleEdit}>Editar</MenuItem>
 						)}
 						{permissions.administrar.posts_destroy && (
 							<MenuItem onClick={handleConfirm}>Eliminar</MenuItem>

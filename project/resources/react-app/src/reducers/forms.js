@@ -34,13 +34,17 @@ const initialState = {
 	crearPost: {
 		loading: false,
 		data: {},
+	},
+	editPost: {
+		loading: false,
+		data: {},
 	}
 };
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_FORM_DATA': {
-			const { form, loading, data, status } = payload;
+			const { form, loading, data } = payload;
 			
 			let dataSave;
 
@@ -55,7 +59,6 @@ export default (state = initialState, { type, payload }) => {
 				[form]: {
 					...state[form],
 					loading,
-					status,
 					data: dataSave,
 				},
 			};

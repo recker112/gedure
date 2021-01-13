@@ -26,7 +26,7 @@ import updateForms from '../../actions/updateForms';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(5),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
@@ -95,7 +95,7 @@ export default function PageRegistros() {
 											>
 												<MenuItem value='all'><em>Todos</em></MenuItem>
 												<MenuItem value='gedure'>Gedure</MenuItem>
-												<MenuItem value='session'>Sesiรณn</MenuItem>
+												<MenuItem value='session'>Sesión</MenuItem>
 												<MenuItem value='user'>Usuario</MenuItem>
 											</Select>
 										</FormControl>

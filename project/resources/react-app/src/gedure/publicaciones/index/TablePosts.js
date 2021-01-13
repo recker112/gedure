@@ -79,8 +79,7 @@ export default function TablePosts({ tableRef }) {
 					icon: () => (<Edit data-tour="edit__noticia" />),
 					tooltip: 'Editar',
 					onClick: (event, rowData) => {
-						
-						//dispatch(updateDialogs('editNoticia', true, false, data));
+						history.push('/gedure/publicaciones/editar/' + rowData.slug);
 					},
 					disabled: !permissions.administrar.posts_edit
 				},

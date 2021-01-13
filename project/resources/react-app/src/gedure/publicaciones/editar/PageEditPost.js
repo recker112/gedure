@@ -1,13 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
-import { Link as RouteLink } from 'react-router-dom';
+import { useParams, Link as RouteLink } from 'react-router-dom';
 
 import { 
-	Grid, 
 	Container,
 	Box,
-	IconButton,
+	Grid,
 	Tooltip,
+	IconButton,
+	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -19,8 +20,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import MakePost from './MakePost';
 import ShowPreview from './ShowPreview';
+import MakePost from './MakePost';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,27 +40,63 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function PageCrearPost() {
-	document.title = 'La Candelaria - Crear publicaciones';
+export default function PageEditPost() {
+	const { slug } = useParams();
 	const [preview, setPreview] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [request, setRequest] = useState(true);
+	document.title = 'La Candelaria - Editar noticia';
 	
-	const { loading } = useSelector((state) => ({
-		loading: state.forms.crearPost.loading,
+	const { loading, data } = useSelector((state) => ({
+		loading: state.forms.editPost.loading,
+		data: state.forms.editPost.data,
 	}));
 	const dispatch = useDispatch();
 	
-	const { fetchData } = useFetch();
-	
 	const classes = useStyles();
+	
+	const { fetchData } = useFetch();
 	
 	const methods = useForm({
 		mode: 'onTouched',
 	});
 	
+	useEffect(()=>{
+		const requestPost = async () => {
+			const prepare = {
+				url: `v1/posts/auth/${slug}`,
+				type: 'get',
+				messageToFinish: false,
+				messageTo404: false,
+			};
+			
+			const response = await fetchData(prepare);
+
+			if (response) {
+				response.markdown = response.content;
+				delete response.content;
+				dispatch(updateForms('editPost', false, response));
+			}
+			
+			setRequest(false);
+		}
+		
+		requestPost();
+		
+		return () => {
+			dispatch(updateForms('editPost', false, {}));
+		}
+		// eslint-disable-next-line
+	},[]);
+	
 	const handlePreview = submitData => {
 		if (Object.keys(submitData).length > 1) {
-			dispatch(updateForms('crearPost', false, submitData));
+			// Fix change
+			submitData.slug = data.slug;
+			submitData.url_imgs = data.url_imgs;
+			submitData.url_portada = data.url_portada;
+			
+			dispatch(updateForms('editPost', false, submitData));
 		}
 		setPreview(!preview);
 	}
@@ -71,42 +108,11 @@ export default function PageCrearPost() {
 		// eslint-disable-next-line
 	}, []);
 	
-	const onSubmit = async submitData => {
-		dispatch(updateForms('crearPost', true, {}));
-		
-		// FormData
-		console.log(submitData);
-		const formData = new FormData();
-		formData.append('title', submitData.title);
-		formData.append('content', submitData.markdown);
-		formData.append('only_users', submitData.only_users);
-		submitData.portada[0] && formData.append('portada', submitData.portada[0]);
-		submitData.galery.forEach(img => {
-			formData.append('galery[]', img.file);
-		});
-		
-		const prepare = {
-			url: `v1/posts`,
-			type: 'post',
-			data: formData,
-			otherData: {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				},
-				onUploadProgress: onUploadProgress,
-			},
-		};
-		
-		const response = await fetchData(prepare);
-
-		if (response) {
-			setProgress(0);
-		}
-		
-		dispatch(updateForms('crearPost', false, {}));
+	const onSubmit = submitData => {
+		// Request del modify
 	}
 	
-	return(
+	return (
 		<main className={classes.containerMain}>
 			<FormProvider {...methods}>
 				<form onSubmit={methods.handleSubmit(onSubmit)} autoComplete='off'>
@@ -125,8 +131,18 @@ export default function PageCrearPost() {
 								</Tooltip>
 							</Grid>
 						</Box>
-						{!preview && (
+						{(!preview && data.slug) && (
 							<MakePost progressUpload={progress} />
+						)}
+						{request && (
+							<Box align='center'>
+								<CircularProgress />
+							</Box>
+						)}
+						{(!request && !data.slug) && (
+							<Box align='center' fontSize='body1.fontSize'>
+								La noticia no existe.
+							</Box>
 						)}
 					</Container>
 				</form>
@@ -135,5 +151,5 @@ export default function PageCrearPost() {
 				<ShowPreview />
 			)}
 		</main>
-	)
+	);
 }
