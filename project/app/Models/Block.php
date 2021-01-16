@@ -43,7 +43,7 @@ class Block extends Model
 
 	// NOTA (RECKER): Nivel máximo.
 	/* Esta variable controla la cantidad de niveles que se pueden obtener en el 
-		 sistema de bloqueos, esta variable va de la mano con $minutesOfBlock */
+		 sistema de bloqueos, esta variable va de la mano con $minutesOfBlock. (2 = 3) */
 	public static $maxNivel = 2;
 	
 	public static function getStatus($username) {

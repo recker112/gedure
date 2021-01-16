@@ -14,11 +14,6 @@ class Post extends Model
 {
   use HasFactory, Sluggable;
 	
-	protected $casts = [
-		'created_at' => 'date: Y-d-m h:i A',
-		'updated_at' => 'date: Y-d-m h:i A',
-	];
-	
 	protected $appends = [
 		'fecha_humano', 
 		'fecha_humano_modify',
@@ -79,15 +74,32 @@ class Post extends Model
 		return $urls;
 	}
 	
+	/*
+	TIMEZONES
+	*/
+	public function getCreatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
+	}
+	
+	public function getUpdatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
+	}
+	
 	public function getFechaHumanoAttribute()
 	{
-		$dateNow = now();
-		$dateCreate = Carbon::parse($this->attributes['created_at']);
+		$dateNow = now()
+			->timezone(config('app.timezone_parse'));
+		$date_created = Carbon::parse($this->attributes['created_at'])
+			->timezone(config('app.timezone_parse'));
 		
-		if ($dateCreate->diffInDays($dateNow) <= 3) {
-			$show = $dateCreate->diffForHumans();
+		if ($date_created->diffInDays($dateNow) <= 3) {
+			$show = 'el '.$date_created->diffForHumans();
 		}else {
-			$show = 'el '.$dateCreate->format('Y-d-m h:i A');
+			$show = 'el '.$date_created->format('Y-d-m h:i A');
 		}
 		
 		return $show;
@@ -96,12 +108,12 @@ class Post extends Model
 	public function getFechaHumanoModifyAttribute()
 	{
 		$dateNow = now();
-		$dateCreate = Carbon::parse($this->attributes['updated_at']);
+		$date_updated = Carbon::parse($this->attributes['updated_at']);
 		
-		if ($dateCreate->diffInDays($dateNow) <= 3) {
-			$show = $dateCreate->diffForHumans();
+		if ($date_updated->diffInDays($dateNow) <= 3) {
+			$show = $date_updated->diffForHumans();
 		}else {
-			$show = 'el '.$dateCreate->format('Y-d-m h:i A');
+			$show = 'el '.$date_updated->format('Y-d-m h:i A');
 		}
 		
 		return $show;

@@ -9,7 +9,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@mdi/js": "^5.8.55",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "google-maps-react": "^2.0.6",
     "material-table": "^1.69.2",

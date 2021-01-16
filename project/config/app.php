@@ -67,7 +67,13 @@ return [
     |
     */
 
-    'timezone' => 'America/Caracas',
+    'timezone' => 'UTC',
+		/* TIMEZONE PARSE
+		Debido a que el sistema se maneja usando la hora UTC, se
+		agrega este parámetro para controlar todos los parses de
+		fechas dentro del sistema.
+		*/
+		'timezone_parse' => 'America/Caracas',
 
     /*
     |--------------------------------------------------------------------------
