@@ -189,6 +189,7 @@ class PostController extends Controller
 		if ($delete_galery) {
 			// Clear old files
 			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
+			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
 			Storage::disk('public')->delete($filesDelete);
 			$post->galery = null;
 		}
@@ -196,11 +197,10 @@ class PostController extends Controller
 		// Actualizar portada
 		if (!empty($portada) && !$delete_portada) {
 			// Clear files
-			Storage::disk('public')->delete($post->portada);
+			Storage::disk('public')->delete(json_decode($post->portada));
 			$path = $portada->storeAs(
 				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
 			);
-			
 			$post->portada = json_encode($path);
 		}
 		
@@ -211,7 +211,7 @@ class PostController extends Controller
 			
 			// Clear old files excluding portada
 			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
-			$filesDelete = array_diff($filesDelete, [$post->portada]);
+			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
 			Storage::disk('public')->delete($filesDelete);
 			foreach($galery as $file) {
 				// Mover archivo
@@ -294,7 +294,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano', 'fecha_humano_modify', 'updated_at'])
+				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano_modify', 'updated_at'])
 				->toArray();
 			
 			//Total de logs
@@ -321,7 +321,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano', 'fecha_humano_modify', 'updated_at'])
+				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano_modify', 'updated_at'])
 				->toArray();
 			
 			//Total de logs

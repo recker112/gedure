@@ -61,6 +61,7 @@ function Noticia(props) {
 		title,
 		content,
 		fecha_humano,
+		fecha_humano_modify,
 		user,
 		url_imgs,
 		url_portada,
@@ -86,7 +87,7 @@ function Noticia(props) {
 					Publicado {fecha_humano}
 					<Typography className='text__bold--big' variant='h6' component='span' color='primary'> - {user.name}</Typography>
 					{created_at !== updated_at && (
-						<Typography className='text__opacity--semi' variant='h6' component='span'> (Editado el {updated_at})</Typography>
+						<Typography className='text__opacity--semi' variant='h6' component='span'> (Editado {fecha_humano_modify})</Typography>
 					)}
 				</Typography>
 			</Container>
@@ -156,7 +157,7 @@ function Options() {
 		const renderMenu = permissions.administrar.posts_edit || permissions.administrar.posts_destroy;
 		
 		const handleEdit = () => {
-			history.push('gedure/publicaciones/edit/'+slug);
+			history.push('/gedure/publicaciones/editar/'+slug);
 		}
 		
 		const handleConfirm = () => {
@@ -268,6 +269,13 @@ function PageShowNews() {
 		
 		// eslint-disable-next-line
 	}, [loading]);
+	
+	useEffect(()=>{
+		return () => {
+			dispatch(updateForms('noticia', true, {}));
+		}
+		// eslint-disable-next-line
+	},[])
 	
 	const handleReturn = () => {
 		if (history.length > 2) {

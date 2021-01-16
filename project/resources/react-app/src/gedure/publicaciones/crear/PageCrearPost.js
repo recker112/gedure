@@ -75,7 +75,6 @@ export default function PageCrearPost() {
 		dispatch(updateForms('crearPost', true, {}));
 		
 		// FormData
-		console.log(submitData);
 		const formData = new FormData();
 		formData.append('title', submitData.title);
 		formData.append('content', submitData.markdown);

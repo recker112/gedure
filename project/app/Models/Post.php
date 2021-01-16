@@ -81,11 +81,29 @@ class Post extends Model
 	
 	public function getFechaHumanoAttribute()
 	{
-		return Carbon::parse($this->attributes['created_at'])->diffForHumans();
+		$dateNow = now();
+		$dateCreate = Carbon::parse($this->attributes['created_at']);
+		
+		if ($dateCreate->diffInDays($dateNow) <= 3) {
+			$show = $dateCreate->diffForHumans();
+		}else {
+			$show = 'el '.$dateCreate->format('Y-d-m h:i A');
+		}
+		
+		return $show;
 	}
 	
 	public function getFechaHumanoModifyAttribute()
 	{
-		return Carbon::parse($this->attributes['updated_at'])->diffForHumans();
+		$dateNow = now();
+		$dateCreate = Carbon::parse($this->attributes['updated_at']);
+		
+		if ($dateCreate->diffInDays($dateNow) <= 3) {
+			$show = $dateCreate->diffForHumans();
+		}else {
+			$show = 'el '.$dateCreate->format('Y-d-m h:i A');
+		}
+		
+		return $show;
 	}
 }

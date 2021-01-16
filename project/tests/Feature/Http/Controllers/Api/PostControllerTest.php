@@ -149,7 +149,7 @@ class PostControllerTest extends TestCase
 	
 	public function testCreatePost()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']
