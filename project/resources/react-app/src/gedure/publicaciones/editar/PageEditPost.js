@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { useParams, Link as RouteLink } from 'react-router-dom';
+import { useParams, useHistory, Link as RouteLink } from 'react-router-dom';
 
 import { 
 	Container,
@@ -52,6 +52,8 @@ export default function PageEditPost() {
 		data: state.forms.editPost.data,
 	}));
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const classes = useStyles();
 	
@@ -108,8 +110,41 @@ export default function PageEditPost() {
 		// eslint-disable-next-line
 	}, []);
 	
-	const onSubmit = submitData => {
-		// Request del modify
+	const onSubmit = async submitData => {
+		dispatch(updateForms('editPost', true));
+		
+		// FormData
+		const formData = new FormData();
+		formData.append('title', submitData.title);
+		formData.append('content', submitData.markdown);
+		formData.append('only_users', submitData.only_users);
+		formData.append('delete_portada', submitData.delete_portada);
+		formData.append('delete_galery', submitData.delete_galery);
+		formData.append('_method', 'PUT');
+		submitData.portada?.[0] && formData.append('portada', submitData.portada[0]);
+		submitData.galery.forEach(img => {
+			formData.append('galery[]', img.file);
+		});
+		
+		const prepare = {
+			url: `v1/posts/${slug}`,
+			type: 'post',
+			data: formData,
+			otherData: {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				},
+				onUploadProgress: onUploadProgress,
+			},
+		};
+		
+		const response = await fetchData(prepare);
+
+		if (response) {
+			history.goBack();
+		}
+		
+		dispatch(updateForms('editPost', false));
 	}
 	
 	return (
