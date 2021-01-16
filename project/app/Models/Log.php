@@ -23,10 +23,6 @@ class Log extends Model
 		'id', 'user_id',
 	];
 	
-	protected $casts = [
-		'created_at' => 'date: Y-d-m h:i A',
-	];
-	
 	protected $appends = [
 		'username',
 		'name',
@@ -51,8 +47,19 @@ class Log extends Model
 		return $this->user->name;
 	}
 	
+	/*
+	TIMEZONES
+	*/
+	public function getCreatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
+	}
+	
 	public function getDateFormatAttribute()
 	{
-		return Carbon::parse($this->attributes['created_at'])->toDateTimeString();
+		return Carbon::parse($this->attributes['created_at'])
+			->timezone(config('app.timezone_parse'))
+			->toDateTimeString();
 	}
 }
