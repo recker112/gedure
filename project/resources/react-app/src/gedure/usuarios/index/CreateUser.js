@@ -46,7 +46,6 @@ export default function CreateUser({ tableRef }) {
 	}
 	
 	const onSubmit = async (submitData) => {
-		console.log(submitData);
 		dispatch(updateDialogs('crearUser', true, true));
 		
 		let url;
@@ -62,7 +61,7 @@ export default function CreateUser({ tableRef }) {
 			type: 'post',
 			data: submitData,
 			message404Server: true,
-			successText: 'Cuenta creada'
+			successText: 'Usuario creado'
 		};
 
 		const response = await fetchData(prepare);
