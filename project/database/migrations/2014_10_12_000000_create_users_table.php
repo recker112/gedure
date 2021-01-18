@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
 			$table->string("email")->unique()->nullable()->default(null);
 			$table->timestamps();
 			$table->softDeletes();
-			$table->timestamp('registred_at')->nullable()->default(null);
+			$table->timestamp('actived_at')->nullable()->default(null);
 		});
 	}
 

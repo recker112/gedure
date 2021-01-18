@@ -52,7 +52,7 @@ function Aside() {
 						
 						<Grid item xs={12}>
 							<Typography align='center' className='text__bold--big text__opacity--semi' variant='h6'>
-								Al iniciar sesión usted podrá:
+								Al iniciar sesión usted podrรก:
 								<br/>
 								* Ver noticias privadas
 								<br/>

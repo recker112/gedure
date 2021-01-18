@@ -19,6 +19,7 @@ import { tableIcons, tableLocation } from '../../../components/TableConfig';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
+import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	avatar: {
@@ -114,8 +115,8 @@ export default function TableUsers({ tableRef, filters }) {
 					field: 'registred_at',
 					render: (rowData) => (
 						<Chip 
-							color={rowData.registred_at ? 'primary':'default'}
-							label={rowData.registred_at ? 'Activo':'Inactivo'}
+							color={rowData.actived_at ? 'primary':'default'}
+							label={rowData.actived_at ? 'Activo':'Inactivo'}
 						/>
 					),
 				},
@@ -132,13 +133,12 @@ export default function TableUsers({ tableRef, filters }) {
 					icon: () => (<Delete />),
 					tooltip: 'Desactivar',
 					onClick: (event, rowData) => {
-						/*const user = {
+						const data = {
 							id: rowData.id,
-							privilegio: rowData.privilegio,
-							cedula: rowData.cedula,
+							username: rowData.username,
 						}
 
-						dispatch(updateDialogs('deleteConfirmation', true, false, user));*/
+						dispatch(updateDialogs('deleteConfirmation', true, false, data));
 					},
 				},
 			]}

@@ -78,7 +78,7 @@ function FormLogin() {
 	
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Grid container spacing={3}>
+			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography className='text__bold--semi' variant='h3'>
 						Ingrese sus datos

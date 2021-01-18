@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import logoutApp from '../actions/logoutApp';
 
-function useFetch() {
+function useFetch(setError) {
 	const axios = window.axios;
 
 	const dispatch = useDispatch();
@@ -80,6 +80,13 @@ function useFetch() {
 							variant: 'error',
 						});
 					}
+					
+					for (let key in data.errors) {
+						setError(key, {
+							type: 'useFetch',
+							message: 'Error: '+data.errors[key][0],
+						})
+					}
 				} else if (status === 500) {
 					enqueueSnackbar('No se ha podido conectar con la base de datos', {
 						variant: 'error',
@@ -94,7 +101,6 @@ function useFetch() {
 					variant: 'error',
 				});
 			}
-			console.log(error.response);
 			return false;
 		}
 	};

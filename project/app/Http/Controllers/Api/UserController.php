@@ -91,7 +91,6 @@ class UserController extends Controller
 		
 		$dataUser = $request->only(['username', 'name', 'privilegio', 'email', 'password']);
 		$dataUser['password'] = bcrypt($dataUser['password']);
-		$dataUser['registred_at'] = now();
 		$user = User::create($dataUser);
 		
 		$user->personalData(false)->create();
@@ -165,7 +164,7 @@ class UserController extends Controller
 		$user->delete();
 		
 		return response()->json([
-			'msg' => 'Usuario eliminado'
+			'msg' => 'Cuenta desactivada'
 		],200);
 	}
 }

@@ -61,7 +61,7 @@ class InvitationControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-',
 			'password' => null,
-			'registred_at' => null,
+			'actived_at' => null,
 		]);
 		
 		$user->personalData(false)->create();

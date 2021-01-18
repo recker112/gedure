@@ -10,7 +10,7 @@ import { useWatch } from "react-hook-form";
 // Components
 import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
 
-function UserPermissions({ control }) {
+function UserPermissions({ control, disabled }) {
 	const users_index = useWatch({
 		control,
     name: 'users_index',
@@ -26,7 +26,7 @@ function UserPermissions({ control }) {
 					name='users_create'
 					label='Crear usuarios'
 					color='primary'
-					disabled={!users_index}
+					disabled={!users_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -36,7 +36,7 @@ function UserPermissions({ control }) {
 					name='users_create_massive'
 					label='Cargar estudiantes'
 					color='primary'
-					disabled={!users_index}
+					disabled={!users_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -46,7 +46,7 @@ function UserPermissions({ control }) {
 					name='users_edit'
 					label='Editar usuarios'
 					color='primary'
-					disabled={!users_index}
+					disabled={!users_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -56,14 +56,14 @@ function UserPermissions({ control }) {
 					name='users_delete'
 					label='Eliminar usuarios'
 					color='primary'
-					disabled={!users_index}
+					disabled={!users_index || disabled}
 				/>
 			</Grid>
 		</React.Fragment>
 	);
 }
 
-function PostPermissions({ control }) {
+function PostPermissions({ control, disabled }) {
 	const posts_index = useWatch({
 		control,
     name: 'posts_index',
@@ -79,7 +79,7 @@ function PostPermissions({ control }) {
 					name='posts_create'
 					label='Crear noticia'
 					color='primary'
-					disabled={!posts_index}
+					disabled={!posts_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -89,7 +89,7 @@ function PostPermissions({ control }) {
 					name='posts_edit'
 					label='Editar noticia'
 					color='primary'
-					disabled={!posts_index}
+					disabled={!posts_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -99,7 +99,7 @@ function PostPermissions({ control }) {
 					name='posts_destroy'
 					label='Eliminar noticia'
 					color='primary'
-					disabled={!posts_index}
+					disabled={!posts_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -109,14 +109,14 @@ function PostPermissions({ control }) {
 					name='posts_others'
 					label='Poder editar las noticias de otros usuarios'
 					color='primary'
-					disabled={!posts_index}
+					disabled={!posts_index || disabled}
 				/>
 			</Grid>
 		</React.Fragment>
 	);
 }
 
-function BoletaPermissions({ control }) {
+function BoletaPermissions({ control, disabled }) {
 	const boletas_index = useWatch({
 		control,
     name: 'boletas_index',
@@ -132,7 +132,7 @@ function BoletaPermissions({ control }) {
 					name='boletas_upload'
 					label='Cargar boleta'
 					color='primary'
-					disabled={!boletas_index}
+					disabled={!boletas_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -142,7 +142,7 @@ function BoletaPermissions({ control }) {
 					name='boletas_edit'
 					label='Editar boleta'
 					color='primary'
-					disabled={!boletas_index}
+					disabled={!boletas_index || disabled}
 				/>
 			</Grid>
 			<Grid item xs={12} sm={6}>
@@ -152,17 +152,17 @@ function BoletaPermissions({ control }) {
 					name='boletas_destroy'
 					label='Eliminar boleta'
 					color='primary'
-					disabled={!boletas_index}
+					disabled={!boletas_index || disabled}
 				/>
 			</Grid>
 		</React.Fragment>
 	);
 }
 
-function PermissionsNoSuper({ control }) {
+function PermissionsNoSuper({ control, disabled }) {
 	const super_admin = useWatch({
 		control,
-    name: 'permissions.super_admin',
+    name: 'super_admin',
     defaultValue: false
   });
 	
@@ -176,6 +176,7 @@ function PermissionsNoSuper({ control }) {
 						name='registros_index'
 						label='Ver registros del sistema'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -185,9 +186,10 @@ function PermissionsNoSuper({ control }) {
 						name='users_index'
 						label='Ver lista de usuarios'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
-				<UserPermissions control={control} />
+				<UserPermissions control={control} disabled={disabled} />
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
 						control={control}
@@ -195,9 +197,10 @@ function PermissionsNoSuper({ control }) {
 						name='posts_index'
 						label='Ver noticias publicadas'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
-				<PostPermissions control={control} />
+				<PostPermissions control={control} disabled={disabled} />
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
 						control={control}
@@ -205,9 +208,10 @@ function PermissionsNoSuper({ control }) {
 						name='boletas_index'
 						label='Ver boletas cargadas'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
-				<BoletaPermissions control={control} />
+				<BoletaPermissions control={control} disabled={disabled} />
 			</React.Fragment>
 		);
 	}
@@ -215,7 +219,7 @@ function PermissionsNoSuper({ control }) {
 	return null;
 }
 
-export default function PermissionsSection({ control }) {
+export default function PermissionsSection({ control, disabled }) {
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
@@ -235,15 +239,17 @@ export default function PermissionsSection({ control }) {
 						name='permissions.boletas'
 						label='Boletas'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='permissions.horario'
+						name='permissions.horarios'
 						label='Horario'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -253,6 +259,7 @@ export default function PermissionsSection({ control }) {
 						name='permissions.soporte'
 						label='Soporte'
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6}>
@@ -262,6 +269,7 @@ export default function PermissionsSection({ control }) {
 						name='permissions.account_exonerada'
 						label="Cuenta exonerada"
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 			</React.Fragment>
@@ -276,9 +284,10 @@ export default function PermissionsSection({ control }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='permissions.super_admin'
+						name='super_admin'
 						label="Super admin"
 						color='primary'
+						disabled={disabled}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -286,7 +295,7 @@ export default function PermissionsSection({ control }) {
 						Al activar este permiso el usuario tendráก poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
 					</DialogContentText>
 				</Grid>
-				<PermissionsNoSuper control={control} />
+				<PermissionsNoSuper control={control} disabled={disabled} />
 			</React.Fragment>
 		);
 	}

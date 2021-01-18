@@ -15,14 +15,17 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
+import useFetch from '../../../hooks/useFetch';
+
 // Components
 import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 import TableUsers from './TableUsers';
 import CreateUser from './CreateUser';
 import UploadMatricula from './UploadMatricula';
+import DialogConfirmation from '../../../components/DialogConfirmation';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 import updateDialogs from '../../../actions/updateDialogs';
 
@@ -51,7 +54,12 @@ export default function PageUserIndex() {
 	const [countFilters, setCountFilters] = useState({});
 	const tableRef = useRef(null);
 	
+	const { data } = useSelector((state) => ({
+		data: state.dialogs.deleteConfirmation.data,
+	}));
 	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
 	
@@ -72,6 +80,24 @@ export default function PageUserIndex() {
 			}
 		}
   };
+	
+	const onConfirm = async handleClose => {
+		const prepare = {
+			url: `v1/user/${data.id}`,
+			type: 'delete',
+			message404: 'El usuario ya no existe',
+		};
+		
+		const response = await fetchData(prepare);
+
+		dispatch(updateDialogs('deleteConfirmation', false, true));
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
+	}
 	
 	return (
 		<main className={classes.containerMain}>
@@ -175,8 +201,11 @@ export default function PageUserIndex() {
 						</Grid>
 					</Grid>
 				</Grid>
-				<CreateUser />
+				<CreateUser tableRef={tableRef} />
 				<UploadMatricula />
+				<DialogConfirmation callback={onConfirm}>
+					Estáก a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
+				</DialogConfirmation>
 			</Container>
 		</main>
 	);

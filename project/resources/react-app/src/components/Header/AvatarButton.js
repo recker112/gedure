@@ -150,7 +150,8 @@ function AvatarButton({ ...rest }) {
 						</Grid>
 						<Grid container justify='center' item>
 							<Typography variant='body2' className='text__opacity--semi'>
-								Estudiante #{user.id}
+								{user.privilegio === 'V-' && `Estudiante #${user.id}`}
+								{user.privilegio === 'A-' && `Administrador #${user.id}`}
 							</Typography>
 						</Grid>
 					</Grid>

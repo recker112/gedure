@@ -26,7 +26,7 @@ class User extends Authenticatable
 		'password',
 		'avatar',
 		'privilegio',
-		'registred_at',
+		'actived_at',
 	];
 
 	/**

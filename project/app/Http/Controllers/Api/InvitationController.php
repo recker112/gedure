@@ -31,6 +31,15 @@ class InvitationController extends Controller
 			],400);
 		}
 		
+		$correoExist = User::withTrashed()
+			->firstWhere('email', $request->email);
+		
+		if ($correoExist) {
+			return response()->json([
+				'msg' => "El correo $request->email ya se encuentra en uso"
+			],400);
+		}
+		
 		// Verificar existencia del curso
 		if ($request->privilegio === 'V-') {
 			$code = $request->curso.'-'.$request->seccion;
@@ -88,7 +97,7 @@ class InvitationController extends Controller
 		$user = $key->user;
 		
 		$user->password = bcrypt($request->password);
-		$user->registred_at = now();
+		$user->actived_at = now();
 		$user->save();
 		
 		$user->personalData(false)->update($request->personalData);
