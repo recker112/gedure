@@ -13,7 +13,7 @@ import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
 function UserPermissions({ control, disabled }) {
 	const users_index = useWatch({
 		control,
-    name: 'users_index',
+    name: 'permissions.users_index',
     defaultValue: false
   });
 	
@@ -23,7 +23,7 @@ function UserPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='users_create'
+					name='permissions.users_create'
 					label='Crear usuarios'
 					color='primary'
 					disabled={!users_index || disabled}
@@ -33,7 +33,7 @@ function UserPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='users_create_massive'
+					name='permissions.users_create_massive'
 					label='Cargar estudiantes'
 					color='primary'
 					disabled={!users_index || disabled}
@@ -43,7 +43,7 @@ function UserPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='users_edit'
+					name='permissions.users_edit'
 					label='Editar usuarios'
 					color='primary'
 					disabled={!users_index || disabled}
@@ -53,7 +53,7 @@ function UserPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='users_delete'
+					name='permissions.users_delete'
 					label='Eliminar usuarios'
 					color='primary'
 					disabled={!users_index || disabled}
@@ -66,7 +66,7 @@ function UserPermissions({ control, disabled }) {
 function PostPermissions({ control, disabled }) {
 	const posts_index = useWatch({
 		control,
-    name: 'posts_index',
+    name: 'permissions.posts_index',
     defaultValue: false
   });
 	
@@ -76,7 +76,7 @@ function PostPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='posts_create'
+					name='permissions.posts_create'
 					label='Crear noticia'
 					color='primary'
 					disabled={!posts_index || disabled}
@@ -86,7 +86,7 @@ function PostPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='posts_edit'
+					name='permissions.posts_edit'
 					label='Editar noticia'
 					color='primary'
 					disabled={!posts_index || disabled}
@@ -96,7 +96,7 @@ function PostPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='posts_destroy'
+					name='permissionsposts_destroy'
 					label='Eliminar noticia'
 					color='primary'
 					disabled={!posts_index || disabled}
@@ -106,7 +106,7 @@ function PostPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='posts_others'
+					name='permissions.posts_others'
 					label='Poder editar las noticias de otros usuarios'
 					color='primary'
 					disabled={!posts_index || disabled}
@@ -119,7 +119,7 @@ function PostPermissions({ control, disabled }) {
 function BoletaPermissions({ control, disabled }) {
 	const boletas_index = useWatch({
 		control,
-    name: 'boletas_index',
+    name: 'permissions.boletas_index',
     defaultValue: false
   });
 	
@@ -129,7 +129,7 @@ function BoletaPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='boletas_upload'
+					name='permissions.boletas_upload'
 					label='Cargar boleta'
 					color='primary'
 					disabled={!boletas_index || disabled}
@@ -139,7 +139,7 @@ function BoletaPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='boletas_edit'
+					name='permissions.boletas_edit'
 					label='Editar boleta'
 					color='primary'
 					disabled={!boletas_index || disabled}
@@ -149,7 +149,7 @@ function BoletaPermissions({ control, disabled }) {
 				<RenderSwitchFormHook 
 					control={control}
 					defaultValue={false}
-					name='boletas_destroy'
+					name='permissions.boletas_destroy'
 					label='Eliminar boleta'
 					color='primary'
 					disabled={!boletas_index || disabled}
@@ -173,7 +173,7 @@ function PermissionsNoSuper({ control, disabled }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='registros_index'
+						name='permissions.registros_index'
 						label='Ver registros del sistema'
 						color='primary'
 						disabled={disabled}
@@ -183,7 +183,7 @@ function PermissionsNoSuper({ control, disabled }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='users_index'
+						name='permissions.users_index'
 						label='Ver lista de usuarios'
 						color='primary'
 						disabled={disabled}
@@ -194,7 +194,7 @@ function PermissionsNoSuper({ control, disabled }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='posts_index'
+						name='permissions.posts_index'
 						label='Ver noticias publicadas'
 						color='primary'
 						disabled={disabled}
@@ -205,7 +205,7 @@ function PermissionsNoSuper({ control, disabled }) {
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={false}
-						name='boletas_index'
+						name='permissions.boletas_index'
 						label='Ver boletas cargadas'
 						color='primary'
 						disabled={disabled}

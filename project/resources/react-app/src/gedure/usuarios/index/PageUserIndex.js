@@ -109,7 +109,7 @@ export default function PageUserIndex() {
 							Cargar estudiantes
 						</Button>
 						<Button onClick={()=>dispatch(updateDialogs('crearUser', true, false))} variant='contained' color='primary'>
-							Crear cuenta
+							Crear usuario
 						</Button>
 					</Grid>
 					<Grid container item xs={12}>

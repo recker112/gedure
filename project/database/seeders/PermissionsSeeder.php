@@ -29,6 +29,7 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'users_index']);
 		Permission::create(['name' => 'users_show']);
 		Permission::create(['name' => 'users_create']);
+		Permission::create(['name' => 'users_create_massive']);
 		Permission::create(['name' => 'users_update']);
 		Permission::create(['name' => 'users_edit']);
 		Permission::create(['name' => 'users_delete']);
@@ -43,6 +44,12 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'posts_edit']);
 		Permission::create(['name' => 'posts_destroy']);
 		Permission::create(['name' => 'posts_others']);
+		
+		// Boletas
+		Permission::create(['name' => 'boletas_index']);
+		Permission::create(['name' => 'boletas_upload']);
+		Permission::create(['name' => 'boletas_edit']);
+		Permission::create(['name' => 'boletas_destroy']);
 		
 		/*
 			PERMISSIONS USER

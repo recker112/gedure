@@ -112,7 +112,7 @@ export default function TableUsers({ tableRef, filters }) {
 				{title: 'Correo', field: 'email'},
 				{
 					title: 'Estado', 
-					field: 'registred_at',
+					field: 'actived_at',
 					render: (rowData) => (
 						<Chip 
 							color={rowData.actived_at ? 'primary':'default'}
