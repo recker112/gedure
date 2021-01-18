@@ -214,10 +214,8 @@ class UserControllerTest extends TestCase
 			]
 		]);
 		
-		$response->assertStatus(400)
-			->assertJsonStructure([
-				'msg'
-			]);
+		$response->assertStatus(422)
+			->assertJsonValidationErrors(['username']);
 	}
 	
 	public function testErrorEmailUniqueCreateStudiant()

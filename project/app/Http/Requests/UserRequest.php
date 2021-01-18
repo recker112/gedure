@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class UserRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'username' => 'required|string|min:3|max:30',
+			'username' => 'required|string|unique:users|min:3|max:30',
 			'name' => 'required|string|min:8|max:255',
 			'privilegio' => 'required|string|min:2|max:4',
 			'email' => 'required|email|unique:users',
@@ -34,6 +35,19 @@ class UserRequest extends FormRequest
 			'permissions' => 'nullable|array',
 			'permissions.*' => 'nullable|boolean',
 			'super_admin' => 'nullable|boolean',
+		];
+	}
+	
+	/**
+	 * Get hte error messages.
+	 *
+	 * @return array
+	 */
+	public function messages()
+	{
+		return [
+			'username.unique' => 'El usuario o cédula ya existe en el sistema',
+			'email.unique' => 'El correo ya existe en el sistema',
 		];
 	}
 }

@@ -11,7 +11,7 @@ import { useWatch } from "react-hook-form";
 import { RenderSelectFormHook } from '../../../components/RendersGlobals';
 import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 
-export default function StudiendSection({ register, errors, control }) {
+export default function StudiendSection({ errors, control, disabled }) {
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
@@ -38,6 +38,7 @@ export default function StudiendSection({ register, errors, control }) {
 						defaultValue=''
 						errors={errors?.curso}
 						helperText='* Campo requerido'
+						disabled={disabled}
 					>
 						<MenuItem value=''><em>Ninguno</em></MenuItem>
 						{MenuItemList}
@@ -47,11 +48,12 @@ export default function StudiendSection({ register, errors, control }) {
 					<RenderSelectFormHook
 						id='user-curso'
 						name='seccion'
-						nameLabel='Secciรณn'
+						nameLabel='Sección'
 						control={control}
 						defaultValue=''
 						errors={errors?.seccion}
 						helperText='* Campo requerido'
+						disabled={disabled}
 					>
 						<MenuItem value=''><em>Ninguno</em></MenuItem>
 						{MenuItemList2}

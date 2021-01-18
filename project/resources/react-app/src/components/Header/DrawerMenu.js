@@ -75,6 +75,7 @@ function DrawerMenu() {
 	
 	const handleClose = () => {
 		dispatch(updateDrawer(false));
+		setHelpSection(false);
 	}
 	
 	const handleExpandHelp = () => {
