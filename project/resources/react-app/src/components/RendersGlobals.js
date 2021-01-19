@@ -103,7 +103,6 @@ export function RenderInputPassword(props) {
 	
 	return (
 		<TextField
-			{...props}
 			type={visibility ? 'text' : 'password'}
 			fullWidth
 			InputProps={{
@@ -115,6 +114,7 @@ export function RenderInputPassword(props) {
 					</InputAdornment>
 				),
 			}}
+			{...props}
 		/>
 	);
 }

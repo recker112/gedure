@@ -59,7 +59,7 @@ class InvitationController extends Controller
 			}
 		}
 		
-		// Crear y enviar invitación
+		// Crear y enviar invitaciรณn
 		$user->invitation()->create([
 			'invitation_key' => Str::random(40),
 		]);
@@ -71,6 +71,15 @@ class InvitationController extends Controller
 		],201);
 	}
 	
+	public function show($key)
+	{
+		// Verificar no existencia
+		$key = Invitation::where('invitation_key', $key)->firstOrFail();
+		$user = $key->user;
+		
+		return response()->json($user->only(['name']),200);
+	}
+	
 	public function register(RegisterInvitationRequest $request) 
 	{
 		// Verificar no existencia
@@ -78,15 +87,12 @@ class InvitationController extends Controller
 		$user = $key->user;
 		
 		$user->password = bcrypt($request->password);
-		$user->actived_at = now();
 		$user->save();
-		
-		$user->personalData(false)->update($request->personalData);
 		
 		$key->delete();
 		
 		return response()->json([
-			'msg' => 'Datos guardados correctamente'
+			'msg' => 'Contraseña creada correctamente'
 		],200);
 	}
 }

@@ -11,9 +11,10 @@ import {
 
 import { useForm } from 'react-hook-form';
 
+import useFetch from '../../hooks/useFetch';
+
 // Components
 import LoadingComponent from '../../components/LoadingComponent';
-import useFetch from '../../hooks/useFetch';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';

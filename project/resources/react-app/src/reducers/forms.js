@@ -20,6 +20,14 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	invitation: {
+		loading: true,
+		data: {},
+	},
+	registerPassword: {
+		loading: false,
+		data: {},
+	},
 	registros: {
 		loading: false,
 	},
