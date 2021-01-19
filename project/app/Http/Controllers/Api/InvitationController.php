@@ -21,25 +21,6 @@ class InvitationController extends Controller
 {
   public function invite(UserRequest $request) 
 	{
-		// Verificar no existencia
-		$userCedulaExist = User::withTrashed()
-			->firstWhere('username', $request->username);
-		
-		if ($userCedulaExist) {
-			return response()->json([
-				'msg' => "La cédula o usuario $request->username ya existe"
-			],400);
-		}
-		
-		$correoExist = User::withTrashed()
-			->firstWhere('email', $request->email);
-		
-		if ($correoExist) {
-			return response()->json([
-				'msg' => "El correo $request->email ya se encuentra en uso"
-			],400);
-		}
-		
 		// Verificar existencia del curso
 		if ($request->privilegio === 'V-') {
 			$code = $request->curso.'-'.$request->seccion;

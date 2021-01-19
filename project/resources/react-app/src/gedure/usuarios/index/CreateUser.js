@@ -50,9 +50,9 @@ export default function CreateUser({ tableRef }) {
 		
 		let url;
 		if (submitData.invitation_mode) {
-			url = '';
+			url = 'v1/invitation/users';
 		}else {
-			url = 'v1/user'
+			url = 'v1/user';
 		}
 		delete submitData.invitation_mode;
 		
@@ -61,7 +61,6 @@ export default function CreateUser({ tableRef }) {
 			type: 'post',
 			data: submitData,
 			message404Server: true,
-			successText: 'Usuario creado'
 		};
 
 		const response = await fetchData(prepare);
@@ -70,6 +69,8 @@ export default function CreateUser({ tableRef }) {
 			tableRef.current && tableRef.current.onQueryChange();
 			if (!submitData.create_more) {
 				handleClose();
+			}else {
+				dispatch(updateDialogs('crearUser', true, false));
 			}
 		}else {
 			dispatch(updateDialogs('crearUser', true, false));

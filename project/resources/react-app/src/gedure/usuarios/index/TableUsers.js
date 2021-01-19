@@ -98,8 +98,8 @@ export default function TableUsers({ tableRef, filters }) {
 					title: 'Usuario',
 					field: 'username',
 					render: (rowData) => {
-						if (rowData.privilegio === 'V-') {
-							return `${rowData.privilegio}${rowData.username} (N° lista ${rowData.estudiante_data.n_lista})`
+						if (rowData.privilegio === 'V-' && rowData.n_lista) {
+							return `${rowData.privilegio}${rowData.username} (N° lista ${rowData.n_lista})`
 						}else {
 							return `${rowData.privilegio}${rowData.username}`
 						}

@@ -42,11 +42,15 @@ class UserController extends Controller
 					});
 				});
 			})
-			->orderBy('id', 'desc')
+			->when(!empty($curso) && !empty($seccion), function ($query) {
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+					->orderBy('n_lista');
+			})
+			->orderBy('users.id', 'desc')
 			->offset($page)
 			->limit($perPage)
 			->get()
-			->makeHidden(['personal_data'])
+			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
 		$usersCount = User::where('privilegio', 'like', '%'.$type.'%')
@@ -116,7 +120,9 @@ class UserController extends Controller
 			}
 		}
 		
-		return response()->json($user->only(['id', 'username', 'email', 'name', 'privilegio']),201);
+		return response()->json([
+			'msg' => 'Usuario creado'
+		],201);
 	}
 	
 	public function update(Request $request, $id)

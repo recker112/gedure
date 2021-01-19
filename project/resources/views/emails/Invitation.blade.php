@@ -82,12 +82,12 @@
 			<span class='header__title'>U.E.P A.P.E.P La Candelaria</span>
 		</header>
 		<div class='main'>
-			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->nombre }}</strong>.</p>
+			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
-				Fuiste invitado al sistema, de click en el botón para iniciar el proceso de registro.
+				Fuiste invitado al sistema, de click en el botรณn para iniciar el proceso de registro.
 			</p>
 			<div class='main__button main__line'>
-				<a target='_blank' href='{{ config('app.url', '') }}/invitacion?key={{ $key }}' class="waves-effect waves-light btn button">
+				<a target='_blank' href='{{ config('app.url', '') }}/invitacion/{{ $key }}' class="waves-effect waves-light btn button">
 					Aceptar invitación
 				</a>
 			</div>

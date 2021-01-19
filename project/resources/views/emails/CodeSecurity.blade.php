@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-	<title>C贸digo de confirmaci贸n</title>
+	<title>Código de confirmación</title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 	<style>
 		* {
@@ -74,7 +74,7 @@
 			<span class='header__title'>U.E.P A.P.E.P La Candelaria</span>
 		</header>
 		<div class='main'>
-			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->nombre }}</strong>.</p>
+			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
 				Este código es enviado por seguridad, copie y pegue este código en la web para continuar. En caso de no ser usted, simplemente ignore este correo.
 			</p>

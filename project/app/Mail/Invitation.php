@@ -12,7 +12,7 @@ class Invitation extends Mailable
 {
 	use Queueable, SerializesModels;
 	
-	public $subject = 'Invitaciรณn al sistema';
+	public $subject = 'Invitación al sistema';
 	public $user = null;
 	public $key = null;
 	/**
