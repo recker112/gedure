@@ -44,8 +44,7 @@ export default function PasswordSection({ register, errors, control, disabled, s
 					<RenderInputPassword
 						inputRef={register({
 							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 4, message: 'Error: No válido' },
-							maxLength: { value: 25, message: 'Error: No válida' },
+							minLength: { value: 4, message: 'Error: Demaciado corto' },
 						})}
 						name='password'
 						variant='standard'

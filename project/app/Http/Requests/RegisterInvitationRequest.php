@@ -26,8 +26,6 @@ class RegisterInvitationRequest extends FormRequest
 		return [
 			'key' => 'required|string|min:40|max:40',
 			'password' => 'required|string|min:4',
-			'personalData' => 'required|array',
-			'personalData.*' => 'required',
 		];
 	}
 }

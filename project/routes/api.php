@@ -145,6 +145,7 @@ Route::group(['prefix' => 'v1'], function () {
 	// Invite users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
 		->post('invitation/users', [InvitationController::class, 'invite']);
+	Route::get('invitation/users/{key}', [InvitationController::class, 'show']);
 	
 	// Register user
 	Route::post('invitation/register', [InvitationController::class, 'register']);

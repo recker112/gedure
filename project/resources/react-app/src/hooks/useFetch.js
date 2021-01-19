@@ -55,7 +55,7 @@ function useFetch(setError) {
 						return data;
 					}
 				} else if (status === 401) {
-					enqueueSnackbar('Sesión expirada', {
+					enqueueSnackbar('Sesiรณn expirada', {
 						variant: 'info',
 					});
 

@@ -27,6 +27,7 @@ const PageContactanos = lazy(() => import('./page/contactanos/PageContactanos'))
 const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
 const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
+const PageInvitation = lazy(() => import('./page/invitation/PageInvitation'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -35,49 +36,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Routers() {
-	const { auth } = useSelector((state) => ({
-		auth: state.userData.auth,
-	}));
-	
 	return (
 		/* Switch sirve para escojer la ruta la que mas se acerque a la
     ruta actual, es decir, que de todas esas rutas, la app escogerรก
     la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
 		<Suspense fallback={<Loader />}>
 			<Switch>
-				<PublicRoute auth={auth} path='/' exact notSeeBeforeAuth>
+				<PublicRoute path='/' exact notSeeBeforeAuth>
 					<PageIndex />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/noticias' exact>
+				<PublicRoute path='/noticias' exact>
 					<PageNews />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/noticias/:slug' exact>
+				<PublicRoute path='/noticias/:slug' exact>
 					<PageShowNews />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/solicitud' exact>
+				<PublicRoute path='/solicitud' exact>
 					<PageSolicitud />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/contactanos' exact>
+				<PublicRoute path='/contactanos' exact>
 					<PageContactanos />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/entrar' exact>
+				<PublicRoute path='/entrar' exact>
 					<PageLogin />
 				</PublicRoute>
 				
-				<PublicRoute auth={auth} path='/recuperar' exact>
+				<PublicRoute path='/recuperar' exact>
 					<PageRecovery />
 				</PublicRoute>
 				
-				<ProtectRoute auth={auth} path='/gedure'>
+				<ProtectRoute path='/gedure'>
 					<RoutersGedure />
 				</ProtectRoute>
 				
-				<PublicRoute auth={auth}>
+				<PublicRoute path='/invitacion/:key' exact>
+					<PageInvitation />
+				</PublicRoute>
+				
+				<PublicRoute>
 					No encontrado
 				</PublicRoute>
 			</Switch>
@@ -85,7 +86,11 @@ function Routers() {
 	);
 }
 
-export function PublicRoute({ children, auth, notSeeBeforeAuth=false, ...rest }) {
+export function PublicRoute({ children, notSeeBeforeAuth=false, ...rest }) {
+	const { auth } = useSelector((state) => ({
+		auth: state.userData.auth,
+	}));
+	
 	// AccessKey
 	const keyL = JSON.parse(localStorage.getItem('access_key'));
 	const keyS = JSON.parse(sessionStorage.getItem('access_key'));
@@ -120,7 +125,11 @@ export function PublicRoute({ children, auth, notSeeBeforeAuth=false, ...rest })
 	);
 }
 
-export function ProtectRoute({ children, auth, ...rest }) {
+export function ProtectRoute({ children, ...rest }) {
+	const { auth } = useSelector((state) => ({
+		auth: state.userData.auth,
+	}));
+	
 	return (
 		<Route
 			{...rest}

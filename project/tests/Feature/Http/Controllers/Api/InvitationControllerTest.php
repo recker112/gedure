@@ -55,6 +55,33 @@ class InvitationControllerTest extends TestCase
     ]);
 	}
 	
+	public function testGetUserInvitation()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-',
+			'password' => null,
+			'actived_at' => null,
+		]);
+		
+		$key = Str::random(40);
+		$user->invitation()->create([
+			'invitation_key' => $key
+		]);
+		
+		$response = $this->getJson('/api/v1/invitation/users/'.$key);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'name',
+			]);
+	}
+	
 	public function testRegisterInvitation()
 	{
 		//$this->withoutExceptionHandling();
@@ -64,8 +91,6 @@ class InvitationControllerTest extends TestCase
 			'actived_at' => null,
 		]);
 		
-		$user->personalData(false)->create();
-		
 		$key = Str::random(40);
 		$user->invitation()->create([
 			'invitation_key' => $key
@@ -74,19 +99,12 @@ class InvitationControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/invitation/register', [
 			'key' => $key,
 			'password' => 'FG$4T',
-			'personalData' => [
-				'madre_nombre' => 'Rhadys'
-			]
 		]);
 		
 		$response->assertOk()
 			->assertJsonStructure([
 				'msg'
 			]);
-		
-		$this->assertDatabaseHas('personal_data_users', [
-			'madre_nombre' => 'Rhadys',
-    ]);
 		
 		$this->assertDatabaseMissing('invitations', [
 			'invitation_key' => $key,

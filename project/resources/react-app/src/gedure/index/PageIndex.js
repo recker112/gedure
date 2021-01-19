@@ -53,7 +53,7 @@ function Header() {
 				</Grid>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
-						Versión del sistema
+						Versiรณn del sistema
 					</Box>
 					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Alpha.0</Box>
 				</Grid>
@@ -63,7 +63,7 @@ function Header() {
 }
 
 export default function PageUserIndex() {
-	document.title = 'La Candelaria - Panel';
+	document.title = 'La Candelaria - Gedure';
 	
 	const { privilegio } = useSelector((state) => ({
 		privilegio: state.userData.user.privilegio,
