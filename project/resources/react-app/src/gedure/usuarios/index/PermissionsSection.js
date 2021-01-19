@@ -235,7 +235,7 @@ export default function PermissionsSection({ control, disabled }) {
 				<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
-						defaultValue={false}
+						defaultValue={true}
 						name='permissions.boletas'
 						label='Boletas'
 						color='primary'
@@ -245,7 +245,7 @@ export default function PermissionsSection({ control, disabled }) {
 				<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
-						defaultValue={false}
+						defaultValue={true}
 						name='permissions.horarios'
 						label='Horario'
 						color='primary'
@@ -255,7 +255,7 @@ export default function PermissionsSection({ control, disabled }) {
 				<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
-						defaultValue={false}
+						defaultValue={true}
 						name='permissions.soporte'
 						label='Soporte'
 						color='primary'
