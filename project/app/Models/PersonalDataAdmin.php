@@ -22,6 +22,12 @@ class PersonalDataAdmin extends Model
 		'user_id'
 	];
 	
+	protected $casts = [
+		'nacimiento' => 'datetime: d-m-Y',
+		'docente_ingreso' => 'datetime: d-m-Y',
+		'docente_ingreso_MPPE' => 'datetime: d-m-Y',
+	];
+	
 	protected $dates = [
 		'nacimiento',
 		'docente_ingreso',

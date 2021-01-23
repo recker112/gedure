@@ -6,6 +6,7 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogActions,
+	DialogContentText,
 	Button,
 	FormControlLabel,
 	Switch,
@@ -168,6 +169,9 @@ export default function CreateUser({ tableRef }) {
 							control={control}
 							disabled={loading}
 						/>
+						<Grid item xs={12}>
+							<DialogContentText>Permisos</DialogContentText>
+						</Grid>
 						<PermissionsSection control={control} disabled={loading} />
 					</Grid>
 				</form>

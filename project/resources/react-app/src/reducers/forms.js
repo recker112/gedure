@@ -46,7 +46,63 @@ const initialState = {
 	editPost: {
 		loading: false,
 		data: {},
-	}
+	},
+	showUser: {
+		loading: true,
+		data: {},
+	},
+	updatePerfil: {
+		loading: false,
+		data: {},
+	},
+	updateAvatar: {
+		loading: false,
+		data: {},
+	},
+	updatePassword: {
+		loading: false,
+		data: {},
+	},
+	updatePermissions: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalUser: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalStudiend: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalStudiendUbi: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalStudiendOtros: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalMadre: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalPadre: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalRepre: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalRepreUbi: {
+		loading: false,
+		data: {},
+	},
+	updatePersonalRepreEmpleo: {
+		loading: false,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

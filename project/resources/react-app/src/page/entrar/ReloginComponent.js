@@ -41,7 +41,7 @@ function ReloginComponent(props) {
 						Authorization: `Bearer ${key}`
 					}
 				},
-				successText: 'Login exitoso'
+				messageToFinish: false,
 			}
 			
 			const response = await fetchData(prepareDate);

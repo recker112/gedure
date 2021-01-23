@@ -5,6 +5,8 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 // Passport
 use Laravel\Passport\Passport;
 // Models
@@ -45,6 +47,31 @@ class UserControllerTest extends TestCase
 			]);
 	}
 	
+	public function testShowUser()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$response = $this->getJson('/api/v1/user/1');
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'user' => [
+					'id',
+					'name',
+					'privilegio',
+					'personal_data',
+					'estudiante_data',	
+				],
+				'permissions' => [
+					'super_admin'
+				]
+			]);
+	}
+	
 	public function testCreateStudiant()
 	{
 		//$this->withoutExceptionHandling();
@@ -71,7 +98,7 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
-				'id'
+				'msg'
 			]);
 		
 		$this->assertDatabaseHas('users', [
@@ -103,7 +130,7 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
-				'id'
+				'msg'
 			]);
 		
 		$this->assertDatabaseHas('users', [
@@ -130,7 +157,7 @@ class UserControllerTest extends TestCase
 		
 		$response->assertCreated()
 			->assertJsonStructure([
-				'id'
+				'msg'
 			]);
 		
 		$this->assertDatabaseHas('users', [
@@ -140,56 +167,62 @@ class UserControllerTest extends TestCase
 	
 	public function testEditUser()
 	{
-		$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::find(1),
-			['admin']
-		);
-		
-		$user = User::factory()->create();
-		
-		$response = $this->putJson('/api/v1/user/'.$user->id, [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
-			'email' => 'test@test.test',
-			'password' => '1234',
-		]);
-		
-		$response->assertOk()
-			->assertJsonStructure([
-				'msg'
-			]);
-		
-		$this->assertDatabaseHas('users', [
-        'email' => 'test@test.test',
-    ]);
-	}
-	
-	public function testUpdateDataPersonal()
-	{
 		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
 		
-		$response = $this->putJson('/api/v1/user-data/1', [
+		$user = User::factory()->create([
+			'privilegio' => 'A-'
+		]);
+		$user->personalData(false)->create();
+		
+		$avatar = UploadedFile::fake()->image('Universidad.png');
+		
+		$response = $this->putJson('/api/v1/user/'.$user->id, [
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
+			'email' => 'test@test.test',
+			'password' => '1234',
+			'avatar' => $avatar,
+			'permissions' => [
+				'registros_index' => true,
+				'users_index' => true,
+			],
 			'personalData' => [
-				'sexo' => 'Masculino',
-				'telefono' => '4269403957',
-				'direccion' => 'Direcciรณn de la persona a la cual se le hace una request. :u',
-				'docente' => 'No',
+				'telefono' => '4269340569'
 			]
 		]);
 		
-		$response->assertStatus(200)
+		$response->assertOk()
 			->assertJsonStructure([
-				'msg'
+				'user' => [
+					'id',
+					'username',
+				],
+				'permissions' => [
+					'users_index',
+					'registros_index',
+				]
 			]);
 		
-		$this->assertDatabaseHas('personal_data_admins', [
-        'sexo' => 'Masculino',
+		$this->assertDatabaseHas('users', [
+			'username' => 'luis',
+      'email' => 'test@test.test',
+			'name' => 'Luis Enrrique',
     ]);
+		
+		$this->assertDatabaseHas('personal_data_admins', [
+			'telefono' => '4269340569',
+    ]);
+		
+		Storage::disk('public')->assertExists('avatars/avatar_'.$user->username.'.png');
+		
+		$filesDelete = Storage::disk('public')->allFiles('avatars');
+		Storage::disk('public')->delete($filesDelete);
+		
+		Storage::disk('public')->assertMissing('avatars/avatar_'.$user->username.'.png');
 	}
 	
 	public function testErrorCedulaCreateStudiant()

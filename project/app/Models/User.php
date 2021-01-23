@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -85,6 +86,22 @@ class User extends Authenticatable
 	public function invitation()
 	{
 		return $this->hasOne('App\Models\Invitation');
+	}
+	
+	public function getAvatarOriginalAttribute()
+	{
+		return $this->attributes['avatar'];
+	}
+	
+	public function getAvatarAttribute()
+	{
+		$avatar = $this->attributes['avatar'];
+		if($avatar) {
+			$url = Storage::disk('public')->url($avatar);
+		}else {
+			$url = null;
+		}
+		return $url;
 	}
 	
 	/*
