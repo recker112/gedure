@@ -1,11 +1,10 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 
 import { 
 	Switch, 
 	Route, 
 	Redirect, 
 	useParams, 
-	useLocation, 
 	useRouteMatch, 
 	useHistory,
 } from 'react-router-dom';
@@ -13,19 +12,38 @@ import {
 import { 
 	Grid, 
 	Container,
-	Avatar,
-	Typography,
 	Box,
 	CircularProgress,
 	Collapse,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const ShowUserPerfil = lazy(() => import('./ShowUserPerfil'));
-const ShowUserPassword = lazy(() => import('./ShowUserPassword'));
-const ShowUserPermisos = lazy(() => import('./ShowUserPermisos'));
-const PersonalEstudiante = lazy(() => import('./PersonalEstudiante'));
-const ShowUserOpciones = lazy(() => import('./ShowUserOpciones'));
+import useFetch from '../../../hooks/useFetch';
+
+import DateFnsUtils from '@date-io/date-fns';
+import esLocale from "date-fns/locale/es";
+
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+
+// Components
+import BreadCrumbsShow from './BreadCrumbsShow';
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import updateForms from '../../../actions/updateForms';
+
+// Pages
+const Perfil = lazy(() => import('./pages/Perfil'));
+const UserPassword = lazy(() => import('./pages/UserPassword'));
+const UserPermisos = lazy(() => import('./pages/UserPermisos'));
+const PersonalUsuario = lazy(() => import('./pages/PersonalUsuario'));
+const PersonalEstudianteData = lazy(() => import('./pages/PersonalEstudianteData'));
+const PersonalEstudianteUbi = lazy(() => import('./pages/PersonalEstudianteUbi'));
+const PersonalEstudianteOtros = lazy(() => import('./pages/PersonalEstudianteOtros'));
+const PersonalMadre = lazy(() => import('./pages/PersonalMadre'));
+const PersonalPadre = lazy(() => import('./pages/PersonalPadre'));
+const PersonalRepresentanteData = lazy(() => import('./pages/PersonalRepresentanteData'));
+const PersonalRepresentanteUbi = lazy(() => import('./pages/PersonalRepresentanteUbi'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -37,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			marginTop: theme.spacing(12),
 		},
-	},
-	avatar: {
-		backgroundColor: theme.palette.secondary.main,
-		color: theme.palette.secondary.contrastText,
 	},
 	button: {
 		cursor: 'pointer',
@@ -72,40 +86,13 @@ function ReturnSelected(props) {
 	);
 }
 
-function BreadCrumbs() {
-	const classes = useStyles();
-	
-	let location = useLocation();
-	
-	let BreadCrumbsRouters = location.pathname.split('/');
-	// eslint-disable-next-line
-	let removed = BreadCrumbsRouters.splice(0,1);
-	
-	let route = BreadCrumbsRouters[BreadCrumbsRouters.length - 1].toString().replace('-', ' ');
-	
-	return (
-		<Grid container alignItems='center' spacing={2}>
-			<Grid item>
-				<Avatar className={classes.avatar} alt='Avatar de Recker' />
-			</Grid>
-			<Grid item>
-				<Typography variant='h6' className='text__bold--semi'>Usuario</Typography>
-			</Grid>
-			<Grid item>
-				<Typography variant='h6' className='text__bold--semi'>/</Typography>
-			</Grid>
-			<Grid item>
-				<Typography variant='h6' className='text__bold--semi'>
-				{(BreadCrumbsRouters.length - 1 !== 4 || route === '') ? 'Perfil' : route[0].toUpperCase() + route.slice(1) }
-				</Typography>
-			</Grid>
-		</Grid>
-	);
-}
-
 function Navs() {
-	const { id } = useParams();
+	let { url } = useRouteMatch();
 	const [personalNav, setPersonalNav] = useState(false);
+	
+	const { data } = useSelector((state) => ({
+		data: state.forms.showUser.data,
+	}));
 	
 	const history = useHistory();
 	
@@ -116,45 +103,51 @@ function Navs() {
 	return (
 		<Grid item xs={12} sm={3}>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/`}>
+				<ReturnSelected url={`${url}`}>
 					Perfil
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal`} onClick={handleClick}>
+				<ReturnSelected url={`${url}/personal`} onClick={handleClick}>
 					Datos personales
 				</ReturnSelected>
 			</Box>
 			<Collapse in={personalNav} timeout="auto" unmountOnExit>
-				<Box mb={1}>
-					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-estudiante`} nested>
-						Estudiante
-					</ReturnSelected>
-				</Box>
-				<Box mb={1}>
-					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-representante`} nested>
-						Representante
-					</ReturnSelected>
-				</Box>
-				<Box mb={1}>
-					<ReturnSelected url={`/gedure/usuarios/ver/${id}/personal-padres`} nested>
-						Padres
-					</ReturnSelected>
-				</Box>
+				{data.user?.privilegio === 'V-' && (
+					<React.Fragment>
+						<Box mb={1}>
+							<ReturnSelected url={`${url}/personal-estudiante`} nested>
+								Estudiante
+							</ReturnSelected>
+						</Box>
+						<Box mb={1}>
+							<ReturnSelected url={`${url}/personal-representante`} nested>
+								Representante
+							</ReturnSelected>
+						</Box>
+						<Box mb={1}>
+							<ReturnSelected url={`${url}/personal-padres`} nested>
+								Padres
+							</ReturnSelected>
+						</Box>
+					</React.Fragment>
+				)}
+				{data.user?.privilegio === 'A-' && (
+					<Box mb={1}>
+						<ReturnSelected url={`${url}/personal-usuario`} nested>
+							Usuario
+						</ReturnSelected>
+					</Box>
+				)}
 			</Collapse>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/contraseña`}>
+				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/permisos`}>
+				<ReturnSelected url={`${url}/permisos`}>
 					Permisos
-				</ReturnSelected>
-			</Box>
-			<Box mb={1}>
-				<ReturnSelected url={`/gedure/usuarios/ver/${id}/opciones`}>
-					Opciones
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
@@ -166,54 +159,118 @@ function Navs() {
 	);
 }
 
-const Loading = () => <Grid container justify='center' item xs={8}>
+const Loading = () => <Grid container justify='center' item xs={12} sm={9}>
 	<CircularProgress />
 </Grid>;
 
 export default function PageShowUser() {
 	document.title = 'La Candelaria - Ver usuario';
+	const { id } = useParams();
 	let { url } = useRouteMatch();
 	
+	const { loading, data } = useSelector((state) => ({
+		loading: state.forms.showUser.loading,
+		data: state.forms.showUser.data,
+	}));
+	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
+	
 	const classes = useStyles();
+	
+	useEffect(()=>{
+		const getUser = async () => {
+			const prepare = {
+				url: `v1/user/${id}`,
+				type: 'get',
+				message404: 'No se pudo encontrar al usuario',
+				messageToFinish: false,
+			};
+
+			const response = await fetchData(prepare);
+			
+			if (response) {
+				dispatch(updateForms('showUser', false, response));
+			}else {
+				dispatch(updateForms('showUser', false));
+			}
+		}
+		
+		getUser();
+		
+		return () => {
+			dispatch(updateForms('showUser', true, {}));
+		}
+		
+		// eslint-disable-next-line
+	},[]);
 	
 	return (
 		<main className={classes.containerMain}>
 			<Container maxWidth='md'>
-				<Box mb={4}>
-					<BreadCrumbs />
-				</Box>
-				<Grid container spacing={2}>
-					<Navs />
-					<Grid item xs={12} sm={9}>
-						<Suspense fallback={<Loading />}>
-							<Switch>
-								<Route path={`${url}/`} exact>
-									<ShowUserPerfil />
-								</Route>
+				{loading && (
+					<Box align='center'>
+						<CircularProgress />
+					</Box>
+				)}
+				{(!loading && data.user) && (
+					<React.Fragment>
+						<Box mb={4}>
+							<BreadCrumbsShow />
+						</Box>
+						<Grid container spacing={2}>
+							<Navs />
+							<Grid item xs={12} sm={9}>
+								<MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
+									<Suspense fallback={<Loading />}>
+										<Switch>
+											<Route path={`${url}`} exact>
+												<Perfil id={id} />
+											</Route>
 
-								<Route path={`${url}/personal-estudiante`} exact>
-									<PersonalEstudiante />
-								</Route>
+											<Route path={`${url}/personal-usuario`} exact>
+												<PersonalUsuario id={id} />
+											</Route>
 
-								<Route path={`${url}/contraseña`} exact>
-									<ShowUserPassword />
-								</Route>
+											<Route path={`${url}/personal-estudiante`} exact>
+												<PersonalEstudianteData id={id} />
+												<PersonalEstudianteUbi id={id} />
+												<PersonalEstudianteOtros id={id} />
+											</Route>
+											
+											<Route path={`${url}/personal-representante`} exact>
+												<PersonalRepresentanteData id={id} />
+												<PersonalRepresentanteUbi id={id} />
+											</Route>
+											
+											<Route path={`${url}/personal-padres`} exact>
+												<PersonalMadre id={id} />
+												<PersonalPadre id={id} />
+											</Route>
 
-								<Route path={`${url}/permisos`} exact>
-									<ShowUserPermisos />
-								</Route>
+											<Route path={`${url}/contraseña`} exact>
+												<UserPassword id={id} />
+											</Route>
 
-								<Route path={`${url}/opciones`} exact>
-									<ShowUserOpciones />
-								</Route>
-								
-								<Route>
-									<Redirect to={`${url}/`} />
-								</Route>
-							</Switch>
-						</Suspense>
-					</Grid>
-				</Grid>
+											<Route path={`${url}/permisos`} exact>
+												<UserPermisos id={id} />
+											</Route>
+
+											<Route>
+												<Redirect to={`${url}`} />
+											</Route>
+										</Switch>
+									</Suspense>
+								</MuiPickersUtilsProvider>
+							</Grid>
+						</Grid>
+					</React.Fragment>
+				)}
+				{(!loading && !data.user) && (
+					<Box fontSize='body1.fontSize' align='center'>
+						No se ha podido encontrar al usuario #{id}, es posible que este usuario se encuentre desactivado.
+					</Box>
+				)}
 			</Container>
 		</main>
 	);

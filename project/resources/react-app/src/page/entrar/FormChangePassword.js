@@ -24,7 +24,7 @@ import updateForms from '../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		width: 160,
+		minWidth: 160,
 	}
 }));
 
@@ -104,7 +104,6 @@ function FormChangePassword() {
 							})}
 							name='confirm'
 							label='Repetir contraseña'
-							variant='outlined'
 							error={Boolean(errors?.confirm)}
 							helperText={errors?.confirm?.message ? errors.confirm.message : '* Campo requerido'}
 							disabled={loading}

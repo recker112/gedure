@@ -53,7 +53,7 @@ function FormLogin() {
 		const prepareDate = {
 			url: 'v1/login',
 			data: data,
-			successText: 'Login exitoso',
+			messageToFinish: false,
 			messageTo422: true,
 		}
 		

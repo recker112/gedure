@@ -164,6 +164,10 @@ class LoginController extends Controller
 					$listA['users_create'] = true;
 				}
 				
+				if ($perm->name === 'users_create_massive') {
+					$listA['users_create_massive'] = true;
+				}
+				
 				if ($perm->name === 'users_update') {
 					$listA['users_update'] = true;
 				}

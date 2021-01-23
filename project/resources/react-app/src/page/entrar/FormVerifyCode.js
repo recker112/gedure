@@ -22,7 +22,7 @@ import updateForms from '../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		width: 160,
+		minWidth: 160,
 	},
 	textButton: {
 		cursor: 'pointer',
@@ -155,8 +155,8 @@ function FormVerifyCode({ nextStep }) {
 								minLength: { value: 5, message: 'Error: Código no válido' },
 								maxLength: { value: 5, message: 'Error: Código no válido' },
 							})}
-							error={Boolean(errors?.email)}
-							helperText={errors?.email?.message ? errors.email.message : '* Campo requerido'}
+							error={Boolean(errors?.code)}
+							helperText={errors?.code?.message ? errors.code.message : '* Campo requerido'}
 							name='code'
 							label='Código'
 							fullWidth
@@ -179,7 +179,7 @@ function FormVerifyCode({ nextStep }) {
 								variant='contained'
 								className={classes.button}
 							>
-								Enviar correo
+								Verificar código
 							</Button>
 						</LoadingComponent>
 					</Grid>

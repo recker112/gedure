@@ -7,7 +7,7 @@ import {
 	Divider,
 } from '@material-ui/core';
 
-export default function ShowUserOpciones() {
+export default function Opciones() {
 	return (
 		<Box>
 			<Grid container spacing={2}>

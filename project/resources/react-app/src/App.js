@@ -5,9 +5,8 @@ import Header from './components/Header';
 import Routers from './Routers';
 
 // Material-UI
-import { CssBaseline, IconButton } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
 
 // SnackBar
 import { SnackbarProvider } from 'notistack';
@@ -43,34 +42,21 @@ function App() {
 		},
 	}),[tema]);
 
-	//Añadir action a todos los snackbar
-	const alertRef = React.createRef();
-	const onClickDismiss = key => () => {
-		alertRef.current.closeSnackbar(key);
-	};
-
 	return (
-		<ThemeProvider theme={themeConfig}>
-			<CssBaseline />
-			<SnackbarProvider
-				maxSnack={3}
-				//Botones con acciones.
-				action={key => (
-					<IconButton size="small" onClick={onClickDismiss(key)}>
-						<CloseIcon style={{ color: 'white' }} />
-					</IconButton>
-				)}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left'
-				}}
-				ref={alertRef}
-			>
+		<SnackbarProvider
+			maxSnack={3}
+			anchorOrigin={{
+				vertical: 'bottom',
+				horizontal: 'left'
+			}}
+		>
+			<ThemeProvider theme={themeConfig}>
+				<CssBaseline />
 				<Header />
 				<span id="top-anchor" />
 				<Routers />
-			</SnackbarProvider>
-		</ThemeProvider>
+			</ThemeProvider>
+		</SnackbarProvider>
 	);
 }
 

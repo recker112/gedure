@@ -123,21 +123,21 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
 		->get('users', [UserController::class, 'index']);
 	
+	// Show user
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
+		->get('user/{id}', [UserController::class, 'show']);
+	
 	// Create users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
 		->post('user', [UserController::class, 'create']);
 	
-	// Update user
+	// Update users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
-		->put('user/{id}', [UserController::class, 'update']);
+		->put('user/{id}', [UserController::class, 'edit']);
 	
 	// Soft delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);
-	
-	// Update data personal
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
-		->put('user-data/{id}', [UserController::class, 'updatePersonalData']);
 	
 	/*
 	INVITATION
