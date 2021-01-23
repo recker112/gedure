@@ -44,6 +44,7 @@ const PersonalMadre = lazy(() => import('./pages/PersonalMadre'));
 const PersonalPadre = lazy(() => import('./pages/PersonalPadre'));
 const PersonalRepresentanteData = lazy(() => import('./pages/PersonalRepresentanteData'));
 const PersonalRepresentanteUbi = lazy(() => import('./pages/PersonalRepresentanteUbi'));
+const PersonalRepresentanteEmpleo = lazy(() => import('./pages/PersonalRepresentanteEmpleo'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -241,6 +242,7 @@ export default function PageShowUser() {
 											<Route path={`${url}/personal-representante`} exact>
 												<PersonalRepresentanteData id={id} />
 												<PersonalRepresentanteUbi id={id} />
+												<PersonalRepresentanteEmpleo id={id} />
 											</Route>
 											
 											<Route path={`${url}/personal-padres`} exact>
