@@ -135,6 +135,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
 		->put('user/{id}', [UserController::class, 'edit']);
 	
+	// Soft delete user massive
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
+		->delete('user/massive', [UserController::class, 'deleteMassive']);
+	
 	// Soft delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);

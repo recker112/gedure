@@ -154,12 +154,12 @@ class User extends Authenticatable
 
 		static::deleting(function($user) {
 			if ($user->isForceDeleting()) {
-				if ($user->personalData()) {
-					$user->personalData()->forceDelete();
+				if ($user->personalData(false)) {
+					$user->personalData(false)->forceDelete();
 				}
 			}else {
-				if ($user->personalData()) {
-					$user->personalData()->delete();
+				if ($user->personalData(false)) {
+					$user->personalData(false)->delete();
 				}
 			}
 			

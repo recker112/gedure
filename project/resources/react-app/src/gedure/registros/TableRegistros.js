@@ -83,6 +83,8 @@ export default function TableRegistros({ tableRef, filters }) {
 				},
 			]}
 			options={{
+				sorting: false,
+				draggable: false,
 				actionsColumnIndex: -1,
 			}}
 		/>

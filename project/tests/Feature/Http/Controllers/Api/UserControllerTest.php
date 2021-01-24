@@ -306,9 +306,31 @@ class UserControllerTest extends TestCase
 		$this->assertDeleted($alumno);
 	}
 	
+	public function testDeleteUserMassive()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		User::factory(10)->create();
+		
+		$ids = json_encode([2,3,4,5,6,7,8,9,10,11]);
+		
+		$response = $this->deleteJson('/api/v1/user/massive?ids='.urlencode($ids));
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
+		
+		$this->assertSoftDeleted(User::find(4));
+	}
+	
 	public function testUploadMassiveStudiends()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
