@@ -139,6 +139,9 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);
 	
+	// Matricula Upload
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create_massive'])
+		->post('user/matricula', [UserController::class, 'uploadMassiveStudiends']);
 	/*
 	INVITATION
 	*/

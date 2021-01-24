@@ -43,6 +43,24 @@ class CursoSeeder extends Seeder
 		]);
 		
 		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A'
+		]);
+		
+		$curso = Curso::create([
+			'code' => '1-B',
+			'curso' => '1',
+			'seccion' => 'B'
+		]);
+		
+		$curso = Curso::create([
+			'code' => '1-C',
+			'curso' => '1',
+			'seccion' => 'C'
+		]);
+		
+		$curso = Curso::create([
 			'code' => '5-A',
 			'curso' => '5',
 			'seccion' => 'A'

@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 //Mails
 use App\Mail\CodeSecurity;
@@ -157,6 +158,7 @@ class LoginControllerTest extends TestCase
 	public function testRecoveryPassword()
 	{
 		//$this->withoutExceptionHandling();
+		Mail::fake();
 		
 		$response = $this->postJson('/api/v1/recovery-password', [
 			'email' => 'joseortiz112001@gmail.com'
@@ -166,11 +168,13 @@ class LoginControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+		
+		Mail::assertQueued(CodeSecurity::class);
 	}
 	
 	public function testRecoveryPasswordVerifyCode()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = User::find(1);
 		
 		RecoveryPassword::factory()->create([
