@@ -52,6 +52,7 @@ export default function PageUserIndex() {
 	document.title = 'La Candelaria - Usuarios';
 	const [openFilter, setOpenFilter] = useState(false);
 	const [countFilters, setCountFilters] = useState({});
+	const [massiveDelete, setMassiveDelete] = useState(false);
 	const tableRef = useRef(null);
 	
 	const { data } = useSelector((state) => ({
@@ -62,6 +63,10 @@ export default function PageUserIndex() {
 	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
+	
+	const handleMassive = () => {
+		setMassiveDelete(!massiveDelete);
+	}
 	
 	const handleChange = (event) => {
 		const counts = countFilters;
@@ -139,6 +144,7 @@ export default function PageUserIndex() {
 													<MenuItem value=''><em>Todos</em></MenuItem>
 													<MenuItem value='A-'>Administradores</MenuItem>
 													<MenuItem value='V-'>Estudiantes</MenuItem>
+													<MenuItem value='V-NA'>Estudiantes sin curso</MenuItem>
 												</Select>
 											</FormControl>
 										</Grid>
@@ -197,6 +203,8 @@ export default function PageUserIndex() {
 							<TableUsers
 								tableRef={tableRef}
 								filters={countFilters}
+								massiveDelete={massiveDelete}
+								handleMassive={handleMassive}
 							/>
 						</Grid>
 					</Grid>

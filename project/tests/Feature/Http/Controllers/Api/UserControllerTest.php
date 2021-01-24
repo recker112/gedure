@@ -7,11 +7,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
+use Maatwebsite\Excel\Facades\Excel;
 // Passport
 use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\Alumno;
+use App\Models\Curso;
 
 class UserControllerTest extends TestCase
 {
@@ -168,10 +171,13 @@ class UserControllerTest extends TestCase
 	public function testEditUser()
 	{
 		//$this->withoutExceptionHandling();
+		
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
+		
+		Storage::fake('public');
 		
 		$user = User::factory()->create([
 			'privilegio' => 'A-'
@@ -218,11 +224,6 @@ class UserControllerTest extends TestCase
     ]);
 		
 		Storage::disk('public')->assertExists('avatars/avatar_'.$user->username.'.png');
-		
-		$filesDelete = Storage::disk('public')->allFiles('avatars');
-		Storage::disk('public')->delete($filesDelete);
-		
-		Storage::disk('public')->assertMissing('avatars/avatar_'.$user->username.'.png');
 	}
 	
 	public function testErrorCedulaCreateStudiant()
@@ -303,5 +304,49 @@ class UserControllerTest extends TestCase
 		
 		$this->assertSoftDeleted($user);	
 		$this->assertDeleted($alumno);
+	}
+	
+	public function testUploadMassiveStudiends()
+	{
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Excel::fake();
+		
+		// Cursos
+		Curso::create([
+			'code' => '1A',
+			'curso' => '1 año',
+			'seccion' => 'A',
+		]);
+		Curso::create([
+			'code' => '1B',
+			'curso' => '1 año',
+			'seccion' => 'B',
+		]);
+		Curso::create([
+			'code' => '1C',
+			'curso' => '1 año',
+			'seccion' => 'C',
+		]);
+		
+		Storage::persistentFake('local');
+		
+		$file = new File(Storage::path('data_studiends.xlsx'));
+		$fileUpload = new UploadedFile(Storage::path('data_studiends.xlsx'), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson('/api/v1/user/matricula', [
+			'database' => $fileUpload,
+		]);
+
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);;
+		
+		Excel::assertQueued($file->getFileName());
 	}
 }

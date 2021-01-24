@@ -64,7 +64,7 @@ class InvitationController extends Controller
 			'invitation_key' => Str::random(40),
 		]);
 		
-		Mail::to($user)->queue(new MailInvitation($user, $user->invitation->invitation_key));
+		Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));
 		
 		return response()->json([
 			'msg' => 'Invitación enviada'

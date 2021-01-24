@@ -5,7 +5,11 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+
+// Mails
+use App\Mail\Invitation as MailInvitation;
 
 // Passport
 use Laravel\Passport\Passport;
@@ -30,6 +34,8 @@ class InvitationControllerTest extends TestCase
 			['admin']
 		);
 		
+		Mail::fake();
+		
 		$response = $this->postJson('/api/v1/invitation/users', [
 			'username' => 'luis',
 			'name' => 'Luis Enrrique',
@@ -53,6 +59,8 @@ class InvitationControllerTest extends TestCase
 		$this->assertDatabaseHas('users', [
         'email' => 'test@test.test',
     ]);
+		
+		Mail::assertQueued(MailInvitation::class);
 	}
 	
 	public function testGetUserInvitation()

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { Link as RouteLink } from 'react-router-dom';
 
@@ -15,29 +15,70 @@ import {
 	Link,
 } from '@material-ui/core';
 
+import useFetch from '../../../hooks/useFetch';
+
 import { useForm } from "react-hook-form";
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 export default function UploadMatricula() {
-	const { open } = useSelector((state) => ({
+	const [progress, setProgress] = useState(0);
+	const { open, loading } = useSelector((state) => ({
 		open: state.dialogs.uploadMatricula.open,
+		loading: state.dialogs.uploadMatricula.loading,
 	}));
 	const dispatch = useDispatch();
 	
 	const { handleSubmit, register, errors } = useForm();
+	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
-		dispatch(updateDialogs('uploadMatricula', false, false));
+		if (!loading) {
+			dispatch(updateDialogs('uploadMatricula', false, false));
+		}
 	}
 	
-	const onSubmit = submitData => {
-		console.log(submitData);
+	const onUploadProgress = useCallback((progressEvent) => {
+		let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+		setProgress(percentCompleted);
+		// eslint-disable-next-line
+	}, []);
+	
+	const onSubmit = async submitData => {
+		dispatch(updateDialogs('uploadMatricula', true, true));
+		
+		const formData = new FormData();
+		formData.append('database', submitData.database[0]);
+		
+		const prepare = {
+			url: 'v1/user/matricula',
+			type: 'post',
+			data: formData,
+			otherData: {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				},
+				onUploadProgress: onUploadProgress,
+			},
+			variant: 'info'
+		};
+
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			dispatch(updateDialogs('uploadMatricula', false, false));
+		}else {
+			dispatch(updateDialogs('uploadMatricula', true, false));
+		}
+		
+		setProgress(0);
 	}
 	
 	return (
@@ -54,7 +95,7 @@ export default function UploadMatricula() {
 							defaultValue={null}
 							style={{display: 'none'}}
 							accept="application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							name='matricula'
+							name='database'
 							type="file"
 						/>
 						<label htmlFor="matricula-upload-file">
@@ -67,13 +108,20 @@ export default function UploadMatricula() {
 						)}
 					</Grid>
 					<Grid item xs={12}>
-						<DialogContentText>Si tienes dudas respecto al formato que debe usar al cargar estudiantes puede ver el formato correcto <Link color='primary' onClick={handleClose} component={RouteLink} to='/panel/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
+						<DialogContentText>El proceso de carga de matrícula es realizado en segundo plano. Si tienes dudas respecto al formato que debe usar al cargar estudiantes puede ver el formato correcto <Link color='primary' onClick={handleClose} component={RouteLink} to='/panel/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
 					</Grid>
 				</Grid>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Cancelar</Button>
-				<Button onClick={handleSubmit(onSubmit)}>Cargar</Button>
+				<Button onClick={handleClose} disabled={loading}>Cancelar</Button>
+				<LoadingComponent 
+					loading={loading}
+					progressLoading 
+					progress={progress}
+					color="inherit"
+				>
+					<Button onClick={handleSubmit(onSubmit)}>Cargar</Button>
+				</LoadingComponent>
 			</DialogActions>
 		</Dialog>
 	);

@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import PersonIcon from '@material-ui/icons/Person';
 import Delete from '@material-ui/icons/Delete';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function TableUsers({ tableRef, filters }) {
+export default function TableUsers({ tableRef, filters, massiveDelete, handleMassive }) {
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.usersIndex.loading,
 	}));
@@ -55,13 +56,15 @@ export default function TableUsers({ tableRef, filters }) {
 
 		const response = await fetchData(prepare);
 		
-		dispatch(updateForms('usersIndex', false));
+		if (loading) {
+			dispatch(updateForms('usersIndex', false));
+		}
 
 		if (response) {
 			return {
-				data: response.data || [],
-				page: response.page || 0,
-				totalCount: response.totalUsers || 0,
+				data: response.data,
+				page: response.page,
+				totalCount: response.totalUsers,
 			};
 		} else {
 			return {
@@ -105,10 +108,7 @@ export default function TableUsers({ tableRef, filters }) {
 						}
 					},
 				},
-				{
-					title: 'Nombre', 
-					field: 'name',
-				},
+				{title: 'Nombre', field: 'name'},
 				{title: 'Correo', field: 'email'},
 				{
 					title: 'Estado', 
@@ -123,8 +123,17 @@ export default function TableUsers({ tableRef, filters }) {
 			]}
 			actions={[
 				{
+					icon: () => (<DeleteSweepIcon />),
+					tooltip: 'Borrador masivo',
+					isFreeAction: true,
+					onClick: (event, rowData) => {
+						handleMassive();
+					},
+				},
+				{
 					icon: () => (<PersonIcon />),
 					tooltip: 'Ver',
+					hidden: massiveDelete,
 					onClick: (event, rowData) => {
 						history.push(`/gedure/usuarios/ver/${rowData.id}`);
 					},
@@ -144,6 +153,8 @@ export default function TableUsers({ tableRef, filters }) {
 			]}
 			options={{
 				actionsColumnIndex: -1,
+				selection: massiveDelete,
+				pageSizeOptions: [5,10,20,30,40]
 			}}
 		/>
 	);

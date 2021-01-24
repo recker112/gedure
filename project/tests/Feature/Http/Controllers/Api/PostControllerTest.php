@@ -179,7 +179,7 @@ class PostControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::fake('post');
+		Storage::fake('public');
 		
 		$portada = UploadedFile::fake()->image('Universidad.png');
 		
@@ -210,12 +210,6 @@ class PostControllerTest extends TestCase
 		
 		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
 		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/portada_'.$portada->name);
-		
-		//Clear files
-		$filesDelete = Storage::disk('public')->allFiles('posts/'.$postCreated->id);
-		Storage::disk('public')->delete($filesDelete);
-		
-		Storage::disk('public')->assertMissing('posts/'.$postCreated->id.'/'.$files[0]->name);
 	}
 	
 	public function testEditPost() {
@@ -255,7 +249,7 @@ class PostControllerTest extends TestCase
 			'title' => 'testing TDD'
 		]);
 		
-		Storage::fake('post');
+		Storage::fake('public');
 		
 		$portada = UploadedFile::fake()->image('test4.jpg');
 		
@@ -283,12 +277,6 @@ class PostControllerTest extends TestCase
 		
 		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
 		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/portada_'.$portada->name);
-		
-		//Clear files
-		$filesDelete = Storage::disk('public')->allFiles('posts/'.$postCreated->id);
-		Storage::disk('public')->delete($filesDelete);
-		
-		Storage::disk('public')->assertMissing('posts/'.$postCreated->id.'/'.$files[0]->name);
 	}
 	
 	public function testErrorEditPost() {
@@ -331,7 +319,7 @@ class PostControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::fake('post');
+		Storage::fake('public');
 		
 		$files = [
 			UploadedFile::fake()->image('test1.png'),
@@ -380,7 +368,7 @@ class PostControllerTest extends TestCase
 	}
 	
 	public function testTableAdminPost() {
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']

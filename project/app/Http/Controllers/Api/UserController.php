@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
+use App\Http\Requests\MatriculaRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\CursoController;
+
+// Excel
+use App\Imports\StudiendImport;
 
 // Models
 use App\Models\User;
@@ -23,6 +27,10 @@ class UserController extends Controller
 
 		$search = urldecode(request()->search);
 		$type = $request->type;
+		if ($type === 'V-NA') {
+			$type = 'V-';
+			$onlyNoAlumno = true;
+		}
 		$curso = $request->curso;
 		$seccion = $request->seccion;
 
@@ -36,13 +44,16 @@ class UserController extends Controller
 					->orWhere('name', 'like', '%'.$search.'%')
 					->orWhere('email', 'like', '%'.$search.'%');
 			})
-			->when($type === 'V-', function ($query) {
+			->when($type === 'V-' && !isset($onlyNoAlumno), function ($query) {
 				$query->whereHas('alumno', function (Builder $query) {
 					$query->whereHas('curso', function (Builder $query) {
 						$code = request()->curso.'-'.request()->seccion;
 						$query->where('code', 'like', '%'.$code.'%');
 					});
 				});
+			})
+			->when(isset($onlyNoAlumno), function ($query) {
+				$query->doesntHave('alumno');
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
 				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
@@ -61,6 +72,18 @@ class UserController extends Controller
 				$query->where('username', 'like', '%'.$search.'%')
 					->orWhere('name', 'like', '%'.$search.'%')
 					->orWhere('email', 'like', '%'.$search.'%');
+			})
+			->when($type === 'V-', function ($query) {
+				$query->whereHas('alumno', function (Builder $query) {
+					$query->whereHas('curso', function (Builder $query) {
+						$code = request()->curso.'-'.request()->seccion;
+						$query->where('code', 'like', '%'.$code.'%');
+					});
+				});
+			})
+			->when(!empty($curso) && !empty($seccion), function ($query) {
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+					->orderBy('n_lista');
 			})
 			->count();
 		
@@ -144,12 +167,17 @@ class UserController extends Controller
 				],404);
 			}
 			
+			$curso_old = $user->alumno->curso_id;
+			
 			$user->alumno()->update([
 				'curso_id' => $curso->id,
 				'n_lista' => 99,
 			]);
 			
 			CursoController::orderAlumnos($curso->id);
+			if ($curso_old && $curso_old !== $curso->id) {
+				CursoController::orderAlumnos($curso_old);
+			}
 		}
 		
 		if ($delete_avatar) {
@@ -215,6 +243,17 @@ class UserController extends Controller
 		
 		return response()->json([
 			'msg' => 'Cuenta desactivada'
+		],200);
+	}
+	
+	public function uploadMassiveStudiends(MatriculaRequest $request)
+	{
+		$file = $request->file('database');
+		
+		$result = (new StudiendImport)->import($file)->allOnQueue('high');
+		
+		return response()->json([
+			'msg' => 'Matricula en progreso',
 		],200);
 	}
 	

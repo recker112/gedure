@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
 	protected function schedule(Schedule $schedule)
 	{
 		// php artisan schedule:run
-		$schedule->command('queue:work --stop-when-empty --tries=3')->everyMinute()->withoutOverlapping();
+		$schedule->command('queue:work --stop-when-empty --tries=3 --queue=high,emails,default')->everyMinute()->withoutOverlapping();
 	}
 
 	/**

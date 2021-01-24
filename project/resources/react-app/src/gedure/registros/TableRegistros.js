@@ -42,9 +42,9 @@ export default function TableRegistros({ tableRef, filters }) {
 		
 		if (res) {
 			const result = {
-				data: res.data || [],
-				page: res.page || 0,
-				totalCount: res.totalLogs || 0
+				data: res.data,
+				page: res.page,
+				totalCount: res.totalLogs,
 			}
 			return result;
 		}else {
@@ -65,7 +65,7 @@ export default function TableRegistros({ tableRef, filters }) {
 			columns={[
 				{title: 'Usuario', field: 'username'},
 				{title: 'Nombre', field: 'name'},
-				{title: 'Acciรณn', field: 'action'},
+				{title: 'Acción', field: 'action'},
 				{title: 'Fecha', field: 'created_at'}
 			]}
 			data={onFetch}

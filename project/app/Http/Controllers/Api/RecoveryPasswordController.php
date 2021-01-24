@@ -31,7 +31,7 @@ class RecoveryPasswordController extends Controller
 				'code' => $code,
 			]);
 			
-			Mail::to($user)->queue(new CodeSecurity($user, $code));
+			Mail::to($user)->queue((new CodeSecurity($user, $code))->onQueue('emails'));
 			$step=0;
 		}else {
 			// Si existe un registro
@@ -47,7 +47,7 @@ class RecoveryPasswordController extends Controller
 					'code' => $code,
 				]);
 				
-				Mail::to($user)->queue(new CodeSecurity($user, $code));
+				Mail::to($user)->queue((new CodeSecurity($user, $code))->onQueue('emails'));
 				$step=2;
 			}else if ($user->recoveryPassword && $timeNow >= $timeUpdated) {
 				// Reenviar code si han pasado más de dos minutos
@@ -55,7 +55,7 @@ class RecoveryPasswordController extends Controller
 				$user->recoveryPassword->updated_at = $timeNow;
 				$user->recoveryPassword->save();
 
-				Mail::to($user)->queue(new CodeSecurity($user, $codeRegistred));
+				Mail::to($user)->queue((new CodeSecurity($user, $codeRegistred))->onQueue('emails'));
 				$step=1;
 			} else {
 				$waitSeconds = $timeUpdated->diffInSeconds($timeNow);

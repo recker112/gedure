@@ -43,7 +43,9 @@ export default function CreateUser({ tableRef }) {
 	const { fetchData } = useFetch(setError);
 	
 	const handleClose = () => {
-		dispatch(updateDialogs('crearUser', false, false));
+		if (!loading) {
+			dispatch(updateDialogs('crearUser', false, false));	
+		}
 	}
 	
 	const onSubmit = async (submitData) => {
