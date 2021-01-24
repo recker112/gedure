@@ -85,6 +85,8 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 						'n_lista' => 99,
 					]);
 					
+					$user->givePermissionsTo(['boletas', 'horarios', 'soporte']);
+					
 					if ($user->email) {
 						$user->invitation()->create([
 							'invitation_key' => Str::random(40),
