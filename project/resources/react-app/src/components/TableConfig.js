@@ -16,6 +16,28 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+export const tableLocation = {
+	body: {
+		emptyDataSourceMessage: 'No hay registros'
+	},
+	header: {
+		actions: 'Opciones'
+	},
+	toolbar: {
+		searchPlaceholder: 'Buscar',
+		searchTooltip: 'Buscar',
+		nRowsSelected: '{0} fila(s) marcadas',
+	},
+	pagination: {
+		labelDisplayedRows: '{from}-{to} de {count}',
+		firstTooltip: 'Primera página',
+		previousTooltip: 'Página anterior',
+		nextTooltip: 'Próxima página',
+		lastTooltip: 'Última página',
+		labelRowsSelect: 'filas'
+	},
+}
+
 export const tableIcons = {
 	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
 	Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -35,24 +57,3 @@ export const tableIcons = {
 	ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
-
-export const tableLocation = {
-	body: {
-		emptyDataSourceMessage: 'No hay registros'
-	},
-	header: {
-		actions: 'Opciones'
-	},
-	toolbar: {
-		searchPlaceholder: 'Buscar',
-		searchTooltip: 'Buscar'
-	},
-	pagination: {
-		labelDisplayedRows: '{from}-{to} de {count}',
-		firstTooltip: 'Primera página',
-		previousTooltip: 'Página anterior',
-		nextTooltip: 'Próxima página',
-		lastTooltip: 'Última página',
-		labelRowsSelect: 'filas'
-	},
-}

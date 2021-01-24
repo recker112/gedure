@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableUsers({ tableRef, filters, massiveDelete, handleMassive }) {
+	const [pageSizeController, setpageSizeController] = useState(5);
 	const { loading } = useSelector((state) => ({
 		loading: state.forms.usersIndex.loading,
 	}));
@@ -40,6 +41,8 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 	const classes = useStyles();
 	
 	const history = useHistory();
+	
+	const handleChange = value => setpageSizeController(value);
 	
 	const onFetch = useCallback(async (query) => {
 		if (loading) {
@@ -83,6 +86,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 			icons={tableIcons}
 			localization={tableLocation}
 			data={onFetch}
+			onChangeRowsPerPage={pageSize => handleChange(pageSize)}
 			columns={[
 				{
 					title: 'Avatar',
@@ -102,7 +106,12 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					field: 'username',
 					render: (rowData) => {
 						if (rowData.privilegio === 'V-' && rowData.n_lista) {
-							return `${rowData.privilegio}${rowData.username} (N° lista ${rowData.n_lista})`
+							return (
+								<React.Fragment>
+									<div>{rowData.privilegio+rowData.username}</div>
+									<div>N° lista {rowData.n_lista}</div>
+								</React.Fragment>
+							)
 						}else {
 							return `${rowData.privilegio}${rowData.username}`
 						}
@@ -124,7 +133,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 			actions={[
 				{
 					icon: () => (<DeleteSweepIcon />),
-					tooltip: 'Borrador masivo',
+					tooltip: 'Desactivador masivo',
 					isFreeAction: true,
 					onClick: (event, rowData) => {
 						handleMassive();
@@ -142,19 +151,34 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					icon: () => (<Delete />),
 					tooltip: 'Desactivar',
 					onClick: (event, rowData) => {
-						const data = {
-							id: rowData.id,
-							username: rowData.username,
+						if (!massiveDelete) {
+							const data = {
+								id: rowData.id,
+								username: rowData.username,
+							}
+							dispatch(updateDialogs('deleteConfirmation', true, false, data));
+						}else {
+							let i = 0;
+							let newData = [];
+							for(let value of rowData){
+								newData[i] = value.id;
+								i++;
+							}
+							dispatch(updateDialogs('deleteConfirmation', true, false, {
+								deleteMassive: true,
+								ids: newData
+							}));
 						}
-
-						dispatch(updateDialogs('deleteConfirmation', true, false, data));
 					},
 				},
 			]}
 			options={{
+				sorting: false,
+				draggable: false,
 				actionsColumnIndex: -1,
 				selection: massiveDelete,
-				pageSizeOptions: [5,10,20,30,40]
+				pageSizeOptions: [5,10,20,30,40],
+				pageSize: pageSizeController,
 			}}
 		/>
 	);

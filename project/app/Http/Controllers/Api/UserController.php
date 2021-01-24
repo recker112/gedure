@@ -9,6 +9,7 @@ use App\Http\Requests\TableRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\MatriculaRequest;
+use App\Http\Requests\MassiveDeleteRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\CursoController;
 
@@ -37,8 +38,7 @@ class UserController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$users = User::where('privilegio', 'like', '%'.$type.'%')
-			->where(function ($query) {
+		$users = User::where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
 					->orWhere('name', 'like', '%'.$search.'%')
@@ -56,9 +56,11 @@ class UserController extends Controller
 				$query->doesntHave('alumno');
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+				$query->select('users.id', 'users.username', 'users.name', 'users.email', 'alumnos.n_lista', 'users.privilegio', 'users.actived_at')
+					->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
 			})
+			->where('privilegio', 'like', '%'.$type.'%')
 			->orderBy('users.id', 'desc')
 			->offset($page)
 			->limit($perPage)
@@ -239,10 +241,34 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		
 		Storage::disk('public')->delete($user->avatarOriginal);
+		$curso_id = $user->alumno;
 		$user->delete();
+		
+		if ($curso_id) {
+			$curso_id = $curso_id->curso_id;
+			CursoController::orderAlumnos($curso_id);
+		}
 		
 		return response()->json([
 			'msg' => 'Cuenta desactivada'
+		],200);
+	}
+	
+	public function deleteMassive(MassiveDeleteRequest $request)
+	{
+		$ids = json_decode(urldecode($request->ids));
+		
+		$i=0;
+		foreach($ids as $id) {
+			$user = User::find($id);
+			
+			if ($user) {
+				$this->delete($id);
+				$i++;
+			}
+		}
+		return response()->json([
+			'msg' => "Desactivadas $i cuentas"
 		],200);
 	}
 	

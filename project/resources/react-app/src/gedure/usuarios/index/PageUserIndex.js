@@ -104,6 +104,24 @@ export default function PageUserIndex() {
 		handleClose();
 	}
 	
+	const onConfirm2 = async handleClose => {
+		const prepare = {
+			url: `v1/user/massive?ids=${encodeURI(JSON.stringify(data.ids))}`,
+			type: 'delete',
+			message404: 'El usuario ya no existe',
+		};
+		
+		const response = await fetchData(prepare);
+
+		dispatch(updateDialogs('deleteConfirmation', false, true));
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
+	}
+	
 	return (
 		<main className={classes.containerMain}>
 			<Container>
@@ -211,9 +229,16 @@ export default function PageUserIndex() {
 				</Grid>
 				<CreateUser tableRef={tableRef} />
 				<UploadMatricula />
-				<DialogConfirmation callback={onConfirm}>
-					Estáก a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
-				</DialogConfirmation>
+				{data.deleteMassive && (
+					<DialogConfirmation callback={onConfirm2}>
+						Estáก a punto de desactivar <strong>{data.ids?.length}</strong> cuentas. Si llega a desactivar una cuenta por accidente puede reactivarla.
+					</DialogConfirmation>
+				)}
+				{!data.deleteMassive && (
+					<DialogConfirmation callback={onConfirm}>
+						Estáก a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
+					</DialogConfirmation>
+				)}
 			</Container>
 		</main>
 	);
