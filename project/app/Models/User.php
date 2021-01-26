@@ -68,6 +68,11 @@ class User extends Authenticatable
 		return $this->hasOne('App\Models\Alumno');
 	}
 	
+	public function boletas()
+	{
+		return $this->hasMany('App\Models\Boleta');
+	}
+	
 	public function blocks()
 	{
 		return $this->hasOne('App\Models\Block');
@@ -154,11 +159,15 @@ class User extends Authenticatable
 
 		static::deleting(function($user) {
 			if ($user->isForceDeleting()) {
-				if ($user->personalData(false)) {
+				if ($user->personalData) {
 					$user->personalData(false)->forceDelete();
 				}
+				
+				foreach($user->boletas as $boleta) {
+					$boleta->delete();
+				}
 			}else {
-				if ($user->personalData(false)) {
+				if ($user->personalData) {
 					$user->personalData(false)->delete();
 				}
 			}
@@ -169,8 +178,12 @@ class User extends Authenticatable
 					$post->save();
 				}
 			}else if($user->privilegio === 'V-') {
-				if ($user->alumno()){
+				if ($user->alumno){
 					$user->alumno()->delete();
+				}
+				
+				foreach($user->boletas as $boleta) {
+					$boleta->delete();
 				}
 			}
 		});
@@ -178,6 +191,9 @@ class User extends Authenticatable
 		static::restoring(function($user) {
 			if ($user->privilegio === 'V-') {
 				$user->personalDataUser()->restore();
+				foreach($user->boletas as $boleta) {
+					$boleta->restore();
+				}
 			} else if ($user->privilegio === 'A-') {
 				$user->personalDataAdmin()->restore();
 			}

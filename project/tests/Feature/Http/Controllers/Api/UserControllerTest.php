@@ -382,7 +382,7 @@ class UserControllerTest extends TestCase
 		Storage::persistentFake('local');
 		
 		$file = new File(Storage::path('data_studiends.xlsx'));
-		$fileUpload = new UploadedFile(Storage::path('data_studiends.xlsx'), $file->getFileName(), $file->getMimeType(), null, true);
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 		
 		$response = $this->postJson('/api/v1/user/matricula', [
 			'database' => $fileUpload,
