@@ -314,11 +314,11 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		User::factory(10)->create();
+		$users = User::factory(10)->create();
 		
 		$ids = json_encode([2,3,4,5,6,7,8,9,10,11]);
 		
-		$response = $this->deleteJson('/api/v1/user/massive?ids='.urlencode($ids));
+		$response = $this->deleteJson('/api/v1/massive/user?ids='.urlencode($ids));
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -326,6 +326,30 @@ class UserControllerTest extends TestCase
 			]);
 		
 		$this->assertSoftDeleted(User::find(4));
+	}
+	
+	public function testUpdateSeccionMassive()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$users = User::factory(10)->create([
+			'privilegio' => 'V-',
+		]);
+		
+		$response = $this->putJson('/api/v1/massive/seccion',[
+			'ids' => [2,3,4,5,6,7,8,9,10,11],
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
 	}
 	
 	public function testUploadMassiveStudiends()

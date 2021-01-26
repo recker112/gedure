@@ -20,7 +20,7 @@ function LoadingComponent(props) {
 			return (
 				<Box>
 					<Box position="relative" display="inline-flex">
-						<CircularProgress color={color} variant="determinate" value={progress} />
+						<CircularProgress color={color} variant="static" value={progress} />
 						<Box
 							top={0}
 							left={0}

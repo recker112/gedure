@@ -23,6 +23,7 @@ import TableUsers from './TableUsers';
 import CreateUser from './CreateUser';
 import UploadMatricula from './UploadMatricula';
 import DialogConfirmation from '../../../components/DialogConfirmation';
+import UpdateSeccion from './UpdateSeccion';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -106,7 +107,7 @@ export default function PageUserIndex() {
 	
 	const onConfirm2 = async handleClose => {
 		const prepare = {
-			url: `v1/user/massive?ids=${encodeURI(JSON.stringify(data.ids))}`,
+			url: `v1/massive/user?ids=${encodeURI(JSON.stringify(data.ids))}`,
 			type: 'delete',
 			message404: 'El usuario ya no existe',
 		};
@@ -239,6 +240,7 @@ export default function PageUserIndex() {
 						Estáก a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
 					</DialogConfirmation>
 				)}
+				<UpdateSeccion tableRef={tableRef} />
 			</Container>
 		</main>
 	);

@@ -103,6 +103,10 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	updateCurso: {
+		loading: false,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

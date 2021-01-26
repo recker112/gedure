@@ -135,10 +135,6 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
 		->put('user/{id}', [UserController::class, 'edit']);
 	
-	// Soft delete user massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
-		->delete('user/massive', [UserController::class, 'deleteMassive']);
-	
 	// Soft delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);
@@ -146,6 +142,14 @@ Route::group(['prefix' => 'v1'], function () {
 	// Matricula Upload
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create_massive'])
 		->post('user/matricula', [UserController::class, 'uploadMassiveStudiends']);
+	
+	// Update seccion massive
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
+		->put('massive/seccion', [UserController::class, 'updateSeccionMassive']);
+	
+	// Soft delete user massive
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
+		->delete('massive/user', [UserController::class, 'deleteMassive']);
 	/*
 	INVITATION
 	*/
