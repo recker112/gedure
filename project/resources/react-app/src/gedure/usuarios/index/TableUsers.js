@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import PersonIcon from '@material-ui/icons/Person';
 import Delete from '@material-ui/icons/Delete';
-import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import GroupIcon from '@material-ui/icons/Group';
+import ClassIcon from '@material-ui/icons/Class';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -132,8 +133,8 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 			]}
 			actions={[
 				{
-					icon: () => (<DeleteSweepIcon />),
-					tooltip: 'Desactivador masivo',
+					icon: () => (<GroupIcon />),
+					tooltip: 'Opciones masivas',
 					isFreeAction: true,
 					onClick: (event, rowData) => {
 						handleMassive();
@@ -147,9 +148,31 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 						history.push(`/gedure/usuarios/ver/${rowData.id}`);
 					},
 				},
+				() => {
+					let hidden = true;
+					if (filters.type === 'V-' || filters.type === 'V-NA') {
+						if (massiveDelete) {
+							hidden = false;
+						}
+					}
+					return ({
+						icon: () => (<ClassIcon />),
+						tooltip: 'Cambiar sección',
+						hidden,
+						onClick: (event, rowData) => {
+							let i = 0;
+							let newData = [];
+							for(let value of rowData){
+								newData[i] = value.id;
+								i++;
+							}
+							dispatch(updateDialogs('updateSeccion', true, false, newData));
+						},
+					})
+				},
 				{
 					icon: () => (<Delete />),
-					tooltip: 'Desactivar',
+					tooltip: 'Desactivar cuenta',
 					onClick: (event, rowData) => {
 						if (!massiveDelete) {
 							const data = {

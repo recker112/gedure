@@ -9,7 +9,8 @@ use App\Http\Requests\TableRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\MatriculaRequest;
-use App\Http\Requests\MassiveDeleteRequest;
+use App\Http\Requests\MassiveUsersRequest;
+use App\Http\Requests\MassiveUsersUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\CursoController;
 
@@ -169,16 +170,17 @@ class UserController extends Controller
 				],404);
 			}
 			
-			$curso_old = $user->alumno->curso_id;
+			$curso_old = $user->alumno;
 			
-			$user->alumno()->update([
-				'curso_id' => $curso->id,
-				'n_lista' => 99,
-			]);
+			$user->alumno()->updateOrCreate(['user_id' => $user->id],
+				[
+					'curso_id' => $curso->id,
+					'n_lista' => 99,
+				]);
 			
 			CursoController::orderAlumnos($curso->id);
 			if ($curso_old && $curso_old !== $curso->id) {
-				CursoController::orderAlumnos($curso_old);
+				CursoController::orderAlumnos($curso_old->curso_id);
 			}
 		}
 		
@@ -254,7 +256,7 @@ class UserController extends Controller
 		],200);
 	}
 	
-	public function deleteMassive(MassiveDeleteRequest $request)
+	public function deleteMassive(MassiveUsersRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
 		
@@ -269,6 +271,48 @@ class UserController extends Controller
 		}
 		return response()->json([
 			'msg' => "Desactivadas $i cuentas"
+		],200);
+	}
+	
+	public function updateSeccionMassive(MassiveUsersUpdateRequest $request)
+	{
+		$ids = $request->ids;
+		
+		$code = $request->curso.'-'.$request->seccion;
+		$curso = Curso::firstWhere('code', $code);
+
+		if (!$curso) {
+			return response()->json([
+				'msg' => 'El curso '.$code.' no existe',
+			],404);
+		}
+		
+		$i=0;
+		foreach($ids as $id) {
+			$user = User::find($id);
+			
+			if ($user && $user->privilegio === 'V-') {
+				$curso_old = $user->alumno;
+
+				$user->alumno()->updateOrCreate(['user_id' => $user->id],
+					[
+						'curso_id' => $curso->id,
+						'n_lista' => 99,
+					]);
+
+				if ($curso_old && $curso_old !== $curso->id) {
+					CursoController::orderAlumnos($curso_old->curso_id);
+				}
+				$i++;
+			}
+		}
+		
+		if ($i) {
+			CursoController::orderAlumnos($curso->id);
+		}
+		
+		return response()->json([
+			'msg' => "$i estudiantes actualizados"
 		],200);
 	}
 	

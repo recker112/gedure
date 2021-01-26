@@ -33,7 +33,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 
 // Pages
-const Perfil = lazy(() => import('./pages/Perfil'));
+const PerfilAvatar = lazy(() => import('./pages/PerfilAvatar'));
+const PerfilDatos = lazy(() => import('./pages/PerfilDatos'));
 const UserPassword = lazy(() => import('./pages/UserPassword'));
 const UserPermisos = lazy(() => import('./pages/UserPermisos'));
 const PersonalUsuario = lazy(() => import('./pages/PersonalUsuario'));
@@ -45,6 +46,7 @@ const PersonalPadre = lazy(() => import('./pages/PersonalPadre'));
 const PersonalRepresentanteData = lazy(() => import('./pages/PersonalRepresentanteData'));
 const PersonalRepresentanteUbi = lazy(() => import('./pages/PersonalRepresentanteUbi'));
 const PersonalRepresentanteEmpleo = lazy(() => import('./pages/PersonalRepresentanteEmpleo'));
+const Curso = lazy(() => import('./pages/Curso'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -141,6 +143,13 @@ function Navs() {
 					</Box>
 				)}
 			</Collapse>
+			{data.user?.privilegio === 'V-' && (
+				<Box mb={1}>
+					<ReturnSelected url={`${url}/curso`}>
+						Curso
+					</ReturnSelected>
+				</Box>
+			)}
 			<Box mb={1}>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
@@ -226,7 +235,8 @@ export default function PageShowUser() {
 									<Suspense fallback={<Loading />}>
 										<Switch>
 											<Route path={`${url}`} exact>
-												<Perfil id={id} />
+												<PerfilAvatar id={id} />
+												<PerfilDatos id={id} />
 											</Route>
 
 											<Route path={`${url}/personal-usuario`} exact>
@@ -248,6 +258,10 @@ export default function PageShowUser() {
 											<Route path={`${url}/personal-padres`} exact>
 												<PersonalMadre id={id} />
 												<PersonalPadre id={id} />
+											</Route>
+											
+											<Route path={`${url}/curso`} exact>
+												<Curso id={id} />
 											</Route>
 
 											<Route path={`${url}/contraseña`} exact>

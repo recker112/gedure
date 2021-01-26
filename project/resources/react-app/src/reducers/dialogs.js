@@ -19,6 +19,11 @@ const initialState = {
 		open: false,
 		loading: false,
 		data: {},
+	},
+	updateSeccion: {
+		open: false,
+		loading: false,
+		data: {},
 	}
 };
 

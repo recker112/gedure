@@ -82,10 +82,10 @@ function useFetch(setError) {
 					}
 					
 					for (let key in data.errors) {
-						setError(key, {
+						setError && setError(key, {
 							type: 'useFetch',
 							message: 'Error: '+data.errors[key][0],
-						})
+						});
 					}
 				} else if (status === 500) {
 					enqueueSnackbar('No se ha podido conectar con la base de datos', {
