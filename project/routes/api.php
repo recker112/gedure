@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ContactoController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\InvitationController;
+use App\Http\Controllers\Api\BoletaController;
 use App\Http\Controllers\Api\MailController;
 
 /*
@@ -150,6 +151,7 @@ Route::group(['prefix' => 'v1'], function () {
 	// Soft delete user massive
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
 		->delete('massive/user', [UserController::class, 'deleteMassive']);
+	
 	/*
 	INVITATION
 	*/
@@ -162,4 +164,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('invitation/register', [InvitationController::class, 'register']);
 	
 	Route::get('send', [MailController::class, 'email']);
+	
+	/*
+	Boletas
+	*/
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_upload'])
+		->post('boleta', [BoletaController::class, 'upload']);
 });

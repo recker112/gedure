@@ -24,6 +24,11 @@ class Curso extends Model
 		return $this->hasMany('App\Models\Alumno')->orderBy('n_lista', 'Asc');
 	}
 	
+	public function boletas()
+	{
+		return $this->hasMany('App\Models\Boleta');
+	}
+	
 	/*
 		BOOT FUNCTION
 		
