@@ -97,7 +97,7 @@ class Post extends Model
 			->timezone(config('app.timezone_parse'));
 		
 		if ($date_created->diffInDays($dateNow) <= 3) {
-			$show = 'el '.$date_created->diffForHumans();
+			$show = $date_created->diffForHumans();
 		}else {
 			$show = 'el '.$date_created->format('Y-d-m h:i A');
 		}

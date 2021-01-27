@@ -63,7 +63,7 @@ class LoginController extends Controller
 		$permissions = $this->makePermissions($user);
 		
 		$user->logs()->create([
-			'action' => "Inicio de sesión",
+			'action' => "Inicio de sesi贸n",
 			'type' => 'session'
 		]);
 
@@ -80,7 +80,7 @@ class LoginController extends Controller
 		$user = request()->user();
 		
 		$user->logs()->create([
-			'action' => "Inicio de sesión por relogin",
+			'action' => "Inicio de sesi贸n por relogin",
 			'type' => 'session'
 		]);
 		
@@ -99,12 +99,12 @@ class LoginController extends Controller
 		$user->token()->revoke();
 		
 		$user->logs()->create([
-			'action' => "Sesión cerrada",
+			'action' => "Sesi贸n cerrada",
 			'type' => 'session'
 		]);
 		
 		return response()->json([
-			'msg'=>'Sesión cerrada',
+			'msg'=>'Sesi贸n cerrada',
 		], 200);
 	}
 	
@@ -180,6 +180,10 @@ class LoginController extends Controller
 					$listA['users_delete'] = true;
 				}
 				
+				if ($perm->name === 'users_delete_massive') {
+					$listA['users_delete_massive'] = true;
+				}
+				
 				if ($perm->name === 'soliContact_index') {
 					$listA['soliContact_index'] = true;
 				}
@@ -206,6 +210,22 @@ class LoginController extends Controller
 				
 				if ($perm->name === 'posts_others') {
 					$listA['posts_others'] = true;
+				}
+				
+				if ($perm->name === 'boletas_index') {
+					$listA['boletas_index'] = true;
+				}
+				
+				if ($perm->name === 'boletas_upload') {
+					$listA['boletas_upload'] = true;
+				}
+				
+				if ($perm->name === 'boletas_edit') {
+					$listA['boletas_edit'] = true;
+				}
+				
+				if ($perm->name === 'boletas_destroy') {
+					$listA['boletas_destroy'] = true;
 				}
 			}
 			

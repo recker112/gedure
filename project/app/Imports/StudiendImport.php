@@ -85,7 +85,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 						'n_lista' => 99,
 					]);
 					
-					$user->givePermissionsTo(['boletas', 'horarios', 'soporte']);
+					$user->givePermissionTo(['boletas', 'horarios', 'soporte']);
 					
 					if ($user->email) {
 						$user->invitation()->create([
@@ -97,7 +97,10 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 				}
 			}
 		}
-		CursoController::orderAlumnos($curso->id);
+		// Ordenar seccion
+		if ($curso) {
+			CursoController::orderAlumnos($curso->id);
+		}
 	}
 	
 	public function chunkSize(): int

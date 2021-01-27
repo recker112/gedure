@@ -362,26 +362,9 @@ class UserControllerTest extends TestCase
 		
 		Excel::fake();
 		
-		// Cursos
-		Curso::create([
-			'code' => '1A',
-			'curso' => '1 año',
-			'seccion' => 'A',
-		]);
-		Curso::create([
-			'code' => '1B',
-			'curso' => '1 año',
-			'seccion' => 'B',
-		]);
-		Curso::create([
-			'code' => '1C',
-			'curso' => '1 año',
-			'seccion' => 'C',
-		]);
+		Storage::fake('local');
 		
-		Storage::persistentFake('local');
-		
-		$file = new File(Storage::path('data_studiends.xlsx'));
+		$file = new File(base_path('tests/files_required/data_studiends.xlsx'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 		
 		$response = $this->postJson('/api/v1/user/matricula', [
@@ -391,7 +374,7 @@ class UserControllerTest extends TestCase
 		$response->assertStatus(200)
 			->assertJsonStructure([
 				'msg'
-			]);;
+			]);
 		
 		Excel::assertQueued($file->getFileName());
 	}

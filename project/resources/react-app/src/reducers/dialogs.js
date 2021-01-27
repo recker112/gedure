@@ -24,6 +24,11 @@ const initialState = {
 		open: false,
 		loading: false,
 		data: {},
+	},
+	uploadBoletas: {
+		open: false,
+		loading: false,
+		data: {},
 	}
 };
 

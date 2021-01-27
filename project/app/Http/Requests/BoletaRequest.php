@@ -24,8 +24,7 @@ class BoletaRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'boletas' => 'required|array',
-			'boletas.*' => 'required|file|mimes:pdf',
+			'boletas' => 'required|file|mimes:zip',
 			'lapso' => 'required|integer',
 		];
 	}

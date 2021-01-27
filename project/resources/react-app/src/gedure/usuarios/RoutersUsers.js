@@ -7,7 +7,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 const PageUserIndex = lazy(() => import('./index/PageUserIndex'));
 const PageShowUser = lazy(() => import('./show/PageShowUser'));
 
-function RoutersPanel() {
+export default function RoutersUsers() {
 	let { url } = useRouteMatch();
 	
 	return (
@@ -28,5 +28,3 @@ function RoutersPanel() {
 		</React.Fragment>
 	);
 }
-
-export default RoutersPanel;

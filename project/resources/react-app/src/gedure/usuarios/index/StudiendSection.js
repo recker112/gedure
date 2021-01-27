@@ -32,8 +32,8 @@ export default function StudiendSection({ errors, control, disabled }) {
 				<Grid item xs={12} sm={6}>
 					<RenderSelectFormHook
 						id='user-curso'
-						name='curso'
-						nameLabel='Curso'
+						name='lapso'
+						nameLabel='Lapso'
 						control={control}
 						defaultValue=''
 						errors={errors?.curso}

@@ -86,6 +86,9 @@ export default function UploadMatricula() {
 			<DialogTitle>Cargar estudiantes</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<DialogContentText>El proceso de carga de matrícula es realizado en segundo plano. Si tienes dudas respecto al formato que debe usar al cargar estudiantes puede ver el formato correcto <Link color='primary' onClick={handleClose} component={RouteLink} to='/panel/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
+					</Grid>
 					<Grid container alignItems='center' item xs={12}>
 						<input
 							id='matricula-upload-file'
@@ -107,9 +110,6 @@ export default function UploadMatricula() {
 							</Box>
 						)}
 					</Grid>
-					<Grid item xs={12}>
-						<DialogContentText>El proceso de carga de matrícula es realizado en segundo plano. Si tienes dudas respecto al formato que debe usar al cargar estudiantes puede ver el formato correcto <Link color='primary' onClick={handleClose} component={RouteLink} to='/panel/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
-					</Grid>
 				</Grid>
 			</DialogContent>
 			<DialogActions>
@@ -120,7 +120,7 @@ export default function UploadMatricula() {
 					progress={progress}
 					color="inherit"
 				>
-					<Button onClick={handleSubmit(onSubmit)}>Cargar</Button>
+					<Button onClick={handleSubmit(onSubmit)}>Subir</Button>
 				</LoadingComponent>
 			</DialogActions>
 		</Dialog>

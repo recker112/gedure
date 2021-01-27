@@ -164,7 +164,7 @@ class User extends Authenticatable
 				}
 				
 				foreach($user->boletas as $boleta) {
-					$boleta->delete();
+					$boleta->forceDelete();
 				}
 			}else {
 				if ($user->personalData) {
