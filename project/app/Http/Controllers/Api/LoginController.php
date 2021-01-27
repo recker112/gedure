@@ -63,7 +63,7 @@ class LoginController extends Controller
 		$permissions = $this->makePermissions($user);
 		
 		$user->logs()->create([
-			'action' => "Inicio de sesi贸n",
+			'action' => "Inicio de sesión",
 			'type' => 'session'
 		]);
 
@@ -80,7 +80,7 @@ class LoginController extends Controller
 		$user = request()->user();
 		
 		$user->logs()->create([
-			'action' => "Inicio de sesi贸n por relogin",
+			'action' => "Inicio de sesión por relogin",
 			'type' => 'session'
 		]);
 		
@@ -99,7 +99,7 @@ class LoginController extends Controller
 		$user->token()->revoke();
 		
 		$user->logs()->create([
-			'action' => "Sesi贸n cerrada",
+			'action' => "Sesión cerrada",
 			'type' => 'session'
 		]);
 		
