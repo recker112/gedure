@@ -4,21 +4,16 @@ import React, { lazy } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Routers
-const PageUserIndex = lazy(() => import('./index/PageUserIndex'));
-const PageShowUser = lazy(() => import('./show/PageShowUser'));
+const PageBoletasIndex = lazy(() => import('./index/PageBoletasIndex'));
 
-export default function RoutersUsers() {
+export default function RoutersBoletas() {
 	let { url } = useRouteMatch();
 	
 	return (
 		<React.Fragment>
 			<Switch>
 				<Route path={`${url}/`} exact>
-					<PageUserIndex />
-				</Route>
-				
-				<Route path={`${url}/ver/:id`}>
-					<PageShowUser />
+					<PageBoletasIndex />
 				</Route>
 				
 				<Route>

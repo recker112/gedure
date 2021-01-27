@@ -107,6 +107,10 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	boletasIndex: {
+		loading: false,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

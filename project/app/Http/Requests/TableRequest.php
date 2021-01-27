@@ -25,7 +25,10 @@ class TableRequest extends FormRequest
 	{
 		return [
 			'page' => 'required',
-			'per_page' => 'required'
+			'per_page' => 'required',
+			'search' => 'nullable|string',
+			'curso' => 'nullable|string',
+			'seccion' => 'nullable|string',
 		];
 	}
 }

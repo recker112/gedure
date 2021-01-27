@@ -12,6 +12,7 @@ use Illuminate\Http\File;
 use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
+use App\Models\Boleta;
 
 class BoletaControllerTest extends TestCase
 {
@@ -29,16 +30,159 @@ class BoletaControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::persistentFake('local');
+		// User Boleta
+		$user = User::factory()->create([
+			'privilegio' => 'V-',
+			'username' => '10814755454',
+		]);
+		$user->alumno()->create([
+			'n_lista' => 99,
+			'curso_id' => 1,
+		]);
 		
-		$file = new File(Storage::path('boleta_test.pdf'));
+		Storage::fake('local');
+		
+		$file = new File(base_path('tests/files_required/boletas_test_1.zip'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 		
 		$response = $this->postJson('/api/v1/boleta', [
-			'boletas' => [$fileUpload],
+			'boletas' => $fileUpload,
 			'lapso' => '1',
 		]);
 
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		$this->assertDatabaseHas('boletas', [
+        'id' => 1,
+    ]);
+	}
+	
+	public function testBoletasUploadWithMassiveStudiends()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		
+		$file = new File(base_path('tests/files_required/data_studiends.xlsx'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson('/api/v1/user/matricula', [
+			'database' => $fileUpload,
+		]);
+		
+		$file = new File(base_path('tests/files_required/boletas_test_2.zip'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson('/api/v1/boleta', [
+			'boletas' => $fileUpload,
+			'lapso' => '1',
+		]);
+
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg',
+			]);
+	}
+	
+	public function testGetUsersWithBoletas()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$this->testBoletasUpload();
+		
+		$response = $this->getJson('/api/v1/boleta?per_page=5&page=0');
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'username',
+						'name',
+						'avatar',
+						'boletas_count',
+					]
+				],
+				'page',
+				'totalUsers'
+			]);
+	}
+	
+	public function testShowBoletas()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$this->testBoletasUpload();
+		
+		$response = $this->getJson('/api/v1/boleta/'.Boleta::find(1)->user_id);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'*' => [
+					'id',
+					'lapso',
+				]
+			]);
+	}
+	
+	public function testDownloadBoleta()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		
+		$this->testBoletasUpload();
+		
+		$response = $this->getJson('/api/v1/download/boleta/1');
+		
 		$response->assertStatus(200);
+		
+		$filename = explode("/", Boleta::find(1)->boleta);
+		$filename = $filename[count($filename) - 1];
+		
+		$this->assertTrue($response->headers->get('content-disposition') == 'attachment; filename=' . $filename . '');
+	}
+	
+	public function testDownloadBoletaUser()
+	{
+		//$this->withoutExceptionHandling();
+		
+		Storage::fake('local');
+		
+		$this->testBoletasUpload();
+		
+		$user = User::firstWhere('username', '10814755454');
+		$user->givePermissionTo('boletas');
+		Passport::actingAs(
+			$user,
+			['user']
+		);
+		
+		$response = $this->getJson('/api/v1/download/boleta/1');
+		
+		$response->assertStatus(200);
+		
+		$filename = explode("/", Boleta::find(1)->boleta);
+		$filename = $filename[count($filename) - 1];
+		
+		$this->assertTrue($response->headers->get('content-disposition') == 'attachment; filename=' . $filename . '');
 	}
 }

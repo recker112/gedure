@@ -4,11 +4,9 @@ import { useHistory } from 'react-router-dom';
 
 import {
 	Avatar,
-	Chip,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
-import PersonIcon from '@material-ui/icons/Person';
 import Delete from '@material-ui/icons/Delete';
 import GroupIcon from '@material-ui/icons/Group';
 import ClassIcon from '@material-ui/icons/Class';
@@ -30,16 +28,16 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function TableUsers({ tableRef, filters, massiveDelete, handleMassive }) {
+export default function TableBoletas({ tableRef, filters, massiveDelete, handleMassive }) {
 	const [pageSizeController, setpageSizeController] = useState(5);
 	const { loading } = useSelector((state) => ({
-		loading: state.forms.usersIndex.loading,
+		loading: state.forms.boletasIndex.loading,
 	}));
 	const dispatch = useDispatch();
 	
-	const { fetchData } = useFetch();
-	
 	const classes = useStyles();
+	
+	const { fetchData } = useFetch();
 	
 	const history = useHistory();
 	
@@ -51,9 +49,9 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 		}
 		
 		const prepare = {
-			url: `v1/users?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+			url: `v1/boleta?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
-			)}&type=${filters.type || ''}&curso=${filters.curso || ''}&seccion=${filters.seccion || ''}`,
+			)}&curso=${filters.curso || ''}&seccion=${filters.seccion || ''}`,
 			type: 'get',
 			messageToFinish: false,
 		};
@@ -61,7 +59,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 		const response = await fetchData(prepare);
 		
 		if (loading) {
-			dispatch(updateForms('usersIndex', false));
+			dispatch(updateForms('boletasIndex', false));
 		}
 
 		if (response) {
@@ -106,11 +104,11 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					title: 'Usuario',
 					field: 'username',
 					render: (rowData) => {
-						if (rowData.privilegio === 'V-' && rowData.alumno?.n_lista) {
+						if (filters.curso && filters.seccion) {
 							return (
 								<React.Fragment>
 									<div>{rowData.privilegio+rowData.username}</div>
-									<div>N° lista {rowData.alumno.n_lista}</div>
+									<div>N° lista {rowData.estudiante_data.n_lista}</div>
 								</React.Fragment>
 							)
 						}else {
@@ -119,17 +117,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					},
 				},
 				{title: 'Nombre', field: 'name'},
-				{title: 'Correo', field: 'email'},
-				{
-					title: 'Estado', 
-					field: 'actived_at',
-					render: (rowData) => (
-						<Chip 
-							color={rowData.actived_at ? 'primary':'default'}
-							label={rowData.actived_at ? 'Activo':'Inactivo'}
-						/>
-					),
-				},
+				{title: 'Boletas cargadas', field: 'boletas_count'},
 			]}
 			actions={[
 				{
@@ -141,43 +129,22 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					},
 				},
 				{
-					icon: () => (<PersonIcon />),
-					tooltip: 'Ver',
+					icon: () => (<ClassIcon />),
+					tooltip: 'Ver boletas',
 					hidden: massiveDelete,
 					onClick: (event, rowData) => {
-						history.push(`/gedure/usuarios/ver/${rowData.id}`);
+						history.push(`/gedure/boletas/ver/${rowData.id}`);
 					},
-				},
-				() => {
-					let hidden = true;
-					if (filters.type === 'V-' || filters.type === 'V-NA') {
-						if (massiveDelete) {
-							hidden = false;
-						}
-					}
-					return ({
-						icon: () => (<ClassIcon />),
-						tooltip: 'Cambiar sección',
-						hidden,
-						onClick: (event, rowData) => {
-							let i = 0;
-							let newData = [];
-							for(let value of rowData){
-								newData[i] = value.id;
-								i++;
-							}
-							dispatch(updateDialogs('updateSeccion', true, false, newData));
-						},
-					})
 				},
 				{
 					icon: () => (<Delete />),
-					tooltip: 'Desactivar cuenta',
+					tooltip: 'Eliminar boletas',
 					onClick: (event, rowData) => {
 						if (!massiveDelete) {
 							const data = {
 								id: rowData.id,
-								username: rowData.username,
+								name: rowData.name,
+								curso: rowData.estudiante_data.curso.curso+'-'+rowData.estudiante_data.curso.seccion,
 							}
 							dispatch(updateDialogs('deleteConfirmation', true, false, data));
 						}else {
@@ -187,10 +154,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 								newData[i] = value.id;
 								i++;
 							}
-							dispatch(updateDialogs('deleteConfirmation', true, false, {
-								deleteMassive: true,
-								ids: newData
-							}));
+							// NONE
 						}
 					},
 				},

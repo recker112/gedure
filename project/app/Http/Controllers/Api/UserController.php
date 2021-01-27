@@ -25,8 +25,6 @@ class UserController extends Controller
 {
   public function index(TableRequest $request)
 	{
-		$user = $request->user();
-
 		$search = urldecode(request()->search);
 		$type = $request->type;
 		if ($type === 'V-NA') {
@@ -57,12 +55,14 @@ class UserController extends Controller
 				$query->doesntHave('alumno');
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->select('users.id', 'users.username', 'users.name', 'users.email', 'alumnos.n_lista', 'users.privilegio', 'users.actived_at')
-					->join('alumnos', 'users.id', '=', 'alumnos.user_id')
-					->orderBy('n_lista');
+				$query->with(['alumno' => function ($query) {
+						$query->orderBy('n_lista');
+					}]);
+			})
+			->when(empty($curso) && empty($seccion), function ($query) {
+				$query->orderBy('users.id', 'desc');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
-			->orderBy('users.id', 'desc')
 			->offset($page)
 			->limit($perPage)
 			->get()
@@ -320,7 +320,7 @@ class UserController extends Controller
 	{
 		$file = $request->file('database');
 		
-		$result = (new StudiendImport)->import($file)->allOnQueue('high');
+		$result = (new StudiendImport)->queue($file)->allOnQueue('high');
 		
 		return response()->json([
 			'msg' => 'Matricula en progreso',

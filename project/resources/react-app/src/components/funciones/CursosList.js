@@ -67,3 +67,18 @@ export const SeccionList = [
 		name: 'U'
 	}
 ];
+
+export const LapsoList = [
+	{
+		value: '1',
+		name: 'Lapso 1'
+	},
+	{
+		value: '2',
+		name: 'Lapso 2'
+	},
+	{
+		value: '3',
+		name: 'Lapso 3'
+	},
+];

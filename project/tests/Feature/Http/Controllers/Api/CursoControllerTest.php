@@ -27,8 +27,8 @@ class CursoControllerTest extends TestCase
 		);
 		
 		$curso = Curso::create([
-			'code' => '1-A',
-			'curso' => '1',
+			'code' => '6-A',
+			'curso' => '6',
 			'seccion' => 'A'
 		]);
 		
@@ -36,7 +36,7 @@ class CursoControllerTest extends TestCase
 		
 		$response->assertOk()
 			->assertJsonFragment([
-				'curso' => '1'
+				'curso' => '6'
 			]);
 	}
 	

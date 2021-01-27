@@ -168,6 +168,19 @@ Route::group(['prefix' => 'v1'], function () {
 	/*
 	Boletas
 	*/
+	// Get users with boletas
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index'])
+		->get('boleta', [BoletaController::class, 'index']);
+	
+	// Show boletas
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index'])
+		->get('boleta/{id}', [BoletaController::class, 'show']);
+	
+	// Upload boletas
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_upload'])
 		->post('boleta', [BoletaController::class, 'upload']);
+	
+	// Download boleta
+	Route::middleware(['auth:api'])
+		->get('download/boleta/{id}', [BoletaController::class, 'download']);
 });
