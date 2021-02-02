@@ -7,8 +7,8 @@ import {
 	Collapse,
 	List,
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+// import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+// import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
@@ -116,18 +116,6 @@ function AdminList({ handleClose }) {
 					</ReturnSelected>
 				</List>
 			</Collapse>
-			<ReturnSelected url='/gedure/saldo' handle={handleClose}>
-				<ListItemIcon>
-					<AttachMoneyIcon />
-				</ListItemIcon>
-				<ListItemText primary='Saldo' /> 
-			</ReturnSelected>
-			<ReturnSelected url='/gedure/tienda' handle={handleClose}>
-				<ListItemIcon>
-					<ShoppingCartIcon />
-				</ListItemIcon>
-				<ListItemText primary='Tienda' /> 
-			</ReturnSelected>
 			<ReturnSelected url='/gedure/configuracion' handle={handleClose}>
 				<ListItemIcon>
 					

@@ -20,7 +20,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import { mdiBullhorn } from '@mdi/js';
 import { mdiHelp } from '@mdi/js';
 import { mdiFrequentlyAskedQuestions } from '@mdi/js';
-import { mdiFaceAgent } from '@mdi/js';
+// import { mdiFaceAgent } from '@mdi/js';
 
 // Components
 import { ReturnSelected } from './HeaderNoAuth';
@@ -52,14 +52,6 @@ function FAQIcon(props) {
   return (
     <SvgIcon {...props}>
       <path d={mdiFrequentlyAskedQuestions} />
-    </SvgIcon>
-  );
-}
-
-function FaceAgentIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFaceAgent} />
     </SvgIcon>
   );
 }
@@ -127,12 +119,6 @@ function DrawerMenu() {
 										<FAQIcon />
 									</ListItemIcon>
 									<ListItemText primary="Preguntas frecuentes" />
-								</ReturnSelected>
-								<ReturnSelected url='/soporte' handle={handleClose} nested>
-									<ListItemIcon>
-										<FaceAgentIcon />
-									</ListItemIcon>
-									<ListItemText primary="Soporte" />
 								</ReturnSelected>
 								<ReturnSelected url='/contactanos' handle={handleClose} nested>
 									<ListItemIcon>
