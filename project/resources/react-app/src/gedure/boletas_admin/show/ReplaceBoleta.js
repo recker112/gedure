@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
 
-import { Link as RouteLink } from 'react-router-dom';
-
 import {
 	Dialog,
 	DialogTitle,
@@ -12,7 +10,6 @@ import {
 	Button,
 	Box,
 	Typography,
-	Link,
 } from '@material-ui/core';
 
 import useFetch from '../../../hooks/useFetch';
@@ -27,11 +24,12 @@ import LoadingComponent from '../../../components/LoadingComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
-export default function UploadMatricula() {
+export default function ReplaceBoleta({ handleRefresh, name }) {
 	const [progress, setProgress] = useState(0);
-	const { open, loading } = useSelector((state) => ({
-		open: state.dialogs.uploadMatricula.open,
-		loading: state.dialogs.uploadMatricula.loading,
+	const { open, loading, data } = useSelector((state) => ({
+		open: state.dialogs.replaceBoleta.open,
+		loading: state.dialogs.replaceBoleta.loading,
+		data: state.dialogs.replaceBoleta.data,
 	}));
 	const dispatch = useDispatch();
 	
@@ -52,13 +50,14 @@ export default function UploadMatricula() {
 	}, []);
 	
 	const onSubmit = async submitData => {
-		dispatch(updateDialogs('uploadMatricula', true, true));
+		dispatch(updateDialogs('replaceBoleta', true, true));
 		
 		const formData = new FormData();
-		formData.append('database', submitData.database[0]);
+		formData.append('boleta', submitData.boleta[0]);
+		formData.append('_method', 'PUT');
 		
 		const prepare = {
-			url: 'v1/user/matricula',
+			url: `v1/boleta/${data.id}`,
 			type: 'post',
 			data: formData,
 			otherData: {
@@ -66,16 +65,16 @@ export default function UploadMatricula() {
 					'Content-Type': 'multipart/form-data'
 				},
 				onUploadProgress: onUploadProgress,
-			},
-			variant: 'info'
+			}
 		};
 
 		const response = await fetchData(prepare);
 		
 		if (response) {
-			dispatch(updateDialogs('uploadMatricula', false, false));
+			dispatch(updateDialogs('replaceBoleta', false, false));
+			handleRefresh();
 		}else {
-			dispatch(updateDialogs('uploadMatricula', true, false));
+			dispatch(updateDialogs('replaceBoleta', true, false));
 		}
 		
 		setProgress(0);
@@ -83,28 +82,28 @@ export default function UploadMatricula() {
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
-			<DialogTitle>Cargar estudiantes</DialogTitle>
+			<DialogTitle>¿Seguro?</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<DialogContentText>El proceso de carga de matrícula es realizado en segundo plano. Si tienes dudas respecto al formato que debe usar al cargar estudiantes puede ver el formato correcto <Link color='primary' onClick={handleClose} component={RouteLink} to='/panel/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
+						<DialogContentText>Estáก a punto de reemplazar la boleta <strong>{data.curso} {data.seccion} {data.lapso}° Lapso</strong> de <strong>{name}</strong>. Tenga en cuenta que al reemplazar la boleta se borrará la anterior.</DialogContentText>
 					</Grid>
 					<Grid container alignItems='center' item xs={12}>
 						<input
-							id='matricula-upload-file'
+							id='boleta-upload-file'
 							ref={register({
 								required: { value: true, message: '* Debe subir un archivo' },
 							})}
 							defaultValue={null}
 							style={{display: 'none'}}
-							accept="application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							name='database'
+							accept="application/pdf"
+							name='boleta'
 							type="file"
 						/>
-						<label htmlFor="matricula-upload-file">
+						<label htmlFor="boleta-upload-file">
 							<Button variant='contained' color='secondary' component='span'>Cargar archivo</Button>
 						</label>
-						{Boolean(errors.database) && (
+						{Boolean(errors.boleta) && (
 							<Box ml={2} color='#f44336'>
 								<Typography >{errors.boleta.message}</Typography>
 							</Box>
@@ -120,7 +119,7 @@ export default function UploadMatricula() {
 					progress={progress}
 					color="inherit"
 				>
-					<Button onClick={handleSubmit(onSubmit)}>Subir</Button>
+					<Button onClick={handleSubmit(onSubmit)}>Cambiar</Button>
 				</LoadingComponent>
 			</DialogActions>
 		</Dialog>

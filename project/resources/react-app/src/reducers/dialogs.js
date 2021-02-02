@@ -29,6 +29,11 @@ const initialState = {
 		open: false,
 		loading: false,
 		data: {},
+	},
+	replaceBoleta: {
+		open: false,
+		loading: false,
+		data: {},
 	}
 };
 

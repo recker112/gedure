@@ -146,7 +146,7 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	// Update seccion massive
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
-		->put('massive/seccion', [UserController::class, 'updateSeccionMassive']);
+		->put('massive/user/seccion', [UserController::class, 'updateSeccionMassive']);
 	
 	// Soft delete user massive
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
@@ -180,7 +180,19 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_upload'])
 		->post('boleta', [BoletaController::class, 'upload']);
 	
+	// Edit boleta
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_edit'])
+		->put('boleta/{id}', [BoletaController::class, 'edit']);
+	
+	// Massive destroy boleta
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_destroy'])
+		->delete('massive/boleta', [BoletaController::class, 'destroyMassive']);
+	
 	// Download boleta
 	Route::middleware(['auth:api'])
 		->get('download/boleta/{id}', [BoletaController::class, 'download']);
+	
+	// Eliminar boleta
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_destroy'])
+		->delete('boleta/{id}', [BoletaController::class, 'destroy']);
 });

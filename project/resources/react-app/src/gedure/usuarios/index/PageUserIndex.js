@@ -114,7 +114,7 @@ export default function PageUserIndex() {
 		
 		const response = await fetchData(prepare);
 
-		dispatch(updateDialogs('deleteConfirmation', false, true));
+		dispatch(updateDialogs('deleteConfirmation', false, false));
 		
 		if (response) {
 			tableRef.current && tableRef.current.onQueryChange();

@@ -139,23 +139,15 @@ export default function TableBoletas({ tableRef, filters, massiveDelete, handleM
 				{
 					icon: () => (<Delete />),
 					tooltip: 'Eliminar boletas',
+					hidden: !massiveDelete,
 					onClick: (event, rowData) => {
-						if (!massiveDelete) {
-							const data = {
-								id: rowData.id,
-								name: rowData.name,
-								curso: rowData.estudiante_data.curso.curso+'-'+rowData.estudiante_data.curso.seccion,
-							}
-							dispatch(updateDialogs('deleteConfirmation', true, false, data));
-						}else {
-							let i = 0;
-							let newData = [];
-							for(let value of rowData){
-								newData[i] = value.id;
-								i++;
-							}
-							// NONE
+						let i = 0;
+						let newData = [];
+						for(let value of rowData){
+							newData[i] = value.id;
+							i++;
 						}
+						dispatch(updateDialogs('deleteConfirmation', true, false, newData));
 					},
 				},
 			]}

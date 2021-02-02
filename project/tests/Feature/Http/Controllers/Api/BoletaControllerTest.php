@@ -132,10 +132,35 @@ class BoletaControllerTest extends TestCase
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
-				'*' => [
-					'id',
-					'lapso',
+				'boletas' => [
+					'*' => [
+						'id',
+						'lapso',
+					]
 				]
+			]);
+	}
+	
+	public function testEditBoleta()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$this->testBoletasUpload();
+		
+		$file = new File(base_path('tests/files_required/boletas_test_edit.pdf'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->putJson('/api/v1/boleta/1', [
+			'boleta' => $fileUpload,
+		]);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
 			]);
 	}
 	
@@ -184,5 +209,47 @@ class BoletaControllerTest extends TestCase
 		$filename = $filename[count($filename) - 1];
 		
 		$this->assertTrue($response->headers->get('content-disposition') == 'attachment; filename=' . $filename . '');
+	}
+	
+	public function testDeleteBoleta()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		
+		$this->testBoletasUpload();
+		
+		$response = $this->deleteJson('/api/v1/boleta/1');
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testDeleteBoletaMassive()
+	{
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		
+		$this->testBoletasUpload();
+		
+		$ids = json_encode([User::where('username', '10814755454')->first()->id]);
+		
+		$response = $this->deleteJson('/api/v1/massive/boleta?ids='.urlencode($ids).'&lapso=1');
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
 	}
 }

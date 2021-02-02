@@ -48,7 +48,7 @@ export default function UpdateSeccion({ tableRef }) {
 		dispatch(updateDialogs('updateSeccion', true, true));
 		
 		const prepare = {
-			url: 'v1/massive/seccion',
+			url: 'v1/massive/user/seccion',
 			type: 'post',
 			data: {
 				...submitData,
@@ -119,7 +119,7 @@ export default function UpdateSeccion({ tableRef }) {
 					loading={loading}
 					color="inherit"
 				>
-					<Button onClick={handleSubmit(onSubmit)}>Cargar</Button>
+					<Button onClick={handleSubmit(onSubmit)}>Cambiar</Button>
 				</LoadingComponent>
 			</DialogActions>
 		</Dialog>
