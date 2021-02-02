@@ -162,7 +162,7 @@ export default function PageBoletasIndex() {
 						</Grid>
 					</Grid>
 				</Grid>
-				<DeleteBoletas />
+				<DeleteBoletas tableRef={tableRef} />
 				<UploadBoletas tableRef={tableRef} />
 			</Container>
 		</main>

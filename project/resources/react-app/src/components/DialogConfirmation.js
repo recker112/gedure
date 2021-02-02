@@ -50,7 +50,7 @@ export default function DialogConfirmation({ callback, children }) {
 						callback(handleClose);
 					}}
 				>
-					Realizar
+					Confirmar
 				</Button>
 			</DialogActions>
 		</Dialog>

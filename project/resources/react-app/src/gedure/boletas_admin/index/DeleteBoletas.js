@@ -33,7 +33,9 @@ export default function DeleteBoletas({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, control, errors } = useForm();
+	const { handleSubmit, control, errors } = useForm({
+		mode: 'onTouched'
+	});
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -46,14 +48,15 @@ export default function DeleteBoletas({ tableRef }) {
 		dispatch(updateDialogs('deleteConfirmation', true, true));
 		
 		const prepare = {
-			url: 'v1/user/matricula',
-			type: 'post',
-			variant: 'info'
+			url: `v1/massive/boleta?ids=${encodeURI(JSON.stringify(data))}&lapso=${submitData.lapso}`,
+			type: 'delete',
 		};
 
 		const response = await fetchData(prepare);
 		
 		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+			
 			dispatch(updateDialogs('deleteConfirmation', false, false));
 		}else {
 			dispatch(updateDialogs('deleteConfirmation', true, false));
@@ -66,20 +69,20 @@ export default function DeleteBoletas({ tableRef }) {
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
-			<DialogTitle>Cargar estudiantes</DialogTitle>
+			<DialogTitle>Eliminar boletas</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<DialogContentText>Ha seleccionado al estudiante <strong>{data.name}</strong> para eliminar sus boletas de su curso actual <strong>({data.curso})</strong>, seleccione el lapso de la boleta a borrar:</DialogContentText>
+						<DialogContentText>Ha seleccionado a <strong>{data.length}</strong> estudiante(s) para eliminar su boleta de su curso actual, seleccione el lapso de la boleta a borrar:</DialogContentText>
 					</Grid>
 					<Grid container alignItems='center' item xs={12}>
 						<RenderSelectFormHook
-							id='user-curso'
-							name='curso'
-							nameLabel='Curso'
+							id='boleta-lapso'
+							name='lapso'
+							nameLabel='Lapso'
 							control={control}
 							defaultValue=''
-							errors={errors?.curso}
+							errors={errors?.lapso}
 							disabled={loading}
 						>
 							<MenuItem value=''><em>Ninguno</em></MenuItem>
@@ -94,7 +97,7 @@ export default function DeleteBoletas({ tableRef }) {
 					loading={loading}
 					color="inherit"
 				>
-					<Button onClick={handleSubmit(onSubmit)}>Cargar</Button>
+					<Button onClick={handleSubmit(onSubmit)}>Eliminar</Button>
 				</LoadingComponent>
 			</DialogActions>
 		</Dialog>

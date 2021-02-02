@@ -104,9 +104,9 @@ export default function UploadMatricula() {
 						<label htmlFor="matricula-upload-file">
 							<Button variant='contained' color='secondary' component='span'>Cargar archivo</Button>
 						</label>
-						{Boolean(errors.matricula) && (
+						{Boolean(errors.database) && (
 							<Box ml={2} color='#f44336'>
-								<Typography >{errors.matricula.message}</Typography>
+								<Typography >{errors.boleta.message}</Typography>
 							</Box>
 						)}
 					</Grid>

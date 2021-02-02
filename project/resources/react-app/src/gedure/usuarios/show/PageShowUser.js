@@ -33,20 +33,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 
 // Pages
-const PerfilAvatar = lazy(() => import('./pages/PerfilAvatar'));
-const PerfilDatos = lazy(() => import('./pages/PerfilDatos'));
-const UserPassword = lazy(() => import('./pages/UserPassword'));
-const UserPermisos = lazy(() => import('./pages/UserPermisos'));
-const PersonalUsuario = lazy(() => import('./pages/PersonalUsuario'));
-const PersonalEstudianteData = lazy(() => import('./pages/PersonalEstudianteData'));
-const PersonalEstudianteUbi = lazy(() => import('./pages/PersonalEstudianteUbi'));
-const PersonalEstudianteOtros = lazy(() => import('./pages/PersonalEstudianteOtros'));
-const PersonalMadre = lazy(() => import('./pages/PersonalMadre'));
-const PersonalPadre = lazy(() => import('./pages/PersonalPadre'));
-const PersonalRepresentanteData = lazy(() => import('./pages/PersonalRepresentanteData'));
-const PersonalRepresentanteUbi = lazy(() => import('./pages/PersonalRepresentanteUbi'));
-const PersonalRepresentanteEmpleo = lazy(() => import('./pages/PersonalRepresentanteEmpleo'));
-const Curso = lazy(() => import('./pages/Curso'));
+const PerfilAvatar = lazy(() => import('./perfil/PerfilAvatar'));
+const PerfilDatos = lazy(() => import('./perfil/PerfilDatos'));
+const UserPassword = lazy(() => import('./password/UserPassword'));
+const UserPermisos = lazy(() => import('./permisos/UserPermisos'));
+const PersonalUsuario = lazy(() => import('./personal-data/PersonalUsuario'));
+const PersonalEstudianteData = lazy(() => import('./personal-data/PersonalEstudianteData'));
+const PersonalEstudianteUbi = lazy(() => import('./personal-data/PersonalEstudianteUbi'));
+const PersonalEstudianteOtros = lazy(() => import('./personal-data/PersonalEstudianteOtros'));
+const PersonalMadre = lazy(() => import('./personal-data/PersonalMadre'));
+const PersonalPadre = lazy(() => import('./personal-data/PersonalPadre'));
+const PersonalRepresentanteData = lazy(() => import('./personal-data/PersonalRepresentanteData'));
+const PersonalRepresentanteUbi = lazy(() => import('./personal-data/PersonalRepresentanteUbi'));
+const PersonalRepresentanteEmpleo = lazy(() => import('./personal-data/PersonalRepresentanteEmpleo'));
+const Curso = lazy(() => import('./curso/Curso'));
+const Opciones = lazy(() => import('./opciones/Opciones'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -161,6 +162,11 @@ function Navs() {
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>
+				<ReturnSelected url={`${url}/opciones`}>
+					Permisos
+				</ReturnSelected>
+			</Box>
+			<Box mb={1}>
 				<ReturnSelected onClick={handleReturn}>
 					Regresar
 				</ReturnSelected>
@@ -270,6 +276,10 @@ export default function PageShowUser() {
 
 											<Route path={`${url}/permisos`} exact>
 												<UserPermisos id={id} />
+											</Route>
+											
+											<Route path={`${url}/opciones`} exact>
+												<Opciones id={id} />
 											</Route>
 
 											<Route>

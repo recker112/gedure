@@ -107,10 +107,18 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	resendEmail: {
+		loading: false,
+		data: {},
+	},
 	boletasIndex: {
 		loading: false,
 		data: {},
 	},
+	showBoletas: {
+		loading: false,
+		data: [],
+	}
 };
 
 export default (state = initialState, { type, payload }) => {

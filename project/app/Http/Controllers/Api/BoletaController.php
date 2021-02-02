@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Requests\BoletaRequest;
+use App\Http\Requests\BoletaEditRequest;
+use App\Http\Requests\MassiveBoletaRequest;
 use App\Http\Requests\TableRequest;
 use Smalot\PdfParser\Parser;
 use Illuminate\Support\Facades\Storage;
@@ -84,14 +86,45 @@ class BoletaController extends Controller
 	public function show($id)
 	{
 		$boletas = Boleta::where('user_id', $id)->get()->toArray();
+		$user = User::find(intVal($id))->only('name');
 		
-		return response()->json($boletas, 200);
+		return response()->json([
+			'boletas' => $boletas,
+			'user' => $user,
+		], 200);
+	}
+	
+	public function edit(BoletaEditRequest $request, $id)
+	{
+		$boleta = Boleta::findOrFail(intVal($id));
+		$filePath = "users/$boleta->user_id/boletas/{$boleta->curso->code}";
+		$fileName = "lapso_{$boleta->lapso}_{$boleta->curso->code}.pdf";
+		
+		if (Storage::missing($boleta->boleta)) {
+			$boleta->forceDelete();
+			
+			return response()->json([
+				'msg' => 'La boleta ya no existe',
+			],404);
+		}
+		
+		Storage::delete($boleta->boleta);
+		$path = $request->boleta->storeAs($filePath, $fileName);
+		
+		$boleta-> $path;
+		$boleta->updated_at = now();
+		$boleta->save();
+		
+		
+		return response()->json([
+				'msg' => 'Boleta actualizada',
+			],200);
 	}
 	
 	public function download($id)
 	{
 		$user = request()->user();
-		$boleta = Boleta::findOrFail($id);
+		$boleta = Boleta::findOrFail(intVal($id));
 		
 		if (Storage::missing($boleta->boleta)) {
 			return response()->json([
@@ -158,6 +191,46 @@ class BoletaController extends Controller
 		
 		return response()->json([
 			'msg' => "$i boletas asignadas",
+		],200);
+	}
+	
+	public function destroy($id)
+	{
+		$boleta = Boleta::findOrFail(intVal($id));
+		$filePath = "users/$boleta->user_id/boletas/{$boleta->curso->code}/lapso_{$boleta->lapso}_{$boleta->curso->code}.pdf";
+		
+		if ($boleta->forceDelete() && Storage::exists($filePath)) {
+			Storage::delete($filePath);
+			
+			return response()->json([
+				'msg' => "Boletas eliminada",
+			],200);
+		}else {
+			return response()->json([
+				'msg' => "No se pudo eliminar la boleta",
+			],400);
+		}
+	}
+	
+	public function destroyMassive(MassiveBoletaRequest $request)
+	{
+		$ids = json_decode(urldecode($request->ids));
+		
+		$i=0;
+		foreach($ids as $id) {
+			$user = User::find($id);
+			$boleta = $user->boletas()
+				->where('curso_id', $user->alumno->curso_id)
+				->where('lapso', $request->lapso)
+				->first();
+			
+			if ($boleta) {
+				$this->destroy($boleta->id);
+				$i++;
+			}
+		}
+		return response()->json([
+			'msg' => "$i boletas eliminadas"
 		],200);
 	}
 }
