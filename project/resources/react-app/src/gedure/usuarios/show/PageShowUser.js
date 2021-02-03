@@ -163,7 +163,7 @@ function Navs() {
 			</Box>
 			<Box mb={1}>
 				<ReturnSelected url={`${url}/opciones`}>
-					Permisos
+					Opciones
 				</ReturnSelected>
 			</Box>
 			<Box mb={1}>

@@ -82,12 +82,43 @@ class InvitationControllerTest extends TestCase
 			'invitation_key' => $key
 		]);
 		
-		$response = $this->getJson('/api/v1/invitation/users/'.$key);
+		$response = $this->getJson('/api/v1/invitation/user/'.$key);
 		
 		$response->assertOk()
 			->assertJsonStructure([
 				'name',
 			]);
+	}
+	
+	public function testResendInvitation()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Mail::fake();
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-',
+			'password' => null,
+			'actived_at' => null,
+		]);
+		
+		$key = Str::random(40);
+		$user->invitation()->create([
+			'invitation_key' => $key
+		]);
+		
+		$response = $this->getJson('/api/v1/invitation/resend-email/'.$user->id);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		Mail::assertQueued(MailInvitation::class);
 	}
 	
 	public function testRegisterInvitation()

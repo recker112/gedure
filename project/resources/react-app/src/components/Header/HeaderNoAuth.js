@@ -27,7 +27,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 // Components
 import { HiddeOnScroll } from '../Header';
-import gedureLogo from '../../imgs/Gedure-Logo.png';
+import GedureLogo from '../../imgs/gedure-logo-recto.svg';
 
 const useStyles = makeStyles((theme) => ({
 	toolBar: {
@@ -124,7 +124,7 @@ function MobileMenu() {
 					<AppBar color='transparent' position='static' elevation={0}>
 						<Toolbar>
 							<Grid container justify='center' alignItems='center'>
-								<img src={gedureLogo} alt='logo de Gedure' height='25' />
+								<img src={GedureLogo} alt='logo de Gedure' height='35' />
 							</Grid>
 						</Toolbar>
 					</AppBar>

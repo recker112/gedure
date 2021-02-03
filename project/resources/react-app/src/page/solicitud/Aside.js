@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Components
-import logoGedure from '../../imgs/Gedure-Logo.png';
+import GedureLogo from '../../imgs/gedure-logo-recto.svg';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -136,7 +136,7 @@ function Aside() {
 							</Typography>
 						</Box>
 						<Link style={{display: 'inherit'}} href='https://github.com/recker112/gedure'>
-							<img src={logoGedure} alt='Logo de Gedure' height={20} />
+							<img src={GedureLogo} alt='Logo de Gedure' height={25} />
 						</Link>
 					</Grid>
 				</Grid>

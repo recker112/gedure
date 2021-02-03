@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PageInvitation() {
-	document.title = 'La Candelaria - Invitación';
+	document.title = 'La Candelaria - Invitaciรณn';
 	const { loading, data } = useSelector((state) => ({
 		loading: state.forms.invitation.loading,
 		data: state.forms.invitation.data,
@@ -47,7 +47,7 @@ export default function PageInvitation() {
 	useEffect(()=>{
 		const getUser = async () => {
 				const prepare = {
-				url: `v1/invitation/users/${key}`,
+				url: `v1/invitation/user/${key}`,
 				type: 'get',
 				message404: 'Invitación inválida',
 				messageToFinish: false,

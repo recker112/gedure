@@ -80,6 +80,30 @@ class InvitationController extends Controller
 		return response()->json($user->only(['name']),200);
 	}
 	
+	public function resend($id)
+	{
+		$user = User::findOrFail(intVal($id));
+		
+		if (!$user->email) {
+			return response()->json([
+				'msg' => 'El usuario no posee ningún correo'
+			],400);
+		}
+		
+		if (!$user->invitation) {
+			// Crear y enviar invitaciรณn
+			$user->invitation()->create([
+				'invitation_key' => Str::random(40),
+			]);
+		}
+		
+		Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));
+		
+		return response()->json([
+			'msg' => 'Correo reenviado'
+		],200);
+	}
+	
 	public function register(RegisterInvitationRequest $request) 
 	{
 		// Verificar no existencia
