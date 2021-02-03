@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { 
 	ListItemIcon,
 	ListItemText,
-	SvgIcon,
 	Collapse,
 	List,
 } from '@material-ui/core';
@@ -12,55 +11,16 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
-import { mdiSchool } from '@mdi/js';
-import { mdiFilePdf } from '@mdi/js';
-import { mdiFileWord } from '@mdi/js';
-import { mdiHammerWrench } from '@mdi/js';
-import { mdiBookAlert } from '@mdi/js'; 
+import {
+	School as SchoolIcon,
+	FilePdf as FilePdfIcon,
+	FileWord as FileWordIcon,
+	HammerWrench as HammerWrenchIcon,
+	BookAlert as BookAlertIcon,
+} from 'mdi-material-ui';
 
 // Components
 import { ReturnSelected } from './HeaderNoAuth';
-
-function SchoolIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiSchool} />
-    </SvgIcon>
-  );
-}
-
-function FilePdfIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFilePdf} />
-    </SvgIcon>
-  );
-}
-
-function FileWordIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFileWord} />
-    </SvgIcon>
-  );
-}
-
-function HammerWrenchIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiHammerWrench} />
-    </SvgIcon>
-  );
-}
-
-function BookAlertIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiBookAlert} />
-    </SvgIcon>
-  );
-}
 
 function UserList({ handleClose }) {
 	const [control, setControl] = useState(false);

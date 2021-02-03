@@ -4,15 +4,16 @@ import {
 	Box,
 	Grid,
 	Paper,
-	SvgIcon,
 	IconButton,
 	Tooltip,
 } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { mdiFileReplaceOutline } from '@mdi/js';
-import { mdiFilePdf } from '@mdi/js';
+import {
+	FileReplaceOutline as FileReplace,
+	FilePdf as FilePdfIcon,
+} from 'mdi-material-ui';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -23,22 +24,6 @@ import downloadFiles from '../../../components/funciones/downloadFiles';
 // Redux
 import { useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
-
-function FileReplace(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFileReplaceOutline} />
-    </SvgIcon>
-  );
-}
-
-function FilePdfIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFilePdf} />
-    </SvgIcon>
-  );
-}
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));

@@ -11,7 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 // Components
-import logoGedure from '../../imgs/Gedure-Logo.png';
+import GedureLogo from '../../imgs/gedure-logo-recto.svg';
 import institutoFondo from '../../imgs/instituto.jpg';
 import institutoLogo from '../../imgs/Farvicon_no_fondo_white.png';
 import FormLogin from './FormLogin';
@@ -74,7 +74,7 @@ function Aside() {
 							</Typography>
 						</Box>
 						<Link style={{display: 'inherit'}} href='https://github.com/recker112/gedure'>
-							<img src={logoGedure} alt='Logo de Gedure' height={20} />
+							<img src={GedureLogo} alt='Logo de Gedure' height={25} />
 						</Link>
 					</Grid>
 				</Grid>

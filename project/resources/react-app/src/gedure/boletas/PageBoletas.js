@@ -9,14 +9,14 @@ import {
 	InputAdornment,
 	IconButton,
 	Paper,
-	SvgIcon,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import GetAppIcon from '@material-ui/icons/GetApp';
-
-import { mdiFilePdf } from '@mdi/js';
+import {
+	FilePdf as FilePdfIcon,
+} from 'mdi-material-ui';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -30,14 +30,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-
-function FilePdfIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d={mdiFilePdf} />
-    </SvgIcon>
-  );
-}
 
 function PageBoletas() {
 	document.title = 'La Candelaria - Boletas';

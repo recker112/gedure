@@ -13,7 +13,6 @@ use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\BoletaController;
-use App\Http\Controllers\Api\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -158,12 +157,15 @@ Route::group(['prefix' => 'v1'], function () {
 	// Invite users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
 		->post('invitation/users', [InvitationController::class, 'invite']);
-	Route::get('invitation/users/{key}', [InvitationController::class, 'show']);
+	
+	// Show users
+	Route::get('invitation/user/{key}', [InvitationController::class, 'show']);
+	
+	// Resend email
+	Route::get('invitation/resend-email/{id}', [InvitationController::class, 'resend']);
 	
 	// Register user
 	Route::post('invitation/register', [InvitationController::class, 'register']);
-	
-	Route::get('send', [MailController::class, 'email']);
 	
 	/*
 	Boletas

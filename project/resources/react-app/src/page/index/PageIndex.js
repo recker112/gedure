@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	headerImg: {
 		background: `url(${institutoLogo})`,
+		backgroundAttachment: 'fixed',
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
 		height: 500,
 	},
 	header: {
@@ -264,7 +267,7 @@ function PageIndex() {
 							<Paper className="paper--padding">
 								<Typography align="center">
 									{
-										'La U.E.P A.P.E.P “La Candelaria brinda sus instalaciones a estudiantes de Primaria, Centro Taller Pre-Vocacional a los estudiantes de 6to grado de Escuelas Amigas, Media General y Media Técnica, tiene como norte la formación integral, en valores y principios religiosos, basados en la Fe Católica. Siguiendo la Filosofía APEP educar para la vida, para el trabajo. Los futuros Técnicos medios en las diferentes menciones tienen la oportunidad de iniciarse en el campo laboral luego de realizar el proceso de pasantías en su último año.'
+										'La U.E.P A.P.E.P “La Candelaria" brinda sus instalaciones a estudiantes de Primaria, Centro Taller Pre-Vocacional a los estudiantes de 6to grado de Escuelas Amigas, Media General y Media Técnica, tiene como norte la formación integral, en valores y principios religiosos, basados en la Fe Católica. Siguiendo la Filosofía APEP educar para la vida, para el trabajo. Los futuros Técnicos medios en las diferentes menciones tienen la oportunidad de iniciarse en el campo laboral luego de realizar el proceso de pasantías en su último año.'
 									}
 								</Typography>
 							</Paper>

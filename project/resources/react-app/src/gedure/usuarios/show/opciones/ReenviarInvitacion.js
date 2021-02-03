@@ -28,8 +28,9 @@ export default function ReenviarInvitacion({ id }) {
 		dispatch(updateForms('resendEmail', true));
 		
 		const prepare = {
-			url: `v1/resend-mail/invitation/${id}`,
-			type: 'post',
+			url: `v1/invitation/resend-email/${id}`,
+			type: 'get',
+			message404: 'El usuario ya no existe'
 		};
 
 		// eslint-disable-next-line
@@ -42,7 +43,7 @@ export default function ReenviarInvitacion({ id }) {
 		<React.Fragment>
 			<Grid item xs={12} sm={8}>
 				<Box fontSize='h5.fontSize' className='text__bold--semi'>
-					Reenviar invitaciรณn
+					Reenviar invitación
 				</Box>
 				<Box fontSize='body1.fontSize' color='text.secondary'>
 					solo disponible si el estudiante no se ha registrado
