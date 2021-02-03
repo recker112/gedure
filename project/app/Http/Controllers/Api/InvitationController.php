@@ -91,10 +91,9 @@ class InvitationController extends Controller
 		}
 		
 		if (!$user->invitation) {
-			// Crear y enviar invitaciรณn
-			$user->invitation()->create([
-				'invitation_key' => Str::random(40),
-			]);
+			return response()->json([
+				'msg' => 'El usuario no fue invitado al sistema'
+			],400);
 		}
 		
 		Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));

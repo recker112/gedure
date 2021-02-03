@@ -29,12 +29,6 @@ class CursoController extends Controller
 			->limit($perPage)
 			->get();
 		
-		if (!$cursos) {
-			return response()->json([
-				'msg' => 'No existen cursos'
-			], 404);
-		}
-		
 		//Total de logs
 		$cursos_count = Curso::count();
 		
@@ -70,64 +64,6 @@ class CursoController extends Controller
 		return response()->json([
 			'msg' => 'Curso eliminado'
 		], 200);
-	}
-	
-	public function testPruebas()
-	{
-		/*
-			NOTA (RECKER): De esta forma se puede obtener los usuarios que no tengan un alumno asignado.
-		*/
-		dd(User::doesntHave('alumno')->get()->toArray());
-		
-		$user = User::find(2);
-		$curso = Curso::firstWhere('code', '5-A');
-		
-		$json = [
-			"user" => $user->toArray(),
-			'alumno_data' => $user->alumno->toArray(),
-			'curso_data' => $user->alumno->curso->toArray()
-		];
-		
-		$this->orderAlumnos($curso->id);
-		
-		$users = array();
-		$i=0;
-		foreach($curso->alumnos as $alumno) {
-			$users[$i] = [
-				'alumno' => $alumno->toArray(),
-				'user' => $alumno->user->toArray(),
-				'personalData' => $alumno->user->personalData()->toArray(),
-				'config' => $alumno->user->config()->toArray()
-			];
-			$i++;
-		}
-		
-		//PERMISOS
-		$test = User::find(1);
-		$form = [
-			'products_index' => true,
-			'products_show' => false,
-		];
-		$test->syncPermissions([]);
-		foreach($form as $clave => $value) {
-			if ($value) {
-				$test->givePermissionTo($clave);
-			}
-		}
-		
-		$back = $test->getAllPermissions();
-		$permissions = [];
-		$i = 0;
-		foreach($back as $permiso) {
-			$permissions[$i] = $permiso->name;
-			$i++;
-		}
-		dd($permissions);
-		
-		//dd($users);
-		$response = $this->get('/');
-
-		$response->assertStatus(200);
 	}
 	
 	public static function orderAlumnos($id){
