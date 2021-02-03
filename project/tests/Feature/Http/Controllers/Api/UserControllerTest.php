@@ -83,6 +83,12 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
+		Curso::create([
+			'code' => '5-A',
+			'curso' => '5',
+			'seccion' => 'A',
+		]);
+		
 		$response = $this->postJson('/api/v1/user', [
 			'username' => 'luis',
 			'name' => 'Luis Enrrique',
@@ -229,17 +235,26 @@ class UserControllerTest extends TestCase
 	public function testErrorCedulaCreateStudiant()
 	{
 		//$this->withoutExceptionHandling();
+		$admin = User::find(1);
 		Passport::actingAs(
-			User::find(1),
+			$admin,
 			['admin']
 		);
 		
+		Curso::create([
+			'code' => '5-A',
+			'curso' => '5',
+			'seccion' => 'A',
+		]);
+		
 		$response = $this->postJson('/api/v1/user', [
-			'username' => 'recker',
+			'username' => $admin->username,
 			'name' => 'Luis Enrrique',
-			'email' => 'test@test.test',
+			'email' => $admin->email,
 			'privilegio' => 'V-',
 			'password' => '1234',
+			'curso' => '5',
+			'seccion' => 'A',
 			'permissions' => [
 				'boletas' => true,
 				'horarios' => true,
@@ -249,33 +264,7 @@ class UserControllerTest extends TestCase
 		]);
 		
 		$response->assertStatus(422)
-			->assertJsonValidationErrors(['username']);
-	}
-	
-	public function testErrorEmailUniqueCreateStudiant()
-	{
-		//$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::find(1),
-			['admin']
-		);
-		
-		$response = $this->postJson('/api/v1/user', [
-			'cedula' => 'luis',
-			'nombre' => 'Luis Enrrique',
-			'email' => 'joseortiz112001@gmail.com',
-			'privilegio' => 'V-',
-			'password' => '1234',
-			'permissions' => [
-				'boletas' => true,
-				'horarios' => true,
-				'soporte' => true,
-				'account_exonerada' => false,
-			]
-		]);
-		
-		$response->assertStatus(422)
-			->assertJsonValidationErrors(['email']);
+			->assertJsonValidationErrors(['username', 'email']);
 	}
 	
 	public function testDeleteUser()
@@ -336,11 +325,17 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
+		Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
 		$users = User::factory(10)->create([
 			'privilegio' => 'V-',
 		]);
 		
-		$response = $this->putJson('/api/v1/massive/seccion',[
+		$response = $this->putJson('/api/v1/massive/user/seccion',[
 			'ids' => [2,3,4,5,6,7,8,9,10,11],
 			'curso' => '1',
 			'seccion' => 'A',

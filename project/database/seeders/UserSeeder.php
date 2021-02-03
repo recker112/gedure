@@ -15,36 +15,16 @@ class UserSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$user = User::create([
-			'username' => 'recker',
-			'name' => 'Recker Ortiz',
+		$user = User::factory()->create([
+			'username' => 'admin',
+			'name' => 'Super admin',
 			'privilegio' => 'A-',
-			'email' => 'joseortiz112001@gmail.com',
-			'password' => bcrypt('reckersito'),
+			'password' => bcrypt('1234'),
 			'actived_at' => now(),
 		]);
 		
 		PersonalDataAdmin::create([
 			'user_id' => $user->id,
-			'sexo' => 'Masculino',
-			'telefono' => '4273845463',
-			'docente' => 'No',
-		]);
-		
-		$user = User::create([
-			'username' => 'rhadys',
-			'name' => 'Rhadys garcia',
-			'privilegio' => 'A-',
-			'email' => 'uepapep.lacandelaria@gmail.com',
-			'password' => bcrypt('12345'),
-			'actived_at' => now(),
-		]);
-		
-		PersonalDataAdmin::create([
-			'user_id' => $user->id,
-			'sexo' => 'Masculino',
-			'telefono' => '4273845463',
-			'docente' => 'No',
 		]);
 	}
 }

@@ -13,6 +13,7 @@ use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\Boleta;
+use App\Models\Curso;
 
 class BoletaControllerTest extends TestCase
 {
@@ -30,6 +31,12 @@ class BoletaControllerTest extends TestCase
 			['admin']
 		);
 		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
 		// User Boleta
 		$user = User::factory()->create([
 			'privilegio' => 'V-',
@@ -37,7 +44,7 @@ class BoletaControllerTest extends TestCase
 		]);
 		$user->alumno()->create([
 			'n_lista' => 99,
-			'curso_id' => 1,
+			'curso_id' => $curso->id,
 		]);
 		
 		Storage::fake('local');

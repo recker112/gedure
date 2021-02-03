@@ -26,7 +26,7 @@ function Footer() {
 						<Typography variant="h6" className="text__opacity--semi text__bold--semi">
 							Powered by
 						</Typography>
-						<Link href='https://github.com/recker112/gedure'>
+						<Link target='_blank' href='https://github.com/recker112/gedure'>
 							<img src={GedureLogo} alt="Logo de gedure" height="30" style={{opacity: 0.99}} />
 						</Link>
 					</Grid>

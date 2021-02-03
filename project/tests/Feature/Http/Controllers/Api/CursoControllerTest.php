@@ -20,15 +20,15 @@ class CursoControllerTest extends TestCase
 	 * @return void
 	 */
 	public function testGetCursos() {
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
 		
 		$curso = Curso::create([
-			'code' => '6-A',
-			'curso' => '6',
+			'code' => '1-A',
+			'curso' => '1',
 			'seccion' => 'A'
 		]);
 		
@@ -36,7 +36,7 @@ class CursoControllerTest extends TestCase
 		
 		$response->assertOk()
 			->assertJsonFragment([
-				'curso' => '6'
+				'curso' => '1'
 			]);
 	}
 	
@@ -68,6 +68,12 @@ class CursoControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+		
+		$curso = Curso::create([
+			'code' => '6-A',
+			'curso' => '6',
+			'seccion' => 'A'
+		]);
 		
 		$response = $this->deleteJson('/api/v1/curso/1');
 		

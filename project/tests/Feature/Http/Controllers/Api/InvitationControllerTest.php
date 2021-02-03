@@ -36,12 +36,18 @@ class InvitationControllerTest extends TestCase
 		
 		Mail::fake();
 		
+		Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
 		$response = $this->postJson('/api/v1/invitation/users', [
 			'username' => 'luis',
 			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
-			'curso' => '5',
+			'curso' => '1',
 			'seccion' => 'A',
 			'permissions' => [
 				'boletas' => true,

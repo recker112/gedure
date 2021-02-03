@@ -24,7 +24,7 @@ class RecoveryVerifyRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'email' => 'required',
+			'email' => 'required|email',
 			'code' => 'required|min:5|max:5'
 		];
 	}

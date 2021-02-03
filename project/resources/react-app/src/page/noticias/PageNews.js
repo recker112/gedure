@@ -186,7 +186,7 @@ function PageNews() {
 							</Grid>
 						)}
 
-						{noData && !search.length && (
+						{(noData && !search.length) && (
 							<Grid item xs={12}>
 								<Typography align='center'>
 									No hay noticias publicadas.
@@ -194,7 +194,7 @@ function PageNews() {
 							</Grid>
 						)}
 
-						{noData && search.length && (
+						{(noData && search.length !== 0) && (
 							<React.Fragment>
 								<Grid item xs={12}>
 									<Typography align='center'>
@@ -209,7 +209,7 @@ function PageNews() {
 						{error && (
 							<Grid item xs={12}>
 								<Typography align='center'>
-									Se ha producido un error al intentar obtener los datos, intente recargar la página.
+									Se ha producido un error al intentar obtener los datos, intente recargar la pรกgina.
 								</Typography>
 							</Grid>
 						)}

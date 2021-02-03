@@ -37,14 +37,15 @@ class LoginControllerTest extends TestCase
 	public function testLogin()
 	{
 		//$this->withoutExceptionHandling();
+		$admin = User::find(1);
 		$response = $this->postJson('/api/v1/login', [
-			'username' => 'recker', 
-			'password' => 'reckersito'
+			'username' => $admin->username, 
+			'password' => '1234'
 		]);
 
 		$response->assertOk()
-			->assertJsonPath('user.username', 'recker')
-			->assertJsonPath('user.email', 'joseortiz112001@gmail.com')
+			->assertJsonPath('user.username', $admin->username)
+			->assertJsonPath('user.email', $admin->email)
 			->assertJsonStructure([
 				'access_key',
 				'user' => [
@@ -66,8 +67,9 @@ class LoginControllerTest extends TestCase
 	public function testLoginFailed()
 	{
 		//$this->withoutExceptionHandling();
+		$admin = User::find(1);
 		$response = $this->postJson('/api/v1/login', [
-			'username' => 'recker', 
+			'username' => $admin->username, 
 			'password' => 'MALssjdahsd'
 		]);
 
@@ -80,9 +82,10 @@ class LoginControllerTest extends TestCase
 	public function testLoginBlockAccount()
 	{
 		//$this->withoutExceptionHandling();
+		$admin = User::find(1);
 		for($i=0;$i < 5;$i++) {
 			$response = $this->postJson('/api/v1/login', [
-				'username' => 'recker', 
+				'username' => $admin->username, 
 				'password' => 'MALs'
 			]);
 		}
@@ -91,6 +94,11 @@ class LoginControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+		
+		$this->assertDatabaseHas('blocks', [
+      'user_id' => $admin->id,
+			'attemps' => 5,
+    ]);
 	}
 	
 	public function testLogout()
@@ -158,10 +166,12 @@ class LoginControllerTest extends TestCase
 	public function testRecoveryPassword()
 	{
 		//$this->withoutExceptionHandling();
+		$admin = User::find(1);
+		
 		Mail::fake();
 		
 		$response = $this->postJson('/api/v1/recovery-password', [
-			'email' => 'joseortiz112001@gmail.com'
+			'email' => $admin->email,
 		]);
 
 		$response->assertOk()
@@ -175,14 +185,14 @@ class LoginControllerTest extends TestCase
 	public function testRecoveryPasswordVerifyCode()
 	{
 		//$this->withoutExceptionHandling();
-		$user = User::find(1);
+		$admin = User::find(1);
 		
 		RecoveryPassword::factory()->create([
-			'user_id' => $user->id
+			'user_id' => $admin->id
 		]);
 		
 		$response = $this->postJson('/api/v1/recovery-verify', [
-			'email' => 'joseortiz112001@gmail.com',
+			'email' => $admin->email,
 			'code' => '12345'
 		]);
 
@@ -195,16 +205,16 @@ class LoginControllerTest extends TestCase
 	public function testRecoveryChangePass()
 	{
 		//$this->withoutExceptionHandling();
-		$user = User::find(1);
+		$admin = User::find(1);
 		
 		RecoveryPassword::factory()->create([
-			'user_id' => $user->id,
+			'user_id' => $admin->id,
 			'confirm' => 1,
 		]);
 		
 		$response = $this->postJson('/api/v1/recovery-chpass', [
-			'email' => 'joseortiz112001@gmail.com',
-			'password' => 'Vhxdlsfers'
+			'email' => $admin->email,
+			'password' => 'CS1.6-VHL-Servers'
 		]);
 
 		$response->assertOk()
