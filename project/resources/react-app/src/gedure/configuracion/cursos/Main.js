@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { 
 	Grid,
@@ -12,8 +12,8 @@ import {
 import { useForm } from "react-hook-form";
 
 // Components
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
-import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
+import { RenderSelectFormHook } from '../../../components/RendersGlobals';
+import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 
 export default function Main() {
 	const { control, errors, handleSubmit } = useForm({
@@ -28,6 +28,10 @@ export default function Main() {
 		<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
 	),[]));
 	
+	const onSubmit = async () => {
+		//
+	}
+	
 	return (
 		<Grid container>
 			<Grid item xs={12}>
@@ -35,7 +39,7 @@ export default function Main() {
 					<Typography variant='h6' className='text__bold--semi'>
 						Añadir curso
 					</Typography>
-					<Grid container>
+					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6} md={4}>
 							<RenderSelectFormHook
 								name='curso'
@@ -43,7 +47,6 @@ export default function Main() {
 								control={control}
 								defaultValue='' 
 								errors={errors.curso}
-								disabled={loading}
 							>
 								<MenuItem value=''>
 									<em>Ninguno</em>
@@ -58,7 +61,6 @@ export default function Main() {
 								control={control}
 								defaultValue='' 
 								errors={errors.seccion}
-								disabled={loading}
 							>
 								<MenuItem value=''>
 									<em>Ninguno</em>
@@ -70,8 +72,13 @@ export default function Main() {
 					<Typography className='text__opacity--semi'>
 						Añada cursos al sistema para agrupar a sus estudiantes. Al borrar un curso las boletas también serán borradas.
 					</Typography>
-					<Box align='right'>
-						<Button variant='contained' color='primary' disableElevation>
+					<Box mt={1} align='right'>
+						<Button
+							variant='contained' 
+							color='primary' 
+							disableElevation
+							onClick={handleSubmit(onSubmit)}
+						>
 							Agregar
 						</Button>
 					</Box>
