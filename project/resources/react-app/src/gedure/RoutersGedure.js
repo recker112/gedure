@@ -13,6 +13,7 @@ const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
+const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 
 export default function RoutersGedure() {
 	let { url } = useRouteMatch();
@@ -46,6 +47,12 @@ export default function RoutersGedure() {
 			component: <RoutersBoletas />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
+		},
+		{
+			path: `${url}/configuracion`,
+			component: <PageGedureConfiguracion />,
+			exact: false,
+			iCanSee: Boolean(true),
 		}
 	], [permissions, url]);
 	
