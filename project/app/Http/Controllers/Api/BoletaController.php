@@ -197,7 +197,7 @@ class BoletaController extends Controller
 	public function destroy($id)
 	{
 		$boleta = Boleta::findOrFail(intVal($id));
-		$filePath = "users/$boleta->user_id/boletas/{$boleta->curso->code}/lapso_{$boleta->lapso}_{$boleta->curso->code}.pdf";
+		$filePath = $boleta->boleta;
 		
 		if ($boleta->forceDelete() && Storage::exists($filePath)) {
 			Storage::delete($filePath);

@@ -97,7 +97,7 @@ function useFetch(setError) {
 					});
 				}
 			} else {
-				enqueueSnackbar('Error interno en la app', {
+				enqueueSnackbar('Imposible conectarse con el servidor', {
 					variant: 'error',
 				});
 			}

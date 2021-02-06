@@ -52,6 +52,12 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'boletas_edit']);
 		Permission::create(['name' => 'boletas_destroy']);
 		
+		// Cursos
+		Permission::create(['name' => 'cursos_index']);
+		Permission::create(['name' => 'cursos_create']);
+		Permission::create(['name' => 'cursos_destroy']);
+		Permission::create(['name' => 'cursos_massive_destroy']);
+		
 		/*
 			PERMISSIONS USER
 		*/

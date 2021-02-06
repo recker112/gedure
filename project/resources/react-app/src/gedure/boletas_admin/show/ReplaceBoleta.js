@@ -38,7 +38,7 @@ export default function ReplaceBoleta({ handleRefresh, name }) {
 	
 	const handleClose = () => {
 		if (!loading) {
-			dispatch(updateDialogs('uploadMatricula', false, false));
+			dispatch(updateDialogs('replaceBoleta', false, false));
 		}
 	}
 	
