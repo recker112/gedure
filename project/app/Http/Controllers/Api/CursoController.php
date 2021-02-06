@@ -71,10 +71,6 @@ class CursoController extends Controller
 			$controller->destroy($boleta->id);
 		}
 		
-		foreach($curso->alumnos as $alumno) {
-			$alumno->delete();
-		}
-		
 		$curso->delete();
 			
 		return response()->json([

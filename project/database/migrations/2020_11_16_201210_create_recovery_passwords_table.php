@@ -16,7 +16,11 @@ class CreateRecoveryPasswordsTable extends Migration
 		Schema::create('recovery_passwords', function (Blueprint $table) {
 			$table->id();
 			$table->string('code');
-			$table->bigInteger("user_id");
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->boolean('confirm')->default(0);
 			$table->timestamps();
 		});

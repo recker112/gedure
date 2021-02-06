@@ -158,26 +158,9 @@ class User extends Authenticatable
 		parent::boot();
 
 		static::deleting(function($user) {
-			if ($user->isForceDeleting()) {
-				if ($user->personalData) {
-					$user->personalData(false)->forceDelete();
-				}
-				
-				foreach($user->boletas as $boleta) {
-					$boleta->forceDelete();
-				}
-			}else {
-				if ($user->personalData) {
-					$user->personalData(false)->delete();
-				}
-			}
+			$user->personalData(false)->delete();
 			
-			if ($user->privilegio === 'A-') {
-				foreach($user->posts as $post) {
-					$post->user_id = null;
-					$post->save();
-				}
-			}else if($user->privilegio === 'V-') {
+			if($user->privilegio === 'V-') {
 				if ($user->alumno){
 					$user->alumno()->delete();
 				}

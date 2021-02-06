@@ -15,8 +15,15 @@ class CreateAlumnosTable extends Migration
 	{
 		Schema::create('alumnos', function (Blueprint $table) {
 			$table->id();
-			$table->tinyInteger('curso_id');
-			$table->bigInteger('user_id');
+			$table->foreignId('curso_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->tinyInteger('n_lista');
 			$table->timestamps();
 		});

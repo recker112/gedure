@@ -15,9 +15,15 @@ class CreateBoletasTable extends Migration
 	{
 		Schema::create('boletas', function (Blueprint $table) {
 			$table->id();
-			$table->bigInteger('user_id');
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
 			$table->string('boleta')->unique();
-			$table->string('curso_id');
+			$table->foreignId('curso_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
 			$table->tinyInteger('lapso');
 			$table->timestamps();
 			$table->softDeletes();
