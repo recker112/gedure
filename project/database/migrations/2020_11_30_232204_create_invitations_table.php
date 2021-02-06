@@ -15,7 +15,11 @@ class CreateInvitationsTable extends Migration
 	{
 		Schema::create('invitations', function (Blueprint $table) {
 			$table->id();
-			$table->bigInteger('user_id');
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->string('invitation_key')->unique();
 			$table->timestamps();
 		});

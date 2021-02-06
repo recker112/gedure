@@ -15,7 +15,11 @@ class CreateBlocksTable extends Migration
 	{
 		Schema::create('blocks', function (Blueprint $table) {
 			$table->id('id');
-			$table->bigInteger('user_id');
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->smallInteger('attemps')->default(0);
 			$table->smallInteger('locks')->default(0);
 			$table->timestamps();
@@ -29,6 +33,6 @@ class CreateBlocksTable extends Migration
 	 */
 	public function down()
 	{
-			Schema::dropIfExists('blocks');
+		Schema::dropIfExists('blocks');
 	}
 }

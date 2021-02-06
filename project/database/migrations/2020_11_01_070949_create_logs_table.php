@@ -15,7 +15,11 @@ class CreateLogsTable extends Migration
 	{
 		Schema::create('logs', function (Blueprint $table) {
 			$table->id();
-			$table->bigInteger("user_id");
+			$table->foreignId('user_id')
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->string("action");
 			$table->json("payload")->nullable();
 			$table->enum("type", ["session", "gedure", "user", "class"]);
