@@ -82,4 +82,32 @@ class CursoControllerTest extends TestCase
 				'msg'
 			]);
 	}
+	
+	public function testDestroyMassiveCurso() {
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Curso::create([
+			'code' => '6-A',
+			'curso' => '6',
+			'seccion' => 'A'
+		]);
+		Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A'
+		]);
+		
+		$ids = json_encode([1,2]);
+		
+		$response = $this->deleteJson('/api/v1/massive/curso?ids='.urlencode($ids));
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
 }

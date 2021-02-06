@@ -77,7 +77,7 @@ function AdminList({ handleClose }) {
 						</ListItemIcon>
 						<ListItemText primary="Publicaciones" />
 					</ReturnSelected>
-					<ReturnSelected url='/gedure/boletas' handle={handleClose} nested>
+					<ReturnSelected url='/gedure/boletas' handle={handleClose} nested noExact>
 						<ListItemIcon>
 							<FilePdfIcon />
 						</ListItemIcon>

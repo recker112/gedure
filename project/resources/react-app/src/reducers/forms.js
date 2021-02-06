@@ -118,6 +118,10 @@ const initialState = {
 	showBoletas: {
 		loading: false,
 		data: [],
+	},
+	crearCurso: {
+		loading: false,
+		data: {},
 	}
 };
 

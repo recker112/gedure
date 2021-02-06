@@ -107,14 +107,21 @@ Route::group(['prefix' => 'v1'], function () {
 	/*
 	CURSOS
 	*/
-	// GetCursos
-	Route::middleware(['auth:api', 'scopes:admin'])->get('curso', [CursoController::class, 'index']);
+	// Get cursos
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index'])
+		->get('curso', [CursoController::class, 'index']);
 	
-	// CreateCurso
-	Route::middleware(['auth:api', 'scopes:admin'])->post('curso', [CursoController::class, 'create']);
+	// Create curso
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_create'])
+		->post('curso', [CursoController::class, 'create']);
 	
-	// DeleteCurso
-	Route::middleware(['auth:api', 'scopes:admin'])->delete('curso/{id}', [CursoController::class, 'destroy']);
+	// Delete curso
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_destroy'])
+		->delete('curso/{id}', [CursoController::class, 'destroy']);
+	
+	// Destroy massive curso
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_massive_destroy'])
+		->delete('massive/curso', [CursoController::class, 'destroyMassive']);
 	
 	/*
 	USERS

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\CursoRequest;
+use App\Http\Requests\MassiveUsersRequest;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Api\BoletaController;
 // Passport
 use Laravel\Passport\Passport;
 // Models
@@ -13,7 +16,7 @@ use App\Models\User;
 use App\Models\Log;
 use App\Models\Curso;
 use App\Models\Alumno;
-use Illuminate\Support\Facades\DB;
+use App\Models\Boleta;
 
 class CursoController extends Controller
 {
@@ -27,7 +30,8 @@ class CursoController extends Controller
 			->orderBy('created_at', 'desc')
 			->offset($page)
 			->limit($perPage)
-			->get();
+			->get()
+			->makeVisible(['id', 'code']);
 		
 		//Total de logs
 		$cursos_count = Curso::count();
@@ -35,35 +39,65 @@ class CursoController extends Controller
 		return response()->json([
 			'data' => $cursos,
 			'page' => request()->page * 1, 
-			'totalPosts' => $cursos_count
+			'totalCursos' => $cursos_count
 		], 200);
 	}
 	
 	public function create(CursoRequest $request) {
 		$data = $request->toArray();
 		$data['code'] = $data['curso'].'-'.$data['seccion'];
+		$curso = Curso::firstWhere('code', $data['code']);
 		
-		$curso = Curso::create($data);
-		
-		if ($curso) {
+		if (!$curso) {
+			$curso = Curso::create($data);
+			
 			return response()->json([
-				'msg' => 'Curso creado'
+				'msg' => "Curso $curso->code creado"
 			], 201);
 		}else {
 			return response()->json([
-				'msg' => 'No se pudo crear la seccion',
+				'msg' => "El curso $curso->code ya existe",
 			], 400);
 		}
 	}
 	
 	public function destroy($id) {
-		$curso = Curso::findOrFail(1);
+		$curso = Curso::findOrFail(intVal($id));
+		
+		// Eliminar boletas
+		$boletas = Boleta::where('curso_id', intVal($id))->get();
+		$controller = new BoletaController();
+		foreach($boletas as $boleta) {
+			$controller->destroy($boleta->id);
+		}
+		
+		foreach($curso->alumnos as $alumno) {
+			$alumno->delete();
+		}
 		
 		$curso->delete();
 			
 		return response()->json([
 			'msg' => 'Curso eliminado'
 		], 200);
+	}
+	
+	public function destroyMassive(MassiveUsersRequest $request)
+	{
+		$ids = json_decode(urldecode($request->ids));
+		
+		$i=0;
+		foreach($ids as $id) {
+			$curso = Curso::find($id);
+			
+			if ($curso) {
+				$this->destroy($curso->id);
+				$i++;
+			}
+		}
+		return response()->json([
+			'msg' => "$i boletas eliminadas"
+		],200);
 	}
 	
 	public static function orderAlumnos($id){
