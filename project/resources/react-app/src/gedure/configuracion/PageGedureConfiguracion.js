@@ -24,6 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Routers
 const Cursos = lazy(() => import('./cursos/Main'));
+const Reactivar = lazy(() => import('./disabled_accounts/Main'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -73,7 +74,7 @@ function Header() {
 				fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} 
 				className='text__bold--semi'
 			>
-				Configuración del sistema,
+				Configuraciรณn del sistema,
 			</Box>
 			<Box 
 				color='primary.contrastText' 
@@ -87,7 +88,7 @@ function Header() {
 }
 
 export default function PageUserIndex() {
-	document.title = 'La Candelaria - Configuración del sistema';
+	document.title = 'La Candelaria - Configuraciรณn del sistema';
 	
 	let { url } = useRouteMatch();
 	let location = useLocation();
@@ -117,7 +118,7 @@ export default function PageUserIndex() {
 								{...a11yProps(1)}
 								/>
 							<LinkTab
-								label='Reactivar usuarios' 
+								label='Usuarios desactivados' 
 								value={`${url}/usuarios-desactivados`}
 								{...a11yProps(2)}
 							/>
@@ -140,7 +141,7 @@ export default function PageUserIndex() {
 							</Route>
 							
 							<Route path={`${url}/usuarios-desactivados`} exact>
-								Reactivar usuarios
+								<Reactivar />
 							</Route>
 							
 							<Route>

@@ -22,7 +22,6 @@ import { useSelector } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		marginBottom: theme.spacing(5),
 	},
 	header: {
 		background: theme.palette.primary.main,
@@ -53,7 +52,7 @@ function Header() {
 				</Grid>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
-						Versiรณn del sistema
+						Versión del sistema
 					</Box>
 					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Alpha.0</Box>
 				</Grid>

@@ -369,7 +369,7 @@ class UserController extends Controller
 	
 	public function restoreDeleted($id)
 	{
-		$user = User::onlyTrashed()->find(intVal($id));
+		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
 		$user->restore();
 		

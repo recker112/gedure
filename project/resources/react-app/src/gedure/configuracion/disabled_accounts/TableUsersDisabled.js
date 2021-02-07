@@ -5,19 +5,19 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import GroupIcon from '@material-ui/icons/Group';
+import RestoreIcon from '@material-ui/icons/Restore';
 import Delete from '@material-ui/icons/Delete';
 
 import useFetch from '../../../hooks/useFetch';
 
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
-import converterCursoCode from '../../../components/funciones/converterCursoCode';
 
 // Redux
 import { useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
-export default function TableUsers({ tableRef }) {
+export default function TableUsersDisabled({ tableRef }) {
 	const [massiveDelete, setMassiveDelete] = useState(false);
 	const [pageSizeController, setpageSizeController] = useState(5);
 	const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export default function TableUsers({ tableRef }) {
 	
 	const onFetch = useCallback(async (query) => {
 		const prepare = {
-			url: `v1/curso?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+			url: `v1/user-disabled?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
 			)}`,
 			type: 'get',
@@ -43,7 +43,7 @@ export default function TableUsers({ tableRef }) {
 			return {
 				data: response.data,
 				page: response.page,
-				totalCount: response.totalCursos,
+				totalCount: response.totalUsers,
 			};
 		} else {
 			return {
@@ -59,25 +59,24 @@ export default function TableUsers({ tableRef }) {
 		<Grid item xs={12}>
 			<MaterialTable
 				tableRef={tableRef}
-				title="Cursos activos" 
+				title="Usuarios desactivados" 
 				icons={tableIcons}
 				localization={tableLocation}
 				data={onFetch}
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Cรณdigo',
+						title: 'Usuario',
 						field: 'code',
-						render: (rowData) => `${rowData.curso}-${rowData.seccion}`
+						render: (rowData) => `${rowData.privilegio}${rowData.username}`
 					},
 					{
-						title: 'Curso',
-						field: 'curso',
-						render: (rowData) => converterCursoCode(rowData.curso)
+						title: 'Nombre',
+						field: 'name',
 					},
 					{
-						title: 'Seccion', 
-						field: 'seccion'
+						title: 'Correo', 
+						field: 'email'
 					},
 				]}
 				actions={[
@@ -88,13 +87,14 @@ export default function TableUsers({ tableRef }) {
 						onClick: handleMassive,
 					},
 					{
-						icon: () => (<Delete />),
-						tooltip: 'Eliminar curso',
+						icon: () => (<RestoreIcon />),
+						tooltip: 'Reactivar cuenta',
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {
 									id: rowData.id,
-									code: rowData.code,
+									username: rowData.username,
+									type: 'restore'
 								}
 								dispatch(updateDialogs('deleteConfirmation', true, false, data));
 							}else {
@@ -105,8 +105,35 @@ export default function TableUsers({ tableRef }) {
 									i++;
 								}
 								dispatch(updateDialogs('deleteConfirmation', true, false, {
-									deleteMassive: true,
-									ids: newData
+									massive: true,
+									ids: newData,
+									type: 'restore'
+								}));
+							}
+						},
+					},
+					{
+						icon: () => (<Delete />),
+						tooltip: 'Eliminar cuenta',
+						onClick: (event, rowData) => {
+							if (!massiveDelete) {
+								const data = {
+									id: rowData.id,
+									username: rowData.username,
+									type: 'destroy'
+								}
+								dispatch(updateDialogs('deleteConfirmation', true, false, data));
+							}else {
+								let i = 0;
+								let newData = [];
+								for(let value of rowData){
+									newData[i] = value.id;
+									i++;
+								}
+								dispatch(updateDialogs('deleteConfirmation', true, false, {
+									massive: true,
+									ids: newData,
+									type: 'destroy'
 								}));
 							}
 						},
