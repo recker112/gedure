@@ -14,16 +14,12 @@ import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import converterCursoCode from '../../../components/funciones/converterCursoCode';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../../actions/updateForms';
+import { useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TableUsers({ tableRef }) {
 	const [massiveDelete, setMassiveDelete] = useState(false);
 	const [pageSizeController, setpageSizeController] = useState(5);
-	const { loading } = useSelector((state) => ({
-		loading: state.forms.usersIndex.loading,
-	}));
 	const dispatch = useDispatch();
 	
 	const { fetchData } = useFetch();
@@ -33,10 +29,6 @@ export default function TableUsers({ tableRef }) {
 	const handleChange = value => setpageSizeController(value);
 	
 	const onFetch = useCallback(async (query) => {
-		if (loading) {
-			query.page = 0;
-		}
-		
 		const prepare = {
 			url: `v1/curso?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
@@ -46,10 +38,6 @@ export default function TableUsers({ tableRef }) {
 		};
 
 		const response = await fetchData(prepare);
-		
-		if (loading) {
-			dispatch(updateForms('usersIndex', false));
-		}
 
 		if (response) {
 			return {
@@ -65,7 +53,7 @@ export default function TableUsers({ tableRef }) {
 			};
 		}
 		// eslint-disable-next-line
-	}, [loading]);
+	},[]);
 	
 	return (
 		<Grid item xs={12}>
@@ -78,7 +66,7 @@ export default function TableUsers({ tableRef }) {
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Código',
+						title: 'Cรณdigo',
 						field: 'code',
 						render: (rowData) => `${rowData.curso}-${rowData.seccion}`
 					},

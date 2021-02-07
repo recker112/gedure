@@ -515,7 +515,7 @@ class UserControllerTest extends TestCase
 	
 	public function testDestroyUserMassive()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
