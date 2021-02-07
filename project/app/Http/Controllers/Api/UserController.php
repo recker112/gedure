@@ -88,6 +88,7 @@ class UserController extends Controller
 				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
 			})
+			->where('privilegio', 'like', '%'.$type.'%')
 			->count();
 		
 		return response()->json([
@@ -324,6 +325,111 @@ class UserController extends Controller
 		
 		return response()->json([
 			'msg' => 'Matricula en progreso',
+		],200);
+	}
+	
+	public function indexDeleted(TableRequest $request)
+	{
+		$search = urldecode(request()->search);
+		$type = $request->type;
+
+		$perPage = $request->per_page;
+		$page = $request->page * $perPage;
+		
+		$users = User::onlyTrashed()
+			->where(function ($query) {
+				$search = urldecode(request()->search);
+				$query->where('username', 'like', '%'.$search.'%')
+					->orWhere('name', 'like', '%'.$search.'%')
+					->orWhere('email', 'like', '%'.$search.'%');
+			})
+			->where('privilegio', 'like', '%'.$type.'%')
+			->offset($page)
+			->limit($perPage)
+			->get()
+			->makeHidden(['personal_data', 'estudiante_data'])
+			->toArray();
+		
+		$usersCount = User::onlyTrashed()
+			->where(function ($query) {
+				$search = urldecode(request()->search);
+				$query->where('username', 'like', '%'.$search.'%')
+					->orWhere('name', 'like', '%'.$search.'%')
+					->orWhere('email', 'like', '%'.$search.'%');
+			})
+			->where('privilegio', 'like', '%'.$type.'%')
+			->count();
+		
+		return response()->json([
+			'data' => $users,
+			'page' => $request->page * 1, 
+			'totalUsers' => $usersCount,
+		], 200);
+	}
+	
+	public function restoreDeleted($id)
+	{
+		$user = User::onlyTrashed()->find(intVal($id));
+		
+		$user->restore();
+		
+		return response()->json([
+			'msg' => 'Cuenta reactivada',
+		], 200);
+	}
+	
+	public function restoreDeletedMassive(MassiveUsersRequest $request)
+	{
+		$ids = json_decode(urldecode($request->ids));
+		
+		$i=0;
+		foreach($ids as $id) {
+			$user = User::onlyTrashed()->find($id);
+			
+			if ($user) {
+				$this->restoreDeleted($id);
+				$i++;
+			}
+		}
+		return response()->json([
+			'msg' => "$i cuentas reactivadas",
+			'users_restored' => $i,
+		],200);
+	}
+	
+	public function destroy($id) {
+		$user = User::onlyTrashed()->findOrFail(intVal($id));
+		
+		foreach($user->boletas as $boleta) {
+			Storage::delete($boleta->url);
+		}
+		
+		if ($user->forceDelete()) {
+			return response()->json([
+				'msg' => "Cuenta eliminada",
+			],200);
+		}else {
+			return response()->json([
+				'msg' => "No se pudo eliminar la cuenta",
+			],400);
+		}
+	}
+	
+	public function destroyMassive(MassiveUsersRequest $request) {
+		$ids = json_decode(urldecode($request->ids));
+		
+		$i=0;
+		foreach($ids as $id) {
+			$user = User::onlyTrashed()->find($id);
+			
+			if ($user) {
+				$this->destroy($id);
+				$i++;
+			}
+		}
+		return response()->json([
+			'msg' => "$i cuentas reactivadas",
+			'users_destroy' => $i,
 		],200);
 	}
 	

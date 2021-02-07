@@ -51,7 +51,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 		}
 		
 		const prepare = {
-			url: `v1/users?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+			url: `v1/user?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
 			)}&type=${filters.type || ''}&curso=${filters.curso || ''}&seccion=${filters.seccion || ''}`,
 			type: 'get',

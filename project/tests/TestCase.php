@@ -15,5 +15,18 @@ abstract class TestCase extends BaseTestCase
 		\Artisan::call('passport:install', ['-vvv' => true]);
 		\Artisan::call('db:seed', ['-vvv' => true]);
 		$this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+		
+		$this->enableForeignKeys();
+	}
+	
+	/**
+	* Activar claves foraneas
+	*
+	* @return void
+	*/
+	public function enableForeignKeys()
+	{
+		$db = app()->make('db');
+		$db->getSchemaBuilder()->enableForeignKeyConstraints();
 	}
 }

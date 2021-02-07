@@ -128,7 +128,7 @@ Route::group(['prefix' => 'v1'], function () {
 	*/
 	// Get table users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
-		->get('users', [UserController::class, 'index']);
+		->get('user', [UserController::class, 'index']);
 	
 	// Show user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
@@ -157,6 +157,26 @@ Route::group(['prefix' => 'v1'], function () {
 	// Soft delete user massive
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
 		->delete('massive/user', [UserController::class, 'deleteMassive']);
+	
+	// Get users disabled
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index'])
+		->get('user-disabled', [UserController::class, 'indexDeleted']);
+	
+	// Restore user
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
+		->get('user-disabled/restore/{id}', [UserController::class, 'restoreDeleted']);
+	
+	// Restore user massive
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
+		->get('user-disabled/restore', [UserController::class, 'restoreDeletedMassive']);
+	
+	// Delete user
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_destroy'])
+		->delete('user-disabled/{id}', [UserController::class, 'destroy']);
+	
+	// Delete user massive
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_destroy'])
+		->delete('user-disabled', [UserController::class, 'destroyMassive']);
 	
 	/*
 	INVITATION
