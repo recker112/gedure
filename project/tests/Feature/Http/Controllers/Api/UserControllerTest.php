@@ -15,6 +15,8 @@ use Laravel\Passport\Passport;
 use App\Models\User;
 use App\Models\Alumno;
 use App\Models\Curso;
+use App\Models\Boleta;
+use App\Models\PersonalDataUser;
 
 class UserControllerTest extends TestCase
 {
@@ -32,7 +34,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->getJson('/api/v1/users?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/user?per_page=5&page=0');
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -372,5 +374,170 @@ class UserControllerTest extends TestCase
 			]);
 		
 		Excel::assertQueued($file->getFileName());
+	}
+	
+	public function testIndexDeletedUsers()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$users = User::factory(3)->create();
+		
+		foreach($users as $user) {
+			$user->delete();
+		}
+		
+		$response = $this->getJson('/api/v1/user-disabled?per_page=5&page=0');
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'username',
+						'name',
+						'privilegio',
+						'email',
+					]
+				],
+				'page',
+				'totalUsers'
+			])
+			->assertJson([
+				'totalUsers' => count($users),
+			]);
+	}
+	
+	public function testRestoreDeletedUser()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->personalData(false)->create();
+		$user->alumno()->create([
+			'curso_id' => $curso->id,
+			'n_lista' => 10,
+		]);
+		$user->boletas()->create([
+			'curso_id' => $curso->id,
+			'boleta' => 'test',
+			'lapso' => '1'
+		]);
+		
+		$user->delete();
+		
+		$response = $this->getJson('/api/v1/user-disabled/restore/'.$user->id);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testRestoreDeletedUserMassive()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$users = User::factory(3)->create();
+		
+		foreach($users as $user) {
+			$user->delete();	
+		}
+		
+		$ids = json_encode([2,3,4]);
+		
+		$response = $this->getJson('/api/v1/user-disabled/restore?ids='.urlencode($ids));
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			])
+			->assertJson([
+				'users_restored' => 3,
+			]);
+	}
+	
+	public function testDestroyUser()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->personalData(false)->create();
+		$user->alumno()->create([
+			'curso_id' => $curso->id,
+			'n_lista' => 10,
+		]);
+		$user->boletas()->create([
+			'curso_id' => $curso->id,
+			'boleta' => 'test',
+			'lapso' => '1'
+		]);
+		
+		$user->delete();
+		
+		$response = $this->deleteJson('/api/v1/user-disabled/'.$user->id);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
+	
+	public function testDestroyUserMassive()
+	{
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$users = User::factory(3)->create();
+		
+		foreach($users as $user) {
+			$user->personalData(false)->create();
+			$user->delete();
+		}
+		
+		$ids = json_encode([2,3,4]);
+		
+		$response = $this->deleteJson('/api/v1/user-disabled?ids='.urlencode($ids));
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg'
+			])
+			->assertJson([
+				'users_destroy' => 3,
+			]);
 	}
 }

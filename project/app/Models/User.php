@@ -70,7 +70,11 @@ class User extends Authenticatable
 	
 	public function boletas()
 	{
-		return $this->hasMany('App\Models\Boleta');
+		if ($this->trashed()) {
+			return $this->hasMany('App\Models\Boleta')->onlyTrashed();
+		}else {
+			return $this->hasMany('App\Models\Boleta');	
+		}
 	}
 	
 	public function blocks()
@@ -158,22 +162,31 @@ class User extends Authenticatable
 		parent::boot();
 
 		static::deleting(function($user) {
-			$user->personalData(false)->delete();
-			
-			if($user->privilegio === 'V-') {
-				if ($user->alumno){
-					$user->alumno()->delete();
-				}
+			if ($user->isForceDeleting()){
+				$user->personalData->forceDelete();
 				
 				foreach($user->boletas as $boleta) {
-					$boleta->delete();
+					$boleta->forceDelete();
 				}
+			}else {
+				$user->personalData(false)->delete();
+			
+				if($user->privilegio === 'V-') {
+					if ($user->alumno){
+						$user->alumno()->delete();
+					}
+
+					foreach($user->boletas as $boleta) {
+						$boleta->delete();
+					}
+				}	
 			}
 		});
 		
 		static::restoring(function($user) {
 			if ($user->privilegio === 'V-') {
 				$user->personalDataUser()->restore();
+				
 				foreach($user->boletas as $boleta) {
 					$boleta->restore();
 				}
