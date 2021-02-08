@@ -37,8 +37,9 @@ export default function PagePublicaciones() {
 	document.title = 'La Candelaria - Publicaciones';
 	const tableRef = useRef(null);
 	
-	const { data } = useSelector((state) => ({
+	const { data, permissions } = useSelector((state) => ({
 		data: state.dialogs.deleteConfirmation.data,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -76,8 +77,13 @@ export default function PagePublicaciones() {
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Publicaciones</Box>
 				<Grid container spacing={2}>
 					<Grid container justify='flex-end' item xs={12}>
-						<Button onClick={handleClick} variant='contained' color='primary'>
-							Crear
+						<Button 
+							onClick={handleClick} 
+							variant='contained' 
+							color='primary'
+							disabled={!permissions?.administrar?.posts_create}
+						>
+							Crear publicación
 						</Button>
 					</Grid>
 					<Grid item xs={12}>

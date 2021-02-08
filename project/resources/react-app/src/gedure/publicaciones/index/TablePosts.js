@@ -98,6 +98,8 @@ export default function TablePosts({ tableRef }) {
 				},
 			]}
 			options={{
+				sorting: false,
+				draggable: false,
 				actionsColumnIndex: -1,
 			}}
 		/>

@@ -23,8 +23,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 
 export default function CreateCurso({ tableRef }) {
-	const { loading } = useSelector((state) => ({
+	const { loading, permissions } = useSelector((state) => ({
 		loading: state.forms.crearCurso.loading,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -105,6 +106,7 @@ export default function CreateCurso({ tableRef }) {
 							color='primary' 
 							disableElevation
 							onClick={handleSubmit(onSubmit)}
+							disabled={!permissions?.gedure?.cursos_create}
 						>
 							Agregar
 						</Button>

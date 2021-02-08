@@ -121,7 +121,7 @@ Route::group(['prefix' => 'v1'], function () {
 		->delete('curso/{id}', [CursoController::class, 'destroy']);
 	
 	// Destroy massive curso
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_massive_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_destroy'])
 		->delete('massive/curso', [CursoController::class, 'destroyMassive']);
 	
 	/*
@@ -140,7 +140,7 @@ Route::group(['prefix' => 'v1'], function () {
 		->post('user', [UserController::class, 'create']);
 	
 	// Update users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
 		->put('user/{id}', [UserController::class, 'edit']);
 	
 	// Update users
@@ -152,15 +152,15 @@ Route::group(['prefix' => 'v1'], function () {
 		->delete('user/{id}', [UserController::class, 'delete']);
 	
 	// Matricula Upload
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create_massive'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_upload_matricula'])
 		->post('user/matricula', [UserController::class, 'uploadMassiveStudiends']);
 	
 	// Update seccion massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
 		->put('massive/user/seccion', [UserController::class, 'updateSeccionMassive']);
 	
 	// Soft delete user massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete_massive'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('massive/user', [UserController::class, 'deleteMassive']);
 	
 	// Get users disabled
@@ -169,11 +169,11 @@ Route::group(['prefix' => 'v1'], function () {
 	
 	// Restore user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
-		->get('user-disabled/restore/{id}', [UserController::class, 'restoreDeleted']);
+		->patch('user-disabled/restore/{id}', [UserController::class, 'restoreDeleted']);
 	
 	// Restore user massive
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
-		->get('user-disabled/restore', [UserController::class, 'restoreDeletedMassive']);
+		->patch('user-disabled/restore', [UserController::class, 'restoreDeletedMassive']);
 	
 	// Delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_destroy'])
@@ -194,7 +194,8 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::get('invitation/user/{key}', [InvitationController::class, 'show']);
 	
 	// Resend email
-	Route::get('invitation/resend-email/{id}', [InvitationController::class, 'resend']);
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
+		->get('invitation/resend-email/{id}', [InvitationController::class, 'resend']);
 	
 	// Register user
 	Route::post('invitation/register', [InvitationController::class, 'register']);

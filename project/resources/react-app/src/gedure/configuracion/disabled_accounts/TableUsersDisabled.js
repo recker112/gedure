@@ -14,10 +14,13 @@ import useFetch from '../../../hooks/useFetch';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TableUsersDisabled({ tableRef }) {
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	const [massiveDelete, setMassiveDelete] = useState(false);
 	const [pageSizeController, setpageSizeController] = useState(5);
 	const dispatch = useDispatch();
@@ -89,6 +92,7 @@ export default function TableUsersDisabled({ tableRef }) {
 					{
 						icon: () => (<RestoreIcon />),
 						tooltip: 'Reactivar cuenta',
+						disabled: !permissions?.administrar?.users_disabled_restore,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {
@@ -115,6 +119,7 @@ export default function TableUsersDisabled({ tableRef }) {
 					{
 						icon: () => (<Delete />),
 						tooltip: 'Eliminar cuenta',
+						disabled: !permissions?.administrar?.users_disabled_destroy,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {

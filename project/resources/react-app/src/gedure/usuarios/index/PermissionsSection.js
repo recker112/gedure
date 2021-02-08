@@ -22,7 +22,7 @@ function UserPermissions({ control, disabled, defaultData=null }) {
 			<Grid item xs={12} sm={6}>
 				<RenderSwitchFormHook 
 					control={control}
-					defaultValue={defaultData?.users_edit || false}
+					defaultValue={defaultData?.users_create || false}
 					name='permissions.users_create'
 					label='Crear usuarios'
 					color='primary'
@@ -32,8 +32,8 @@ function UserPermissions({ control, disabled, defaultData=null }) {
 			<Grid item xs={12} sm={6}>
 				<RenderSwitchFormHook 
 					control={control}
-					defaultValue={defaultData?.users_create_massive || false}
-					name='permissions.users_create_massive'
+					defaultValue={defaultData?.users_upload_matricula || false}
+					name='permissions.users_upload_matricula'
 					label='Cargar estudiantes'
 					color='primary'
 					disabled={!users_index || disabled}
@@ -54,7 +54,7 @@ function UserPermissions({ control, disabled, defaultData=null }) {
 					control={control}
 					defaultValue={defaultData?.users_delete || false}
 					name='permissions.users_delete'
-					label='Eliminar usuarios'
+					label='Desactivar usuarios'
 					color='primary'
 					disabled={!users_index || disabled}
 				/>
@@ -159,6 +159,72 @@ function BoletaPermissions({ control, disabled, defaultData=null }) {
 	);
 }
 
+function CursoGedurePermissions({ control, disabled, defaultData=null }) {
+	const cursos_index = useWatch({
+		control,
+    name: 'permissions.cursos_index',
+    defaultValue: defaultData?.cursos_index || false
+  });
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.cursos_create || false}
+					name='permissions.cursos_create'
+					label='Crear curso'
+					color='primary'
+					disabled={!cursos_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.cursos_destroy || false}
+					name='permissions.cursos_destroy'
+					label='Eliminar curso'
+					color='primary'
+					disabled={!cursos_index || disabled}
+				/>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
+function UsersDisabledGedurePermissions({ control, disabled, defaultData=null }) {
+	const users_disabled_index = useWatch({
+		control,
+    name: 'permissions.users_disabled_index',
+    defaultValue: defaultData?.users_disabled_index || false
+  });
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.users_disabled_restore || false}
+					name='permissions.users_disabled_restore'
+					label='Restaurar usuario'
+					color='primary'
+					disabled={!users_disabled_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.users_disabled_destroy || false}
+					name='permissions.users_disabled_destroy'
+					label='Eliminar usuario'
+					color='primary'
+					disabled={!users_disabled_index || disabled}
+				/>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
 function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 	const super_admin = useWatch({
 		control,
@@ -224,6 +290,36 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					disabled={disabled}
 					defaultData={defaultData}
 				/>
+				<Grid item xs={12}>
+					<RenderSwitchFormHook 
+						control={control}
+						defaultValue={defaultData?.cursos_index || false}
+						name='permissions.cursos_index'
+						label='Ver cursos'
+						color='primary'
+						disabled={disabled}
+					/>
+				</Grid>
+				<CursoGedurePermissions 
+					control={control} 
+					disabled={disabled}
+					defaultData={defaultData}
+				/>
+				<Grid item xs={12}>
+					<RenderSwitchFormHook 
+						control={control}
+						defaultValue={defaultData?.users_disabled_index || false}
+						name='permissions.users_disabled_index'
+						label='Ver usuarios desactivados'
+						color='primary'
+						disabled={disabled}
+					/>
+				</Grid>
+				<UsersDisabledGedurePermissions 
+					control={control} 
+					disabled={disabled}
+					defaultData={defaultData}
+				/>
 			</React.Fragment>
 		);
 	}
@@ -251,7 +347,7 @@ export default function PermissionsSection({ control, disabled, defaultData=null
 						disabled={disabled}
 					/>
 				</Grid>
-				<Grid item xs={12} sm={6}>
+				{/*<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
 						defaultValue={defaultData?.horarios || false}
@@ -280,7 +376,7 @@ export default function PermissionsSection({ control, disabled, defaultData=null
 						color='primary'
 						disabled={disabled}
 					/>
-				</Grid>
+				</Grid>*/}
 			</React.Fragment>
 		);
 	} else if (privilegio === 'A-') {

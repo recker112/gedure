@@ -23,17 +23,14 @@ class PermissionsSeeder extends Seeder
 		*/
 		// Registros
 		Permission::create(['name' => 'registros_index']);
-		Permission::create(['name' => 'registros_user']);
 		
 		// Users
 		Permission::create(['name' => 'users_index']);
-		Permission::create(['name' => 'users_show']);
 		Permission::create(['name' => 'users_create']);
-		Permission::create(['name' => 'users_create_massive']);
-		Permission::create(['name' => 'users_update']);
+		Permission::create(['name' => 'users_upload_matricula']);
 		Permission::create(['name' => 'users_edit']);
 		Permission::create(['name' => 'users_delete']);
-		Permission::create(['name' => 'users_delete_massive']);
+		//gedure config
 		Permission::create(['name' => 'users_disabled_index']);
 		Permission::create(['name' => 'users_disabled_restore']);
 		Permission::create(['name' => 'users_disabled_destroy']);
@@ -55,11 +52,10 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'boletas_edit']);
 		Permission::create(['name' => 'boletas_destroy']);
 		
-		// Cursos
+		// Cursos (gedure)
 		Permission::create(['name' => 'cursos_index']);
 		Permission::create(['name' => 'cursos_create']);
 		Permission::create(['name' => 'cursos_destroy']);
-		Permission::create(['name' => 'cursos_massive_destroy']);
 		
 		/*
 			PERMISSIONS USER

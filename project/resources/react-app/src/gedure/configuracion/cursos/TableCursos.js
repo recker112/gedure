@@ -14,10 +14,13 @@ import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import converterCursoCode from '../../../components/funciones/converterCursoCode';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TableUsers({ tableRef }) {
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	const [massiveDelete, setMassiveDelete] = useState(false);
 	const [pageSizeController, setpageSizeController] = useState(5);
 	const dispatch = useDispatch();
@@ -66,7 +69,7 @@ export default function TableUsers({ tableRef }) {
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Cรณdigo',
+						title: 'Código',
 						field: 'code',
 						render: (rowData) => `${rowData.curso}-${rowData.seccion}`
 					},
@@ -76,7 +79,7 @@ export default function TableUsers({ tableRef }) {
 						render: (rowData) => converterCursoCode(rowData.curso)
 					},
 					{
-						title: 'Seccion', 
+						title: 'Seccón', 
 						field: 'seccion'
 					},
 				]}
@@ -90,6 +93,7 @@ export default function TableUsers({ tableRef }) {
 					{
 						icon: () => (<Delete />),
 						tooltip: 'Eliminar curso',
+						disabled: !permissions?.gedure?.cursos_destroy,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {

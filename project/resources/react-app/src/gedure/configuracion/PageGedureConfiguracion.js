@@ -6,7 +6,6 @@ import {
 	useLocation,
 	Route,
 	Switch,
-	Redirect,
 } from 'react-router-dom';
 
 import { 
@@ -21,6 +20,9 @@ import {
 	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+// Redux
+import { useSelector } from 'react-redux';
 
 // Routers
 const Cursos = lazy(() => import('./cursos/Main'));
@@ -74,7 +76,7 @@ function Header() {
 				fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} 
 				className='text__bold--semi'
 			>
-				Configuraciรณn del sistema,
+				Configuración del sistema,
 			</Box>
 			<Box 
 				color='primary.contrastText' 
@@ -88,12 +90,30 @@ function Header() {
 }
 
 export default function PageUserIndex() {
-	document.title = 'La Candelaria - Configuraciรณn del sistema';
+	document.title = 'La Candelaria - Configuración del sistema';
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	
 	let { url } = useRouteMatch();
 	let location = useLocation();
 	
 	const classes = useStyles();
+	
+	const list = [
+		{
+			path: `${url}/cursos`,
+			component: <Cursos />,
+			exact: true,
+			iCanSee: Boolean(permissions?.gedure?.cursos_index),
+		},
+		{
+			path: `${url}/usuarios-desactivados`,
+			component: <Reactivar />,
+			exact: true,
+			iCanSee: Boolean(permissions?.gedure?.users_disabled_index),
+		},
+	];
 	
 	return (
 		<main className={classes.containerMain}>
@@ -130,22 +150,22 @@ export default function PageUserIndex() {
 				<Container className={classes.content}>
 					<Suspense fallback={<Loading />}>
 						<Switch>
-							<Route path={`${url}`} exact>
+							{list.map((data, i) => {
+								if (data.iCanSee) {
+									return (
+										<Route key={i} path={data.path} exact={data.exact}>
+											{data.component}
+										</Route>
+									);
+								}
+
+								return null;
+							})}
+							
+							<Route>
 								<Typography align='center'>
 									No hay nada disponible
 								</Typography>
-							</Route>
-							
-							<Route path={`${url}/cursos`} exact>
-								<Cursos />
-							</Route>
-							
-							<Route path={`${url}/usuarios-desactivados`} exact>
-								<Reactivar />
-							</Route>
-							
-							<Route>
-								<Redirect to={`${url}`} />
 							</Route>
 						</Switch>
 					</Suspense>

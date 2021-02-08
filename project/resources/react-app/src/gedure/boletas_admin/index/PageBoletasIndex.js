@@ -22,7 +22,7 @@ import DeleteBoletas from './DeleteBoletas';
 import UploadBoletas from './UploadBoletas';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
 import updateDialogs from '../../../actions/updateDialogs';
 
@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PageBoletasIndex() {
 	document.title = 'La Candelaria - Boletas';
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	const [countFilters, setCountFilters] = useState({});
 	const [openFilter, setOpenFilter] = useState(false);
 	const [massiveDelete, setMassiveDelete] = useState(false);
@@ -84,7 +87,12 @@ export default function PageBoletasIndex() {
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Boletas</Box>
 				<Grid container>
 					<Grid container justify='flex-end' item xs={12}>
-						<Button onClick={()=>dispatch(updateDialogs('uploadBoletas', true, false))} variant='contained' color='primary'>
+						<Button 
+							onClick={()=>dispatch(updateDialogs('uploadBoletas', true, false))} 
+							variant='contained' 
+							color='primary'
+							disabled={!permissions?.administrar?.boletas_upload}
+						>
 							Cargar boletas
 						</Button>
 					</Grid>
