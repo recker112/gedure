@@ -56,8 +56,9 @@ export default function PageUserIndex() {
 	const [massiveDelete, setMassiveDelete] = useState(false);
 	const tableRef = useRef(null);
 	
-	const { data } = useSelector((state) => ({
+	const { data, permissions } = useSelector((state) => ({
 		data: state.dialogs.deleteConfirmation.data,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -129,10 +130,21 @@ export default function PageUserIndex() {
 				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Usuarios</Box>
 				<Grid container>
 					<Grid container justify='flex-end' item xs={12}>
-						<Button onClick={()=>dispatch(updateDialogs('uploadMatricula', true, false))} className={classes.button} variant='contained' color='primary'>
+						<Button 
+							onClick={()=>dispatch(updateDialogs('uploadMatricula', true, false))} 
+							className={classes.button} 
+							variant='contained' 
+							color='primary'
+							disabled={!permissions.administrar?.users_upload_matricula}
+						>
 							Cargar estudiantes
 						</Button>
-						<Button onClick={()=>dispatch(updateDialogs('crearUser', true, false))} variant='contained' color='primary'>
+						<Button 
+							onClick={()=>dispatch(updateDialogs('crearUser', true, false))} 
+							variant='contained' 
+							color='primary'
+							disabled={!permissions.administrar?.users_create}
+						>
 							Crear usuario
 						</Button>
 					</Grid>

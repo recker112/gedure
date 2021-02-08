@@ -440,7 +440,7 @@ class UserControllerTest extends TestCase
 		
 		$user->delete();
 		
-		$response = $this->getJson('/api/v1/user-disabled/restore/'.$user->id);
+		$response = $this->patchJson('/api/v1/user-disabled/restore/'.$user->id);
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -464,7 +464,7 @@ class UserControllerTest extends TestCase
 		
 		$ids = json_encode([2,3,4]);
 		
-		$response = $this->getJson('/api/v1/user-disabled/restore?ids='.urlencode($ids));
+		$response = $this->patchJson('/api/v1/user-disabled/restore?ids='.urlencode($ids));
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([

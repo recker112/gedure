@@ -27,7 +27,10 @@ export default function Main() {
 	const onRestore = async handleClose => {
 		const prepare = {
 			url: `v1/user-disabled/restore/${data.id}`,
-			type: 'get',
+			type: 'post',
+			data: {
+				_method: 'PATCH'
+			},
 			message404: 'El usuario ya no existe',
 		};
 		
@@ -45,7 +48,10 @@ export default function Main() {
 	const onRestoreMassive = async handleClose => {
 		const prepare = {
 			url: `v1/user-disabled/restore?ids=${encodeURI(JSON.stringify(data.ids))}`,
-			type: 'get',
+			type: 'post',
+			data: {
+				_method: 'PATCH'
+			},
 			message404: 'El usuario ya no existe',
 		};
 		

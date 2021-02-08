@@ -53,7 +53,7 @@ export default function RoutersGedure() {
 			path: `${url}/configuracion`,
 			component: <PageGedureConfiguracion />,
 			exact: false,
-			iCanSee: true,
+			iCanSee: Object.keys(permissions.gedure).length !== 0,
 		}
 	], [permissions, url]);
 	

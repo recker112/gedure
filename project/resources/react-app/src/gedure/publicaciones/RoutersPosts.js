@@ -3,34 +3,57 @@ import React, { lazy } from 'react';
 // React Router
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 // Routers
 const PagePublicaciones = lazy(() => import('./index/PagePublicaciones'));
 const PageCrearPost = lazy(() =>  import('./crear/PageCrearPost'));
 const PageEditPost = lazy(() =>  import('./editar/PageEditPost'));
 
 function RoutersPanel() {
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	let { url } = useRouteMatch();
 	
+	const list = [
+		{
+			path: `${url}/crear`,
+			component: <PageCrearPost />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar?.posts_create),
+		},
+		{
+			path: `${url}/editar/:slug`,
+			component: <PageEditPost />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar?.posts_edit),
+		},
+	];
+	
 	return (
-		<React.Fragment>
-			<Switch>
-				<Route path={`${url}/`} exact>
-					<PagePublicaciones />
-				</Route>
-				
-				<Route path={`${url}/crear`} exact>
-					<PageCrearPost />
-				</Route>
-				
-				<Route path={`${url}/editar/:slug`} exact>
-					<PageEditPost />
-				</Route>
-				
-				<Route>
-					No encontrado
-				</Route>
-			</Switch>
-		</React.Fragment>
+		<Switch>
+			<Route path={`${url}/`} exact>
+				<PagePublicaciones />
+			</Route>
+
+			{list.map((data, i) => {
+				if (data.iCanSee) {
+					return (
+						<Route key={i} path={data.path} exact={data.exact}>
+							{data.component}
+						</Route>
+					);
+				}
+
+				return null;
+			})}
+
+			<Route>
+				No encontrado
+			</Route>
+		</Switch>
 	);
 }
 

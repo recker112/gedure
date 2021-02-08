@@ -455,9 +455,7 @@ class UserController extends Controller
 	public function destroy($id) {
 		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
-		foreach($user->boletas as $boleta) {
-			Storage::delete($boleta->url);
-		}
+		Storage::deleteDirectory("users/$user->id");
 		
 		if ($user->forceDelete()) {
 			return response()->json([

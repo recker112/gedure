@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TableBoletas({ tableRef, filters, massiveDelete, handleMassive }) {
 	const [pageSizeController, setpageSizeController] = useState(5);
-	const { loading } = useSelector((state) => ({
+	const { loading, permissions } = useSelector((state) => ({
 		loading: state.forms.boletasIndex.loading,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -140,6 +141,7 @@ export default function TableBoletas({ tableRef, filters, massiveDelete, handleM
 					icon: () => (<Delete />),
 					tooltip: 'Eliminar boletas',
 					hidden: !massiveDelete,
+					disabled: !permissions?.administrar?.boletas_destroy,
 					onClick: (event, rowData) => {
 						let i = 0;
 						let newData = [];

@@ -32,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TableUsers({ tableRef, filters, massiveDelete, handleMassive }) {
 	const [pageSizeController, setpageSizeController] = useState(5);
-	const { loading } = useSelector((state) => ({
+	const { loading, permissions } = useSelector((state) => ({
 		loading: state.forms.usersIndex.loading,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -159,6 +160,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 						icon: () => (<ClassIcon />),
 						tooltip: 'Cambiar sección',
 						hidden,
+						disabled: !permissions.administrar?.users_edit,
 						onClick: (event, rowData) => {
 							let i = 0;
 							let newData = [];
@@ -173,6 +175,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 				{
 					icon: () => (<Delete />),
 					tooltip: 'Desactivar cuenta',
+					disabled: !permissions.administrar?.users_delete,
 					onClick: (event, rowData) => {
 						if (!massiveDelete) {
 							const data = {

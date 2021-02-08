@@ -148,28 +148,16 @@ class LoginController extends Controller
 					$listNA['registros_index'] = true;
 				}
 				
-				if ($perm->name === 'registros_user') {
-					$listA['registros_user'] = true;
-				}
-				
 				if ($perm->name === 'users_index') {
 					$listA['users_index'] = true;
-				}
-				
-				if ($perm->name === 'users_show') {
-					$listA['users_show'] = true;
 				}
 				
 				if ($perm->name === 'users_create') {
 					$listA['users_create'] = true;
 				}
 				
-				if ($perm->name === 'users_create_massive') {
-					$listA['users_create_massive'] = true;
-				}
-				
-				if ($perm->name === 'users_update') {
-					$listA['users_update'] = true;
+				if ($perm->name === 'users_upload_matricula') {
+					$listA['users_upload_matricula'] = true;
 				}
 				
 				if ($perm->name === 'users_edit') {
@@ -178,18 +166,6 @@ class LoginController extends Controller
 				
 				if ($perm->name === 'users_delete') {
 					$listA['users_delete'] = true;
-				}
-				
-				if ($perm->name === 'users_delete_massive') {
-					$listA['users_delete_massive'] = true;
-				}
-				
-				if ($perm->name === 'soliContact_index') {
-					$listA['soliContact_index'] = true;
-				}
-				
-				if ($perm->name === 'soliContact_destroy') {
-					$listA['soliContact_destroy'] = true;
 				}
 				
 				if ($perm->name === 'posts_index') {
@@ -226,6 +202,33 @@ class LoginController extends Controller
 				
 				if ($perm->name === 'boletas_destroy') {
 					$listA['boletas_destroy'] = true;
+				}
+				
+				/*
+				* GEDURE
+				*/
+				if ($perm->name === 'cursos_index') {
+					$listG['cursos_index'] = true;
+				}
+				
+				if ($perm->name === 'cursos_create') {
+					$listG['cursos_create'] = true;
+				}
+				
+				if ($perm->name === 'cursos_destroy') {
+					$listG['cursos_destroy'] = true;
+				}
+				
+				if ($perm->name === 'users_disabled_index') {
+					$listG['users_disabled_index'] = true;
+				}
+				
+				if ($perm->name === 'users_disabled_restore') {
+					$listG['users_disabled_restore'] = true;
+				}
+				
+				if ($perm->name === 'users_disabled_destroy') {
+					$listG['users_disabled_destroy'] = true;
 				}
 			}
 			

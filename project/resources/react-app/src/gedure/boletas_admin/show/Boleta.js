@@ -22,7 +22,7 @@ import converterCursoCode from '../../../components/funciones/converterCursoCode
 import downloadFiles from '../../../components/funciones/downloadFiles';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
 function getRandomInt(max) {
@@ -41,6 +41,9 @@ export default function Boleta(props) {
 		handleRefresh,
 	} = props;
 	
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
 	const dispatch = useDispatch();
 	
 	const { fetchData } = useFetch();
@@ -121,12 +124,20 @@ export default function Boleta(props) {
 				</Box>
 				<Box align='right'>
 					<Tooltip title="Eliminar" arrow>
-						<IconButton onClick={onDelete} component='span'>
+						<IconButton 
+							onClick={onDelete} 
+							component='span'
+							disabled={!permissions?.administrar?.boletas_destroy}
+						>
 							<DeleteIcon />
 						</IconButton>
 					</Tooltip>
 					<Tooltip title="Reemplazar" arrow>
-						<IconButton onClick={onReplace} component='span'>
+						<IconButton 
+							onClick={onReplace} 
+							component='span' 
+							disabled={!permissions?.administrar?.boletas_edit}
+						>
 							<FileReplace />
 						</IconButton>
 					</Tooltip>

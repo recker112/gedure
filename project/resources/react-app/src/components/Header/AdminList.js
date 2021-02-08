@@ -54,43 +54,58 @@ function AdminList({ handleClose }) {
 					<ListItemText primary='Registros' /> 
 				</ReturnSelected>
 			)}
-			<ReturnSelected handle={handleOpenControl}>
-				<ListItemIcon>
-					<HammerWrenchIcon />
-				</ListItemIcon>
-				<ListItemText primary='Controlar sistema' /> 
-				{control ? <ExpandLess /> : <ExpandMore />}
-			</ReturnSelected>
-			<Collapse in={control} timeout="auto" unmountOnExit>
-				<List component="div" disablePadding>
-					{permissions?.administrar?.users_index && (
-						<ReturnSelected url='/gedure/usuarios' handle={handleClose} nested noExact>
-							<ListItemIcon>
-								<AccountMultipleIcon />
-							</ListItemIcon>
-							<ListItemText primary="Usuarios" />
-						</ReturnSelected>
-					)}
-					<ReturnSelected url='/gedure/publicaciones' handle={handleClose} nested>
+			{Object.keys(permissions.administrar).length !== 0 && (
+				<React.Fragment>
+					<ReturnSelected handle={handleOpenControl}>
 						<ListItemIcon>
-							<PostIcon />
+							<HammerWrenchIcon />
 						</ListItemIcon>
-						<ListItemText primary="Publicaciones" />
+						<ListItemText primary='Controlar sistema' /> 
+						{control ? <ExpandLess /> : <ExpandMore />}
 					</ReturnSelected>
-					<ReturnSelected url='/gedure/boletas' handle={handleClose} nested noExact>
-						<ListItemIcon>
-							<FilePdfIcon />
-						</ListItemIcon>
-						<ListItemText primary="Boletas" />
-					</ReturnSelected>
-				</List>
-			</Collapse>
-			<ReturnSelected url='/gedure/configuracion' handle={handleClose}>
-				<ListItemIcon>
-					<GedureIcon />
-				</ListItemIcon>
-				<ListItemText primary='Configurar Gedure' /> 
-			</ReturnSelected>
+					<Collapse in={control} timeout="auto" unmountOnExit>
+						<List component="div" disablePadding>
+							{permissions?.administrar?.users_index && (
+								<ReturnSelected 
+									url='/gedure/usuarios' 
+									handle={handleClose} 
+									nested 
+									noExact
+								>
+									<ListItemIcon>
+										<AccountMultipleIcon />
+									</ListItemIcon>
+									<ListItemText primary="Usuarios" />
+								</ReturnSelected>
+							)}
+							{permissions?.administrar?.posts_index && (
+								<ReturnSelected url='/gedure/publicaciones' handle={handleClose} nested>
+									<ListItemIcon>
+										<PostIcon />
+									</ListItemIcon>
+									<ListItemText primary="Publicaciones" />
+								</ReturnSelected>
+							)}
+							{permissions?.administrar?.boletas_index && (
+								<ReturnSelected url='/gedure/boletas' handle={handleClose} nested noExact>
+									<ListItemIcon>
+										<FilePdfIcon />
+									</ListItemIcon>
+									<ListItemText primary="Boletas" />
+								</ReturnSelected>
+							)}
+						</List>
+					</Collapse>
+				</React.Fragment>
+			)}
+			{Object.keys(permissions.gedure).length !== 0 && (
+				<ReturnSelected url='/gedure/configuracion' handle={handleClose}>
+					<ListItemIcon>
+						<GedureIcon />
+					</ListItemIcon>
+					<ListItemText primary='Configurar Gedure' /> 
+				</ReturnSelected>
+			)}
 		</React.Fragment>
 	);
 }
