@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function ReturnSelected(props) {
+export function ReturnSelected(props) {
 	const { children, url, onClick, nested } = props;
 	
 	const classes = useStyles();
@@ -232,7 +232,7 @@ export default function PageShowUser() {
 				{(!loading && data.user) && (
 					<React.Fragment>
 						<Box mb={4}>
-							<BreadCrumbsShow />
+							<BreadCrumbsShow user={data.user} />
 						</Box>
 						<Grid container spacing={2}>
 							<Navs />
@@ -257,7 +257,9 @@ export default function PageShowUser() {
 											
 											<Route path={`${url}/personal-representante`} exact>
 												<PersonalRepresentanteData id={id} />
-												<PersonalRepresentanteUbi id={id} />
+												{data.user.personal_data.repre_nacionalidad !== 'E' && (
+													<PersonalRepresentanteUbi id={id} />
+												)}
 												<PersonalRepresentanteEmpleo id={id} />
 											</Route>
 											

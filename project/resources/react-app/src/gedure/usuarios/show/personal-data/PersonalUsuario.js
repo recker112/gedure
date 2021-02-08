@@ -321,7 +321,7 @@ export default function PersonalUsuario({ id }) {
 	return (
 		<PersonalUsuarioForm 
 			onSubmit={handleSubmit(onSubmit)}
-			buttonText='Actualizar datos'
+			buttonText='Actualizar'
 			control={control}
 			register={register}
 			user={user}

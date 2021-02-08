@@ -14,6 +14,7 @@ const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
+const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
 
 export default function RoutersGedure() {
 	let { url } = useRouteMatch();
@@ -94,6 +95,10 @@ export default function RoutersGedure() {
 
 				return null;
 			})}
+			
+			<Route path={`${url}/cuenta`}>
+				<PageCuenta />
+			</Route>
 
 			<Route>
 				No encontrado

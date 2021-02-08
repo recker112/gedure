@@ -14,6 +14,13 @@ import { useForm } from "react-hook-form";
 
 // Components
 import { PersonalEstudianteDataForm } from '../usuarios/show/personal-data/PersonalEstudianteData';
+import { PersonalEstudianteUbiForm } from '../usuarios/show/personal-data/PersonalEstudianteUbi';
+import { PersonalEstudianteOtrosForm } from '../usuarios/show/personal-data/PersonalEstudianteOtros';
+import { PersonalRepresentanteDataForm } from '../usuarios/show/personal-data/PersonalRepresentanteData';
+import { PersonalRepresentanteUbiForm } from '../usuarios/show/personal-data/PersonalRepresentanteUbi';
+import { PersonalRepresentanteEmpleoForm } from '../usuarios/show/personal-data/PersonalRepresentanteEmpleo';
+import { PersonalMadreForm } from '../usuarios/show/personal-data/PersonalMadre';
+import { PersonalPadreForm } from '../usuarios/show/personal-data/PersonalPadre';
 import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
@@ -61,6 +68,22 @@ export default function SectionUser() {
 				data.personal_data.estudi_nacimiento_estado = null;
 			}
 			
+			if (data.personal_data.estudi_otros_alojado === 'Si') {
+				data.personal_data.estudi_otros_direccion = null;
+			}
+			
+			if (data.personal_data.repre_nacionalidad === 'E') {
+				data.personal_data.repre_ubi_estado = null;
+				data.personal_data.repre_ubi_municipio = null;
+				data.personal_data.repre_ubi_parroquia = null;
+				data.personal_data.repre_ubi_via = null;
+			}
+			
+			if (data.personal_data.repre_empleo === 'No') {
+				data.personal_data.repre_empleo_profesion = null;
+				data.personal_data.repre_empleo_lugar = null;
+			}
+			
 			const prepare = {
 				url: `v1/user`,
 				type: 'post',
@@ -80,7 +103,6 @@ export default function SectionUser() {
 					user: response.user,
 					permissions: response.permissions,
 				}));
-				console.log(response);
 
 				history.push('/gedure');
 			}
@@ -111,6 +133,93 @@ export default function SectionUser() {
 							buttonDisable
 						/>
 					</Box>
+					<Box mb={4}>
+						<PersonalEstudianteUbiForm
+							onSubmit={null}
+							errors={errors}
+							control={control}
+							loading={loading}
+							watch={watch}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
+					<Box mb={4}>
+						<PersonalEstudianteOtrosForm
+							onSubmit={null}
+							register={register}
+							errors={errors}
+							watch={watch}
+							loading={loading}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
+				</React.Fragment>
+			)}
+			{activeStep === 1 && (
+				<React.Fragment>
+					<Box mb={4}>
+						<PersonalRepresentanteDataForm
+							onSubmit={null}
+							register={register}
+							control={control}
+							errors={errors}
+							loading={loading}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
+					{(watch('personalData.repre_nacionalidad', '') !== 'E') && (
+						<Box mb={4}>
+							<PersonalRepresentanteUbiForm 
+								onSubmit={null}
+								control={control}
+								errors={errors}
+								watch={watch}
+								loading={loading}
+								user={data}
+								buttonDisable
+							/>
+						</Box>
+					)}
+					<Box mb={4}>
+						<PersonalRepresentanteEmpleoForm 
+							onSubmit={null}
+							register={register}
+							errors={errors}
+							watch={watch}
+							loading={loading}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
+				</React.Fragment>
+			)}
+			{activeStep >= 2 && (
+				<React.Fragment>
+					<Box mb={4}>
+						<PersonalMadreForm 
+							onSubmit={null}
+							register={register}
+							control={control}
+							errors={errors}
+							loading={loading}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
+					<Box mb={4}>
+						<PersonalPadreForm 
+							onSubmit={null}
+							register={register}
+							control={control}
+							errors={errors}
+							loading={loading}
+							user={data}
+							buttonDisable
+						/>
+					</Box>
 				</React.Fragment>
 			)}
 			<MobileStepper 
@@ -126,7 +235,7 @@ export default function SectionUser() {
 							onClick={handleSubmit(handleNext)}
 							disableElevation
 						>
-							Siguiente
+							{activeStep >= 2 ? 'Activar cuenta' : 'Siguiente'}
 						</Button>
 					</LoadingComponent>
 				}

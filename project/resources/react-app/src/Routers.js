@@ -22,7 +22,6 @@ import { useSelector } from 'react-redux';
 const PageIndex = lazy(() => import('./page/index/PageIndex'));
 const PageNews = lazy(() => import('./page/noticias/PageNews'));
 const PageShowNews = lazy(() => import('./page/noticias/PageShowNews'));
-const PageSolicitud = lazy(() => import('./page/solicitud/PageSolicitud'));
 const PageContactanos = lazy(() => import('./page/contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
@@ -53,10 +52,6 @@ function Routers() {
 				
 				<PublicRoute path='/noticias/:slug' exact>
 					<PageShowNews />
-				</PublicRoute>
-				
-				<PublicRoute path='/solicitud' exact>
-					<PageSolicitud />
 				</PublicRoute>
 				
 				<PublicRoute path='/contactanos' exact>
