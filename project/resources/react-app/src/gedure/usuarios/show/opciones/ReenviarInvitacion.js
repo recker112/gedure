@@ -46,7 +46,7 @@ export default function ReenviarInvitacion({ id }) {
 					Reenviar invitación
 				</Box>
 				<Box fontSize='body1.fontSize' color='text.secondary'>
-					solo disponible si el estudiante no se ha registrado
+					solo disponible si el usuario no se ha registrado
 				</Box>
 			</Grid>
 			<Grid container justify='flex-end' alignItems='center' item xs={12} sm={4}>
