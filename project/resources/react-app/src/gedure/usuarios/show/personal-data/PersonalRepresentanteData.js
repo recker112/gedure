@@ -238,8 +238,8 @@ export function PersonalRepresentanteDataForm(props) {
 									onChange(format(date, 'yyyy/MM/dd'))
 								}}
 								value={value}
-								helperText={errors?.personalData?.nacimiento?.message ? errors.personalData.nacimiento.message : ''}
-								error={Boolean(errors?.personalData?.nacimiento)}
+								helperText={errors?.personalData?.repre_nacimiento?.message ? errors.personalData.repre_nacimiento.message : ''}
+								error={Boolean(errors?.personalData?.repre_nacimiento)}
 								fullWidth
 								size='small'
 							/>
@@ -303,6 +303,13 @@ export default function PersonalRepresentanteData({ id }) {
 	
 	const onSubmit = async submitData => {
 		dispatch(updateForms('updatePersonalRepre', true));
+		
+		if (submitData.personalData.repre_nacionalidad === 'E') {
+			submitData.personalData.repre_ubi_estado = null;
+			submitData.personalData.repre_ubi_municipio = null;
+			submitData.personalData.repre_ubi_parroquia = null;
+			submitData.personalData.repre_ubi_via = null;
+		}
 		
 		const prepare = {
 			url: `v1/user/${id}`,

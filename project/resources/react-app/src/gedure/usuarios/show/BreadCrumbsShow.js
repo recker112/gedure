@@ -9,9 +9,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-// Redux
-import { useSelector } from 'react-redux';
-
 const useStyles = makeStyles((theme) => ({
 	avatar: {
 		backgroundColor: theme.palette.secondary.main,
@@ -19,11 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function BreadCrumbsShow() {
-	const { data } = useSelector((state) => ({
-		data: state.forms.showUser.data,
-	}));
-	
+export default function BreadCrumbsShow({ user }) {
 	const classes = useStyles();
 	
 	let location = useLocation();
@@ -37,12 +30,12 @@ export default function BreadCrumbsShow() {
 	return (
 		<Grid container alignItems='center' spacing={2}>
 			<Grid item>
-				<Avatar src={data.user?.avatar} className={classes.avatar} alt={`Avatar de ${data.user?.name}`}>
-					{data.user?.name.substring(0, 1).toUpperCase()}
+				<Avatar src={user?.avatar} className={classes.avatar} alt={`Avatar de ${user?.name}`}>
+					{user?.name.substring(0, 1).toUpperCase()}
 				</Avatar>
 			</Grid>
 			<Grid item>
-				<Typography variant='h6' className='text__bold--semi'>{data.user?.name}</Typography>
+				<Typography variant='h6' className='text__bold--semi'>{user?.name}</Typography>
 			</Grid>
 			<Grid item>
 				<Typography variant='h6' className='text__bold--semi'>/</Typography>

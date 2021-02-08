@@ -21,7 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+//import AssignmentIcon from '@material-ui/icons/Assignment';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
@@ -142,17 +142,17 @@ function MobileMenu() {
 								</ListItemIcon>
 								<ListItemText primary='Noticias' /> 
 							</ReturnSelected>
-							<ReturnSelected url='/solicitud' handle={handleClose}>
+							{/*<ReturnSelected url='/solicitud' handle={handleClose}>
 								<ListItemIcon>
 									<AssignmentIcon />
 								</ListItemIcon>
 								<ListItemText primary='Solicitud de cupo' /> 
-							</ReturnSelected>
+							</ReturnSelected>*/}
 							<ReturnSelected url='/contactanos' handle={handleClose}>
 								<ListItemIcon>
 									<ContactMailIcon />
 								</ListItemIcon>
-								<ListItemText primary='Contรกctanos' /> 
+								<ListItemText primary='Contáctanos' /> 
 							</ReturnSelected>
 							<ReturnSelected url='/entrar' handle={handleClose}>
 								<ListItemIcon>
@@ -207,21 +207,21 @@ function HeaderNoAuth() {
 						>
 							Noticias
 						</Link>
-						<Link 
+						{/*<Link 
 							color="initial"
 							className={classes.item} 
 							component={RouterLink} 
 							to="/solicitud"
 						>
 							Solicitud de cupo
-						</Link>
+						</Link>*/}
 						<Link 
 							color="initial"
 							className={classes.item} 
 							component={RouterLink} 
 							to="/contactanos"
 						>
-							Contรกctanos
+							Contáctanos
 						</Link>
 						<Link 
 							color="initial"

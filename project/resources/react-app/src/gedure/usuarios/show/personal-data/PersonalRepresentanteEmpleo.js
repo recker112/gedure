@@ -145,6 +145,11 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 	const onSubmit = async submitData => {
 		dispatch(updateForms('updatePersonalRepreEmpleo', true));
 		
+		if (submitData.personalData.repre_empleo === 'No') {
+			submitData.personalData.repre_empleo_profesion = null;
+			submitData.personalData.repre_empleo_lugar = null;
+		}
+		
 		const prepare = {
 			url: `v1/user/${id}`,
 			type: 'post',

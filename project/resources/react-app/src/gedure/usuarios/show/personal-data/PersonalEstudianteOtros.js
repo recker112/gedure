@@ -26,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 import updateDataUser from '../../../../actions/updateDataUser';
 
-export function PersonalEstudianteOtroForm(props) {
+export function PersonalEstudianteOtrosForm(props) {
 	const {
 		onSubmit, 
 		loading,
@@ -160,7 +160,7 @@ export function PersonalEstudianteOtroForm(props) {
 	);
 }
 
-export default function PersonalEstudianteOtro({ id }) {
+export default function PersonalEstudianteOtros({ id }) {
 	const { userData, loading, user } = useSelector((state) => ({
 		user: state.forms.showUser.data.user,
 		loading: state.forms.updatePersonalStudiendOtros.loading,
@@ -207,7 +207,7 @@ export default function PersonalEstudianteOtro({ id }) {
 	
 	return (
 		<Box>
-			<PersonalEstudianteOtroForm 
+			<PersonalEstudianteOtrosForm
 				onSubmit={handleSubmit(onSubmit)}
 				register={register}
 				errors={errors}

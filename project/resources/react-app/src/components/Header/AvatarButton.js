@@ -79,7 +79,7 @@ function AvatarButton({ ...rest }) {
 	
 	const handleOptions = () => {
 		handleClose();
-		history.push('/cuenta');
+		history.push('/gedure/cuenta');
 	}
 	
 	const handleLogout = async () => {
