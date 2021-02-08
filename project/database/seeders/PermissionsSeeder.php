@@ -34,6 +34,9 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'users_edit']);
 		Permission::create(['name' => 'users_delete']);
 		Permission::create(['name' => 'users_delete_massive']);
+		Permission::create(['name' => 'users_disabled_index']);
+		Permission::create(['name' => 'users_disabled_restore']);
+		Permission::create(['name' => 'users_disabled_destroy']);
 		
 		// Solicitud de contacto
 		Permission::create(['name' => 'soliContact_index']);

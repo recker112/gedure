@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { 
 	Grid, 
@@ -9,15 +9,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import useFetch from '../../hooks/useFetch';
+
 // Content
-import NoticiasList from './NoticiasList';
-import SoporteList from './SoporteList';
-import BoletasList from './BoletasList';
-import MoneyStatus from './MoneyStatus';
-import DeudasStatus from './DeudasStatus';
+import BoxInfoRequest from './BoxInfoRequest';
+import converterCursoCode from '../../components/funciones/converterCursoCode';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateForms from '../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -52,7 +52,7 @@ function Header() {
 				</Grid>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
-						Versión del sistema
+						Versiรณn del sistema
 					</Box>
 					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Alpha.0</Box>
 				</Grid>
@@ -64,11 +64,44 @@ function Header() {
 export default function PageUserIndex() {
 	document.title = 'La Candelaria - Gedure';
 	
-	const { privilegio } = useSelector((state) => ({
+	const { privilegio, loading, data } = useSelector((state) => ({
 		privilegio: state.userData.user.privilegio,
+		loading: state.forms.pageIndex.loading,
+		data: state.forms.pageIndex.data,
 	}));
+	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
+	
+	useEffect(() => {
+		const getInfo = async () => {
+			const prepare = {
+				url: 'v1/info-box',
+				type: 'get',
+				messageToFinish: false,
+			};
+			
+			const response = await fetchData(prepare);
+			
+			let newData = response;
+			if (response) {
+				response.boletas && response.boletas.forEach((element, i) => {
+					newData.boletas[i].textPrimary = `${converterCursoCode(element.curso)} ${element.seccion} - ${element.lapso}° Lapso`;
+				});
+				console.log(newData);
+			}
+			dispatch(updateForms('pageIndex', false, newData));
+		}
+		
+		getInfo();
+		
+		return () => {
+			dispatch(updateForms('pageIndex', true, {}));
+		}
+		// eslint-disable-next-line
+	},[]);
 	
 	return (
 		<main className={classes.containerMain}>
@@ -82,13 +115,18 @@ export default function PageUserIndex() {
 			<Fade in={true} style={{ transitionDelay: '1000ms' }}>
 				<Container>
 					<Grid container justify='center' spacing={2} item xs={12} className={classes.content}>
-						{(privilegio === 'V-' || true) && (
+						<BoxInfoRequest
+							title='Últimas noticias'
+							data={data?.posts}
+							loading={loading}
+						/>
+						{(privilegio === 'V-') && (
 							<React.Fragment>
-								<NoticiasList />
-								<SoporteList />
-								<BoletasList />
-								<MoneyStatus />
-								<DeudasStatus />
+								<BoxInfoRequest
+									title='Últimas boletas cargadas'
+									data={data?.boletas}
+									loading={loading}
+								/>
 							</React.Fragment>
 						)}
 					</Grid>

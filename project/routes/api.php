@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\BoletaController;
+use App\Http\Controllers\Api\InfoBoxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +143,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_update'])
 		->put('user/{id}', [UserController::class, 'edit']);
 	
+	// Update users
+	Route::middleware(['auth:api'])
+		->put('user', [UserController::class, 'editSelf']);
+	
 	// Soft delete user
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);
@@ -205,6 +210,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index'])
 		->get('boleta/{id}', [BoletaController::class, 'show']);
 	
+	// Show boletas studiends
+	Route::middleware(['auth:api', 'scopes:user'])
+		->get('boletas', [BoletaController::class, 'showStudiend']);
+	
 	// Upload boletas
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_upload'])
 		->post('boleta', [BoletaController::class, 'upload']);
@@ -224,4 +233,10 @@ Route::group(['prefix' => 'v1'], function () {
 	// Eliminar boleta
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_destroy'])
 		->delete('boleta/{id}', [BoletaController::class, 'destroy']);
+	
+	/*
+	InfoBox
+	*/
+	Route::middleware(['auth:api'])
+		->get('info-box', [InfoBoxController::class, 'index']);
 });

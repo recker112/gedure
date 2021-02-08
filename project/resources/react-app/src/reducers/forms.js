@@ -24,6 +24,16 @@ const initialState = {
 		loading: true,
 		data: {},
 	},
+	setup: {
+		loading: false,
+		data: {
+			personal_data: {}
+		},
+	},
+	pageIndex: {
+		loading: true,
+		data: {},
+	},
 	registerPassword: {
 		loading: false,
 		data: {},

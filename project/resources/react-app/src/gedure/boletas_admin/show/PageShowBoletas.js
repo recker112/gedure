@@ -65,7 +65,6 @@ export default function PageShowBoletas() {
 		if (response) {
 			dispatch(updateForms('showBoletas', false, response.boletas));
 			setName(response.user.name);
-			console.log(response);
 		}else {
 			dispatch(updateForms('showBoletas', false, []));
 		}

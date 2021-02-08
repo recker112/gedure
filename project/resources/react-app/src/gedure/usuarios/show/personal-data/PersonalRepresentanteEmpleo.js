@@ -26,49 +26,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 import updateDataUser from '../../../../actions/updateDataUser';
 
-export default function PersonalRepresentanteEmpleo({ id }) {
-	const { dataUser, loading, user } = useSelector((state) => ({
-		dataUser: state.forms.showUser.data.user,
-		loading: state.forms.updatePersonalRepreEmpleo.loading,
-		user: state.userData.user,
-	}));
-	const dispatch = useDispatch();
-	
-	const { register, errors, watch, handleSubmit } = useForm({
-		mode: 'onTouched'
-	});
-	const { fetchData } = useFetch();
-	
-	const onSubmit = async submitData => {
-		dispatch(updateForms('updatePersonalRepreEmpleo', true));
-		
-		const prepare = {
-			url: `v1/user/${id}`,
-			type: 'post',
-			data: {
-				...submitData,
-				_method: 'PUT'
-			},
-			successText: 'Datos actualizados',
-		};
-		
-		const response = await fetchData(prepare);
-		
-		if (response) {
-			dispatch(updateForms('showUser', false, response));
-			
-			if (response.user?.id === user.id) {
-				dispatch(updateDataUser({
-					user: response.user
-				}));
-			}
-		}
-		
-		dispatch(updateForms('updatePersonalRepreEmpleo', false));
-	}
+export function PersonalRepresentanteEmpleoForm(props) {
+	const { 
+		onSubmit, 
+		user, 
+		loading, 
+		register, 
+		errors, 
+		watch, 
+		buttonText, 
+		buttonDisable
+	} = props;
 	
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={onSubmit}>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
@@ -83,7 +54,7 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 						<FormLabel component="legend">¿Tiene empleo?</FormLabel>
 						<RadioGroup 
 							aria-label="empleo" 
-							defaultValue={dataUser.personal_data.repre_empleo || 'No'}
+							defaultValue={user.personal_data.repre_empleo || 'No'}
 							name='personalData.repre_empleo'
 							row
 						>
@@ -117,7 +88,7 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 								helperText={errors?.personalData?.repre_empleo_profesion?.message ? errors.personalData.repre_empleo_profesion.message : ''}
 								variant='outlined'
 								name='personalData.repre_empleo_profesion'
-								defaultValue={dataUser.personal_data.repre_empleo_profesion || ''}
+								defaultValue={user.personal_data.repre_empleo_profesion || ''}
 								label='Profesión'
 								size='small'
 								disabled={loading}
@@ -136,7 +107,7 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 								variant='outlined'
 								name='personalData.repre_empleo_lugar'
 								label='Lugar donde trabaja'
-								defaultValue={dataUser.personal_data.repre_empleo_lugar || ''}
+								defaultValue={user.personal_data.repre_empleo_lugar || ''}
 								size='small'
 								disabled={loading}
 								fullWidth
@@ -144,14 +115,70 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 						</Grid>
 					</React.Fragment>
 				)}
-				<Grid container justify='flex-end' item xs={12}>
-					<LoadingComponent loading={loading}>
-						<Button type='submit' variant='contained' color='primary'>
-							Actualizar
-						</Button>
-					</LoadingComponent>
-				</Grid>
+				{!buttonDisable && (
+					<Grid container justify='flex-end' item xs={12}>
+						<LoadingComponent loading={loading}>
+							<Button type='submit' variant='contained' color='primary'>
+								{buttonText}
+							</Button>
+						</LoadingComponent>
+					</Grid>
+				)}
 			</Grid>
 		</form>
+	);
+}
+
+export default function PersonalRepresentanteEmpleo({ id }) {
+	const { user, loading, userData } = useSelector((state) => ({
+		user: state.forms.showUser.data.user,
+		loading: state.forms.updatePersonalRepreEmpleo.loading,
+		userData: state.userData.user,
+	}));
+	const dispatch = useDispatch();
+	
+	const { register, errors, watch, handleSubmit } = useForm({
+		mode: 'onTouched'
+	});
+	const { fetchData } = useFetch();
+	
+	const onSubmit = async submitData => {
+		dispatch(updateForms('updatePersonalRepreEmpleo', true));
+		
+		const prepare = {
+			url: `v1/user/${id}`,
+			type: 'post',
+			data: {
+				...submitData,
+				_method: 'PUT'
+			},
+			successText: 'Datos actualizados',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			dispatch(updateForms('showUser', false, response));
+			
+			if (response.user?.id === userData.id) {
+				dispatch(updateDataUser({
+					user: response.user
+				}));
+			}
+		}
+		
+		dispatch(updateForms('updatePersonalRepreEmpleo', false));
+	}
+	
+	return (
+		<PersonalRepresentanteEmpleoForm 
+			onSubmit={handleSubmit(onSubmit)}
+			register={register}
+			errors={errors}
+			watch={watch}
+			loading={loading}
+			buttonText='Actualizar'
+			user={user}
+		/>
 	)
 }

@@ -31,56 +31,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 import updateDataUser from '../../../../actions/updateDataUser';
 
-export default function PersonalUsuario({ id }) {
-	const { loading, user, userData } = useSelector((state) => ({
-		user: state.forms.showUser.data.user,
-		loading: state.forms.updatePersonalUser.loading,
-		userData: state.userData.user,
-	}));
-	
-	const { register, control, errors, handleSubmit, watch } = useForm({
-		mode: 'onTouched',
-	});
-	const dispatch = useDispatch();
-	
-	const { fetchData } = useFetch();
-	
-	const onSubmit = async submitData => {
-		dispatch(updateForms('updatePersonalUser', true));
-		
-		if (submitData.personalData.docente === 'No') {
-			submitData.personalData.docente_titulo = null;
-			submitData.personalData.docente_ingreso = null;
-			submitData.personalData.docente_ingreso_MPPE = null;
-		}
-		
-		const prepare = {
-			url: `v1/user/${id}`,
-			type: 'post',
-			data: {
-				...submitData,
-				_method: 'PUT',
-			},
-			successText: 'Datos actualizados',
-		};
-
-		const response = await fetchData(prepare);
-		
-		if (response) {
-			dispatch(updateForms('showUser', false, response));
-			
-			if (response.user.id === userData.id) {
-				dispatch(updateDataUser({
-					user: response.user
-				}));
-			}
-		}
-		
-		dispatch(updateForms('updatePersonalUser', false));
-	}
+export function PersonalUsuarioForm(props) {
+	const { onSubmit, control, register, user, errors, loading, watch, buttonText } = props;
 	
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+		<form onSubmit={onSubmit} autoComplete='off'>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
@@ -167,12 +122,11 @@ export default function PersonalUsuario({ id }) {
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset">
+					<FormControl component="fieldset" disabled={loading}>
 						<FormLabel component="legend">Sexo</FormLabel>
 						<RadioGroup 
 							aria-label="sexo" 
-							name='personalData.sexo' 
-							disabled={loading}
+							name='personalData.sexo'
 							defaultValue={user.personal_data.sexo || 'Masculino'}
 							row
 						>
@@ -194,12 +148,11 @@ export default function PersonalUsuario({ id }) {
 					</FormControl>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset">
+					<FormControl component="fieldset" disabled={loading}>
 						<FormLabel component="legend">¿Es docente?</FormLabel>
 						<RadioGroup 
 							aria-label="Docente"
 							name='personalData.docente' 
-							disabled={loading}
 							defaultValue={user.personal_data.docente || 'No'}
 							row
 						>
@@ -308,11 +261,73 @@ export default function PersonalUsuario({ id }) {
 							variant='contained'
 							disableElevation
 						>
-							Actualizar datos
+							{buttonText}
 						</Button>
 					</LoadingComponent>
 				</Grid>
 			</Grid>
 		</form>
+	);
+}
+
+export default function PersonalUsuario({ id }) {
+	const { loading, user, userData } = useSelector((state) => ({
+		user: state.forms.showUser.data.user,
+		loading: state.forms.updatePersonalUser.loading,
+		userData: state.userData.user,
+	}));
+	
+	const { register, control, errors, handleSubmit, watch } = useForm({
+		mode: 'onTouched',
+	});
+	const dispatch = useDispatch();
+	
+	const { fetchData } = useFetch();
+	
+	const onSubmit = async submitData => {
+		dispatch(updateForms('updatePersonalUser', true));
+		
+		if (submitData.personalData.docente === 'No') {
+			submitData.personalData.docente_titulo = null;
+			submitData.personalData.docente_ingreso = null;
+			submitData.personalData.docente_ingreso_MPPE = null;
+		}
+		
+		const prepare = {
+			url: `v1/user/${id}`,
+			type: 'post',
+			data: {
+				...submitData,
+				_method: 'PUT',
+			},
+			successText: 'Datos actualizados',
+		};
+
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			dispatch(updateForms('showUser', false, response));
+			
+			if (response.user.id === userData.id) {
+				dispatch(updateDataUser({
+					user: response.user
+				}));
+			}
+		}
+		
+		dispatch(updateForms('updatePersonalUser', false));
+	}
+	
+	return (
+		<PersonalUsuarioForm 
+			onSubmit={handleSubmit(onSubmit)}
+			buttonText='Actualizar datos'
+			control={control}
+			register={register}
+			user={user}
+			loading={loading}
+			errors={errors}
+			watch={watch}
+		/>
 	);
 }

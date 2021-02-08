@@ -239,6 +239,62 @@ class UserController extends Controller
 		],200);
 	}
 	
+	public function editSelf(UserEditRequest $request)
+	{
+		$avatar = $request->file('avatar');
+		$user = $request->user();
+		$delete_avatar = json_decode($request->delete_avatar);
+		
+		if ($delete_avatar && $user->privilegio !== 'V-') {
+			Storage::disk('public')->delete($user->avatarOriginal);
+			$user->avatar = null;
+			$user->save();
+		}
+		
+		// Actualizar avatar
+		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-') {
+			Storage::disk('public')->delete($user->avatarOriginal);
+			$path = $avatar->storeAs(
+				"avatars", 'avatar_'.$user->username.'.'.$avatar->getClientOriginalExtension(), 'public'
+			);
+			$user->avatar = $path;
+			$user->save();
+		}
+		
+		// Actualizar user
+		if ($request->only(['username', 'name', 'email', 'password'])) {
+			if ($request->password) {
+				$request->merge([
+					'password' => bcrypt($request->password),
+				]);
+			}
+			
+			if ($user->privilegio === 'V-') {
+				$data = $request->only(['email', 'password']);
+			}else {
+				$data = $request->only(['name', 'email', 'password']);
+			}
+			
+			$user->update($data);
+		}
+		
+		// Actualizar data personal
+		if ($request->personalData) {
+			$user->personalData(false)->update($request->personalData);
+		}
+		
+		// Activar cuenta
+		if (!$user->actived_at) {
+			$user->actived_at = now();
+			$user->save();
+		}
+		
+		return response()->json([
+			'user' => $user->toArray(),
+			'permissions' => $this->formatPermissions($user),
+		],200);
+	}
+	
 	public function delete($id)
 	{
 		$user = User::findOrFail($id);

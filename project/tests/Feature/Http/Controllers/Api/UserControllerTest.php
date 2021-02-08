@@ -540,4 +540,38 @@ class UserControllerTest extends TestCase
 				'users_destroy' => 3,
 			]);
 	}
+	
+	public function testEditSelf()
+	{
+		//$this->withoutExceptionHandling();
+		
+		$user = User::factory()->create([
+			'privilegio' => 'A-'
+		]);
+		$user->personalData(false)->create();
+		
+		Passport::actingAs(
+			$user,
+			['admin']
+		);
+		
+		$response = $this->putJson('/api/v1/user', [
+			'personalData' => [
+				'telefono' => '4269340569'
+			]
+		]);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'user' => [
+					'id',
+					'username',
+					'personal_data' => [
+						'telefono'
+					]
+				],
+				'permissions',
+			])
+			->assertJsonPath('user.personal_data.telefono', '4269340569');
+	}
 }

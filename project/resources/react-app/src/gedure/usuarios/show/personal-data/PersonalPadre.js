@@ -24,49 +24,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 import updateDataUser from '../../../../actions/updateDataUser';
 
-export default function PersonalPadre({ id }) {
-	const { dataUser, loading, user } = useSelector((state) => ({
-		dataUser: state.forms.showUser.data.user,
-		loading: state.forms.updatePersonalPadre.loading,
-		user: state.userData.user,
-	}));
-	const dispatch = useDispatch();
-	
-	const { register, control, errors, handleSubmit } = useForm({
-		mode: 'onTouched'
-	});
-	const { fetchData } = useFetch();
-	
-	const onSubmit = async submitData => {
-		dispatch(updateForms('updatePersonalPadre', true));
-		
-		const prepare = {
-			url: `v1/user/${id}`,
-			type: 'post',
-			data: {
-				...submitData,
-				_method: 'PUT'
-			},
-			successText: 'Datos actualizados',
-		};
-		
-		const response = await fetchData(prepare);
-		
-		if (response) {
-			dispatch(updateForms('showUser', false, response));
-			
-			if (response.user?.id === user.id) {
-				dispatch(updateDataUser({
-					user: response.user
-				}));
-			}
-		}
-		
-		dispatch(updateForms('updatePersonalPadre', false));
-	}
+export function PersonalPadreForm(props) {
+	const { 
+		onSubmit, 
+		loading, 
+		control, 
+		user, 
+		register,
+		errors,
+		buttonText,
+		buttonDisable,
+	} = props;
 	
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={onSubmit}>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
@@ -81,7 +52,7 @@ export default function PersonalPadre({ id }) {
 						name='personalData.padre_nacionalidad'
 						nameLabel='Nacionalidad '
 						control={control}
-						defaultValue={dataUser.personal_data.padre_nacionalidad || ''}
+						defaultValue={user.personal_data.padre_nacionalidad || ''}
 						errors={errors.personalData?.padre_nacionalidad}
 						disabled={loading}
 					>
@@ -108,7 +79,7 @@ export default function PersonalPadre({ id }) {
 						variant='outlined'
 						name='personalData.padre_cedula'
 						label='Cédula'
-						defaultValue={dataUser.personal_data.padre_cedula || ''}
+						defaultValue={user.personal_data.padre_cedula || ''}
 						size='small'
 						disabled={loading}
 						fullWidth
@@ -126,7 +97,7 @@ export default function PersonalPadre({ id }) {
 						variant='outlined'
 						name='personalData.padre_nombre'
 						label='Nombre y apellido'
-						defaultValue={dataUser.personal_data.padre_nombre || ''}
+						defaultValue={user.personal_data.padre_nombre || ''}
 						size='small'
 						disabled={loading}
 						fullWidth
@@ -150,7 +121,7 @@ export default function PersonalPadre({ id }) {
 						name='personalData.padre_telefono'
 						label='Teléfono'
 						size='small'
-						defaultValue={dataUser.personal_data.padre_telefono || ''}
+						defaultValue={user.personal_data.padre_telefono || ''}
 						disabled={loading}
 						fullWidth
 						InputProps={{
@@ -171,19 +142,75 @@ export default function PersonalPadre({ id }) {
 						name='personalData.padre_direccion'
 						label='Dirección de domicilio'
 						size='small'
-						defaultValue={dataUser.personal_data.padre_direccion || ''}
+						defaultValue={user.personal_data.padre_direccion || ''}
 						disabled={loading}
 						fullWidth
 					/>
 				</Grid>
-				<Grid container justify='flex-end' item xs={12}>
-					<LoadingComponent loading={loading}>
-						<Button type='submit' variant='contained' color='primary'>
-							Actualizar
-						</Button>
-					</LoadingComponent>
-				</Grid>
+				{!buttonDisable && (
+					<Grid container justify='flex-end' item xs={12}>
+						<LoadingComponent loading={loading}>
+							<Button type='submit' variant='contained' color='primary'>
+								{buttonText}
+							</Button>
+						</LoadingComponent>
+					</Grid>
+				)}
 			</Grid>
 		</form>
+	);
+}
+
+export default function PersonalPadre({ id }) {
+	const { user, loading, userData } = useSelector((state) => ({
+		user: state.forms.showUser.data.user,
+		loading: state.forms.updatePersonalPadre.loading,
+		userData: state.userData.user,
+	}));
+	const dispatch = useDispatch();
+	
+	const { register, control, errors, handleSubmit } = useForm({
+		mode: 'onTouched'
+	});
+	const { fetchData } = useFetch();
+	
+	const onSubmit = async submitData => {
+		dispatch(updateForms('updatePersonalPadre', true));
+		
+		const prepare = {
+			url: `v1/user/${id}`,
+			type: 'post',
+			data: {
+				...submitData,
+				_method: 'PUT'
+			},
+			successText: 'Datos actualizados',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			dispatch(updateForms('showUser', false, response));
+			
+			if (response.user?.id === userData.id) {
+				dispatch(updateDataUser({
+					user: response.user
+				}));
+			}
+		}
+		
+		dispatch(updateForms('updatePersonalPadre', false));
+	}
+	
+	return (
+		<PersonalPadreForm 
+			onSubmit={handleSubmit(onSubmit)}
+			register={register}
+			control={control}
+			errors={errors}
+			loading={loading}
+			buttonText='Actualizar'
+			user={user}
+		/>
 	)
 }

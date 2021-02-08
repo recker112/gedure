@@ -6,17 +6,17 @@ import {
 	Collapse,
 	List,
 } from '@material-ui/core';
-import WatchLaterIcon from '@material-ui/icons/WatchLater';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+//import WatchLaterIcon from '@material-ui/icons/WatchLater';
+//import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+//import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {
 	School as SchoolIcon,
 	FilePdf as FilePdfIcon,
-	FileWord as FileWordIcon,
-	HammerWrench as HammerWrenchIcon,
-	BookAlert as BookAlertIcon,
+	//FileWord as FileWordIcon,
+	//HammerWrench as HammerWrenchIcon,
+	//BookAlert as BookAlertIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -24,14 +24,9 @@ import { ReturnSelected } from './HeaderNoAuth';
 
 function UserList({ handleClose }) {
 	const [control, setControl] = useState(false);
-	const [admin, setAdmin] = useState(false);
 	
 	const handleOpenControl = () => {
 		setControl(!control);
-	}
-	
-	const handleOpenAdmin = () => {
-		setAdmin(!admin);
 	}
 	
 	return (
@@ -51,7 +46,7 @@ function UserList({ handleClose }) {
 						</ListItemIcon>
 						<ListItemText primary="Boletas" />
 					</ReturnSelected>
-					<ReturnSelected url='/gedure/horario' handle={handleClose} nested>
+					{/*<ReturnSelected url='/gedure/horario' handle={handleClose} nested>
 						<ListItemIcon>
 							<WatchLaterIcon />
 						</ListItemIcon>
@@ -62,10 +57,10 @@ function UserList({ handleClose }) {
 							<FileWordIcon />
 						</ListItemIcon>
 						<ListItemText primary="Constancias" />
-					</ReturnSelected>
+					</ReturnSelected>*/}
 				</List>
 			</Collapse>
-			<ReturnSelected handle={handleOpenAdmin}>
+			{/*<ReturnSelected handle={handleOpenAdmin}>
 				<ListItemIcon>
 					<HammerWrenchIcon />
 				</ListItemIcon>
@@ -93,7 +88,7 @@ function UserList({ handleClose }) {
 					<ShoppingCartIcon />
 				</ListItemIcon>
 				<ListItemText primary='Tienda' /> 
-			</ReturnSelected>
+			</ReturnSelected>*/}
 		</React.Fragment>
 	);
 }

@@ -28,6 +28,7 @@ const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
 const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
 const PageInvitation = lazy(() => import('./page/invitation/PageInvitation'));
+const PageSetup = lazy(() => import('./gedure/setup/PageSetup'));
 
 const useStyles = makeStyles((theme) => ({
 	loading: {
@@ -74,6 +75,10 @@ function Routers() {
 					<RoutersGedure />
 				</ProtectRoute>
 				
+				<ProtectRoute path='/setup'>
+					<PageSetup />
+				</ProtectRoute>
+				
 				<PublicRoute path='/invitacion/:key' exact>
 					<PageInvitation />
 				</PublicRoute>
@@ -87,8 +92,9 @@ function Routers() {
 }
 
 export function PublicRoute({ children, notSeeBeforeAuth=false, ...rest }) {
-	const { auth } = useSelector((state) => ({
+	const { auth, actived_at } = useSelector((state) => ({
 		auth: state.userData.auth,
+		actived_at: state.userData.user.actived_at
 	}));
 	
 	// AccessKey
@@ -101,7 +107,13 @@ export function PublicRoute({ children, notSeeBeforeAuth=false, ...rest }) {
 			{...rest}
 			render={({ location }) => {
 				if (auth && !notSeeBeforeAuth) {
-					return	(children);
+					if (!actived_at && location.pathname !== '/setup') {
+						return (
+							<Redirect to={'/setup'} />
+						);
+						
+					}
+					return	(children);	
 				}else if (auth && notSeeBeforeAuth){
 					return (
 						<Redirect to={'/gedure'} />
@@ -126,8 +138,9 @@ export function PublicRoute({ children, notSeeBeforeAuth=false, ...rest }) {
 }
 
 export function ProtectRoute({ children, ...rest }) {
-	const { auth } = useSelector((state) => ({
+	const { auth, actived_at } = useSelector((state) => ({
 		auth: state.userData.auth,
+		actived_at: state.userData.user.actived_at
 	}));
 	
 	return (
@@ -135,7 +148,13 @@ export function ProtectRoute({ children, ...rest }) {
 			{...rest}
 			render={({ location }) => {
 				if (auth) {
-					return	children
+					if (!actived_at && location.pathname !== '/setup') {
+						return (
+							<Redirect to={'/setup'} />
+						);
+						
+					}
+					return	(children);	
 				}else {
 					return (
 						<Redirect to={{

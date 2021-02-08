@@ -148,6 +148,27 @@ class BoletaControllerTest extends TestCase
 			]);
 	}
 	
+	public function testGetBoletaUser()
+	{
+		//$this->withoutExceptionHandling();
+		$this->testBoletasUpload();
+		
+		Passport::actingAs(
+			User::find(2),
+			['user']
+		);
+		
+		$response = $this->getJson('/api/v1/boletas');
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'*' => [
+					'id',
+					'lapso',
+				]
+			]);
+	}
+	
 	public function testEditBoleta()
 	{
 		//$this->withoutExceptionHandling();

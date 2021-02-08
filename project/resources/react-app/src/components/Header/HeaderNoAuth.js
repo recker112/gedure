@@ -95,7 +95,7 @@ export function ReturnSelected (props) {
 			selected={Boolean(match)} 
 			className={nested ? classes.nested : classes.button}
 			onClick={handle}
-			component={url !== null && RouterLink}
+			component={url !== null ? RouterLink : null}
 			to={url}
 		>
 			{children}
