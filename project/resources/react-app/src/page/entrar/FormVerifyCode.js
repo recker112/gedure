@@ -76,7 +76,7 @@ function ResendEmail(props) {
 			align='center'
 			variant='body1'
 			className={classes.textButton}
-			onClick={!loading && handleSendEmail}
+			onClick={!loading ? handleSendEmail : null}
 		>
 			Reenviar mensaje
 		</Typography>

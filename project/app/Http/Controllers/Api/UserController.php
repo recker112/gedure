@@ -291,7 +291,6 @@ class UserController extends Controller
 		
 		return response()->json([
 			'user' => $user->toArray(),
-			'permissions' => $this->formatPermissions($user),
 		],200);
 	}
 	

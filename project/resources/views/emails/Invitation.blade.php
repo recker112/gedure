@@ -84,7 +84,7 @@
 		<div class='main'>
 			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
-				Fuiste invitado al sistema, de click en el botรณn para iniciar el proceso de registro.
+				Fuiste invitado al sistema, de click en el botón para iniciar el proceso de registro.
 			</p>
 			<div class='main__button main__line'>
 				<a target='_blank' href='{{ config('app.url', '') }}/invitacion/{{ $key }}' class="waves-effect waves-light btn button">

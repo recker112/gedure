@@ -570,7 +570,6 @@ class UserControllerTest extends TestCase
 						'telefono'
 					]
 				],
-				'permissions',
 			])
 			->assertJsonPath('user.personal_data.telefono', '4269340569');
 	}
