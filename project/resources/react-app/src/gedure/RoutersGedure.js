@@ -52,7 +52,7 @@ export default function RoutersGedure() {
 			path: `${url}/configuracion`,
 			component: <PageGedureConfiguracion />,
 			exact: false,
-			iCanSee: Boolean(true),
+			iCanSee: true,
 		}
 	], [permissions, url]);
 	
@@ -61,9 +61,9 @@ export default function RoutersGedure() {
 			path: `${url}/boletas`,
 			component: <PageBoletas />,
 			exact: true,
-			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
+			iCanSee: true,
 		},
-	], [permissions, url]);
+	], [url]);
 	
 	return (
 		<Switch>

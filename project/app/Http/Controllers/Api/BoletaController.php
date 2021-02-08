@@ -94,6 +94,13 @@ class BoletaController extends Controller
 		], 200);
 	}
 	
+	public function showStudiend(Request $request)
+	{
+		$user = $request->user();
+		
+		return response()->json($user->boletas, 200);
+	}
+	
 	public function edit(BoletaEditRequest $request, $id)
 	{
 		$boleta = Boleta::findOrFail(intVal($id));
@@ -133,7 +140,7 @@ class BoletaController extends Controller
 		}
 		
 		// Verificar permisos para descargar
-		if ($user->privilegio === 'V-' && $user->can('boletas') && $user->id === intVal($boleta->user_id)) {
+		if ($user->privilegio === 'V-' && $user->can('boletas') && $user->id === $boleta->user_id) {
 			return Storage::download($boleta->boleta);
 		}else if ($user->privilegio === 'A-' && $user->can('boletas_index')) {
 			return Storage::download($boleta->boleta);

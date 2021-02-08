@@ -1,27 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { 
-	Grid, 
+import {
 	Container,
 	Box,
-	Typography,
-	TextField,
-	InputAdornment,
-	IconButton,
-	Paper,
+	CircularProgress,
+	Grid,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import {
-	FilePdf as FilePdfIcon,
-} from 'mdi-material-ui';
+
+import useFetch from '../../hooks/useFetch';
+
+// Components
+import Boleta from './Boleta';
+
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import updateForms from '../../actions/updateForms';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
 		flexGrow: 1,
-		paddingBottom: theme.spacing(10),
+		paddingBottom: theme.spacing(5),
 		[theme.breakpoints.up('xs')]: {
 			marginTop: '80px',
 		},
@@ -31,79 +30,71 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function PageBoletas() {
+export default function PageBoletas() {
 	document.title = 'La Candelaria - Boletas';
 	
+	const { loading, data } = useSelector((state) => ({
+		loading: state.forms.showBoletas.loading,
+		data: state.forms.showBoletas.data,
+	}));
+	const dispatch = useDispatch();
+	
 	const classes = useStyles();
+	
+	const { fetchData } = useFetch();
+	
+	const getBoletas = async () => {
+		dispatch(updateForms('showBoletas', true));
+
+		const prepare = {
+			url: 'v1/boletas',
+			type: 'get',
+			messageToFinish: false,
+		};
+
+		const response = await fetchData(prepare);
+
+		if (response) {
+			dispatch(updateForms('showBoletas', false, response));
+		}else {
+			dispatch(updateForms('showBoletas', false, []));
+		}
+	}
+	
+	useEffect(() => {
+		getBoletas();
+		
+		return () => {
+			dispatch(updateForms('showBoletas', false, []));
+		}
+		
+		// eslint-disable-next-line
+	},[]);
 	
 	return (
 		<main className={classes.containerMain}>
 			<Container>
-				<Grid container spacing={3}>
-					<Grid item xs={12} sm>
-						<Typography variant='h4' className='text__bold--big'>
+				{loading && (
+					<Box align='center'>
+						<CircularProgress />
+					</Box>
+				)}
+				{(!loading && data.length) ? (
+					<React.Fragment>
+						<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>
 							Boletas
-						</Typography>
-					</Grid>
-					<Grid item xs={12} sm={6} md={4}>
-						<TextField
-							name='search'
-							label='Buscar boleta'
-							variant='outlined'
-							size='small'
-							fullWidth
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position='end'>
-										<IconButton 
-											size='small'
-											type='submit'
-										>
-											<SearchIcon />
-										</IconButton>
-									</InputAdornment>
-								)
-							}}
-						/>
-					</Grid>
-					<Grid container spacing={2} item xs={12}>
-						<Grid item xs={12} sm={6} md={4}>
-							<Paper elevation={0} className='paper--padding'>
-								<Grid container spacing={2}>
-									<Grid container spacing={2} alignItems='center' item>
-										<Grid item>
-											<FilePdfIcon style={{ fontSize: 60, color: '#FC8948' }} />
-										</Grid>
-										<Grid item>
-											<Box fontSize='h6.fontSize' className='text__bold--semi' color='#FC8948'>
-												6 año - 1° Lapso
-											</Box>
-											<Box fontSize='body1.fontSize' color='text.secondary'>
-												Subido el 12/08/202
-											</Box>
-										</Grid>
-									</Grid>
-									
-									<Grid container justify='flex-end' item>
-										<Grid item>
-											<IconButton>
-												<GetAppIcon />
-											</IconButton>
-										</Grid>
-										<Grid item>
-											<IconButton>
-												<VisibilityIcon />
-											</IconButton>
-										</Grid>
-									</Grid>
-								</Grid>
-							</Paper>
+						</Box>
+						<Grid container spacing={2}>
+							{data.map((props, key) => (<Boleta key={key} {...props} />))}
 						</Grid>
-					</Grid>
-				</Grid>
+					</React.Fragment>
+				) : null}
+				{(!loading && !data.length) && (
+					<Box align='center' fontSize='body1.fontSize'>
+						No tiene boletas subidas por los momentos.
+					</Box>
+				)}
 			</Container>
 		</main>
 	);
 }
-
-export default PageBoletas;
