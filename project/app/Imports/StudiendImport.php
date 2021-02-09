@@ -38,6 +38,15 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 	{
 		$curso = Curso::firstWhere('code',$this->sheetName);
 		
+		// Clear curso
+		if ($curso) {
+			foreach($curso->alumnos as $alumno) {
+				$alumno->delete();
+			}
+		}
+		
+		$i=0;
+		$users=[];
 		foreach ($rows as $row) 
 		{
 			// Parse name
@@ -51,10 +60,16 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			$row['nced'] = trim($row['nced']);
 			$row['email'] = trim($row['email']);
 			
-			if ($user =User::firstWhere('username',$row['nced'])) {
+			if ($row['email'] !== '') {
+				$email = $row['email'];
+			}else {
+				$email = null;
+			}
+			
+			if ($user = User::firstWhere('username',$row['nced'])) {
 				$user->update([
 					'name' => $row['apelnom'],
-					'email' => null,
+					'email' => $email,
 				]);
 				
 				if ($curso) {
@@ -74,9 +89,9 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 					$user = User::create([
 						'username' => $row['nced'],
 						'name' => $row['apelnom'],
-						'email' => null,
+						'email' => $email,
 						'privilegio' => 'V-',
-					]);	
+					]);
 
 					$user->personalData(false)->create();
 
@@ -96,6 +111,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 					}
 				}
 			}
+			$i++;
 		}
 		// Ordenar seccion
 		if ($curso) {
