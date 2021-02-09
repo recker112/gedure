@@ -62,6 +62,9 @@ class UserController extends Controller
 			->when(empty($curso) && empty($seccion), function ($query) {
 				$query->orderBy('users.id', 'desc');
 			})
+			->when(!$request->user()->hasRole('super-admin'), function ($query) {
+				$query->where('privilegio', '!=', 'A-');
+			})
 			->where('privilegio', 'like', '%'.$type.'%')
 			->offset($page)
 			->limit($perPage)
@@ -87,6 +90,9 @@ class UserController extends Controller
 			->when(!empty($curso) && !empty($seccion), function ($query) {
 				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
+			})
+			->when(!$request->user()->hasRole('super-admin'), function ($query) {
+				$query->where('privilegio', '!=', 'A-');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
 			->count();
