@@ -52,6 +52,16 @@ function UserPermissions({ control, disabled, defaultData=null }) {
 			<Grid item xs={12} sm={6}>
 				<RenderSwitchFormHook 
 					control={control}
+					defaultValue={defaultData?.users_edit_admins || false}
+					name='permissions.users_edit_admins'
+					label='Editar administradores'
+					color='primary'
+					disabled={!users_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
 					defaultValue={defaultData?.users_delete || false}
 					name='permissions.users_delete'
 					label='Desactivar usuarios'
