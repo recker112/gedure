@@ -29,6 +29,7 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'users_create']);
 		Permission::create(['name' => 'users_upload_matricula']);
 		Permission::create(['name' => 'users_edit']);
+		Permission::create(['name' => 'users_edit_admins']);
 		Permission::create(['name' => 'users_delete']);
 		//gedure config
 		Permission::create(['name' => 'users_disabled_index']);

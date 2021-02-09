@@ -62,7 +62,7 @@ class UserController extends Controller
 			->when(empty($curso) && empty($seccion), function ($query) {
 				$query->orderBy('users.id', 'desc');
 			})
-			->when(!$request->user()->hasRole('super-admin'), function ($query) {
+			->when(!$request->user()->can('users_edit_admins'), function ($query) {
 				$query->where('privilegio', '!=', 'A-');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
@@ -91,7 +91,7 @@ class UserController extends Controller
 				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
 			})
-			->when(!$request->user()->hasRole('super-admin'), function ($query) {
+			->when(!$request->user()->can('users_edit_admins'), function ($query) {
 				$query->where('privilegio', '!=', 'A-');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
@@ -104,9 +104,15 @@ class UserController extends Controller
 		], 200);
 	}
 	
-	public function show($id)
+	public function show(Request $request, $id)
 	{
 		$user = User::findOrFail($id);
+		
+		if ($user->privilegio === 'A-' && !$request->user()->can('users_edit_admins')) {
+			return response()->json([
+				'msg' => 'No puede editar administradores',
+			],403);
+		}
 		
 		return response()->json([
 			'user' => $user->toArray(),
@@ -165,6 +171,12 @@ class UserController extends Controller
 		$avatar = $request->file('avatar');
 		$user = User::where('id',$id)->first();
 		$delete_avatar = json_decode($request->delete_avatar);
+		
+		if ($user->privilegio === 'A-' && !$request->user()->can('users_edit_admins')) {
+			return response()->json([
+				'msg' => 'No puede editar administradores',
+			],403);
+		}
 		
 		// Actualizar curso
 		if ($user->privilegio === 'V-' && !empty($request->curso) && !empty($request->seccion)) {
