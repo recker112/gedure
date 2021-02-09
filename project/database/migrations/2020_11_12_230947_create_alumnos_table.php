@@ -36,6 +36,6 @@ class CreateAlumnosTable extends Migration
 	 */
 	public function down()
 	{
-			Schema::dropIfExists('alumnos');
+		Schema::dropIfExists('alumnos');
 	}
 }

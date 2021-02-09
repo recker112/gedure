@@ -57,7 +57,7 @@ Route::group(['prefix' => 'v1'], function () {
 	LOGS
 	*/
 	// GetLogs
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:registros_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:registros_index'])
 		->get('logs', [LogController::class, 'index']);
 	
 	/*
@@ -76,19 +76,19 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api'])->get('posts/auth/{slug}', [PostController::class, 'showAuth']);
 	
 	// CreatePost
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_create'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:posts_create'])
 		->post('posts', [PostController::class, 'create']);
 	
 	// EditPost
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_edit'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:posts_edit'])
 		->put('posts/{slug}', [PostController::class, 'edit']);
 	
 	// DeletePost
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index|posts_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:posts_destroy'])
 		->delete('posts/{slug}', [PostController::class, 'destroy']);
 	
 	// TableAdminPost
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:posts_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:posts_index'])
 		->get('table-posts', [PostController::class, 'tableAdmin']);
 	
 	/*
@@ -98,49 +98,49 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('contacto', [ContactoController::class, 'create']);
 	
 	// GetContactos
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:soliContact_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:soliContact_index'])
 		->get('contacto', [ContactoController::class, 'index']);
 	
 	// DestroyContacto
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:soliContact_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:soliContact_destroy'])
 		->delete('contacto/{id}', [ContactoController::class, 'destroy']);
 	
 	/*
 	CURSOS
 	*/
 	// Get cursos
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_index'])
 		->get('curso', [CursoController::class, 'index']);
 	
 	// Create curso
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_create'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_create'])
 		->post('curso', [CursoController::class, 'create']);
 	
 	// Delete curso
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_destroy'])
 		->delete('curso/{id}', [CursoController::class, 'destroy']);
 	
 	// Destroy massive curso
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:cursos_index|cursos_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_destroy'])
 		->delete('massive/curso', [CursoController::class, 'destroyMassive']);
 	
 	/*
 	USERS
 	*/
 	// Get table users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_index'])
 		->get('user', [UserController::class, 'index']);
 	
 	// Show user
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_index'])
 		->get('user/{id}', [UserController::class, 'show']);
 	
 	// Create users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_create'])
 		->post('user', [UserController::class, 'create']);
 	
 	// Update users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_edit'])
 		->put('user/{id}', [UserController::class, 'edit']);
 	
 	// Update users
@@ -148,53 +148,53 @@ Route::group(['prefix' => 'v1'], function () {
 		->put('user', [UserController::class, 'editSelf']);
 	
 	// Soft delete user
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_delete'])
 		->delete('user/{id}', [UserController::class, 'delete']);
 	
 	// Matricula Upload
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_upload_matricula'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_upload_matricula'])
 		->post('user/matricula', [UserController::class, 'uploadMassiveStudiends']);
 	
 	// Update seccion massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_edit'])
 		->put('massive/user/seccion', [UserController::class, 'updateSeccionMassive']);
 	
 	// Soft delete user massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_delete'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_delete'])
 		->delete('massive/user', [UserController::class, 'deleteMassive']);
 	
 	// Get users disabled
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_index'])
 		->get('user-disabled', [UserController::class, 'indexDeleted']);
 	
 	// Restore user
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_restore'])
 		->patch('user-disabled/restore/{id}', [UserController::class, 'restoreDeleted']);
 	
 	// Restore user massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_restore'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_restore'])
 		->patch('user-disabled/restore', [UserController::class, 'restoreDeletedMassive']);
 	
 	// Delete user
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_destroy'])
 		->delete('user-disabled/{id}', [UserController::class, 'destroy']);
 	
 	// Delete user massive
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_disabled_index|users_disabled_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_destroy'])
 		->delete('user-disabled', [UserController::class, 'destroyMassive']);
 	
 	/*
 	INVITATION
 	*/
 	// Invite users
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_create'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_create'])
 		->post('invitation/users', [InvitationController::class, 'invite']);
 	
 	// Show users
 	Route::get('invitation/user/{key}', [InvitationController::class, 'show']);
 	
 	// Resend email
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:users_index|users_edit'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:users_edit'])
 		->get('invitation/resend-email/{id}', [InvitationController::class, 'resend']);
 	
 	// Register user
@@ -204,11 +204,11 @@ Route::group(['prefix' => 'v1'], function () {
 	Boletas
 	*/
 	// Get users with boletas
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_index'])
 		->get('boleta', [BoletaController::class, 'index']);
 	
 	// Show boletas
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_index'])
 		->get('boleta/{id}', [BoletaController::class, 'show']);
 	
 	// Show boletas studiends
@@ -216,15 +216,15 @@ Route::group(['prefix' => 'v1'], function () {
 		->get('boletas', [BoletaController::class, 'showStudiend']);
 	
 	// Upload boletas
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_upload'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_upload'])
 		->post('boleta', [BoletaController::class, 'upload']);
 	
 	// Edit boleta
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_edit'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_edit'])
 		->put('boleta/{id}', [BoletaController::class, 'edit']);
 	
 	// Massive destroy boleta
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
 		->delete('massive/boleta', [BoletaController::class, 'destroyMassive']);
 	
 	// Download boleta
@@ -232,7 +232,7 @@ Route::group(['prefix' => 'v1'], function () {
 		->get('download/boleta/{id}', [BoletaController::class, 'download']);
 	
 	// Eliminar boleta
-	Route::middleware(['auth:api', 'scopes:admin', 'permission:boletas_index|boletas_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
 		->delete('boleta/{id}', [BoletaController::class, 'destroy']);
 	
 	/*
