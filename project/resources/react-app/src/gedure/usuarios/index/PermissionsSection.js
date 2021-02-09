@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	Grid,
@@ -10,12 +10,24 @@ import { useWatch } from "react-hook-form";
 // Components
 import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
 
-function UserPermissions({ control, disabled, defaultData=null }) {
+function UserPermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const users_index = useWatch({
 		control,
     name: 'permissions.users_index',
     defaultValue: defaultData?.users_index || false,
   });
+	
+	useEffect(() => {
+		if (!users_index) {
+			setValue('permissions.users_create', false);
+			setValue('permissions.users_upload_matricula', false);
+			setValue('permissions.users_edit', false);
+			setValue('permissions.users_edit_admins', false);
+			setValue('permissions.users_delete', false);
+		}
+		// eslint-disable-next-line
+	},[users_index]);
 	
 	return (
 		<React.Fragment>
@@ -73,12 +85,23 @@ function UserPermissions({ control, disabled, defaultData=null }) {
 	);
 }
 
-function PostPermissions({ control, disabled, defaultData }) {
+function PostPermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const posts_index = useWatch({
 		control,
     name: 'permissions.posts_index',
     defaultValue: defaultData?.posts_index || false
   });
+	
+	useEffect(() => {
+		if (!posts_index) {
+			setValue('permissions.posts_create', false);
+			setValue('permissions.posts_edit', false);
+			setValue('permissions.posts_destroy', false);
+			setValue('permissions.posts_others', false);
+		}
+		// eslint-disable-next-line
+	},[posts_index]);
 	
 	return (
 		<React.Fragment>
@@ -126,12 +149,22 @@ function PostPermissions({ control, disabled, defaultData }) {
 	);
 }
 
-function BoletaPermissions({ control, disabled, defaultData=null }) {
+function BoletaPermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const boletas_index = useWatch({
 		control,
     name: 'permissions.boletas_index',
     defaultValue: defaultData?.boletas_index || false
   });
+	
+	useEffect(() => {
+		if (!boletas_index) {
+			setValue('permissions.boletas_upload', false);
+			setValue('permissions.boletas_edit', false);
+			setValue('permissions.boletas_destroy', false);
+		}
+		// eslint-disable-next-line
+	},[boletas_index]);
 	
 	return (
 		<React.Fragment>
@@ -169,12 +202,21 @@ function BoletaPermissions({ control, disabled, defaultData=null }) {
 	);
 }
 
-function CursoGedurePermissions({ control, disabled, defaultData=null }) {
+function CursoGedurePermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const cursos_index = useWatch({
 		control,
     name: 'permissions.cursos_index',
     defaultValue: defaultData?.cursos_index || false
   });
+	
+	useEffect(() => {
+		if (!cursos_index) {
+			setValue('permissions.cursos_create', false);
+			setValue('permissions.cursos_destroy', false);
+		}
+		// eslint-disable-next-line
+	},[cursos_index]);
 	
 	return (
 		<React.Fragment>
@@ -202,12 +244,21 @@ function CursoGedurePermissions({ control, disabled, defaultData=null }) {
 	);
 }
 
-function UsersDisabledGedurePermissions({ control, disabled, defaultData=null }) {
+function UsersDisabledGedurePermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const users_disabled_index = useWatch({
 		control,
     name: 'permissions.users_disabled_index',
     defaultValue: defaultData?.users_disabled_index || false
   });
+	
+	useEffect(() => {
+		if (!users_disabled_index) {
+			setValue('permissions.users_disabled_restore', false);
+			setValue('permissions.users_disabled_destroy', false);
+		}
+		// eslint-disable-next-line
+	},[users_disabled_index]);
 	
 	return (
 		<React.Fragment>
@@ -235,7 +286,8 @@ function UsersDisabledGedurePermissions({ control, disabled, defaultData=null })
 	);
 }
 
-function PermissionsNoSuper({ control, disabled, defaultData=null }) {
+function PermissionsNoSuper(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
 	const super_admin = useWatch({
 		control,
     name: 'super_admin',
@@ -269,6 +321,7 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					control={control} 
 					disabled={disabled} 
 					defaultData={defaultData}
+					setValue={setValue}
 				/>
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
@@ -284,6 +337,7 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
+					setValue={setValue}
 				/>
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
@@ -299,6 +353,7 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
+					setValue={setValue}
 				/>
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
@@ -314,6 +369,7 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
+					setValue={setValue}
 				/>
 				<Grid item xs={12}>
 					<RenderSwitchFormHook 
@@ -329,6 +385,7 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
+					setValue={setValue}
 				/>
 			</React.Fragment>
 		);
@@ -337,7 +394,8 @@ function PermissionsNoSuper({ control, disabled, defaultData=null }) {
 	return null;
 }
 
-export default function PermissionsSection({ control, disabled, defaultData=null }) {
+export default function PermissionsSection(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
@@ -404,13 +462,14 @@ export default function PermissionsSection({ control, disabled, defaultData=null
 				</Grid>
 				<Grid item xs={12}>
 					<DialogContentText>
-						Al activar este permiso el usuario tendráก poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
+						Al activar este permiso el usuario tendrá poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
 					</DialogContentText>
 				</Grid>
 				<PermissionsNoSuper 
 					control={control} 
 					disabled={disabled} 
 					defaultData={defaultData} 
+					setValue={setValue}
 				/>
 			</React.Fragment>
 		);

@@ -28,7 +28,7 @@ export default function UserPermisos({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, register, handleSubmit } = useForm();
+	const { control, register, handleSubmit, setValue } = useForm();
 	
 	const { fetchData } = useFetch();
 	
@@ -69,7 +69,12 @@ export default function UserPermisos({ id }) {
 				</Box>
 				<Divider />
 			</Grid>
-			<PermissionsSection control={control} disabled={loading} defaultData={dataUser.permissions} />
+			<PermissionsSection 
+				control={control} 
+				disabled={loading} 
+				defaultData={dataUser.permissions}
+				setValue={setValue}
+			/>
 			<Grid container justify='flex-end' item xs={12}>
 				<LoadingComponent loading={loading}>
 					<Button onClick={handleSubmit(onSubmit)} variant='contained' color='primary' disableElevation>
