@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 // Models
 use App\Models\Post;
-use App\Models\Log;
 
 class PostController extends Controller
 {
@@ -143,14 +142,18 @@ class PostController extends Controller
 		$post->save();
 		
 		//Log
-		Log::create([
-			'user_id' => $user->id,
-			'action' => 'Noticia #'.$post->id.' creada.',
-			'type' => 'user'
+		$payload = [
+			'title' => $post->title,
+			'url' => '/noticias/'.$post->slug,
+		];
+		$user->logs()->create([
+			'action' => 'Publicación creada',
+			'payload' => json_encode($payload),
+			'type' => 'user',
 		]);
 		
 		return response()->json([
-			'msg' => 'Noticia creada',
+			'msg' => 'Publicación creada',
 		], 201);
 	}
 	
@@ -228,14 +231,18 @@ class PostController extends Controller
 		$post->save();
 		
 		//Log
-		Log::create([
-			'user_id' => $user->id,
-			'action' => 'Noticia #'.$post->id.' modificada.',
-			'type' => 'user'
+		$payload = [
+			'title' => $post->title,
+			'url' => '/noticias/'.$post->slug,
+		];
+		$user->logs()->create([
+			'action' => 'Publicación editada',
+			'payload' => json_encode($payload),
+			'type' => 'user',
 		]);
 		
 		return response()->json([
-			'msg' => 'Noticia modificada',
+			'msg' => 'Publicación modificada',
 			'data' => $post,
 		], 200);
 	}
@@ -260,16 +267,19 @@ class PostController extends Controller
 		Storage::disk('public')->deleteDirectory("$this->path/$post->id");
 		
 		//Log
-		Log::create([
-			'user_id' => $user->id,
-			'action' => 'Noticia #'.$post->id.' borrada.',
-			'type' => 'user'
+		$payload = [
+			'title' => $post->title,
+		];
+		$user->logs()->create([
+			'action' => 'Publicación eliminada',
+			'payload' => json_encode($payload),
+			'type' => 'user',
 		]);
 		
 		$post->delete();
 		
 		return response()->json([
-			'msg' => 'Noticia borrada'
+			'msg' => 'Publicación borrada'
 		], 200);
 	}
 	

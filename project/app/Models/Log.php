@@ -39,12 +39,24 @@ class Log extends Model
 	
 	public function getUsernameAttribute()
 	{
-		return $this->user->privilegio.$this->user->username;
+		if ($this->user) {
+			return $this->user->privilegio.$this->user->username;	
+		}else {
+			return 'Cuenta eliminada';
+		}
 	}
 	
 	public function getNameAttribute()
 	{
-		return $this->user->name;
+		if ($this->user) {
+			return $this->user->name;
+		}else {
+			return 'Cuenta eliminada';
+		}
+	}
+	
+	public function getPayloadAttribute($value) {
+		return json_decode($value);
 	}
 	
 	/*

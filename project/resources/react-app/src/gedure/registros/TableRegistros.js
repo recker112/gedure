@@ -75,7 +75,6 @@ export default function TableRegistros({ tableRef, filters }) {
 					icon: () => (<VisibilityIcon />),
 					tooltip: 'Ver',
 					onClick: (event, rowData) => {
-						rowData.payload = JSON.parse(rowData.payload);
 						rowData.date = format(new Date(rowData.date_format), 'dd/mm/yy');
 						rowData.hours = format(new Date(rowData.date_format), 'hh:mm a');
 						dispatch(updateDialogs('showRegistros', true, false, rowData));

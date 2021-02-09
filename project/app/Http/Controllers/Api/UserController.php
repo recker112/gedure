@@ -161,6 +161,19 @@ class UserController extends Controller
 			}
 		}
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+			'email' => $user->email,
+			'name' => $user->name,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario creado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
 			'msg' => 'Usuario creado'
 		],201);
@@ -251,6 +264,17 @@ class UserController extends Controller
 			$user->syncPermissions($arrayPermissions);
 		}
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario editado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
 			'user' => $user->toArray(),
 			'permissions' => $this->formatPermissions($user),
@@ -307,12 +331,18 @@ class UserController extends Controller
 			$user->save();
 		}
 		
+		//Log
+		$request->user()->logs()->create([
+			'action' => 'Actualización de datos',
+			'type' => 'user',
+		]);
+		
 		return response()->json([
 			'user' => $user->toArray(),
 		],200);
 	}
 	
-	public function delete($id)
+	public function delete(Request $request, $id)
 	{
 		$user = User::findOrFail($id);
 		
@@ -325,8 +355,21 @@ class UserController extends Controller
 			CursoController::orderAlumnos($curso_id);
 		}
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+			'email' => $user->email,
+			'name' => $user->name,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario desactivado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
-			'msg' => 'Cuenta desactivada'
+			'msg' => 'Usuario desactivado'
 		],200);
 	}
 	
@@ -335,16 +378,30 @@ class UserController extends Controller
 		$ids = json_decode(urldecode($request->ids));
 		
 		$i=0;
+		$users = [];
 		foreach($ids as $id) {
 			$user = User::find($id);
 			
 			if ($user) {
 				$this->delete($id);
+				$users[] = $user->privilegio.$user->username." ($user->name)";
 				$i++;
 			}
 		}
+		
+		//Log
+		$payload = [
+			'users_disabled_count' => $i,
+			'users_disabled' => $users,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuarios desactivados masivamente',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
-			'msg' => "Desactivadas $i cuentas"
+			'msg' => "$i usuarios desactivados"
 		],200);
 	}
 	
@@ -362,11 +419,13 @@ class UserController extends Controller
 		}
 		
 		$i=0;
+		$users=[];
 		foreach($ids as $id) {
 			$user = User::find($id);
 			
 			if ($user && $user->privilegio === 'V-') {
 				$curso_old = $user->alumno;
+				$users[] = $user->privilegio.$user->username." ($user->name)";
 
 				$user->alumno()->updateOrCreate(['user_id' => $user->id],
 					[
@@ -385,6 +444,18 @@ class UserController extends Controller
 			CursoController::orderAlumnos($curso->id);
 		}
 		
+		//Log
+		$payload = [
+			'massive_seccion_update_count' => $i,
+			'massive_seccion_update' => $users,
+			'curso' => $code,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Actualización de sección masiva',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
 			'msg' => "$i estudiantes actualizados"
 		],200);
@@ -395,6 +466,11 @@ class UserController extends Controller
 		$file = $request->file('database');
 		
 		$result = (new StudiendImport)->queue($file)->allOnQueue('high');
+		
+		$request->user()->logs()->create([
+			'action' => 'Carga de matricula',
+			'type' => 'gedure',
+		]);
 		
 		return response()->json([
 			'msg' => 'Matricula en progreso',
@@ -440,14 +516,27 @@ class UserController extends Controller
 		], 200);
 	}
 	
-	public function restoreDeleted($id)
+	public function restoreDeleted(Request $request, $id)
 	{
 		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
 		$user->restore();
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+			'email' => $user->email,
+			'name' => $user->name,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario restaurado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
-			'msg' => 'Cuenta reactivada',
+			'msg' => 'Usuario reactivado',
 		], 200);
 	}
 	
@@ -456,32 +545,59 @@ class UserController extends Controller
 		$ids = json_decode(urldecode($request->ids));
 		
 		$i=0;
+		$users=[];
 		foreach($ids as $id) {
 			$user = User::onlyTrashed()->find($id);
 			
 			if ($user) {
+				$users[] = $user->privilegio.$user->username." ($user->name)";
 				$this->restoreDeleted($id);
 				$i++;
 			}
 		}
+		
+		// Log
+		$payload = [
+			'users_restored_count' => $i,
+			'users_restored' => $users,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuarios restaurados masivamente',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
-			'msg' => "$i cuentas reactivadas",
+			'msg' => "$i usuarios reactivados",
 			'users_restored' => $i,
 		],200);
 	}
 	
-	public function destroy($id) {
+	public function destroy(Request $request, $id) {
 		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
 		Storage::deleteDirectory("users/$user->id");
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+			'email' => $user->email,
+			'name' => $user->name,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario eliminado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		if ($user->forceDelete()) {
 			return response()->json([
-				'msg' => "Cuenta eliminada",
+				'msg' => "Usuario eliminado",
 			],200);
 		}else {
 			return response()->json([
-				'msg' => "No se pudo eliminar la cuenta",
+				'msg' => "No se pudo eliminar al usuario",
 			],400);
 		}
 	}
@@ -490,16 +606,29 @@ class UserController extends Controller
 		$ids = json_decode(urldecode($request->ids));
 		
 		$i=0;
+		$users=[];
 		foreach($ids as $id) {
 			$user = User::onlyTrashed()->find($id);
 			
 			if ($user) {
+				$users[] = $user->privilegio.$user->username." ($user->name)";
 				$this->destroy($id);
 				$i++;
 			}
 		}
+		// Log
+		$payload = [
+			'users_destroy_count' => $i,
+			'users_destroy' => $users,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuarios eliminados masivamente',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
-			'msg' => "$i cuentas reactivadas",
+			'msg' => "$i usuarios eliminados",
 			'users_destroy' => $i,
 		],200);
 	}
