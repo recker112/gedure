@@ -107,12 +107,12 @@ export default function Main() {
 			<TableUsersDisabled tableRef={tableRef} />
 			{(data.type === 'restore' && !data.massive) && (
 				<DialogConfirmation callback={onRestore}>
-					Está a punto de restaurar al usuario <strong>{data.username}</strong>.
+					Está a punto de restaurar al usuario <strong>{data.username}</strong>. Tenga en cuenta que si reactiva a un estudiante el mismo no se le asignará un curso.
 				</DialogConfirmation>
 			)}
 			{(data.type === 'restore' && data.massive) && (
 				<DialogConfirmation callback={onRestoreMassive}>
-					Está a punto de restaurar <strong>{data.ids?.length}</strong> usuarios.
+					Está a punto de restaurar <strong>{data.ids?.length}</strong> usuarios. Tenga en cuenta que si reactiva a un estudiante el mismo no se le asignará un curso.
 				</DialogConfirmation>
 			)}
 			{(data.type === 'destroy' && !data.massive) && (

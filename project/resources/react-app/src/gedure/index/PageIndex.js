@@ -90,7 +90,6 @@ export default function PageUserIndex() {
 				response.boletas && response.boletas.forEach((element, i) => {
 					newData.boletas[i].textPrimary = `${converterCursoCode(element.curso)} ${element.seccion} - ${element.lapso}° Lapso`;
 				});
-				console.log(newData);
 			}
 			dispatch(updateForms('pageIndex', false, newData));
 		}

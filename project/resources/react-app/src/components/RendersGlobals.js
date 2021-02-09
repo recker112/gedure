@@ -159,6 +159,10 @@ function MarkdownParagraph(props) {
 	return <Typography className={classes.separer}>{props.children}</Typography>
 }
 
+function MarkdownLink(props) {
+	return <Link target='_blank' href={props.href}>{props.children}</Link>
+}
+
 const MarkdownHeading = ({ ...props }) => {
 	let variant;
 	switch (props.level) {
@@ -190,7 +194,7 @@ const MarkdownHeading = ({ ...props }) => {
 
 export const renderersMarkdown = {
 	heading: MarkdownHeading,
-	link: Link,
+	link: MarkdownLink,
 	paragraph: MarkdownParagraph,
 	table: MarkdownTable,
 	tableHead: MarkdownTableHead,

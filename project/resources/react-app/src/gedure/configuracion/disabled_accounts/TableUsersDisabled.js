@@ -92,7 +92,7 @@ export default function TableUsersDisabled({ tableRef }) {
 					{
 						icon: () => (<RestoreIcon />),
 						tooltip: 'Reactivar cuenta',
-						disabled: !permissions?.administrar?.users_disabled_restore,
+						disabled: !permissions?.gedure?.users_disabled_restore,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {
@@ -119,7 +119,7 @@ export default function TableUsersDisabled({ tableRef }) {
 					{
 						icon: () => (<Delete />),
 						tooltip: 'Eliminar cuenta',
-						disabled: !permissions?.administrar?.users_disabled_destroy,
+						disabled: !permissions?.gedure?.users_disabled_destroy,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {

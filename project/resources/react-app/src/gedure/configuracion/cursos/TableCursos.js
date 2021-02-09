@@ -79,7 +79,7 @@ export default function TableUsers({ tableRef }) {
 						render: (rowData) => converterCursoCode(rowData.curso)
 					},
 					{
-						title: 'Seccón', 
+						title: 'Sección', 
 						field: 'seccion'
 					},
 				]}

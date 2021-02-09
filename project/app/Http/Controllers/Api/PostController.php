@@ -311,11 +311,7 @@ class PostController extends Controller
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%")
-						->whereHas('user', function ($query) {
-							$search = request()->search;
-							$query->where('cedula', 'LIKE', "%$search%");
-						});
+						->orWhere('created_at', 'LIKE', "%$search%");
 				})
 				->orderBy('id', 'Desc')
 				->offset($page)
@@ -330,11 +326,7 @@ class PostController extends Controller
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%")
-						->whereHas('user', function ($query) {
-							$search = request()->search;
-							$query->where('username', 'LIKE', "%$search%");
-						});
+						->orWhere('created_at', 'LIKE', "%$search%");
 				})
 				->count();
 		}

@@ -174,7 +174,11 @@ export default function CreateUser({ tableRef }) {
 						<Grid item xs={12}>
 							<DialogContentText>Permisos</DialogContentText>
 						</Grid>
-						<PermissionsSection control={control} disabled={loading} />
+						<PermissionsSection 
+							control={control} 
+							disabled={loading}
+							setValue={setValue}
+						/>
 					</Grid>
 				</form>
 			</DialogContent>
