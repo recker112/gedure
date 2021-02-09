@@ -99,7 +99,7 @@ function AdminList({ handleClose }) {
 				</React.Fragment>
 			)}
 			{Object.keys(permissions.gedure).length !== 0 && (
-				<ReturnSelected url='/gedure/configuracion' handle={handleClose}>
+				<ReturnSelected url='/gedure/configuracion' handle={handleClose} noExact>
 					<ListItemIcon>
 						<GedureIcon />
 					</ListItemIcon>
