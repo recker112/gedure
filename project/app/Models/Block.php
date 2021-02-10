@@ -48,10 +48,14 @@ class Block extends Model
 	
 	public static function getStatus($username) {
 		$user = User::firstWhere('username', $username);
-
-		$dataBan = $user->blocks;
 		
 		//Verificar si no existe
+		if (!$user) {
+			return 'ok';
+		}
+		
+		$dataBan = $user->blocks;
+		
 		if (!$dataBan) {
 			return 'ok';
 		}
