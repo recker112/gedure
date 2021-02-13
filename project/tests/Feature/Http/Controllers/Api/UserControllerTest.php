@@ -100,10 +100,7 @@ class UserControllerTest extends TestCase
 			'curso' => '5',
 			'seccion' => 'A',
 			'permissions' => [
-				'boletas' => true,
-				'horarios' => true,
-				'soporte' => true,
-				'account_exonerada' => false,
+				'boleta_download' => true,
 			]
 		]);
 		
@@ -179,7 +176,6 @@ class UserControllerTest extends TestCase
 	public function testEditUser()
 	{
 		//$this->withoutExceptionHandling();
-		
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -572,5 +568,37 @@ class UserControllerTest extends TestCase
 				],
 			])
 			->assertJsonPath('user.personal_data.telefono', '4269340569');
+	}
+	
+	public function testChangeAvatarUser()
+	{	
+		$this->withoutExceptionHandling();
+		Storage::fake('public');
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->personalData(false)->create();
+		$user->givePermissionTo('change_avatar');
+		Passport::actingAs(
+			$user,
+			['user']
+		);
+		
+		$avatar = UploadedFile::fake()->image('Universidad.png');
+		
+		$response = $this->putJson('/api/v1/user', [
+			'avatar' => $avatar,
+		]);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'user' => [
+					'id',
+					'username',
+				]
+			]);
+		
+		Storage::disk('public')->assertExists('avatars/avatar_'.$user->username.'.png');
 	}
 }

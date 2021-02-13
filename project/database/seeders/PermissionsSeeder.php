@@ -61,10 +61,11 @@ class PermissionsSeeder extends Seeder
 		/*
 			PERMISSIONS USER
 		*/
-		Permission::create(['name' => 'boletas']);
-		Permission::create(['name' => 'horarios']);
-		Permission::create(['name' => 'soporte']);
-		Permission::create(['name' => 'account_exonerada']);
+		Permission::create(['name' => 'change_avatar']);
+		Permission::create(['name' => 'boleta_download']);
+		//Permission::create(['name' => 'horarios']);
+		//Permission::create(['name' => 'soporte']);
+		//Permission::create(['name' => 'account_exonerada']);
 		
 		$ADMIN = Role::create(['name' => 'super-admin']);
 		
