@@ -70,8 +70,8 @@ class LoginController extends Controller
 		//Regresar datos
 		return response()->json([
 			'access_key' => $tokenResult->accessToken,
-			'user' => $user,
-			'permissions' => $permissions
+			'user' => $user->toArray(),
+			'permissions' => $permissions,
 		], 200);
 	}
 	
@@ -87,7 +87,7 @@ class LoginController extends Controller
 		$permissions = $this->makePermissions($user);
 		
 		return response()->json([
-			'user' => $user,
+			'user' => $user->makeHidden(['permissions']),
 			'permissions' => $permissions
 		], 200);
 	}
@@ -104,7 +104,7 @@ class LoginController extends Controller
 		]);
 		
 		return response()->json([
-			'msg'=>'Sesi贸n cerrada',
+			'msg'=>'Sesión cerrada',
 		], 200);
 	}
 	
@@ -134,111 +134,84 @@ class LoginController extends Controller
 	
 	public function makePermissions($user)
 	{
-		$permissionsDB = $user->permissions;
-		if (!count($permissionsDB) && $user->hasRole('super-admin')) {
-			$permissionsDB = Permission::all();
+		// Formatear permissos
+		$permissionsDB = [];
+		$allPermissions = $user->getPermissionNames();
+		if (!count($allPermissions) && $user->hasRole('super-admin')) {
+			$allPermissions = Permission::all();
+			foreach($allPermissions as $perm) {
+				$permissionsDB[$perm->name] = true;
+			}
+		}else if (count($allPermissions)) {
+			foreach($allPermissions as $perm) {
+				$permissionsDB[$perm] = true;
+			}
 		}
 		
-		if ($user->privilegio === 'A-') {
-			$listNA = array();
-			$listA = array();
-			$listG = array();
-			foreach ($permissionsDB as $perm) {
-				if ($perm->name === 'registros_index') {
-					$listNA['registros_index'] = true;
-				}
-				
-				if ($perm->name === 'users_index') {
-					$listA['users_index'] = true;
-				}
-				
-				if ($perm->name === 'users_create') {
-					$listA['users_create'] = true;
-				}
-				
-				if ($perm->name === 'users_upload_matricula') {
-					$listA['users_upload_matricula'] = true;
-				}
-				
-				if ($perm->name === 'users_edit') {
-					$listA['users_edit'] = true;
-				}
-				
-				if ($perm->name === 'users_delete') {
-					$listA['users_delete'] = true;
-				}
-				
-				if ($perm->name === 'posts_index') {
-					$listA['posts_index'] = true;
-				}
-				
-				if ($perm->name === 'posts_create') {
-					$listA['posts_create'] = true;
-				}
-				
-				if ($perm->name === 'posts_edit') {
-					$listA['posts_edit'] = true;
-				}
-				
-				if ($perm->name === 'posts_destroy') {
-					$listA['posts_destroy'] = true;
-				}
-				
-				if ($perm->name === 'posts_others') {
-					$listA['posts_others'] = true;
-				}
-				
-				if ($perm->name === 'boletas_index') {
-					$listA['boletas_index'] = true;
-				}
-				
-				if ($perm->name === 'boletas_upload') {
-					$listA['boletas_upload'] = true;
-				}
-				
-				if ($perm->name === 'boletas_edit') {
-					$listA['boletas_edit'] = true;
-				}
-				
-				if ($perm->name === 'boletas_destroy') {
-					$listA['boletas_destroy'] = true;
-				}
-				
-				/*
-				* GEDURE
-				*/
-				if ($perm->name === 'cursos_index') {
-					$listG['cursos_index'] = true;
-				}
-				
-				if ($perm->name === 'cursos_create') {
-					$listG['cursos_create'] = true;
-				}
-				
-				if ($perm->name === 'cursos_destroy') {
-					$listG['cursos_destroy'] = true;
-				}
-				
-				if ($perm->name === 'users_disabled_index') {
-					$listG['users_disabled_index'] = true;
-				}
-				
-				if ($perm->name === 'users_disabled_restore') {
-					$listG['users_disabled_restore'] = true;
-				}
-				
-				if ($perm->name === 'users_disabled_destroy') {
-					$listG['users_disabled_destroy'] = true;
-				}
+		// Organizar permisos
+		$permissions = [];
+		$listNA = [
+			'A-' => [
+				'registros_index',
+			],
+			'V-' => [
+				'boleta_download',
+				'change_avatar',
+			]
+		];
+		
+		foreach($listNA[$user->privilegio] as $perm) {
+			if (isset($permissionsDB[$perm])) {
+				$permissions['sin_asignar'][$perm] = true;
 			}
-			
-			$permissions = [
-				'sin_asignar' => $listNA,
-				'administrar' => $listA,
-				'gedure' => $listG,
-			];
-		}else {
-			$permissions = [];
+		}
+		
+		$listA = [
+			'A-' => [
+				'users_index',
+				'users_create',
+				'users_upload_matricula',
+				'users_edit',
+				'users_edit_admins',
+				'users_delete',
+				'posts_index',
+				'posts_create',
+				'posts_edit',
+				'posts_destroy',
+				'posts_others',
+				'boletas_index',
+				'boletas_upload',
+				'boletas_edit',
+				'boletas_destroy',
+			],
+			'V-' => [
+				//
+			]
+		];
+		
+		foreach($listA[$user->privilegio] as $perm) {
+			if (isset($permissionsDB[$perm])) {
+				$permissions['administrar'][$perm] = true; 
+			}
+		}
+		
+		$listG = [
+			'A-' => [
+				'users_disabled_index',
+				'users_disabled_restore',
+				'users_disabled_destroy',
+				'cursos_index',
+				'cursos_create',
+				'cursos_destroy',
+			],
+			'V-' => [
+				//
+			]
+		];
+		foreach($listG[$user->privilegio] as $perm) {
+			if (isset($permissionsDB[$perm])) {
+				$permissions['gedure'][$perm] = true; 
+			}
 		}
 		
 		return $permissions;

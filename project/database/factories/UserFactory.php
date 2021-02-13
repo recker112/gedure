@@ -26,6 +26,7 @@ class UserFactory extends Factory
 			'username' => $this->faker->unique()->firstName,
 			'name' => $this->faker->name,
 			'privilegio' => 'A-',
+			'avatar' => null,
 			'email' => $this->faker->unique()->safeEmail,
 			'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
 			'actived_at' => now(),

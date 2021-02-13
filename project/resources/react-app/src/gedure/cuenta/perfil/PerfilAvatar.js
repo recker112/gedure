@@ -14,10 +14,11 @@ import updateDataUser from '../../../actions/updateDataUser';
 
 export default function PerfilAvatar() {
 	const [progress, setProgress] = useState(0);
-	const { user, loading, data } = useSelector((state) => ({
+	const { user, loading, data, permissions } = useSelector((state) => ({
 		loading: state.forms.updateAvatar.loading,
 		data: state.forms.updateAvatar.data,
 		user: state.userData.user,
+		permissions: state.userData.permissions,
 	}));
 	const dispatch = useDispatch();
 	
@@ -80,14 +81,18 @@ export default function PerfilAvatar() {
 		}));
 	}
 	
-	return (
-		<Box mb={4}>
-			<PerfilAvatarForm 
-				user={user}
-				handleChange={handleChange}
-				progress={progress}
-				loading={loading}
-			/>
-		</Box>
-	);
+	if (user.privilegio !== 'V-' || permissions?.sin_asignar?.change_avatar) {
+		return (
+			<Box mb={4}>
+				<PerfilAvatarForm 
+					user={user}
+					handleChange={handleChange}
+					progress={progress}
+					loading={loading}
+				/>
+			</Box>
+		);	
+	}
+	
+	return null;
 }

@@ -286,14 +286,14 @@ class UserController extends Controller
 		$user = $request->user();
 		$delete_avatar = json_decode($request->delete_avatar);
 		
-		if ($delete_avatar && $user->privilegio !== 'V-') {
+		if ($delete_avatar && $user->privilegio !== 'V-' || $delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			Storage::disk('public')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
 		
 		// Actualizar avatar
-		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-') {
+		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			Storage::disk('public')->delete($user->avatarOriginal);
 			$path = $avatar->storeAs(
 				"avatars", 'avatar_'.$user->username.'.'.$avatar->getClientOriginalExtension(), 'public'
@@ -303,7 +303,7 @@ class UserController extends Controller
 		}
 		
 		// Actualizar user
-		if ($request->only(['username', 'name', 'email', 'password'])) {
+		if ($request->only(['name', 'email', 'password'])) {
 			if ($request->password) {
 				$request->merge([
 					'password' => bcrypt($request->password),
@@ -332,7 +332,7 @@ class UserController extends Controller
 		
 		//Log
 		$request->user()->logs()->create([
-			'action' => 'Actualizaciรณn de datos',
+			'action' => 'Actualización de datos',
 			'type' => 'user',
 		]);
 		
@@ -341,7 +341,7 @@ class UserController extends Controller
 		],200);
 	}
 	
-	public function delete(Request $request, $id)
+	public function delete($id, $massive = false)
 	{
 		$user = User::findOrFail($id);
 		
@@ -355,17 +355,19 @@ class UserController extends Controller
 		}
 		
 		//Log
-		$payload = [
-			'privilegio' => $user->privilegio,
-			'username' => $user->username,
-			'email' => $user->email,
-			'name' => $user->name,
-		];
-		$request->user()->logs()->create([
-			'action' => 'Usuario desactivado',
-			'payload' => json_encode($payload),
-			'type' => 'user',
-		]);
+		if (!$massive) {
+			$payload = [
+				'privilegio' => $user->privilegio,
+				'username' => $user->username,
+				'email' => $user->email,
+				'name' => $user->name,
+			];
+			request()->user()->logs()->create([
+				'action' => 'Usuario desactivado',
+				'payload' => json_encode($payload),
+				'type' => 'user',
+			]);
+		}
 		
 		return response()->json([
 			'msg' => 'Usuario desactivado'
@@ -382,7 +384,7 @@ class UserController extends Controller
 			$user = User::find($id);
 			
 			if ($user) {
-				$this->delete($id);
+				$this->delete($id, true);
 				$users[] = $user->privilegio.$user->username." ($user->name)";
 				$i++;
 			}
@@ -515,24 +517,26 @@ class UserController extends Controller
 		], 200);
 	}
 	
-	public function restoreDeleted(Request $request, $id)
+	public function restoreDeleted($id, $massive = false)
 	{
 		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
 		$user->restore();
 		
 		//Log
-		$payload = [
-			'privilegio' => $user->privilegio,
-			'username' => $user->username,
-			'email' => $user->email,
-			'name' => $user->name,
-		];
-		$request->user()->logs()->create([
-			'action' => 'Usuario restaurado',
-			'payload' => json_encode($payload),
-			'type' => 'user',
-		]);
+		if (!$massive) {
+			$payload = [
+				'privilegio' => $user->privilegio,
+				'username' => $user->username,
+				'email' => $user->email,
+				'name' => $user->name,
+			];
+			request()->user()->logs()->create([
+				'action' => 'Usuario restaurado',
+				'payload' => json_encode($payload),
+				'type' => 'user',
+			]);
+		}
 		
 		return response()->json([
 			'msg' => 'Usuario reactivado',
@@ -550,7 +554,7 @@ class UserController extends Controller
 			
 			if ($user) {
 				$users[] = $user->privilegio.$user->username." ($user->name)";
-				$this->restoreDeleted($id);
+				$this->restoreDeleted($id, true);
 				$i++;
 			}
 		}
@@ -572,23 +576,25 @@ class UserController extends Controller
 		],200);
 	}
 	
-	public function destroy(Request $request, $id) {
+	public function destroy($id, $massive = false) {
 		$user = User::onlyTrashed()->findOrFail(intVal($id));
 		
 		Storage::deleteDirectory("users/$user->id");
 		
 		//Log
-		$payload = [
-			'privilegio' => $user->privilegio,
-			'username' => $user->username,
-			'email' => $user->email,
-			'name' => $user->name,
-		];
-		$request->user()->logs()->create([
-			'action' => 'Usuario eliminado',
-			'payload' => json_encode($payload),
-			'type' => 'user',
-		]);
+		if (!$massive) {
+			$payload = [
+				'privilegio' => $user->privilegio,
+				'username' => $user->username,
+				'email' => $user->email,
+				'name' => $user->name,
+			];
+			request()->user()->logs()->create([
+				'action' => 'Usuario eliminado',
+				'payload' => json_encode($payload),
+				'type' => 'user',
+			]);
+		}
 		
 		if ($user->forceDelete()) {
 			return response()->json([
@@ -611,7 +617,7 @@ class UserController extends Controller
 			
 			if ($user) {
 				$users[] = $user->privilegio.$user->username." ($user->name)";
-				$this->destroy($id);
+				$this->destroy($id, true);
 				$i++;
 			}
 		}

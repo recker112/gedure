@@ -140,7 +140,7 @@ class BoletaController extends Controller
 		}
 		
 		// Verificar permisos para descargar
-		if ($user->privilegio === 'V-' && $user->can('boletas') && $user->id === intVal($boleta->user_id)) {
+		if ($user->privilegio === 'V-' && $user->can('boleta_download') && $user->id === intVal($boleta->user_id)) {
 			return Storage::download($boleta->boleta);
 		}else if ($user->privilegio === 'A-' && $user->can('boletas_index')) {
 			return Storage::download($boleta->boleta);

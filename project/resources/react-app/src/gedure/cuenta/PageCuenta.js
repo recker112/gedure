@@ -137,9 +137,7 @@ export default function PageCuenta() {
 							<Suspense fallback={<Loading />}>
 								<Switch>
 									<Route path={`${url}`} exact>
-										{user.privilegio !== 'V-' && (
-											<PerfilAvatar />
-										)}
+										<PerfilAvatar />
 										<PerfilDatos />
 									</Route>
 									

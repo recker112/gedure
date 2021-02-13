@@ -408,9 +408,19 @@ export default function PermissionsSection(props) {
 				<Grid item xs={12} sm={6}>
 					<RenderSwitchFormHook 
 						control={control}
-						defaultValue={defaultData?.boletas || false}
-						name='permissions.boletas'
-						label='Boletas'
+						defaultValue={defaultData?.boleta_download || false}
+						name='permissions.boleta_download'
+						label='Descargar boletas'
+						color='primary'
+						disabled={disabled}
+					/>
+				</Grid>
+				<Grid item xs={12} sm={6}>
+					<RenderSwitchFormHook 
+						control={control}
+						defaultValue={defaultData?.change_avatar || false}
+						name='permissions.change_avatar'
+						label='Cambiar avatar'
 						color='primary'
 						disabled={disabled}
 					/>
@@ -462,7 +472,7 @@ export default function PermissionsSection(props) {
 				</Grid>
 				<Grid item xs={12}>
 					<DialogContentText>
-						Al activar este permiso el usuario tendrá poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
+						Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrรก usar todo lo actual y lo futuro. Use esta opciรณn con cautela.
 					</DialogContentText>
 				</Grid>
 				<PermissionsNoSuper 
