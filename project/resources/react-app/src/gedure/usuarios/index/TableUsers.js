@@ -107,11 +107,11 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					title: 'Usuario',
 					field: 'username',
 					render: (rowData) => {
-						if (rowData.privilegio === 'V-' && rowData.alumno?.n_lista) {
+						if (rowData.privilegio === 'V-' && rowData.n_lista) {
 							return (
 								<React.Fragment>
 									<div>{rowData.privilegio+rowData.username}</div>
-									<div>N° lista {rowData.alumno.n_lista}</div>
+									<div>N° lista {rowData.n_lista}</div>
 								</React.Fragment>
 							)
 						}else {

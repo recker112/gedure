@@ -23,7 +23,7 @@ class CreatePersonalDataUsersTable extends Migration
 			/*
 				MADRE
 			*/
-			$table->char("madre_nombre", 90)->nullable()->default(null);
+			$table->string("madre_nombre")->nullable()->default(null);
 			$table->enum("madre_nacionalidad", ['V', 'E'])->nullable()->default(null);
 			$table->bigInteger('madre_cedula')->nullable()->default(null);
 			$table->bigInteger('madre_telefono')->nullable()->default(null);
@@ -32,7 +32,7 @@ class CreatePersonalDataUsersTable extends Migration
 			/*
 				PADRE
 			*/
-			$table->char("padre_nombre", 90)->nullable()->default(null);
+			$table->string("padre_nombre")->nullable()->default(null);
 			$table->enum("padre_nacionalidad", ['V', 'E'])->nullable()->default(null);
 			$table->bigInteger('padre_cedula')->nullable()->default(null);
 			$table->bigInteger('padre_telefono')->nullable()->default(null);
@@ -41,7 +41,7 @@ class CreatePersonalDataUsersTable extends Migration
 			/*
 				REPRESENTANTE
 			*/
-			$table->char("repre_nombre", 90)->nullable()->default(null);
+			$table->string("repre_nombre")->nullable()->default(null);
 			$table->enum("repre_nacionalidad", ['V', 'E'])->nullable()->default(null);
 			$table->bigInteger('repre_cedula')->nullable()->default(null);
 			$table->bigInteger('repre_telefono')->nullable()->default(null);
@@ -66,8 +66,8 @@ class CreatePersonalDataUsersTable extends Migration
 			$table->timestamp("repre_nacimiento")->nullable()->default(null);
 			$table->string("repre_email")->unique()->nullable()->default(null);
 			$table->char("repre_ubi_estado", 30)->nullable()->default(null);
-			$table->char("repre_ubi_municipio", 30)->nullable()->default(null);
-			$table->char("repre_ubi_parroquia", 30)->nullable()->default(null);
+			$table->string("repre_ubi_municipio")->nullable()->default(null);
+			$table->string("repre_ubi_parroquia")->nullable()->default(null);
 			$table->enum("repre_ubi_via", [
 				'Aut', 
 				'Av',
@@ -103,7 +103,7 @@ class CreatePersonalDataUsersTable extends Migration
 			])->nullable()->default(null);
 			$table->enum("estudi_nacionalidad", ['V', 'E'])->nullable()->default(null);
 			$table->timestamp("estudi_nacimiento")->nullable()->default(null);
-			$table->char("estudi_nacimiento_estado", 20)->nullable()->default(null);
+			$table->char("estudi_nacimiento_estado", 30)->nullable()->default(null);
 			$table->string("estudi_nacimiento_lugar")->nullable()->default(null);
 			$table->enum("estudi_ubi", [
 				'Barrio',

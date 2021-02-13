@@ -100,7 +100,7 @@ class CursoController extends Controller
 		$studiendsInCurso = Alumno::select('alumnos.n_lista', 'alumnos.id', DB::raw('CAST(username AS UNSIGNED) AS converted'))
 			->join('users', 'users.id', '=', 'alumnos.user_id')
 			->where('curso_id', $id)
-			->orderBy('converted', 'Asc')
+			->orderBy('converted')
 			->get();
 		
 		$list = 1;

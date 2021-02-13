@@ -109,6 +109,15 @@ function PageNews() {
 		// eslint-disable-next-line
 	}, [loading]);
 	
+	useEffect(() => {
+		if (!loading && !auth) {
+			setData([]);
+			setHasFinish(false);
+			setLoading(true);
+		}
+		// eslint-disable-next-line
+	},[auth]);
+	
 	return (
 		<React.Fragment>
 			<main className={classes.containerMain}>
