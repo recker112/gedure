@@ -42,7 +42,7 @@ export function PersonalRepresentanteUbiForm(props) {
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
-						Ubicaciรณn del representante
+						Ubicación del representante
 					</Typography>
 					<Box mt={1}>
 						<Divider />

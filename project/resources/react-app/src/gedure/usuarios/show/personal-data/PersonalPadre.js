@@ -41,7 +41,7 @@ export function PersonalPadreForm(props) {
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
-						Datos de la madre
+						Datos del padre
 					</Typography>
 					<Box mt={1}>
 						<Divider />

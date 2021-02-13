@@ -55,9 +55,8 @@ class UserController extends Controller
 				$query->doesntHave('alumno');
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->with(['alumno' => function ($query) {
-						$query->orderBy('n_lista');
-					}]);
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+					->orderBy('n_lista');
 			})
 			->when(empty($curso) && empty($seccion), function ($query) {
 				$query->orderBy('users.id', 'desc');
@@ -88,7 +87,7 @@ class UserController extends Controller
 				});
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+				$query->join('alumnos', 'users.id', '=', 'alumnos.id')
 					->orderBy('n_lista');
 			})
 			->when(!$request->user()->can('users_edit_admins'), function ($query) {
@@ -333,7 +332,7 @@ class UserController extends Controller
 		
 		//Log
 		$request->user()->logs()->create([
-			'action' => 'Actualización de datos',
+			'action' => 'Actualizaciรณn de datos',
 			'type' => 'user',
 		]);
 		
@@ -440,7 +439,7 @@ class UserController extends Controller
 			}
 		}
 		
-		if ($i) {
+		if ($i > 0) {
 			CursoController::orderAlumnos($curso->id);
 		}
 		
@@ -451,7 +450,7 @@ class UserController extends Controller
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualización de sección masiva',
+			'action' => 'Actualizaciรณn de secciรณn masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);

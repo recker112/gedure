@@ -54,7 +54,7 @@ function PreviewNoticia(props) {
 	
 	return (
 		<Grid item xs={12} sm={6} md={4}>
-			<Paper style={{background: url_portada ? `url(${url_portada})` : ''}}>
+			<Paper style={{background: url_portada ? `url(${url_portada})` : '', backgroundSize: 'cover'}}>
 				<Grid container alignItems='space-between' className={`${url_portada ? classes.withImg : classes.colorsito } paper--padding`}>
 					<Grid item xs={12}>
 						<Typography>
