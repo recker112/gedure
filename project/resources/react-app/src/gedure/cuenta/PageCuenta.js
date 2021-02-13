@@ -32,6 +32,16 @@ import { useSelector } from 'react-redux';
 const PerfilAvatar = lazy(() => import('./perfil/PerfilAvatar'));
 const PerfilDatos = lazy(() => import('./perfil/PerfilDatos'));
 const Usuario = lazy(() => import('./personal/Usuario'));
+const EstudianteData = lazy(() => import('./personal/EstudianteData'));
+const EstudianteUbi = lazy(() => import('./personal/EstudianteUbi'));
+const EstudianteOtros = lazy(() => import('./personal/EstudianteOtros'));
+const RepresentanteData = lazy(() => import('./personal/RepresentanteData'));
+const RepresentanteUbi = lazy(() => import('./personal/RepresentanteUbi'));
+const RepresentanteEmpleo = lazy(() => import('./personal/RepresentanteEmpleo'));
+const Madre = lazy(() => import('./personal/Madre'));
+const Padre = lazy(() => import('./personal/Padre'));
+const Password = lazy(() => import('./password/Password'));
+const Opciones = lazy(() => import('./opciones/Opciones'));
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -140,9 +150,36 @@ export default function PageCuenta() {
 										<PerfilAvatar />
 										<PerfilDatos />
 									</Route>
-									
+
 									<Route path={`${url}/personal-usuario`} exact>
 										<Usuario />
+									</Route>
+
+									<Route path={`${url}/personal-estudiante`} exact>
+										<EstudianteData />
+										<EstudianteUbi />
+										<EstudianteOtros />
+									</Route>
+
+									<Route path={`${url}/personal-representante`} exact>
+										<RepresentanteData />
+										{user.personal_data.repre_nacionalidad !== 'E' && (
+											<RepresentanteUbi />
+										)}
+										<RepresentanteEmpleo />
+									</Route>
+
+									<Route path={`${url}/personal-padres`} exact>
+										<Madre />
+										<Padre />
+									</Route>
+
+									<Route path={`${url}/contraseña`} exact>
+										<Password />
+									</Route>
+
+									<Route path={`${url}/opciones`} exact>
+										<Opciones />
 									</Route>
 
 									<Route>

@@ -37,7 +37,7 @@ export function PersonalPadreForm(props) {
 	} = props;
 	
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} autoComplete='off'>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>

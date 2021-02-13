@@ -121,6 +121,10 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	logoutAll: {
+		loading: false,
+		data: {},
+	},
 	boletasIndex: {
 		loading: false,
 		data: {},
