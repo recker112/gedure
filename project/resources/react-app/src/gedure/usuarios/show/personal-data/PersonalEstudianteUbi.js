@@ -136,7 +136,7 @@ export function PersonalEstudianteUbiForm(props) {
 				<Grid item xs={12}>
 					<RenderSelectFormHook
 						name='personalData.estudi_ubi_condiVivienda'
-						nameLabel='Condici贸n de la vivienda'
+						nameLabel='Condición de la vivienda'
 						control={control}
 						defaultValue={user.personal_data.estudi_ubi_condiVivienda || ''}
 						errors={errors?.personalData?.estudi_ubi_condiVivienda}

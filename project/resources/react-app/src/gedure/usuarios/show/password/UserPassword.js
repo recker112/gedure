@@ -23,36 +23,9 @@ import generatePassword from '../../../../components/funciones/generatePassword'
 import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 
-export default function UserPassword({ id }) {
+export function UserPasswordForm(props) {
+	const { onSubmit, helperText, register, errors, loading, setValue, watch } = props;
 	const [generatePass, setGeneratePass] = useState(false);
-	const { loading } = useSelector((state) => ({
-		loading: state.forms.updatePassword.loading,
-	}));
-	const dispatch = useDispatch();
-	
-	const { register, handleSubmit, errors, setError, watch, setValue } = useForm({
-		mode: 'onTouched',
-	});
-	const { fetchData } = useFetch(setError);
-	
-	const onSubmit = async submitData => {
-		dispatch(updateForms('updatePassword', true));
-		
-		const prepare = {
-			url: `v1/user/${id}`,
-			type: 'post',
-			data: {
-				password: submitData.password,
-				_method: 'PUT'
-			},
-			successText: 'Contraseña actualizada',
-		};
-
-		// eslint-disable-next-line
-		const response = await fetchData(prepare);
-		
-		dispatch(updateForms('updatePassword', false));
-	}
 	
 	const handleGeneratePass = (event) => {
 		if (event.target.checked) {
@@ -68,7 +41,7 @@ export default function UserPassword({ id }) {
 	}
 	
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={onSubmit} autoComplete='off'>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Box mb={1} fontSize='h6.fontSize' className='text__bold--semi'>Cambiar contraseña</Box>
@@ -82,7 +55,7 @@ export default function UserPassword({ id }) {
 						})}
 						name='password'
 						error={Boolean(errors?.password)}
-						helperText={errors?.password?.message ? errors.password.message : 'Tenga en cuenta que una vez cambiada la contraseña el usuario ya no podrá acceder con su contraseña antigüa, asegurese de informar al usuario de este cambio'}
+						helperText={errors?.password?.message ? errors.password.message : helperText}
 						label='Nueva contraseña'
 						defaultValue=''
 						variant='outlined' 
@@ -136,5 +109,48 @@ export default function UserPassword({ id }) {
 				</Grid>
 			</Grid>
 		</form>
+	);
+}
+
+export default function UserPassword({ id }) {
+	const { loading } = useSelector((state) => ({
+		loading: state.forms.updatePassword.loading,
+	}));
+	const dispatch = useDispatch();
+	
+	const { register, handleSubmit, errors, setError, watch, setValue } = useForm({
+		mode: 'onTouched',
+	});
+	const { fetchData } = useFetch(setError);
+	
+	const onSubmit = async submitData => {
+		dispatch(updateForms('updatePassword', true));
+		
+		const prepare = {
+			url: `v1/user/${id}`,
+			type: 'post',
+			data: {
+				password: submitData.password,
+				_method: 'PUT'
+			},
+			successText: 'Contraseña actualizada',
+		};
+
+		// eslint-disable-next-line
+		const response = await fetchData(prepare);
+		
+		dispatch(updateForms('updatePassword', false));
+	}
+	
+	return (
+		<UserPasswordForm
+			onSubmit={handleSubmit(onSubmit)}
+			register={register}
+			errors={errors}
+			loading={loading}
+			setValue={setValue}
+			watch={watch}
+			helperText='Tenga en cuenta que una vez cambiada la contraseña el usuario ya no podrá acceder con su contraseña antigüa, asegurese de informar al usuario de este cambio'
+		/>
 	);
 }
