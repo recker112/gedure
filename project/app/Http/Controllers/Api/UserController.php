@@ -87,7 +87,7 @@ class UserController extends Controller
 				});
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.id')
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
 			})
 			->when(!$request->user()->can('users_edit_admins'), function ($query) {
