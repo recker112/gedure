@@ -15,6 +15,7 @@ const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
+const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
 
 export default function RoutersGedure() {
 	let { url } = useRouteMatch();
@@ -98,6 +99,10 @@ export default function RoutersGedure() {
 			
 			<Route path={`${url}/cuenta`}>
 				<PageCuenta />
+			</Route>
+
+			<Route path={`${url}/preguntas-frecuentes`}>
+				<PageFAQ />
 			</Route>
 
 			<Route>
