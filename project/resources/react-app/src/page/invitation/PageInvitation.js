@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PageInvitation() {
-	document.title = 'La Candelaria - Invitaciรณn';
+	document.title = 'La Candelaria - Invitación';
 	const { loading, data } = useSelector((state) => ({
 		loading: state.forms.invitation.loading,
 		data: state.forms.invitation.data,

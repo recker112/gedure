@@ -21,6 +21,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+// Components
+import TourGedure from './TourGedure';
+
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -129,17 +132,20 @@ export default function PageUserIndex() {
 						>
 							<LinkTab 
 								label='General' 
-								value={`${url}`} 
+								value={`${url}`}
+								data-tour='general'
 								{...a11yProps(0)}
 							/>
 							<LinkTab 
 								label='Cursos' 
 								value={`${url}/cursos`}
+								data-tour='cursos'
 								{...a11yProps(1)}
 								/>
 							<LinkTab
 								label='Usuarios desactivados' 
 								value={`${url}/usuarios-desactivados`}
+								data-tour='usuarios'
 								{...a11yProps(2)}
 							/>
 						</Tabs>
@@ -171,6 +177,7 @@ export default function PageUserIndex() {
 					</Suspense>
 				</Container>
 			</Fade>
+			<TourGedure />
 		</main>
 	)
 }

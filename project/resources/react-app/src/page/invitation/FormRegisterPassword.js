@@ -58,7 +58,7 @@ export default function FormRegisterPassword({ invitationKey }) {
 	}
 	
 	return (
-		<React.Fragment>
+		<form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
 			<Paper className='paper--padding'>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
@@ -99,13 +99,13 @@ export default function FormRegisterPassword({ invitationKey }) {
 					</Grid>
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button color='primary' onClick={handleSubmit(onSubmit)} variant='contained' disableElevation>
+							<Button color='primary' type='submit' variant='contained' disableElevation>
 								Crear
 							</Button>
 						</LoadingComponent>
 					</Grid>
 				</Grid>
 			</Paper>
-		</React.Fragment>
+		</form>
 	)
 }

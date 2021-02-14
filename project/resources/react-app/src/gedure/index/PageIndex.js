@@ -14,6 +14,7 @@ import useFetch from '../../hooks/useFetch';
 // Content
 import BoxInfoRequest from './BoxInfoRequest';
 import converterCursoCode from '../../components/funciones/converterCursoCode';
+import TourIndex from './TourIndex';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -52,9 +53,9 @@ function Header() {
 				</Grid>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
-						Versiรณn del sistema
+						Versión del sistema
 					</Box>
-					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Alpha.0</Box>
+					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Alpha.1</Box>
 				</Grid>
 			</Grid>
 		</Container>
@@ -113,7 +114,7 @@ export default function PageUserIndex() {
 			</Slide>
 			<Fade in={true} style={{ transitionDelay: '1000ms' }}>
 				<Container>
-					<Grid container justify='center' spacing={2} item xs={12} className={classes.content}>
+					<Grid container justify='center' spacing={2} item xs={12} className={classes.content} data-tour='infoBox'>
 						<BoxInfoRequest
 							title='Últimas noticias'
 							data={data?.posts}
@@ -131,6 +132,7 @@ export default function PageUserIndex() {
 					</Grid>
 				</Container>
 			</Fade>
+			<TourIndex />
 		</main>
 	)
 }

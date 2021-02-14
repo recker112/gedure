@@ -14,6 +14,7 @@ import {
 
 // Components
 import AnimationDialog from '../../components/AnimationDialog';
+import converterCursoCode from '../../components/funciones/converterCursoCode';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -58,7 +59,7 @@ export default function ShowRegistros() {
 		}else if (data.action === 'Sesiones cerradas') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cerró todas sus sesiones dentro del sistema.
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cerró todas sus sesiones (<strong>{data.payload.tokens}</strong>) dentro del sistema.
 				</DialogContentText>
 			);
 		}else if (data.action === 'Correo de recuperación') {
@@ -223,6 +224,56 @@ export default function ShowRegistros() {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) subió una matrícula al servidor y esta fue procesada.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Curso creado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó el curso <strong>{data.payload.curso}</strong>.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Curso eliminado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó el curso <strong>{data.payload.curso}</strong>, borrando <strong>{data.payload.boletas}</strong> boletas del sistema.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Cursos eliminados masivamente') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.cursos}</strong> cursos, los cuales fueron los siguientes:
+					<br />
+					<br />
+					{data.payload.names?.map((code, i) => (
+						<React.Fragment>
+							- {code}
+							<br />
+						</React.Fragment>
+					))}
+				</DialogContentText>
+			);
+		}else if (data.action === 'Boletas cargadas') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cargó <strong>{data.payload.boletas}</strong> boletas al sistema.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Boleta editada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó la boleta <strong>{converterCursoCode(data.payload.curso)} {data.payload.seccion} - {data.payload.lapso}° Lapso</strong> del estudiante <strong>{data.payload.name}</strong> ({data.payload.username}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Boleta eliminada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la boleta <strong>{converterCursoCode(data.payload.curso)} {data.payload.seccion} - {data.payload.lapso}° Lapso</strong> del estudiante <strong>{data.payload.name}</strong> ({data.payload.username}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Boletas eliminadas masivamente') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.boletas}</strong> del sistema.
 				</DialogContentText>
 			);
 		}else {

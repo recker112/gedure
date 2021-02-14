@@ -27,6 +27,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 // Components
 import BreadCrumbsShow from './BreadCrumbsShow';
+import TourShowUser from './TourShowUser';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -106,12 +107,12 @@ function Navs() {
 	
 	return (
 		<Grid item xs={12} sm={3}>
-			<Box mb={1}>
+			<Box mb={1} data-tour='perfil'>
 				<ReturnSelected url={`${url}`}>
 					Perfil
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='personal'>
 				<ReturnSelected url={`${url}/personal`} onClick={handleClick}>
 					Datos personales
 				</ReturnSelected>
@@ -151,22 +152,22 @@ function Navs() {
 					</ReturnSelected>
 				</Box>
 			)}
-			<Box mb={1}>
+			<Box mb={1} data-tour='contraseña'>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='permisos'>
 				<ReturnSelected url={`${url}/permisos`}>
 					Permisos
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='opciones'>
 				<ReturnSelected url={`${url}/opciones`}>
 					Opciones
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='regresar'>
 				<ReturnSelected onClick={handleReturn}>
 					Regresar
 				</ReturnSelected>
@@ -300,6 +301,7 @@ export default function PageShowUser() {
 					</Box>
 				)}
 			</Container>
+			<TourShowUser />
 		</main>
 	);
 }

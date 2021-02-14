@@ -104,7 +104,7 @@ class LoginController extends Controller
 		]);
 		
 		return response()->json([
-			'msg'=>'Sesión cerrada',
+			'msg'=>'Sesi贸n cerrada',
 		], 200);
 	}
 	
