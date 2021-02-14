@@ -98,7 +98,7 @@ class ContactoControllerTest extends TestCase
 			->assertJsonStructure([
 				'data',
 				'page',
-				'totalLogs'
+				'totalSoli'
 			])
 			->assertJsonFragment([
 				'id' => 3

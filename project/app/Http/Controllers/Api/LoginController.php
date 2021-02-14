@@ -183,6 +183,8 @@ class LoginController extends Controller
 				'boletas_upload',
 				'boletas_edit',
 				'boletas_destroy',
+				'contact_index',
+				'contact_destroy',
 			],
 			'V-' => [
 				//

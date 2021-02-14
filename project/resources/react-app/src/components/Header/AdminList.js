@@ -11,6 +11,7 @@ import {
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 import {
 	HammerWrench as HammerWrenchIcon,
 	ConsoleLine as ConsoleLineIcon,
@@ -92,6 +93,14 @@ function AdminList({ handleClose }) {
 										<FilePdfIcon />
 									</ListItemIcon>
 									<ListItemText primary="Boletas" />
+								</ReturnSelected>
+							)}
+							{permissions?.administrar?.contact_index && (
+								<ReturnSelected url='/gedure/soli-contacto' handle={handleClose} nested noExact>
+									<ListItemIcon>
+										<ContactMailIcon />
+									</ListItemIcon>
+									<ListItemText primary="Solicitúd de contácto" />
 								</ReturnSelected>
 							)}
 						</List>

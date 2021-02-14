@@ -19,9 +19,10 @@ class ContactoController extends Controller
 		$lista = Contacto::where('nombre', 'like', '%'.$search.'%')
 			->orWhere('asunto', 'like', '%'.$search.'%')
 			->orWhere('created_at', 'like', '%'.$search.'%')
+			->orWhere('email', 'like', '%'.$search.'%')
 			->offset($page)
 			->limit($perPage)
-			->orderBy('created_at', 'Desc')
+			->orderBy('id', 'Desc')
 			->get()
 			->toArray();
 		
@@ -30,7 +31,7 @@ class ContactoController extends Controller
 		return response()->json([
 			'data' => $lista,
 			'page' => $request->page * 1, 
-			'totalLogs' => $contactoCount
+			'totalSoli' => $contactoCount
 		], 200);
 	}
 	
@@ -42,8 +43,20 @@ class ContactoController extends Controller
 		], 201);
 	}
 	
-	public function destroy($id) {
+	public function destroy(Request $request, $id) {
 		$contacto = Contacto::findOrFail($id);
+		
+		$payload = [
+			'asunto' => $contacto->asunto,
+			'nombre' => $contacto->nombre,
+			'email' => $contacto->email,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Solicitud de contácto eliminada",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
 		
 		$contacto->delete();
 		

@@ -15,6 +15,7 @@ if (Object.keys(dataTour).length === 0) {
 	dataTour.gedure_v1 = true;
 	dataTour.boletas_admin_v1 = true;
 	dataTour.cuenta_v1 = true;
+	dataTour.soli_contacto_v1 = true;
 	localStorage.setItem('gd-tour', JSON.stringify(dataTour));
 }
 
@@ -35,6 +36,7 @@ const initialState = {
 		boletas_admin: JSON.parse(localStorage.getItem('gd-tour')).boletas_admin_v1,
 		gedure: JSON.parse(localStorage.getItem('gd-tour')).gedure_v1,
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,
+		soli_contacto: JSON.parse(localStorage.getItem('gd-tour')).soli_contacto_v1,
 	}
 };
 
