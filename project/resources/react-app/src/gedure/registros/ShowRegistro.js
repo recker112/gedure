@@ -276,6 +276,12 @@ export default function ShowRegistros() {
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.boletas}</strong> del sistema.
 				</DialogContentText>
 			);
+		}else if (data.action === 'Solicitud de contácto eliminada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la solicitud de contácto <strong>{data.payload.asunto}</strong>, la cual fue escrita por <strong>{data.payload.nombre}</strong> ({data.payload.email}).
+				</DialogContentText>
+			);
 		}else {
 			return (
 				<DialogContentText>

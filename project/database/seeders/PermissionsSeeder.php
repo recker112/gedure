@@ -36,10 +36,6 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'users_disabled_restore']);
 		Permission::create(['name' => 'users_disabled_destroy']);
 		
-		// Solicitud de contacto
-		Permission::create(['name' => 'soliContact_index']);
-		Permission::create(['name' => 'soliContact_destroy']);
-		
 		// Publicaciones
 		Permission::create(['name' => 'posts_index']);
 		Permission::create(['name' => 'posts_create']);
@@ -57,6 +53,10 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'cursos_index']);
 		Permission::create(['name' => 'cursos_create']);
 		Permission::create(['name' => 'cursos_destroy']);
+		
+		// Solicitud de contacto
+		Permission::create(['name' => 'contact_index']);
+		Permission::create(['name' => 'contact_destroy']);
 		
 		/*
 			PERMISSIONS USER

@@ -98,11 +98,11 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::post('contacto', [ContactoController::class, 'create']);
 	
 	// GetContactos
-	Route::middleware(['auth:api', 'scopes:admin', 'can:soliContact_index'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:contact_index'])
 		->get('contacto', [ContactoController::class, 'index']);
 	
 	// DestroyContacto
-	Route::middleware(['auth:api', 'scopes:admin', 'can:soliContact_destroy'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:contact_destroy'])
 		->delete('contacto/{id}', [ContactoController::class, 'destroy']);
 	
 	/*

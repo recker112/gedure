@@ -34,6 +34,11 @@ const initialState = {
 		open: false,
 		loading: false,
 		data: {},
+	},
+	showSoliContact: {
+		open: false,
+		loading: false,
+		data: {},
 	}
 };
 

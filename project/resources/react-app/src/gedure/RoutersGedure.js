@@ -13,6 +13,7 @@ const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
+const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
 const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
@@ -49,6 +50,12 @@ export default function RoutersGedure() {
 			component: <RoutersBoletas />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
+		},
+		{
+			path: `${url}/soli-contacto`,
+			component: <PageSoliContacto />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar?.contact_index),
 		},
 		{
 			path: `${url}/configuracion`,

@@ -286,6 +286,37 @@ function UsersDisabledGedurePermissions(props) {
 	);
 }
 
+function SolicitudContactoPermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
+	const contact_index = useWatch({
+		control,
+    name: 'permissions.contact_index',
+    defaultValue: defaultData?.contact_index || false
+  });
+	
+	useEffect(() => {
+		if (!contact_index) {
+			setValue('permissions.contact_destroy', false);
+		}
+		// eslint-disable-next-line
+	},[contact_index]);
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.contact_destroy || false}
+					name='permissions.contact_destroy'
+					label='Eliminar solicitudes de contacto'
+					color='primary'
+					disabled={!contact_index || disabled}
+				/>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
 function PermissionsNoSuper(props) {
 	const { control, disabled, setValue, defaultData=null } = props;
 	const super_admin = useWatch({
@@ -350,6 +381,22 @@ function PermissionsNoSuper(props) {
 					/>
 				</Grid>
 				<BoletaPermissions 
+					control={control} 
+					disabled={disabled}
+					defaultData={defaultData}
+					setValue={setValue}
+				/>
+				<Grid item xs={12}>
+					<RenderSwitchFormHook 
+						control={control}
+						defaultValue={defaultData?.contact_index || false}
+						name='permissions.contact_index'
+						label='Ver solicitudes de contácto'
+						color='primary'
+						disabled={disabled}
+					/>
+				</Grid>
+				<SolicitudContactoPermissions 
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
