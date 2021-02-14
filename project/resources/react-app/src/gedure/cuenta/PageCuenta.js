@@ -24,6 +24,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // Components
 import { ReturnSelected } from '../usuarios/show/PageShowUser';
 import BreadCrumbsShow from '../usuarios/show/BreadCrumbsShow';
+import TourCuenta from './TourCuenta';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -68,12 +69,12 @@ function Navs() {
 	
 	return (
 		<Grid item xs={12} sm={3}>
-			<Box mb={1}>
+			<Box mb={1} data-tour='perfil'>
 				<ReturnSelected url={`${url}`}>
 					Perfil
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='personal'>
 				<ReturnSelected url={`${url}/personal`} onClick={handleClick}>
 					Datos personales
 				</ReturnSelected>
@@ -106,12 +107,12 @@ function Navs() {
 					</Box>
 				)}
 			</Collapse>
-			<Box mb={1}>
+			<Box mb={1} data-tour='contraseña'>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
 			</Box>
-			<Box mb={1}>
+			<Box mb={1} data-tour='opciones'>
 				<ReturnSelected url={`${url}/opciones`}>
 					Opciones
 				</ReturnSelected>
@@ -191,6 +192,7 @@ export default function PageCuenta() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourCuenta />
 		</main>
 	);
 }

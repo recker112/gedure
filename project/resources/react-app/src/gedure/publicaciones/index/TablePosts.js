@@ -52,56 +52,58 @@ export default function TablePosts({ tableRef }) {
 	}, []);
 	
 	return (
-		<MaterialTable
-			tableRef={tableRef}
-			title="Lista de noticias"
-			icons={tableIcons}
-			columns={[
-				{ title: 'Título', field: 'title' },
-				{
-					title: 'Dueño',
-					field: 'user',
-					render: (rowData) => rowData.user?.privilegio + rowData.user?.username || 'Ninguno',
-				},
-				{ title: 'Fecha de publicación', field: 'created_at' },
-			]}
-			data={onFetch}
-			localization={tableLocation}
-			actions={[
-				{
-					icon: () => (<VisibilityIcon data-tour="show__noticia" />),
-					tooltip: 'Ver',
-					onClick: (event, rowData) => {
-						history.push('/noticias/' + rowData.slug);
+		<div data-tour='table'>
+			<MaterialTable
+				tableRef={tableRef}
+				title="Lista de noticias"
+				icons={tableIcons}
+				columns={[
+					{ title: 'Título', field: 'title' },
+					{
+						title: 'Dueño',
+						field: 'user',
+						render: (rowData) => rowData.user?.privilegio + rowData.user?.username || 'Ninguno',
 					},
-				},
-				{
-					icon: () => (<Edit data-tour="edit__noticia" />),
-					tooltip: 'Editar',
-					onClick: (event, rowData) => {
-						history.push('/gedure/publicaciones/editar/' + rowData.slug);
+					{ title: 'Fecha de publicación', field: 'created_at' },
+				]}
+				data={onFetch}
+				localization={tableLocation}
+				actions={[
+					{
+						icon: () => (<VisibilityIcon data-tour="show__noticia" />),
+						tooltip: 'Ver',
+						onClick: (event, rowData) => {
+							history.push('/noticias/' + rowData.slug);
+						},
 					},
-					disabled: !permissions.administrar.posts_edit
-				},
-				{
-					icon: () => (<Delete data-tour="delete__noticia" />),
-					tooltip: 'Eliminar',
-					onClick: (event, rowData) => {
-						const data = {
-							slug: rowData.slug,
-							title: rowData.title,
-						}
+					{
+						icon: () => (<Edit data-tour="edit__noticia" />),
+						tooltip: 'Editar',
+						onClick: (event, rowData) => {
+							history.push('/gedure/publicaciones/editar/' + rowData.slug);
+						},
+						disabled: !permissions.administrar.posts_edit
+					},
+					{
+						icon: () => (<Delete data-tour="delete__noticia" />),
+						tooltip: 'Eliminar',
+						onClick: (event, rowData) => {
+							const data = {
+								slug: rowData.slug,
+								title: rowData.title,
+							}
 
-						dispatch(updateDialogs('deleteConfirmation', true, false, data));
+							dispatch(updateDialogs('deleteConfirmation', true, false, data));
+						},
+						disabled: !permissions.administrar.posts_destroy
 					},
-					disabled: !permissions.administrar.posts_destroy
-				},
-			]}
-			options={{
-				sorting: false,
-				draggable: false,
-				actionsColumnIndex: -1,
-			}}
-		/>
+				]}
+				options={{
+					sorting: false,
+					draggable: false,
+					actionsColumnIndex: -1,
+				}}
+			/>
+		</div>
 	)
 }

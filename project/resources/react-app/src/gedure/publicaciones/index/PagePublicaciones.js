@@ -15,6 +15,7 @@ import useFetch from '../../../hooks/useFetch';
 // Components
 import TablePosts from './TablePosts';
 import DialogConfirmation from '../../../components/DialogConfirmation';
+import TourPublicaciones from './TourPublicaciones';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -81,6 +82,7 @@ export default function PagePublicaciones() {
 							onClick={handleClick} 
 							variant='contained' 
 							color='primary'
+							data-tour='create'
 							disabled={!permissions?.administrar?.posts_create}
 						>
 							Crear publicación
@@ -94,6 +96,7 @@ export default function PagePublicaciones() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourPublicaciones />
 		</main>
 	);
 }

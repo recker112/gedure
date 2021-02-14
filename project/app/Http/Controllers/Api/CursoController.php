@@ -51,6 +51,16 @@ class CursoController extends Controller
 		if (!$curso) {
 			$curso = Curso::create($data);
 			
+			$payload = [
+				'curso' => $curso->code,
+			];
+			
+			$request->user()->logs()->create([
+				'action' => "Curso creado",
+				'payload' => json_encode($payload),
+				'type' => 'gedure'
+			]);
+			
 			return response()->json([
 				'msg' => "Curso $curso->code creado"
 			], 201);
@@ -61,14 +71,28 @@ class CursoController extends Controller
 		}
 	}
 	
-	public function destroy($id) {
+	public function destroy($id, $massive = false) {
 		$curso = Curso::findOrFail(intVal($id));
 		
 		// Eliminar boletas
 		$boletas = Boleta::where('curso_id', intVal($id))->get();
 		$controller = new BoletaController();
+		$countBoletas = count($boletas);
 		foreach($boletas as $boleta) {
 			$controller->destroy($boleta->id);
+		}
+		
+		if (!$massive) {
+			$payload = [
+				'curso' => $curso->code,
+				'boletas' => $countBoletas,
+			];
+			
+			request()->user()->logs()->create([
+				'action' => "Curso eliminado",
+				'payload' => json_encode($payload),
+				'type' => 'gedure'
+			]);
 		}
 		
 		$curso->delete();
@@ -83,16 +107,29 @@ class CursoController extends Controller
 		$ids = json_decode(urldecode($request->ids));
 		
 		$i=0;
+		$names=[];
 		foreach($ids as $id) {
 			$curso = Curso::find($id);
 			
 			if ($curso) {
-				$this->destroy($curso->id);
+				$names[]=$curso->code;
+				$this->destroy($curso->id, true);
 				$i++;
 			}
 		}
+		
+		$payload = [
+			'cursos' => count($ids),
+			'names' => $names,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Cursos eliminados masivamente",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
 		return response()->json([
-			'msg' => "$i boletas eliminadas"
+			'msg' => "$i cursos eliminados"
 		],200);
 	}
 	

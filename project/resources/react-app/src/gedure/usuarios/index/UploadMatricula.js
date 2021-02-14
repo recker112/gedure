@@ -35,7 +35,7 @@ export default function UploadMatricula() {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, register, errors } = useForm();
+	const { handleSubmit, register, errors, watch } = useForm();
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -106,7 +106,12 @@ export default function UploadMatricula() {
 						</label>
 						{Boolean(errors.database) && (
 							<Box ml={2} color='#f44336'>
-								<Typography >{errors.boleta.message}</Typography>
+								<Typography >{errors.database.message}</Typography>
+							</Box>
+						)}
+						{watch('database', []).length !== 0 && (
+							<Box ml={2}>
+								<Typography>Archivo cargado</Typography>
 							</Box>
 						)}
 					</Grid>

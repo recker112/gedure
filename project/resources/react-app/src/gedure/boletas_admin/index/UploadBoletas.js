@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
+import { Link as RouteLink } from 'react-router-dom';
+
 import {
 	Dialog,
 	DialogTitle,
@@ -11,6 +13,7 @@ import {
 	MenuItem,
 	Typography,
 	Box,
+	Link,
 } from '@material-ui/core';
 
 import useFetch from '../../../hooks/useFetch';
@@ -35,7 +38,7 @@ export default function UploadBoletas({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, control, register, errors } = useForm();
+	const { handleSubmit, control, register, errors, watch } = useForm();
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -93,7 +96,7 @@ export default function UploadBoletas({ tableRef }) {
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<DialogContentText>Recuerde que debe comprimir en <strong>ZIP</strong> todas las boletas que desee cargar.</DialogContentText>
+						<DialogContentText>Recuerde que debe comprimir en <strong>ZIP</strong> todas las boletas que desee cargar. Para <strong>más información</strong> de cómo cargar boletas de click <Link component={RouteLink} to='/gedure/preguntas-frecuentes'>aquí</Link>.</DialogContentText>
 					</Grid>
 					<Grid container alignItems='center' item xs={12}>
 						<input
@@ -112,7 +115,12 @@ export default function UploadBoletas({ tableRef }) {
 						</label>
 						{Boolean(errors.boletas) && (
 							<Box ml={2} color='#f44336'>
-								<Typography >{errors.boletas.message}</Typography>
+								<Typography>{errors.boletas.message}</Typography>
+							</Box>
+						)}
+						{watch('boletas', []).length !== 0 && (
+							<Box ml={2}>
+								<Typography>Archivo cargado</Typography>
 							</Box>
 						)}
 					</Grid>

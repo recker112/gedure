@@ -24,6 +24,7 @@ import CreateUser from './CreateUser';
 import UploadMatricula from './UploadMatricula';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 import UpdateSeccion from './UpdateSeccion';
+import TourUsuarios from './TourUsuarios';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -135,6 +136,7 @@ export default function PageUserIndex() {
 							className={classes.button} 
 							variant='contained' 
 							color='primary'
+							data-tour='upload_studiends'
 							disabled={!permissions.administrar?.users_upload_matricula}
 						>
 							Cargar estudiantes
@@ -143,6 +145,7 @@ export default function PageUserIndex() {
 							onClick={()=>dispatch(updateDialogs('crearUser', true, false))} 
 							variant='contained' 
 							color='primary'
+							data-tour='create_user'
 							disabled={!permissions.administrar?.users_create}
 						>
 							Crear usuario
@@ -154,6 +157,7 @@ export default function PageUserIndex() {
 								<Button 
 									onClick={()=> setOpenFilter(!openFilter)} 
 									startIcon={<FilterListIcon />}
+									data-tour='filters'
 								>
 									Filtrador
 								</Button>
@@ -254,6 +258,7 @@ export default function PageUserIndex() {
 				)}
 				<UpdateSeccion tableRef={tableRef} />
 			</Container>
+			<TourUsuarios />
 		</main>
 	);
 }

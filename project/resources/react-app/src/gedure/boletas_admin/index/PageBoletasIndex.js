@@ -20,6 +20,7 @@ import { CursosList, SeccionList } from '../../../components/funciones/CursosLis
 import TableBoletas from './TableBoletas';
 import DeleteBoletas from './DeleteBoletas';
 import UploadBoletas from './UploadBoletas';
+import TourBoletasAdmin from './TourBoletasAdmin';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -91,6 +92,7 @@ export default function PageBoletasIndex() {
 							onClick={()=>dispatch(updateDialogs('uploadBoletas', true, false))} 
 							variant='contained' 
 							color='primary'
+							data-tour="upload"
 							disabled={!permissions?.administrar?.boletas_upload}
 						>
 							Cargar boletas
@@ -103,6 +105,7 @@ export default function PageBoletasIndex() {
 								<Button 
 									onClick={()=> setOpenFilter(!openFilter)} 
 									startIcon={<FilterListIcon />}
+									data-tour="filters"
 								>
 									Filtrador
 								</Button>
@@ -172,6 +175,7 @@ export default function PageBoletasIndex() {
 				</Grid>
 				<DeleteBoletas tableRef={tableRef} />
 				<UploadBoletas tableRef={tableRef} />
+				<TourBoletasAdmin />
 			</Container>
 		</main>
 	);

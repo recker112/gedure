@@ -58,34 +58,36 @@ export default function TableRegistros({ tableRef, filters }) {
 	}, [loading, filters]);
 	
 	return (
-		<MaterialTable
-			tableRef={tableRef}
-			title="Registros del sistema" 
-			icons={tableIcons}
-			columns={[
-				{title: 'Usuario', field: 'username'},
-				{title: 'Nombre', field: 'name'},
-				{title: 'Acción', field: 'action'},
-				{title: 'Fecha', field: 'created_at'}
-			]}
-			data={onFetch}
-			localization={tableLocation}
-			actions={[
-				{
-					icon: () => (<VisibilityIcon />),
-					tooltip: 'Ver',
-					onClick: (event, rowData) => {
-						rowData.date = format(new Date(rowData.date_format), 'dd/mm/yy');
-						rowData.hours = format(new Date(rowData.date_format), 'hh:mm a');
-						dispatch(updateDialogs('showRegistros', true, false, rowData));
+		<div data-tour='table'>
+			<MaterialTable
+				tableRef={tableRef}
+				title="Registros del sistema" 
+				icons={tableIcons}
+				columns={[
+					{title: 'Usuario', field: 'username'},
+					{title: 'Nombre', field: 'name'},
+					{title: 'Acción', field: 'action'},
+					{title: 'Fecha', field: 'created_at'}
+				]}
+				data={onFetch}
+				localization={tableLocation}
+				actions={[
+					{
+						icon: () => (<VisibilityIcon data-tour='show_registro' />),
+						tooltip: 'Ver',
+						onClick: (event, rowData) => {
+							rowData.date = format(new Date(rowData.date_format), 'dd/mm/yy');
+							rowData.hours = format(new Date(rowData.date_format), 'hh:mm a');
+							dispatch(updateDialogs('showRegistros', true, false, rowData));
+						},
 					},
-				},
-			]}
-			options={{
-				sorting: false,
-				draggable: false,
-				actionsColumnIndex: -1,
-			}}
-		/>
+				]}
+				options={{
+					sorting: false,
+					draggable: false,
+					actionsColumnIndex: -1,
+				}}
+			/>
+		</div>
 	);
 }

@@ -122,6 +122,19 @@ class BoletaController extends Controller
 		$boleta->updated_at = now();
 		$boleta->save();
 		
+		$payload = [
+			'username' => $boleta->user->username,
+			'name' => $boleta->user->name,
+			'curso' => $boleta->curso->curso,
+			'seccion' => $boleta->curso->seccion,
+			'lapso' => $boleta->lapso,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Boleta editada",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
 		
 		return response()->json([
 				'msg' => 'Boleta actualizada',
@@ -196,18 +209,47 @@ class BoletaController extends Controller
 			}
 		}
 		
+		$payload = [
+			'boletas' => $i,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Boletas cargadas",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
+		
 		return response()->json([
 			'msg' => "$i boletas asignadas",
 		],200);
 	}
 	
-	public function destroy($id)
+	public function destroy($id, $massive = false)
 	{
 		$boleta = Boleta::findOrFail(intVal($id));
 		$filePath = $boleta->boleta;
+		$boleta_curso = $boleta->curso->curso;
+		$boleta_seccion = $boleta->curso->seccion;
+		$boleta_username = $boleta->user->username;
+		$boleta_name = $boleta->user->name;
 		
 		if ($boleta->forceDelete() && Storage::exists($filePath)) {
 			Storage::delete($filePath);
+			
+			if (!$massive) {
+				$payload = [
+					'curso' => $boleta_curso,
+					'seccion' => $boleta_seccion,
+					'username' => $boleta_username,
+					'name' => $boleta_name,
+				];
+
+				request()->user()->logs()->create([
+					'action' => "Boleta eliminada",
+					'payload' => json_encode($payload),
+					'type' => 'gedure'
+				]);
+			}
 			
 			return response()->json([
 				'msg' => "Boletas eliminada",
@@ -232,10 +274,21 @@ class BoletaController extends Controller
 				->first();
 			
 			if ($boleta) {
-				$this->destroy($boleta->id);
+				$this->destroy($boleta->id, true);
 				$i++;
 			}
 		}
+		
+		$payload = [
+			'boletas' => $i,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Boletas eliminadas masivamente",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
+		
 		return response()->json([
 			'msg' => "$i boletas eliminadas"
 		],200);

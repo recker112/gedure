@@ -18,6 +18,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 // Components
 import TableRegistros from './TableRegistros';
 import ShowRegistro from './ShowRegistro';
+import TourRegistros from './TourRegistros';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -75,6 +76,7 @@ export default function PageRegistros() {
 							<Button 
 								onClick={()=> setOpenFilter(!openFilter)} 
 								startIcon={<FilterListIcon />}
+								data-tour='filters'
 							>
 								Filtrador
 							</Button>
@@ -114,6 +116,7 @@ export default function PageRegistros() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourRegistros />
 		</main>
 	);
 }

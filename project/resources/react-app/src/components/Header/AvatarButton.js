@@ -132,7 +132,7 @@ function AvatarButton({ ...rest }) {
 					horizontal: 'right',
 				}}
 			>
-				<Paper style={{minWidth: 200}} data-tour='avatar__menu--despliegue'>
+				<Paper style={{minWidth: 200}}>
 					<Grid container direction='column' className={classes.padding}>
 						<Grid container justify='center' item>
 							<Avatar 

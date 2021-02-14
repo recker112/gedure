@@ -1,6 +1,6 @@
 {
   "name": "Gedure",
-  "version": "5.0.0-Alpha.0",
+  "version": "5.0.0-Alpha.1",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",

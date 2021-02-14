@@ -82,130 +82,133 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 	}, [loading]);
 	
 	return (
-		<MaterialTable
-			tableRef={tableRef}
-			title="Lista de usuarios" 
-			icons={tableIcons}
-			localization={tableLocation}
-			data={onFetch}
-			onChangeRowsPerPage={pageSize => handleChange(pageSize)}
-			columns={[
-				{
-					title: 'Avatar',
-					field: 'avatar',
-					render: (rowData) => (
-						<Avatar 
-							className={classes.avatar}
-							src={rowData.avatar} 
-							alt={`Avatar User de ${rowData.name}`}
-						>
-							{rowData.name.substring(0, 1).toUpperCase()}
-						</Avatar>
-					),
-				},
-				{
-					title: 'Usuario',
-					field: 'username',
-					render: (rowData) => {
-						if (rowData.privilegio === 'V-' && rowData.n_lista) {
-							return (
-								<React.Fragment>
-									<div>{rowData.privilegio+rowData.username}</div>
-									<div>N° lista {rowData.n_lista}</div>
-								</React.Fragment>
-							)
-						}else {
-							return `${rowData.privilegio}${rowData.username}`
-						}
+		<div data-tour='table'>
+			<MaterialTable
+				tableRef={tableRef}
+				title="Lista de usuarios" 
+				icons={tableIcons}
+				localization={tableLocation}
+				data={onFetch}
+				onChangeRowsPerPage={pageSize => handleChange(pageSize)}
+				columns={[
+					{
+						title: 'Avatar',
+						field: 'avatar',
+						render: (rowData) => (
+							<Avatar 
+								className={classes.avatar}
+								src={rowData.avatar} 
+								alt={`Avatar User de ${rowData.name}`}
+							>
+								{rowData.name.substring(0, 1).toUpperCase()}
+							</Avatar>
+						),
 					},
-				},
-				{title: 'Nombre', field: 'name'},
-				{title: 'Correo', field: 'email'},
-				{
-					title: 'Estado', 
-					field: 'actived_at',
-					render: (rowData) => (
-						<Chip 
-							color={rowData.actived_at ? 'primary':'default'}
-							label={rowData.actived_at ? 'Activo':'Inactivo'}
-						/>
-					),
-				},
-			]}
-			actions={[
-				{
-					icon: () => (<GroupIcon />),
-					tooltip: 'Opciones masivas',
-					isFreeAction: true,
-					onClick: (event, rowData) => {
-						handleMassive();
-					},
-				},
-				{
-					icon: () => (<PersonIcon />),
-					tooltip: 'Ver',
-					hidden: massiveDelete,
-					onClick: (event, rowData) => {
-						history.push(`/gedure/usuarios/ver/${rowData.id}`);
-					},
-				},
-				() => {
-					let hidden = true;
-					if (filters.type === 'V-' || filters.type === 'V-NA') {
-						if (massiveDelete) {
-							hidden = false;
-						}
-					}
-					return ({
-						icon: () => (<ClassIcon />),
-						tooltip: 'Cambiar sección',
-						hidden,
-						disabled: !permissions.administrar?.users_edit,
-						onClick: (event, rowData) => {
-							let i = 0;
-							let newData = [];
-							for(let value of rowData){
-								newData[i] = value.id;
-								i++;
+					{
+						title: 'Usuario',
+						field: 'username',
+						render: (rowData) => {
+							if (rowData.privilegio === 'V-' && rowData.n_lista) {
+								return (
+									<React.Fragment>
+										<div>{rowData.privilegio+rowData.username}</div>
+										<div>N° lista {rowData.n_lista}</div>
+									</React.Fragment>
+								)
+							}else {
+								return `${rowData.privilegio}${rowData.username}`
 							}
-							dispatch(updateDialogs('updateSeccion', true, false, newData));
 						},
-					})
-				},
-				{
-					icon: () => (<Delete />),
-					tooltip: 'Desactivar cuenta',
-					disabled: !permissions.administrar?.users_delete,
-					onClick: (event, rowData) => {
-						if (!massiveDelete) {
-							const data = {
-								id: rowData.id,
-								username: rowData.username,
-							}
-							dispatch(updateDialogs('deleteConfirmation', true, false, data));
-						}else {
-							let i = 0;
-							let newData = [];
-							for(let value of rowData){
-								newData[i] = value.id;
-								i++;
-							}
-							dispatch(updateDialogs('deleteConfirmation', true, false, {
-								deleteMassive: true,
-								ids: newData
-							}));
-						}
 					},
-				},
-			]}
-			options={{
-				sorting: false,
-				draggable: false,
-				actionsColumnIndex: -1,
-				selection: massiveDelete,
-				pageSizeOptions: [5,10,20,30,40],
-				pageSize: pageSizeController,
-			}}
-		/>
+					{title: 'Nombre', field: 'name'},
+					{title: 'Correo', field: 'email'},
+					{
+						title: 'Estado', 
+						field: 'actived_at',
+						render: (rowData) => (
+							<Chip 
+								color={rowData.actived_at ? 'primary':'default'}
+								label={rowData.actived_at ? 'Activo':'Inactivo'}
+								data-tour='status'
+							/>
+						),
+					},
+				]}
+				actions={[
+					{
+						icon: () => (<GroupIcon data-tour="massive" />),
+						tooltip: 'Opciones masivas',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							handleMassive();
+						},
+					},
+					{
+						icon: () => (<PersonIcon data-tour="show" />),
+						tooltip: 'Ver',
+						hidden: massiveDelete,
+						onClick: (event, rowData) => {
+							history.push(`/gedure/usuarios/ver/${rowData.id}`);
+						},
+					},
+					() => {
+						let hidden = true;
+						if (filters.type === 'V-' || filters.type === 'V-NA') {
+							if (massiveDelete) {
+								hidden = false;
+							}
+						}
+						return ({
+							icon: () => (<ClassIcon />),
+							tooltip: 'Cambiar sección',
+							hidden,
+							disabled: !permissions.administrar?.users_edit,
+							onClick: (event, rowData) => {
+								let i = 0;
+								let newData = [];
+								for(let value of rowData){
+									newData[i] = value.id;
+									i++;
+								}
+								dispatch(updateDialogs('updateSeccion', true, false, newData));
+							},
+						})
+					},
+					{
+						icon: () => (<Delete data-tour="delete" />),
+						tooltip: 'Desactivar cuenta',
+						disabled: !permissions.administrar?.users_delete,
+						onClick: (event, rowData) => {
+							if (!massiveDelete) {
+								const data = {
+									id: rowData.id,
+									username: rowData.username,
+								}
+								dispatch(updateDialogs('deleteConfirmation', true, false, data));
+							}else {
+								let i = 0;
+								let newData = [];
+								for(let value of rowData){
+									newData[i] = value.id;
+									i++;
+								}
+								dispatch(updateDialogs('deleteConfirmation', true, false, {
+									deleteMassive: true,
+									ids: newData
+								}));
+							}
+						},
+					},
+				]}
+				options={{
+					sorting: false,
+					draggable: false,
+					actionsColumnIndex: -1,
+					selection: massiveDelete,
+					pageSizeOptions: [5,10,20,30,40],
+					pageSize: pageSizeController,
+				}}
+			/>
+		</div>
 	);
 }
