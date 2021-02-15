@@ -105,7 +105,7 @@ function SectionDirectivo() {
 	
 	const personas = [
 		{
-			avatar: padre_jose,
+			avatar: padreJoseImg,
 			nombre: 'José Bracamonte',
 			cargo: 'Director General',
 			alt: 'Foto de José Bracamonte'

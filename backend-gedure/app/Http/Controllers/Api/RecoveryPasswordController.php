@@ -35,7 +35,7 @@ class RecoveryPasswordController extends Controller
 			$step=0;
 		}else {
 			// Si existe un registro
-			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(2);
+			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(4);
 			$timeCreated = $user->recoveryPassword->created_at->addMinutes(10);
 			
 			if ($user->recoveryPassword && $timeNow >= $timeCreated) {
@@ -76,7 +76,7 @@ class RecoveryPasswordController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => 'Correo enviado',
+			'msg' => 'Correo solicitado',
 			'step' => $step,
 		], 200);
 	}

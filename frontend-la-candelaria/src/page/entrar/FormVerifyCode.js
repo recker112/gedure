@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ResendEmail(props) {
 	const { loading, handleSendEmail } = props;
-	const [wait, setWait] = useState(120);
+	const [wait, setWait] = useState(240);
 	let divisor_for_minutes = wait % (60 * 60);
 	let minutes = Math.floor(divisor_for_minutes / 60);
 	let divisor_for_seconds = divisor_for_minutes % 60;
@@ -54,7 +54,7 @@ function ResendEmail(props) {
 		if (wait) {
 			timer = setTimeout(waitTwoMinutes,1000);
 		}else if (loading) {
-			setWait(120);
+			setWait(240);
 		}
 		
 		return ()=> clearTimeout(timer);
@@ -78,7 +78,7 @@ function ResendEmail(props) {
 			className={classes.textButton}
 			onClick={!loading ? handleSendEmail : null}
 		>
-			Reenviar mensaje
+			Solicitar nuevamente el código
 		</Typography>
 	);
 }
@@ -127,7 +127,6 @@ function FormVerifyCode({ nextStep }) {
 			const prepareDate = {
 				url: 'v1/recovery-password',
 				data: data,
-				successText: 'Correo enviado',
 				message404: 'Correo no encontrado',
 			}
 

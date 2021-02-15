@@ -131,7 +131,7 @@ function FormLogin() {
 					/>
 				</Grid>
 				
-				<Grid item xs={12}>
+				<Grid container justify='flex-start' item xs={12}>
 					<Link component={RouterLink} to='/recuperar'>
 						<Typography>Recuperar contraseña</Typography>
 					</Link>
