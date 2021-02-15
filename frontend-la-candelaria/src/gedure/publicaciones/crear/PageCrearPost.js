@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useHistory } from 'react-router-dom';
 
 import { 
 	Grid, 
@@ -48,6 +48,8 @@ export default function PageCrearPost() {
 		loading: state.forms.crearPost.loading,
 	}));
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const { fetchData } = useFetch();
 	
@@ -100,6 +102,7 @@ export default function PageCrearPost() {
 
 		if (response) {
 			setProgress(0);
+			history.push('/gedure/publicaciones');
 		}
 		
 		dispatch(updateForms('crearPost', false, {}));
