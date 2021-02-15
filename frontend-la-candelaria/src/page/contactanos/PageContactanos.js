@@ -13,6 +13,12 @@ import Footer from '../../components/Footer';
 import FormContact from './FormContact';
 import GoogleMaps from './GoogleMaps';
 import ardisImg from '../../imgs/directivo/ardis.png';
+import erikaImg from '../../imgs/directivo/erika.jpeg';
+import maryanImg from '../../imgs/directivo/maryan.png';
+import padreJoseImg from '../../imgs/directivo/padre_jose.png';
+import rafaelImg from '../../imgs/directivo/rafael.png';
+import rhadysImg from '../../imgs/directivo/rhadys.png';
+import mirtaImg from '../../imgs/directivo/mirta.jpeg';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -99,7 +105,7 @@ function SectionDirectivo() {
 	
 	const personas = [
 		{
-			avatar: null,
+			avatar: padre_jose,
 			nombre: 'José Bracamonte',
 			cargo: 'Director General',
 			alt: 'Foto de José Bracamonte'
@@ -111,31 +117,31 @@ function SectionDirectivo() {
 			alt: 'Foto de Roberto Puerta'
 		},
 		{
-			avatar: null,
+			avatar: rhadysImg,
 			nombre: 'Rhadys Garcia',
 			cargo: 'Sub-Directora Administrativa',
 			alt: 'Foto de Rhadys Garcia'
 		},
 		{
-			avatar: null,
+			avatar: maryanImg,
 			nombre: 'Maryan Trujillo',
 			cargo: 'Sub-Directora Académica',
 			alt: 'Foto de Maryan Trujillo'
 		},
 		{
-			avatar: null,
+			avatar: rafaelImg,
 			nombre: 'Rafael Ortiz',
 			cargo: 'Coordinador de Control de Estudios',
 			alt: 'Foto de Rafael Ortiz'
 		},
 		{
-			avatar: null,
+			avatar: maryanImg,
 			nombre: 'Maria Puerta',
 			cargo: 'Coordinadora de Evaluación',
 			alt: 'Foto de Maria Puerta'
 		},
 		{
-			avatar: null,
+			avatar: erikaImg,
 			nombre: 'Erika Arguinzone',
 			cargo: 'Coordinadora de Pasantías',
 			alt: 'Foto de Erika Arguinzone'
@@ -147,7 +153,7 @@ function SectionDirectivo() {
 			alt: 'Foto de Ardis Arteaga'
 		},
 		{
-			avatar: null,
+			avatar: mirtaImg,
 			nombre: 'Mirta Lira',
 			cargo: 'Coordinadora del Centro Taller Artesanal',
 			alt: 'Foto de Mirta Lira'
