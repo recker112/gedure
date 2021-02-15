@@ -50,10 +50,8 @@ class InvitationControllerTest extends TestCase
 			'curso' => '1',
 			'seccion' => 'A',
 			'permissions' => [
-				'boletas' => true,
-				'horarios' => true,
-				'soporte' => true,
-				'account_exonerada' => false,
+				'boleta_download' => true,
+				'change_avatar' => true,
 			]
 		]);
 		
@@ -93,6 +91,7 @@ class InvitationControllerTest extends TestCase
 		$response->assertOk()
 			->assertJsonStructure([
 				'name',
+				'username',
 			]);
 	}
 	

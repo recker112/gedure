@@ -55,7 +55,12 @@
 		}
 		
 		.button {
-			background-color: #64a7d6 !important;
+			background-color: #1976d2 !important;
+			text-decoration: none;
+			color: white;
+			padding: 10px 20px;
+			border-radius: 10px;
+			font-size: 22px;
 		}
 		
 		.footer {
@@ -67,11 +72,6 @@
 			opacity: 0.6;
 		}
 	</style>
-	<!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-	<!-- Compiled and minified JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 	<div class='container'>
@@ -84,10 +84,10 @@
 		<div class='main'>
 			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
-				Fuiste invitado al sistema, de click en el botón para iniciar el proceso de registro.
+				Fuiste invitado al sistema, de click en el botón para poder saber cuál es su usuario y crear una contraseña.
 			</p>
 			<div class='main__button main__line'>
-				<a target='_blank' href='{{ config('app.url', '') }}/invitacion/{{ $key }}' class="waves-effect waves-light btn button">
+				<a target='_blank' href='{{ config('app.url', '') }}/invitacion/{{ $key }}' class="button">
 					Aceptar invitación
 				</a>
 			</div>
