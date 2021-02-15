@@ -105,6 +105,25 @@ export default function ShowRegistros() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
+		}else if (data.action === 'Usuario invitado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) invitó a un usuario con los siguientes datos:
+					<br />
+					<br />
+					<strong>Usuario:</strong> {data.payload.privilegio}{data.payload.username}.
+					<br />
+					<strong>Nombre:</strong> {data.payload.name}.
+					<br />
+					<strong>Correo:</strong> {data.payload.email}.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Contraseña creada por invitación') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó una contraseña por medio de la invitación via correo.
+				</DialogContentText>
+			);
 		}else if (data.action === 'Usuario editado') {
 			return (
 				<DialogContentText>

@@ -223,7 +223,7 @@ class BoletaControllerTest extends TestCase
 		$this->testBoletasUpload();
 		
 		$user = User::firstWhere('username', '10814755454');
-		$user->givePermissionTo('boletas');
+		$user->givePermissionTo('boleta_download');
 		Passport::actingAs(
 			$user,
 			['user']

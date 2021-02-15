@@ -66,6 +66,19 @@ class InvitationController extends Controller
 		
 		Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));
 		
+		//Log
+		$payload = [
+			'privilegio' => $user->privilegio,
+			'username' => $user->username,
+			'email' => $user->email,
+			'name' => $user->name,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Usuario invitado',
+			'payload' => json_encode($payload),
+			'type' => 'user',
+		]);
+		
 		return response()->json([
 			'msg' => 'Invitación enviada'
 		],201);
@@ -77,7 +90,7 @@ class InvitationController extends Controller
 		$key = Invitation::where('invitation_key', $key)->firstOrFail();
 		$user = $key->user;
 		
-		return response()->json($user->only(['name']),200);
+		return response()->json($user->only(['name', 'username']),200);
 	}
 	
 	public function resend($id)
@@ -113,6 +126,11 @@ class InvitationController extends Controller
 		$user->save();
 		
 		$key->delete();
+		
+		$user->logs()->create([
+			'action' => 'Contraseña creada por invitación',
+			'type' => 'user',
+		]);
 		
 		return response()->json([
 			'msg' => 'Contraseña creada correctamente'
