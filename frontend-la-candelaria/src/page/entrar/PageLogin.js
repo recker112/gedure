@@ -79,7 +79,7 @@ function Aside() {
 	);
 }
 
-function PageLogin() {
+export default function PageLogin() {
 	document.title = 'La Candelaria - Entrar';
 	
 	const classes = useStyles();
@@ -106,5 +106,3 @@ function PageLogin() {
 		</ReloginComponent>
 	);
 }
-
-export default PageLogin;
