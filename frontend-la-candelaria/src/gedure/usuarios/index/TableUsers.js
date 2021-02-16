@@ -12,6 +12,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Delete from '@material-ui/icons/Delete';
 import GroupIcon from '@material-ui/icons/Group';
 import ClassIcon from '@material-ui/icons/Class';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -141,6 +142,14 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 						isFreeAction: true,
 						onClick: (event, rowData) => {
 							handleMassive();
+						},
+					},
+					{
+						icon: () => (<RefreshIcon data-tour="refresh" />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
 						},
 					},
 					{

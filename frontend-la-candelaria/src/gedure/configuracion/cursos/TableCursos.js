@@ -6,6 +6,7 @@ import {
 import MaterialTable from 'material-table';
 import GroupIcon from '@material-ui/icons/Group';
 import Delete from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -69,7 +70,7 @@ export default function TableUsers({ tableRef }) {
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Código',
+						title: 'Cรณdigo',
 						field: 'code',
 						render: (rowData) => `${rowData.curso}-${rowData.seccion}`
 					},
@@ -79,7 +80,7 @@ export default function TableUsers({ tableRef }) {
 						render: (rowData) => converterCursoCode(rowData.curso)
 					},
 					{
-						title: 'Sección', 
+						title: 'Secciรณn', 
 						field: 'seccion'
 					},
 				]}
@@ -89,6 +90,14 @@ export default function TableUsers({ tableRef }) {
 						tooltip: 'Opciones masivas',
 						isFreeAction: true,
 						onClick: handleMassive,
+					},
+					{
+						icon: () => (<RefreshIcon />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
+						},
 					},
 					{
 						icon: () => (<Delete />),

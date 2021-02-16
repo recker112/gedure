@@ -7,6 +7,7 @@ import MaterialTable from 'material-table';
 import GroupIcon from '@material-ui/icons/Group';
 import RestoreIcon from '@material-ui/icons/Restore';
 import Delete from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -88,6 +89,14 @@ export default function TableUsersDisabled({ tableRef }) {
 						tooltip: 'Opciones masivas',
 						isFreeAction: true,
 						onClick: handleMassive,
+					},
+					{
+						icon: () => (<RefreshIcon />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
+						},
 					},
 					{
 						icon: () => (<RestoreIcon />),

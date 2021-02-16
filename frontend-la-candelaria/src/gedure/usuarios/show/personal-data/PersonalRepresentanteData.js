@@ -45,7 +45,7 @@ export function PersonalRepresentanteDataForm(props) {
 	} = props;
 	
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} autoComplete='off'>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
@@ -248,8 +248,7 @@ export function PersonalRepresentanteDataForm(props) {
 						control={control}
 						defaultValue={user.personal_data.repre_nacimiento ? format(new Date(user.personal_data.repre_nacimiento), 'yyyy/MM/dd') : ''}
 						rules={{ 
-							required: { value: true, message: '* Campo requerido' },
-							valueAsDate: true,
+							required: { value: true, message: '* Campo requerido' }
 						}}
 					/>
 				</Grid>

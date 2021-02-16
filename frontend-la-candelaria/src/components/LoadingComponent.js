@@ -45,7 +45,7 @@ function LoadingComponent(props) {
 			);
 		}
 
-		return <CircularProgress color={color} />;
+		return <CircularProgress color={color} size={props.size} />;
 	};
 
 	if (loading && !backDrop) {

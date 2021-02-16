@@ -23,7 +23,7 @@ export default function TourBoletasAdmin() {
 					<Typography variant='body1'>
 						En esta sección podrá <strong>cargar, ver, editar, y eliminar</strong> las boletas de distintos estudiantes.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(5)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(6)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -70,6 +70,17 @@ export default function TourBoletasAdmin() {
 			content: () => (
 				<Typography variant='body1'>
 					Este botón le permite activar las <strong>opciones masivas</strong> donde podrá <strong>eliminar boletas de varios estudiantes</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="refresh"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {

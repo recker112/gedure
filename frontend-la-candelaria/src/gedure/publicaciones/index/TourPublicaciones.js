@@ -23,7 +23,7 @@ export default function TourPublicaciones() {
 					<Typography variant='body1'>
 						En esta sección podrá <strong>crear, editar y eliminar</strong> publicaciones.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(3)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(4)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -48,6 +48,17 @@ export default function TourPublicaciones() {
 			content: () => (
 				<Typography variant='body1'>
 					Aquí podrá observar las publicaciones del sistema, puede buscarlas por <strong>Usuario</strong>, <strong>Título</strong> o <strong>Fecha</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="refresh"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {

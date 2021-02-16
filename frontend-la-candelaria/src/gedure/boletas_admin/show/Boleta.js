@@ -20,6 +20,7 @@ import useFetch from '../../../hooks/useFetch';
 // Components
 import converterCursoCode from '../../../components/funciones/converterCursoCode';
 import downloadFiles from '../../../components/funciones/downloadFiles';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -59,8 +60,10 @@ export default function Boleta(props) {
 	];
 	
 	const [random] = useState(getRandomInt(listColors.length -1));
+	const [loading, setLoading] = useState(false);
 	
 	const onDownload = async () => {
+		setLoading(true);
 		const prepare = {
 			url: `v1/download/boleta/${id}`,
 			type: 'get',
@@ -74,6 +77,7 @@ export default function Boleta(props) {
 
 		if (response) {
 			downloadFiles(response, `Boleta_${curso_boleta.curso}_${curso_boleta.seccion}_${lapso}_lapso.pdf`);
+			setLoading(false);
 		}else {
 			handleRefresh();
 		}
@@ -122,7 +126,7 @@ export default function Boleta(props) {
 						</Box>
 					</Box>
 				</Box>
-				<Box align='right'>
+				<Grid container justify='flex-end' alignItems='center'>
 					<Tooltip title="Eliminar" arrow>
 						<IconButton 
 							onClick={onDelete} 
@@ -141,12 +145,14 @@ export default function Boleta(props) {
 							<FileReplace />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title="Descargar" arrow>
-						<IconButton onClick={onDownload} component='span'>
-							<GetAppIcon />
-						</IconButton>
-					</Tooltip>
-				</Box>
+					<LoadingComponent loading={loading}>
+						<Tooltip title="Descargar" arrow>
+							<IconButton onClick={onDownload} component='span'>
+								<GetAppIcon />
+							</IconButton>
+						</Tooltip>
+					</LoadingComponent>
+				</Grid>
 			</Paper>
 		</Grid>
 	);

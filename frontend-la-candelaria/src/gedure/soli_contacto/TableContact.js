@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../hooks/useFetch';
 
@@ -63,6 +64,14 @@ export default function TableUsers({ tableRef }) {
 					{title: 'Fecha', field: 'created_at',},
 				]}
 				actions={[
+					{
+						icon: () => (<RefreshIcon data-tour="refresh" />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
+						},
+					},
 					{
 						icon: () => (<VisibilityIcon data-tour="show" />),
 						tooltip: 'Ver solicitud',

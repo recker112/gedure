@@ -23,7 +23,7 @@ export default function TourUsuarios() {
 					<Typography variant='body1'>
 						En esta sección podrá administrar a todos los usuarios del sistema.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(9)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(10)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -92,6 +92,17 @@ export default function TourUsuarios() {
 			content: () => (
 				<Typography variant='body1'>
 					Este botón le permite usar las <strong>opciones masivas</strong>, con lo cual podrá <strong>seleccionar varios usuarios</strong> y realizar distintas acciones como: <strong>Desactivar usuarios</strong> y <strong>Cambiar de sección a estudiantes</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="refresh"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {

@@ -26,7 +26,7 @@ class UserEditRequest extends FormRequest
 	{
 		return [
 			'username' => 'nullable|string|unique:users|min:3|max:30',
-			'name' => 'nullable|string|min:8|max:255',
+			'name' => 'nullable|string|min:3|max:255',
 			'privilegio' => 'nullable|string|min:2|max:4',
 			'email' => 'nullable|email|unique:users',
 			'password' => 'nullable|string|min:4',
