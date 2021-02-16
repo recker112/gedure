@@ -17,13 +17,13 @@ function TourComponent({ steps, select }) {
 	const dispatch = useDispatch();
 	
 	const handleClose = ()=>{
-		dispatch(updateTour(false, select));
+		dispatch(updateTour(true, select));
 	}
 	
 	return (
 		<Tour 
 			steps={steps}
-			isOpen={tourOpen}
+			isOpen={!tourOpen}
 			disableInteraction={true}
 			onAfterOpen={() => {document.body.style.overflowY = 'hidden'}}
 			onBeforeClose={() => {document.body.style.overflowY = 'auto'}}

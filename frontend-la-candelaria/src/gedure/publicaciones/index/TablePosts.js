@@ -6,6 +6,7 @@ import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Edit from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -69,6 +70,14 @@ export default function TablePosts({ tableRef }) {
 				data={onFetch}
 				localization={tableLocation}
 				actions={[
+					{
+						icon: () => (<RefreshIcon data-tour="refresh" />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
+						},
+					},
 					{
 						icon: () => (<VisibilityIcon data-tour="show__noticia" />),
 						tooltip: 'Ver',

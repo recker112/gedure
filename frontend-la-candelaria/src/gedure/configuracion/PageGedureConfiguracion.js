@@ -19,7 +19,7 @@ import {
 	CircularProgress,
 	Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 // Components
 import TourGedure from './TourGedure';
@@ -53,15 +53,23 @@ function a11yProps(index) {
 	};
 }
 
-function LinkTab(props) {
-	return (
-		<Tab 
-			component={RouteLink}
-			to={props.value}
-			{...props}
-		/>
-	)
-}
+const LinkTabs = withStyles(theme => ({
+	indicator: {
+		backgroundColor: '#fff'
+	}
+}))(Tabs);
+
+const LinkTab = withStyles(theme => ({
+	root: {
+		color: '#fff'
+	}
+}))((props) => (
+	<Tab
+		component={RouteLink}
+		to={props.value}
+		{...props}
+	/>
+));
 
 function Loading() {
 	return (
@@ -126,7 +134,7 @@ export default function PageUserIndex() {
 						<Header />
 					</Grid>
 					<Grid item>
-						<Tabs
+						<LinkTabs
 							value={location.pathname}
 							centered
 						>
@@ -148,7 +156,7 @@ export default function PageUserIndex() {
 								data-tour='usuarios'
 								{...a11yProps(2)}
 							/>
-						</Tabs>
+						</LinkTabs>
 					</Grid>
 				</Grid>
 			</Slide>

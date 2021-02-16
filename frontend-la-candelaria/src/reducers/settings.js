@@ -1,22 +1,11 @@
 //Verificar si ya existe el almacenamiento local de la variable
 //theme para evitar reescribirla
-let dataTour = JSON.parse(localStorage.getItem('gd-tour')) || {};
-
 if (!localStorage.getItem('gd-theme')) {
 	localStorage.setItem('gd-theme', 'light');
 }
 
-if (Object.keys(dataTour).length === 0) {
-	dataTour.index_v1 = true;
-	dataTour.registros_v1 = true;
-	dataTour.usuarios_v1 = true;
-	dataTour.ver_usuarios_v1 = true;
-	dataTour.publicaciones_v1 = true;
-	dataTour.gedure_v1 = true;
-	dataTour.boletas_admin_v1 = true;
-	dataTour.cuenta_v1 = true;
-	dataTour.soli_contacto_v1 = true;
-	localStorage.setItem('gd-tour', JSON.stringify(dataTour));
+if (!localStorage.getItem('gd-tour')) {
+	localStorage.setItem('gd-tour', JSON.stringify({}));
 }
 
 //Inicar valor del state.
@@ -104,17 +93,13 @@ export default (state = initialState, { type, payload }) => {
 		}
 		
 		case 'RESET_TOURS': {
-			localStorage.removeItem('gd-tour');
-			
-			let tours = {};
-			for(const key in state.tour) {
-				tours[key] = true;
-			}
-			localStorage.setItem('gd-tour', JSON.stringify(tours));
+			localStorage.setItem('gd-tour', JSON.stringify({}));
 			
 			return {
 				...state,
-				tour: tours,
+				tour: {
+					...initialState.tour,
+				},
 			};
 		}
 			

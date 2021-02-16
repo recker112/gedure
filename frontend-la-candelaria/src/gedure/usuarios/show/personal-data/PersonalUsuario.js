@@ -59,7 +59,7 @@ export function PersonalUsuarioForm(props) {
 								onBlur={onBlur}
 								inputRef={ref}
 								onChange={date => {
-									onChange(format(date, 'yyyy/MM/dd'))
+									onChange(format(date, 'yyyy/MM/dd'));
 								}}
 								value={value}
 								helperText={errors?.personalData?.nacimiento?.message ? errors.personalData.nacimiento.message : ''}
@@ -72,8 +72,7 @@ export function PersonalUsuarioForm(props) {
 						control={control}
 						defaultValue={user.personal_data.nacimiento ? format(new Date(user.personal_data.nacimiento), 'yyyy/MM/dd') : ''}
 						rules={{ 
-							required: { value: true, message: '* Campo requerido' },
-							valueAsDate: true,
+							required: { value: true, message: '* Campo requerido' }
 						}}
 					/>
 				</Grid>

@@ -135,7 +135,7 @@ function SectionDirectivo() {
 			alt: 'Foto de Rafael Ortiz'
 		},
 		{
-			avatar: maryanImg,
+			avatar: null,
 			nombre: 'Maria Puerta',
 			cargo: 'Coordinadora de Evaluación',
 			alt: 'Foto de Maria Puerta'
