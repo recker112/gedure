@@ -63,7 +63,7 @@ export default function FormRegisterPassword({ invitationKey }) {
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<Typography>
-							Hola <strong>{data.name}</strong>, antes de poder entrar al sistema es necesario que <strong>cree una contraseña</strong>, use una contraseña que sea <strong>fácil de recordar para usted</strong>. Si pierde su contraseña es posible recuperarla mediante el correo electrónico.
+							Hola <strong>{data.name}</strong>, tu usuario dentro del sistema es <strong>{data.username}</strong> pero antes de poder entrar al sistema es necesario que <strong>cree una contraseña</strong>, use una contraseña que sea <strong>fácil de recordar para usted</strong>. Si pierde su contraseña es posible recuperarla mediante el correo electrónico.
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>

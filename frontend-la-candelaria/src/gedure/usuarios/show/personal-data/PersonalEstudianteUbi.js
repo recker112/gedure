@@ -68,7 +68,7 @@ export function PersonalEstudianteUbiForm(props) {
 						</MenuItem>
 						<MenuItem value="Barrio">Barrio</MenuItem>
 						<MenuItem value="Caserio">Caserio</MenuItem>
-						<MenuItem value="Urbanización">Ubrbanización</MenuItem>
+						<MenuItem value="Urbanización">Urbanización</MenuItem>
 						<MenuItem value="Zona residencial">Zona residencial</MenuItem>
 						<MenuItem value="Otros">Otros</MenuItem>
 					</RenderSelectFormHook>
@@ -136,7 +136,7 @@ export function PersonalEstudianteUbiForm(props) {
 				<Grid item xs={12}>
 					<RenderSelectFormHook
 						name='personalData.estudi_ubi_condiVivienda'
-						nameLabel='Condición de la vivienda'
+						nameLabel='Condici贸n de la vivienda'
 						control={control}
 						defaultValue={user.personal_data.estudi_ubi_condiVivienda || ''}
 						errors={errors?.personalData?.estudi_ubi_condiVivienda}

@@ -45,8 +45,6 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			}
 		}
 		
-		$i=0;
-		$users=[];
 		foreach ($rows as $row) 
 		{
 			// Parse name
@@ -60,29 +58,33 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			$row['nced'] = trim($row['nced']);
 			$row['email'] = trim($row['email']);
 			
-			if ($row['email'] !== '') {
+			// Verificar que el correo no exista
+			$emailFound = User::withTrashed()->firstWhere('email', $row['email']);
+			if ($row['email'] !== '' && !$emailFound) {
 				$email = $row['email'];
 			}else {
 				$email = null;
 			}
 			
-			if ($user = User::firstWhere('username',$row['nced'])) {
-				$user->update([
-					'name' => $row['apelnom'],
-					'email' => $email,
-				]);
-				
-				if ($curso) {
-					$curso_old = $user->alumno->curso_id;
-				
-					$user->alumno()->update([
-						'curso_id' => $curso->id,
-						'n_lista' => 99,
+			if ($user = User::withTrashed()->firstWhere('username',$row['nced'])) {
+				if (!$user->trashed()) {
+					$user->update([
+						'name' => $row['apelnom'],
+						'email' => $email,
 					]);
 
-					if ($curso_old && $curso_old !== $curso->id) {
-						CursoController::orderAlumnos($curso_old);
-					}
+					if ($curso) {
+						$curso_old = $user->alumno;
+
+						$user->alumno()->updateOrCreate(['user_id' => $user->id],[
+							'curso_id' => $curso->id,
+							'n_lista' => 99,
+						]);
+
+						if ($curso_old && $curso_old->curso_id !== $curso->id) {
+							CursoController::orderAlumnos($curso_old);
+						}
+					}	
 				}
 			}else {
 				if ($curso) {
@@ -111,7 +113,6 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 					}
 				}
 			}
-			$i++;
 		}
 		// Ordenar seccion
 		if ($curso) {
