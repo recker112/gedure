@@ -101,7 +101,6 @@ export default function SectionUser() {
 			if (response) {
 				dispatch(updateDataUser({
 					user: response.user,
-					permissions: response.permissions,
 				}));
 
 				history.push('/gedure');

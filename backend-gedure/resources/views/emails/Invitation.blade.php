@@ -57,7 +57,7 @@
 		.button {
 			background-color: #1976d2 !important;
 			text-decoration: none;
-			color: white;
+			color: white !important;
 			padding: 10px 20px;
 			border-radius: 10px;
 			font-size: 22px;

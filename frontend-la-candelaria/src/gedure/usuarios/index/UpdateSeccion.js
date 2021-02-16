@@ -79,11 +79,11 @@ export default function UpdateSeccion({ tableRef }) {
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
-			<DialogTitle>Cambiar secciรณn</DialogTitle>
+			<DialogTitle>Cambiar sección</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid container alignItems='center' item xs={12}>
-						<DialogContentText>Ha seleccionado <strong>{data.length}</strong> estudiante(s), seleccione la secciรณn a la que los desea cambiar.</DialogContentText>
+						<DialogContentText>Ha seleccionado <strong>{data.length}</strong> estudiante(s), seleccione la sección a la que los desea cambiar.</DialogContentText>
 					</Grid>
 					<Grid item xs={12} sm={6}>
 						<RenderSelectFormHook

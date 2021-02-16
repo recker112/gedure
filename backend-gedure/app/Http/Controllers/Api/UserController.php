@@ -54,8 +54,9 @@ class UserController extends Controller
 			->when(isset($onlyNoAlumno), function ($query) {
 				$query->doesntHave('alumno');
 			})
-			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+			->when(!empty($curso) && !empty($seccion) && $type === 'V-' && !isset($onlyNoAlumno), function ($query) {
+				$query->select('users.id', 'users.avatar', 'users.actived_at', 'users.email', 'users.name', 'users.username', 'users.privilegio', 'alumnos.n_lista')
+					->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
 			})
 			->when(empty($curso) && empty($seccion), function ($query) {
@@ -71,14 +72,13 @@ class UserController extends Controller
 			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
-		$usersCount = User::where('privilegio', 'like', '%'.$type.'%')
-			->where(function ($query) {
+		$usersCount = User::where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
 					->orWhere('name', 'like', '%'.$search.'%')
 					->orWhere('email', 'like', '%'.$search.'%');
 			})
-			->when($type === 'V-', function ($query) {
+			->when($type === 'V-' && !isset($onlyNoAlumno), function ($query) {
 				$query->whereHas('alumno', function (Builder $query) {
 					$query->whereHas('curso', function (Builder $query) {
 						$code = request()->curso.'-'.request()->seccion;
@@ -86,9 +86,16 @@ class UserController extends Controller
 					});
 				});
 			})
-			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+			->when(isset($onlyNoAlumno), function ($query) {
+				$query->doesntHave('alumno');
+			})
+			->when(!empty($curso) && !empty($seccion) && $type === 'V-' && !isset($onlyNoAlumno), function ($query) {
+				$query->select('users.id', 'users.avatar', 'users.actived_at', 'users.email', 'users.name', 'users.username', 'users.privilegio', 'alumnos.n_lista')
+					->join('alumnos', 'users.id', '=', 'alumnos.user_id')
 					->orderBy('n_lista');
+			})
+			->when(empty($curso) && empty($seccion), function ($query) {
+				$query->orderBy('users.id', 'desc');
 			})
 			->when(!$request->user()->can('users_edit_admins'), function ($query) {
 				$query->where('privilegio', '!=', 'A-');
@@ -428,8 +435,7 @@ class UserController extends Controller
 				$curso_old = $user->alumno;
 				$users[] = $user->privilegio.$user->username." ($user->name)";
 
-				$user->alumno()->updateOrCreate(['user_id' => $user->id],
-					[
+				$user->alumno()->updateOrCreate(['user_id' => $user->id], [
 						'curso_id' => $curso->id,
 						'n_lista' => 99,
 					]);
@@ -452,7 +458,7 @@ class UserController extends Controller
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualizaciรณn de secciรณn masiva',
+			'action' => 'Actualización de sección masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);

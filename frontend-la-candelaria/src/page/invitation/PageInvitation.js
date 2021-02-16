@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PageInvitation() {
-	document.title = 'La Candelaria - Invitación';
+	document.title = 'La Candelaria - Invitaciรณn';
 	const { loading, data } = useSelector((state) => ({
 		loading: state.forms.invitation.loading,
 		data: state.forms.invitation.data,
@@ -73,6 +73,11 @@ export default function PageInvitation() {
 				)}
 				{(!loading && data.name) && (
 					<FormRegisterPassword invitationKey={key} />
+				)}
+				{(!loading && !data.name) && (
+					<Box fontSize='body1.fontSize' align='center'>
+						No se pudo obtener la invitación, por favor intente mas tarde.
+					</Box>
 				)}
 			</Container>
 		</main>
