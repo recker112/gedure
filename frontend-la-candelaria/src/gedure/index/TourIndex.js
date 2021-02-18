@@ -28,7 +28,7 @@ export default function TourIndex() {
 						Gedure v5.0.0-beta.0
 					</Typography>
 					<Typography variant='body1'>
-						Bienvenido a la Beta de Gedure, durante estas guias podrá enterarse de las funcionalidades las cuales tiene disponible. Si lo desea puede saltarse esta guia usando el boton.
+						Bienvenido a Gedure, durante estas guias podrá enterarse de las funcionalidades las cuales tiene disponible. Si lo desea puede saltarse esta guia usando el boton.
 					</Typography>
 					<Button size='small' color='primary' onClick={()=>{goTo(5)}}>
 						Saltar tour
@@ -43,7 +43,7 @@ export default function TourIndex() {
 			selector: '[data-tour="avatar__menu"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este boton permite desplegar el Avatar Menú el cual contiene un pequeño menú con acciones relacionadas a la cuenta.
+					Este boton le permite desplegar el Avatar Menú el cual contiene un pequeño menú con acciones relacionadas a la cuenta.
 				</Typography>
 			),
 			style: {
