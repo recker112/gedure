@@ -95,10 +95,17 @@ export default (state = initialState, { type, payload }) => {
 		case 'RESET_TOURS': {
 			localStorage.setItem('gd-tour', JSON.stringify({}));
 			
+			let tours = state.tour;
+			let resetTours = {};
+			
+			for(const key in tours) {
+				resetTours[key] = false;
+			}
+			
 			return {
 				...state,
 				tour: {
-					...initialState.tour,
+					...resetTours,
 				},
 			};
 		}
