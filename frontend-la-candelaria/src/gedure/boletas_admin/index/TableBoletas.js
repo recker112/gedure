@@ -65,6 +65,16 @@ export default function TableBoletas({ tableRef, filters, massiveDelete, handleM
 		}
 
 		if (response) {
+			// Error page void
+			if (response.data.length === 0 && response.page !== 0) {
+				tableRef.current && tableRef.current.onQueryChange();
+				return {
+					data: [],
+					page: 0,
+					totalCount: 0,
+				};
+			}
+			
 			return {
 				data: response.data,
 				page: response.page,
