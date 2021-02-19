@@ -37,6 +37,16 @@ export default function TablePosts({ tableRef }) {
 		const response = await fetchData(prepare);
 
 		if (response) {
+			// Error page void
+			if (response.data.length === 0 && response.page !== 0) {
+				tableRef.current && tableRef.current.onQueryChange();
+				return {
+					data: [],
+					page: 0,
+					totalCount: 0,
+				};
+			}
+			
 			return {
 				data: response.data || [],
 				page: response.page || 0,

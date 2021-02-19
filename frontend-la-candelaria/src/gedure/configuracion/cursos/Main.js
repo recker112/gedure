@@ -71,7 +71,7 @@ export default function Main() {
 			)}
 			{!data.deleteMassive && (
 				<DialogConfirmation callback={onConfirm}>
-					Estรก a punto de eliminar el curso <strong>{data.code}</strong>. Las boletas de esta sección serán eliminadas por completo, pero los estudiantes se mantendrán activos.
+					Está a punto de eliminar el curso <strong>{data.code}</strong>. Las boletas de esta sección serán eliminadas por completo, pero los estudiantes se mantendrán activos.
 				</DialogConfirmation>
 			)}
 		</Grid>

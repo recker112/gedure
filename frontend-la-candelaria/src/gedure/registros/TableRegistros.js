@@ -36,17 +36,26 @@ export default function TableRegistros({ tableRef, filters }) {
 			messageToFinish: false,
 		}
 		
-		const res = await fetchData(prepare);
+		const response = await fetchData(prepare);
 		
 		dispatch(updateForms('registros', false));
 		
-		if (res) {
-			const result = {
-				data: res.data,
-				page: res.page,
-				totalCount: res.totalLogs,
+		if (response) {
+			// Error page void
+			if (response.data.length === 0 && response.page !== 0) {
+				tableRef.current && tableRef.current.onQueryChange();
+				return {
+					data: [],
+					page: 0,
+					totalCount: 0,
+				};
 			}
-			return result;
+			
+			return {
+				data: response.data,
+				page: response.page,
+				totalCount: response.totalLogs,
+			};
 		}else {
 			return {
 				data: [],
