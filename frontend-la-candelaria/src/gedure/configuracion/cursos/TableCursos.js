@@ -80,7 +80,7 @@ export default function TableUsers({ tableRef }) {
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Cรณdigo',
+						title: 'Código',
 						field: 'code',
 						render: (rowData) => `${rowData.curso}-${rowData.seccion}`
 					},
@@ -90,7 +90,7 @@ export default function TableUsers({ tableRef }) {
 						render: (rowData) => converterCursoCode(rowData.curso)
 					},
 					{
-						title: 'Secciรณn', 
+						title: 'Sección', 
 						field: 'seccion'
 					},
 				]}
