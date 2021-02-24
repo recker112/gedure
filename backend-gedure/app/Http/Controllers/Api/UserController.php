@@ -14,6 +14,9 @@ use App\Http\Requests\MassiveUsersUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\CursoController;
 
+// Intervention
+use Intervention\Image\Facades\Image;
+
 // Excel
 use App\Imports\StudiendImport;
 
@@ -232,6 +235,14 @@ class UserController extends Controller
 		if ($avatar && !$delete_avatar) {
 			Storage::disk('public')->delete($user->avatarOriginal);
 			$path = $avatar->store('', 'user_avatars');
+			
+			//Resize
+			$pathToResize = Storage::disk('user_avatars')->path($path);
+			$img = Image::make($pathToResize);
+			$img->resize(200, null, function ($constraint) {
+				$constraint->aspectRatio();
+			})->save($pathToResize);
+			
 			$user->avatar = $path;
 			$user->save();
 		}
@@ -301,6 +312,14 @@ class UserController extends Controller
 		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$path = $avatar->store('', 'user_avatars');
+			
+			//Resize
+			$pathToResize = Storage::disk('user_avatars')->path($path);
+			$img = Image::make($pathToResize);
+			$img->resize(200, null, function ($constraint) {
+				$constraint->aspectRatio();
+			})->save($pathToResize);
+			
 			$user->avatar = $path;
 			$user->save();
 		}
