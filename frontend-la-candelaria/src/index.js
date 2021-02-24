@@ -24,17 +24,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = window.location.protocol + '//gedure8000.run-us-west2.goorm.io/api';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router
-			getUserConfirmation={(message, callback) => {
-				// this is the default behavior
-				const allowTransition = window.confirm(message);
-				callback(allowTransition);
-			}}
-		>
-      <App/>
-  	</Router>
-	</Provider>, document.getElementById('root')
+	<React.StrictMode>
+		<Provider store={store}>
+			<Router
+				getUserConfirmation={(message, callback) => {
+					// this is the default behavior
+					const allowTransition = window.confirm(message);
+					callback(allowTransition);
+				}}
+			>
+				<App/>
+			</Router>
+		</Provider>
+	</React.StrictMode>, document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
