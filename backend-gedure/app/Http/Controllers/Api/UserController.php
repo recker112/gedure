@@ -223,7 +223,7 @@ class UserController extends Controller
 		}
 		
 		if ($delete_avatar) {
-			Storage::disk('public')->delete($user->avatarOriginal);
+			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
@@ -231,9 +231,7 @@ class UserController extends Controller
 		// Actualizar avatar
 		if ($avatar && !$delete_avatar) {
 			Storage::disk('public')->delete($user->avatarOriginal);
-			$path = $avatar->storeAs(
-				"avatars", 'avatar_'.$user->username.'.'.$avatar->getClientOriginalExtension(), 'public'
-			);
+			$path = $avatar->store('', 'user_avatars');
 			$user->avatar = $path;
 			$user->save();
 		}
@@ -294,17 +292,15 @@ class UserController extends Controller
 		$delete_avatar = json_decode($request->delete_avatar);
 		
 		if ($delete_avatar && $user->privilegio !== 'V-' || $delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
-			Storage::disk('public')->delete($user->avatarOriginal);
+			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
 		
 		// Actualizar avatar
 		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
-			Storage::disk('public')->delete($user->avatarOriginal);
-			$path = $avatar->storeAs(
-				"avatars", 'avatar_'.$user->username.'.'.$avatar->getClientOriginalExtension(), 'public'
-			);
+			Storage::disk('user_avatars')->delete($user->avatarOriginal);
+			$path = $avatar->store('', 'user_avatars');
 			$user->avatar = $path;
 			$user->save();
 		}
@@ -352,7 +348,7 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 		
-		Storage::disk('public')->delete($user->avatarOriginal);
+		Storage::disk('user_avatars')->delete($user->avatarOriginal);
 		$curso_id = $user->alumno;
 		$user->delete();
 		
@@ -458,7 +454,7 @@ class UserController extends Controller
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualización de sección masiva',
+			'action' => 'Actualizaciรณn de secciรณn masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);

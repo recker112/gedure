@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
 class PostController extends Controller
-{
-	private $path = "posts";
-	
+{	
 	public function index(Request $request) {
 		$offset = $request->offset;
 		$limit = $request->limit;
@@ -117,7 +115,7 @@ class PostController extends Controller
 		// Cargar portada
 		if (!empty($portada)) {
 			$path = $portada->storeAs(
-				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
+				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
 			
 			$post->portada = json_encode($path);
@@ -130,7 +128,7 @@ class PostController extends Controller
 			foreach($galery as $file) {
 				//Mover archivo
 				$path = $file->storeAs(
-					"$this->path/$post->id", $file->getClientOriginalName(), 'public'
+					"$post->id", $file->getClientOriginalName(), 'posts'
 				);
 
 				$imgsUploaded[$i] = $path;
@@ -184,25 +182,25 @@ class PostController extends Controller
 		
 		// Eliminar portada
 		if ($delete_portada) {
-			Storage::disk('public')->delete($post->portada);
+			Storage::disk('posts')->delete($post->portada);
 			$post->portada = null;
 		}
 		
 		// Eliminar galeria
 		if ($delete_galery) {
 			// Clear old files
-			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
+			$filesDelete = Storage::disk('posts')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
-			Storage::disk('public')->delete($filesDelete);
+			Storage::disk('posts')->delete($filesDelete);
 			$post->galery = null;
 		}
 		
 		// Actualizar portada
 		if (!empty($portada) && !$delete_portada) {
 			// Clear files
-			Storage::disk('public')->delete(json_decode($post->portada));
+			Storage::disk('posts')->delete(json_decode($post->portada));
 			$path = $portada->storeAs(
-				"$this->path/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
+				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
 			$post->portada = json_encode($path);
 		}
@@ -213,13 +211,13 @@ class PostController extends Controller
 			$i=0;
 			
 			// Clear old files excluding portada
-			$filesDelete = Storage::disk('public')->files('posts/'.$post->id);
+			$filesDelete = Storage::disk('posts')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
-			Storage::disk('public')->delete($filesDelete);
+			Storage::disk('posts')->delete($filesDelete);
 			foreach($galery as $file) {
 				// Mover archivo
 				$path = $file->storeAs(
-						"$this->path/$post->id", $file->getClientOriginalName(), 'public'
+						"$post->id", $file->getClientOriginalName(), 'posts'
 					);
 
 				$imgsUploaded[$i] = $path;
@@ -264,7 +262,7 @@ class PostController extends Controller
 			], 403);
 		}
 		
-		Storage::disk('public')->deleteDirectory("$this->path/$post->id");
+		Storage::disk('posts')->deleteDirectory($post->id);
 		
 		//Log
 		$payload = [

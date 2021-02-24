@@ -64,7 +64,7 @@ export default function CreateCurso({ tableRef }) {
 		<Grid item xs={12}>
 			<Paper className='paper--padding'>
 				<Typography variant='h6' className='text__bold--semi'>
-					Añadir curso
+					Agregar curso
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={12} sm={6} md={4}>
@@ -97,7 +97,7 @@ export default function CreateCurso({ tableRef }) {
 					</Grid>
 				</Grid>
 				<Typography className='text__opacity--semi'>
-					Añada cursos al sistema para agrupar a sus estudiantes.
+					Agrege cursos al sistema para agrupar a sus estudiantes.
 				</Typography>
 				<Box mt={1} align='right'>
 					<LoadingComponent loading={loading}>
