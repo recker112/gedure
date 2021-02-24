@@ -8,6 +8,9 @@ use App\Http\Requests\PostRequest;
 use App\Http\Requests\TableRequest;
 use Illuminate\Support\Facades\Storage;
 
+// Intervention
+use Intervention\Image\Facades\Image;
+
 // Models
 use App\Models\Post;
 
@@ -118,6 +121,11 @@ class PostController extends Controller
 				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
 			
+			// Optimization
+			$pathToResize = Storage::disk('posts')->path($path);
+			$img = Image::make($pathToResize);
+			$img->save($pathToResize);
+			
 			$post->portada = json_encode($path);
 		}
 		
@@ -130,6 +138,11 @@ class PostController extends Controller
 				$path = $file->storeAs(
 					"$post->id", $file->getClientOriginalName(), 'posts'
 				);
+				
+				// Optimization
+				$pathToResize = Storage::disk('posts')->path($path);
+				$img = Image::make($pathToResize);
+				$img->save($pathToResize);
 
 				$imgsUploaded[$i] = $path;
 				$i++;
@@ -202,6 +215,12 @@ class PostController extends Controller
 			$path = $portada->storeAs(
 				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
+			
+			//Optimization
+			$pathToResize = Storage::disk('posts')->path($path);
+			$img = Image::make($pathToResize);
+			$img->save($pathToResize);
+			
 			$post->portada = json_encode($path);
 		}
 		
@@ -219,6 +238,11 @@ class PostController extends Controller
 				$path = $file->storeAs(
 						"$post->id", $file->getClientOriginalName(), 'posts'
 					);
+				
+				// Optimization
+				$pathToResize = Storage::disk('posts')->path($path);
+				$img = Image::make($pathToResize);
+				$img->save($pathToResize);
 
 				$imgsUploaded[$i] = $path;
 				$i++;
