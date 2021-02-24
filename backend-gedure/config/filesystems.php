@@ -47,6 +47,20 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+			
+				'user_avatars' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/avatars'),
+						'url' => env('APP_URL').'/resources/avatars',
+            'visibility' => 'public',
+        ],
+			
+				'posts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/posts'),
+						'url' => env('APP_URL').'/resources/posts',
+            'visibility' => 'public',
+        ],
 
         'public' => [
             'driver' => 'local',

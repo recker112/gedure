@@ -78,30 +78,6 @@ a {
 	padding-bottom: 24px !important;
 }
 
-.imagePreview {
-	max-width: 110px;
-	max-height: 100px;
-	min-width: 70px;
-	min-height: 60px;
-	cursor: pointer;
-	transition: .5s;
-	
-	&:hover {
-		transform: scale(1.2);
-	}
-}
-
-.imagePreview__More {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background: rgba(0, 0, 0, 0.4);
-	width: 100px;
-	height: 100px;
-	margin-bottom: 10px;
-	cursor: pointer;
-}
-
 
 .footer {
 	height: 90px;
