@@ -95,7 +95,7 @@ export default function PageBoletasIndex() {
 							data-tour="upload"
 							disabled={!permissions?.administrar?.boletas_upload}
 						>
-							Cargar boletas
+							Cargar boletas liceo
 						</Button>
 					</Grid>
 					
@@ -133,7 +133,7 @@ export default function PageBoletasIndex() {
 										</Grid>
 										<Grid item xs={12} sm={3} md={2}>
 											<FormControl style={{ width: '100%' }}>
-												<InputLabel id="users-filter-seccion">Sección</InputLabel>
+												<InputLabel id="users-filter-seccion">Secciรณn</InputLabel>
 												<Select
 													labelId="users-filter-seccion"
 													id="users-filter-seccion-select"
