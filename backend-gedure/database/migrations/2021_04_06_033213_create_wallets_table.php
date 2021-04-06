@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogsTable extends Migration
+class CreateWalletsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,17 +13,15 @@ class CreateLogsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('logs', function (Blueprint $table) {
+		Schema::create('wallets', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('user_id')
 				->constrained()
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->string("action");
-			$table->json("payload")->nullable();
-			$table->enum("type", ["session", "gedure", "user", "class", "transaction"]);
-			$table->timestamp('created_at', 0);
+			$table->decimal('money', 15, 2);
+			$table->timestamps();
 		});
 	}
 
@@ -34,6 +32,6 @@ class CreateLogsTable extends Migration
 	 */
 	public function down()
 	{
-			Schema::dropIfExists('logs');
+		Schema::dropIfExists('wallets');
 	}
 }
