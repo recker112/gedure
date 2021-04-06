@@ -15,6 +15,9 @@ use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\BoletaController;
 use App\Http\Controllers\Api\InfoBoxController;
 
+//Wallet System
+use App\Http\Controllers\Api\wallet_system\DebtLoteController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -240,4 +243,13 @@ Route::group(['prefix' => 'v1'], function () {
 	*/
 	Route::middleware(['auth:api'])
 		->get('info-box', [InfoBoxController::class, 'index']);
+	
+	/*
+	Deudas
+	*/
+	// Create debt
+	Route::middleware(['auth:api', 'scopes:admin'])
+		->get('deuda/lote', [DebtLoteController::class, 'index']);
+	Route::middleware(['auth:api', 'scopes:admin'])
+		->post('deuda/lote', [DebtLoteController::class, 'create']);
 });
