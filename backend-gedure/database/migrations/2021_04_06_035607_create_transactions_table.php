@@ -26,7 +26,7 @@ class CreateTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->foreignId('exonerado_id')
+			$table->foreignId('exonerante_id')
 				->nullable()
 				->references('id')
 				->on('users')
@@ -43,8 +43,9 @@ class CreateTransactionsTable extends Migration
 			$table->decimal('amount', 15, 2);
 			$table->decimal('remaining', 15, 2);
 			$table->enum('payment_method', ['transferencia bancaria', 'saldo disponible']);
-			$table->boolean('exonerado_server');
+			$table->boolean('exonerante_server');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 

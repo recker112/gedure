@@ -7,5 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class BankAccount extends Model
 {
-    use HasFactory;
+  use HasFactory;
+	
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'n_account',
+		'rif',
+		'name',
+		'email',
+		'type',
+		'bank_code',
+	];
+	
+	/**
+	 * The attributes hiddeable.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'updated_at',
+	];
+	
+	public function debts()
+	{
+		return $this->hasMany('App\Models\wallet_system\Transaction');
+	}
 }

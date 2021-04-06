@@ -97,6 +97,26 @@ class User extends Authenticatable
 		return $this->hasOne('App\Models\Invitation');
 	}
 	
+	public function debts()
+	{
+		return $this->hasMany('App\Models\wallet_system\Debt');
+	}
+	
+	public function wallet()
+	{
+		return $this->hasOne('App\Models\wallet_system\Wallet');
+	}
+	
+	public function transactions()
+	{
+		return $this->hasOne('App\Models\wallet_system\Transaction');
+	}
+	
+	public function transaction_exoneradas()
+	{
+		return $this->hasOne('App\Models\wallet_system\Transaction', 'exonerante_id');
+	}
+	
 	public function getAvatarOriginalAttribute()
 	{
 		return $this->attributes['avatar'];
