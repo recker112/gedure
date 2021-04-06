@@ -22,6 +22,7 @@ class CreateWalletsTable extends Migration
 			
 			$table->decimal('money', 15, 2);
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
