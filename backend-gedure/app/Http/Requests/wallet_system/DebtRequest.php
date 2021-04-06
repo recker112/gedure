@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\wallet_system;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TableRequest extends FormRequest
+class DebtRequest extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -24,12 +24,13 @@ class TableRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'page' => 'required',
-			'per_page' => 'required',
-			'search' => 'nullable|string',
+			'motivo' => 'required|string',
+			'cantidad_pagar' => 'required|numeric',
+			'type' => 'required|string',
 			'curso' => 'nullable|string',
 			'seccion' => 'nullable|string',
-			'type' => 'nullable|string',
+			'selected_users' => 'nullable|array',
+			'selected_users.*' => 'string',
 		];
 	}
 }

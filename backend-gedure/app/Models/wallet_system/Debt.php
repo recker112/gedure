@@ -17,7 +17,7 @@ class Debt extends Model
 	 */
 	protected $fillable = [
 		'user_id',
-		'debt_lote',
+		'debt_lote_id',
 		'status',
 	];
 	
