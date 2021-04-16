@@ -53,26 +53,24 @@ class DebtLoteController extends Controller
 	
   public function create(DebtRequest $request) {
 		$users = [];
-		if ($request->type === 'estudiantes') {
-			if ($request->selected_users && count($request->selected_users) > 0) {
-				// Obtener estudiantes seleccionados
-				$users = User::whereIn('username', $request->selected_users)
-					->get();
-			}else {
-				// Obtener estudiantes por curso seleccionado
-				$users = User::where('privilegio', 'V-')
-					->whereHas('alumno', function (Builder $query) {
-						$query->whereHas('curso', function (Builder $query) {
-							if (request()->curso) {
-								$code = request()->curso.'-'.request()->seccion;
-							}else {
-								$code = '';
-							}
-							$query->where('code', 'like', '%'.$code.'%');
-						});
-					})
-					->get();
-			}
+		if ($request->type === 'studiends') {
+			// Obtener estudiantes por curso seleccionado
+			$users = User::where('privilegio', 'V-')
+				->whereHas('alumno', function (Builder $query) {
+					$query->whereHas('curso', function (Builder $query) {
+						if (request()->curso) {
+							$code = request()->curso.'-'.request()->seccion;
+						}else {
+							$code = '';
+						}
+						$query->where('code', 'like', '%'.$code.'%');
+					});
+				})
+				->get();
+		}else if ($request->type === 'selected' && $request->selected_users && count($request->selected_users) > 0) {
+			// Obtener estudiantes seleccionados
+			$users = User::whereIn('id', $request->selected_users)
+				->get();
 		}
 		
 		if (count($users) === 0) {
@@ -94,7 +92,7 @@ class DebtLoteController extends Controller
 		}
 		
 		return response()->json([
-			'msg' => 'Hola',
+			'msg' => 'Deuda creada',
 		], 200);
 	}
 	

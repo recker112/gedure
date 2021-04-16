@@ -248,12 +248,12 @@ export default function PageUserIndex() {
 				<UploadMatricula />
 				{data.deleteMassive && (
 					<DialogConfirmation callback={onConfirm2}>
-						Está a punto de desactivar <strong>{data.ids?.length}</strong> cuentas. Si llega a desactivar una cuenta por accidente puede reactivarla.
+						Estรก a punto de desactivar <strong>{data.ids?.length}</strong> cuentas. Si llega a desactivar una cuenta por accidente puede reactivarla.
 					</DialogConfirmation>
 				)}
 				{!data.deleteMassive && (
 					<DialogConfirmation callback={onConfirm}>
-						Está a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
+						Estรก a punto de desactivar la cuenta <strong>{data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.
 					</DialogConfirmation>
 				)}
 				<UpdateSeccion tableRef={tableRef} />

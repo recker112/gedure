@@ -30,7 +30,7 @@ class DebtRequest extends FormRequest
 			'curso' => 'nullable|string',
 			'seccion' => 'nullable|string',
 			'selected_users' => 'nullable|array',
-			'selected_users.*' => 'string',
+			'selected_users.*' => 'numeric',
 		];
 	}
 }

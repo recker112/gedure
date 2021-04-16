@@ -52,6 +52,26 @@ class UserControllerTest extends TestCase
 			]);
 	}
 	
+	public function testFindLikeUser() {
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$response = $this->getJson('/api/v1/find/user');
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'*' => [
+					'id',
+					'username',
+					'name',
+					'privilegio',
+				]
+			]);
+	}
+	
 	public function testShowUser()
 	{
 		//$this->withoutExceptionHandling();

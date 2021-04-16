@@ -64,6 +64,13 @@ Route::group(['prefix' => 'v1'], function () {
 		->get('logs', [LogController::class, 'index']);
 	
 	/*
+	FIND LIKE
+	*/
+	// Users
+	Route::middleware(['auth:api', 'scopes:admin'])
+		->get('find/user', [UserController::class, 'findLike']);
+	
+	/*
 	POSTS
 	*/
 	// GetPosts

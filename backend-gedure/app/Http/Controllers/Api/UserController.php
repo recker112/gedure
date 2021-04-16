@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
+use App\Http\Requests\FindLikeRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\MatriculaRequest;
@@ -111,6 +112,18 @@ class UserController extends Controller
 			'page' => $request->page * 1, 
 			'totalUsers' => $usersCount,
 		], 200);
+	}
+	
+	public function findLike(FindLikeRequest $request) {
+		$search = urldecode(request()->search);
+		
+		$users = User::select('id','username','name','privilegio')
+			->where('username', 'like', "%$search%")
+			->limit(15)
+			->get()
+			->makeHidden(['personal_data', 'estudiante_data']);
+		
+		return response()->json($users, 200);
 	}
 	
 	public function show(Request $request, $id)
