@@ -47,7 +47,7 @@ class DebtLoteControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/deuda/lote', [
 			'motivo' => 'Mensualidad Abril 2021',
 			'cantidad_pagar' => 600000.93,
-			'type' => 'estudiantes',
+			'type' => 'studiends',
 			'curso' => '1',
 			'seccion' => 'A',
 		]);
@@ -86,8 +86,8 @@ class DebtLoteControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/deuda/lote', [
 			'motivo' => 'Mensualidad Abril 2021',
 			'cantidad_pagar' => 600000.93,
-			'type' => 'estudiantes',
-			'selected_users' => [$users[0]->username, $users[1]->username, $users[2]->username]
+			'type' => 'selected',
+			'selected_users' => [$users[0]->id, $users[1]->id, $users[2]->id]
 		]);
 		
 		$response->assertStatus(200)
@@ -125,7 +125,7 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testEdit()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

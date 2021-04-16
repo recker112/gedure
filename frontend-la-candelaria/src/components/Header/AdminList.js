@@ -95,6 +95,12 @@ function AdminList({ handleClose }) {
 									<ListItemText primary="Boletas" />
 								</ReturnSelected>
 							)}
+							<ReturnSelected url='/gedure/deudas' handle={handleClose} nested noExact>
+								<ListItemIcon>
+									D
+								</ListItemIcon>
+								<ListItemText primary="Deudas" />
+							</ReturnSelected>
 							{permissions?.administrar?.contact_index && (
 								<ReturnSelected url='/gedure/soli-contacto' handle={handleClose} nested noExact>
 									<ListItemIcon>

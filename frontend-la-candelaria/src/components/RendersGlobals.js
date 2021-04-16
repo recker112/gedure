@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 //Material-UI
 import {
@@ -20,12 +20,19 @@ import {
 	TableContainer,
 	Paper,
 	Link,
+	CircularProgress,
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
+import NumberFormat from 'react-number-format';
+
 import { Controller } from 'react-hook-form';
+
+// Components
+import useAsyncDebounce from '../hooks/useAsyncDebounce';
 
 const useStyles = makeStyles((theme) => ({
 	separer: {
@@ -115,6 +122,169 @@ export function RenderInputPassword(props) {
 				),
 			}}
 			{...props}
+		/>
+	);
+}
+
+export function NumberFormatInput(props) {
+	const { defaultValue, rules, control, name, mask, ...other } = props;
+	
+	function NumberFormatMoney(props) {
+		const { inputRef, onChange, ...other } = props;
+
+		const MAX_VAL = 999999999999;
+		const withValueLimit = (inputObj) => {
+			const { value } = inputObj;
+			if (value < MAX_VAL) return inputObj;
+		};
+
+		return (
+			<NumberFormat
+				{...other}
+				getInputRef={inputRef}
+				onValueChange={(values) => {
+					onChange(values?.floatValue || 0);
+				}}
+				thousandSeparator={true} 
+				prefix={'Bs.S'}
+				isAllowed={withValueLimit}
+				decimalScale={2}
+				allowNegative={false}
+			/>
+		);
+	}
+	
+	function NumberFormatPhone(props) {
+		const { inputRef, onChange, ...other } = props;
+
+		return (
+			<NumberFormat
+				{...other}
+				getInputRef={inputRef}
+				onValueChange={(values) => {
+					onChange(values?.value || '');
+				}}
+				format="+## (###) ###-####"
+				mask="-"
+			/>
+		);
+	}
+	
+	const Formats = {
+		'money': NumberFormatMoney,
+		'phone': NumberFormatPhone,
+	}
+	
+	return (
+		<Controller
+			as={
+				<TextField
+					{...other}
+					InputProps={{
+						inputComponent: Formats[mask],
+					}}
+				/>
+			}
+			name={name}
+			control={control}
+			defaultValue={defaultValue}
+			rules={rules}
+		/>
+	);
+}
+
+export function AsyncInputFormHook(props) {
+	const { label, name, control, rules, asyncRequest, getOptionLabel, renderOption = null, ...rest } = props;
+	const [open, setOpen] = useState(false);
+	const [options, setOptions] = useState([]);
+	const [inputValue, setInputValue] = useState('');
+	const loading = open && options.length === 0;
+	
+	// Request to loading
+	useEffect(() => {
+		let cancel = false;
+		
+		const query = async () => {
+			const result = await asyncRequest(inputValue);
+			
+			if (!cancel) {
+				setOptions(result);
+				console.log('Resultado de la búsqueda');
+			}
+		}
+		
+		if (loading) {
+			query();
+		}
+		
+		return () => {
+			cancel = true;
+		}
+	},[loading]);
+	
+	// Clear options
+	useEffect(() => {
+		if (!open) {
+			setOptions([]);
+		}
+	},[open]);
+	
+	
+	const refreshResults = useCallback(
+		useAsyncDebounce(() => setOptions([]),500),
+	[]);
+	
+	return (
+		<Controller
+			render={({onChange, onBlur, value, ref}) => (
+				<Autocomplete
+					multiple
+					getOptionLabel={getOptionLabel}
+					options={options}
+					open={open}
+					onOpen={() => {
+						setOpen(true);
+					}}
+					onClose={() => {
+						setOpen(false);
+					}}
+					value={value}
+					onChange={(e, newValue) => {
+						onChange(newValue);
+					}}
+					inputValue={inputValue}
+					onInputChange={(e, newValue) => {
+						setInputValue(newValue);
+						refreshResults();
+					}}
+					onBlur={onBlur}
+					loading={loading}
+					loadingText='Cargando...'
+					noOptionsText='No hay resultados'
+					renderOption={renderOption}
+					renderInput={(params) => (
+						<TextField
+							{...params}
+							{...rest}
+							inputRef={ref}
+							label={label}
+							variant='outlined'
+							InputProps={{
+								...params.InputProps,
+								endAdornment: (
+									<React.Fragment>
+										{loading ? <CircularProgress color='inherit' size={20} /> : null}
+										{params.InputProps.endAdornment}
+									</React.Fragment>
+								)
+							}}
+						/>
+					)}
+				/>
+			)}
+			name={name}
+			control={control}
+			rules={rules}
 		/>
 	);
 }
