@@ -19,12 +19,15 @@ a {
 }
 
 *::-webkit-scrollbar {
-	width: 8px;
+	width: 13px;
+	height: 13px;
 }
 
 *::-webkit-scrollbar-thumb {
 	background: #b7b7b7a3;
-	border-radius: 4px;
+	background-clip: padding-box;
+	border-radius: 30px;
+	border: 3px solid rgba(0,0,0,0);
 }
 
 *::-webkit-scrollbar-thumb:hover {
@@ -33,7 +36,6 @@ a {
 }
 
 *::-webkit-scrollbar-track {
-	border-radius: 4px;
 	background: #efefef21;
 }
 
