@@ -110,7 +110,7 @@ export default function RoutersGedure() {
 
 				return null;
 			})}
-			
+
 			<Route path={`${url}/cuenta`}>
 				{/*<PageCuenta />*/}
 			</Route>
