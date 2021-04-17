@@ -5,11 +5,14 @@ import React, { Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Material-Ui
-import { Grid } from '@material-ui/core';
+import { Grid, Typography, Button, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Loading
 import ReactLoading from 'react-loading';
+
+// Error Boundary
+import { ErrorBoundary } from 'react-error-boundary';
 
 // Componentes
 import logoL from './imgs/Farvicon_no_fondo.png';
@@ -32,57 +35,34 @@ const PageSetup = lazy(() => import('./gedure/setup/PageSetup'));
 const useStyles = makeStyles((theme) => ({
 	loading: {
 		flexGrow: 1
-	}
+	},
+	containerErrorBoundary: {
+		flexGrow: 1,
+		paddingBottom: theme.spacing(5),
+		[theme.breakpoints.up('xs')]: {
+			marginTop: '80px',
+		},
+		[theme.breakpoints.up('sm')]: {
+			marginTop: theme.spacing(12),
+		},
+	},
 }));
 
-function Routers() {
+export function ErrorFallback({ error, resetErrorBoundary }) {
+	const classes = useStyles();
+	
 	return (
-		/* Switch sirve para escojer la ruta la que mas se acerque a la
-    ruta actual, es decir, que de todas esas rutas, la app escogerรก
-    la que mรกs se asemeje, excepto si se coloca el atributo "exact" */
-		<Suspense fallback={<Loader />}>
-			<Switch>
-				<PublicRoute path='/' exact notSeeBeforeAuth>
-					<PageIndex />
-				</PublicRoute>
-				
-				<PublicRoute path='/noticias' exact>
-					<PageNews />
-				</PublicRoute>
-				
-				<PublicRoute path='/noticias/:slug' exact>
-					<PageShowNews />
-				</PublicRoute>
-				
-				<PublicRoute path='/contactanos' exact>
-					<PageContactanos />
-				</PublicRoute>
-				
-				<PublicRoute path='/entrar' exact>
-					<PageLogin />
-				</PublicRoute>
-				
-				<PublicRoute path='/recuperar' exact>
-					<PageRecovery />
-				</PublicRoute>
-				
-				<ProtectRoute path='/gedure'>
-					<RoutersGedure />
-				</ProtectRoute>
-				
-				<ProtectRoute path='/setup'>
-					<PageSetup />
-				</ProtectRoute>
-				
-				<PublicRoute path='/invitacion/:key' exact>
-					<PageInvitation />
-				</PublicRoute>
-				
-				<PublicRoute>
-					No encontrado
-				</PublicRoute>
-			</Switch>
-		</Suspense>
+		<div className={classes.containerErrorBoundary}>
+			<Box mb={2} align='center' fontSize='h4.fontSize'>
+				¡No estas conectado a internet!
+			</Box>
+			<Box mb={2} align='center' fontSize='body1.fontSize'>
+				Revisa tu conexión a internet.
+			</Box>
+			<Box align='center'>
+				<Button variant='outlined' onClick={resetErrorBoundary}>Reintentar</Button>
+			</Box>
+		</div>
 	);
 }
 
@@ -191,4 +171,54 @@ export function Loader(props){
 	)
 }
 
-export default Routers;
+export default function Routers() {
+	return (
+		<ErrorBoundary
+			FallbackComponent={ErrorFallback}
+		>
+			<Suspense fallback={<Loader />}>
+				<Switch>
+					<PublicRoute path='/' exact notSeeBeforeAuth>
+						<PageIndex />
+					</PublicRoute>
+
+					<PublicRoute path='/noticias' exact>
+						<PageNews />
+					</PublicRoute>
+
+					<PublicRoute path='/noticias/:slug' exact>
+						<PageShowNews />
+					</PublicRoute>
+
+					<PublicRoute path='/contactanos' exact>
+						<PageContactanos />
+					</PublicRoute>
+
+					<PublicRoute path='/entrar' exact>
+						<PageLogin />
+					</PublicRoute>
+
+					<PublicRoute path='/recuperar' exact>
+						<PageRecovery />
+					</PublicRoute>
+
+					<ProtectRoute path='/gedure'>
+						<RoutersGedure />
+					</ProtectRoute>
+
+					<ProtectRoute path='/setup'>
+						<PageSetup />
+					</ProtectRoute>
+
+					<PublicRoute path='/invitacion/:key' exact>
+						<PageInvitation />
+					</PublicRoute>
+
+					<PublicRoute>
+						No encontrado
+					</PublicRoute>
+				</Switch>
+			</Suspense>
+		</ErrorBoundary>
+	);
+}
