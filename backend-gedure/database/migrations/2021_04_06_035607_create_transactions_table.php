@@ -39,6 +39,7 @@ class CreateTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
+			$table->enum('type', ['deuda', 'transferencia', 'pago verficado']);
 			$table->text('reason');
 			$table->decimal('amount', 15, 2);
 			$table->decimal('remaining', 15, 2);
