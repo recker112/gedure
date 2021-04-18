@@ -53,17 +53,12 @@ class DebtLoteController extends Controller
 	
   public function create(DebtRequest $request) {
 		$users = [];
-		if ($request->type === 'studiends') {
+		if ($request->type === 'cursos') {
 			// Obtener estudiantes por curso seleccionado
 			$users = User::where('privilegio', 'V-')
 				->whereHas('alumno', function (Builder $query) {
 					$query->whereHas('curso', function (Builder $query) {
-						if (request()->curso) {
-							$code = request()->curso.'-'.request()->seccion;
-						}else {
-							$code = '';
-						}
-						$query->where('code', 'like', '%'.$code.'%');
+						$query->whereIn('id', request()->cursos);
 					});
 				})
 				->get();

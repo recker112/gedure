@@ -18,6 +18,8 @@ import {
 	AccountMultiple as AccountMultipleIcon,
 	Post as PostIcon,
 	FilePdf as FilePdfIcon,
+	PiggyBank as PiggyBankIcon,
+	Wallet as WalletIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -97,9 +99,15 @@ function AdminList({ handleClose }) {
 							)}
 							<ReturnSelected url='/gedure/deudas' handle={handleClose} nested noExact>
 								<ListItemIcon>
-									D
+									<PiggyBankIcon />
 								</ListItemIcon>
 								<ListItemText primary="Deudas" />
+							</ReturnSelected>
+							<ReturnSelected url='/gedure/monederos' handle={handleClose} nested noExact>
+								<ListItemIcon>
+									<WalletIcon />
+								</ListItemIcon>
+								<ListItemText primary="Monederos" />
 							</ReturnSelected>
 							{permissions?.administrar?.contact_index && (
 								<ReturnSelected url='/gedure/soli-contacto' handle={handleClose} nested noExact>

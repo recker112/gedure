@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 
 import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../../hooks/useFetch';
@@ -72,12 +74,12 @@ export default function TableDeudas({ tableRef }) {
 							
 							for(let i = 1; amount.length >= i; i++) {
 								if (i % 3 === 0) {
-									moneyText = `,${amount[amount.length - i]}${moneyText}`;
+									moneyText = `.${amount[amount.length - i]}${moneyText}`;
 								}else {
 									moneyText = `${amount[amount.length - i]}${moneyText}`;
 								}
 							}
-							moneyText = `Bs/S ${moneyText}.${decimals}`;
+							moneyText = `Bs/S ${moneyText},${decimals}`;
 							
 							return moneyText;
 						},
@@ -98,6 +100,20 @@ export default function TableDeudas({ tableRef }) {
 					{
 						icon: () => (<VisibilityIcon data-tour='show_deuda' />),
 						tooltip: 'Ver',
+						onClick: (event, rowData) => {
+							// dispatch(updateDialogs('showRegistros', true, false, rowData));
+						},
+					},
+					{
+						icon: () => (<EditIcon data-tour='edit_deuda' />),
+						tooltip: 'Editar',
+						onClick: (event, rowData) => {
+							// dispatch(updateDialogs('showRegistros', true, false, rowData));
+						},
+					},
+					{
+						icon: () => (<DeleteIcon data-tour='delete_deuda' />),
+						tooltip: 'Borrar',
 						onClick: (event, rowData) => {
 							// dispatch(updateDialogs('showRegistros', true, false, rowData));
 						},

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function RenderSwitchFormHook(props) {
-	const { name, defaultValue, control, label, ...rest } = props;
+	const { name, defaultValue, control, label, labelPlacement='end', ...rest } = props;
 	
 	return (
 		<FormControlLabel
@@ -62,6 +62,7 @@ export function RenderSwitchFormHook(props) {
 				/>
 			}
 			label={label}
+			labelPlacement={labelPlacement}
 		/>
 	);
 }
@@ -145,10 +146,11 @@ export function NumberFormatInput(props) {
 				onValueChange={(values) => {
 					onChange(values?.floatValue || 0);
 				}}
-				thousandSeparator={true} 
-				prefix={'Bs.S'}
+				thousandSeparator='.'
+				prefix={'Bs/S'}
 				isAllowed={withValueLimit}
 				decimalScale={2}
+				decimalSeparator=','
 				allowNegative={false}
 			/>
 		);
@@ -198,7 +200,8 @@ export function AsyncInputFormHook(props) {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
-	const loading = open && options.length === 0;
+	const [hasFinish, setHasFinish] = useState(true);
+	const loading = hasFinish && (open && options.length === 0);
 	
 	// Request to loading
 	useEffect(() => {
@@ -209,7 +212,7 @@ export function AsyncInputFormHook(props) {
 			
 			if (!cancel) {
 				setOptions(result);
-				console.log('Resultado de la búsqueda');
+				setHasFinish(false);
 			}
 		}
 		
@@ -226,12 +229,16 @@ export function AsyncInputFormHook(props) {
 	useEffect(() => {
 		if (!open) {
 			setOptions([]);
+			setHasFinish(true);
 		}
 	},[open]);
 	
 	
 	const refreshResults = useCallback(
-		useAsyncDebounce(() => setOptions([]),500),
+		useAsyncDebounce(() => {
+			setOptions([]);
+			setHasFinish(true);
+		},500),
 	[]);
 	
 	return (

@@ -118,6 +118,9 @@ class UserController extends Controller
 		$search = urldecode(request()->search);
 		
 		$users = User::select('id','username','name','privilegio')
+			->when($request->privilegio, function ($query) {
+				$query->where('privilegio', request()->privilegio);
+			})
 			->where('username', 'like', "%$search%")
 			->limit(15)
 			->get()
