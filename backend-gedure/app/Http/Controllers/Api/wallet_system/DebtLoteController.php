@@ -69,7 +69,8 @@ class DebtLoteController extends Controller
 				->get();
 		}else if ($request->type === 'selected' && $request->selected_users && count($request->selected_users) > 0) {
 			// Obtener estudiantes seleccionados
-			$users = User::whereIn('id', $request->selected_users)
+			$users = User::where('privilegio', 'V-')
+				->whereIn('id', $request->selected_users)
 				->get();
 		}
 		
@@ -79,7 +80,7 @@ class DebtLoteController extends Controller
 			], 400);
 		}
 		
-		// Creación del lote de deudas
+		// Creaciรณn del lote de deudas
 		$debt_lote = DebtLote::create([
 			'reason' => $request->motivo,
 			'amount_to_pay' => $request->cantidad_pagar
