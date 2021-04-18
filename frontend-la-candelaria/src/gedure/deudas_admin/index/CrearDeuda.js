@@ -25,10 +25,10 @@ import LoadingComponent from '../../../components/LoadingComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
-export default function CrearDeuda({ tableRef }) {
+export default function CrearLoteDeuda({ tableRef }) {
 	const { open, loading } = useSelector((state) => ({
-		open: state.dialogs.crearDeuda.open,
-		loading: state.dialogs.crearDeuda.loading,
+		open: state.dialogs.crearLoteDeuda.open,
+		loading: state.dialogs.crearLoteDeuda.loading,
 	}));
 	const dispatch = useDispatch();
 	
@@ -40,7 +40,7 @@ export default function CrearDeuda({ tableRef }) {
 	
 	const handleClose = () => {
 		if (!loading) {
-			dispatch(updateDialogs('crearDeuda', false, false));
+			dispatch(updateDialogs('crearLoteDeuda', false, false));
 		}
 	}
 	
@@ -69,7 +69,7 @@ export default function CrearDeuda({ tableRef }) {
 	}
 	
 	const onSubmit = async submitData => {
-		dispatch(updateDialogs('crearDeuda', true, true));
+		dispatch(updateDialogs('crearLoteDeuda', true, true));
 		
 		// Fix array users
 		if (submitData.selected_users) {
@@ -91,18 +91,18 @@ export default function CrearDeuda({ tableRef }) {
 		if (response) {
 			tableRef.current && tableRef.current.onQueryChange();
 			if (submitData.create_more) {
-				dispatch(updateDialogs('crearDeuda', true, false));
+				dispatch(updateDialogs('crearLoteDeuda', true, false));
 			}else {
-				dispatch(updateDialogs('crearDeuda', false, false));
+				dispatch(updateDialogs('crearLoteDeuda', false, false));
 			}
 		}else {
-			dispatch(updateDialogs('crearDeuda', true, false));
+			dispatch(updateDialogs('crearLoteDeuda', true, false));
 		}
 	}
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
-			<DialogTitle>Crear deuda</DialogTitle>
+			<DialogTitle>Crear lote de deudas</DialogTitle>
 			<DialogContent>
 				<form autoComplete='off'>
 					<Grid container spacing={1}>
@@ -157,6 +157,8 @@ export default function CrearDeuda({ tableRef }) {
 							<Grid item xs={12}>
 								<AsyncInputFormHook
 									label='Seleccionar usuarios'
+									multiple
+									disabled={loading}
 									name='selected_users'
 									asyncRequest={asyncRequestUsers}
 									getOptionLabel={(option) => option.username}
@@ -176,6 +178,8 @@ export default function CrearDeuda({ tableRef }) {
 								<AsyncInputFormHook
 									label='Seleccionar cursos'
 									name='cursos'
+									multiple
+									disabled={loading}
 									asyncRequest={asyncRequestCursos}
 									getOptionLabel={(option) => option.code}
 									renderOption={option => option.code}
@@ -195,7 +199,7 @@ export default function CrearDeuda({ tableRef }) {
 			<DialogActions>
 				<RenderSwitchFormHook
 					labelPlacement="start"
-					label="Crear más de uno"
+					label="Crear mรกs de uno"
 					name='create_more'
 					control={control}
 					disabled={loading}

@@ -11,7 +11,14 @@ import useFetch from '../../../hooks/useFetch';
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 export default function TableDeudas({ tableRef }) {
+	const { permissions } = useSelector((state) => ({
+		permissions: state.userData.permissions,
+	}));
+	
 	const { fetchData } = useFetch();
 	
 	const onFetch = useCallback(async (query) => {
@@ -53,7 +60,7 @@ export default function TableDeudas({ tableRef }) {
 		<div data-tour='table'>
 			<MaterialTable
 				tableRef={tableRef}
-				title="Deudas registradas" 
+				title="Lotes de deudas registradas" 
 				icons={tableIcons}
 				columns={[
 					{
@@ -107,6 +114,7 @@ export default function TableDeudas({ tableRef }) {
 					{
 						icon: () => (<EditIcon data-tour='edit_deuda' />),
 						tooltip: 'Editar',
+						disabled: !permissions.administrar?.debt_lote_edit,
 						onClick: (event, rowData) => {
 							// dispatch(updateDialogs('showRegistros', true, false, rowData));
 						},
@@ -114,6 +122,7 @@ export default function TableDeudas({ tableRef }) {
 					{
 						icon: () => (<DeleteIcon data-tour='delete_deuda' />),
 						tooltip: 'Borrar',
+						disabled: !permissions.administrar?.debt_lote_delete,
 						onClick: (event, rowData) => {
 							// dispatch(updateDialogs('showRegistros', true, false, rowData));
 						},

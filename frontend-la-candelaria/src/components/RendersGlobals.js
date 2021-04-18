@@ -196,7 +196,7 @@ export function NumberFormatInput(props) {
 }
 
 export function AsyncInputFormHook(props) {
-	const { label, name, control, rules, asyncRequest, getOptionLabel, renderOption = null, ...rest } = props;
+	const { label, name, control, rules, asyncRequest, getOptionLabel, renderOption = null, multiple = false, ...rest } = props;
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
@@ -245,7 +245,7 @@ export function AsyncInputFormHook(props) {
 		<Controller
 			render={({onChange, onBlur, value, ref}) => (
 				<Autocomplete
-					multiple
+					multiple={multiple}
 					getOptionLabel={getOptionLabel}
 					options={options}
 					open={open}

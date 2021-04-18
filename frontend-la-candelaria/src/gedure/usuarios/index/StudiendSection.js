@@ -2,14 +2,15 @@ import React, { useCallback } from 'react';
 
 import {
 	Grid,
-	MenuItem,
+	Box,
 } from '@material-ui/core';
 
 import { useWatch } from "react-hook-form";
 
+import useFetch from '../../../hooks/useFetch';
+
 // Components
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
-import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
+import { AsyncInputFormHook } from '../../../components/RendersGlobals';
 
 export default function StudiendSection({ errors, control, disabled }) {
   const privilegio = useWatch({
@@ -18,48 +19,39 @@ export default function StudiendSection({ errors, control, disabled }) {
     defaultValue: ''
   });
 	
-	const MenuItemList = CursosList.map(useCallback((data, i) => (
-		<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
-	),[]));
+	const { fetchData } = useFetch();
 	
-	const MenuItemList2 = SeccionList.map(useCallback((data, i) => (
-		<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
-	),[]));
+	const asyncRequestCursos = async search => {
+		const prepare = {
+			url: `v1/find/curso?search=${encodeURI(search)}`,
+			type: 'get',
+			messageToFinish: false,
+		};
+
+		const response = await fetchData(prepare);
+		
+		return response || [];
+	}
 	
 	if (privilegio === 'V-') {
 		return (
-			<React.Fragment>
-				<Grid item xs={12} sm={6}>
-					<RenderSelectFormHook
-						id='user-curso'
-						name='curso'
-						nameLabel='Curso'
+			<Grid item xs={12}>
+				<Box mt={1}>
+					<AsyncInputFormHook
+						label='Seleccionar un curso'
+						name='curso_id'
+						asyncRequest={asyncRequestCursos}
+						getOptionLabel={(option) => option.code}
+						renderOption={option => option.code}
+						error={Boolean(errors.curso_id)}
+						helperText={errors?.curso_id?.message ? errors.curso_id.message : 'Seleccione el curso en el cual desea ingresar al usuario'}
 						control={control}
-						defaultValue=''
-						errors={errors?.curso}
-						helperText='* Campo requerido'
-						disabled={disabled}
-					>
-						<MenuItem value=''><em>Ninguno</em></MenuItem>
-						{MenuItemList}
-					</RenderSelectFormHook>
-				</Grid>
-				<Grid item xs={12}  sm={6}>
-					<RenderSelectFormHook
-						id='user-curso'
-						name='seccion'
-						nameLabel='Sección'
-						control={control}
-						defaultValue=''
-						errors={errors?.seccion}
-						helperText='* Campo requerido'
-						disabled={disabled}
-					>
-						<MenuItem value=''><em>Ninguno</em></MenuItem>
-						{MenuItemList2}
-					</RenderSelectFormHook>
-				</Grid>
-			</React.Fragment>
+						rules={{
+							required: { value: true, message: '* Campo requerido' },
+						}}
+					/>
+				</Box>
+			</Grid>
 		);
 	}
 	

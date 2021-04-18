@@ -185,6 +185,13 @@ class LoginController extends Controller
 				'boletas_destroy',
 				'contact_index',
 				'contact_destroy',
+				'debt_lote_index',
+				'debt_lote_create',
+				'debt_lote_edit',
+				'debt_lote_delete',
+				'debt_create',
+				'debt_delete',
+				'debt_refund',
 			],
 			'V-' => [
 				//

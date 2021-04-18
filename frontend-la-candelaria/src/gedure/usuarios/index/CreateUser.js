@@ -57,6 +57,10 @@ export default function CreateUser({ tableRef }) {
 		}
 		delete submitData.invitation_mode;
 		
+		if (submitData.curso_id) {
+			submitData.curso_id = submitData.curso_id.id;
+		}
+		
 		const prepare = {
 			url,
 			type: 'post',

@@ -105,7 +105,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		Curso::create([
+		$curso = Curso::create([
 			'code' => '5-A',
 			'curso' => '5',
 			'seccion' => 'A',
@@ -117,8 +117,7 @@ class UserControllerTest extends TestCase
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
 			'password' => '1234',
-			'curso' => '5',
-			'seccion' => 'A',
+			'curso_id' => $curso->id,
 			'permissions' => [
 				'boleta_download' => true,
 			]

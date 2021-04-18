@@ -149,8 +149,7 @@ class UserController extends Controller
 	{
 		// Verificar existencia del curso
 		if ($request->privilegio === 'V-') {
-			$code = $request->curso.'-'.$request->seccion;
-			$curso = Curso::firstWhere('code', $code);
+			$curso = Curso::find(intVal($request->curso_id));
 			
 			if (!$curso) {
 				return response()->json([
@@ -173,6 +172,8 @@ class UserController extends Controller
 			]);
 			
 			CursoController::orderAlumnos($curso->id);
+			
+			$user->wallet()->create();
 		}
 		
 		// Permissions

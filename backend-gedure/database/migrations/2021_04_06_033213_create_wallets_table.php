@@ -20,7 +20,7 @@ class CreateWalletsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->decimal('money', 15, 2);
+			$table->decimal('money', 15, 2)->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 		});

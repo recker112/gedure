@@ -202,6 +202,37 @@ function BoletaPermissions(props) {
 	);
 }
 
+function SolicitudContactoPermissions(props) {
+	const { control, disabled, setValue, defaultData=null } = props;
+	const contact_index = useWatch({
+		control,
+    name: 'permissions.contact_index',
+    defaultValue: defaultData?.contact_index || false
+  });
+	
+	useEffect(() => {
+		if (!contact_index) {
+			setValue('permissions.contact_destroy', false);
+		}
+		// eslint-disable-next-line
+	},[contact_index]);
+	
+	return (
+		<React.Fragment>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.contact_destroy || false}
+					name='permissions.contact_destroy'
+					label='Eliminar solicitudes de contacto'
+					color='primary'
+					disabled={!contact_index || disabled}
+				/>
+			</Grid>
+		</React.Fragment>
+	);
+}
+
 function CursoGedurePermissions(props) {
 	const { control, disabled, setValue, defaultData=null } = props;
 	const cursos_index = useWatch({
@@ -286,31 +317,86 @@ function UsersDisabledGedurePermissions(props) {
 	);
 }
 
-function SolicitudContactoPermissions(props) {
+function DebtAdminPermissions(props) {
 	const { control, disabled, setValue, defaultData=null } = props;
-	const contact_index = useWatch({
+	const debt_lote_index = useWatch({
 		control,
-    name: 'permissions.contact_index',
-    defaultValue: defaultData?.contact_index || false
+    name: 'permissions.debt_lote_index',
+    defaultValue: defaultData?.debt_lote_index || false
   });
 	
 	useEffect(() => {
-		if (!contact_index) {
-			setValue('permissions.contact_destroy', false);
+		if (!debt_lote_index) {
+			setValue('permissions.debt_lote_create', false);
+			setValue('permissions.debt_lote_edit', false);
+			setValue('permissions.debt_lote_delete', false);
+			setValue('permissions.debt_create', false);
+			setValue('permissions.debt_delete', false);
+			setValue('permissions.debt_refund', false);
 		}
 		// eslint-disable-next-line
-	},[contact_index]);
+	},[debt_lote_index]);
 	
 	return (
 		<React.Fragment>
 			<Grid item xs={12} sm={6}>
 				<RenderSwitchFormHook 
 					control={control}
-					defaultValue={defaultData?.contact_destroy || false}
-					name='permissions.contact_destroy'
-					label='Eliminar solicitudes de contacto'
+					defaultValue={defaultData?.debt_lote_create || false}
+					name='permissions.debt_lote_create'
+					label='Crear lotes de deudas'
 					color='primary'
-					disabled={!contact_index || disabled}
+					disabled={!debt_lote_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.debt_lote_edit || false}
+					name='permissions.debt_lote_edit'
+					label='Editar lotes de deudas'
+					color='primary'
+					disabled={!debt_lote_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.debt_lote_delete || false}
+					name='permissions.debt_lote_delete'
+					label='Eliminar lotes de deudas'
+					color='primary'
+					disabled={!debt_lote_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.debt_create || false}
+					name='permissions.debt_create'
+					label='Asignar deuda individualmente'
+					color='primary'
+					disabled={!debt_lote_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.debt_delete || false}
+					name='permissions.debt_delete'
+					label='Eliminar deuda individualmente'
+					color='primary'
+					disabled={!debt_lote_index || disabled}
+				/>
+			</Grid>
+			<Grid item xs={12} sm={6}>
+				<RenderSwitchFormHook 
+					control={control}
+					defaultValue={defaultData?.debt_refund || false}
+					name='permissions.debt_refund'
+					label='Rembolsar deuda individualmente'
+					color='primary'
+					disabled={!debt_lote_index || disabled}
 				/>
 			</Grid>
 		</React.Fragment>
@@ -391,7 +477,7 @@ function PermissionsNoSuper(props) {
 						control={control}
 						defaultValue={defaultData?.contact_index || false}
 						name='permissions.contact_index'
-						label='Ver solicitudes de contácto'
+						label='Ver solicitudes de contรกcto'
 						color='primary'
 						disabled={disabled}
 					/>
@@ -429,6 +515,22 @@ function PermissionsNoSuper(props) {
 					/>
 				</Grid>
 				<UsersDisabledGedurePermissions 
+					control={control} 
+					disabled={disabled}
+					defaultData={defaultData}
+					setValue={setValue}
+				/>
+				<Grid item xs={12}>
+					<RenderSwitchFormHook 
+						control={control}
+						defaultValue={defaultData?.debt_lote_index || false}
+						name='permissions.debt_lote_index'
+						label='Ver lotes de deudas'
+						color='primary'
+						disabled={disabled}
+					/>
+				</Grid>
+				<DebtAdminPermissions
 					control={control} 
 					disabled={disabled}
 					defaultData={defaultData}
