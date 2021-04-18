@@ -33,14 +33,14 @@ export default function RoutersGedure() {
 			component: <PageRegistros />,
 			exact: true,
 			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
-		},
-		{
+		},*/
+		/*{
 			path: `${url}/usuarios`,
 			component: <RoutersUsers />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
-		},
-		{
+		},*/
+		/*{
 			path: `${url}/publicaciones`,
 			component: <RoutersPosts />,
 			exact: false,
@@ -53,10 +53,10 @@ export default function RoutersGedure() {
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
 		},*/
 		{
-			path: `${url}/deudas`,
+			path: `${url}/lotes-deudas`,
 			component: <RoutersDeudas />,
 			exact: false,
-			iCanSee: Boolean(true),
+			iCanSee: Boolean(permissions?.administrar?.debt_lote_index),
 		},
 		/*{
 			path: `${url}/soli-contacto`,

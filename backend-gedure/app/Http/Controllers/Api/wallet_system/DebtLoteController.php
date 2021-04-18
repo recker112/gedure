@@ -25,24 +25,14 @@ class DebtLoteController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$debts = DebtLote::withCount([
-				'debts' => function ($query) {
-					$query->where('status', 'no pagada');
-				}
-			])
-			->where('reason', 'like', "%$search%")
+		$debts = DebtLote::where('reason', 'like', "%$search%")
 			->orWhere('id', 'like', "%$search%")
 			->offset($page)
 			->limit($perPage)
 			->get()
 			->toArray();
 		
-			$debtsCount = DebtLote::withCount([
-				'debts' => function ($query) {
-					$query->where('status', 'no pagada');
-				}
-			])
-			->count();
+			$debtsCount = DebtLote::count();
 		
 		return response()->json([
 			'data' => $debts,

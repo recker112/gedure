@@ -40,7 +40,7 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
-	crearDeuda: {
+	crearLoteDeuda: {
 		open: false,
 		loading: false,
 		data: {},

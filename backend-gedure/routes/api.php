@@ -67,11 +67,11 @@ Route::group(['prefix' => 'v1'], function () {
 	FIND LIKE
 	*/
 	// Users
-	Route::middleware(['auth:api', 'scopes:admin'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create'])
 		->get('find/user', [UserController::class, 'findLike']);
 	
 	// Cursos
-	Route::middleware(['auth:api', 'scopes:admin'])
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create|users_create'])
 		->get('find/curso', [CursoController::class, 'findLike']);
 	
 	/*
@@ -259,8 +259,8 @@ Route::group(['prefix' => 'v1'], function () {
 	Deudas
 	*/
 	// Create debt
-	Route::middleware(['auth:api', 'scopes:admin'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:debt_lote_index'])
 		->get('deuda/lote', [DebtLoteController::class, 'index']);
-	Route::middleware(['auth:api', 'scopes:admin'])
+	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_create'])
 		->post('deuda/lote', [DebtLoteController::class, 'create']);
 });

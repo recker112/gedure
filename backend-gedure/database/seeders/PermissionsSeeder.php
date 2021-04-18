@@ -58,6 +58,15 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'contact_index']);
 		Permission::create(['name' => 'contact_destroy']);
 		
+		// Deudas
+		Permission::create(['name' => 'debt_lote_index']);
+		Permission::create(['name' => 'debt_lote_create']);
+		Permission::create(['name' => 'debt_lote_edit']);
+		Permission::create(['name' => 'debt_lote_delete']);
+		Permission::create(['name' => 'debt_create']);
+		Permission::create(['name' => 'debt_delete']);
+		Permission::create(['name' => 'debt_refund']);
+		
 		/*
 			PERMISSIONS USER
 		*/
