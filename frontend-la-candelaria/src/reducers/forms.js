@@ -137,10 +137,6 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
-	crearDeuda: {
-		loading: false,
-		data: {},
-	},
 };
 
 export default (state = initialState, { type, payload }) => {
