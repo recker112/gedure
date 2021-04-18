@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
 import {
 	Container,
 	Box,
@@ -12,6 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Componets
 import TableDeudas from './TableDeudas';
+import CrearDeuda from './CrearDeuda';
+
+// Redux
+import { useDispatch } from 'react-redux';
+import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -30,12 +33,12 @@ export default function PageDeudasIndex() {
 	document.title = 'La Candelaria - Deudas';
 	const tableRef = useRef(null);
 	
-	const history = useHistory();
+	const dispatch = useDispatch();
 	
 	const classes = useStyles();
 	
 	const handleCreate = () => {
-		history.push('/gedure/deudas/crear');
+		dispatch(updateDialogs('crearDeuda', true, false));
 	}
 	
 	return (
@@ -51,6 +54,7 @@ export default function PageDeudasIndex() {
 					<Grid item xs={12}>
 						<TableDeudas tableRef={tableRef} />
 					</Grid>
+					<CrearDeuda tableRef={tableRef} />
 				</Grid>
 			</Container>
 		</main>

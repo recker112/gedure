@@ -40,6 +40,30 @@ class CursoControllerTest extends TestCase
 			]);
 	}
 	
+	public function testFindLikeCurso() {
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A'
+		]);
+		
+		$response = $this->getJson('/api/v1/find/curso');
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'*' => [
+					'id',
+					'code',
+				]
+			]);
+	}
+	
 	public function testCreateCurso() {
 		//$this->withoutExceptionHandling();
 		Passport::actingAs(

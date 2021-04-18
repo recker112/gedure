@@ -70,6 +70,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin'])
 		->get('find/user', [UserController::class, 'findLike']);
 	
+	// Cursos
+	Route::middleware(['auth:api', 'scopes:admin'])
+		->get('find/curso', [CursoController::class, 'findLike']);
+	
 	/*
 	POSTS
 	*/

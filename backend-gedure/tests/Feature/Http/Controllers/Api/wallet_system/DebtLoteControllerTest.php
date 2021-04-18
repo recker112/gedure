@@ -47,9 +47,8 @@ class DebtLoteControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/deuda/lote', [
 			'motivo' => 'Mensualidad Abril 2021',
 			'cantidad_pagar' => 600000.93,
-			'type' => 'studiends',
-			'curso' => '1',
-			'seccion' => 'A',
+			'type' => 'cursos',
+			'cursos' => [1],
 		]);
 		
 		$response->assertStatus(200)

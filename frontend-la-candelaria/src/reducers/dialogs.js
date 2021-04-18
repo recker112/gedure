@@ -39,7 +39,12 @@ const initialState = {
 		open: false,
 		loading: false,
 		data: {},
-	}
+	},
+	crearDeuda: {
+		open: false,
+		loading: false,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

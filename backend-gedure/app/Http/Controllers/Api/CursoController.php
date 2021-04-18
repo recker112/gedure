@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\CursoRequest;
 use App\Http\Requests\MassiveUsersRequest;
+use App\Http\Requests\FindLikeRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\BoletaController;
 // Passport
@@ -41,6 +42,18 @@ class CursoController extends Controller
 			'page' => request()->page * 1, 
 			'totalCursos' => $cursos_count
 		], 200);
+	}
+	
+	public function findLike(FindLikeRequest $request) {
+		$search = urldecode(request()->search);
+		
+		$cursos = Curso::select('id','code')
+			->where('code', 'like', "%$search%")
+			->limit(15)
+			->get()
+			->makeVisible(['id', 'code']);
+		
+		return response()->json($cursos, 200);
 	}
 	
 	public function create(CursoRequest $request) {

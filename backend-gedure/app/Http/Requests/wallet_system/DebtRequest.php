@@ -25,10 +25,10 @@ class DebtRequest extends FormRequest
 	{
 		return [
 			'motivo' => 'required|string',
-			'cantidad_pagar' => 'required|numeric',
+			'cantidad_pagar' => 'required|numeric|min:1',
 			'type' => 'required|string',
-			'curso' => 'nullable|string',
-			'seccion' => 'nullable|string',
+			'cursos' => 'nullable|array',
+			'cursos.*' => 'numeric',
 			'selected_users' => 'nullable|array',
 			'selected_users.*' => 'numeric',
 		];

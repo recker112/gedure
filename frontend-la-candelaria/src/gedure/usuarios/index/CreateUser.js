@@ -8,8 +8,6 @@ import {
 	DialogActions,
 	DialogContentText,
 	Button,
-	FormControlLabel,
-	Switch,
 	MenuItem,
 	TextField,
 } from '@material-ui/core';
@@ -20,7 +18,7 @@ import useFetch from '../../../hooks/useFetch';
 
 // Component
 import AnimationDialog from '../../../components/AnimationDialog';
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
+import { RenderSelectFormHook, RenderSwitchFormHook } from '../../../components/RendersGlobals';
 import PasswordSection from './PasswordSection';
 import StudiendSection from './StudiendSection';
 import PermissionsSection from './PermissionsSection';
@@ -87,9 +85,13 @@ export default function CreateUser({ tableRef }) {
 				<form autoComplete='off'>
 					<Grid container spacing={1}>
 						<Grid item xs={12}>
-							<FormControlLabel
-								control={<Switch disabled={loading} name='invitation_mode' inputRef={register} color="primary" />}
+							<RenderSwitchFormHook 
+								control={control}
 								label="El usuario genera su contraseña"
+								disabled={loading}
+								name='invitation_mode'
+								color="primary"
+								defaultValue={false}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -183,11 +185,14 @@ export default function CreateUser({ tableRef }) {
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<FormControlLabel
-					control={<Switch color="primary" name='create_more' inputRef={register} />}
+				<RenderSwitchFormHook 
+					control={control}
 					label="Crear más de uno"
 					labelPlacement="start"
 					disabled={loading}
+					name='create_more'
+					color="primary"
+					defaultValue={false}
 				/>
 				<Button disabled={loading} onClick={handleClose}>
 					Cancelar
