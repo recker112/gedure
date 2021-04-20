@@ -45,6 +45,11 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	editLoteDeuda: {
+		open: false,
+		loading: false,
+		data: {},
+	},
 };
 
 export default (state = initialState, { type, payload }) => {

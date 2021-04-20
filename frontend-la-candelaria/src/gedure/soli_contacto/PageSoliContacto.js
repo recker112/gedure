@@ -70,7 +70,7 @@ export default function PageSoliContacto() {
 				<TableContact tableRef={tableRef} />
 				<ShowSoliContact />
 				<DialogConfirmation callback={onConfirm}>
-					Estáก a punto de eliminar la solicitud "<strong>{data.asunto}</strong>", esta acción no se puede deshacer.
+					Está a punto de eliminar la solicitud "<strong>{data.asunto}</strong>". Una vez realizada no se podrá deshacer esta acción.
 				</DialogConfirmation>
 			</Container>
 			<TourSoliContacto />

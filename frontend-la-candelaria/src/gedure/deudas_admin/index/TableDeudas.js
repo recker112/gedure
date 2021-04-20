@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,14 +12,19 @@ import useFetch from '../../../hooks/useFetch';
 
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
+import { parseFloatToMoneyString } from '../../../components/funciones/MoneyString';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from '../../../actions/updateDialogs';
 
 export default function TableDeudas({ tableRef }) {
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
+	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const { fetchData } = useFetch();
 	
@@ -72,26 +79,9 @@ export default function TableDeudas({ tableRef }) {
 					{
 						title: 'Monto a pagar', 
 						field: 'amount_to_pay',
-						render: rowData => {
-							let moneyText = rowData.amount_to_pay;
-							moneyText = moneyText.split('.');
-							let decimals = moneyText[1];
-							let amount = moneyText[0].split('');
-							moneyText = '';
-							
-							for(let i = 1; amount.length >= i; i++) {
-								if (i % 3 === 0) {
-									moneyText = `.${amount[amount.length - i]}${moneyText}`;
-								}else {
-									moneyText = `${amount[amount.length - i]}${moneyText}`;
-								}
-							}
-							moneyText = `Bs/S ${moneyText},${decimals}`;
-							
-							return moneyText;
-						},
+						render: rowData => parseFloatToMoneyString(rowData.amount_to_pay),
 					},
-					{title: 'Fecha', field: 'created_at'}
+					{title: 'Fecha de creación', field: 'created_at'}
 				]}
 				data={onFetch}
 				localization={tableLocation}
@@ -108,7 +98,7 @@ export default function TableDeudas({ tableRef }) {
 						icon: () => (<VisibilityIcon data-tour='show_deuda' />),
 						tooltip: 'Ver',
 						onClick: (event, rowData) => {
-							// dispatch(updateDialogs('showRegistros', true, false, rowData));
+							history.push(`/gedure/lotes-deudas/ver/${rowData.id}`);
 						},
 					},
 					{
@@ -116,7 +106,12 @@ export default function TableDeudas({ tableRef }) {
 						tooltip: 'Editar',
 						disabled: !permissions.administrar?.debt_lote_edit,
 						onClick: (event, rowData) => {
-							// dispatch(updateDialogs('showRegistros', true, false, rowData));
+							const { id, reason, amount_to_pay } = rowData;
+							dispatch(updateDialogs('editLoteDeuda', true, false, {
+								id, 
+								reason, 
+								amount_to_pay: parseFloat(amount_to_pay)
+							}));
 						},
 					},
 					{
@@ -124,7 +119,11 @@ export default function TableDeudas({ tableRef }) {
 						tooltip: 'Borrar',
 						disabled: !permissions.administrar?.debt_lote_delete,
 						onClick: (event, rowData) => {
-							// dispatch(updateDialogs('showRegistros', true, false, rowData));
+							const { id, reason } = rowData;
+							dispatch(updateDialogs('deleteConfirmation', true, false, {
+								id, 
+								reason,
+							}));
 						},
 					},
 				]}

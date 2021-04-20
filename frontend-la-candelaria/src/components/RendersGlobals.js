@@ -196,7 +196,7 @@ export function NumberFormatInput(props) {
 }
 
 export function AsyncInputFormHook(props) {
-	const { label, name, control, rules, asyncRequest, getOptionLabel, renderOption = null, multiple = false, ...rest } = props;
+	const { label, name, control, asyncRequest, getOptionLabel, renderOption = null, multiple = false, rules = null, ...rest } = props;
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');

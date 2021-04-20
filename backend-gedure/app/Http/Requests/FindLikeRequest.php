@@ -26,6 +26,8 @@ class FindLikeRequest extends FormRequest
 		return [
 			'search' => 'nullable|string',
 			'privilegio' => 'nullable|string',
+			'id_lote_deuda' => 'nullable|numeric',
+			'not_registred' => 'nullable|boolean',
 		];
 	}
 }

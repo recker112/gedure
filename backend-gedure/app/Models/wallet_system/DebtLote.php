@@ -44,4 +44,10 @@ class DebtLote extends Model
 			->timezone(config('app.timezone_parse'))
 			->format('Y-d-m h:i A');
 	}
+	
+	public function getUpdatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
+	}
 }

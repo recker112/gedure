@@ -74,6 +74,10 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create|users_create'])
 		->get('find/curso', [CursoController::class, 'findLike']);
 	
+	// Deudas users
+	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_edit'])
+		->get('find/deudas-users', [DebtLoteController::class, 'findUsersLike']);
+	
 	/*
 	POSTS
 	*/
@@ -258,9 +262,23 @@ Route::group(['prefix' => 'v1'], function () {
 	/*
 	Deudas
 	*/
-	// Create debt
+	// Index debt lote
 	Route::middleware(['auth:api', 'scopes:admin', 'can:debt_lote_index'])
 		->get('deuda/lote', [DebtLoteController::class, 'index']);
+	
+	// Show debt lote
+	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
+		->get('deuda/lote/{id}', [DebtLoteController::class, 'show']);
+	
+	// Create debt lote
 	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_create'])
 		->post('deuda/lote', [DebtLoteController::class, 'create']);
+	
+	// Edit debt lote
+	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_edit'])
+		->put('deuda/lote/{id}', [DebtLoteController::class, 'edit']);
+	
+	// Delete debt lote
+	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_delete'])
+		->delete('deuda/lote/{id}', [DebtLoteController::class, 'delete']);
 });

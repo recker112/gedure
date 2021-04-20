@@ -24,8 +24,10 @@ class DebtLoteEditRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'motivo' => 'required|string',
-			'new_price' => 'nullable|numeric',
+			'reason' => 'required|string',
+			'new_price' => 'required|numeric',
+			'selected_users' => 'nullable|array',
+			'selected_users.*' => 'numeric',
 		];
 	}
 }
