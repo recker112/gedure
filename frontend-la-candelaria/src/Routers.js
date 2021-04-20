@@ -54,10 +54,10 @@ export function ErrorFallback({ error, resetErrorBoundary }) {
 	return (
 		<div className={classes.containerErrorBoundary}>
 			<Box mb={2} align='center' fontSize='h4.fontSize'>
-				¡No estas conectado a internet!
+				¡Se ha producido un error!
 			</Box>
 			<Box mb={2} align='center' fontSize='body1.fontSize'>
-				Revisa tu conexión a internet.
+				Revisa tu conexión a Internet, es posible que no te encuentres conectado.
 			</Box>
 			<Box align='center'>
 				<Button variant='outlined' onClick={resetErrorBoundary}>Reintentar</Button>
@@ -155,14 +155,14 @@ export function Loader(props){
 			{theme === 'light' ? 
 				(
 				<React.Fragment>
-					<img src={logoL} alt='Logo de la institución' className='loading__img' />
+					<img src={logoL} alt='Logo de la instituciรณn' className='loading__img' />
 					<ReactLoading type="bars" color="#00000080" width={150} height={100} />
 				</React.Fragment>
 				)
 			:
 				(
 				<React.Fragment>
-					<img src={logoD} alt='Logo de la institución' className='loading__img' />
+					<img src={logoD} alt='Logo de la instituciรณn' className='loading__img' />
 					<ReactLoading type="bars" color="#FFFFFF80" width={150} height={100} />
 				</React.Fragment>
 				)

@@ -137,6 +137,10 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	pageShowLoteDeuda: {
+		loading: true,
+		data: {},
+	}
 };
 
 export default (state = initialState, { type, payload }) => {

@@ -8,9 +8,13 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
+import useFetch from '../../../hooks/useFetch';
+
 // Componets
 import TableDeudas from './TableDeudas';
-import CrearDeuda from './CrearDeuda';
+import CrearLoteDeuda from './CrearLoteDeuda';
+import EditLoteDeuda from './EditLoteDeuda';
+import DialogConfirmation from '../../../components/DialogConfirmation';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -39,16 +43,36 @@ export default function PageDeudasIndex() {
 	}));
 	const dispatch = useDispatch();
 	
+	const { fetchData } = useFetch();
+	
 	const classes = useStyles();
 	
 	const handleCreate = () => {
 		dispatch(updateDialogs('crearLoteDeuda', true, false));
 	}
 	
+	const onConfirm = async handleClose => {
+		const prepare = {
+			url: `v1/deuda/lote/${data.id}`,
+			type: 'delete',
+			message404: 'El lote de deuda ya no existe',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
+	}
+	
 	return (
 		<main className={classes.containerMain}>
 			<Container>
-				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Lotes de deudas</Box>
+				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>
+					Lotes de deudas
+				</Box>
 				<Grid container spacing={2}>
 					<Grid container justify='flex-end' item xs={12}>
 						<Button 
@@ -63,7 +87,11 @@ export default function PageDeudasIndex() {
 					<Grid item xs={12}>
 						<TableDeudas tableRef={tableRef} />
 					</Grid>
-					<CrearDeuda tableRef={tableRef} />
+					<CrearLoteDeuda tableRef={tableRef} />
+					<EditLoteDeuda tableRef={tableRef} />
+					<DialogConfirmation callback={onConfirm}>
+						Está a punto de eliminar el lote de deuda <strong>{data.reason}</strong> (#{data.id}). Una vez realizada no se podrá deshacer esta acción.
+					</DialogConfirmation>
 				</Grid>
 			</Container>
 		</main>

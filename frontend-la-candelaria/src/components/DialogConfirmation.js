@@ -23,7 +23,7 @@ export default function DialogConfirmation({ callback, children }) {
 	const dispatch = useDispatch();
 
 	const handleClose = () => {
-		dispatch(updateDialogs('deleteConfirmation', false, false));
+		dispatch(updateDialogs('deleteConfirmation', false, true));
 	};
 
 	return (

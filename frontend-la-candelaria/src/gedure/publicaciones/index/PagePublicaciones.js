@@ -62,8 +62,6 @@ export default function PagePublicaciones() {
 		};
 		
 		const response = await fetchData(prepare);
-
-		dispatch(updateDialogs('deleteConfirmation', false, true));
 		
 		if (response) {
 			tableRef.current && tableRef.current.onQueryChange();
@@ -91,7 +89,7 @@ export default function PagePublicaciones() {
 					<Grid item xs={12}>
 						<TablePosts tableRef={tableRef} />
 						<DialogConfirmation callback={onConfirm}>
-							Estáก a punto de eliminar la noticia <strong>{data.title}</strong>. Esta acción una vez realizada no se puede deshacer.
+							Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.
 						</DialogConfirmation>
 					</Grid>
 				</Grid>

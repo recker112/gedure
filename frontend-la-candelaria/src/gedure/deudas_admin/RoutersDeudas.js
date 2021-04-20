@@ -5,6 +5,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 // Routers
 const PageDeudasIndex = lazy(() => import('./index/PageDeudasIndex'));
+const PageLoteDeudaShow = lazy(() => import('./show/PageLoteDeudaShow'));
 
 export default function RoutersBoletas() {
 	let { url } = useRouteMatch();
@@ -14,6 +15,10 @@ export default function RoutersBoletas() {
 			<Switch>
 				<Route path={`${url}/`} exact>
 					<PageDeudasIndex />
+				</Route>
+				
+				<Route path={`${url}/ver/:id`} exact>
+					<PageLoteDeudaShow />
 				</Route>
 				
 				<Route>
