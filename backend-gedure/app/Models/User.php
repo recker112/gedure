@@ -103,11 +103,6 @@ class User extends Authenticatable
 		return $this->hasOne('App\Models\wallet_system\Transaction')->withTrashed();
 	}
 	
-	public function transaction_exoneradas()
-	{
-		return $this->hasOne('App\Models\wallet_system\Transaction', 'exonerante_id')->withTrashed();
-	}
-	
 	/*
 		ATRIBUTOS
 	*/

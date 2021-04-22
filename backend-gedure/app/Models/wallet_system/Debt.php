@@ -40,7 +40,7 @@ class Debt extends Model
 	
 	public function transaction()
 	{
-		return $this->hasOne('App\Models\wallet_system\Transaction');
+		return $this->morphOne('App\Models\wallet_system\Transaction', 'transable');
 	}
 	
 	public function debt_lote()

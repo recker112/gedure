@@ -20,31 +20,23 @@ class CreateTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->foreignId('bank_account_id')
-				->nullable()
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
-			
 			$table->foreignId('exonerante_id')
 				->nullable()
+				->default(null)
 				->references('id')
 				->on('users')
 				->onUpdate('cascade')
 				->onDelete('set null');
 			
-			$table->foreignId('debt_id')
-				->nullable()
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
+			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
+			$table->string('transable_type')->nullable()->default(null);
 			
 			$table->enum('type', ['deuda', 'transferencia', 'pago verficado']);
 			$table->text('reason');
 			$table->decimal('amount', 15, 2);
 			$table->decimal('remaining', 15, 2);
-			$table->enum('payment_method', ['transferencia bancaria', 'saldo disponible']);
-			$table->boolean('exonerante_server');
+			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible']);
+			$table->boolean('exonerado')->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 		});
