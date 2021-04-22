@@ -90,7 +90,7 @@ export default function PersonalEstudianteData({ id }) {
 						nameLabel='Curso'
 						control={control}
 						defaultValue={dataUser.alumno?.curso?.curso || ''} 
-						errors={errors?.personalData?.estudi_estado_civil}
+						errors={errors?.alumno?.curso?.curso}
 						disabled={loading}
 					>
 						<MenuItem value=''>
@@ -105,7 +105,7 @@ export default function PersonalEstudianteData({ id }) {
 						nameLabel='Sección'
 						control={control}
 						defaultValue={dataUser.alumno?.curso?.seccion || ''} 
-						errors={errors?.personalData?.estudi_estado_civil}
+						errors={errors?.alumno?.curso?.seccion}
 						disabled={loading}
 					>
 						<MenuItem value=''>

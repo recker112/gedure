@@ -152,7 +152,7 @@ function Navs() {
 					</ReturnSelected>
 				</Box>
 			)}
-			<Box mb={1} data-tour='contrase単a'>
+			<Box mb={1} data-tour='contraseña'>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
