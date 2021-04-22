@@ -25,6 +25,7 @@ import { useForm, Controller } from "react-hook-form";
 
 // Components
 import LoadingComponent from '../../../../components/LoadingComponent';
+import { NumberFormatInput } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -77,28 +78,21 @@ export function PersonalUsuarioForm(props) {
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField 
-						type='tel'
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 6, message: 'Error: Teléfono no válido' },
-							maxLength: { value: 30, message: 'Error: Teléfono no válido' },
-							pattern: {
-								value: /^[0-9]*$/,
-								message: 'Ingrese solo números',
-							},
-						})}
+					<NumberFormatInput
+						disabled={loading}
 						error={Boolean(errors?.personalData?.telefono)}
-						helperText={errors?.personalData?.telefono?.message ? errors.personalData.telefono.message : ''}
-						variant='outlined'
-						name='personalData.telefono'
+						helperText={errors?.personalData?.telefono ? errors.personalData.telefono.message : ''}
 						label='Teléfono'
 						size='small'
-						disabled={loading}
-						defaultValue={user.personal_data.telefono}
+						mask='phone'
 						fullWidth
-						InputProps={{
-							startAdornment: <InputAdornment position='start'>+58</InputAdornment>
+						name='personalData.telefono'
+						variant='outlined'
+						control={control}
+						defaultValue={user.personal_data.telefono || '58'}
+						rules={{
+							required: { value: true, message: '* Campo requerido' },
+							minLength: { value: 12, message: 'Error: Teléfono no válido' }
 						}}
 					/>
 				</Grid>

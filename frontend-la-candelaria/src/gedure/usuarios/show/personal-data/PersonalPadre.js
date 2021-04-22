@@ -17,7 +17,7 @@ import useFetch from '../../../../hooks/useFetch';
 
 // Components
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
+import { RenderSelectFormHook, NumberFormatInput } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -104,28 +104,21 @@ export function PersonalPadreForm(props) {
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField 
-						type='tel'
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 6, message: 'Error: Demaciado corto' },
-							maxLength: { value: 30, message: 'Error: Demaciado largo' },
-							pattern: {
-								value: /^[0-9]*$/,
-								message: 'Error: Solo números',
-							},
-						})}
+					<NumberFormatInput
+						disabled={loading}
 						error={Boolean(errors?.personalData?.padre_telefono)}
-						helperText={errors?.personalData?.padre_telefono?.message ? errors.personalData.padre_telefono.message : ''}
-						variant='outlined'
-						name='personalData.padre_telefono'
+						helperText={errors?.personalData?.padre_telefono ? errors.personalData.padre_telefono.message : ''}
 						label='Teléfono'
 						size='small'
-						defaultValue={user.personal_data.padre_telefono || ''}
-						disabled={loading}
+						mask='phone'
 						fullWidth
-						InputProps={{
-							startAdornment: <InputAdornment position='start'>+58</InputAdornment>
+						name='personalData.padre_telefono'
+						variant='outlined'
+						control={control}
+						defaultValue={user.personal_data.padre_telefono || '58'}
+						rules={{
+							required: { value: true, message: '* Campo requerido' },
+							minLength: { value: 12, message: 'Error: Teléfono no válido' }
 						}}
 					/>
 				</Grid>
