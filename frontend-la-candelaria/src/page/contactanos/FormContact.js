@@ -15,6 +15,7 @@ import useFetch from '../../hooks/useFetch';
 
 // Components
 import LoadingComponent from '../../components/LoadingComponent';
+import { NumberFormatInput } from '../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,13 +31,12 @@ function FormContact() {
 	
 	const { fetchData } = useFetch();
 	
-	const { register, handleSubmit, errors, watch } = useForm({
+	const { register, handleSubmit, errors, watch, control } = useForm({
 		mode: 'onTouched',
 	});
 	
 	const onSubmit = async (data) => {
 		dispatch(updateForms('contacto', true));
-		data.content = data.content.replace(/\r?\n/g,"</br>");
 		
 		const prepareDate = {
 			url: 'v1/contacto',
@@ -70,9 +70,9 @@ function FormContact() {
 					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
-								required: { value: true, message: 'Este campo es obligatorio' },
-								minLength: { value: 8, message: 'El nombre es muy corto' },
-								maxLength: { value: 50, message: 'El nombre es muy largo' },
+								required: { value: true, message: '* Campo obligatorio' },
+								minLength: { value: 8, message: 'Nombre no válido' },
+								maxLength: { value: 50, message: 'Nombre no válido' },
 							})}
 							id='contacto-nombre'
 							name='nombre'
@@ -80,7 +80,7 @@ function FormContact() {
 							variant='outlined'
 							size='small'
 							error={Boolean(errors?.nombre)}
-							helperText={errors?.nombre?.message ? errors.nombre.message : 'Ingresar un nombre válido'}
+							helperText={errors?.nombre?.message ? errors.nombre.message : 'Ingrese su nombre'}
 							disabled={loading}
 							fullWidth
 						/>
@@ -88,7 +88,7 @@ function FormContact() {
 					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
-								required: { value: true, message: 'Este campo es obligatorio' },
+								required: { value: true, message: '* Campo obligatorio' },
 								pattern: {
 									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
 									message: 'El correo no es válido',
@@ -101,43 +101,36 @@ function FormContact() {
 							variant='outlined'
 							size='small'
 							error={Boolean(errors?.email)}
-							helperText={errors?.email?.message ? errors.email.message : 'Ingrasar un correo válido'}
+							helperText={errors?.email?.message ? errors.email.message : 'Ingrese un correo de contacto'}
 							disabled={loading}
 							fullWidth
 						/>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: 'Este campo es obligatorio' },
-								minLength: { value: 8, message: 'El teléfono no es válido' },
-								maxLength: { value: 12, message: 'El teléfono no es válido' },
-								pattern: {
-									value: /^[0-9]*$/,
-									message: 'Ingrese solo números',
-								},
-							})}
-							id='contacto-telefono'
-							name='telefono'
-							type='tel'
+						<NumberFormatInput
+							disabled={loading}
+							error={Boolean(errors.telefono)}
+							helperText={errors?.telefono?.message ? errors.telefono.message : 'Ingrese un número telefónico válido'}
 							label='Teléfono *'
 							variant='outlined'
 							size='small'
-							error={Boolean(errors?.telefono)}
-							helperText={errors?.telefono?.message ? errors.telefono.message : 'Ingrese un número telefónico válido'}
-							disabled={loading}
+							mask='phone'
 							fullWidth
-							InputProps={{
-								startAdornment: <InputAdornment position='start'>+58</InputAdornment>
+							name='telefono'
+							control={control}
+							defaultValue='58'
+							rules={{
+								required: { value: true, message: '* Campo requerido' },
+								minLength: { value: 12, message: 'El teléfono no es válido' },
 							}}
 						/>
 					</Grid>
 					<Grid item xs={12} sm={6}>
 						<TextField 
 							inputRef={register({
-								required: { value: true, message: 'Este campo es obligatorio' },
-								minLength: { value: 4, message: 'El asunto es muy corto' },
-								maxLength: { value: 30, message: 'El asunto es muy largo' },
+								required: { value: true, message: '* Campo requerido' },
+								minLength: { value: 4, message: 'Demaciado corto' },
+								maxLength: { value: 30, message: 'Demaciado largo' },
 							})}
 							id='contacto-asunto'
 							name='asunto'
@@ -145,7 +138,7 @@ function FormContact() {
 							variant='outlined'
 							size='small'
 							error={Boolean(errors?.asunto)}
-							helperText={errors?.asunto?.message ? errors.asunto.message : 'El asunto debe ser corto y preciso'}
+							helperText={errors?.asunto?.message ? errors.asunto.message : 'Ingrese el asunto'}
 							disabled={loading}
 							fullWidth
 						/>
@@ -153,9 +146,9 @@ function FormContact() {
 					<Grid item xs={12}>
 						<TextField 
 							inputRef={register({
-								required: { value: true, message: 'Este campo es obligatorio' },
-								minLength: { value: 10, message: 'El mensaje es muy corto' },
-								maxLength: { value: maxMensaje, message: 'El mensaje es muy largo' },
+								required: { value: true, message: '* Campo obligatorio' },
+								minLength: { value: 10, message: 'Demaciado corto' },
+								maxLength: { value: maxMensaje, message: 'Demaciado largo' },
 							})}
 							id='contacto-mensaje'
 							name='content'
@@ -177,7 +170,9 @@ function FormContact() {
 								variant='contained' 
 								color='primary' 
 								disableElevation
-							>Enviar</Button>
+							>
+								Enviar
+							</Button>
 						</LoadingComponent>
 					</Grid>
 				</Grid>

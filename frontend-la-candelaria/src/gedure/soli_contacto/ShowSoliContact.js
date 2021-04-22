@@ -41,6 +41,8 @@ export default function ShowSoliContact() {
 					<br />
 					<strong>Correo:</strong> {data.email}
 					<br />
+					<strong>Teléfono:</strong> {data.telefono}
+					<br />
 					<strong>Fecha de solicitud:</strong> {data.created_at}
 					<br />
 					<br />
