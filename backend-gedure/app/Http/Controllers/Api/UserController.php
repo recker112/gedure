@@ -131,7 +131,7 @@ class UserController extends Controller
 	
 	public function show(Request $request, $id)
 	{
-		$user = User::with(['alumno', 'personal_data'])
+		$user = User::with(['alumno', 'alumno.curso', 'personal_data'])
 			->findOrFail(intVal($id));
 		
 		if ($user->privilegio === 'A-' && !$request->user()->can('users_edit_admins')) {
@@ -387,7 +387,7 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Log
 		$request->user()->logs()->create([
-			'action' => 'Actualización de datos',
+			'action' => 'Actualizaciรณn de datos',
 			'type' => 'user',
 		]);
 		
@@ -512,7 +512,7 @@ class UserController extends Controller
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualización de sección masiva',
+			'action' => 'Actualizaciรณn de secciรณn masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);
