@@ -18,13 +18,13 @@ class Transaction extends Model
 	protected $fillable = [
 		'user_id',
 		'exonerante_id',
-		'bank_account_id',
-		'debt_id',
+		'transable_id',
+		'transable_type',
 		'reason',
 		'amount',
 		'remaining',
 		'payment_method',
-		'exonerante_server',
+		'exonerado',
 	];
 	
 	/**
@@ -46,13 +46,8 @@ class Transaction extends Model
 		return $this->belongsTo('App\Models\User', 'exonerante_id');
 	}
 	
-	public function bank_account()
+	public function transable()
 	{
-		return $this->belongsTo('App\Models\wallet_system\BankAccount');
-	}
-	
-	public function debt()
-	{
-		return $this->belongsTo('App\Models\wallet_system\Debt');
+		return $this->morphTo()->withTrashed();
 	}
 }

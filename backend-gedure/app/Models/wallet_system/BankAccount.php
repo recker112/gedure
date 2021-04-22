@@ -31,9 +31,4 @@ class BankAccount extends Model
 	protected $hidden = [
 		'updated_at',
 	];
-	
-	public function debts()
-	{
-		return $this->hasMany('App\Models\wallet_system\Transaction');
-	}
 }
