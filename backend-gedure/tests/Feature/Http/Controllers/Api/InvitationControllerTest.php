@@ -28,7 +28,7 @@ class InvitationControllerTest extends TestCase
 	 */
 	public function testInviteUser()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -36,7 +36,7 @@ class InvitationControllerTest extends TestCase
 		
 		Mail::fake();
 		
-		Curso::create([
+		$curso = Curso::create([
 			'code' => '1-A',
 			'curso' => '1',
 			'seccion' => 'A',
@@ -47,8 +47,7 @@ class InvitationControllerTest extends TestCase
 			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
 			'privilegio' => 'V-',
-			'curso' => '1',
-			'seccion' => 'A',
+			'curso_id' => $curso->id,
 			'permissions' => [
 				'boleta_download' => true,
 				'change_avatar' => true,

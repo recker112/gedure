@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Alumno;
 use App\Models\Curso;
 use App\Models\Boleta;
+use App\Models\PersonalDataAdmin;
 use App\Models\PersonalDataUser;
 
 class UserControllerTest extends TestCase
@@ -40,15 +41,17 @@ class UserControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
+						'id',
 						'username',
 						'name',
 						'privilegio',
 						'email',
 						'avatar',
+						'actived_at',
 					]
 				],
 				'page',
-				'totalUsers'
+				'totalRows'
 			]);
 	}
 	
@@ -87,9 +90,12 @@ class UserControllerTest extends TestCase
 				'user' => [
 					'id',
 					'name',
+					'username',
+					'email',
 					'privilegio',
-					'personal_data',
-					'estudiante_data',	
+					'actived_at',
+					'alumno',
+					'personal_data',	
 				],
 				'permissions' => [
 					'super_admin'
@@ -205,7 +211,8 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'A-'
 		]);
-		$user->personalData(false)->create();
+		$personal_data = PersonalDataAdmin::create();
+		$personal_data->user()->save($user);
 		
 		$avatar = UploadedFile::fake()->image('Universidad.png');
 		
@@ -229,12 +236,29 @@ class UserControllerTest extends TestCase
 				'user' => [
 					'id',
 					'username',
+					'name',
+					'email',
+					'avatar',
+					'actived_at',
+					'privilegio',
+					'alumno',
+					'personal_data' => [
+						'telefono',
+						'nacimiento',
+						'sexo',
+						'direccion',
+						'docente',
+						'docente_titulo',
+						'docente_ingreso_MPPE',
+						'docente_ingreso',
+					],
 				],
 				'permissions' => [
 					'users_index',
 					'registros_index',
 				]
-			]);
+			])
+			->assertJsonPath('user.personal_data.telefono', '4269340569');;
 		
 		$this->assertDatabaseHas('users', [
 			'username' => 'luis',
@@ -300,6 +324,8 @@ class UserControllerTest extends TestCase
 				'user_id' => $user->id,
 				'n_lista' => 99
 			]);
+		$personal_data = PersonalDataUser::create();
+		$personal_data->user()->save($user);
 		
 		$response = $this->deleteJson('/api/v1/user/'.$user->id);
 		
@@ -320,7 +346,13 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$users = User::factory(10)->create();
+		$users = User::factory(10)->create([
+			'privilegio' => 'A-',
+		]);
+		foreach($users as $user) {
+			$personal_data = PersonalDataAdmin::create();
+			$personal_data->user()->save($user);
+		}
 		
 		$ids = json_encode([2,3,4,5,6,7,8,9,10,11]);
 		
@@ -351,6 +383,10 @@ class UserControllerTest extends TestCase
 		$users = User::factory(10)->create([
 			'privilegio' => 'V-',
 		]);
+		foreach($users as $user) {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
+		}
 		
 		$response = $this->putJson('/api/v1/massive/user/seccion',[
 			'ids' => [2,3,4,5,6,7,8,9,10,11],
@@ -399,9 +435,13 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$users = User::factory(3)->create();
+		$users = User::factory(3)->create([
+			'privilegio' => 'V-'
+		]);
 		
 		foreach($users as $user) {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
 			$user->delete();
 		}
 		
@@ -418,10 +458,10 @@ class UserControllerTest extends TestCase
 					]
 				],
 				'page',
-				'totalUsers'
+				'totalRows'
 			])
 			->assertJson([
-				'totalUsers' => count($users),
+				'totalRows' => count($users),
 			]);
 	}
 	
@@ -442,7 +482,8 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
-		$user->personalData(false)->create();
+		$personal_data = PersonalDataUser::create();
+		$personal_data->user()->save($user);
 		$user->alumno()->create([
 			'curso_id' => $curso->id,
 			'n_lista' => 10,
@@ -471,9 +512,13 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$users = User::factory(3)->create();
+		$users = User::factory(3)->create([
+			'privilegio' => 'A-'
+		]);
 		
 		foreach($users as $user) {
+			$personal_data = PersonalDataAdmin::create();
+			$personal_data->user()->save($user);
 			$user->delete();	
 		}
 		
@@ -507,7 +552,8 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
-		$user->personalData(false)->create();
+		$personal_data = PersonalDataUser::create();
+		$personal_data->user()->save($user);
 		$user->alumno()->create([
 			'curso_id' => $curso->id,
 			'n_lista' => 10,
@@ -536,10 +582,13 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$users = User::factory(3)->create();
+		$users = User::factory(3)->create([
+			'privilegio' => 'A-'
+		]);
 		
 		foreach($users as $user) {
-			$user->personalData(false)->create();
+			$personal_data = PersonalDataAdmin::create();
+			$personal_data->user()->save($user);
 			$user->delete();
 		}
 		
@@ -563,7 +612,8 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'A-'
 		]);
-		$user->personalData(false)->create();
+		$personal_data = PersonalDataAdmin::create();
+		$personal_data->user()->save($user);
 		
 		Passport::actingAs(
 			$user,
@@ -581,9 +631,22 @@ class UserControllerTest extends TestCase
 				'user' => [
 					'id',
 					'username',
+					'name',
+					'email',
+					'avatar',
+					'actived_at',
+					'privilegio',
+					'alumno',
 					'personal_data' => [
-						'telefono'
-					]
+						'telefono',
+						'nacimiento',
+						'sexo',
+						'direccion',
+						'docente',
+						'docente_titulo',
+						'docente_ingreso_MPPE',
+						'docente_ingreso',
+					],
 				],
 			])
 			->assertJsonPath('user.personal_data.telefono', '4269340569');
@@ -597,7 +660,8 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
-		$user->personalData(false)->create();
+		$personal_data = PersonalDataUser::create();
+		$personal_data->user()->save($user);
 		$user->givePermissionTo('change_avatar');
 		Passport::actingAs(
 			$user,

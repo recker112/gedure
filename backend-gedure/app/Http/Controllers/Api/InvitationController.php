@@ -16,19 +16,20 @@ use App\Mail\Invitation as MailInvitation;
 use App\Models\User;
 use App\Models\Invitation;
 use App\Models\Curso;
+use App\Models\PersonalDataUser;
+use App\Models\PersonalDataAdmin;
 
 class InvitationController extends Controller
 {
   public function invite(UserRequest $request) 
 	{
-		// Verificar existencia del curso
+		// RECKER(NOTA): Verificar
 		if ($request->privilegio === 'V-') {
-			$code = $request->curso.'-'.$request->seccion;
-			$curso = Curso::firstWhere('code', $code);
+			$curso = Curso::find(intVal($request->curso_id));
 			
 			if (!$curso) {
 				return response()->json([
-					'msg' => 'El curso '.$code.' no existe',
+					'msg' => 'El curso '.$curso->code.' no existe',
 				],404);
 			}
 		}
@@ -36,9 +37,10 @@ class InvitationController extends Controller
 		$dataUser = $request->only(['username', 'name', 'privilegio', 'email']);
 		$user = User::create($dataUser);
 		
-		$user->personalData(false)->create();
-		
 		if ($user->privilegio === 'V-') {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
+			
 			$user->alumno()->create([
 				'curso_id' => $curso->id,
 				'user_id' => $user->id,
@@ -46,6 +48,9 @@ class InvitationController extends Controller
 			]);
 			
 			CursoController::orderAlumnos($curso->id);
+		}else if ($user->privilegio === 'A-') {
+			$personal_data = PersonalDataAdmin::create();
+			$personal_data->user()->save($user);
 		}
 		
 		// Permissions
@@ -59,14 +64,14 @@ class InvitationController extends Controller
 			}
 		}
 		
-		// Crear y enviar invitaciรณn
+		// RECKER(NOTA): Crear y enviar la invitation
 		$user->invitation()->create([
 			'invitation_key' => Str::random(40),
 		]);
 		
 		Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));
 		
-		//Log
+		// RECKER(NOTA): Log
 		$payload = [
 			'privilegio' => $user->privilegio,
 			'username' => $user->username,

@@ -24,7 +24,6 @@ class Boleta extends Model
 	];
 	
 	protected $appends = [
-		'curso_boleta',
 		'fecha_humano',
 		'fecha_humano_modify',
 	];
@@ -85,13 +84,5 @@ class Boleta extends Model
 		}
 		
 		return $show;
-	}
-	
-	/*
-	ATTRIBUTES
-	*/
-	public function getCursoBoletaAttribute()
-	{
-		return $this->curso()->first();
 	}
 }

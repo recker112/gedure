@@ -20,6 +20,7 @@ use App\Mail\Invitation as MailInvitation;
 // Models
 use App\Models\User;
 use App\Models\Curso;
+use App\Models\PersonalDataUser;
 
 // Controllers
 use App\Http\Controllers\Api\CursoController;
@@ -95,7 +96,8 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 						'privilegio' => 'V-',
 					]);
 
-					$user->personalData(false)->create();
+					$personal_data = PersonalDataUser::create();
+					$personal_data->user()->save($user);
 
 					$user->alumno()->create([
 						'curso_id' => $curso->id,

@@ -23,7 +23,7 @@ export default function TourRegistros() {
 					<Typography variant='body1'>
 						En esta sección del sistema podrá ver todos los procesos(registros) realizados en el sistemas. Incluyendo desde inicios de sesión hasta eliminación de usuarios.
 					</Typography>
-					<Button size='small' color='primary' onClick={() => {goTo(4)}}>
+					<Button size='small' color='primary' onClick={() => {goTo(5)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -48,6 +48,17 @@ export default function TourRegistros() {
 			content: () => (
 				<Typography variant='body1'>
 					Aquí podra ver los registros del sistema, puede <strong>buscar</strong> un registro por su <strong>acción</strong>, <strong>fecha</strong> o <strong>usuario</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="refresh"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {

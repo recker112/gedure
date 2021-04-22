@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
 			$table->string('password')->nullable()->default(null);
 			$table->string("avatar", 500)->nullable()->default(null);
 			$table->string("email")->unique()->nullable()->default(null);
+			$table->unsignedBigInteger('personal_data_id')->nullable()->default(null);
+			$table->string('personal_data_type')->nullable()->default(null);
 			$table->timestamps();
 			$table->softDeletes();
 			$table->timestamp('actived_at')->nullable()->default(null);

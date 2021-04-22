@@ -12,28 +12,29 @@ class InfoBoxController extends Controller
   public function index(Request $request)
 	{
 		$user = $request->user();
+		$data_finish = [];
 		
-		$post_data = [];
+		// RECKER(NOTA): Obtener últimos posts
 		$posts = Post::limit(3)->orderBy('id', 'desc')->get();
+		$data_finish['posts'] = [];
 		$iP=0;
 		foreach($posts as $post) {
-			$post_data[$iP]['textPrimary'] = $post->title;
-			$post_data[$iP]['textSecondary'] = $post->fecha_humano;
+			$data_finish['posts'][$iP]['textPrimary'] = $post->title;
+			$data_finish['posts'][$iP]['textSecondary'] = $post->fecha_humano;
 			$iP++;
 		}
-		$data_finish['posts'] = $post_data;
 		
+		// RECKER(NOTA): Obtener datos solo para estudiantes
 		if ($user->privilegio === 'V-') {
-			$boleta_data = [];
+			$data_finish['boletas'] = [];
 			$iB=0;
 			foreach($user->boletas as $boleta) {
-				$boleta_data[$iB]['curso'] = $boleta->curso->curso;
-				$boleta_data[$iB]['seccion'] = $boleta->curso->seccion;
-				$boleta_data[$iB]['lapso'] = $boleta->lapso;
-				$boleta_data[$iB]['textSecondary'] = $boleta->fecha_humano;
+				$data_finish['boletas'][$iB]['curso'] = $boleta->curso->curso;
+				$data_finish['boletas'][$iB]['seccion'] = $boleta->curso->seccion;
+				$data_finish['boletas'][$iB]['lapso'] = $boleta->lapso;
+				$data_finish['boletas'][$iB]['textSecondary'] = $boleta->fecha_humano;
 				$iB++;
 			}
-			$data_finish['boletas'] = $boleta_data;
 		}
 		
 		return response()->json($data_finish,200);

@@ -19,27 +19,14 @@ class PersonalDataAdmin extends Model
 		'docente_titulo',
 		'docente_ingreso_MPPE',
 		'docente_ingreso',
-		'user_id'
-	];
-	
-	protected $casts = [
-		'nacimiento' => 'datetime: d-m-Y',
-		'docente_ingreso' => 'datetime: d-m-Y',
-		'docente_ingreso_MPPE' => 'datetime: d-m-Y',
-	];
-	
-	protected $dates = [
-		'nacimiento',
-		'docente_ingreso',
-		'docente_ingreso_MPPE',
 	];
 	
 	protected $hidden = [
-		'created_at', 'updated_at', 'user_id', 'id', 'deleted_at'
+		'created_at', 'updated_at', 'id', 'deleted_at'
 	];
 	
 	public function user()
 	{
-		return $this->belongsTo('App\Models\User');
+		return $this->morphOne('App\Models\User', 'personal_data');
 	}
 }

@@ -168,10 +168,10 @@ export function PersonalRepresentanteUbiForm(props) {
 						<MenuItem value="Av">Av</MenuItem>
 						<MenuItem value="Blvr">Blvr</MenuItem>
 						<MenuItem value="Calle">Calle</MenuItem>
-						<MenuItem value="Callejรณn">Callejรณn</MenuItem>
+						<MenuItem value="Callejón">Callejón</MenuItem>
 						<MenuItem value="Carretera">Carretera</MenuItem>
 						<MenuItem value="Manzana">Manzana</MenuItem>
-						<MenuItem value="Prolongaciรณn">Prolongaciรณn</MenuItem>
+						<MenuItem value="Prolongacion">Prolongación</MenuItem>
 						<MenuItem value="Transversal">Transversal</MenuItem>
 						<MenuItem value="Vereda">Vereda</MenuItem>
 					</RenderSelectFormHook>

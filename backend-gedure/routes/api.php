@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\InfoBoxController;
 
 //Wallet System
 use App\Http\Controllers\Api\wallet_system\DebtLoteController;
+use App\Http\Controllers\Api\wallet_system\DebtController;
 
 /*
 |--------------------------------------------------------------------------
@@ -281,4 +282,8 @@ Route::group(['prefix' => 'v1'], function () {
 	// Delete debt lote
 	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_delete'])
 		->delete('deuda/lote/{id}', [DebtLoteController::class, 'delete']);
+	
+	// Index debts of lote
+	Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
+		->get('deuda/lote/users/{id}', [DebtController::class, 'index']);
 });

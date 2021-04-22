@@ -53,7 +53,6 @@ class PersonalDataUser extends Model
 		'estudi_otros_beca',
 		'estudi_otros_alojado',
 		'estudi_otros_direccion',
-		'user_id',
 	];
 	
 	protected $dates = [
@@ -62,11 +61,11 @@ class PersonalDataUser extends Model
 	];
 	
 	protected $hidden = [
-		'created_at', 'updated_at', 'user_id', 'id', 'deleted_at'
+		'created_at', 'updated_at', 'id', 'deleted_at'
 	];
 	
 	public function user()
 	{
-		return $this->belongsTo('App\Models\User');
+		return $this->morphOne('App\Models\User', 'personal_data');
 	}
 }

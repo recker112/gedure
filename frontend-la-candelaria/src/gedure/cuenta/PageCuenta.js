@@ -107,7 +107,7 @@ function Navs() {
 					</Box>
 				)}
 			</Collapse>
-			<Box mb={1} data-tour='contraseña'>
+			<Box mb={1} data-tour='contrase単a'>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
@@ -139,7 +139,7 @@ export default function PageCuenta() {
 		<main className={classes.containerMain}>
 			<Container maxWidth='md'>
 				<Box mb={4}>
-					<BreadCrumbsShow user={user} />
+					<BreadCrumbsShow user={user} maxLengthPath={2} />
 				</Box>
 				<Grid container spacing={2}>
 					<Navs />

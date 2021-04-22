@@ -18,7 +18,7 @@ import useFetch from '../../../hooks/useFetch';
 
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
-import Table from './Table';
+//import Table from './Table';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TableUsers({ tableRef, filters, massiveDelete, handleMassive }) {
 	const [pageSizeController, setpageSizeController] = useState(5);
-	const [data, setData] = useState({});
+	//const [data, setData] = useState({});
 	const { loading, permissions } = useSelector((state) => ({
 		loading: state.forms.usersIndex.loading,
 		permissions: state.userData.permissions,
@@ -79,16 +79,16 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 				};
 			}
 			
-			setData({
+			/*setData({
 				data: response.data,
 				page: response.page,
-				totalCount: response.totalUsers,
-			});
+				totalCount: response.totalRows,
+			});*/
 			
 			return {
 				data: response.data,
 				page: response.page,
-				totalCount: response.totalUsers,
+				totalCount: response.totalRows,
 			};
 		} else {
 			return {
@@ -236,7 +236,7 @@ export default function TableUsers({ tableRef, filters, massiveDelete, handleMas
 					pageSize: pageSizeController,
 				}}
 			/>
-			<Table dataReq={data} />
+			{/*<Table dataReq={data} />*/}
 		</div>
 	);
 }

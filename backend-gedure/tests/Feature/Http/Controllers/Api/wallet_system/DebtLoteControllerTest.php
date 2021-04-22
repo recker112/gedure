@@ -21,7 +21,6 @@ class DebtLoteControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
-	
 	public function testIndex()
 	{
 		//$this->withoutExceptionHandling();
@@ -30,9 +29,12 @@ class DebtLoteControllerTest extends TestCase
 			['admin']
 		);
 		
-		$this->testCreateDebt();
+		$deuda_lote = DebtLote::create([
+			'reason' => 'Test',
+			'amount_to_pay' => 400,
+		]);
 		
-		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=0&search=Mensualidad');
+		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=0');
 
 		$response->assertOk()
 			->assertJsonStructure([

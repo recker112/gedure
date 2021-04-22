@@ -57,7 +57,7 @@ export default function TableUsersDisabled({ tableRef }) {
 			return {
 				data: response.data,
 				page: response.page,
-				totalCount: response.totalUsers,
+				totalCount: response.totalRows,
 			};
 		} else {
 			return {

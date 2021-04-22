@@ -16,6 +16,8 @@ class UserSeeder extends Seeder
 	 */
 	public function run()
 	{
+		$personal_data = PersonalDataAdmin::create();
+		
 		$user = User::factory()->create([
 			'username' => 'admin',
 			'name' => 'Super admin',
@@ -24,8 +26,6 @@ class UserSeeder extends Seeder
 			'actived_at' => now(),
 		]);
 		
-		PersonalDataAdmin::create([
-			'user_id' => $user->id,
-		]);
+		$personal_data->user()->save($user);
 	}
 }

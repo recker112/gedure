@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function BreadCrumbsShow({ user }) {
+export default function BreadCrumbsShow({ user, maxLengthPath }) {
 	const classes = useStyles();
 	
 	let location = useLocation();
@@ -26,6 +26,7 @@ export default function BreadCrumbsShow({ user }) {
 	let removed = BreadCrumbsRouters.splice(0,1);
 	
 	let route = BreadCrumbsRouters[BreadCrumbsRouters.length - 1].toString().replace('-', ' ');
+	console.log(route,BreadCrumbsRouters);
 	
 	return (
 		<Grid container alignItems='center' spacing={2}>
@@ -42,7 +43,7 @@ export default function BreadCrumbsShow({ user }) {
 			</Grid>
 			<Grid item>
 				<Typography variant='h6' className='text__bold--semi'>
-				{(BreadCrumbsRouters.length - 1 !== 4 || route === '') ? 'Perfil' : route[0].toUpperCase() + route.slice(1) }
+				{(BreadCrumbsRouters.length - 1 !== maxLengthPath || route === '') ? 'Perfil' : route[0].toUpperCase() + route.slice(1) }
 				</Typography>
 			</Grid>
 		</Grid>

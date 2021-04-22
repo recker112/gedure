@@ -121,7 +121,7 @@ export default function TableBoletas({ tableRef, filters, massiveDelete, handleM
 								return (
 									<React.Fragment>
 										<div>{rowData.privilegio+rowData.username}</div>
-										<div>N° lista {rowData.estudiante_data.n_lista}</div>
+										<div>N° lista {rowData.n_lista}</div>
 									</React.Fragment>
 								)
 							}else {
