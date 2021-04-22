@@ -36,26 +36,21 @@ class User extends Authenticatable
 	 * @var array
 	 */
 	protected $hidden = [
-		'created_at', 'updated_at', 'password', 'deleted_at'
-	];
-	
-	protected $appends = [
-		'personal_data',
-		'estudiante_data',
+		'created_at',
+		'updated_at',
+		'password',
+		'deleted_at',
+		'personal_data_id',
+		'personal_data_type',
 	];
 	
 	/*
 		RELACIONES
 	*/
 	
-	public function personalDataUser()
+	public function personal_data()
 	{
-		return $this->hasOne('App\Models\PersonalDataUser');
-	}
-	
-	public function personalDataAdmin()
-	{
-		return $this->hasOne('App\Models\PersonalDataAdmin');
+		return $this->morphTo()->withTrashed();
 	}
 	
 	public function recoveryPassword()
@@ -70,11 +65,7 @@ class User extends Authenticatable
 	
 	public function boletas()
 	{
-		if ($this->trashed()) {
-			return $this->hasMany('App\Models\Boleta')->onlyTrashed();
-		}else {
-			return $this->hasMany('App\Models\Boleta');	
-		}
+		return $this->hasMany('App\Models\Boleta')->withTrashed();
 	}
 	
 	public function blocks()
@@ -99,23 +90,27 @@ class User extends Authenticatable
 	
 	public function debts()
 	{
-		return $this->hasMany('App\Models\wallet_system\Debt');
+		return $this->hasMany('App\Models\wallet_system\Debt')->withTrashed();
 	}
 	
 	public function wallet()
 	{
-		return $this->hasOne('App\Models\wallet_system\Wallet');
+		return $this->hasOne('App\Models\wallet_system\Wallet')->withTrashed();
 	}
 	
 	public function transactions()
 	{
-		return $this->hasOne('App\Models\wallet_system\Transaction');
+		return $this->hasOne('App\Models\wallet_system\Transaction')->withTrashed();
 	}
 	
 	public function transaction_exoneradas()
 	{
-		return $this->hasOne('App\Models\wallet_system\Transaction', 'exonerante_id');
+		return $this->hasOne('App\Models\wallet_system\Transaction', 'exonerante_id')->withTrashed();
 	}
+	
+	/*
+		ATRIBUTOS
+	*/
 	
 	public function getAvatarOriginalAttribute()
 	{
@@ -134,46 +129,6 @@ class User extends Authenticatable
 	}
 	
 	/*
-		FUNCIONES ESPECIALES
-	*/
-	
-	public function personalData($first = true)
-	{
-		/*
-			NOTA (RECKER): Esto es solo una verificacion de si el usuario fue soft deleteado para asi poder recuperar sus datos.
-		*/
-		if ($this->trashed()) {
-			if ($this->attributes['privilegio'] === 'V-') {
-				if ($first) {
-					return $this->personalDataUser()->onlyTrashed()->first();	
-				}else {
-					return $this->personalDataUser()->onlyTrashed();
-				}
-			}else {
-				if ($first) {
-					return $this->personalDataAdmin()->onlyTrashed()->first();
-				}else {
-					return $this->personalDataAdmin()->onlyTrashed();
-				}
-			}
-		}else {
-			if ($this->attributes['privilegio'] === 'V-') {
-				if ($first) {
-					return $this->personalDataUser()->first();
-				}else {
-					return $this->personalDataUser();
-				}
-			}else {
-				if ($first) {
-					return $this->personalDataAdmin()->first();
-				}else {
-					return $this->personalDataAdmin();
-				}
-			}
-		}
-	}
-	
-	/*
 		BOOT FUNCTION
 		
 		NOTA (RECKER): Esta funcion ayuda a eliminar todas las relaciones de la base de datos usando soft delete, hay que poner manualmente las relaciones que se deben de eliminar y las que se deben de restaurar.
@@ -183,49 +138,32 @@ class User extends Authenticatable
 
 		static::deleting(function($user) {
 			if ($user->isForceDeleting()){
-				$user->personalData->forceDelete();
+				$user->personal_data()->forceDelete();
 				
 				foreach($user->boletas as $boleta) {
 					$boleta->forceDelete();
 				}
 			}else {
-				$user->personalData(false)->delete();
+				$user->personal_data()->delete();
 			
 				if($user->privilegio === 'V-') {
-					if ($user->alumno){
-						$user->alumno()->delete();
-					}
+					$user->alumno()->delete();
 
 					foreach($user->boletas as $boleta) {
 						$boleta->delete();
 					}
-				}	
+				}
 			}
 		});
 		
 		static::restoring(function($user) {
+			$user->personal_data()->restore();
+			
 			if ($user->privilegio === 'V-') {
-				$user->personalDataUser()->restore();
-				
 				foreach($user->boletas as $boleta) {
 					$boleta->restore();
 				}
-			} else if ($user->privilegio === 'A-') {
-				$user->personalDataAdmin()->restore();
 			}
 		});
-	}
-	
-	/*
-		ATRIBUTOS
-	*/
-	public function getPersonalDataAttribute()
-	{
-		return $this->personalData();
-	}
-	
-	public function getEstudianteDataAttribute()
-	{
-		return $this->alumno()->first();
 	}
 }

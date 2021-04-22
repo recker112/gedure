@@ -30,7 +30,7 @@ export default function Boleta(props) {
 		lapso, 
 		fecha_humano, 
 		fecha_humano_modify,
-		curso_boleta,
+		curso,
 		created_at,
 		updated_at,
 	} = props;
@@ -64,7 +64,7 @@ export default function Boleta(props) {
 		const response = await fetchData(prepare);
 
 		if (response) {
-			downloadFiles(response, `Boleta_${curso_boleta.curso}_${curso_boleta.seccion}_${lapso}_lapso.pdf`);
+			downloadFiles(response, `Boleta_${curso.curso}-${curso.seccion}_${lapso}_lapso.pdf`);
 		}
 		
 		setLoading(false);
@@ -83,7 +83,7 @@ export default function Boleta(props) {
 						fontSize='h6.fontSize' 
 						fontWeight={600}
 					>
-						{converterCursoCode(curso_boleta.curso)} {curso_boleta.seccion} - {lapso}° Lapso
+						{converterCursoCode(curso.curso)} {curso.seccion} - {lapso}° Lapso
 						<Box 
 							fontSize='body1.fontSize'
 							color='text.disabled'

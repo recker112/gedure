@@ -21,7 +21,7 @@ class LogController extends Controller
 		$page = $request->page * $perPage;
 		
 		if (!empty($type) && $type !== 'all') {
-			$logs = Log::with('user')
+			$logs = Log::with(['user:id,privilegio,username,name'])
 				->where('type', $type)
 				->where(function ($query) {
 					$search = urldecode(request()->search);
@@ -37,7 +37,6 @@ class LogController extends Controller
 				->limit($perPage)
 				->get()
 				->makeVisible('id')
-				->makeHidden('user')
 				->toArray();
 			
 			//Total de logs
@@ -53,7 +52,7 @@ class LogController extends Controller
 					})
 				->count();
 		}else {
-			$logs = Log::with('user')
+			$logs = Log::with(['user:id,privilegio,username,name'])
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
@@ -68,12 +67,10 @@ class LogController extends Controller
 				->limit($perPage)
 				->get()
 				->makeVisible('id')
-				->makeHidden('user')
 				->toArray();
 			
 			//Total de logs
-			$logsCount = Log::with('user')
-				->where(function ($query) {
+			$logsCount = Log::where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
 						->orWhere('created_at', 'like', "%".$search."%")
@@ -88,7 +85,7 @@ class LogController extends Controller
 		return response()->json([
 			'data' => $logs,
 			'page' => $request->page * 1, 
-			'totalLogs' => $logsCount,
+			'totalRows' => $logsCount,
 		], 200);
 	}
 }

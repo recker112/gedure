@@ -36,14 +36,22 @@ class LogControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
-						'username',
-						'name',
+						'id',
 						'action',
-						'created_at'
+						'payload',
+						'type',
+						'created_at',
+						'date_format',
+						'user' => [
+							'id',
+							'username',
+							'privilegio',
+							'name'
+						],
 					]
 				],
 				'page',
-				'totalLogs'
+				'totalRows'
 			]);
 	}
 	
@@ -63,9 +71,9 @@ class LogControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonStructure([
-				'data',
+				'data' => [],
 				'page',
-				'totalLogs'
+				'totalRows'
 			]);
 	}
 	
@@ -86,19 +94,27 @@ class LogControllerTest extends TestCase
 
 		$response->assertOk()
 			->assertJsonFragment([
-				'username' => $user->privilegio . $user->username
+				'type' => 'gedure',
 			])
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
-						'username',
-						'name',
+						'id',
 						'action',
-						'created_at'
+						'payload',
+						'type',
+						'created_at',
+						'date_format',
+						'user' => [
+							'id',
+							'username',
+							'privilegio',
+							'name'
+						],
 					]
 				],
 				'page',
-				'totalLogs'
+				'totalRows'
 			]);
 	}
 	
@@ -125,12 +141,28 @@ class LogControllerTest extends TestCase
 		
 		$response->assertOk()
 			->assertJsonFragment([
-				'username' => $user->privilegio . $user->username
+				'type' => 'gedure',
+				'action' => 'Test',
 			])
 			->assertJsonStructure([
-				'data',
+				'data' => [
+					'*' => [
+						'id',
+						'action',
+						'payload',
+						'type',
+						'created_at',
+						'date_format',
+						'user' => [
+							'id',
+							'username',
+							'privilegio',
+							'name'
+						],
+					]
+				],
 				'page',
-				'totalLogs'
+				'totalRows'
 			]);
 	}
 }

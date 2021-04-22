@@ -27,9 +27,7 @@ class BoletaController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$users = User::withCount('boletas')
-			->where('privilegio', 'V-')
-			->has('alumno')
+		$users = User::where('privilegio', 'V-')
 			->where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
@@ -42,22 +40,21 @@ class BoletaController extends Controller
 				});
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->with(['alumno' => function ($query) {
-						$query->orderBy('n_lista');
-					}]);
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+					->select('users.*', 'alumnos.n_lista')
+					->orderBy('alumnos.n_lista', 'asc');
 			})
 			->when(empty($curso) && empty($seccion), function ($query) {
 				$query->orderBy('users.id', 'desc');
 			})
+			->withCount('boletas')
 			->offset($page)
 			->limit($perPage)
 			->get()
-			->makeHidden(['personal_data', 'email', 'actived_at'])
+			->makeHidden(['email', 'actived_at'])
 			->toArray();
 			
-		$usersCount = User::withCount('boletas')
-			->where('privilegio', 'V-')
-			->has('alumno')
+		$usersCount = User::where('privilegio', 'V-')
 			->where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
@@ -70,9 +67,9 @@ class BoletaController extends Controller
 				});
 			})
 			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->with(['alumno' => function ($query) {
-						$query->orderBy('n_lista');
-					}]);
+				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
+					->select('users.*', 'alumnos.n_lista')
+					->orderBy('alumnos.n_lista', 'asc');
 			})
 			->count();
 		
@@ -85,7 +82,10 @@ class BoletaController extends Controller
 	
 	public function show($id)
 	{
-		$boletas = Boleta::where('user_id', $id)->get()->toArray();
+		$boletas = Boleta::where('user_id', $id)
+			->with('curso')
+			->get()
+			->toArray();
 		$user = User::find(intVal($id))->only('name');
 		
 		return response()->json([
@@ -97,8 +97,12 @@ class BoletaController extends Controller
 	public function showStudiend(Request $request)
 	{
 		$user = $request->user();
+		$boletas = $user->boletas()
+			->with('curso')
+			->get()
+			->toArray();
 		
-		return response()->json($user->boletas, 200);
+		return response()->json($boletas, 200);
 	}
 	
 	public function edit(BoletaEditRequest $request, $id)

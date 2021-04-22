@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 
 import MaterialTable from 'material-table';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 import useFetch from '../../hooks/useFetch';
 
@@ -54,7 +55,7 @@ export default function TableRegistros({ tableRef, filters }) {
 			return {
 				data: response.data,
 				page: response.page,
-				totalCount: response.totalLogs,
+				totalCount: response.totalRows,
 			};
 		}else {
 			return {
@@ -73,8 +74,16 @@ export default function TableRegistros({ tableRef, filters }) {
 				title="Registros del sistema" 
 				icons={tableIcons}
 				columns={[
-					{title: 'Usuario', field: 'username'},
-					{title: 'Nombre', field: 'name'},
+					{
+						title: 'Usuario', 
+						field: 'username',
+						render: rowData => rowData?.user?.privilegio+rowData?.user?.username,
+					},
+					{
+						title: 'Nombre', 
+						field: 'name',
+						render: rowData => rowData?.user?.name,
+					},
 					{title: 'Acción', field: 'action'},
 					{title: 'Fecha', field: 'created_at'}
 				]}
@@ -82,11 +91,21 @@ export default function TableRegistros({ tableRef, filters }) {
 				localization={tableLocation}
 				actions={[
 					{
+						icon: () => (<RefreshIcon data-tour="refresh" />),
+						tooltip: 'Recargar',
+						isFreeAction: true,
+						onClick: (event, rowData) => {
+							tableRef.current && tableRef.current.onQueryChange();
+						},
+					},
+					{
 						icon: () => (<VisibilityIcon data-tour='show_registro' />),
 						tooltip: 'Ver',
 						onClick: (event, rowData) => {
-							rowData.date = format(new Date(rowData.date_format), 'dd/mm/yy');
-							rowData.hours = format(new Date(rowData.date_format), 'hh:mm a');
+							const data = rowData;
+							data.date = format(new Date(data.date_format), 'dd/MM/yy');
+							data.hours = format(new Date(data.date_format), 'hh:mm a');
+							data.username = rowData.user.privilegio+rowData.user.username;
 							dispatch(updateDialogs('showRegistros', true, false, rowData));
 						},
 					},

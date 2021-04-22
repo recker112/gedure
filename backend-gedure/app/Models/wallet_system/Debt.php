@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+// Carbon
+use Carbon\Carbon;
+
 class Debt extends Model
 {
   use HasFactory, SoftDeletes;
@@ -27,7 +30,7 @@ class Debt extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'updated_at', 'deleted_at'
+		'created_at', 'deleted_at', 'id', 'user_id', 'debt_lote_id'
 	];
 	
 	public function user()
@@ -43,5 +46,14 @@ class Debt extends Model
 	public function debt_lote()
 	{
 		return $this->belongsTo('App\Models\wallet_system\DebtLote');
+	}
+	
+	/*
+	TIMEZONES
+	*/
+	public function getUpdatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
 	}
 }

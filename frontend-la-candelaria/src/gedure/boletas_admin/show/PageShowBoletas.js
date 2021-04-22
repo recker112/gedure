@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import {
 	Container,
 	Box,
 	CircularProgress,
 	Grid,
+	Tooltip,
+	IconButton,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import useFetch from '../../../hooks/useFetch';
 
@@ -49,6 +52,8 @@ export default function PageShowBoletas() {
 	
 	const classes = useStyles();
 	
+	const history = useHistory();
+	
 	const { fetchData } = useFetch();
 	
 	const getBoletas = async () => {
@@ -84,7 +89,7 @@ export default function PageShowBoletas() {
 		const prepare = {
 			url: `v1/boleta/${dataDelete.id}`,
 			type: 'delete',
-			message404: 'El usuario ya no existe',
+			message404: 'La boleta ya no existe',
 		};
 		
 		const response = await fetchData(prepare);
@@ -99,9 +104,26 @@ export default function PageShowBoletas() {
 		getBoletas();
 	}
 	
+	const handleReturn = () => {
+		history.push('/gedure/boletas');
+	}
+	
 	return (
 		<main className={classes.containerMain}>
 			<Container>
+				<Box mb={3}>
+					<Tooltip title='Volver' arrow>
+						<span>
+							<IconButton
+								disabled={loading} 
+								onClick={handleReturn} 
+								aria-label="return"
+							>
+								<ArrowBackIcon />
+							</IconButton>
+						</span>
+					</Tooltip>
+				</Box>
 				{loading && (
 					<Box align='center'>
 						<CircularProgress />
@@ -123,7 +145,7 @@ export default function PageShowBoletas() {
 					</Box>
 				)}
 				<DialogConfirmation callback={onConfirm}>
-					Estáก a punto de eliminar la boleta <strong>{dataDelete.curso} {dataDelete.seccion} {dataDelete.lapso}° Lapso</strong> de <strong>{name}</strong>. Tenga en cuenta que esta acción no se puede deshacer.
+					Está a punto de eliminar la boleta <strong>{dataDelete.curso} {dataDelete.seccion} {dataDelete.lapso}° Lapso</strong> de <strong>{name}</strong>. Tenga en cuenta que esta acción no se puede deshacer.
 				</DialogConfirmation>
 				<ReplaceBoleta handleRefresh={getBoletas} name={name} />
 			</Container>

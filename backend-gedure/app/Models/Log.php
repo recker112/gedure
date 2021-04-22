@@ -24,8 +24,6 @@ class Log extends Model
 	];
 	
 	protected $appends = [
-		'username',
-		'name',
 		'date_format',
 	];
 	
@@ -35,24 +33,6 @@ class Log extends Model
 	public function user()
 	{
 		return $this->belongsTo('App\Models\User');
-	}
-	
-	public function getUsernameAttribute()
-	{
-		if ($this->user) {
-			return $this->user->privilegio.$this->user->username;	
-		}else {
-			return 'Cuenta eliminada';
-		}
-	}
-	
-	public function getNameAttribute()
-	{
-		if ($this->user) {
-			return $this->user->name;
-		}else {
-			return 'Cuenta eliminada';
-		}
 	}
 	
 	public function getPayloadAttribute($value) {

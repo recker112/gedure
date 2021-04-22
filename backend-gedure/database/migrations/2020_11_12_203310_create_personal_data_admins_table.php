@@ -15,10 +15,6 @@ class CreatePersonalDataAdminsTable extends Migration
 	{
 		Schema::create('personal_data_admins', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
 			
 			$table->timestamp("nacimiento")->nullable()->default(null);
 			$table->bigInteger('telefono')->nullable()->default(null);

@@ -86,7 +86,7 @@ export default function ReplaceBoleta({ handleRefresh, name }) {
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<DialogContentText>Estáก a punto de reemplazar la boleta <strong>{data.curso} {data.seccion} {data.lapso}° Lapso</strong> de <strong>{name}</strong>. Tenga en cuenta que al reemplazar la boleta se borrará la anterior.</DialogContentText>
+						<DialogContentText>Está a punto de reemplazar la boleta <strong>{data.curso} {data.seccion} {data.lapso}° Lapso</strong> de <strong>{name}</strong>. Tenga en cuenta que al reemplazar la boleta se borrará la anterior.</DialogContentText>
 					</Grid>
 					<Grid container alignItems='center' item xs={12}>
 						<input

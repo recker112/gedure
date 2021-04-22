@@ -107,8 +107,15 @@ class BoletaControllerTest extends TestCase
 		);
 		
 		$this->testBoletasUpload();
+		$user = User::factory()->create([
+			'privilegio' => 'V-',
+		]);
+		$user->alumno()->create([
+			'n_lista' => 1,
+			'curso_id' => 1,
+		]);
 		
-		$response = $this->getJson('/api/v1/boleta?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/boleta?per_page=5&page=0&seccion=A&curso=1');
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -117,7 +124,9 @@ class BoletaControllerTest extends TestCase
 						'username',
 						'name',
 						'avatar',
+						'privilegio',
 						'boletas_count',
+						'n_lista',
 					]
 				],
 				'page',
@@ -143,6 +152,14 @@ class BoletaControllerTest extends TestCase
 					'*' => [
 						'id',
 						'lapso',
+						'created_at',
+						'updated_at',
+						'fecha_humano',
+						'fecha_humano_modify',
+						'curso' => [
+							'curso',
+							'seccion'
+						],
 					]
 				]
 			]);
@@ -165,6 +182,14 @@ class BoletaControllerTest extends TestCase
 				'*' => [
 					'id',
 					'lapso',
+					'created_at',
+					'updated_at',
+					'fecha_humano',
+					'fecha_humano_modify',
+					'curso' => [
+						'curso',
+						'seccion'
+					],
 				]
 			]);
 	}

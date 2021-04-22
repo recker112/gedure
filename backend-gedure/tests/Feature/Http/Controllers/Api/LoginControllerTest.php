@@ -55,6 +55,8 @@ class LoginControllerTest extends TestCase
 					'privilegio',
 					'avatar',
 					'email',
+					'personal_data',
+					'alumno',
 				],
 				'permissions' => [
 					'administrar' => [
@@ -154,6 +156,10 @@ class LoginControllerTest extends TestCase
 					'username',
 					'name',
 					'privilegio',
+					'avatar',
+					'email',
+					'personal_data',
+					'alumno',
 				],
 				'permissions' => [
 					'administrar' => [
@@ -165,7 +171,7 @@ class LoginControllerTest extends TestCase
 	
 	public function testRecoveryPassword()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$admin = User::find(1);
 		
 		Mail::fake();

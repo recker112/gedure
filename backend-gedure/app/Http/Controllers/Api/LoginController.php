@@ -53,7 +53,7 @@ class LoginController extends Controller
 		}
     $token = $tokenResult->token;
 		
-		// expired_at
+		// NOTA(RECKER): Acortar fecha de expiraciรณn del token
 		if(!$request->checkbox) {
 			$token->expires_at = now()->addHours(8);
 		}
@@ -66,8 +66,16 @@ class LoginController extends Controller
 			'action' => "Inicio de sesión",
 			'type' => 'session'
 		]);
+		
+		// NOTA(RECKER): Obtener los datos faltantes
+		$user->alumno;
+		if ($user->alumno) {
+			$user->alumno->curso;
+		}
+		$user->personal_data;
+		
+		$user->makeHidden('roles');
 
-		//Regresar datos
 		return response()->json([
 			'access_key' => $tokenResult->accessToken,
 			'user' => $user->toArray(),
@@ -83,6 +91,13 @@ class LoginController extends Controller
 			'action' => "Inicio de sesión por relogin",
 			'type' => 'session'
 		]);
+		
+		// NOTA(RECKER): Obtener los datos faltantes
+		$user->alumno;
+		if ($user->alumno) {
+			$user->alumno->curso;
+		}
+		$user->personal_data;
 		
 		$permissions = $this->makePermissions($user);
 		

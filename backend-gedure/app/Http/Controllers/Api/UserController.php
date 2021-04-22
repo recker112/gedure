@@ -24,6 +24,8 @@ use App\Imports\StudiendImport;
 // Models
 use App\Models\User;
 use App\Models\Curso;
+use App\Models\PersonalDataAdmin;
+use App\Models\PersonalDataUser;
 
 class UserController extends Controller
 {
@@ -73,7 +75,6 @@ class UserController extends Controller
 			->offset($page)
 			->limit($perPage)
 			->get()
-			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
 		$usersCount = User::where(function ($query) {
@@ -110,7 +111,7 @@ class UserController extends Controller
 		return response()->json([
 			'data' => $users,
 			'page' => $request->page * 1, 
-			'totalUsers' => $usersCount,
+			'totalRows' => $usersCount,
 		], 200);
 	}
 	
@@ -123,15 +124,15 @@ class UserController extends Controller
 			})
 			->where('username', 'like', "%$search%")
 			->limit(15)
-			->get()
-			->makeHidden(['personal_data', 'estudiante_data']);
+			->get();
 		
 		return response()->json($users, 200);
 	}
 	
 	public function show(Request $request, $id)
 	{
-		$user = User::findOrFail($id);
+		$user = User::with(['alumno', 'personal_data'])
+			->findOrFail(intVal($id));
 		
 		if ($user->privilegio === 'A-' && !$request->user()->can('users_edit_admins')) {
 			return response()->json([
@@ -147,13 +148,13 @@ class UserController extends Controller
 	
 	public function create(UserRequest $request) 
 	{
-		// Verificar existencia del curso
+		// NOTA(RECKER): Verificar existencia del curso
 		if ($request->privilegio === 'V-') {
 			$curso = Curso::find(intVal($request->curso_id));
 			
 			if (!$curso) {
 				return response()->json([
-					'msg' => 'El curso '.$code.' no existe',
+					'msg' => 'El curso '.$curso->code.' no existe',
 				],404);
 			}
 		}
@@ -162,9 +163,11 @@ class UserController extends Controller
 		$dataUser['password'] = bcrypt($dataUser['password']);
 		$user = User::create($dataUser);
 		
-		$user->personalData(false)->create();
-		
+		// NOTA(RECKER): Crear datos adicionales
 		if ($user->privilegio === 'V-') {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
+			
 			$user->alumno()->create([
 				'curso_id' => $curso->id,
 				'user_id' => $user->id,
@@ -174,9 +177,12 @@ class UserController extends Controller
 			CursoController::orderAlumnos($curso->id);
 			
 			$user->wallet()->create();
+		}else if ($user->privilegio === 'A-') {
+			$personal_data = PersonalDataAdmin::create();
+			$personal_data->user()->save($user);
 		}
 		
-		// Permissions
+		// NOTA(RECKER): Asignar permisos
 		if ($request->super_admin && $user->privilegio === 'A-') {
 			$user->assignRole('super-admin');
 		}else {
@@ -187,7 +193,7 @@ class UserController extends Controller
 			}
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'privilegio' => $user->privilegio,
 			'username' => $user->username,
@@ -208,7 +214,8 @@ class UserController extends Controller
 	public function edit(UserEditRequest $request, $id)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::where('id',$id)->first();
+		$user = User::with(['alumno', 'personal_data'])
+			->find(intVal($id));
 		$delete_avatar = json_decode($request->delete_avatar);
 		
 		if ($user->privilegio === 'A-' && !$request->user()->can('users_edit_admins')) {
@@ -217,7 +224,7 @@ class UserController extends Controller
 			],403);
 		}
 		
-		// Actualizar curso
+		// NOTA(RECKER): Actualizar cuso
 		if ($user->privilegio === 'V-' && !empty($request->curso) && !empty($request->seccion)) {
 			$code = $request->curso.'-'.$request->seccion;
 			$curso = Curso::firstWhere('code', $code);
@@ -242,18 +249,19 @@ class UserController extends Controller
 			}
 		}
 		
+		// NOTA(RECKER): Eliminar avatar
 		if ($delete_avatar) {
 			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
 		
-		// Actualizar avatar
+		// NOTA(RECKER): Actualizar avatar
 		if ($avatar && !$delete_avatar) {
 			Storage::disk('public')->delete($user->avatarOriginal);
 			$path = $avatar->store('', 'user_avatars');
 			
-			//Resize
+			// NOTA(RECKER): Resize img
 			$pathToResize = Storage::disk('user_avatars')->path($path);
 			$img = Image::make($pathToResize);
 			$img->resize(200, null, function ($constraint) {
@@ -264,7 +272,7 @@ class UserController extends Controller
 			$user->save();
 		}
 		
-		// Actualizar user
+		// NOTA(RECKER): Actualizar user
 		if ($request->only(['username', 'name', 'email', 'password'])) {
 			if ($request->password) {
 				$request->merge([
@@ -275,12 +283,12 @@ class UserController extends Controller
 			$user->update($request->only(['username', 'name', 'email', 'password']));
 		}
 		
-		// Actualizar data personal
+		// NOTA(RECKER): Actualizar datos personales
 		if ($request->personalData) {
-			$user->personalData(false)->update($request->personalData);
+			$user->personal_data()->update($request->personalData);
 		}
 		
-		// Actualizar permisos
+		// NOTA(RECKER): Actualizar permisos
 		$permissions = [];
 		if ($request->super_admin && $user->privilegio === 'A-') {
 			$user->assignRole('super-admin');
@@ -296,7 +304,7 @@ class UserController extends Controller
 			$user->syncPermissions($arrayPermissions);
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'privilegio' => $user->privilegio,
 			'username' => $user->username,
@@ -307,6 +315,12 @@ class UserController extends Controller
 			'type' => 'user',
 		]);
 		
+		// NOTA(RECKER): Necesario para refrescar las tablas polimorficas
+		$user->refresh();
+		
+		// NOTA(RECKER): Ocultar datos innecesarios
+		$user->makeHidden(['permissions', 'roles']);
+		
 		return response()->json([
 			'user' => $user->toArray(),
 			'permissions' => $this->formatPermissions($user),
@@ -316,21 +330,23 @@ class UserController extends Controller
 	public function editSelf(UserEditRequest $request)
 	{
 		$avatar = $request->file('avatar');
-		$user = $request->user();
+		$user = User::with(['alumno', 'personal_data'])
+			->findOrFail($request->user()->id);
 		$delete_avatar = json_decode($request->delete_avatar);
 		
+		// NOTA(RECKER): Eliminar avatar
 		if ($delete_avatar && $user->privilegio !== 'V-' || $delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
 		
-		// Actualizar avatar
+		// NOTA(RECKER): Actualizar avatar
 		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$path = $avatar->store('', 'user_avatars');
 			
-			//Resize
+			// NOTA(RECKER): Rezise img
 			$pathToResize = Storage::disk('user_avatars')->path($path);
 			$img = Image::make($pathToResize);
 			$img->resize(200, null, function ($constraint) {
@@ -341,7 +357,7 @@ class UserController extends Controller
 			$user->save();
 		}
 		
-		// Actualizar user
+		// NOTA(RECKER): Actualizar usuario
 		if ($request->only(['name', 'email', 'password'])) {
 			if ($request->password) {
 				$request->merge([
@@ -358,22 +374,28 @@ class UserController extends Controller
 			$user->update($data);
 		}
 		
-		// Actualizar data personal
+		// NOTA(RECKER): Actualizar datos personales
 		if ($request->personalData) {
-			$user->personalData(false)->update($request->personalData);
+			$user->personal_data()->update($request->personalData);
 		}
 		
-		// Activar cuenta
+		// NOTA(RECKER): Activar cuenta si no se encuentra activa
 		if (!$user->actived_at) {
 			$user->actived_at = now();
 			$user->save();
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		$request->user()->logs()->create([
 			'action' => 'Actualización de datos',
 			'type' => 'user',
 		]);
+		
+		// NOTA(RECKER): Necesario para refrescar las tablas polimorficas
+		$user->refresh();
+		
+		// NOTA(RECKER): Ocultar datos innecesarios
+		$user->makeHidden(['permissions', 'roles']);
 		
 		return response()->json([
 			'user' => $user->toArray(),
@@ -393,7 +415,7 @@ class UserController extends Controller
 			CursoController::orderAlumnos($curso_id);
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		if (!$massive) {
 			$payload = [
 				'privilegio' => $user->privilegio,
@@ -429,7 +451,7 @@ class UserController extends Controller
 			}
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'users_disabled_count' => $i,
 			'users_disabled' => $users,
@@ -483,14 +505,14 @@ class UserController extends Controller
 			CursoController::orderAlumnos($curso->id);
 		}
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'massive_seccion_update_count' => $i,
 			'massive_seccion_update' => $users,
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualizaciรณn de secciรณn masiva',
+			'action' => 'Actualización de sección masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);
@@ -535,7 +557,6 @@ class UserController extends Controller
 			->offset($page)
 			->limit($perPage)
 			->get()
-			->makeHidden(['personal_data', 'estudiante_data'])
 			->toArray();
 		
 		$usersCount = User::onlyTrashed()
@@ -551,7 +572,7 @@ class UserController extends Controller
 		return response()->json([
 			'data' => $users,
 			'page' => $request->page * 1, 
-			'totalUsers' => $usersCount,
+			'totalRows' => $usersCount,
 		], 200);
 	}
 	
@@ -561,7 +582,7 @@ class UserController extends Controller
 		
 		$user->restore();
 		
-		//Log
+		// NOTA(RECKER): Log
 		if (!$massive) {
 			$payload = [
 				'privilegio' => $user->privilegio,
@@ -597,7 +618,7 @@ class UserController extends Controller
 			}
 		}
 		
-		// Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'users_restored_count' => $i,
 			'users_restored' => $users,
@@ -619,7 +640,7 @@ class UserController extends Controller
 		
 		Storage::deleteDirectory("users/$user->id");
 		
-		//Log
+		// NOTA(RECKER): Log
 		if (!$massive) {
 			$payload = [
 				'privilegio' => $user->privilegio,
@@ -659,7 +680,8 @@ class UserController extends Controller
 				$i++;
 			}
 		}
-		// Log
+		
+		// NOTA(RECKER): Log
 		$payload = [
 			'users_destroy_count' => $i,
 			'users_destroy' => $users,

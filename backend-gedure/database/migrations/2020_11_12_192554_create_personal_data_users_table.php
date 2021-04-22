@@ -15,10 +15,6 @@ class CreatePersonalDataUsersTable extends Migration
 	{
 		Schema::create('personal_data_users', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')
-				->constrained()
-				->onUpdate('cascade')
-				->onDelete('cascade');
 			
 			/*
 				MADRE

@@ -19,9 +19,6 @@ class DebtLoteController extends Controller
 {
 	public function index(TableRequest $request) {
 		$search = urldecode($request->search);
-		$curso = $request->curso;
-		$seccion = $request->seccion;
-		$type = $request->type;
 		
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;

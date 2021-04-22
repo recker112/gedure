@@ -152,7 +152,7 @@ function Navs() {
 					</ReturnSelected>
 				</Box>
 			)}
-			<Box mb={1} data-tour='contraseña'>
+			<Box mb={1} data-tour='contrase単a'>
 				<ReturnSelected url={`${url}/contraseña`}>
 					Contraseña
 				</ReturnSelected>
@@ -233,7 +233,7 @@ export default function PageShowUser() {
 				{(!loading && data.user) && (
 					<React.Fragment>
 						<Box mb={4}>
-							<BreadCrumbsShow user={data.user} />
+							<BreadCrumbsShow user={data.user} maxLengthPath={4} />
 						</Box>
 						<Grid container spacing={2}>
 							<Navs />
@@ -297,7 +297,7 @@ export default function PageShowUser() {
 				)}
 				{(!loading && !data.user) && (
 					<Box fontSize='body1.fontSize' align='center'>
-						No se ha podido encontrar al usuario #{id}, es posible que este usuario se encuentre desactivado.
+						No se ha podido encontrar al usuario #{id}, es posible que este usuario se encuentre desactivado o eliminado.
 					</Box>
 				)}
 			</Container>
