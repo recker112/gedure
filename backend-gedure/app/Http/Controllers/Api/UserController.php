@@ -387,7 +387,7 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Log
 		$request->user()->logs()->create([
-			'action' => 'Actualizaciรณn de datos',
+			'action' => 'Actualización de datos',
 			'type' => 'user',
 		]);
 		

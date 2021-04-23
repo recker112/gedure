@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\BoletaController;
 use App\Http\Controllers\Api\InfoBoxController;
 
 //Wallet System
+use App\Http\Controllers\Api\wallet_system\BankAccountController;
 use App\Http\Controllers\Api\wallet_system\DebtLoteController;
 use App\Http\Controllers\Api\wallet_system\DebtController;
 
@@ -74,6 +75,10 @@ Route::group(['prefix' => 'v1'], function () {
 	// Cursos
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create|users_create'])
 		->get('find/curso', [CursoController::class, 'findLike']);
+	
+	// BankAccount
+	Route::middleware(['auth:api', 'scopes:admin'])
+		->get('find/bank-account', [BankAccountController::class, 'findLike']);
 	
 	// Deudas users
 	Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_edit'])
@@ -259,6 +264,25 @@ Route::group(['prefix' => 'v1'], function () {
 	*/
 	Route::middleware(['auth:api'])
 		->get('info-box', [InfoBoxController::class, 'index']);
+	
+	/*
+	BankAccount
+	*/
+	// Index bank account
+	Route::middleware(['auth:api'])
+		->get('bank-account', [BankAccountController::class, 'index']);
+	
+	// Create bank account
+	Route::middleware(['auth:api'])
+		->post('bank-account', [BankAccountController::class, 'create']);
+	
+	// Edit bank account
+	Route::middleware(['auth:api'])
+		->put('bank-account/{id}', [BankAccountController::class, 'edit']);
+	
+	// Edit bank account
+	Route::middleware(['auth:api'])
+		->delete('bank-account/{id}', [BankAccountController::class, 'delete']);
 	
 	/*
 	Deudas

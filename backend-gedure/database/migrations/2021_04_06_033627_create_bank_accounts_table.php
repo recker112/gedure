@@ -17,10 +17,10 @@ class CreateBankAccountsTable extends Migration
 			$table->id();
 			$table->char('n_account', 25);
 			$table->char('rif', 25);
-			$table->string('name', 100);
-			$table->string('email', 100);
+			$table->string('name', 100)->unique();
+			$table->string('email', 100)->unique();
 			$table->enum('type', ['ahorro', 'corriente']);
-			$table->char('bank_code', 10);
+			$table->char('code', 4);
 			$table->timestamps();
 		});
 	}
