@@ -54,10 +54,6 @@ class ContactoControllerTest extends TestCase
 
 		$response->assertStatus(422)
 			->assertJsonValidationErrors(['email']);
-		
-		$this->assertDatabaseMissing('contactos', [
-        'email' => 'contacto@team.es',
-    ]);
 	}
 	
 	public function testGetContactos()
@@ -68,40 +64,28 @@ class ContactoControllerTest extends TestCase
 			['admin']
 		);
 		
-		Contacto::create([
-			'nombre' => 'Juan alcachofa',
-			'telefono' => '4260394581',
-			'email' => 'paco@steam.es',
-			'asunto' => 'Solicitudes de cupo',
-			'content' => 'Quisiera saber cuando es la apertura de la asignacion de cupos'
-		]);
+		$contactos = Contacto::factory(10)->create();
 		
-		Contacto::create([
-			'nombre' => 'Juan alcachofa',
-			'telefono' => '4260394581',
-			'email' => 'lea@steam.es',
-			'asunto' => 'Necesito hablar',
-			'content' => 'Quisiera saber cuando es la apertura de la asignacion de cupos'
-		]);
-		
-		Contacto::create([
-			'nombre' => 'Juan alcachofa',
-			'telefono' => '4260394581',
-			'email' => 'pacts@steam.es',
-			'asunto' => 'Solicitud de campos',
-			'content' => 'Quisiera saber cuando es la apertura de la asignacion de cupos'
-		]);
-		
-		$response = $this->getJson('/api/v1/contacto?page=0&per_page=5&search=Solici');
+		$response = $this->getJson('/api/v1/contacto?page=0&per_page=5');
 
 		$response->assertStatus(200)
 			->assertJsonStructure([
-				'data',
+				'data' => [
+					'*' => [
+						'id',
+						'nombre',
+						'email',
+						'telefono',
+						'asunto',
+						'content',
+						'created_at',
+					]
+				],
 				'page',
 				'totalSoli'
 			])
 			->assertJsonFragment([
-				'id' => 3
+				'id' => $contactos[count($contactos) - 1]->id,
 			]);
 	}
 	
