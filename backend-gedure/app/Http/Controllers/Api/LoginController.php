@@ -34,7 +34,8 @@ class LoginController extends Controller
 			return response()->json($jsonMessage, 400);
 		}
 		
-		$user = $request->user();
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+			->find(Auth::id());
 		
 		// Verificar bloqueos
 		$block = Block::firstWhere('user_id', $user->id);
@@ -67,14 +68,9 @@ class LoginController extends Controller
 			'type' => 'session'
 		]);
 		
-		// NOTA(RECKER): Obtener los datos faltantes
-		$user->alumno;
-		if ($user->alumno) {
-			$user->alumno->curso;
-		}
-		$user->personal_data;
 		
-		$user->makeHidden('roles');
+		// NOTA(RECKER): Ocultar datos innecesarios
+		$user->makeHidden(['roles', 'permissions']);
 
 		return response()->json([
 			'access_key' => $tokenResult->accessToken,
@@ -85,7 +81,8 @@ class LoginController extends Controller
 	
 	public function relogin()
 	{
-		$user = request()->user();
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+			->find(Auth::id());
 		
 		$user->logs()->create([
 			'action' => "Inicio de sesión por relogin",
@@ -93,16 +90,11 @@ class LoginController extends Controller
 		]);
 		
 		// NOTA(RECKER): Obtener los datos faltantes
-		$user->alumno;
-		if ($user->alumno) {
-			$user->alumno->curso;
-		}
-		$user->personal_data;
-		
 		$permissions = $this->makePermissions($user);
+		$user->makeHidden(['permissions', 'roles']);
 		
 		return response()->json([
-			'user' => $user->makeHidden(['permissions']),
+			'user' => $user->toArray(),
 			'permissions' => $permissions
 		], 200);
 	}
