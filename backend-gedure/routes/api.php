@@ -77,7 +77,7 @@ Route::group(['prefix' => 'v1'], function () {
 		->get('find/curso', [CursoController::class, 'findLike']);
 	
 	// BankAccount
-	Route::middleware(['auth:api', 'scopes:admin'])
+	Route::middleware(['auth:api'])
 		->get('find/bank-account', [BankAccountController::class, 'findLike']);
 	
 	// Deudas users
@@ -269,20 +269,20 @@ Route::group(['prefix' => 'v1'], function () {
 	BankAccount
 	*/
 	// Index bank account
-	Route::middleware(['auth:api'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_index'])
 		->get('bank-account', [BankAccountController::class, 'index']);
 	
 	// Create bank account
-	Route::middleware(['auth:api'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_create'])
 		->post('bank-account', [BankAccountController::class, 'create']);
 	
 	// Edit bank account
-	Route::middleware(['auth:api'])
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_edit'])
 		->put('bank-account/{id}', [BankAccountController::class, 'edit']);
 	
 	// Edit bank account
-	Route::middleware(['auth:api'])
-		->delete('bank-account/{id}', [BankAccountController::class, 'delete']);
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
+		->delete('bank-account/{id}', [BankAccountController::class, 'destroy']);
 	
 	/*
 	Deudas
