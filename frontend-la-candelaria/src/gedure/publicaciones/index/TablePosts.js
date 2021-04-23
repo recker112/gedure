@@ -50,7 +50,7 @@ export default function TablePosts({ tableRef }) {
 			return {
 				data: response.data || [],
 				page: response.page || 0,
-				totalCount: response.totalPosts || 0,
+				totalCount: response.totalRows || 0,
 			};
 		} else {
 			return {

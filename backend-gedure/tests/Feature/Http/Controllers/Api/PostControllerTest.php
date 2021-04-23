@@ -36,7 +36,13 @@ class PostControllerTest extends TestCase
 						'slug',
 						'user',
 						'fecha_humano',
-						'fecha_humano_modify'
+						'fecha_humano_modify',
+						'created_at',
+						'updated_at',
+						'only_users',
+						'user',
+						'url_imgs',
+						'url_portada',
 					]
 				],
 				'finish'
@@ -62,10 +68,16 @@ class PostControllerTest extends TestCase
 				'data' => [
 					'*' => [
 						'title',
-						'user',
 						'slug',
+						'user',
 						'fecha_humano',
-						'fecha_humano_modify'
+						'fecha_humano_modify',
+						'created_at',
+						'updated_at',
+						'only_users',
+						'user',
+						'url_imgs',
+						'url_portada',
 					]
 				],
 				'finish'
@@ -85,11 +97,16 @@ class PostControllerTest extends TestCase
 		$response->assertOk()
 			->assertJsonStructure([
 				'title',
-				'content',
 				'slug',
 				'user',
 				'fecha_humano',
-				'fecha_humano_modify'
+				'fecha_humano_modify',
+				'created_at',
+				'updated_at',
+				'only_users',
+				'user',
+				'url_imgs',
+				'url_portada',
 			]);
 	}
 	
@@ -111,11 +128,16 @@ class PostControllerTest extends TestCase
 		$response->assertOk()
 			->assertJsonStructure([
 				'title',
-				'content',
 				'slug',
 				'user',
 				'fecha_humano',
-				'fecha_humano_modify'
+				'fecha_humano_modify',
+				'created_at',
+				'updated_at',
+				'only_users',
+				'user',
+				'url_imgs',
+				'url_portada',
 			]);
 	}
 	
@@ -221,7 +243,6 @@ class PostControllerTest extends TestCase
 		
 		$post = Post::factory(10)->create();
 		
-		// Modificar el post número 5
 		$response = $this->putJson('/api/v1/posts/'.$post[4]->slug, [
 			'title' => 'Título de la publicación',
 			'content' => 'Contenido de la publicación',
@@ -259,7 +280,6 @@ class PostControllerTest extends TestCase
 			UploadedFile::fake()->image('test3.jpg')
 		];
 		
-		// Modificar el post número 5
 		$response = $this->putJson('/api/v1/posts/'.$post->slug, [
 			'title' => 'testing TDD',
 			'content' => 'Contenido de la publicación',
@@ -386,11 +406,13 @@ class PostControllerTest extends TestCase
 					'*' => [
 						'title',
 						'slug',
-						'id'
+						'id',
+						'created_at',
+						'user'
 					]
 				],
 				'page',
-				'totalPosts'
+				'totalRows'
 			]);
 	}
 }

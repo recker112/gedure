@@ -21,7 +21,7 @@ class PostController extends Controller
 		$limit = $request->limit;
 		$search = urldecode($request->search);
 		
-		$allPosts = Post::with('user')
+		$posts = Post::with('user:id,privilegio,username,name')
 			->orderBy('id', 'Desc')
 			->offset($offset)
 			->limit($limit)
@@ -30,21 +30,21 @@ class PostController extends Controller
 			->get()
 			->makeHidden(['portada', 'galery']);
 		
-		//Primer registro
+		// NOTA(RECKER): Obtener primer registro
 		$firstPost = Post::where('only_users', 0)
 			->where('title', 'like', '%'.$search.'%')
 			->first();
 		
-		//Verificar existencia de noticias
+		// NOTA(RECKER): Verificar si existe el primer registro en la query
 		$finish = false;
-		foreach($allPosts as $post) {
+		foreach($posts as $post) {
 			if ($post->id === $firstPost->id) {
 				$finish = true;
 			}
 		}
 		
 		return response()->json([
-			'data' => $allPosts,
+			'data' => $posts->toArray(),
 			'finish' => $finish,
 		], 200);
 	}
@@ -54,7 +54,7 @@ class PostController extends Controller
 		$limit = $request->limit;
 		$search = urldecode($request->search);
 		
-		$allPosts = Post::with('user')
+		$posts = Post::with('user:id,username,name,privilegio')
 			->where('title', 'like', '%'.$search.'%')
 			->orderBy('id', 'Desc')
 			->offset($offset)
@@ -62,20 +62,20 @@ class PostController extends Controller
 			->get()
 			->makeHidden(['portada', 'galery']);
 		
-		//Primer registro
+		// NOTA(RECKER): Obtener primer registro
 		$firstPost = Post::where('title', 'like', '%'.$search.'%')
 			->first();
 		
-		//Verificar existencia de noticias
+		// NOTA(RECKER): Verificar si existe el primer registro en la query
 		$finish = false;
-		foreach($allPosts as $post) {
+		foreach($posts as $post) {
 			if ($post->id === $firstPost->id) {
 				$finish = true;
 			}
 		}
 		
 		return response()->json([
-			'data' => $allPosts,
+			'data' => $posts,
 			'finish' => $finish,
 		], 200);
 	}
@@ -115,13 +115,13 @@ class PostController extends Controller
 		$post->only_users = json_decode($request->only_users);
 		$post->save();
 		
-		// Cargar portada
+		// NOTA(RECKER): Cargar Portada
 		if (!empty($portada)) {
 			$path = $portada->storeAs(
 				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
 			
-			// Optimization
+			// NOTA(RECKER): Optimization img
 			$pathToResize = Storage::disk('posts')->path($path);
 			$img = Image::make($pathToResize);
 			$img->save($pathToResize);
@@ -129,17 +129,17 @@ class PostController extends Controller
 			$post->portada = json_encode($path);
 		}
 		
-		//Cargar galeria
+		// NOTA(RECKER): Cargar galeria
 		$imgsUploaded = null;
 		$i=0;
 		if (!empty($galery)) {
 			foreach($galery as $file) {
-				//Mover archivo
+				// NOTA(RECKER): Mover archivo
 				$path = $file->storeAs(
 					"$post->id", $file->getClientOriginalName(), 'posts'
 				);
 				
-				// Optimization
+				// NOTA(RECKER): Optimization
 				$pathToResize = Storage::disk('posts')->path($path);
 				$img = Image::make($pathToResize);
 				$img->save($pathToResize);
@@ -152,7 +152,7 @@ class PostController extends Controller
 		$post->galery = $imgsUploaded === null ? $imgsUploaded : json_encode($imgsUploaded);
 		$post->save();
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'title' => $post->title,
 			'url' => '/noticias/'.$post->slug,
@@ -179,7 +179,7 @@ class PostController extends Controller
 		$post = Post::where('slug', $slug)
 			->firstOrFail();
 		
-		// Verificar si puede modificar todas las publicaciones
+		// NOTA(RECKER): Verificar si puede modificar todas las publicaciones
 		$verify = $user->can('posts_others') ? false
 			: $post->user_id !== $user->id;
 		
@@ -193,30 +193,30 @@ class PostController extends Controller
 		$post->content = $request->content;
 		$post->only_users = json_decode($request->only_users);
 		
-		// Eliminar portada
+		// NOTA(RECKER): Eliminar portada
 		if ($delete_portada) {
 			Storage::disk('posts')->delete($post->portada);
 			$post->portada = null;
 		}
 		
-		// Eliminar galeria
+		// NOTA(RECKER): Eliminar galeria
 		if ($delete_galery) {
-			// Clear old files
+			// NOTA(RECKER): Clear old files
 			$filesDelete = Storage::disk('posts')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
 			Storage::disk('posts')->delete($filesDelete);
 			$post->galery = null;
 		}
 		
-		// Actualizar portada
+		// NOTA(RECKER): Actualizar portada
 		if (!empty($portada) && !$delete_portada) {
-			// Clear files
+			// NOTA(RECKER): Clear files
 			Storage::disk('posts')->delete(json_decode($post->portada));
 			$path = $portada->storeAs(
 				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
 			
-			//Optimization
+			// NOTA(RECKER): Optimization
 			$pathToResize = Storage::disk('posts')->path($path);
 			$img = Image::make($pathToResize);
 			$img->save($pathToResize);
@@ -224,22 +224,22 @@ class PostController extends Controller
 			$post->portada = json_encode($path);
 		}
 		
-		// Actualizar galeria
+		// NOTA(RECKER): Actualizar galeria
 		if (!empty($galery) && !$delete_galery) {
 			$imgsUploaded = null;
 			$i=0;
 			
-			// Clear old files excluding portada
+			// NOTA(RECKER): Clear old files excluding portada
 			$filesDelete = Storage::disk('posts')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
 			Storage::disk('posts')->delete($filesDelete);
 			foreach($galery as $file) {
-				// Mover archivo
+				// NOTA(RECKER): Mover archivo
 				$path = $file->storeAs(
 						"$post->id", $file->getClientOriginalName(), 'posts'
 					);
 				
-				// Optimization
+				// NOTA(RECKER): Optimization
 				$pathToResize = Storage::disk('posts')->path($path);
 				$img = Image::make($pathToResize);
 				$img->save($pathToResize);
@@ -252,7 +252,7 @@ class PostController extends Controller
 		}
 		$post->save();
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'title' => $post->title,
 			'url' => '/noticias/'.$post->slug,
@@ -276,7 +276,7 @@ class PostController extends Controller
 		$post = Post::where('slug', $slug)
 			->firstOrFail();
 		
-		// Verificar si puede modificar todas las publicaciones
+		// NOTA(RECKER): Verificar si puede modificar todas las publicaciones
 		$verify = $user->can('posts_others') ? false
 			: $post->user_id !== $user->id;
 		
@@ -288,7 +288,7 @@ class PostController extends Controller
 		
 		Storage::disk('posts')->deleteDirectory($post->id);
 		
-		//Log
+		// NOTA(RECKER): Log
 		$payload = [
 			'title' => $post->title,
 		];
@@ -315,7 +315,8 @@ class PostController extends Controller
 		$page = $request->page * $perPage;
 		
 		if ($user->can('posts_others')) {
-			$allPosts = Post::with('user')
+			$posts = Post::with('user:username,privilegio')
+				->select(['id','slug','created_at','title'])
 				->whereHas('user', function ($query) {
 					$search = request()->search;
 					$query->where('username', 'LIKE', "%$search%");
@@ -326,19 +327,18 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano_modify', 'updated_at'])
+				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano'])
 				->toArray();
 			
-			//Total de logs
-			$post_count = Post::with('user')
-				->where(function ($query) {
+			$post_count = Post::where(function ($query) {
 					$search = request()->search;
 					$query->where('title', 'LIKE', "%$search%")
 						->orWhere('created_at', 'LIKE', "%$search%");
 				})
 				->count();
 		}else {
-			$allPosts = Post::with('user')
+			$posts = Post::with('user:username,privilegio')
+				->select(['id','slug','created_at','title'])
 				->where('user_id', $user->id)
 				->where(function ($query) {
 					$search = request()->search;
@@ -349,12 +349,11 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['portada', 'galery', 'content', 'url_imgs', 'url_portada', 'only_users', 'fecha_humano_modify', 'updated_at'])
+				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano'])
 				->toArray();
 			
 			//Total de logs
-			$post_count = Post::with('user')
-				->where('user_id', $user->id)
+			$post_count = Post::where('user_id', $user->id)
 				->where(function ($query) {
 					$search = request()->search;
 					$query->where('title', 'LIKE', "%$search%")
@@ -364,9 +363,9 @@ class PostController extends Controller
 		}
 		
 		return response()->json([
-			'data' => $allPosts,
+			'data' => $posts,
 			'page' => request()->page * 1, 
-			'totalPosts' => $post_count
+			'totalRows' => $post_count
 		], 200);
 	}
 }
