@@ -352,7 +352,6 @@ class PostController extends Controller
 				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano'])
 				->toArray();
 			
-			//Total de logs
 			$post_count = Post::where('user_id', $user->id)
 				->where(function ($query) {
 					$search = request()->search;

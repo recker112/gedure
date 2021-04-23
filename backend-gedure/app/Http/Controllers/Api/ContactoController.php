@@ -26,12 +26,12 @@ class ContactoController extends Controller
 			->get()
 			->toArray();
 		
-		$contactoCount = Contacto::count();
+		$contacto_count = Contacto::count();
 		
 		return response()->json([
 			'data' => $lista,
 			'page' => $request->page * 1, 
-			'totalSoli' => $contactoCount
+			'totalSoli' => $contacto_count
 		], 200);
 	}
 	
