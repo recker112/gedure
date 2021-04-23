@@ -218,7 +218,7 @@ function PageNews() {
 						{error && (
 							<Grid item xs={12}>
 								<Typography align='center'>
-									Se ha producido un error al intentar obtener los datos, intente recargar la página.
+									Se ha producido un error al intentar obtener los datos, intente recargar la pรกgina.
 								</Typography>
 							</Grid>
 						)}
