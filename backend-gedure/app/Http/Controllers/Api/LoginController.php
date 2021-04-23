@@ -219,6 +219,10 @@ class LoginController extends Controller
 				'cursos_index',
 				'cursos_create',
 				'cursos_destroy',
+				'bank_account_index',
+				'bank_account_create',
+				'bank_account_edit',
+				'bank_account_destroy',
 			],
 			'V-' => [
 				//

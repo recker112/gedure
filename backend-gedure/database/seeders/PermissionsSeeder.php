@@ -21,44 +21,44 @@ class PermissionsSeeder extends Seeder
 		/*
 			PERMISSIONS ADMIN
 		*/
-		// Registros
+		// NOTA(RECKER): Permisos de Registros
 		Permission::create(['name' => 'registros_index']);
 		
-		// Users
+		// NOTA(RECKER): Permisos de Users
 		Permission::create(['name' => 'users_index']);
 		Permission::create(['name' => 'users_create']);
 		Permission::create(['name' => 'users_upload_matricula']);
 		Permission::create(['name' => 'users_edit']);
 		Permission::create(['name' => 'users_edit_admins']);
 		Permission::create(['name' => 'users_delete']);
-		//gedure config
+		// NOTA(RECKER): Permisos de gedure config
 		Permission::create(['name' => 'users_disabled_index']);
 		Permission::create(['name' => 'users_disabled_restore']);
 		Permission::create(['name' => 'users_disabled_destroy']);
 		
-		// Publicaciones
+		// NOTA(RECKER): Permisos de Publicaciones
 		Permission::create(['name' => 'posts_index']);
 		Permission::create(['name' => 'posts_create']);
 		Permission::create(['name' => 'posts_edit']);
 		Permission::create(['name' => 'posts_destroy']);
 		Permission::create(['name' => 'posts_others']);
 		
-		// Boletas
+		// NOTA(RECKER): Permisos de Boletas
 		Permission::create(['name' => 'boletas_index']);
 		Permission::create(['name' => 'boletas_upload']);
 		Permission::create(['name' => 'boletas_edit']);
 		Permission::create(['name' => 'boletas_destroy']);
 		
-		// Cursos (gedure)
+		// NOTA(RECKER): Permisos de Cursos (gedure)
 		Permission::create(['name' => 'cursos_index']);
 		Permission::create(['name' => 'cursos_create']);
 		Permission::create(['name' => 'cursos_destroy']);
 		
-		// Solicitud de contacto
+		// NOTA(RECKER): Permisos de Solicitud de Contacto
 		Permission::create(['name' => 'contact_index']);
 		Permission::create(['name' => 'contact_destroy']);
 		
-		// Deudas
+		// NOTA(RECKER): Permisos de Deudas
 		Permission::create(['name' => 'debt_lote_index']);
 		Permission::create(['name' => 'debt_lote_create']);
 		Permission::create(['name' => 'debt_lote_edit']);
@@ -66,6 +66,11 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'debt_create']);
 		Permission::create(['name' => 'debt_delete']);
 		Permission::create(['name' => 'debt_refund']);
+		// NOTA(RECKER): Permisos de gedure config
+		Permission::create(['name' => 'bank_account_index']);
+		Permission::create(['name' => 'bank_account_create']);
+		Permission::create(['name' => 'bank_account_edit']);
+		Permission::create(['name' => 'bank_account_destroy']);
 		
 		/*
 			PERMISSIONS USER

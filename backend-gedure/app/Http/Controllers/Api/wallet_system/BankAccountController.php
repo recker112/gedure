@@ -76,7 +76,7 @@ class BankAccountController extends Controller
 		], 200);
 	}
 	
-	public function delete($id)
+	public function destroy($id)
 	{
 		$bankAccount = BankAccount::findOrFail(intVal($id));
 		
