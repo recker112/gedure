@@ -23,7 +23,7 @@ class CreateBankTransactionsTable extends Migration
 			$table->integer('reference');
 			$table->integer('concepto');
 			$table->decimal('amount', 15, 2);
-			$table->char('bank_code', 10);
+			$table->char('code', 4);
 			$table->timestamps();
 		});
 	}

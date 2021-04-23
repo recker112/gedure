@@ -20,7 +20,7 @@ class BankAccount extends Model
 		'name',
 		'email',
 		'type',
-		'bank_code',
+		'code',
 	];
 	
 	/**
@@ -29,6 +29,6 @@ class BankAccount extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'updated_at',
+		'updated_at', 'created_at',
 	];
 }

@@ -10,8 +10,6 @@ use App\Http\Requests\MassiveUsersRequest;
 use App\Http\Requests\FindLikeRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\BoletaController;
-// Passport
-use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\Log;
@@ -35,7 +33,8 @@ class CursoController extends Controller
 			->makeVisible(['id', 'code']);
 		
 		//Total de logs
-		$cursos_count = Curso::count();
+		$cursos_count = Curso::where('code', 'like', '%'.$search.'%')
+			->count();
 		
 		return response()->json([
 			'data' => $cursos,
