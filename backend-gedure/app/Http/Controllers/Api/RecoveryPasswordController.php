@@ -26,7 +26,7 @@ class RecoveryPasswordController extends Controller
 		
 		
 		if (!$user->recoveryPassword) {
-			// Crear un nuevo code
+			// NOTA(RECKER): Crear un nuevo código
 			$user->recoveryPassword()->create([
 				'code' => $code,
 			]);
@@ -34,15 +34,15 @@ class RecoveryPasswordController extends Controller
 			Mail::to($user)->queue((new CodeSecurity($user, $code))->onQueue('emails'));
 			$step=0;
 		}else {
-			// Si existe un registro
+			// NOTA(RECKER): Si ya hay un registro
 			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(4);
 			$timeCreated = $user->recoveryPassword->created_at->addMinutes(10);
 			
 			if ($user->recoveryPassword && $timeNow >= $timeCreated) {
-				// Regenerar code después de 10 minutos
+				// NOTA(RECKER): Regenerar code después de 10 minutos
 				$user->recoveryPassword->delete();
 				
-				// Crear un nuevo code
+				// NOTA(RECEKR): Crear nuevo código
 				$user->recoveryPassword()->create([
 					'code' => $code,
 				]);
@@ -50,7 +50,7 @@ class RecoveryPasswordController extends Controller
 				Mail::to($user)->queue((new CodeSecurity($user, $code))->onQueue('emails'));
 				$step=2;
 			}else if ($user->recoveryPassword && $timeNow >= $timeUpdated) {
-				// Reenviar code si han pasado más de dos minutos
+				// NOTA(RECKER): Reenviar code si han pasado más de 4 minutos
 				$codeRegistred = $user->recoveryPassword->code;
 				$user->recoveryPassword->updated_at = $timeNow;
 				$user->recoveryPassword->save();
@@ -69,7 +69,7 @@ class RecoveryPasswordController extends Controller
 			}
 		}
 		
-		//Log
+		// NOTA(RECKER): LOG
 		$user->logs()->create([
 			'action' => 'Correo de recuperación',
 			'type' => 'user'
@@ -115,7 +115,7 @@ class RecoveryPasswordController extends Controller
 		$user->save();
 		$user->recoveryPassword->delete();
 		
-		//Log
+		// NOTA(RECKER): LOG
 		$user->logs()->create([
 			'user_id' => $user->id,
 			'action' => 'Contraseña cambiada via correo',
