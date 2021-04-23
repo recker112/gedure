@@ -21,6 +21,7 @@ class LogController extends Controller
 		$page = $request->page * $perPage;
 		
 		if (!empty($type) && $type !== 'all') {
+			// NOTA(RECKER): Regresar Logs con un type en específico
 			$logs = Log::with(['user:id,privilegio,username,name'])
 				->where('type', $type)
 				->where(function ($query) {
@@ -39,7 +40,6 @@ class LogController extends Controller
 				->makeVisible('id')
 				->toArray();
 			
-			//Total de logs
 			$logsCount = Log::where('type', $type)
 				->where(function ($query) {
 					$search = request()->search;
@@ -52,6 +52,7 @@ class LogController extends Controller
 					})
 				->count();
 		}else {
+			// NOTA(RECKER): Regresar todos los Logs
 			$logs = Log::with(['user:id,privilegio,username,name'])
 				->where(function ($query) {
 					$search = request()->search;
@@ -69,7 +70,6 @@ class LogController extends Controller
 				->makeVisible('id')
 				->toArray();
 			
-			//Total de logs
 			$logsCount = Log::where(function ($query) {
 					$search = request()->search;
 					$query->where('action', 'like', "%".$search."%")
