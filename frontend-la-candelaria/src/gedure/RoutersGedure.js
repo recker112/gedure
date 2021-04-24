@@ -11,7 +11,7 @@ const PageIndex = lazy(() => import('./index/PageIndex'));
 //const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 //const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
-//const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
+const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
 //const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
@@ -40,13 +40,13 @@ export default function RoutersGedure() {
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
 		},
-		/*{
+		{
 			path: `${url}/publicaciones`,
 			component: <RoutersPosts />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.posts_index),
 		},
-		{
+		/*{
 			path: `${url}/boletas`,
 			component: <RoutersBoletas />,
 			exact: false,

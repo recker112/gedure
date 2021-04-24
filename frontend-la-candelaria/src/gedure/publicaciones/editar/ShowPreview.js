@@ -50,7 +50,7 @@ export default function ShowPreview() {
 			{data.portada?.length ? (
 				<img className={classes.portada} src={URL.createObjectURL(data.portada[0])} alt='portada de la publicación' width='100%' height={250} />
 			) : null}
-			<ReactMarkdown plugins={[gfm]} children={data.markdown} renderers={renderersMarkdown} />
+			<ReactMarkdown remarkPlugins={[gfm]} children={data.markdown} components={renderersMarkdown} />
 			<Typography variant='body2' align='right' className='text__opacity--semi'>
 				Noticia solo para usuarios: {data.only_users ? 'Si' : 'No'}
 			</Typography>

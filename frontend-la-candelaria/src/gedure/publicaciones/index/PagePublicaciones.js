@@ -18,8 +18,7 @@ import DialogConfirmation from '../../../components/DialogConfirmation';
 import TourPublicaciones from './TourPublicaciones';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -42,7 +41,6 @@ export default function PagePublicaciones() {
 		data: state.dialogs.deleteConfirmation.data,
 		permissions: state.userData.permissions,
 	}));
-	const dispatch = useDispatch();
 	
 	const { fetchData } = useFetch();
 	
@@ -89,7 +87,7 @@ export default function PagePublicaciones() {
 					<Grid item xs={12}>
 						<TablePosts tableRef={tableRef} />
 						<DialogConfirmation callback={onConfirm}>
-							Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.
+							Estรก a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrรก deshacer esta acciรณn.
 						</DialogConfirmation>
 					</Grid>
 				</Grid>

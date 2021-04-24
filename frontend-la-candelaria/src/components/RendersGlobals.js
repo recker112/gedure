@@ -21,6 +21,7 @@ import {
 	Paper,
 	Link,
 	CircularProgress,
+	Checkbox,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
@@ -371,14 +372,30 @@ const MarkdownHeading = ({ ...props }) => {
 	);
 }
 
+function MarkdownCheckbox (props) {
+	return (
+		<Checkbox
+			color='primary'
+			checked={props.checked}
+		/>
+	)
+}
+
 export const renderersMarkdown = {
-	heading: MarkdownHeading,
-	link: MarkdownLink,
-	paragraph: MarkdownParagraph,
+	h1: MarkdownHeading,
+	h2: MarkdownHeading,
+	h3: MarkdownHeading,
+	h4: MarkdownHeading,
+	h5: MarkdownHeading,
+	h6: MarkdownHeading,
+	a: MarkdownLink,
+	p: MarkdownParagraph,
 	table: MarkdownTable,
-	tableHead: MarkdownTableHead,
-	tableBody: MarkdownTableBody,
-	tableRow: MarkdownTableRow,
-	tableCell: MarkdownTableCell,
-	listItem: MarkdownListItem,
+	thead: MarkdownTableHead,
+	tbody: MarkdownTableBody,
+	tr: MarkdownTableRow,
+	td: MarkdownTableCell,
+	th: MarkdownTableCell,
+	li: MarkdownListItem,
+	input: MarkdownCheckbox,
 };
