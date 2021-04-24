@@ -5,7 +5,7 @@ import React, { Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Material-Ui
-import { Grid, Typography, Button, Box } from '@material-ui/core';
+import { Grid, Button, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 // Loading

@@ -6,7 +6,7 @@ const initialState = {
 	permissions: {}
 };
 
-export default (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_DATA_USER': {
 			return {
@@ -36,6 +36,7 @@ export default (state = initialState, { type, payload }) => {
 		}
 	}
 };
+export default reducer;
 
 // Seleccionar estado del state.
 // export const selectDataLogin = state => state.dataLogin.tema;
