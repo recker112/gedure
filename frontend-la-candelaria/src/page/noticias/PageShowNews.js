@@ -97,9 +97,9 @@ function Noticia(props) {
 	const NoticiaContent = () => (
 		<React.Fragment>
 			{url_portada ? (
-				<img className={classes.portada} src={url_portada} alt='portada de la publicaciรณn' width='100%' height={250} />
+				<img className={classes.portada} src={url_portada} alt='portada de la publicación' width='100%' height={250} />
 			) : null}
-			<ReactMarkdown plugins={[gfm]} children={content} renderers={renderersMarkdown} />
+			<ReactMarkdown remarkPlugins={[gfm]} children={content} components={renderersMarkdown} />
 		</React.Fragment>
 	)
 	
