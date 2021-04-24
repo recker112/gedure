@@ -199,7 +199,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 			<DialogActions>
 				<RenderSwitchFormHook
 					labelPlacement="start"
-					label="Crear más de uno"
+					label="Crear mรกs de uno"
 					name='create_more'
 					control={control}
 					disabled={loading}

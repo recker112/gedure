@@ -140,6 +140,10 @@ const initialState = {
 	pageShowLoteDeuda: {
 		loading: true,
 		data: {},
+	},
+	createBankAccount: {
+		loading: false,
+		data: {},
 	}
 };
 
