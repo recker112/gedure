@@ -50,7 +50,7 @@ function InfoBox({ data, color=null }) {
 
 export default function PageLoteDeudaShow() {
 	const { id } = useParams();
-	document.title = 'La Candelaria - Ver deuda #';
+	document.title = 'La Candelaria - Ver deuda #'+id;
 	
 	const { loading, data } = useSelector((state) => ({
 		loading: state.forms.pageShowLoteDeuda.loading,
@@ -91,6 +91,8 @@ export default function PageLoteDeudaShow() {
 		return () => {
 			dispatch(updateForms('pageShowLoteDeuda', true, {}));
 		}
+		
+		// eslint-disable-next-line
 	},[]);
 	
 	return (

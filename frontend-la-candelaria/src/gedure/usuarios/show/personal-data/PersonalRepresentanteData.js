@@ -13,7 +13,6 @@ import {
 	RadioGroup,
 	Radio,
 	MenuItem,
-	InputAdornment,
 } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 

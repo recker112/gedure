@@ -29,7 +29,7 @@ const initialState = {
 	}
 };
 
-export default (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_THEME': {
 			//Verificar tema actual
@@ -115,6 +115,7 @@ export default (state = initialState, { type, payload }) => {
 		}
 	}
 };
+export default reducer;
 
 // Seleccionar estado del state.
 // export const selectTheme = state => state.settings.tema;

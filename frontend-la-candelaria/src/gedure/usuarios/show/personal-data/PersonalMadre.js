@@ -8,7 +8,6 @@ import {
 	Box,
 	Typography,
 	MenuItem,
-	InputAdornment,
 } from '@material-ui/core';
 
 import { useForm } from "react-hook-form";

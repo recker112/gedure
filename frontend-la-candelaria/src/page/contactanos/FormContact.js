@@ -5,7 +5,6 @@ import {
 	Grid, 
 	Paper, 
 	TextField,
-	InputAdornment,
 	Button
 } from '@material-ui/core';
 

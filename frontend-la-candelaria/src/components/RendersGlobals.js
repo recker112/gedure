@@ -223,6 +223,8 @@ export function AsyncInputFormHook(props) {
 		return () => {
 			cancel = true;
 		}
+		
+		// eslint-disable-next-line
 	},[loading]);
 	
 	// Clear options
@@ -233,7 +235,7 @@ export function AsyncInputFormHook(props) {
 		}
 	},[open]);
 	
-	
+	// eslint-disable-next-line
 	const refreshResults = useCallback(
 		useAsyncDebounce(() => {
 			setOptions([]);

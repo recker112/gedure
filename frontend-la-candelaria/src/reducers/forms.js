@@ -147,7 +147,7 @@ const initialState = {
 	}
 };
 
-export default (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case 'UPDATE_FORM_DATA': {
 			const { form, loading, data } = payload;
@@ -181,6 +181,7 @@ export default (state = initialState, { type, payload }) => {
 		}
 	}
 };
+export default reducer;
 
 // Seleccionar estado del state.
 // export const selectDataLogin = state => state.dataLogin.tema;
