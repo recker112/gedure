@@ -97,20 +97,20 @@ function AdminList({ handleClose }) {
 									<ListItemText primary="Boletas" />
 								</ReturnSelected>
 							)}
-							{/*permissions?.administrar?.debt_lote_index && (
+							{permissions?.administrar?.debt_lote_index && (
 								<ReturnSelected url='/gedure/lotes-deudas' handle={handleClose} nested noExact>
 									<ListItemIcon>
 										<PiggyBankIcon />
 									</ListItemIcon>
 									<ListItemText primary="Lotes de deudas" />
 								</ReturnSelected>
-							)*/}
-							{/*<ReturnSelected url='/gedure/monederos' handle={handleClose} nested noExact>
+							)}
+							{<ReturnSelected url='/gedure/monederos' handle={handleClose} nested noExact>
 								<ListItemIcon>
 									<WalletIcon />
 								</ListItemIcon>
 								<ListItemText primary="Monederos" />
-							</ReturnSelected>*/}
+							</ReturnSelected>}
 							{permissions?.administrar?.contact_index && (
 								<ReturnSelected url='/gedure/soli-contacto' handle={handleClose} nested noExact>
 									<ListItemIcon>

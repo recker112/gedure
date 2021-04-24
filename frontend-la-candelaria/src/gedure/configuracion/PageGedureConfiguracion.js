@@ -29,6 +29,7 @@ import { useSelector } from 'react-redux';
 
 // Routers
 const Cursos = lazy(() => import('./cursos/Main'));
+const Deudas = lazy(() => import('./deudas/Main'));
 const Reactivar = lazy(() => import('./disabled_accounts/Main'));
 
 const useStyles = makeStyles((theme) => ({
@@ -119,6 +120,12 @@ export default function PageUserIndex() {
 			iCanSee: Boolean(permissions?.gedure?.cursos_index),
 		},
 		{
+			path: `${url}/deudas`,
+			component: <Deudas />,
+			exact: true,
+			iCanSee: Boolean(permissions?.gedure?.bank_account_index),
+		},
+		{
 			path: `${url}/usuarios-desactivados`,
 			component: <Reactivar />,
 			exact: true,
@@ -133,10 +140,11 @@ export default function PageUserIndex() {
 					<Grid container alignItems='center' item style={{flexGrow: 1}}>
 						<Header />
 					</Grid>
-					<Grid item>
+					<Grid item style={{width: '100%'}}>
 						<LinkTabs
 							value={location.pathname}
-							centered
+							variant="scrollable"
+							scrollButtons="auto"
 						>
 							<LinkTab 
 								label='General' 
@@ -149,7 +157,13 @@ export default function PageUserIndex() {
 								value={`${url}/cursos`}
 								data-tour='cursos'
 								{...a11yProps(1)}
-								/>
+							/>
+							<LinkTab 
+								label='Deudas' 
+								value={`${url}/deudas`}
+								data-tour='deudas'
+								{...a11yProps(1)}
+							/>
 							<LinkTab
 								label='Usuarios desactivados' 
 								value={`${url}/usuarios-desactivados`}

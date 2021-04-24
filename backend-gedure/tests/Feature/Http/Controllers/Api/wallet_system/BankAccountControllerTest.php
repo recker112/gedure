@@ -50,8 +50,9 @@ class BankAccountControllerTest extends TestCase
 			]);
 	}
 	
-	public function testFindLike() {
-		$this->withoutExceptionHandling();
+	public function testFindLike() 
+	{
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

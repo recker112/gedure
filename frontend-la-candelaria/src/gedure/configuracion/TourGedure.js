@@ -23,7 +23,7 @@ export default function TourGedure() {
 					<Typography variant='body1'>
 						En esta sección podrá configurar Gedure, adapte el sistema a sus necesidades.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(4)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(5)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -48,6 +48,17 @@ export default function TourGedure() {
 			content: () => (
 				<Typography variant='body1'>
 					Aquí podrá <strong>crear y eliminar</strong> cursos en el sistema.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="deudas"]',
+			content: () => (
+				<Typography variant='body1'>
+					Aquí podrá gestionar todo lo referente a <strong>deudas</strong> en el sistema.
 				</Typography>
 			),
 			style: {
