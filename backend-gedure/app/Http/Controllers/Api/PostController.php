@@ -315,8 +315,7 @@ class PostController extends Controller
 		$page = $request->page * $perPage;
 		
 		if ($user->can('posts_others')) {
-			$posts = Post::with('user:username,privilegio')
-				->select(['id','slug','created_at','title'])
+			$posts = Post::with('user:id,username,privilegio')
 				->whereHas('user', function ($query) {
 					$search = request()->search;
 					$query->where('username', 'LIKE', "%$search%");
@@ -327,7 +326,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano'])
+				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano', 'updated_at', 'only_users', 'galery', 'portada', 'content'])
 				->toArray();
 			
 			$post_count = Post::where(function ($query) {
@@ -337,8 +336,8 @@ class PostController extends Controller
 				})
 				->count();
 		}else {
-			$posts = Post::with('user:username,privilegio')
-				->select(['id','slug','created_at','title'])
+			$posts = Post::select(['id','slug','created_at','title'])
+				->with('user:id,username,privilegio')
 				->where('user_id', $user->id)
 				->where(function ($query) {
 					$search = request()->search;
@@ -349,7 +348,7 @@ class PostController extends Controller
 				->offset($page)
 				->limit($perPage)
 				->get()
-				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano'])
+				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano', 'updated_at', 'only_users', 'galery', 'portada', 'content'])
 				->toArray();
 			
 			$post_count = Post::where('user_id', $user->id)
