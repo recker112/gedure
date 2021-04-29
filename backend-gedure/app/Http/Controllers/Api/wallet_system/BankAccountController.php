@@ -22,7 +22,6 @@ class BankAccountController extends Controller
 		
 		$bankAccounts = BankAccount::where('n_account', 'like', '%'.$search.'%')
 			->orWhere('name', 'like', '%'.$search.'%')
-			->orWhere('email', 'like', '%'.$search.'%')
 			->offset($page)
 			->limit($perPage)
 			->get();
