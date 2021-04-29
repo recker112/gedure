@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\FindLikeRequest;
 use App\Http\Requests\wallet_system\BankAccountRequest;
+use App\Http\Requests\wallet_system\BankAccountRequestEdit;
 
 // Models
 use App\Models\wallet_system\BankAccount;
@@ -64,7 +65,7 @@ class BankAccountController extends Controller
 		}
 	}
 	
-	public function edit(BankAccountRequest $request, $id)
+	public function edit(BankAccountRequestEdit $request, $id)
 	{
 		$bankAccount = BankAccount::findOrFail(intVal($id));
 		

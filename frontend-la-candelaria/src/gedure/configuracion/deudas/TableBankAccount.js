@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import GroupIcon from '@material-ui/icons/Group';
+import EditIcon from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
@@ -12,12 +13,13 @@ import useFetch from '../../../hooks/useFetch';
 
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
+import { parseToAccountString } from '../../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../../../actions/updateDialogs';
 
-export default function TableUsers({ tableRef }) {
+export default function TableBankAccount({ tableRef }) {
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
@@ -81,6 +83,7 @@ export default function TableUsers({ tableRef }) {
 					{
 						title: 'N° cuenta',
 						field: 'n_account',
+						render: rowData => parseToAccountString(rowData.n_account)
 					},
 					{
 						title: 'Nombre',
@@ -115,9 +118,17 @@ export default function TableUsers({ tableRef }) {
 						},
 					},
 					{
+						icon: () => (<EditIcon />),
+						tooltip: 'Editar',
+						disabled: !permissions?.gedure?.bank_account_edit,
+						onClick: (event, rowData) => {
+							dispatch(updateDialogs('editBankAccount', true, false, rowData));
+						}
+					},
+					{
 						icon: () => (<Delete />),
 						tooltip: 'Eliminar curso',
-						disabled: !permissions?.gedure?.cursos_destroy,
+						disabled: !permissions?.gedure?.bank_account_destroy,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {

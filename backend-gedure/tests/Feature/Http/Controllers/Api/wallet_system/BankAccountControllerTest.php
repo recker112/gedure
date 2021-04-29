@@ -110,7 +110,7 @@ class BankAccountControllerTest extends TestCase
 	
 	public function testEdit()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
