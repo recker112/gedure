@@ -17,7 +17,7 @@ export default function Password() {
 		loading: state.forms.updatePassword.loading,
 	}));
 	
-	const { register, errors, handleSubmit, watch, setValue } = useForm({
+	const { control, handleSubmit, watch, setValue } = useForm({
 		mode: 'onTouched',
 	});
 	const dispatch = useDispatch();
@@ -51,8 +51,7 @@ export default function Password() {
 	return (
 		<UserPasswordForm
 			onSubmit={handleSubmit(onSubmit)}
-			register={register}
-			errors={errors}
+			control={control}
 			loading={loading}
 			setValue={setValue}
 			watch={watch}

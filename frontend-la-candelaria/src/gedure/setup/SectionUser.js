@@ -37,8 +37,9 @@ export default function SectionUser() {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch();
 	
@@ -123,8 +124,6 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalEstudianteDataForm 
 							onSubmit={null}
-							register={register}
-							errors={errors}
 							control={control}
 							loading={loading}
 							watch={watch}
@@ -135,7 +134,6 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalEstudianteUbiForm
 							onSubmit={null}
-							errors={errors}
 							control={control}
 							loading={loading}
 							watch={watch}
@@ -146,8 +144,7 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalEstudianteOtrosForm
 							onSubmit={null}
-							register={register}
-							errors={errors}
+							control={control}
 							watch={watch}
 							loading={loading}
 							user={data}
@@ -161,9 +158,7 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalRepresentanteDataForm
 							onSubmit={null}
-							register={register}
 							control={control}
-							errors={errors}
 							loading={loading}
 							user={data}
 							buttonDisable
@@ -174,7 +169,6 @@ export default function SectionUser() {
 							<PersonalRepresentanteUbiForm 
 								onSubmit={null}
 								control={control}
-								errors={errors}
 								watch={watch}
 								loading={loading}
 								user={data}
@@ -185,8 +179,7 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalRepresentanteEmpleoForm 
 							onSubmit={null}
-							register={register}
-							errors={errors}
+							control={control}
 							watch={watch}
 							loading={loading}
 							user={data}
@@ -200,9 +193,7 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalMadreForm 
 							onSubmit={null}
-							register={register}
 							control={control}
-							errors={errors}
 							loading={loading}
 							user={data}
 							buttonDisable
@@ -211,9 +202,7 @@ export default function SectionUser() {
 					<Box mb={4}>
 						<PersonalPadreForm 
 							onSubmit={null}
-							register={register}
 							control={control}
-							errors={errors}
 							loading={loading}
 							user={data}
 							buttonDisable

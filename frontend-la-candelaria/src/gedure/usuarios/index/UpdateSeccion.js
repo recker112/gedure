@@ -16,9 +16,11 @@ import useFetch from '../../../hooks/useFetch';
 import { useForm } from "react-hook-form";
 
 // Components
+import {
+	SelectHook,
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
 import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 
 // Redux
@@ -33,8 +35,9 @@ export default function UpdateSeccion({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, control, errors } = useForm({
-		mode: 'onTouched'
+	const { handleSubmit, control } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch();
 	
@@ -86,30 +89,28 @@ export default function UpdateSeccion({ tableRef }) {
 						<DialogContentText>Ha seleccionado <strong>{data.length}</strong> estudiante(s), seleccione la sección a la que los desea cambiar.</DialogContentText>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<RenderSelectFormHook
+						<SelectHook
 							name='curso'
-							nameLabel='Curso'
+							label='Curso'
 							control={control}
-							defaultValue=''
-							errors={errors?.curso}
 							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''><em>Ninguno</em></MenuItem>
 							{MenuItemList}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 					<Grid item xs={12}  sm={6}>
-						<RenderSelectFormHook
+						<SelectHook
 							name='seccion'
-							nameLabel='Sección'
+							label='Sección'
 							control={control}
-							defaultValue=''
-							errors={errors?.seccion}
 							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''><em>Ninguno</em></MenuItem>
 							{MenuItemList2}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 				</Grid>
 			</DialogContent>

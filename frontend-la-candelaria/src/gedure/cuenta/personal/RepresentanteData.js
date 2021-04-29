@@ -22,8 +22,9 @@ export default function RepresentanteData() {
 		user: state.userData.user,
 	}));
 	
-	const { register, control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -64,9 +65,7 @@ export default function RepresentanteData() {
 		<Box mb={4}>
 			<PersonalRepresentanteDataForm
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
 				control={control}
-				errors={errors}
 				loading={loading}
 				buttonText='Actualizar'
 				user={user}

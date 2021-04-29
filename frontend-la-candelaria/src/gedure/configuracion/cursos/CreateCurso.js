@@ -14,7 +14,9 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
+import {
+	SelectHook,
+} from '@form-inputs';
 import { CursosList, SeccionList } from '../../../components/funciones/CursosList';
 import LoadingComponent from '../../../components/LoadingComponent';
 
@@ -29,7 +31,7 @@ export default function CreateCurso({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -68,32 +70,32 @@ export default function CreateCurso({ tableRef }) {
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={12} sm={6} md={4}>
-						<RenderSelectFormHook
+						<SelectHook
 							name='curso'
-							nameLabel='Curso'
+							label='Curso'
 							control={control}
-							defaultValue='' 
-							errors={errors.curso}
+							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''>
 								<em>Ninguno</em>
 							</MenuItem>
 							{MenuItemList}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 					<Grid item xs={12} sm={6} md={4}>
-						<RenderSelectFormHook
+						<SelectHook
 							name='seccion'
-							nameLabel='Sección'
+							label='Sección'
 							control={control}
-							defaultValue='' 
-							errors={errors.seccion}
+							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''>
 								<em>Ninguno</em>
 							</MenuItem>
 							{MenuItemList2}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 				</Grid>
 				<Typography className='text__opacity--semi'>

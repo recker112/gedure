@@ -3,29 +3,25 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
-	FormControl,
-	FormLabel,
-	FormControlLabel,
-	RadioGroup,
-	Radio,
 	MenuItem,
 } from '@material-ui/core';
-import { DatePicker } from '@material-ui/pickers';
 
-import format from 'date-fns/format';
-
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	SelectHook,
+	InputHook,
+	InputMaskHook,
+	RadioHook,
+	DatePickerHook
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
-import { NumberFormatInput } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -38,8 +34,6 @@ export function PersonalRepresentanteDataForm(props) {
 		loading, 
 		control, 
 		user, 
-		register, 
-		errors, 
 		buttonText, 
 		buttonDisable
 	} = props;
@@ -56,132 +50,121 @@ export function PersonalRepresentanteDataForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.repre_nacionalidad'
-						nameLabel='Nacionalidad'
-						control={control}
+						label='Nacionalidad'
 						defaultValue={user.personal_data.repre_nacionalidad || ''}
-						errors={errors.personalData?.repre_nacionalidad}
+						control={control}
 						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value='V'>Venezolano</MenuItem>
 						<MenuItem value='E'>Extranjero</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 7, message: 'Error: Demaciado corto' },
-							maxLength: { value: 14, message: 'Error: Demaciado largo' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
+							minLength: { value: 7, message: 'Error: No válido' },
+							maxLength: { value: 14, message: 'Error: No válido' },
 							pattern: {
 								value: /^[0-9]*$/,
 								message: 'Error: Solo números',
 							},
-						})}
-						error={Boolean(errors?.personalData?.repre_cedula)}
-						helperText={errors?.personalData?.repre_cedula?.message ? errors.personalData.repre_cedula.message : ''}
-						variant='outlined'
+						}}
 						name='personalData.repre_cedula'
 						label='Cédula'
 						size='small'
+						variant='outlined'
+						fullWidth
 						defaultValue={user.personal_data.repre_cedula || ''}
 						disabled={loading}
-						fullWidth
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 8, message: 'Error: Demaciado corto' },
 							maxLength: { value: 90, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.repre_nombre)}
-						helperText={errors?.personalData?.repre_nombre?.message ? errors.personalData.repre_nombre.message : ''}
-						variant='outlined'
+						}}
 						name='personalData.repre_nombre'
 						label='Nombre y apellido'
 						size='small'
+						variant='outlined'
+						fullWidth
 						defaultValue={user.personal_data.repre_nombre || ''}
 						disabled={loading}
-						fullWidth
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<NumberFormatInput
-						disabled={loading}
-						error={Boolean(errors?.personalData?.repre_telefono)}
-						helperText={errors?.personalData?.repre_telefono ? errors.personalData.repre_telefono.message : ''}
-						label='Teléfono'
-						size='small'
-						mask='phone'
-						fullWidth
-						name='personalData.repre_telefono'
-						variant='outlined'
+					<InputMaskHook
 						control={control}
-						defaultValue={user.personal_data.repre_telefono || '58'}
 						rules={{
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 12, message: 'Error: Teléfono no válido' }
+							required: '* Campo requerido',
+							minLength: { value: 12, message: 'Error: No válido' },
 						}}
+						defaultValue={user.personal_data.repre_telefono || '58'}
+						name='personalData.repre_telefono'
+						label='Teléfono'
+						variant='outlined'
+						size='small'
+						format='+## (###) ###-####'
+						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 10, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.repre_direccion)}
-						helperText={errors?.personalData?.repre_direccion?.message ? errors.personalData.repre_direccion.message : ''}
-						variant='outlined'
+						}}
 						name='personalData.repre_direccion'
 						label='Dirección de domicilio'
 						size='small'
+						variant='outlined'
+						fullWidth
 						defaultValue={user.personal_data.repre_direccion || ''}
 						disabled={loading}
-						fullWidth
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">Sexo</FormLabel>
-						<RadioGroup 
-							aria-label="sexo" 
-							defaultValue={user.personal_data.repre_sexo || 'Masculino'}
-							name='personalData.repre_sexo' 
-							row
-						>
-							<FormControlLabel 
-								value="Masculino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Masculino"
-							/>
-							<FormControlLabel 
-								value="Femenino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Femenino"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.repre_sexo || 'Masculino'}
+						disabled={loading}
+						label='Sexo'
+						name='personalData.repre_sexo'
+						row
+						radioList={[
+							{
+								value: 'Masculino',
+								label: 'Masculino',
+							},
+							{
+								value: 'Femenino',
+								label: 'Femenino',
+							}
+						]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.repre_tipo_familiar'
-						nameLabel='Tipo de familiar'
-						control={control}
+						label='Tipo de familiar'
 						defaultValue={user.personal_data.repre_tipo_familiar || ''}
-						errors={errors.personalData?.repre_tipo_familiar}
+						control={control}
 						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
@@ -193,16 +176,16 @@ export function PersonalRepresentanteDataForm(props) {
 						<MenuItem value="Madastra">Madastra</MenuItem>
 						<MenuItem value="Tia(o)">Tia(o)</MenuItem>
 						<MenuItem value="Otro">Otro</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.repre_estado_civil'
-						nameLabel='Estado civil'
-						control={control}
+						label='Estado civil'
 						defaultValue={user.personal_data.repre_estado_civil || ''}
-						errors={errors.personalData?.repre_estado_civil}
+						control={control}
 						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
@@ -212,64 +195,56 @@ export function PersonalRepresentanteDataForm(props) {
 						<MenuItem value="Viudo">Viudo</MenuItem>
 						<MenuItem value="Concubino">Concubino</MenuItem>
 						<MenuItem value="Divorciado">Divorciado</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<Controller
-						render={({onChange, onBlur, value, ref}) => (
-							<DatePicker
-								disableFuture
-								disabled={loading}
-								format='dd/MM/yyyy'
-								inputVariant="outlined"
-								views={['year', 'month', 'date']}
-								openTo="year"
-								label="Fecha de nacimiento"
-								onBlur={onBlur}
-								inputRef={ref}
-								onChange={date => {
-									onChange(format(date, 'yyyy/MM/dd'))
-								}}
-								value={value}
-								helperText={errors?.personalData?.repre_nacimiento?.message ? errors.personalData.repre_nacimiento.message : ''}
-								error={Boolean(errors?.personalData?.repre_nacimiento)}
-								fullWidth
-								size='small'
-							/>
-						)}
+					<DatePickerHook 
 						name="personalData.repre_nacimiento"
+						label="Fecha de nacimiento"
 						control={control}
-						defaultValue={user.personal_data.repre_nacimiento ? format(new Date(user.personal_data.repre_nacimiento), 'yyyy/MM/dd') : ''}
 						rules={{ 
-							required: { value: true, message: '* Campo requerido' }
+							required: '* Campo requerido'
 						}}
+						defaultValue={user.personal_data.repre_nacimiento || ''}
+						disableFuture
+						disabled={loading}
+						format='yyyy/MM/dd'
+						inputVariant="outlined"
+						views={['year', 'month', 'date']}
+						openTo="year"
+						fullWidth
+						size='small'
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField 
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							pattern: {
 								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-								message: 'Error: Correo no válido',
+								message: 'Error: No válido',
 							},
-						})}
-						error={Boolean(errors?.personalData?.repre_email)}
-						helperText={errors?.personalData?.repre_email?.message ? errors.personalData.repre_email.message : ''}
+						}}
 						type='email'
-						variant='outlined'
 						name='personalData.repre_email'
 						label='Correo'
 						size='small'
+						variant='outlined'
+						fullWidth
 						defaultValue={user.personal_data.repre_email || ''}
 						disabled={loading}
-						fullWidth
 					/>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit'
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -288,7 +263,7 @@ export default function PersonalRepresentanteData({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -332,9 +307,7 @@ export default function PersonalRepresentanteData({ id }) {
 		<Box mb={4}>
 			<PersonalRepresentanteDataForm
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
 				control={control}
-				errors={errors}
 				loading={loading}
 				buttonText='Actualizar'
 				user={user}

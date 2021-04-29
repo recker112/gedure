@@ -22,8 +22,9 @@ export default function Usuario() {
 		user: state.userData.user,
 	}));
 	
-	const { control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -57,7 +58,6 @@ export default function Usuario() {
 		<Box mb={4}>
 			<PersonalEstudianteUbiForm
 				onSubmit={handleSubmit(onSubmit)}
-				errors={errors}
 				control={control}
 				loading={loading}
 				watch={watch}

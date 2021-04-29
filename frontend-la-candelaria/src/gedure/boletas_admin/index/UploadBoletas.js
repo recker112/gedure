@@ -21,9 +21,11 @@ import useFetch from '../../../hooks/useFetch';
 import { useForm } from "react-hook-form";
 
 // Components
+import {
+	SelectHook,
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
 import { LapsoList } from '../../../components/funciones/CursosList';
 
 // Redux
@@ -38,7 +40,10 @@ export default function UploadBoletas({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, control, register, errors, watch } = useForm();
+	const { handleSubmit, control, watch, register, formState: { errors } } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
+	});
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -101,13 +106,12 @@ export default function UploadBoletas({ tableRef }) {
 					<Grid container alignItems='center' item xs={12}>
 						<input
 							id='boletas-upload-file'
-							ref={register({
-								required: { value: true, message: '* Debe subir un archivo' },
+							{...register('boletas',{
+								required: '* Debe subir un archivo',
 							})}
 							defaultValue={null}
 							style={{display: 'none'}}
 							accept="application/zip"
-							name='boletas'
 							type="file"
 						/>
 						<label htmlFor="boletas-upload-file">
@@ -118,25 +122,23 @@ export default function UploadBoletas({ tableRef }) {
 								<Typography>{errors.boletas.message}</Typography>
 							</Box>
 						)}
-						{watch('boletas', []).length !== 0 && (
+						{((watch('boletas')?.length || []).length !== 0) && (
 							<Box ml={2}>
 								<Typography>Archivo cargado</Typography>
 							</Box>
 						)}
 					</Grid>
 					<Grid item xs={12}>
-						<RenderSelectFormHook
-							id='boletas-lapso'
+						<SelectHook
 							name='lapso'
-							nameLabel='Lapso'
+							label='Lapso'
 							control={control}
-							defaultValue=''
-							errors={errors?.lapso}
 							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''><em>Ninguno</em></MenuItem>
 							{MenuItemList}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 				</Grid>
 			</DialogContent>

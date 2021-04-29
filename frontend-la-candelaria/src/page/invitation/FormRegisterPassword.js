@@ -14,7 +14,9 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../hooks/useFetch';
 
 // Components
-import { RenderInputPassword } from '../../components/RendersGlobals';
+import {
+	InputPasswordHook,
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
@@ -30,7 +32,7 @@ export default function FormRegisterPassword({ invitationKey }) {
 	
 	const history = useHistory();
 	
-	const { register, handleSubmit, errors, setError, watch } = useForm({
+	const { control, handleSubmit, setError, watch } = useForm({
 		mode: 'onTouched',
 	});
 	const { fetchData } = useFetch(setError);
@@ -67,33 +69,33 @@ export default function FormRegisterPassword({ invitationKey }) {
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
-						<RenderInputPassword
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 4, message: 'Error: Demaciado corto' },
-							})}
+						<InputPasswordHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 4, message: 'Error: No válido' },
+							}}
 							name='password'
-							variant='standard'
-							size='small'
-							error={Boolean(errors?.password)}
-							helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
 							label='Contraseña'
+							helperText='* Campo requerido'
+							size='small'
+							fullWidth
 							disabled={loading}
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<RenderInputPassword
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 4, message: 'Error: Demaciado corto' },
-								validate: value => value === watch('password', '') || 'Error: Las contraseñas no coinciden'
-							})}
+						<InputPasswordHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 4, message: 'Error: No válido' },
+									validate: value => value === watch('password', '') || 'Error: La contraseñas no coinciden'
+							}}
 							name='repear_password'
-							variant='standard'
+							label='Contraseña'
+							helperText='* Repetir contraseña'
 							size='small'
-							error={Boolean(errors?.repear_password)}
-							helperText={errors?.repear_password?.message ? errors.repear_password.message : '* Campo requerido'}
-							label='Repetir contraseña'
+							fullWidth
 							disabled={loading}
 						/>
 					</Grid>

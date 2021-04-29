@@ -4,58 +4,25 @@ import {
 	Grid,
 	Typography,
 	Paper,
-	TextField,
 	MenuItem,
 	Button,
 } from '@material-ui/core';
 
-import { useForm, Controller } from "react-hook-form";
-
-import NumberFormat from 'react-number-format';
+import { useForm } from "react-hook-form";
 
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
+import {
+	InputHook,
+	InputMaskHook,
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../actions/updateForms';
-
-function NumberFormatCustom(props) {
-	const { inputRef, onChange, format, mask, ...rest } = props;
-	
-	return (
-		<NumberFormat
-			{...rest}
-			getInputRef={inputRef}
-			onValueChange={(values) => {
-				onChange(values.value);
-			}}
-			format="#### #### #### #### ####"
-			mask="_"
-			isNumericString
-		/>
-	)
-}
-
-function NumberFormatCustom2(props) {
-	const { inputRef, onChange, format, mask, ...rest } = props;
-	
-	return (
-		<NumberFormat
-			{...rest}
-			getInputRef={inputRef}
-			onValueChange={(values) => {
-				onChange(values.value);
-			}}
-			format="J-########-#"
-			mask="_"
-			isNumericString
-		/>
-	)
-}
 
 export default function CreateBankAccount({ tableRef }) {
 	const { loading } = useSelector((state) => ({
@@ -63,7 +30,7 @@ export default function CreateBankAccount({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, errors, handleSubmit, register, setError } = useForm({
+	const { control, handleSubmit, setError } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch(setError);
@@ -95,104 +62,72 @@ export default function CreateBankAccount({ tableRef }) {
 				<form autoComplete='off'>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6} md={4}>
-							<Controller 
-								render={({onChange, onBlur, value, name, ref}, { invalid }) => (
-									<TextField
-										inputRef={ref}
-										value={value}
-										name={name}
-										onChange={onChange}
-										onBlur={onBlur}
-										error={invalid}
-										disabled={loading}
-										helperText={errors[name] ? errors[name].message : ''}
-										label='N° de cuenta'
-										InputProps={{
-											inputComponent: NumberFormatCustom
-										}}
-										fullWidth
-									/>
-								)}
-								name='n_account'
+							<InputMaskHook
 								control={control}
-								defaultValue=''
 								rules={{
-									required: { value: true, message: '* Campo requerido' },
+									required: '* Campo requerido',
 									minLength: { value: 20, message: 'Error: Cuenta no válida' },
 									maxLength: { value: 20, message: 'Error: Cuenta no válida' },
 								}}
+								name='n_account'
+								label='N° de cuenta'
+								fullWidth
+								disabled={loading}
+								format="#### #### #### #### ####"
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<Controller 
-								render={({onChange, onBlur, value, name, ref}, { invalid }) => (
-									<TextField
-										inputRef={ref}
-										value={value}
-										name={name}
-										onChange={onChange}
-										onBlur={onBlur}
-										error={invalid}
-										disabled={loading}
-										helperText={errors[name] ? errors[name].message : ''}
-										label='RIF'
-										InputProps={{
-											inputComponent: NumberFormatCustom2
-										}}
-										fullWidth
-									/>
-								)}
-								name='rif'
+							<InputMaskHook
 								control={control}
-								defaultValue=''
 								rules={{
-									required: { value: true, message: '* Campo requerido' },
+									required: '* Campo requerido',
 									minLength: { value: 9, message: 'Error: RIF no válida' },
 									maxLength: { value: 9, message: 'Error: RIF no válida' },
 								}}
+								name='rif'
+								label='RIF'
+								fullWidth
+								disabled={loading}
+								format="J-########-#"
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 6, message: 'Error: Demaciado corto' },
 									maxLength: { value: 100, message: 'Error: Demaciado largo' },
-								})}
-								disabled={loading}
+								}}
 								name='name'
-								error={Boolean(errors.name)}
-								helperText={errors.name ? errors.name.message : ''}
 								label='Nombre'
-								defaultValue={''}
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									pattern: {
 										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
 										message: 'Error: Correo no válido',
 									},
-								})}
-								disabled={loading}
+								}}
 								name='email'
-								error={Boolean(errors.email)}
-								helperText={errors.email ? errors.email.message : ''}
 								label='Correo'
-								defaultValue={''}
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<RenderSelectFormHook
+							<SelectHook
 								name='type'
-								nameLabel='Tipo de cuenta'
+								label='Tipo de cuenta'
 								control={control}
-								defaultValue='' 
-								errors={errors.type}
+								disabled={loading}
+								fullWidth
 							>
 								<MenuItem value=''>
 									<em>Ninguno</em>
@@ -203,15 +138,15 @@ export default function CreateBankAccount({ tableRef }) {
 								<MenuItem value='ahorro'>
 									Corriente
 								</MenuItem>
-							</RenderSelectFormHook>
+							</SelectHook>
 						</Grid>
 						<Grid item xs={12} sm={6} md={4}>
-							<RenderSelectFormHook
+							<SelectHook
 								name='code'
-								nameLabel='Banco'
+								label='Banco'
 								control={control}
-								defaultValue=''
-								errors={errors.code}
+								disabled={loading}
+								fullWidth
 							>
 								<MenuItem value=''>
 									<em>Ninguno</em>
@@ -222,7 +157,7 @@ export default function CreateBankAccount({ tableRef }) {
 								<MenuItem value='1103'>
 									Banesco
 								</MenuItem>
-							</RenderSelectFormHook>
+							</SelectHook>
 						</Grid>
 						<Grid container justify='flex-end' item xs={12}>
 							<LoadingComponent 

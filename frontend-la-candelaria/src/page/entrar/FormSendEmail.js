@@ -5,7 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { 
 	Typography,
 	Grid,
-	TextField,
 	Link,
 	Button,
 	Fade,
@@ -17,6 +16,9 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../hooks/useFetch';
 
 // Components
+import {
+	InputHook,
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
@@ -39,7 +41,7 @@ function FormSendEmail({ nextStep }) {
 	
 	const classes = useStyles();
 	
-	const { handleSubmit, register, errors } = useForm({
+	const { handleSubmit, control } = useForm({
 		mode: 'onTouched'
 	});
 	
@@ -76,18 +78,18 @@ function FormSendEmail({ nextStep }) {
 					</Grid>
 
 					<Grid item xs={12}>
-						<TextField
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
 								pattern: {
 									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-									message: 'Error: Correo no válido',
+									message: 'Error: No válido',
 								},
-							})}
-							error={Boolean(errors?.email)}
-							helperText={errors?.email?.message ? errors.email.message : '* Campo requerido'}
+							}}
 							name='email'
-							label='Correo electrónico'
+							label='Correo Electrónico *'
+							helperText='* Campo requerido'
 							fullWidth
 							disabled={loading}
 						/>

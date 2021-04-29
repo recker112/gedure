@@ -61,6 +61,7 @@ export default function PageEditPost() {
 	
 	const methods = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	
 	useEffect(()=>{

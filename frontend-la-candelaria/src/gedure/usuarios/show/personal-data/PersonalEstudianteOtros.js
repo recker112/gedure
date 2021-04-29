@@ -3,15 +3,9 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
-	FormControl,
-	FormLabel,
-	FormControlLabel,
-	RadioGroup,
-	Radio,
 } from '@material-ui/core';
 
 import { useForm } from "react-hook-form";
@@ -19,6 +13,10 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	InputHook,
+	RadioHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
 
 // Redux
@@ -31,9 +29,8 @@ export function PersonalEstudianteOtrosForm(props) {
 		onSubmit, 
 		loading,
 		user, 
-		register, 
-		watch, 
-		errors,
+		watch,
+		control,
 		buttonText, 
 		buttonDisable
 	} = props;
@@ -50,106 +47,93 @@ export function PersonalEstudianteOtrosForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">¿Tiene canaima?</FormLabel>
-						<RadioGroup 
-							aria-label="MASTER-RIZE" 
-							defaultValue={user.personal_data.estudi_otros_canaima || 'No'} 
-							name='personalData.estudi_otros_canaima'
-							row
-						>
-							<FormControlLabel 
-								value="Si" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Si"
-							/>
-							<FormControlLabel 
-								value="No" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="No"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.estudi_otros_canaima || 'No'}
+						disabled={loading}
+						label='¿Tiene canaima?'
+						name='personalData.estudi_otros_canaima'
+						row
+						radioList={[
+							{
+								value: 'Si',
+								label: 'Si',
+							},
+							{
+								value: 'No',
+								label: 'No',
+							}
+						]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">¿Tiene beca?</FormLabel>
-						<RadioGroup 
-							defaultValue={user.personal_data.estudi_otros_beca || 'No'} 
-							name='personalData.estudi_otros_beca' 
-							row
-						>
-							<FormControlLabel 
-								value="Si" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Si"
-							/>
-							<FormControlLabel 
-								value="No" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="No"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.estudi_otros_beca || 'No'} 
+						disabled={loading}
+						label='¿Tiene beca?'
+						name='personalData.estudi_otros_beca' 
+						row
+						radioList={[
+							{
+								value: 'Si',
+								label: 'Si',
+							},
+							{
+								value: 'No',
+								label: 'No',
+							}
+						]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">¿Vive con el representante?</FormLabel>
-						<RadioGroup 
-							defaultValue={user.personal_data.estudi_otros_alojado || 'Si'}
-							name='personalData.estudi_otros_alojado'
-							row
-						>
-							<FormControlLabel 
-								value="Si" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Si"
-							/>
-							<FormControlLabel 
-								value="No" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="No"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.estudi_otros_alojado || 'Si'}
+						disabled={loading}
+						label='¿Vive con el representante?'
+						name='personalData.estudi_otros_alojado'
+						row
+						radioList={[
+							{
+								value: 'Si',
+								label: 'Si',
+							},
+							{
+								value: 'No',
+								label: 'No',
+							}
+						]}
+					/>
 				</Grid>
 				{watch('personalData.estudi_otros_alojado', 'Si') === 'No' && (
 					<Grid item xs={12}>
-						<TextField 
-							id='datosPersonal-otros-direccion'
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
 								minLength: { value: 10, message: 'Error: Demaciado corto' },
 								maxLength: { value: 40, message: 'Error: Demaciado largo' },
-							})}
-							error={Boolean(errors?.personalData?.estudi_otros_direccion)}
-							helperText={errors?.personalData?.estudi_otros_direccion?.message ? errors.personalData.estudi_otros_direccion.message : ''}
-							variant='outlined'
-							name='personalData.estudi_otros_direccion'
+							}}
 							defaultValue={user.personal_data.estudi_otros_direccion || ''} 
+							name='personalData.estudi_otros_direccion'
 							label='Direccion'
+							variant='outlined'
 							size='small'
-							disabled={loading}
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 				)}
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -168,8 +152,9 @@ export default function PersonalEstudianteOtros({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, errors, watch, handleSubmit } = useForm({
-		mode: 'onTouched'
+	const { control, watch, handleSubmit } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch();
 	
@@ -209,8 +194,7 @@ export default function PersonalEstudianteOtros({ id }) {
 		<Box>
 			<PersonalEstudianteOtrosForm
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
-				errors={errors}
+				control={control}
 				watch={watch}
 				loading={loading}
 				buttonText='Actualizar'

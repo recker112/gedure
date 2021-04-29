@@ -3,7 +3,6 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
@@ -15,8 +14,12 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	InputMaskHook,
+	InputHook,
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook, NumberFormatInput } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,8 +32,6 @@ export function PersonalPadreForm(props) {
 		loading, 
 		control, 
 		user, 
-		register,
-		errors,
 		buttonText,
 		buttonDisable,
 	} = props;
@@ -47,102 +48,102 @@ export function PersonalPadreForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.padre_nacionalidad'
-						nameLabel='Nacionalidad '
-						control={control}
+						label='Nacionalidad'
 						defaultValue={user.personal_data.padre_nacionalidad || ''}
-						errors={errors.personalData?.padre_nacionalidad}
+						control={control}
 						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value='V'>Venezolano</MenuItem>
 						<MenuItem value='E'>Extranjero</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 7, message: 'Error: Demaciado corto' },
 							maxLength: { value: 14, message: 'Error: Demaciado largo' },
 							pattern: {
 								value: /^[0-9]*$/,
 								message: 'Error: Solo números',
 							},
-						})}
-						error={Boolean(errors?.personalData?.padre_cedula)}
-						helperText={errors?.personalData?.padre_cedula?.message ? errors.personalData.padre_cedula.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.padre_cedula || ''}
 						name='personalData.padre_cedula'
 						label='Cédula'
-						defaultValue={user.personal_data.padre_cedula || ''}
 						size='small'
-						disabled={loading}
+						variant='outlined'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 8, message: 'Error: Demaciado corto' },
 							maxLength: { value: 90, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.padre_nombre)}
-						helperText={errors?.personalData?.padre_nombre?.message ? errors.personalData.padre_nombre.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.padre_nombre || ''}
 						name='personalData.padre_nombre'
 						label='Nombre y apellido'
-						defaultValue={user.personal_data.padre_nombre || ''}
 						size='small'
-						disabled={loading}
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<NumberFormatInput
-						disabled={loading}
-						error={Boolean(errors?.personalData?.padre_telefono)}
-						helperText={errors?.personalData?.padre_telefono ? errors.personalData.padre_telefono.message : ''}
-						label='Teléfono'
-						size='small'
-						mask='phone'
-						fullWidth
-						name='personalData.padre_telefono'
 						variant='outlined'
-						control={control}
-						defaultValue={user.personal_data.padre_telefono || '58'}
-						rules={{
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 12, message: 'Error: Teléfono no válido' }
-						}}
+						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '¨Campo requerido' },
+					<InputMaskHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
+							minLength: { value: 12, message: 'Error: No válido' },
+						}}
+						defaultValue={user.personal_data.padre_telefono || '58'}
+						name='personalData.padre_telefono'
+						label='Teléfono'
+						variant='outlined'
+						size='small'
+						format='+## (###) ###-####'
+						fullWidth
+						disabled={loading}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 10, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.padre_direccion)}
-						helperText={errors?.personalData?.padre_direccion?.message ? errors.personalData.padre_direccion.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.padre_direccion || ''}
 						name='personalData.padre_direccion'
 						label='Dirección de domicilio'
 						size='small'
-						defaultValue={user.personal_data.padre_direccion || ''}
-						disabled={loading}
+						variant='outlined'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -161,7 +162,7 @@ export default function PersonalPadre({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -197,9 +198,7 @@ export default function PersonalPadre({ id }) {
 	return (
 		<PersonalPadreForm 
 			onSubmit={handleSubmit(onSubmit)}
-			register={register}
 			control={control}
-			errors={errors}
 			loading={loading}
 			buttonText='Actualizar'
 			user={user}

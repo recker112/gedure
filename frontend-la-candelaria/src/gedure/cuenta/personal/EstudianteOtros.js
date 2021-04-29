@@ -18,8 +18,9 @@ export default function EstudianteOtros() {
 		user: state.userData.user,
 	}));
 	
-	const { register, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -56,8 +57,7 @@ export default function EstudianteOtros() {
 	return (
 		<PersonalEstudianteOtrosForm
 			onSubmit={handleSubmit(onSubmit)}
-			register={register}
-			errors={errors}
+			control={control}
 			watch={watch}
 			loading={loading}
 			buttonText='Actualizar'

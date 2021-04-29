@@ -155,7 +155,7 @@ export function Loader(props){
 			{theme === 'light' ? 
 				(
 				<React.Fragment>
-					<img src={logoL} alt='Logo de la institución' className='loading__img' />
+					<img src={logoL} alt='Logo de la instituciรณn' className='loading__img' />
 					<ReactLoading type="bars" color="#00000080" width={150} height={100} />
 				</React.Fragment>
 				)

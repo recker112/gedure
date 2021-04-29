@@ -26,7 +26,6 @@ export default function BreadCrumbsShow({ user, maxLengthPath }) {
 	let removed = BreadCrumbsRouters.splice(0,1);
 	
 	let route = BreadCrumbsRouters[BreadCrumbsRouters.length - 1].toString().replace('-', ' ');
-	console.log(route,BreadCrumbsRouters);
 	
 	return (
 		<Grid container alignItems='center' spacing={2}>

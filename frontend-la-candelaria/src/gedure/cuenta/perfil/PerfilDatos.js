@@ -3,7 +3,6 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
@@ -14,6 +13,9 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Components
+import {
+	InputHook
+} from '@form-inputs';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
@@ -28,8 +30,9 @@ export default function PerfilDatos() {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, handleSubmit, errors, setError } = useForm({
+	const { control, handleSubmit, setError } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch(setError);
 	
@@ -78,43 +81,43 @@ export default function PerfilDatos() {
 
 				{user.privilegio !== 'V-' && (
 					<Grid item xs={12}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
 								minLength: { value: 3, message: 'Error: Demaciado corto' },
 								maxLength: { value: 90, message: 'Error: Demaciado largo' },
-							})}
+							}}
 							name='name'
-							error={Boolean(errors?.name)}
-							helperText={errors?.name?.message ? errors.name.message : 'El nombre puede ser visto por otros usuarios, tenga discreción con lo que coloque aquí'}
 							label='Nombre de la cuenta'
-							defaultValue={user.name} 
-							variant='outlined' 
-							size='small' 
-							disabled={loading}
+							helperText='El nombre puede ser visto por otros usuarios, tenga discreción con lo que coloque aquí'
+							defaultValue={user.name}
+							variant='outlined'
+							size='small'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 				)}
 
 				<Grid item xs={12}>
-					<TextField 
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							pattern: {
 								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
 								message: 'Error: Correo no válido',
 							},
-						})}
+						}}
 						name='email'
-						error={Boolean(errors?.email)}
-						helperText={errors?.email?.message ? errors.email.message : 'Este correo será usado en distintas partes de la App, coloqué un correo al cual tenga acceso'}
 						label='Correo electónico'
-						defaultValue={user.email} 
-						variant='outlined' 
-						size='small' 
-						disabled={loading}
+						helperText='Este correo será usado en distintas partes del sistema para una comunicación directa con el usuario'
+						defaultValue={user.email}
+						variant='outlined'
+						size='small'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 

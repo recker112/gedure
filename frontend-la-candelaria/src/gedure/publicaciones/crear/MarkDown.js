@@ -16,7 +16,7 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import LinkIcon from '@material-ui/icons/Link';
 
-import { useFormContext, Controller, useWatch } from "react-hook-form";
+import { useFormContext, useController, useWatch } from "react-hook-form";
 
 function ToolBar({ textRef, value, disabled }) {
 	const formats = {
@@ -129,11 +129,22 @@ function ToolBar({ textRef, value, disabled }) {
 export default function MarkDown({ defaultValue, disabled }) {
 	const textAreaRef = useRef(null);
 	
-	const { control, errors } = useFormContext();
+	const { control, formState: { errors } } = useFormContext();
+	const {
+    field: { ref, ...inputProps },
+  } = useController({
+    name: 'markdown',
+    control,
+		rules: {
+			required: '* Campo requerido',
+			minLength: { value: 10, message: 'Error: Demaciado corto' },
+		},
+    defaultValue: defaultValue,
+  });
 	const watch = useWatch({
     control,
     name: 'markdown',
-    defaultValue: '',
+    defaultValue: defaultValue,
   });
 	
 	return(
@@ -141,29 +152,17 @@ export default function MarkDown({ defaultValue, disabled }) {
 			<ToolBar textRef={textAreaRef} value={watch} disabled={disabled} />
 			<Divider style={{margin: '5px 0', width: '100%'}} />
 			<Grid item xs={12}>
-				<Controller
-					defaultValue={defaultValue}
-					control={control}
-					name='markdown'
-					rules={{
-						required: { value: true, message: '* Campo requerido' },
-						minLength: { value: 10, message: 'Error: Demaciado corto' },
-					}}
-					render={({value, onChange, onBlur}) => (
-						<TextField 
-							multiline
-							rows={12} 
-							rowsMax={20}
-							label='Contenido'
-							error={Boolean(errors.markdown)}
-							helperText={errors?.markdown?.message ? errors.markdown.message : `${watch?.length} Caracteres`}
-							disabled={disabled}
-							value={value} 
-							onChange={onChange} 
-							inputRef={textAreaRef}
-							fullWidth 
-						/>
-					)}
+				<TextField 
+					{...inputProps}
+					multiline
+					rows={12} 
+					rowsMax={20}
+					label='Contenido'
+					error={Boolean(errors.markdown)}
+					helperText={errors?.markdown?.message ? errors.markdown.message : `${watch?.length} Caracteres`}
+					disabled={disabled}
+					inputRef={textAreaRef}
+					fullWidth 
 				/>
 			</Grid>
 		</React.Fragment>

@@ -33,7 +33,10 @@ export default function ReplaceBoleta({ handleRefresh, name }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, register, errors } = useForm();
+	const { handleSubmit, register, watch, formState: { errors } } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
+	});
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -91,13 +94,12 @@ export default function ReplaceBoleta({ handleRefresh, name }) {
 					<Grid container alignItems='center' item xs={12}>
 						<input
 							id='boleta-upload-file'
-							ref={register({
-								required: { value: true, message: '* Debe subir un archivo' },
+							{...register('boleta',{
+								required: '* Debe subir un archivo',
 							})}
 							defaultValue={null}
 							style={{display: 'none'}}
 							accept="application/pdf"
-							name='boleta'
 							type="file"
 						/>
 						<label htmlFor="boleta-upload-file">
@@ -106,6 +108,11 @@ export default function ReplaceBoleta({ handleRefresh, name }) {
 						{Boolean(errors.boleta) && (
 							<Box ml={2} color='#f44336'>
 								<Typography >{errors.boleta.message}</Typography>
+							</Box>
+						)}
+						{((watch('boleta')?.length || []).length !== 0) && (
+							<Box ml={2}>
+								<Typography>Archivo cargado</Typography>
 							</Box>
 						)}
 					</Grid>

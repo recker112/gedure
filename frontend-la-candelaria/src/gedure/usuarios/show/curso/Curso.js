@@ -14,8 +14,10 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
 import { CursosList, SeccionList } from '../../../../components/funciones/CursosList';
 
 // Redux
@@ -31,7 +33,7 @@ export default function PersonalEstudianteData({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -85,34 +87,34 @@ export default function PersonalEstudianteData({ id }) {
 					</Box>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='curso'
-						nameLabel='Curso'
+						label='Curso'
 						control={control}
-						defaultValue={dataUser.alumno?.curso?.curso || ''} 
-						errors={errors?.alumno?.curso?.curso}
 						disabled={loading}
+						defaultValue={dataUser.alumno?.curso?.curso || ''} 
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						{MenuItemList}
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12} sm={6}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='seccion'
-						nameLabel='Sección'
+						label='Sección'
 						control={control}
-						defaultValue={dataUser.alumno?.curso?.seccion || ''} 
-						errors={errors?.alumno?.curso?.seccion}
 						disabled={loading}
+						defaultValue={dataUser.alumno?.curso?.seccion || ''}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						{MenuItemList2}
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid container justify='flex-end' item xs={12}>
 					<LoadingComponent loading={loading}>

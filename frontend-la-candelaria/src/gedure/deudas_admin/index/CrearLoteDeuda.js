@@ -7,7 +7,6 @@ import {
 	DialogContent,
 	DialogActions,
 	Button,
-	TextField,
 	MenuItem,
 } from '@material-ui/core';
 
@@ -16,8 +15,14 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Component
+import {
+	InputHook,
+	InputMaskHook,
+	SelectHook,
+	SwitchHook,
+	AutoCompleteAsyncHook,
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
-import { RenderSwitchFormHook, NumberFormatInput, RenderSelectFormHook, AsyncInputFormHook } from '../../../components/RendersGlobals';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
@@ -31,8 +36,9 @@ export default function CrearLoteDeuda({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, errors, control, watch, handleSubmit, setError } = useForm({
+	const { control, watch, handleSubmit, setError } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	
 	const { fetchData } = useFetch(setError);
@@ -106,64 +112,59 @@ export default function CrearLoteDeuda({ tableRef }) {
 				<form autoComplete='off'>
 					<Grid container spacing={1}>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 6, message: 'Error: Demaciado corto' },
 									maxLength: { value: 100, message: 'Error: Demaciado largo' },
-								})}
-								disabled={loading}
-								name='motivo'
-								error={Boolean(errors.motivo)}
-								helperText={errors?.motivo?.message ? errors.motivo.message : 'Ingrese el motivo de la deuda'}
-								label='Motivo'
-								defaultValue={''}
-								fullWidth
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<NumberFormatInput
-								disabled={loading}
-								error={Boolean(errors.cantidad_pagar)}
-								helperText={errors?.cantidad_pagar?.message ? errors.cantidad_pagar.message : 'Ingrese el monto a pagar de la deuda'}
-								label='Monto a pagar'
-								mask='money'
-								fullWidth
-								name='cantidad_pagar'
-								control={control}
-								defaultValue={''}
-								rules={{
-									required: { value: true, message: '* Campo requerido' },
-									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' }
 								}}
+								name='motivo'
+								label='Motivo'
+								helperText='Ingrese el motivo de la deuda'
+								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<RenderSelectFormHook
-								id='select-type-deudas'
-								name='type'
-								nameLabel='Deuda para:'
+							<InputMaskHook
 								control={control}
-								error={Boolean(errors.type)}
-								helperText={errors?.type?.message ? errors.type.message : 'Seleccione a los usuarios que recibirán esta deuda'}
-								defaultValue='selected'
+								rules={{
+									required: '* Campo requerido',
+									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' },
+								}}
+								name='cantidad_pagar'
+								label='Monto a pagar'
+								helperText='Ingrese el monto a pagar de la deuda'
+								fullWidth
+								disabled={loading}
+								mask='money'
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<SelectHook
+								name='type'
+								label='Deuda para:'
+								control={control}
+								disabled={loading}
+								helperText='Seleccione a los usuarios que recibirán esta deuda'
+								fullWidth
 							>
+								<MenuItem value=''><em>Ninguno</em></MenuItem>
 								<MenuItem value='selected'>Usuarios seleccionados</MenuItem>
 								<MenuItem value='cursos'>Cursos</MenuItem>
-							</RenderSelectFormHook>
+							</SelectHook>
 						</Grid>
-						{watch('type', 'selected') === 'selected' && (
+						{watch('type') === 'selected' && (
 							<Grid item xs={12}>
-								<AsyncInputFormHook
+								<AutoCompleteAsyncHook
 									label='Seleccionar usuarios'
 									multiple
-									disabled={loading}
 									name='selected_users'
 									asyncRequest={asyncRequestUsers}
 									getOptionLabel={(option) => option.username}
-									renderOption={option => (`${option.privilegio}${option.username}`)}
-									error={Boolean(errors.selected_users)}
-									helperText={errors?.selected_users?.message ? errors.selected_users.message : 'Busque a los usuarios que desea seleccionar'}
+									renderOption={option => (`${option.privilegio}${option.username} - ${option.name}`)}
+									helperText='Busque a los usuarios que desea seleccionar'
 									control={control}
 									rules={{
 										required: { value: true, message: '* Campo requerido' },
@@ -172,22 +173,21 @@ export default function CrearLoteDeuda({ tableRef }) {
 								/>
 							</Grid>
 						)}
-						{watch('type', 'selected') === 'cursos' && (
+						{watch('type') === 'cursos' && (
 							<Grid item xs={12}>
-								<AsyncInputFormHook
+								<AutoCompleteAsyncHook
 									label='Seleccionar cursos'
-									name='cursos'
 									multiple
-									disabled={loading}
+									filterSelectedOptions
+									name='cursos'
 									asyncRequest={asyncRequestCursos}
 									getOptionLabel={(option) => option.code}
 									renderOption={option => option.code}
-									error={Boolean(errors.cursos)}
-									helperText={errors?.cursos?.message ? errors.cursos.message : 'Busque los cursos que desea seleccionar'}
+									helperText='Busque los cursos que desea seleccionar'
 									control={control}
 									rules={{
 										required: { value: true, message: '* Campo requerido' },
-										validate: value => value.length > 0 || 'Error: Debe de seleccionar al menos a 1 curso',
+										validate: value => value.length > 0 || 'Error: Debe de seleccionar al menos a 1 usuario',
 									}}
 								/>
 							</Grid>
@@ -196,14 +196,13 @@ export default function CrearLoteDeuda({ tableRef }) {
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<RenderSwitchFormHook
-					labelPlacement="start"
-					label="Crear mรกs de uno"
-					name='create_more'
+				<SwitchHook
 					control={control}
+					name='create_more'
+					label="Crear más de uno"
+					labelPlacement="start"
+					color="primary"
 					disabled={loading}
-					color='primary'
-					defaultValue={false}
 				/>
 				<Button disabled={loading} onClick={handleClose}>
 					Cancelar

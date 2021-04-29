@@ -3,29 +3,25 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
-	FormControl,
-	FormLabel,
-	FormControlLabel,
-	RadioGroup,
-	Radio,
 	MenuItem,
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { DatePicker } from '@material-ui/pickers';
 
-import format from 'date-fns/format';
-
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	DatePickerHook,
+	InputHook,
+	RadioHook,
+	SelectHook,
+	AutoCompleteHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
 import { estadosVE } from '../../../../components/funciones/locationVenezuela';
 
 // Redux
@@ -36,9 +32,7 @@ import updateDataUser from '../../../../actions/updateDataUser';
 export function PersonalEstudianteDataForm(props) {
 	const { 
 		onSubmit, 
-		register, 
 		control, 
-		errors, 
 		loading,
 		watch, 
 		buttonText,
@@ -58,167 +52,138 @@ export function PersonalEstudianteDataForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">Sexo</FormLabel>
-						<RadioGroup 
-							aria-label="sexo" 
-							defaultValue={user.personal_data.estudi_sexo || 'Masculino'} 
-							name='personalData.estudi_sexo' 
-							row
-						>
-							<FormControlLabel 
-								value="Masculino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Masculino"
-							/>
-							<FormControlLabel 
-								value="Femenino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Femenino"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.estudi_sexo || 'Masculino'}
+						disabled={loading}
+						label='Sexo'
+						name='personalData.estudi_sexo'
+						row
+						radioList={[
+							{
+								value: 'Masculino',
+								label: 'Masculino',
+							},
+							{
+								value: 'Femenino',
+								label: 'Femenino',
+							}
+						]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_estado_civil'
-						nameLabel='Estado civil'
+						label='Estado civil'
 						control={control}
-						defaultValue={user.personal_data.estudi_estado_civil || ''} 
-						errors={errors?.personalData?.estudi_estado_civil}
 						disabled={loading}
-						>
+						defaultValue={user.personal_data.estudi_estado_civil || ''} 
+						fullWidth
+					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value="Soltero">Soltero</MenuItem>
 						<MenuItem value="Concubino">Concubino</MenuItem>
 						<MenuItem value="Casado">Casado</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_lateralidad'
-						nameLabel='Lateralidad'
+						label='Lateralidad'
 						control={control}
-						defaultValue={user.personal_data.estudi_lateralidad || ''} 
-						errors={errors?.personalData?.estudi_lateralidad}
 						disabled={loading}
-						>
+						defaultValue={user.personal_data.estudi_lateralidad || ''} 
+						fullWidth
+					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value="Derecho">Derecho</MenuItem>
 						<MenuItem value="Zurdo">Zurdo</MenuItem>
 						<MenuItem value="Ambidiestro">Ambidiestro</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_nacionalidad'
-						nameLabel='Nacionalidad'
+						label='Nacionalidad'
 						control={control}
-						defaultValue={user.personal_data.estudi_nacionalidad || ''} 
-						errors={errors?.personalData?.estudi_nacionalidad}
 						disabled={loading}
-						>
+						defaultValue={user.personal_data.estudi_nacionalidad || ''}
+						fullWidth
+					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value="V">Venezolano</MenuItem>
 						<MenuItem value="E">Extranjero</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<Controller
-						render={({onChange, onBlur, value, ref}) => (
-							<DatePicker
-								disableFuture
-								disabled={loading}
-								format='dd/MM/yyyy'
-								inputVariant="outlined"
-								views={['year', 'month', 'date']}
-								openTo="year"
-								label="Fecha de nacimiento"
-								onBlur={onBlur}
-								inputRef={ref}
-								onChange={date => {
-									onChange(format(date, 'yyyy/MM/dd'))
-								}}
-								value={value}
-								helperText={errors?.personalData?.estudi_nacimiento?.message ? errors.personalData.estudi_nacimiento.message : ''}
-								error={Boolean(errors?.personalData?.estudi_nacimiento)}
-								fullWidth
-								size='small'
-							/>
-						)}
+					<DatePickerHook 
 						name="personalData.estudi_nacimiento"
+						label="Fecha de nacimiento"
 						control={control}
-						defaultValue={user.personal_data.estudi_nacimiento ? format(new Date(user.personal_data.estudi_nacimiento), 'yyyy/MM/dd') : ''}
 						rules={{ 
-							required: { value: true, message: '* Campo requerido' }
+							required: '* Campo requerido'
 						}}
+						defaultValue={user.personal_data.estudi_nacimiento || ''}
+						disableFuture
+						disabled={loading}
+						format='yyyy/MM/dd'
+						inputVariant="outlined"
+						views={['year', 'month', 'date']}
+						openTo="year"
+						fullWidth
+						size='small'
 					/>
 				</Grid>
 				{watch('personalData.estudi_nacionalidad', '') === 'V' && (
 					<Grid item xs={12}>
-						<Controller 
-							render={({onChange, onBlur, value, ref})=> (
-								<Autocomplete
-									getOptionLabel={(option) => option}
-									options={estadosVE}
-									onBlur={onBlur}
-									onChange={(e,selected) => {onChange(selected)}}
-									value={value}
-									disabled={loading}
-									renderInput={(params) => (
-										<TextField
-											{...params}
-											label="Estado"
-											variant="outlined"
-											size="small"
-											inputRef={ref}
-											error={Boolean(errors?.personalData?.estudi_nacimiento_estado)}
-											helperText={errors?.personalData?.estudi_nacimiento_estado?.message ? errors.personalData.estudi_nacimiento_estado.message : ''}
-										/>
-									)}
-								/>
-							)}
-							control={control}
+						<AutoCompleteHook
 							name='personalData.estudi_nacimiento_estado'
+							label='Estado'
+							options={estadosVE}
+							getOptionLabel={(option) => option || ''}
 							defaultValue={user.personal_data.estudi_nacimiento_estado || ''}
+							control={control}
 							rules={{
 								required: { value: true, message: '* Campo requerido' },
 							}}
+							variant="outlined"
+							size="small"
+							disabled={loading}
 						/>
 					</Grid>
 				)}
 				<Grid item xs={12}>
-					<TextField 
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 10, message: 'Error: Demaciado corto' },
 							maxLength: { value: 50, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.estudi_nacimiento_lugar)}
-						helperText={errors?.personalData?.estudi_nacimiento_lugar?.message ? errors.personalData.estudi_nacimiento_lugar.message : ''}
-						variant='outlined'
-						name='personalData.estudi_nacimiento_lugar'
+						}}
 						defaultValue={user.personal_data.estudi_nacimiento_lugar || ''}
+						name='personalData.estudi_nacimiento_lugar'
 						label='Lugar de nacimiento'
+						variant='outlined'
 						size='small'
-						disabled={loading}
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -237,8 +202,9 @@ export default function PersonalEstudianteData({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, control, errors, watch, handleSubmit } = useForm({
-		mode: 'onTouched'
+	const { control, watch, handleSubmit } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch();
 	
@@ -278,8 +244,6 @@ export default function PersonalEstudianteData({ id }) {
 		<Box mb={4}>
 			<PersonalEstudianteDataForm 
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
-				errors={errors}
 				control={control}
 				loading={loading}
 				watch={watch}

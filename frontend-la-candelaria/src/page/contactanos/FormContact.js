@@ -3,8 +3,7 @@ import React from 'react';
 import { 
 	Typography, 
 	Grid, 
-	Paper, 
-	TextField,
+	Paper,
 	Button
 } from '@material-ui/core';
 
@@ -13,8 +12,11 @@ import { useForm } from 'react-hook-form';
 import useFetch from '../../hooks/useFetch';
 
 // Components
+import {
+	InputHook,
+	InputMaskHook,
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
-import { NumberFormatInput } from '../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,7 +32,7 @@ function FormContact() {
 	
 	const { fetchData } = useFetch();
 	
-	const { register, handleSubmit, errors, watch, control } = useForm({
+	const { handleSubmit, watch, control } = useForm({
 		mode: 'onTouched',
 	});
 	
@@ -67,99 +69,93 @@ function FormContact() {
 						</Typography>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: '* Campo obligatorio' },
-								minLength: { value: 8, message: 'Nombre no válido' },
-								maxLength: { value: 50, message: 'Nombre no válido' },
-							})}
-							id='contacto-nombre'
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 8, message: 'Error: No válido' },
+								maxLength: { value: 50, message: 'Error: No válido' },
+							}}
 							name='nombre'
-							label='Nombre y Apellido *'
+							label='* Nombre y Apellido'
 							variant='outlined'
 							size='small'
-							error={Boolean(errors?.nombre)}
-							helperText={errors?.nombre?.message ? errors.nombre.message : 'Ingrese su nombre'}
-							disabled={loading}
+							helperText='Ingrese su nombre'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: '* Campo obligatorio' },
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
 								pattern: {
 									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-									message: 'El correo no es válido',
+									message: 'Error: No válido',
 								},
-							})}
-							type='email'
-							id='contacto-correo'
+							}}
 							name='email'
-							label='Correo Electrónico *'
+							label='* Correo Electrónico'
 							variant='outlined'
 							size='small'
-							error={Boolean(errors?.email)}
-							helperText={errors?.email?.message ? errors.email.message : 'Ingrese un correo de contacto'}
-							disabled={loading}
+							helperText='Ingrese un correo de contacto'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<NumberFormatInput
-							disabled={loading}
-							error={Boolean(errors.telefono)}
-							helperText={errors?.telefono?.message ? errors.telefono.message : 'Ingrese un número telefónico válido'}
-							label='Teléfono *'
-							variant='outlined'
-							size='small'
-							mask='phone'
-							fullWidth
-							name='telefono'
+						<InputMaskHook
 							control={control}
 							defaultValue='58'
 							rules={{
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 12, message: 'El teléfono no es válido' },
+								required: '* Campo requerido',
+								minLength: { value: 12, message: 'Error: No válido' },
 							}}
+							name='telefono'
+							label='* Teléfono'
+							variant='outlined'
+							size='small'
+							helperText='Ingrese un número telefónico válido'
+							fullWidth
+							disabled={loading}
+							format='+## (###) ###-####'
 						/>
 					</Grid>
 					<Grid item xs={12} sm={6}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 4, message: 'Demaciado corto' },
-								maxLength: { value: 30, message: 'Demaciado largo' },
-							})}
-							id='contacto-asunto'
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 4, message: 'Error: Demaciado corto' },
+								maxLength: { value: 30, message: 'Error: Demaciado largo' },
+							}}
 							name='asunto'
-							label='Asunto *'
+							label='* Asunto'
 							variant='outlined'
 							size='small'
-							error={Boolean(errors?.asunto)}
-							helperText={errors?.asunto?.message ? errors.asunto.message : 'Ingrese el asunto'}
-							disabled={loading}
+							helperText='Ingrese el asunto'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 					<Grid item xs={12}>
-						<TextField 
-							inputRef={register({
-								required: { value: true, message: '* Campo obligatorio' },
-								minLength: { value: 10, message: 'Demaciado corto' },
-								maxLength: { value: maxMensaje, message: 'Demaciado largo' },
-							})}
-							id='contacto-mensaje'
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 10, message: 'Error: Demaciado corto' },
+								maxLength: { value: maxMensaje, message: 'Error: Demaciado largo' },
+							}}
 							name='content'
-							label='Mensaje *'
+							label='* Mensaje'
 							variant='outlined'
 							size='small'
 							multiline
-							error={Boolean(errors?.content)}
-							helperText={errors?.content?.message ? errors.content.message : `${watch('content', []).length}/${maxMensaje} Caracteres`}
-							disabled={loading}
 							rows={8}
+							helperText={`${watch('content')?.length || 0}/${maxMensaje} Caracteres`}
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 					<Grid container justify='flex-end' item xs={12}>

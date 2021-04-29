@@ -22,7 +22,7 @@ export default function SectionAdmin() {
 	
 	const history = useHistory();
 	
-	const { register, control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
 	});
 	const dispatch = useDispatch();
@@ -66,10 +66,8 @@ export default function SectionAdmin() {
 			onSubmit={handleSubmit(onSubmit)}
 			buttonText='Activar cuenta'
 			control={control}
-			register={register}
 			user={user}
 			loading={loading}
-			errors={errors}
 			watch={watch}
 		/>
 	);

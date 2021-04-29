@@ -5,9 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { 
 	Typography,
 	Grid,
-	TextField,
-	FormControlLabel,
-	Checkbox,
 	Link,
 	Button,
 } from '@material-ui/core';
@@ -18,7 +15,11 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../hooks/useFetch';
 
 // Components
-import { RenderInputPassword } from '../../components/RendersGlobals';
+import {
+	InputHook,
+	InputPasswordHook,
+	CheckboxHook
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
@@ -43,7 +44,7 @@ function FormLogin() {
 	
 	const classes = useStyles();
 	
-	const { handleSubmit, register, errors } = useForm({
+	const { handleSubmit, control } = useForm({
 		mode: 'onTouched'
 	});
 	
@@ -86,48 +87,44 @@ function FormLogin() {
 				</Grid>
 
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 3, message: 'Error: No válido' },
-							maxLength: { value: 30, message: 'Error: No válida' },
-						})}
-						error={Boolean(errors?.username)}
-						helperText={errors?.username?.message ? errors.username.message : '* Campo requerido'}
+							maxLength: { value: 30, message: 'Error: No válida' }
+						}}
 						name='username'
 						label='Usuario o cédula'
+						helperText='* Campo requerido'
 						fullWidth
 						disabled={loading}
 					/>
 				</Grid>
 				
 				<Grid item xs={12}>
-					<RenderInputPassword
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputPasswordHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 4, message: 'Error: No válido' },
-							maxLength: { value: 25, message: 'Error: No válida' },
-						})}
+							maxLength: { value: 25, message: 'Error: No válida' }
+						}}
 						name='password'
-						error={Boolean(errors?.password)}
-						helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
 						label='Contraseña'
+						helperText='* Campo requerido'
 						fullWidth
 						disabled={loading}
 					/>
 				</Grid>
 				
 				<Grid item xs={12}>
-					<FormControlLabel
-						control={
-							<Checkbox 
-								color="primary" 
-								disabled={loading}
-								name="checkbox" 
-								inputRef={register}
-							/>
-						}
-						label="Mantener abierto"
+					<CheckboxHook
+						control={control}
+						name='checkbox'
+						label='Mantener abierto'
+						color='primary'
+						disabled={loading}
 					/>
 				</Grid>
 				

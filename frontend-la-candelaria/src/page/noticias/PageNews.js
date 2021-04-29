@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { 
 	Container, 
 	Typography, 
-	Grid, 
-	TextField,
+	Grid,
 	InputAdornment,
 	IconButton,
 	CircularProgress,
@@ -19,6 +18,9 @@ import { useForm } from 'react-hook-form';
 import useFetch from '../../hooks/useFetch';
 
 // Component
+import {
+	InputHook
+} from '@form-inputs';
 import PreviewNoticia from './PreviewNoticia';
 import Footer from '../../components/Footer';
 
@@ -52,7 +54,7 @@ function PageNews() {
 		auth: state.userData.auth,
 	}));
 	
-	const { register, handleSubmit } = useForm();
+	const { control, handleSubmit } = useForm();
 	
 	const { fetchData } = useFetch();
 	
@@ -133,8 +135,8 @@ function PageNews() {
 								onSubmit={handleSubmit(onSubmit)}
 								autoComplete='off'
 							>
-								<TextField 
-									inputRef={register}
+								<InputHook
+									control={control}
 									name='search'
 									label='Buscar noticia'
 									variant='outlined'
@@ -218,7 +220,7 @@ function PageNews() {
 						{error && (
 							<Grid item xs={12}>
 								<Typography align='center'>
-									Se ha producido un error al intentar obtener los datos, intente recargar la pรกgina.
+									Se ha producido un error al intentar obtener los datos, intente recargar la página.
 								</Typography>
 							</Grid>
 						)}

@@ -3,28 +3,23 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
-	FormControl,
-	FormControlLabel,
-	FormLabel,
-	RadioGroup,
-	Radio,
 } from '@material-ui/core';
-
-import { DatePicker } from '@material-ui/pickers';
-
-import format from 'date-fns/format';
 
 import useFetch from '../../../../hooks/useFetch';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 // Components
+import {
+	DatePickerHook,
+	InputMaskHook,
+	InputHook,
+	RadioHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { NumberFormatInput } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,7 +27,7 @@ import updateForms from '../../../../actions/updateForms';
 import updateDataUser from '../../../../actions/updateDataUser';
 
 export function PersonalUsuarioForm(props) {
-	const { onSubmit, control, register, user, errors, loading, watch, buttonText } = props;
+	const { onSubmit, control, user, loading, watch, buttonText } = props;
 	
 	return (
 		<form onSubmit={onSubmit} autoComplete='off'>
@@ -46,201 +41,154 @@ export function PersonalUsuarioForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<Controller
-						render={({onChange, onBlur, value, ref}) => (
-							<DatePicker
-								disableFuture
-								disabled={loading}
-								format='dd/MM/yyyy'
-								inputVariant="outlined"
-								views={['year', 'month', 'date']}
-								openTo="year"
-								label="Fecha de nacimiento"
-								onBlur={onBlur}
-								inputRef={ref}
-								onChange={date => {
-									onChange(format(date, 'yyyy/MM/dd'));
-								}}
-								value={value}
-								helperText={errors?.personalData?.nacimiento?.message ? errors.personalData.nacimiento.message : ''}
-								error={Boolean(errors?.personalData?.nacimiento)}
-								fullWidth
-								size='small'
-							/>
-						)}
+					<DatePickerHook 
 						name="personalData.nacimiento"
 						control={control}
-						defaultValue={user.personal_data.nacimiento ? format(new Date(user.personal_data.nacimiento), 'yyyy/MM/dd') : ''}
 						rules={{ 
-							required: { value: true, message: '* Campo requerido' }
+							required: '* Campo requerido'
 						}}
+						defaultValue={user.personal_data.nacimiento || ''}
+						disableFuture
+						disabled={loading}
+						format='yyyy/MM/dd'
+						inputVariant="outlined"
+						views={['year', 'month', 'date']}
+						openTo="year"
+						label="Fecha de nacimiento"
+						fullWidth
+						size='small'
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<NumberFormatInput
-						disabled={loading}
-						error={Boolean(errors?.personalData?.telefono)}
-						helperText={errors?.personalData?.telefono ? errors.personalData.telefono.message : ''}
-						label='Teléfono'
-						size='small'
-						mask='phone'
-						fullWidth
-						name='personalData.telefono'
-						variant='outlined'
+					<InputMaskHook
 						control={control}
 						defaultValue={user.personal_data.telefono || '58'}
 						rules={{
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 12, message: 'Error: Teléfono no válido' }
+							required: '* Campo requerido',
+							minLength: { value: 12, message: 'Error: No válido' },
 						}}
+						name='personalData.telefono'
+						label='Teléfono'
+						variant='outlined'
+						size='small'
+						helperText='Ingrese un número telefónico válido'
+						fullWidth
+						disabled={loading}
+						format='+## (###) ###-####'
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField 
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 10, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado larga' },
-						})}
-						error={Boolean(errors?.personalData?.direccion)}
-						helperText={errors?.personalData?.direccion?.message ? errors.personalData.direccion.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.direccion || ''}
 						name='personalData.direccion'
 						label='Dirección de domicilio'
+						variant='outlined'
 						size='small'
-						disabled={loading}
-						defaultValue={user.personal_data.direccion}
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">Sexo</FormLabel>
-						<RadioGroup 
-							aria-label="sexo" 
-							name='personalData.sexo'
-							defaultValue={user.personal_data.sexo || 'Masculino'}
-							row
-						>
-							<FormControlLabel 
-								value="Masculino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Masculino"
-							/>
-							<FormControlLabel 
-								value="Femenino" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Femenino"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.sexo || 'Masculino'}
+						disabled={loading}
+						label='Sexo'
+						name='personalData.sexo'
+						row
+						radioList={[
+							{
+								value: 'Masculino',
+								label: 'Masculino',
+							},
+							{
+								value: 'Femenino',
+								label: 'Femenino',
+							}
+						]}
+					/>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">¿Es docente?</FormLabel>
-						<RadioGroup 
-							aria-label="Docente"
-							name='personalData.docente' 
-							defaultValue={user.personal_data.docente || 'No'}
-							row
-						>
-							<FormControlLabel 
-								value="No" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="No"
-							/>
-							<FormControlLabel 
-								value="Si" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Si"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.docente || 'No'}
+						disabled={loading}
+						label='¿Es docente?'
+						name='personalData.docente'
+						row
+						radioList={[
+							{
+								value: 'No',
+								label: 'No',
+							},
+							{
+								value: 'Si',
+								label: 'Si',
+							}
+						]}
+					/>
 				</Grid>
 				{watch('personalData.docente', 'No') === 'Si' && (
 					<React.Fragment>
 						<Grid item xs={12}>
-							<TextField
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 5, message: 'Error: Demaciado corto' },
 									maxLength: { value: 45, message: 'Error: Demaciado largo' },
-								})}
-								error={Boolean(errors?.personalData?.docente_titulo)}
-								helperText={errors?.personalData?.docente_titulo?.message ? errors.personalData.docente_titulo.message : ''}
-								variant='outlined'
+								}}
+								defaultValue={user.personal_data.docente_titulo || ''}
 								name='personalData.docente_titulo'
 								label='Título de docencia'
+								variant='outlined'
 								size='small'
-								defaultValue={user.personal_data.docente_titulo}
-								disabled={loading}
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<Controller
-								render={({onChange, onBlur, value, ref}) => (
-									<DatePicker
-										disableFuture
-										inputVariant="outlined"
-										format="dd/MM/yyyy"
-										views={['year', 'month', 'date']}
-										openTo="year"
-										label="Año de ingreso al Instituto"
-										onBlur={onBlur}
-										inputRef={ref}
-										onChange={(date) => {onChange(format(date, 'yyyy/MM/dd'))}}
-										value={value}
-										helperText={errors?.personalData?.docente_ingreso?.message ? errors.personalData.docente_ingreso.message : ''}
-										error={Boolean(errors?.personalData?.docente_ingreso)}
-										fullWidth
-										size='small'
-										disabled={loading}
-									/>
-								)}
+							<DatePickerHook 
 								name="personalData.docente_ingreso"
+								label="Año de ingreso al Instituto"
 								control={control}
-								defaultValue={user.personal_data.docente_ingreso ? format(new Date(user.personal_data.docente_ingreso), 'yyyy/MM/dd') : ''}
 								rules={{ 
-									required: { value: true, message: '* Campo requerido' }
+									required: '* Campo requerido'
 								}}
+								defaultValue={user.personal_data.docente_ingreso || ''}
+								disableFuture
+								disabled={loading}
+								format='yyyy/MM/dd'
+								inputVariant="outlined"
+								views={['year', 'month', 'date']}
+								openTo="year"
+								fullWidth
+								size='small'
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<Controller
-								render={({onChange, onBlur, value, ref}) => (
-									<DatePicker
-										disableFuture
-										inputVariant="outlined"
-										format="dd/MM/yyyy"
-										views={['year', 'month', 'date']}
-										openTo="year"
-										label="Año de ingreso al MPPE"
-										onBlur={onBlur}
-										inputRef={ref}
-										onChange={(date) => {onChange(format(date, 'yyyy/MM/dd'))}}
-										value={value}
-										helperText={errors?.personalData?.docente_ingreso_MPPE?.message ? errors.personalData.docente_ingreso_MPPE.message : ''}
-										error={Boolean(errors?.personalData?.docente_ingreso_MPPE)}
-										fullWidth
-										size='small'
-										disabled={loading}
-									/>
-								)}
+							<DatePickerHook 
 								name="personalData.docente_ingreso_MPPE"
+								label="Año de ingreso al MPPE"
 								control={control}
-								defaultValue={user.personal_data.docente_ingreso_MPPE ? format(new Date(user.personal_data.docente_ingreso_MPPE), 'yyyy/MM/dd') : ''}
 								rules={{ 
-									required: { value: true, message: '* Campo requerido' }
+									required: '* Campo requerido'
 								}}
+								defaultValue={user.personal_data.docente_ingreso_MPPE || ''}
+								disableFuture
+								disabled={loading}
+								format='yyyy/MM/dd'
+								inputVariant="outlined"
+								views={['year', 'month', 'date']}
+								openTo="year"
+								fullWidth
+								size='small'
 							/>
 						</Grid>
 					</React.Fragment>
@@ -269,8 +217,9 @@ export default function PersonalUsuario({ id }) {
 		userData: state.userData.user,
 	}));
 	
-	const { register, control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -315,10 +264,8 @@ export default function PersonalUsuario({ id }) {
 			onSubmit={handleSubmit(onSubmit)}
 			buttonText='Actualizar'
 			control={control}
-			register={register}
 			user={user}
 			loading={loading}
-			errors={errors}
 			watch={watch}
 		/>
 	);
