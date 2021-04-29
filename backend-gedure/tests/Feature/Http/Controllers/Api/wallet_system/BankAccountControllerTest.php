@@ -40,9 +40,11 @@ class BankAccountControllerTest extends TestCase
 					'*' => [
 						'id',
 						'n_account',
+						'email',
 						'rif',
 						'name',
 						'type',
+						'code',
 					]
 				],
 				'page',
