@@ -50,6 +50,11 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
+	editBankAccount : {
+		open: false,
+		loading: false,
+		data: {}
+	},
 };
 
 const reducer =  (state = initialState, { type, payload }) => {

@@ -90,7 +90,7 @@ export default function PageDeudasIndex() {
 					<CrearLoteDeuda tableRef={tableRef} />
 					<EditLoteDeuda tableRef={tableRef} />
 					<DialogConfirmation callback={onConfirm}>
-						Está a punto de eliminar el lote de deuda <strong>{data.reason}</strong> (#{data.id}). Una vez realizada no se podrá deshacer esta acción.
+						Está a punto de eliminar el lote de deuda <strong>{data.reason}</strong> (#{data.id}). Una vez realizada no se podrรก deshacer esta acción.
 					</DialogConfirmation>
 				</Grid>
 			</Container>

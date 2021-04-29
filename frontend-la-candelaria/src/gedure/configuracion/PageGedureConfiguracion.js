@@ -102,7 +102,7 @@ function Header() {
 }
 
 export default function PageUserIndex() {
-	document.title = 'La Candelaria - Configuración del sistema';
+	document.title = 'La Candelaria - Configuraciรณn del sistema';
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));

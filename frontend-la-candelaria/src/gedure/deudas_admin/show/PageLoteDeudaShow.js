@@ -18,7 +18,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { parseFloatToMoneyString } from '../../../components/funciones/MoneyString';
+import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
