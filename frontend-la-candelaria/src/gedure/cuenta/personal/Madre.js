@@ -22,7 +22,7 @@ export default function Madre() {
 		user: state.userData.user,
 	}));
 	
-	const { register, control, errors, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched',
 	});
 	const dispatch = useDispatch();
@@ -57,9 +57,7 @@ export default function Madre() {
 		<Box mb={4}>
 			<PersonalMadreForm 
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
 				control={control}
-				errors={errors}
 				loading={loading}
 				buttonText='Actualizar'
 				user={user}

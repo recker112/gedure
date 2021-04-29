@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
 	Grid,
@@ -32,6 +32,12 @@ export default function UserPermisos({ id }) {
 	
 	const { fetchData } = useFetch();
 	
+	useEffect(() => {
+		register('privilegio');
+		setValue('privilegio', dataUser.user.privilegio);
+		// eslint-disable-next-line
+	},[]);
+	
 	const onSubmit = async submitData => {
 		dispatch(updateForms('updatePermissions', true));
 		
@@ -63,7 +69,6 @@ export default function UserPermisos({ id }) {
 	return (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
-				<input type='hidden' name='privilegio' ref={register} value={dataUser.user.privilegio} />
 				<Box mb={1} fontSize='h6.fontSize' className='text__bold--semi'>
 					Permisos de la cuenta
 				</Box>

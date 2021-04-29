@@ -18,7 +18,7 @@ export default function Usuario() {
 		user: state.userData.user,
 	}));
 	
-	const { register, control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
 	});
 	const dispatch = useDispatch();
@@ -60,10 +60,8 @@ export default function Usuario() {
 			onSubmit={handleSubmit(onSubmit)}
 			buttonText='Actualizar'
 			control={control}
-			register={register}
 			user={user}
 			loading={loading}
-			errors={errors}
 			watch={watch}
 		/>
 	);

@@ -9,7 +9,6 @@ import {
 	DialogContentText,
 	Button,
 	MenuItem,
-	TextField,
 } from '@material-ui/core';
 
 import { useForm } from "react-hook-form";
@@ -17,8 +16,12 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Component
+import {
+	InputHook,
+	SwitchHook,
+	SelectHook,
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
-import { RenderSelectFormHook, RenderSwitchFormHook } from '../../../components/RendersGlobals';
 import PasswordSection from './PasswordSection';
 import StudiendSection from './StudiendSection';
 import PermissionsSection from './PermissionsSection';
@@ -35,8 +38,9 @@ export default function CreateUser({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, handleSubmit, control, errors, setError, setValue } = useForm({
+	const { handleSubmit, control, setError, setValue } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch(setError);
 	
@@ -89,42 +93,36 @@ export default function CreateUser({ tableRef }) {
 				<form autoComplete='off'>
 					<Grid container spacing={1}>
 						<Grid item xs={12}>
-							<RenderSwitchFormHook 
+							<SwitchHook
 								control={control}
 								label="El usuario genera su contraseña"
-								disabled={loading}
 								name='invitation_mode'
 								color="primary"
-								defaultValue={false}
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<RenderSelectFormHook
-								id='user-privilegio'
+							<SelectHook
 								name='privilegio'
-								nameLabel='Tipo de cuenta'
+								label='Tipo de cuenta'
 								control={control}
-								defaultValue=''
-								errors={errors?.privilegio}
-								helperText='* Campo requerido'
-								customWidth={150}
 								disabled={loading}
+								fullWidth
 							>
 								<MenuItem value=''><em>Ninguno</em></MenuItem>
 								<MenuItem value='V-'>Estudiante</MenuItem>
 								<MenuItem value='A-'>Administrador</MenuItem>
-							</RenderSelectFormHook>
+							</SelectHook>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 3, message: 'Error: Demaciado corto' },
 									maxLength: { value: 30, message: 'Error: Demaciado largo' },
-								})}
+								}}
 								name='username'
-								error={Boolean(errors?.username)}
-								helperText={errors?.username?.message ? errors.username.message : '* Campo requerido'}
 								label='Usuario o cédula'
 								size='small'
 								fullWidth
@@ -132,15 +130,14 @@ export default function CreateUser({ tableRef }) {
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 3, message: 'Error: Demaciado corto' },
 									maxLength: { value: 90, message: 'Error: Demaciado largo' },
-								})}
+								}}
 								name='name'
-								error={Boolean(errors?.name)}
-								helperText={errors?.name?.message ? errors.name.message : '* Campo requerido'}
 								label='Nombre y apellido'
 								size='small'
 								fullWidth
@@ -148,32 +145,28 @@ export default function CreateUser({ tableRef }) {
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									pattern: {
 										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
 										message: 'Error: Correo no válido',
 									},
-								})}
+								}}
 								name='email'
-								error={Boolean(errors?.email)}
-								helperText={errors?.email?.message ? errors.email.message : '* Campo requerido'}
 								label='Correo'
 								size='small'
 								fullWidth
 								disabled={loading}
 							/>
 						</Grid>
-						<PasswordSection 
-							register={register} 
-							errors={errors} 
+						<PasswordSection
 							control={control} 
 							disabled={loading}
 							setValue={setValue}
 						/>
 						<StudiendSection
-							errors={errors} 
 							control={control}
 							disabled={loading}
 						/>
@@ -189,14 +182,13 @@ export default function CreateUser({ tableRef }) {
 				</form>
 			</DialogContent>
 			<DialogActions>
-				<RenderSwitchFormHook 
+				<SwitchHook
 					control={control}
+					name='create_more'
 					label="Crear más de uno"
 					labelPlacement="start"
-					disabled={loading}
-					name='create_more'
 					color="primary"
-					defaultValue={false}
+					disabled={loading}
 				/>
 				<Button disabled={loading} onClick={handleClose}>
 					Cancelar

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { 
 	Grid, 
 	Paper,
-	TextField,
 	Typography,
 	Button,
 	Box,
@@ -12,22 +11,24 @@ import {
 import { useFormContext } from "react-hook-form";
 
 // Components
+import {
+	InputHook,
+	SwitchHook,
+} from '@form-inputs';
 import MarkDown from '../crear/MarkDown';
 import DropAreaGalery from '../crear/DropAreaGalery';
-import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector } from 'react-redux';
 
 export default function MakePost({ progressUpload }) {
-	
 	const { data, loading } = useSelector((state) => ({
 		data: state.forms.editPost.data,
 		loading: state.forms.editPost.loading,
 	}));
 	
-	const { register, errors, control, watch, setValue } = useFormContext();
+	const { register, control, watch, setValue } = useFormContext();
 	
 	useEffect(() => {
 		data.portada && setValue('portada', data.portada);
@@ -41,21 +42,20 @@ export default function MakePost({ progressUpload }) {
 					<Typography variant='h6' align='center'>Editar publicación</Typography>
 				</Grid>
 				<Grid container item xs={12}>
-					<TextField 
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 6, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado largo' },
-						})}
-						disabled={loading}
+						}}
 						name='title'
-						error={Boolean(errors.title)}
-						helperText={errors?.title?.message ? errors.title.message : 'Ingrese un título para su publicación'}
-						style={{maxWidth: 450}} 
 						label='Título'
-						size='small' 
-						defaultValue={data.title || ''}
+						helperText='Ingrese un título para su publicación'
+						size='small'
 						fullWidth
+						defaultValue={data.title || ''}
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid container item xs={12}>
@@ -72,9 +72,8 @@ export default function MakePost({ progressUpload }) {
 				{!watch('delete_portada', false) && (
 					<Grid item xs={12}>
 						<input
-							name='portada'
+							{...register('portada')}
 							accept="image/*"
-							ref={register}
 							style={{display: 'none'}}
 							id="button-file-portada"
 							type="file"
@@ -84,25 +83,24 @@ export default function MakePost({ progressUpload }) {
 								Actualizar portada
 							</Button>
 						</label>
-						{watch('portada',[]).length ? (
+						{watch('portada',[])?.length ? (
 							<Box ml={2} fontSize='body1.fontSize' component='span'>Portada cargada</Box>	
 						) : null}
 					</Grid>
 				)}
 				<Grid item xs={12} sm={6} md={4}>
-					<RenderSwitchFormHook 
+					<SwitchHook
 						control={control}
-						defaultValue={data.only_users || false}
 						disabled={loading}
+						defaultValue={data.only_users || false}
 						name='only_users'
 						label='Disponible solo para usuarios'
 						color='secondary'
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
-					<RenderSwitchFormHook 
+					<SwitchHook
 						control={control}
-						defaultValue={false}
 						disabled={Boolean(!data.url_portada) || loading}
 						name='delete_portada'
 						label='Eliminar portada de la publicación'
@@ -110,12 +108,11 @@ export default function MakePost({ progressUpload }) {
 					/>
 				</Grid>
 				<Grid item xs={12} sm={6} md={4}>
-					<RenderSwitchFormHook 
+					<SwitchHook
 						control={control}
-						defaultValue={false}
 						disabled={Boolean(!data.url_imgs) || loading}
 						name='delete_galery'
-						label='Eliminar Galeria  de la publicación'
+						label='Eliminar Galeria de la publicación'
 						color='secondary'
 					/>
 				</Grid>

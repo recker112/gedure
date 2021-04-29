@@ -35,7 +35,9 @@ export default function UploadMatricula() {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, register, errors, watch } = useForm();
+	const { handleSubmit, register, watch, formState: { errors } } = useForm({
+		shouldUnregister: true,
+	});
 	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
@@ -92,13 +94,12 @@ export default function UploadMatricula() {
 					<Grid container alignItems='center' item xs={12}>
 						<input
 							id='matricula-upload-file'
-							ref={register({
+							{...register('database',{
 								required: { value: true, message: '* Debe subir un archivo' },
 							})}
 							defaultValue={null}
 							style={{display: 'none'}}
 							accept="application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-							name='database'
 							type="file"
 						/>
 						<label htmlFor="matricula-upload-file">
@@ -109,7 +110,7 @@ export default function UploadMatricula() {
 								<Typography >{errors.database.message}</Typography>
 							</Box>
 						)}
-						{watch('database', []).length !== 0 && (
+						{((watch('database') || []).length !== 0) && (
 							<Box ml={2}>
 								<Typography>Archivo cargado</Typography>
 							</Box>

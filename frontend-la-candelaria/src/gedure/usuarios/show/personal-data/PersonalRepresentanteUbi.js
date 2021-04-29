@@ -3,21 +3,22 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
 	MenuItem,
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	AutoCompleteHook,
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
 import { estadosVE, buscarMunicipioVE, buscarParroquiaVE } from '../../../../components/funciones/locationVenezuela';
 
 // Redux
@@ -31,8 +32,7 @@ export function PersonalRepresentanteUbiForm(props) {
 		user, 
 		loading, 
 		control, 
-		watch, 
-		errors, 
+		watch,
 		buttonText, 
 		buttonDisable
 	} = props;
@@ -49,117 +49,70 @@ export function PersonalRepresentanteUbiForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<Controller 
-						render={({onChange, onBlur, value, ref})=> (
-							<Autocomplete
-								getOptionLabel={(option) => option}
-								options={estadosVE}
-								onBlur={onBlur}
-								onChange={(e,selected) => {onChange(selected)}}
-								value={value}
-								disabled={loading}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label="Estado"
-										variant="outlined"
-										size="small"
-										inputRef={ref}
-										error={Boolean(errors?.personalData?.repre_ubi_estado)}
-										helperText={errors?.personalData?.repre_ubi_estado?.message ? errors.personalData.repre_ubi_estado.message : ''}
-									/>
-								)}
-							/>
-						)}
-						control={control}
+					<AutoCompleteHook
 						name='personalData.repre_ubi_estado'
+						label='Estado'
+						options={estadosVE}
+						getOptionLabel={(option) => option || ''}
 						defaultValue={user.personal_data.repre_ubi_estado || null}
-						rules={{
-							required: { value: true, message: '* Campo obligatorio' },
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<Controller 
-						render={({onChange, onBlur, value, ref})=> (
-							<Autocomplete
-								getOptionLabel={(option) => option}
-								options={
-									watch('personalData.repre_ubi_estado', null) !== null
-									? buscarMunicipioVE(watch('personalData.repre_ubi_estado'))
-									: []
-								}
-								onBlur={onBlur}
-								onChange={(e,selected) => {onChange(selected)}}
-								value={value}
-								disabled={loading}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label="Municipio"
-										variant="outlined"
-										size="small"
-										inputRef={ref}
-										error={Boolean(errors?.personalData?.repre_ubi_municipio)}
-										helperText={errors?.personalData?.repre_ubi_municipio?.message ? errors.personalData.repre_ubi_municipio.message : ''}
-									/>
-								)}
-							/>
-						)}
 						control={control}
-						name='personalData.repre_ubi_municipio'
-						defaultValue={user.personal_data.repre_ubi_municipio || null} 
 						rules={{
 							required: { value: true, message: '* Campo requerido' },
 						}}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<Controller 
-						render={({onChange, onBlur, value, ref})=> (
-							<Autocomplete
-								getOptionLabel={(option) => option}
-								options={
-									(watch('personalData.repre_ubi_municipio', null) !== null &&
-									watch('personalData.repre_ubi_estado', null) !== null) ?
-										buscarParroquiaVE(watch('personalData.repre_ubi_estado'),watch('personalData.repre_ubi_municipio'))
-									:
-										[]
-								}
-								onBlur={onBlur}
-								onChange={(e,selected) => {onChange(selected)}}
-								value={value}
-								disabled={loading}
-								renderInput={(params) => (
-									<TextField
-										{...params}
-										label="Parroquia"
-										variant="outlined"
-										size="small"
-										inputRef={ref}
-										error={Boolean(errors?.personalData?.repre_ubi_parroquia)}
-										helperText={errors?.personalData?.repre_ubi_parroquia?.message ? errors.personalData.repre_ubi_parroquia.message : ''}
-									/>
-								)}
-							/>
-						)}
-						control={control}
-						name='personalData.repre_ubi_parroquia'
-						defaultValue={user.personal_data.repre_ubi_parroquia || null} 
-						rules={{
-							required: { value: true, message: '* Campo requerido' },
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<RenderSelectFormHook
-						id='datosPersonal-viaRepresentante'
-						name='personalData.repre_ubi_via'
-						nameLabel='Tipo de via'
-						control={control}
-						defaultValue={user.personal_data.repre_ubi_via || ''} 
-						errors={errors?.personalData?.repre_ubi_via}
+						variant="outlined"
+						size="small"
 						disabled={loading}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<AutoCompleteHook
+						name='personalData.repre_ubi_municipio'
+						label='Estado'
+						options={
+							watch('personalData.repre_ubi_estado', null) !== null
+							? buscarMunicipioVE(watch('personalData.repre_ubi_estado'))
+							: []
+						}
+						getOptionLabel={(option) => option || ''}
+						defaultValue={user.personal_data.repre_ubi_municipio || null}
+						control={control}
+						rules={{
+							required: { value: true, message: '* Campo requerido' },
+						}}
+						variant="outlined"
+						size="small"
+						disabled={loading}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<AutoCompleteHook
+						name='personalData.repre_ubi_parroquia'
+						label='Estado'
+						options={
+							(watch('personalData.repre_ubi_municipio', null) !== null &&
+								watch('personalData.repre_ubi_estado', null) !== null) ? buscarParroquiaVE(watch('personalData.repre_ubi_estado'),watch('personalData.repre_ubi_municipio'))
+							:
+							[]
+						}
+						getOptionLabel={(option) => option || ''}
+						defaultValue={user.personal_data.repre_ubi_parroquia || null}
+						control={control}
+						rules={{
+							required: { value: true, message: '* Campo requerido' },
+						}}
+						variant="outlined"
+						size="small"
+						disabled={loading}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<SelectHook
+						name='personalData.repre_ubi_via'
+						label='Tipo de via'
+						defaultValue={user.personal_data.repre_ubi_via || ''}
+						control={control}
+						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
@@ -171,15 +124,20 @@ export function PersonalRepresentanteUbiForm(props) {
 						<MenuItem value="Callejón">Callejón</MenuItem>
 						<MenuItem value="Carretera">Carretera</MenuItem>
 						<MenuItem value="Manzana">Manzana</MenuItem>
-						<MenuItem value="Prolongacion">Prolongación</MenuItem>
+						<MenuItem value="Prolongación">Prolongación</MenuItem>
 						<MenuItem value="Transversal">Transversal</MenuItem>
 						<MenuItem value="Vereda">Vereda</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -198,7 +156,7 @@ export default function PersonalRepresentanteUbi({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, errors, watch, handleSubmit } = useForm({
+	const { control, watch, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -236,7 +194,6 @@ export default function PersonalRepresentanteUbi({ id }) {
 			<PersonalRepresentanteUbiForm 
 				onSubmit={handleSubmit(onSubmit)}
 				control={control}
-				errors={errors}
 				watch={watch}
 				loading={loading}
 				buttonText='Actualizar'

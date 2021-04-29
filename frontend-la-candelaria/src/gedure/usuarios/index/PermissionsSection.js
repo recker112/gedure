@@ -8,611 +8,291 @@ import {
 import { useWatch } from "react-hook-form";
 
 // Components
-import { RenderSwitchFormHook } from '../../../components/RendersGlobals';
+import {
+	SwitchHook,
+} from '@form-inputs';
 
-function UserPermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const users_index = useWatch({
+function RenderPermission(props) {
+	const { name, label, defaultData, control, disabled, fullWidth } = props;
+	
+	return (
+		<Grid item xs={12} sm={fullWidth ? 12 : 6}>
+			<SwitchHook
+				control={control}
+				defaultValue={defaultData[name] || false}
+				name={`permissions.${name}`}
+				label={label}
+				color='primary'
+				disabled={disabled}
+			/>
+		</Grid>
+	)
+}
+
+function RenderPermissionNested(props) {
+	const { name, label, defaultData, control, disabled, need, setValue } = props;
+	
+	const need_permission = useWatch({
 		control,
-    name: 'permissions.users_index',
-    defaultValue: defaultData?.users_index || false,
+    name: `permissions.${need}`,
+    defaultValue: defaultData[need] || false
   });
 	
 	useEffect(() => {
-		if (!users_index) {
-			setValue('permissions.users_create', false);
-			setValue('permissions.users_upload_matricula', false);
-			setValue('permissions.users_edit', false);
-			setValue('permissions.users_edit_admins', false);
-			setValue('permissions.users_delete', false);
+		if (!need_permission) {
+			setValue(`permissions.${name}`, false);
 		}
 		// eslint-disable-next-line
-	},[users_index]);
+	},[need_permission]);
 	
 	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_create || false}
-					name='permissions.users_create'
-					label='Crear usuarios'
-					color='primary'
-					disabled={!users_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_upload_matricula || false}
-					name='permissions.users_upload_matricula'
-					label='Cargar estudiantes'
-					color='primary'
-					disabled={!users_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_edit || false}
-					name='permissions.users_edit'
-					label='Editar usuarios'
-					color='primary'
-					disabled={!users_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_edit_admins || false}
-					name='permissions.users_edit_admins'
-					label='Editar administradores'
-					color='primary'
-					disabled={!users_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_delete || false}
-					name='permissions.users_delete'
-					label='Desactivar usuarios'
-					color='primary'
-					disabled={!users_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
+		<Grid item xs={12} sm={6}>
+			<SwitchHook
+				control={control}
+				defaultValue={defaultData[name] || false}
+				name={`permissions.${name}`}
+				label={label}
+				color='primary'
+				disabled={!need_permission || disabled}
+			/>
+		</Grid>
+	)
 }
 
-function PostPermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const posts_index = useWatch({
-		control,
-    name: 'permissions.posts_index',
-    defaultValue: defaultData?.posts_index || false
-  });
-	
-	useEffect(() => {
-		if (!posts_index) {
-			setValue('permissions.posts_create', false);
-			setValue('permissions.posts_edit', false);
-			setValue('permissions.posts_destroy', false);
-			setValue('permissions.posts_others', false);
-		}
-		// eslint-disable-next-line
-	},[posts_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.posts_create || false}
-					name='permissions.posts_create'
-					label='Crear noticia'
-					color='primary'
-					disabled={!posts_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.posts_edit || false}
-					name='permissions.posts_edit'
-					label='Editar noticia'
-					color='primary'
-					disabled={!posts_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.posts_destroy || false}
-					name='permissions.posts_destroy'
-					label='Eliminar noticia'
-					color='primary'
-					disabled={!posts_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.posts_others || false}
-					name='permissions.posts_others'
-					label='Poder editar las noticias de otros usuarios'
-					color='primary'
-					disabled={!posts_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function BoletaPermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const boletas_index = useWatch({
-		control,
-    name: 'permissions.boletas_index',
-    defaultValue: defaultData?.boletas_index || false
-  });
-	
-	useEffect(() => {
-		if (!boletas_index) {
-			setValue('permissions.boletas_upload', false);
-			setValue('permissions.boletas_edit', false);
-			setValue('permissions.boletas_destroy', false);
-		}
-		// eslint-disable-next-line
-	},[boletas_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.boletas_upload || false}
-					name='permissions.boletas_upload'
-					label='Cargar boleta'
-					color='primary'
-					disabled={!boletas_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.boletas_edit || false}
-					name='permissions.boletas_edit'
-					label='Editar boleta'
-					color='primary'
-					disabled={!boletas_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.boletas_destroy || false}
-					name='permissions.boletas_destroy'
-					label='Eliminar boleta'
-					color='primary'
-					disabled={!boletas_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function SolicitudContactoPermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const contact_index = useWatch({
-		control,
-    name: 'permissions.contact_index',
-    defaultValue: defaultData?.contact_index || false
-  });
-	
-	useEffect(() => {
-		if (!contact_index) {
-			setValue('permissions.contact_destroy', false);
-		}
-		// eslint-disable-next-line
-	},[contact_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.contact_destroy || false}
-					name='permissions.contact_destroy'
-					label='Eliminar solicitudes de contacto'
-					color='primary'
-					disabled={!contact_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function CursoGedurePermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const cursos_index = useWatch({
-		control,
-    name: 'permissions.cursos_index',
-    defaultValue: defaultData?.cursos_index || false
-  });
-	
-	useEffect(() => {
-		if (!cursos_index) {
-			setValue('permissions.cursos_create', false);
-			setValue('permissions.cursos_destroy', false);
-		}
-		// eslint-disable-next-line
-	},[cursos_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.cursos_create || false}
-					name='permissions.cursos_create'
-					label='Crear curso'
-					color='primary'
-					disabled={!cursos_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.cursos_destroy || false}
-					name='permissions.cursos_destroy'
-					label='Eliminar curso'
-					color='primary'
-					disabled={!cursos_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function UsersDisabledGedurePermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const users_disabled_index = useWatch({
-		control,
-    name: 'permissions.users_disabled_index',
-    defaultValue: defaultData?.users_disabled_index || false
-  });
-	
-	useEffect(() => {
-		if (!users_disabled_index) {
-			setValue('permissions.users_disabled_restore', false);
-			setValue('permissions.users_disabled_destroy', false);
-		}
-		// eslint-disable-next-line
-	},[users_disabled_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_disabled_restore || false}
-					name='permissions.users_disabled_restore'
-					label='Restaurar usuario'
-					color='primary'
-					disabled={!users_disabled_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.users_disabled_destroy || false}
-					name='permissions.users_disabled_destroy'
-					label='Eliminar usuario'
-					color='primary'
-					disabled={!users_disabled_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function DebtAdminPermissions(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
-	const debt_lote_index = useWatch({
-		control,
-    name: 'permissions.debt_lote_index',
-    defaultValue: defaultData?.debt_lote_index || false
-  });
-	
-	useEffect(() => {
-		if (!debt_lote_index) {
-			setValue('permissions.debt_lote_create', false);
-			setValue('permissions.debt_lote_edit', false);
-			setValue('permissions.debt_lote_delete', false);
-			setValue('permissions.debt_create', false);
-			setValue('permissions.debt_delete', false);
-			setValue('permissions.debt_refund', false);
-		}
-		// eslint-disable-next-line
-	},[debt_lote_index]);
-	
-	return (
-		<React.Fragment>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_lote_create || false}
-					name='permissions.debt_lote_create'
-					label='Crear lotes de deudas'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_lote_edit || false}
-					name='permissions.debt_lote_edit'
-					label='Editar lotes de deudas'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_lote_delete || false}
-					name='permissions.debt_lote_delete'
-					label='Eliminar lotes de deudas'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_create || false}
-					name='permissions.debt_create'
-					label='Asignar deuda individualmente'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_delete || false}
-					name='permissions.debt_delete'
-					label='Eliminar deuda individualmente'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-			<Grid item xs={12} sm={6}>
-				<RenderSwitchFormHook 
-					control={control}
-					defaultValue={defaultData?.debt_refund || false}
-					name='permissions.debt_refund'
-					label='Rembolsar deuda individualmente'
-					color='primary'
-					disabled={!debt_lote_index || disabled}
-				/>
-			</Grid>
-		</React.Fragment>
-	);
-}
-
-function PermissionsNoSuper(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
+function PermissionsNoSuper(props){
+	const { control, disabled, setValue, defaultData } = props;
 	const super_admin = useWatch({
 		control,
     name: 'super_admin',
-    defaultValue: defaultData?.super_admin || false
+    defaultValue: defaultData.super_admin || false
   });
 	
+	const ListNoSuper = [
+		{
+			name: 'registros_index',
+			label: 'Ver registros del sistema',
+		},
+		{
+			name: 'users_index',
+			label: 'Ver lista de usuarios',
+			nested: [
+				{
+					name: 'users_create',
+					label: 'Crear usuarios',
+				},
+				{
+					name: 'users_upload_matricula',
+					label: 'Cargar estudiantes',
+				},
+				{
+					name: 'users_edit',
+					label: 'Editar usuarios',
+				},
+				{
+					name: 'users_edit_admins',
+					label: 'Editar administradores',
+				},
+				{
+					name: 'users_delete',
+					label: 'Desactivar usuarios',
+				},
+			]
+		},
+		{
+			name: 'posts_index',
+			label: 'Ver noticias publicadas',
+			nested: [
+				{
+					name: 'posts_create',
+					label: 'Crear noticia',
+				},
+				{
+					name: 'posts_edit',
+					label: 'Editar noticia',
+				},
+				{
+					name: 'posts_destroy',
+					label: 'Eliminar noticia',
+				},
+				{
+					name: 'posts_others',
+					label: 'Poder editar las noticias de otros usuarios'
+				}
+			]
+		},
+		{
+			name: 'boletas_index',
+			label: 'Ver boletas cargadas',
+			nested: [
+				{
+					name: 'boletas_upload',
+					label: 'Cargar boleta',
+				},
+				{
+					name: 'boletas_edit',
+					label: 'Editar boleta',
+				},
+				{
+					name: 'boletas_destroy',
+					label: 'Eliminar boleta'
+				}
+			]
+		},
+		{
+			name: 'contact_index',
+			label: 'Ver solicitudes de contácto',
+			nested: [
+				{
+					name: 'contact_destroy',
+					label: 'Eliminar solicitudes de contácto',
+				}
+			]
+		},
+		{
+			name: 'cursos_index',
+			label: 'Ver cursos',
+			nested: [
+				{
+					name: 'cursos_create',
+					label: 'Crear curso',
+				},
+				{
+					name: 'cursos_destroy',
+					label: 'Eliminar curso',
+				}
+			]
+		},
+		{
+			name: 'users_disabled_index',
+			label: 'Ver usuarios desactivados',
+			nested: [
+				{
+					name: 'users_disabled_restore',
+					label: 'Restaurar usuario',
+				},
+				{
+					name: 'users_disabled_destroy',
+					label: 'Eliminar usuario',
+				}
+			]
+		},
+		{
+			name: 'debt_lote_index',
+			label: 'Ver lotes de deudas',
+			nested: [
+				{
+					name: 'debt_lote_create',
+					label: 'Crear lotes de deudas',
+				},
+				{
+					name: 'debt_lote_edit',
+					label: 'Editar lotes de deudas',
+				},
+				{
+					name: 'debt_lote_delete',
+					label: 'Eliminar lotes de deudas',
+				},
+				{
+					name: 'debt_create',
+					label: 'Asignar deuda individualmente',
+				},
+				{
+					name: 'debt_delete',
+					label: 'Eliminar deuda individualmente',
+				},
+				{
+					name: 'debt_refund',
+					label: 'Reembolsar deuda individualmente',
+				}
+			]
+		},
+		{
+			name: 'bank_account_index',
+			label: 'Ver cuentas bancarias',
+			nested: [
+				{
+					name: 'bank_account_create',
+					label: 'Crear cuenta bancaria'
+				},
+				{
+					name: 'bank_account_edit',
+					label: 'Editar cuenta bancaria'
+				},
+				{
+					name: 'bank_account_destroy',
+					label: 'Eliminar cuenta bancaria'
+				},
+			]
+		},
+	];
+	
 	if (!super_admin) {
-		return (
+		const RenderList = ListNoSuper.map((item, i) => (
 			<React.Fragment>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.registros_index || false}
-						name='permissions.registros_index'
-						label='Ver registros del sistema'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.users_index || false}
-						name='permissions.users_index'
-						label='Ver lista de usuarios'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<UserPermissions 
-					control={control} 
-					disabled={disabled} 
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.posts_index || false}
-						name='permissions.posts_index'
-						label='Ver noticias publicadas'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<PostPermissions 
-					control={control} 
+				<RenderPermission
+					key={i}
+					control={control}
 					disabled={disabled}
 					defaultData={defaultData}
-					setValue={setValue}
+					fullWidth
+					{...item}
 				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
+				{(item.nested && item.nested.length > 0) && item.nested.map((itemNested, i) => (
+					<RenderPermissionNested
+						setValue={setValue}
 						control={control}
-						defaultValue={defaultData?.boletas_index || false}
-						name='permissions.boletas_index'
-						label='Ver boletas cargadas'
-						color='primary'
 						disabled={disabled}
+						defaultData={defaultData}
+						need={item.name}
+						{...itemNested}
 					/>
-				</Grid>
-				<BoletaPermissions 
-					control={control} 
-					disabled={disabled}
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.contact_index || false}
-						name='permissions.contact_index'
-						label='Ver solicitudes de contรกcto'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<SolicitudContactoPermissions 
-					control={control} 
-					disabled={disabled}
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.cursos_index || false}
-						name='permissions.cursos_index'
-						label='Ver cursos'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<CursoGedurePermissions 
-					control={control} 
-					disabled={disabled}
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.users_disabled_index || false}
-						name='permissions.users_disabled_index'
-						label='Ver usuarios desactivados'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<UsersDisabledGedurePermissions 
-					control={control} 
-					disabled={disabled}
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
-				<Grid item xs={12}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.debt_lote_index || false}
-						name='permissions.debt_lote_index'
-						label='Ver lotes de deudas'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<DebtAdminPermissions
-					control={control} 
-					disabled={disabled}
-					defaultData={defaultData}
-					setValue={setValue}
-				/>
+				))}
 			</React.Fragment>
-		);
+		))
+		
+		return RenderList;
 	}
 	
 	return null;
 }
-
+	
 export default function PermissionsSection(props) {
-	const { control, disabled, setValue, defaultData=null } = props;
+	const { control, disabled, setValue, defaultData = {} } = props;
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
     defaultValue: ''
   });
 	
+	const ListUserPermissions = [
+		{
+			name: 'boleta_download',
+			label: 'Descargar boletas',
+		},
+		{
+			name: 'change_avatar',
+			label: 'Cambiar avatar',
+		}
+	];
+	
 	if (privilegio === 'V-') {
-		return (
-			<React.Fragment>
-				<Grid item xs={12} sm={6}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.boleta_download || false}
-						name='permissions.boleta_download'
-						label='Descargar boletas'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.change_avatar || false}
-						name='permissions.change_avatar'
-						label='Cambiar avatar'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				{/*<Grid item xs={12} sm={6}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.horarios || false}
-						name='permissions.horarios'
-						label='Horario'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.soporte || false}
-						name='permissions.soporte'
-						label='Soporte'
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<RenderSwitchFormHook 
-						control={control}
-						defaultValue={defaultData?.account_exonerada || false}
-						name='permissions.account_exonerada'
-						label="Cuenta exonerada"
-						color='primary'
-						disabled={disabled}
-					/>
-				</Grid>*/}
-			</React.Fragment>
-		);
+		const RenderPermissions = ListUserPermissions.map((item, i) => (
+			<RenderPermission
+				key={i}
+				control={control}
+				disabled={disabled}
+				defaultData={defaultData}
+				{...item}
+			/>
+		))
+		return RenderPermissions;
 	} else if (privilegio === 'A-') {
 		return (
 			<React.Fragment>
 				<Grid item xs={12}>
-					<RenderSwitchFormHook 
+					<SwitchHook
 						control={control}
-						defaultValue={defaultData?.super_admin || false}
+						defaultValue={defaultData.super_admin || false}
 						name='super_admin'
 						label="Super admin"
 						color='primary'

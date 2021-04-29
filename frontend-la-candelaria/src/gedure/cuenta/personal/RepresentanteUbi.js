@@ -22,8 +22,9 @@ export default function RepresentanteUbi() {
 		user: state.userData.user,
 	}));
 	
-	const { control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -58,7 +59,6 @@ export default function RepresentanteUbi() {
 			<PersonalRepresentanteUbiForm 
 				onSubmit={handleSubmit(onSubmit)}
 				control={control}
-				errors={errors}
 				watch={watch}
 				loading={loading}
 				buttonText='Actualizar'

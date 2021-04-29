@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
 	Grid,
@@ -8,15 +8,17 @@ import {
 	Typography,
 	MenuItem,
 } from '@material-ui/core';
-import Rating from '@material-ui/lab/Rating';
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	RatingHook,
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,14 +36,11 @@ const labels = {
 export function PersonalEstudianteUbiForm(props) {
 	const { 
 		onSubmit,
-		control, 
-		watch, 
-		errors, 
+		control,
 		user, 
 		buttonDisable = false, 
 		loading
 	} = props;
-	const [labelRanking, setLabelRanking] = useState(3);
 	
 	return (
 		<form onSubmit={onSubmit}>
@@ -55,14 +54,14 @@ export function PersonalEstudianteUbiForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_ubi'
-						nameLabel='Vivienda'
+						label='Vivienda'
 						control={control}
-						defaultValue={user.personal_data.estudi_ubi || ''}
-						errors={errors?.personalData?.estudi_ubi}
 						disabled={loading}
-						>
+						defaultValue={user.personal_data.estudi_ubi || ''}
+						fullWidth
+					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
@@ -71,16 +70,16 @@ export function PersonalEstudianteUbiForm(props) {
 						<MenuItem value="Urbanización">Urbanización</MenuItem>
 						<MenuItem value="Zona residencial">Zona residencial</MenuItem>
 						<MenuItem value="Otros">Otros</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_ubi_tipo'
-						nameLabel='Tipo de vivienda'
+						label='Tipo de vivienda'
 						control={control}
-						defaultValue={user.personal_data.estudi_ubi_tipo || ''}
-						errors={errors?.personalData?.estudi_ubi_tipo}
 						disabled={loading}
+						defaultValue={user.personal_data.estudi_ubi_tipo || ''}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
@@ -95,52 +94,41 @@ export function PersonalEstudianteUbiForm(props) {
 						<MenuItem value="Casa de vecindad">Casa de vecindad</MenuItem>
 						<MenuItem value="Improvisado">Improvisado</MenuItem>
 						<MenuItem value="Rancho rural">Rancho rural</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_ubi_zona'
-						nameLabel='Zona de la vivienda'
+						label='Zona de la vivienda'
 						control={control}
-						defaultValue={user.personal_data.estudi_ubi_zona || ''}
-						errors={errors?.personalData?.estudi_ubi_zona}
 						disabled={loading}
+						defaultValue={user.personal_data.estudi_ubi_zona || ''}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value="Rural">Rural</MenuItem>
 						<MenuItem value="Urbana">Urbana</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<Typography>Cond. de Infraestructura</Typography>
-					<Controller 
+					<RatingHook
+						label='Cond. de Infraestructura'
+						labels={labels}
 						name="personalData.estudi_ubi_condiInfra"
-						as={
-							<Rating 
-								onChangeActive={(event, newHover) => {
-									setLabelRanking(newHover);
-								}}
-							/>	
-						}
 						control={control}
 						defaultValue={user.personal_data.estudi_ubi_condiInfra || 3}
 					/>
-					<Typography>
-						{
-							labels[labelRanking !== -1 ? labelRanking : watch('personalData.estudi_ubi_condiInfra', 3)]
-						}
-					</Typography>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.estudi_ubi_condiVivienda'
-						nameLabel='Condición de la vivienda'
+						label='Condición de la vivienda'
 						control={control}
-						defaultValue={user.personal_data.estudi_ubi_condiVivienda || ''}
-						errors={errors?.personalData?.estudi_ubi_condiVivienda}
 						disabled={loading}
+						defaultValue={user.personal_data.estudi_ubi_condiVivienda || ''}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
@@ -150,12 +138,17 @@ export function PersonalEstudianteUbiForm(props) {
 						<MenuItem value="Propia pagada">Propia pagada</MenuItem>
 						<MenuItem value="Propia pagandose">Propia pagandose</MenuItem>
 						<MenuItem value="Otro">Otro</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								Actualizar
 							</Button>
 						</LoadingComponent>
@@ -174,7 +167,7 @@ export default function PersonalEstudianteUbi({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, errors, watch, handleSubmit } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -211,10 +204,8 @@ export default function PersonalEstudianteUbi({ id }) {
 		<Box mb={4}>
 			<PersonalEstudianteUbiForm
 				onSubmit={handleSubmit(onSubmit)}
-				errors={errors}
 				control={control}
 				loading={loading}
-				watch={watch}
 				user={user}
 				buttonText='Actualizar'
 			/>

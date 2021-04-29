@@ -3,7 +3,6 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
@@ -15,8 +14,12 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	InputMaskHook,
+	InputHook,
+	SelectHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderSelectFormHook, NumberFormatInput } from '../../../../components/RendersGlobals';
 
 
 // Redux
@@ -29,9 +32,7 @@ export function PersonalMadreForm(props) {
 		onSubmit, 
 		loading, 
 		control, 
-		user, 
-		register,
-		errors,
+		user,
 		buttonText,
 		buttonDisable,
 	} = props;
@@ -48,102 +49,102 @@ export function PersonalMadreForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderSelectFormHook
+					<SelectHook
 						name='personalData.madre_nacionalidad'
-						nameLabel='Nacionalidad '
-						control={control}
+						label='Nacionalidad'
 						defaultValue={user.personal_data.madre_nacionalidad || ''}
-						errors={errors.personalData?.madre_nacionalidad}
+						control={control}
 						disabled={loading}
+						fullWidth
 					>
 						<MenuItem value=''>
 							<em>Ninguno</em>
 						</MenuItem>
 						<MenuItem value='V'>Venezolano</MenuItem>
 						<MenuItem value='E'>Extranjero</MenuItem>
-					</RenderSelectFormHook>
+					</SelectHook>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 7, message: 'Error: Demaciado corto' },
 							maxLength: { value: 14, message: 'Error: Demaciado largo' },
 							pattern: {
 								value: /^[0-9]*$/,
 								message: 'Error: Solo números',
 							},
-						})}
-						error={Boolean(errors?.personalData?.madre_cedula)}
-						helperText={errors?.personalData?.madre_cedula?.message ? errors.personalData.madre_cedula.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.madre_cedula || ''}
 						name='personalData.madre_cedula'
 						label='Cédula'
-						defaultValue={user.personal_data.madre_cedula || ''}
 						size='small'
-						disabled={loading}
+						variant='outlined'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 8, message: 'Error: Demaciado corto' },
 							maxLength: { value: 90, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.madre_nombre)}
-						helperText={errors?.personalData?.madre_nombre?.message ? errors.personalData.madre_nombre.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.madre_nombre || ''}
 						name='personalData.madre_nombre'
 						label='Nombre y apellido'
-						defaultValue={user.personal_data.madre_nombre || ''}
 						size='small'
-						disabled={loading}
-						fullWidth
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<NumberFormatInput
-						disabled={loading}
-						error={Boolean(errors?.personalData?.madre_telefono)}
-						helperText={errors?.personalData?.madre_telefono ? errors.personalData.madre_telefono.message : ''}
-						label='Teléfono'
-						size='small'
-						mask='phone'
-						fullWidth
-						name='personalData.madre_telefono'
 						variant='outlined'
-						control={control}
-						defaultValue={user.personal_data.madre_telefono || '58'}
-						rules={{
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 12, message: 'Error: Teléfono no válido' }
-						}}
+						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<TextField
-						inputRef={register({
-							required: { value: true, message: '¨Campo requerido' },
+					<InputMaskHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
+							minLength: { value: 12, message: 'Error: No válido' },
+						}}
+						defaultValue={user.personal_data.madre_telefono || '58'}
+						name='personalData.madre_telefono'
+						label='Teléfono'
+						variant='outlined'
+						size='small'
+						format='+## (###) ###-####'
+						fullWidth
+						disabled={loading}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<InputHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 10, message: 'Error: Demaciado corto' },
 							maxLength: { value: 100, message: 'Error: Demaciado largo' },
-						})}
-						error={Boolean(errors?.personalData?.madre_direccion)}
-						helperText={errors?.personalData?.madre_direccion?.message ? errors.personalData.madre_direccion.message : ''}
-						variant='outlined'
+						}}
+						defaultValue={user.personal_data.madre_direccion || ''}
 						name='personalData.madre_direccion'
 						label='Dirección de domicilio'
 						size='small'
-						defaultValue={user.personal_data.madre_direccion || ''}
-						disabled={loading}
+						variant='outlined'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -162,7 +163,7 @@ export default function PersonalMadre({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, control, errors, handleSubmit } = useForm({
+	const {  control, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -199,9 +200,7 @@ export default function PersonalMadre({ id }) {
 		<Box mb={4}>
 			<PersonalMadreForm 
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
 				control={control}
-				errors={errors}
 				loading={loading}
 				buttonText='Actualizar'
 				user={user}

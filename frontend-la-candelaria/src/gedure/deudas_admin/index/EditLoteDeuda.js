@@ -7,7 +7,6 @@ import {
 	DialogContent,
 	DialogActions,
 	Button,
-	TextField,
 } from '@material-ui/core';
 
 import { useForm } from "react-hook-form";
@@ -15,8 +14,12 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Component
+import {
+	InputHook,
+	InputMaskHook,
+	AutoCompleteAsyncHook
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
-import { NumberFormatInput, AsyncInputFormHook } from '../../../components/RendersGlobals';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
@@ -32,8 +35,9 @@ export default function EditLoteDeuda({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, errors, control, handleSubmit, setError } = useForm({
+	const { control, handleSubmit, setError } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	
 	const { fetchData } = useFetch(setError);
@@ -91,51 +95,52 @@ export default function EditLoteDeuda({ tableRef }) {
 				<form autoComplete='off'>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 6, message: 'Error: Demaciado corto' },
 									maxLength: { value: 100, message: 'Error: Demaciado largo' },
-								})}
-								disabled={loading}
+								}}
 								name='reason'
-								error={Boolean(errors.reason)}
-								helperText={errors?.reason?.message ? errors.reason.message : 'Ingrese el motivo de la deuda'}
 								label='Motivo'
+								helperText='Ingrese el motivo de la deuda'
 								defaultValue={data.reason}
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<NumberFormatInput
-								disabled={loading}
-								error={Boolean(errors.new_price)}
-								helperText={errors?.new_price?.message ? errors.new_price.message : 'Ingrese el monto a pagar de la deuda'}
-								label='Monto a pagar'
-								mask='money'
-								fullWidth
-								name='new_price'
+							<InputMaskHook
 								control={control}
-								defaultValue={data.amount_to_pay}
 								rules={{
-									required: { value: true, message: '* Campo requerido' },
-									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' }
+									required: '* Campo requerido',
+									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' },
 								}}
+								name='new_price'
+								label='Monto a pagar'
+								helperText='Ingrese el monto a pagar de la deuda'
+								defaultValue={data.amount_to_pay}
+								fullWidth
+								disabled={loading}
+								mask='money'
 							/>
 						</Grid>
 						{permissions.administrar?.debt_create && (
 							<Grid item xs={12}>
-								<AsyncInputFormHook
+								<AutoCompleteAsyncHook
 									label='Agregar usuarios'
 									multiple
-									disabled={loading}
 									name='selected_users'
 									asyncRequest={asyncRequestUsers}
 									getOptionLabel={(option) => option.username}
-									renderOption={option => (`${option.privilegio}${option.username}`)}
-									error={Boolean(errors.selected_users)}
-									helperText={errors?.selected_users?.message ? errors.selected_users.message : 'Busque a los usuarios que desea agregar'}
+									renderOption={option => (`${option.privilegio}${option.username} - ${option.name}`)}
+									helperText='Busque a los usuarios que desea seleccionar'
 									control={control}
+									rules={{
+										required: { value: true, message: '* Campo requerido' },
+										validate: value => value.length > 0 || 'Error: Debe de seleccionar al menos a 1 usuario',
+									}}
 								/>
 							</Grid>
 						)}

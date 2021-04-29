@@ -15,8 +15,10 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../hooks/useFetch';
 
 // Components
+import {
+	InputPasswordHook,
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
-import { RenderInputPassword } from '../../components/RendersGlobals';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -41,7 +43,7 @@ function FormChangePassword() {
 	
 	const classes = useStyles();
 	
-	const { handleSubmit, register, errors, watch } = useForm({
+	const { handleSubmit, watch, control } = useForm({
 		mode: 'onTouched'
 	});
 	
@@ -79,35 +81,35 @@ function FormChangePassword() {
 					</Grid>
 
 					<Grid item xs={12}>
-						<RenderInputPassword 
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 4, message: 'Error: Demaciado corto' },
-							})}
+						<InputPasswordHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 4, message: 'Error: Demaciado corta' },
+							}}
 							name='password'
 							label='Contraseña'
-							error={Boolean(errors?.password)}
-							helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
-							disabled={loading}
+							helperText='* Campo requerido'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 					
 					<Grid item xs={12}>
-						<RenderInputPassword 
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 4, message: 'Error: Demaciado corto' },
+						<InputPasswordHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 4, message: 'Error: Demaciado corta' },
 								validate: {
 									verifyPass: (value) => value === watch('password') || 'Error: La contraseña no coincide',
 								},
-							})}
+							}}
 							name='confirm'
 							label='Repetir contraseña'
-							error={Boolean(errors?.confirm)}
-							helperText={errors?.confirm?.message ? errors.confirm.message : '* Campo requerido'}
-							disabled={loading}
+							helperText='* Campo requerido'
 							fullWidth
+							disabled={loading}
 						/>
 					</Grid>
 

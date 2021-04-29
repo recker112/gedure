@@ -54,13 +54,15 @@ function PreviewNoticia(props) {
 	
 	return (
 		<Grid item xs={12} sm={6} md={4}>
-			<Paper style={{background: url_portada ? `url(${url_portada})` : '', backgroundSize: 'cover'}}>
-				<Grid container alignItems='space-between' className={`${url_portada ? classes.withImg : classes.colorsito } paper--padding`}>
+			<Paper style={{background: url_portada ? `url("${url_portada}")` : '', backgroundSize: 'cover'}}>
+				<Grid container className={`${url_portada ? classes.withImg : classes.colorsito } paper--padding`}>
 					<Grid item xs={12}>
 						<Typography>
 							{title.length > 100 ? `${title.substring(0, 100)}...` : title}
 						</Typography>
-						<Typography className='text__opacity--semi'>Publicado {fecha_humano}</Typography>
+						<Typography className='text__opacity--semi'>
+							Publicado {fecha_humano}
+						</Typography>
 					</Grid>
 					<Grid container justify='flex-end' alignItems='flex-end' item xs={12}>
 						<IconButton onClick={handleClick} component={RouterLink} to={`noticias/${slug}`} className={classes.button}>

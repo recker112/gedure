@@ -3,15 +3,9 @@ import React from 'react';
 import {
 	Grid,
 	Button,
-	TextField,
 	Divider,
 	Box,
 	Typography,
-	FormControl,
-	FormLabel,
-	FormControlLabel,
-	RadioGroup,
-	Radio,
 } from '@material-ui/core';
 
 import { useForm } from "react-hook-form";
@@ -19,6 +13,10 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	InputHook,
+	RadioHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
 
 // Redux
@@ -30,9 +28,8 @@ export function PersonalRepresentanteEmpleoForm(props) {
 	const { 
 		onSubmit, 
 		user, 
-		loading, 
-		register, 
-		errors, 
+		loading,
+		control,
 		watch, 
 		buttonText, 
 		buttonDisable
@@ -50,67 +47,59 @@ export function PersonalRepresentanteEmpleoForm(props) {
 					</Box>
 				</Grid>
 				<Grid item xs={12}>
-					<FormControl component="fieldset" disabled={loading}>
-						<FormLabel component="legend">¿Tiene empleo?</FormLabel>
-						<RadioGroup 
-							aria-label="empleo" 
-							defaultValue={user.personal_data.repre_empleo || 'No'}
-							name='personalData.repre_empleo'
-							row
-						>
-							<FormControlLabel 
-								value="No" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="No"
-							/>
-							<FormControlLabel 
-								value="Si" 
-								control={
-									<Radio inputRef={register} />
-								} 
-								label="Si"
-							/>
-						</RadioGroup>
-					</FormControl>
+					<RadioHook
+						control={control}
+						defaultValue={user.personal_data.repre_empleo || 'No'}
+						disabled={loading}
+						label='¿Tiene empleo?'
+						name='personalData.repre_empleo'
+						row
+						radioList={[
+							{
+								value: 'Si',
+								label: 'Si',
+							},
+							{
+								value: 'No',
+								label: 'No',
+							}
+						]}
+					/>
 				</Grid>
 				{watch('personalData.repre_empleo', 'No') === 'Si' && (
 					<React.Fragment>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 3, message: 'Error: Demaciado corto' },
 									maxLength: { value: 30, message: 'Error: Demaciado largo' },
-								})}
-								error={Boolean(errors?.personalData?.repre_empleo_profesion)}
-								helperText={errors?.personalData?.repre_empleo_profesion?.message ? errors.personalData.repre_empleo_profesion.message : ''}
-								variant='outlined'
-								name='personalData.repre_empleo_profesion'
+								}}
 								defaultValue={user.personal_data.repre_empleo_profesion || ''}
+								name='personalData.repre_empleo_profesion'
 								label='Profesión'
 								size='small'
-								disabled={loading}
+								variant='outlined'
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField 
-								inputRef={register({
-									required: { value: true, message: '* Campo requerido' },
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
 									minLength: { value: 3, message: 'Error: Demaciado corto' },
 									maxLength: { value: 30, message: 'Error: Demaciado largo' },
-								})}
-								error={Boolean(errors?.personalData?.repre_empleo_lugar)}
-								helperText={errors?.personalData?.repre_empleo_lugar?.message ? errors.personalData.repre_empleo_lugar.message : ''}
-								variant='outlined'
+								}}
+								defaultValue={user.personal_data.repre_empleo_lugar || ''}
 								name='personalData.repre_empleo_lugar'
 								label='Lugar donde trabaja'
-								defaultValue={user.personal_data.repre_empleo_lugar || ''}
 								size='small'
-								disabled={loading}
+								variant='outlined'
 								fullWidth
+								disabled={loading}
 							/>
 						</Grid>
 					</React.Fragment>
@@ -118,7 +107,12 @@ export function PersonalRepresentanteEmpleoForm(props) {
 				{!buttonDisable && (
 					<Grid container justify='flex-end' item xs={12}>
 						<LoadingComponent loading={loading}>
-							<Button type='submit' variant='contained' color='primary'>
+							<Button 
+								type='submit' 
+								variant='contained' 
+								color='primary'
+								disableElevation
+							>
 								{buttonText}
 							</Button>
 						</LoadingComponent>
@@ -137,7 +131,7 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, errors, watch, handleSubmit } = useForm({
+	const { control, watch, handleSubmit } = useForm({
 		mode: 'onTouched'
 	});
 	const { fetchData } = useFetch();
@@ -178,8 +172,7 @@ export default function PersonalRepresentanteEmpleo({ id }) {
 	return (
 		<PersonalRepresentanteEmpleoForm 
 			onSubmit={handleSubmit(onSubmit)}
-			register={register}
-			errors={errors}
+			control={control}
 			watch={watch}
 			loading={loading}
 			buttonText='Actualizar'

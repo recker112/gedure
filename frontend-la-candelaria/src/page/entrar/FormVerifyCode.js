@@ -3,7 +3,6 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { 
 	Typography,
 	Grid,
-	TextField,
 	Button,
 	Fade,
 } from '@material-ui/core';
@@ -14,6 +13,9 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../hooks/useFetch';
 
 // Components
+import {
+	InputHook,
+} from '@form-inputs';
 import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
@@ -94,7 +96,7 @@ function FormVerifyCode({ nextStep }) {
 	
 	const classes = useStyles();
 	
-	const { handleSubmit, register, errors } = useForm({
+	const { handleSubmit, control } = useForm({
 		mode: 'onTouched'
 	});
 	
@@ -148,16 +150,16 @@ function FormVerifyCode({ nextStep }) {
 					</Grid>
 
 					<Grid item xs={12}>
-						<TextField
-							inputRef={register({
-								required: { value: true, message: '* Campo requerido' },
-								minLength: { value: 5, message: 'Error: Código no válido' },
-								maxLength: { value: 5, message: 'Error: Código no válido' },
-							})}
-							error={Boolean(errors?.code)}
-							helperText={errors?.code?.message ? errors.code.message : '* Campo requerido'}
+						<InputHook
+							control={control}
+							rules={{
+								required: '* Campo requerido',
+								minLength: { value: 5, message: 'Error: No válido' },
+								maxLength: { value: 5, message: 'Error: No válido' },
+							}}
 							name='code'
 							label='Código'
+							helperText='* Campo requerido'
 							fullWidth
 							disabled={loading}
 						/>

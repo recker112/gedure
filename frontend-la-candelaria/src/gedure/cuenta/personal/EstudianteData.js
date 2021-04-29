@@ -22,8 +22,9 @@ export default function EstudianteData() {
 		user: state.userData.user,
 	}));
 	
-	const { register, control, errors, handleSubmit, watch } = useForm({
+	const { control, handleSubmit, watch } = useForm({
 		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const dispatch = useDispatch();
 	
@@ -61,8 +62,6 @@ export default function EstudianteData() {
 		<Box mb={4}>
 			<PersonalEstudianteDataForm
 				onSubmit={handleSubmit(onSubmit)}
-				register={register}
-				errors={errors}
 				control={control}
 				loading={loading}
 				watch={watch}

@@ -16,9 +16,11 @@ import useFetch from '../../../hooks/useFetch';
 import { useForm } from "react-hook-form";
 
 // Components
+import {
+	SelectHook,
+} from '@form-inputs';
 import AnimationDialog from '../../../components/AnimationDialog';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { RenderSelectFormHook } from '../../../components/RendersGlobals';
 import { LapsoList } from '../../../components/funciones/CursosList';
 
 // Redux
@@ -33,8 +35,9 @@ export default function DeleteBoletas({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { handleSubmit, control, errors } = useForm({
-		mode: 'onTouched'
+	const { handleSubmit, control } = useForm({
+		mode: 'onTouched',
+		shouldUnregister: true,
 	});
 	const { fetchData } = useFetch();
 	
@@ -76,18 +79,16 @@ export default function DeleteBoletas({ tableRef }) {
 						<DialogContentText>Ha seleccionado a <strong>{data.length}</strong> estudiante(s) para eliminar su boleta de su curso actual, seleccione el lapso de la boleta a borrar:</DialogContentText>
 					</Grid>
 					<Grid container alignItems='center' item xs={12}>
-						<RenderSelectFormHook
-							id='boleta-lapso'
+						<SelectHook
 							name='lapso'
-							nameLabel='Lapso'
+							label='Lapso'
 							control={control}
-							defaultValue=''
-							errors={errors?.lapso}
 							disabled={loading}
+							fullWidth
 						>
 							<MenuItem value=''><em>Ninguno</em></MenuItem>
 							{MenuItemList}
-						</RenderSelectFormHook>
+						</SelectHook>
 					</Grid>
 				</Grid>
 			</DialogContent>

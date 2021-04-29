@@ -10,10 +10,12 @@ import {
 import { useWatch } from "react-hook-form";
 
 // Components
-import { RenderInputPassword } from '../../../components/RendersGlobals';
+import {
+	InputPasswordHook,
+} from '@form-inputs';
 import generatePassword from '../../../components/funciones/generatePassword';
 
-export default function PasswordSection({ register, errors, control, disabled, setValue }) {
+export default function PasswordSection({ control, disabled, setValue }) {
 	const [generatePass, setGeneratePass] = useState(false);
   const invitation_mode = useWatch({
 		control,
@@ -30,10 +32,10 @@ export default function PasswordSection({ register, errors, control, disabled, s
 		if (event.target.checked) {
 			const simplePW = generatePassword(4);
 			setValue('password', simplePW);
-			setGeneratePass(event.target.checked);
+			setGeneratePass(true);
 		}else {
 			setValue('password', '');
-			setGeneratePass(event.target.checked);
+			setGeneratePass(false);
 		}
 	}
 	
@@ -41,18 +43,17 @@ export default function PasswordSection({ register, errors, control, disabled, s
 		return (
 			<React.Fragment>
 				<Grid item xs={12}>
-					<RenderInputPassword
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
+					<InputPasswordHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
 							minLength: { value: 4, message: 'Error: Demaciado corto' },
-						})}
+						}}
 						name='password'
-						variant='standard'
-						size='small'
-						error={Boolean(errors?.password)}
-						helperText={errors?.password?.message ? errors.password.message : '* Campo requerido'}
 						label='Contraseña'
+						size='small'
 						disabled={disabled}
+						fullWidth
 					/>
 				</Grid>
 				<Grid item xs={12}>

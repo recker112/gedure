@@ -10,9 +10,11 @@ import { useWatch } from "react-hook-form";
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { AsyncInputFormHook } from '../../../components/RendersGlobals';
+import {
+	AutoCompleteAsyncHook,
+} from '@form-inputs';
 
-export default function StudiendSection({ errors, control, disabled }) {
+export default function StudiendSection({ control, disabled }) {
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
@@ -37,14 +39,13 @@ export default function StudiendSection({ errors, control, disabled }) {
 		return (
 			<Grid item xs={12}>
 				<Box mt={1}>
-					<AsyncInputFormHook
+					<AutoCompleteAsyncHook
 						label='Seleccionar un curso'
 						name='curso_id'
 						asyncRequest={asyncRequestCursos}
-						getOptionLabel={(option) => option.code}
+						getOptionLabel={(option) => option.code || ''}
 						renderOption={option => option.code}
-						error={Boolean(errors.curso_id)}
-						helperText={errors?.curso_id?.message ? errors.curso_id.message : 'Seleccione el curso en el cual desea ingresar al usuario'}
+						helperText='Seleccione el curso en el cual desea ingresar al usuario'
 						control={control}
 						rules={{
 							required: { value: true, message: '* Campo requerido' },

@@ -15,8 +15,10 @@ import { useForm } from "react-hook-form";
 import useFetch from '../../../../hooks/useFetch';
 
 // Components
+import {
+	InputPasswordHook,
+} from '@form-inputs';
 import LoadingComponent from '../../../../components/LoadingComponent';
-import { RenderInputPassword } from '../../../../components/RendersGlobals';
 import generatePassword from '../../../../components/funciones/generatePassword';
 
 // Redux
@@ -24,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateForms from '../../../../actions/updateForms';
 
 export function UserPasswordForm(props) {
-	const { onSubmit, helperText, register, errors, loading, setValue, watch } = props;
+	const { onSubmit, helperText, control, loading, setValue, watch } = props;
 	const [generatePass, setGeneratePass] = useState(false);
 	
 	const handleGeneratePass = (event) => {
@@ -44,42 +46,44 @@ export function UserPasswordForm(props) {
 		<form onSubmit={onSubmit} autoComplete='off'>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Box mb={1} fontSize='h6.fontSize' className='text__bold--semi'>Cambiar contraseña</Box>
+					<Box mb={1} fontSize='h6.fontSize' className='text__bold--semi'>
+						Cambiar contraseña
+					</Box>
 					<Divider />
 				</Grid>
 				<Grid item xs={12}>
-					<RenderInputPassword
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 4, message: 'Error: Demaciado corto' },
-						})}
+					<InputPasswordHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
+							minLength: { value: 4, message: 'Error: No válido' },
+							maxLength: { value: 25, message: 'Error: No válida' }
+						}}
 						name='password'
-						error={Boolean(errors?.password)}
-						helperText={errors?.password?.message ? errors.password.message : helperText}
-						label='Nueva contraseña'
-						defaultValue=''
+						label='Contraseña'
+						helperText={helperText}
 						variant='outlined' 
 						size='small'
-						disabled={loading}
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<RenderInputPassword
-						inputRef={register({
-							required: { value: true, message: '* Campo requerido' },
-							minLength: { value: 4, message: 'Error: Demaciado corto' },
+					<InputPasswordHook
+						control={control}
+						rules={{
+							required: '* Campo requerido',
+							minLength: { value: 4, message: 'Error: No válido' },
+							maxLength: { value: 25, message: 'Error: No válida' },
 							validate: value => value === watch('password', '') || 'Error: La contraseña no coincide'
-						})}
+						}}
 						name='repeat_password'
-						error={Boolean(errors?.repeat_password)}
-						helperText={errors?.repeat_password?.message ? errors.repeat_password.message : '* Campo requerido'}
 						label='Repetir contraseña'
-						defaultValue=''
+						helperText='* Campo requerido'
 						variant='outlined' 
-						size='small' 
-						disabled={loading}
+						size='small'
 						fullWidth
+						disabled={loading}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -118,7 +122,7 @@ export default function UserPassword({ id }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { register, handleSubmit, errors, setError, watch, setValue } = useForm({
+	const { control, handleSubmit, setError, watch, setValue } = useForm({
 		mode: 'onTouched',
 	});
 	const { fetchData } = useFetch(setError);
@@ -145,8 +149,7 @@ export default function UserPassword({ id }) {
 	return (
 		<UserPasswordForm
 			onSubmit={handleSubmit(onSubmit)}
-			register={register}
-			errors={errors}
+			control={control}
 			loading={loading}
 			setValue={setValue}
 			watch={watch}
