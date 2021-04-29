@@ -144,7 +144,7 @@ export default function PageUserIndex() {
 						<LinkTabs
 							value={location.pathname}
 							variant="scrollable"
-							scrollButtons="auto"
+							scrollButtons="on"
 						>
 							<LinkTab 
 								label='General' 
