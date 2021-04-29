@@ -133,7 +133,7 @@ export default function TableBankAccount({ tableRef }) {
 							if (!massiveDelete) {
 								const data = {
 									id: rowData.id,
-									code: rowData.code,
+									n_account: rowData.n_account,
 								}
 								dispatch(updateDialogs('deleteConfirmation', true, false, data));
 							}else {

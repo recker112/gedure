@@ -8,6 +8,7 @@ import {
 import CreateBankAccount from './CreateBankAccount';
 import TableBankAccount from './TableBankAccount';
 import EditBankAccount from './EditBankAccount';
+import DeleteBankAccount from './DeleteBankAccount';
 
 export default function Main() {
 	const tableRefBankAccount = useRef(null);
@@ -17,6 +18,7 @@ export default function Main() {
 			<CreateBankAccount tableRef={tableRefBankAccount} />
 			<TableBankAccount tableRef={tableRefBankAccount} />
 			<EditBankAccount tableRef={tableRefBankAccount} />
+			<DeleteBankAccount tableRef={tableRefBankAccount} />
 		</Grid>
 	);
 }
