@@ -141,7 +141,7 @@ class BankAccountController extends Controller
 		if (!$i) {
 			return response()->json([
 				'msg' => "No se ha eliminado ninguna cuenta bancaria",
-			], 400);
+			], 200);
 		}
 		
 		$payload = [

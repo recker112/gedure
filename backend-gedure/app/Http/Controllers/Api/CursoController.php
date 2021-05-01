@@ -117,17 +117,20 @@ class CursoController extends Controller
 	public function destroyMassive(MassiveUsersRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
+		$cursos = Curso::whereIn('id', $ids)->get();
 		
 		$i=0;
 		$names=[];
-		foreach($ids as $id) {
-			$curso = Curso::find($id);
-			
-			if ($curso) {
-				$names[]=$curso->code;
-				$this->destroy($curso->id, true);
-				$i++;
-			}
+		foreach($cursos as $curso) {
+			$names[]=$curso->code;
+			$this->destroy($curso->id, true);
+			$i++;
+		}
+		
+		if (!$i) {
+			return response()->json([
+				'msg' => "No se ha eliminado ningún curso",
+			], 200);
 		}
 		
 		$payload = [
