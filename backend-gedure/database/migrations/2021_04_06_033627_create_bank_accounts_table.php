@@ -15,10 +15,10 @@ class CreateBankAccountsTable extends Migration
 	{
 		Schema::create('bank_accounts', function (Blueprint $table) {
 			$table->id();
-			$table->char('n_account', 25);
+			$table->char('n_account', 25)->unique();
 			$table->char('rif', 25);
-			$table->string('name', 100)->unique();
-			$table->string('email', 100)->unique();
+			$table->string('name', 100);
+			$table->string('email', 100);
 			$table->enum('type', ['ahorro', 'corriente']);
 			$table->char('code', 4);
 			$table->timestamps();

@@ -77,22 +77,24 @@ export default function EditBankAccount({ tableRef }) {
 			<DialogContent>
 				<form autoComplete='off'>
 					<Grid container spacing={1}>
-						<Grid item xs={12}>
-							<InputMaskHook
-								control={control}
-								rules={{
-									required: '* Campo requerido',
-									minLength: { value: 20, message: 'Error: Cuenta no válida' },
-									maxLength: { value: 20, message: 'Error: Cuenta no válida' },
-								}}
-								name='n_account'
-								label='N° de cuenta'
-								fullWidth
-								disabled={loading}
-								defaultValue={data.n_account}
-								format="#### #### #### #### ####"
-							/>
-						</Grid>
+						{watch('important_data') === true && (
+							<Grid item xs={12}>
+								<InputMaskHook
+									control={control}
+									rules={{
+										required: '* Campo requerido',
+										minLength: { value: 20, message: 'Error: Cuenta no válida' },
+										maxLength: { value: 20, message: 'Error: Cuenta no válida' },
+									}}
+									name='n_account'
+									label='N° de cuenta'
+									fullWidth
+									disabled={loading}
+									defaultValue={data.n_account}
+									format="#### #### #### #### ####"
+								/>
+							</Grid>
+						)}
 						<Grid item xs={12}>
 							<InputMaskHook
 								control={control}
@@ -109,42 +111,38 @@ export default function EditBankAccount({ tableRef }) {
 								format="J-########-#"
 							/>
 						</Grid>
-						{watch('important_data') === true && (
-							<React.Fragment>
-								<Grid item xs={12}>
-									<InputHook
-										control={control}
-										rules={{
-											required: '* Campo requerido',
-											minLength: { value: 6, message: 'Error: Demaciado corto' },
-											maxLength: { value: 100, message: 'Error: Demaciado largo' },
-										}}
-										name='name'
-										label='Nombre'
-										fullWidth
-										disabled={loading}
-										defaultValue={data.name}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<InputHook
-										control={control}
-										rules={{
-											required: '* Campo requerido',
-											pattern: {
-												value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-												message: 'Error: Correo no válido',
-											},
-										}}
-										name='email'
-										label='Correo'
-										fullWidth
-										disabled={loading}
-										defaultValue={data.email}
-									/>
-								</Grid>
-							</React.Fragment>
-						)}
+						<Grid item xs={12}>
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
+									minLength: { value: 6, message: 'Error: Demaciado corto' },
+									maxLength: { value: 100, message: 'Error: Demaciado largo' },
+								}}
+								name='name'
+								label='Nombre'
+								fullWidth
+								disabled={loading}
+								defaultValue={data.name}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+										message: 'Error: Correo no válido',
+									},
+								}}
+								name='email'
+								label='Correo'
+								fullWidth
+								disabled={loading}
+								defaultValue={data.email}
+							/>
+						</Grid>
 						<Grid item xs={12}>
 							<SelectHook
 								name='type'

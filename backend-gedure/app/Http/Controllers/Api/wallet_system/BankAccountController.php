@@ -145,11 +145,12 @@ class BankAccountController extends Controller
 		}
 		
 		$payload = [
+			'count' => $i,
 			'accounts' => $accounts,
 		];
 
 		$request->user()->logs()->create([
-			'action' => "Cuentas bancarias eliminadas massivamente",
+			'action' => "Cuentas bancarias eliminadas masivamente",
 			'payload' => json_encode($payload),
 			'type' => 'gedure'
 		]);

@@ -24,10 +24,10 @@ class BankAccountRequestEdit extends FormRequest
 	public function rules()
 	{
 		return [
-			'n_account' => 'required|string|max:20',
+			'n_account' => 'nullable|string|max:20|unique:bank_accounts',
 			'rif' => 'required|string',
-			'name' => 'nullable|string|max:100|unique:bank_accounts',
-			'email' => 'nullable|email|unique:bank_accounts',
+			'name' => 'required|string|max:100',
+			'email' => 'required|email',
 			'type' => 'required|string|in:corriente,ahorro',
 			'code' => 'required|string|max:4',
 		];

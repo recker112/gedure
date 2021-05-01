@@ -15,6 +15,7 @@ import {
 // Components
 import AnimationDialog from '../../components/AnimationDialog';
 import converterCursoCode from '../../components/funciones/converterCursoCode';
+import { parseToAccountString } from '../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -299,6 +300,38 @@ export default function ShowRegistros() {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la solicitud de contácto <strong>{data.payload.asunto}</strong>, la cual fue escrita por <strong>{data.payload.nombre}</strong> ({data.payload.email}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Cuenta bancaria agregada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) agregó al sistema la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Cuenta bancaria actualizada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) actualizó los datos de la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Cuenta bancaria eliminada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
+				</DialogContentText>
+			);
+		}else if (data.action === 'Cuentas bancarias eliminadas masivamente') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.count}</strong> cuentas bancarias, las cuales fueron los siguientes:
+					<br />
+					<br />
+					{data.payload.accounts?.map((data, i) => (
+						<React.Fragment>
+							- <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.name})
+							<br />
+						</React.Fragment>
+					))}
 				</DialogContentText>
 			);
 		}else {
