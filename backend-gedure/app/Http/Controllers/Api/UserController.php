@@ -438,23 +438,26 @@ class UserController extends Controller
 	public function deleteMassive(MassiveUsersRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
+		$users = User::whereIn('id', $ids)->get();
 		
 		$i=0;
-		$users = [];
-		foreach($ids as $id) {
-			$user = User::find($id);
-			
-			if ($user) {
-				$this->delete($id, true);
-				$users[] = $user->privilegio.$user->username." ($user->name)";
-				$i++;
-			}
+		$users_list = [];
+		foreach($users as $user) {
+			$this->delete($user->id, true);
+			$users_list[] = $user->privilegio.$user->username." ($user->name)";
+			$i++;
+		}
+		
+		if (!$i) {
+			return response()->json([
+				'msg' => "No se ha eliminado ningún usuario",
+			], 200);
 		}
 		
 		// NOTA(RECKER): Log
 		$payload = [
 			'users_disabled_count' => $i,
-			'users_disabled' => $users,
+			'users_disabled' => $users_list,
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios desactivados masivamente',
@@ -512,7 +515,7 @@ class UserController extends Controller
 			'curso' => $code,
 		];
 		$request->user()->logs()->create([
-			'action' => 'Actualizaciรณn de secciรณn masiva',
+			'action' => 'Actualización de sección masiva',
 			'payload' => json_encode($payload),
 			'type' => 'user',
 		]);
@@ -605,23 +608,22 @@ class UserController extends Controller
 	public function restoreDeletedMassive(MassiveUsersRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
+		$users = User::onlyTrashed()
+			->whereIn('id', $ids)
+			->get();
 		
 		$i=0;
-		$users=[];
-		foreach($ids as $id) {
-			$user = User::onlyTrashed()->find($id);
-			
-			if ($user) {
-				$users[] = $user->privilegio.$user->username." ($user->name)";
-				$this->restoreDeleted($id, true);
-				$i++;
-			}
+		$users_list=[];
+		foreach($users as $user) {
+			$users_list[] = $user->privilegio.$user->username." ($user->name)";
+			$this->restoreDeleted($user->id, true);
+			$i++;
 		}
 		
 		// NOTA(RECKER): Log
 		$payload = [
 			'users_restored_count' => $i,
-			'users_restored' => $users,
+			'users_restored' => $users_list,
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios restaurados masivamente',
@@ -668,23 +670,22 @@ class UserController extends Controller
 	
 	public function destroyMassive(MassiveUsersRequest $request) {
 		$ids = json_decode(urldecode($request->ids));
+		$users = User::onlyTrashed()
+			->whereIn('id', $ids)
+			->get();
 		
 		$i=0;
-		$users=[];
-		foreach($ids as $id) {
-			$user = User::onlyTrashed()->find($id);
-			
-			if ($user) {
-				$users[] = $user->privilegio.$user->username." ($user->name)";
-				$this->destroy($id, true);
-				$i++;
-			}
+		$users_list=[];
+		foreach($users as $user) {
+			$users[] = $user->privilegio.$user->username." ($user->name)";
+			$this->destroy($user->id, true);
+			$i++;
 		}
 		
 		// NOTA(RECKER): Log
 		$payload = [
 			'users_destroy_count' => $i,
-			'users_destroy' => $users,
+			'users_destroy' => $users_list,
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios eliminados masivamente',

@@ -268,19 +268,25 @@ class BoletaController extends Controller
 	public function destroyMassive(MassiveBoletaRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
+		$users = User::with('boletas', 'alumno')
+			->whereIn('id', $ids)
+			->get();
 		
 		$i=0;
-		foreach($ids as $id) {
-			$user = User::find($id);
+		foreach($users as $user) {
 			$boleta = $user->boletas()
-				->where('curso_id', $user->alumno->curso_id)
-				->where('lapso', $request->lapso)
-				->first();
+				 ->where('curso_id', $user->alumno->curso_id)
+				 ->where('lapso', $request->lapso)
+				 ->first();
 			
-			if ($boleta) {
-				$this->destroy($boleta->id, true);
-				$i++;
-			}
+			$this->destroy($boleta->id, true);
+			$i++;
+		}
+		
+		if (!$i) {
+			return response()->json([
+				'msg' => "No se ha eliminado ninguna boleta",
+			], 200);
 		}
 		
 		$payload = [
