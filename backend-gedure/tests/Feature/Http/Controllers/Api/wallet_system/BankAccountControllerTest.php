@@ -110,7 +110,7 @@ class BankAccountControllerTest extends TestCase
 	
 	public function testEdit()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -156,6 +156,30 @@ class BankAccountControllerTest extends TestCase
 
 		$this->assertDatabaseMissing('bank_accounts', [
 			'email' => $bank_account->email,
+		]);
+	}
+	
+	public function testDeleteMassive()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+
+		$bank_accounts = BankAccount::factory(4)->create();
+		
+		$ids = json_encode([1,3,4]);
+
+		$response = $this->deleteJson('/api/v1/bank-account?ids='.urlencode($ids));
+
+		$response->assertOk()
+		->assertJsonStructure([
+			'msg'
+		]);
+
+		$this->assertDatabaseMissing('bank_accounts', [
+			'email' => $bank_accounts[0]->email,
 		]);
 	}
 }

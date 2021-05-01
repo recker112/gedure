@@ -280,9 +280,13 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_edit'])
 		->put('bank-account/{id}', [BankAccountController::class, 'edit']);
 	
-	// Edit bank account
+	// Delete bank account
 	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
 		->delete('bank-account/{id}', [BankAccountController::class, 'destroy']);
+	
+	// Delete massive bank account
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
+		->delete('bank-account', [BankAccountController::class, 'destroyMassive']);
 	
 	/*
 	Deudas
