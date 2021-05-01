@@ -8,6 +8,7 @@ use App\Http\Requests\TableRequest;
 use App\Http\Requests\FindLikeRequest;
 use App\Http\Requests\wallet_system\BankAccountRequest;
 use App\Http\Requests\wallet_system\BankAccountRequestEdit;
+use App\Http\Requests\MassiveUsersRequest;
 
 // Models
 use App\Models\wallet_system\BankAccount;
@@ -55,6 +56,17 @@ class BankAccountController extends Controller
 		$bankAccount = BankAccount::create($request->toArray());
 		
 		if ($bankAccount) {
+			$payload = [
+				'n_account' => $request->n_account,
+				'name' => $request->name,
+			];
+			
+			$request->user()->logs()->create([
+				'action' => "Cuenta bancaria creada",
+				'payload' => json_encode($payload),
+				'type' => 'gedure'
+			]);
+			
 			return response()->json([
 				'msg' => "Cuenta bancaria agregada",
 			], 200);
@@ -71,19 +83,79 @@ class BankAccountController extends Controller
 		
 		$bankAccount->update($request->toArray());
 		
+		$payload = [
+			'n_account' => $request->n_account,
+			'name' => $request->name,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Cuenta bancaria actualizada",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
+		
 		return response()->json([
 			'msg' => "Cuenta bancaria actualizada",
 		], 200);
 	}
 	
-	public function destroy($id)
+	public function destroy($id, $massive = false)
 	{
-		$bankAccount = BankAccount::findOrFail(intVal($id));
+		$bank_account = BankAccount::findOrFail(intVal($id));
 		
-		$bankAccount->delete();
+		$bank_account->delete();
+		
+		if (!$massive) {
+			$payload = [
+				'n_account' => $bank_account->n_account,
+				'name' => $bank_account->name,
+			];
+
+			request()->user()->logs()->create([
+				'action' => "Cuenta bancaria eliminada",
+				'payload' => json_encode($payload),
+				'type' => 'gedure'
+			]);
+		}
 		
 		return response()->json([
 			'msg' => "Cuenta bancaria eliminada",
+		], 200);
+	}
+	
+	public function destroyMassive(MassiveUsersRequest $request) {
+		$ids = json_decode(urldecode($request->ids));
+		$bank_accounts = BankAccount::whereIn('id', $ids)->get();
+		
+		$i=0;
+		$accounts=[];
+		foreach($bank_accounts as $bank_account) {
+			$accounts[$i]= [
+				'name' => $bank_account->name,
+				'account' => $bank_account->n_account,
+			];
+			$this->destroy($bank_account->id, true);
+			$i++;
+		}
+		
+		if (!$i) {
+			return response()->json([
+				'msg' => "No se ha eliminado ninguna cuenta bancaria",
+			], 400);
+		}
+		
+		$payload = [
+			'accounts' => $accounts,
+		];
+
+		$request->user()->logs()->create([
+			'action' => "Cuentas bancarias eliminadas massivamente",
+			'payload' => json_encode($payload),
+			'type' => 'gedure'
+		]);
+		
+		return response()->json([
+			'msg' => "$i cuentas bancarias eliminadas",
 		], 200);
 	}
 }
