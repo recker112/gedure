@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { 
 	Grid,
@@ -18,6 +18,7 @@ import {
 	InputMaskHook,
 	SelectHook,
 } from '@form-inputs';
+import { BankList } from '../../../components/funciones/BankList';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
@@ -52,6 +53,10 @@ export default function CreateBankAccount({ tableRef }) {
 		
 		dispatch(updateForms('createBankAccount', false));
 	}
+	
+	const MenuItemList = BankList.map(useCallback((data, i) => (
+		<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
+	),[]));
 	
 	return (
 		<Grid item xs={12}>
@@ -135,7 +140,7 @@ export default function CreateBankAccount({ tableRef }) {
 								<MenuItem value='ahorro'>
 									Ahorro
 								</MenuItem>
-								<MenuItem value='ahorro'>
+								<MenuItem value='corriente'>
 									Corriente
 								</MenuItem>
 							</SelectHook>
@@ -151,12 +156,7 @@ export default function CreateBankAccount({ tableRef }) {
 								<MenuItem value=''>
 									<em>Ninguno</em>
 								</MenuItem>
-								<MenuItem value='0012'>
-									Venezuela
-								</MenuItem>
-								<MenuItem value='1103'>
-									Banesco
-								</MenuItem>
+								{MenuItemList}
 							</SelectHook>
 						</Grid>
 						<Grid container justify='flex-end' item xs={12}>

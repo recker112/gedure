@@ -39,14 +39,14 @@ export default function DeleteBankAccount({ tableRef }) {
 	if (data.deleteMassive) {
 		return (
 			<DialogConfirmation callback={null}>
-				Está a punto de eliminar <strong>{data.ids?.length}</strong> cuentas. Al realizarse esta acción las transacciones ya realizadas no serán eliminadas del sistema, tenga en cuenta que esta acción no se puede deshacer.
+				Está a punto de eliminar <strong>{data.ids?.length}</strong> cuenta(s). Al realizarse esta acción las transacciones ya realizadas no serán eliminadas del sistema, tenga en cuenta que esta acción no se puede deshacer.
 			</DialogConfirmation>
 		)
 	} 
 	
 	return (
 		<DialogConfirmation callback={onConfirm}>
-			Está a punto de eliminar la cuenta <strong>{parseToAccountString(data.n_account)}</strong>. Al realizarse esta acción las transacciones ya realizadas no serán eliminadas del sistema, tenga en cuenta que esta acción no se puede deshacer.
+			Está a punto de eliminar la cuenta <strong>{parseToAccountString(data.n_account || '')}</strong>. Al realizarse esta acción las transacciones ya realizadas no serán eliminadas del sistema, tenga en cuenta que esta acción no se puede deshacer.
 		</DialogConfirmation>
 	)
 }

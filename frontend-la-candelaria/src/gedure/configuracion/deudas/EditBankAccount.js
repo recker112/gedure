@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
 	Dialog,
@@ -20,7 +20,8 @@ import {
 	InputMaskHook,
 	SelectHook,
 	SwitchHook,
-} from '@form-inputs'
+} from '@form-inputs';
+import { BankList } from '../../../components/funciones/BankList';
 import AnimationDialog from '../../../components/AnimationDialog';
 import LoadingComponent from '../../../components/LoadingComponent';
 
@@ -70,6 +71,10 @@ export default function EditBankAccount({ tableRef }) {
 			dispatch(updateDialogs('editBankAccount', true, false));
 		}
 	}
+	
+	const MenuItemList = BankList.map(useCallback((data, i) => (
+		<MenuItem key={i} value={data.value}>{data.name}</MenuItem>
+	),[]));
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
@@ -158,7 +163,7 @@ export default function EditBankAccount({ tableRef }) {
 								<MenuItem value='ahorro'>
 									Ahorro
 								</MenuItem>
-								<MenuItem value='ahorro'>
+								<MenuItem value='corriente'>
 									Corriente
 								</MenuItem>
 							</SelectHook>
@@ -175,12 +180,7 @@ export default function EditBankAccount({ tableRef }) {
 								<MenuItem value=''>
 									<em>Ninguno</em>
 								</MenuItem>
-								<MenuItem value='0012'>
-									Venezuela
-								</MenuItem>
-								<MenuItem value='1103'>
-									Banesco
-								</MenuItem>
+								{MenuItemList}
 							</SelectHook>
 						</Grid>
 					</Grid>
