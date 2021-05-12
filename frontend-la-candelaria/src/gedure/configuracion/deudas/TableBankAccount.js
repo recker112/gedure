@@ -13,6 +13,7 @@ import useFetch from '../../../hooks/useFetch';
 
 // Components
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
+import { BankListSearch } from '../../../components/funciones/BankList';
 import { parseToAccountString } from '../../../components/funciones/ParseString';
 
 // Redux
@@ -99,7 +100,8 @@ export default function TableBankAccount({ tableRef }) {
 					},
 					{
 						title: 'Banco', 
-						field: 'code'
+						field: 'code',
+						render: (rowData) => BankListSearch[rowData.code] || 'No especificado',
 					},
 				]}
 				actions={[
