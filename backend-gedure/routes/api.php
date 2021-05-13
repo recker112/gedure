@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\InfoBoxController;
 
 //Wallet System
 use App\Http\Controllers\Api\wallet_system\BankAccountController;
+use App\Http\Controllers\Api\wallet_system\BankTransactionController;
 use App\Http\Controllers\Api\wallet_system\DebtLoteController;
 use App\Http\Controllers\Api\wallet_system\DebtController;
 
@@ -287,6 +288,16 @@ Route::group(['prefix' => 'v1'], function () {
 	// Delete massive bank account
 	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
 		->delete('bank-account', [BankAccountController::class, 'destroyMassive']);
+	
+	/*
+	BankTransaction
+	*/
+	// Upload transactions
+	Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_create'])
+		->post('bank-account/{bank_account}/transaction', [
+			BankTransactionController::class, 'upload'
+		])
+		->whereNumber('user');
 	
 	/*
 	Deudas

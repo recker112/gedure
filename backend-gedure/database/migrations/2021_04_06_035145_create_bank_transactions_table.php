@@ -24,6 +24,7 @@ class CreateBankTransactionsTable extends Migration
 			$table->integer('concepto');
 			$table->decimal('amount', 15, 2);
 			$table->char('code', 4);
+			$table->boolean('taked')->default('0');
 			$table->timestamps();
 		});
 	}
