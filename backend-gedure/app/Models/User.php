@@ -53,54 +53,54 @@ class User extends Authenticatable
 		return $this->morphTo()->withTrashed();
 	}
 	
+	public function blocks()
+	{
+		return $this->hasOne('App\Models\Auth\Block');
+	}
+	
 	public function recoveryPassword()
 	{
-		return $this->hasOne('App\Models\RecoveryPassword');
+		return $this->hasOne('App\Models\Auth\RecoveryPassword');
 	}
 	
 	public function alumno()
 	{
-		return $this->hasOne('App\Models\Alumno');
+		return $this->hasOne('App\Models\Gedure\Alumno');
 	}
 	
 	public function boletas()
 	{
-		return $this->hasMany('App\Models\Boleta')->withTrashed();
-	}
-	
-	public function blocks()
-	{
-		return $this->hasOne('App\Models\Block');
+		return $this->hasMany('App\Models\Gedure\Boleta')->withTrashed();
 	}
 	
 	public function logs()
 	{
-		return $this->hasMany('App\Models\Log');
+		return $this->hasMany('App\Models\Gedure\Log');
 	}
 	
 	public function posts()
 	{
-		return $this->hasMany('App\Models\Post');
+		return $this->hasMany('App\Models\Gedure\Post');
 	}
 	
 	public function invitation()
 	{
-		return $this->hasOne('App\Models\Invitation');
+		return $this->hasOne('App\Models\Auth\Invitation');
 	}
 	
 	public function debts()
 	{
-		return $this->hasMany('App\Models\wallet_system\Debt')->withTrashed();
+		return $this->hasMany('App\Models\WalletSystem\Debt')->withTrashed();
 	}
 	
 	public function wallet()
 	{
-		return $this->hasOne('App\Models\wallet_system\Wallet')->withTrashed();
+		return $this->hasOne('App\Models\WalletSystem\Wallet')->withTrashed();
 	}
 	
 	public function transactions()
 	{
-		return $this->hasOne('App\Models\wallet_system\Transaction')->withTrashed();
+		return $this->hasOne('App\Models\WalletSystem\Transaction')->withTrashed();
 	}
 	
 	/*
