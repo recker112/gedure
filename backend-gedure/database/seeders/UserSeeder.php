@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\PersonalDataAdmin;
+use App\Models\Gedure\PersonalDataAdmin;
 use Illuminate\Suport\Facades\DB;
 
 class UserSeeder extends Seeder
