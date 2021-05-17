@@ -22,21 +22,21 @@ class BankAccountController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$bankAccounts = BankAccount::where('n_account', 'like', '%'.$search.'%')
+		$bank_accounts = BankAccount::where('n_account', 'like', '%'.$search.'%')
 			->orWhere('name', 'like', '%'.$search.'%')
 			->offset($page)
 			->limit($perPage)
 			->get();
 		
-		$bankAccounts_count = BankAccount::where('n_account', 'like', '%'.$search.'%')
+		$bank_accounts_count = BankAccount::where('n_account', 'like', '%'.$search.'%')
 			->orWhere('name', 'like', '%'.$search.'%')
 			->orWhere('email', 'like', '%'.$search.'%')
 			->count();
 		
 		return response()->json([
-			'data' => $bankAccounts,
+			'data' => $bank_accounts,
 			'page' => request()->page * 1, 
-			'totalRows' => $bankAccounts_count
+			'totalRows' => $bank_accounts_count
 		], 200);
 	}
 	

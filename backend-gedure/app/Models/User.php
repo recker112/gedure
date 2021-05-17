@@ -100,7 +100,12 @@ class User extends Authenticatable
 	
 	public function transactions()
 	{
-		return $this->hasOne('App\Models\WalletSystem\Transaction')->withTrashed();
+		return $this->hasMany('App\Models\WalletSystem\Transaction')->withTrashed();
+	}
+	
+	public function transactions_taked()
+	{
+		return $this->hasMany('App\Models\WalletSystem\BankTransaction')->withTrashed();
 	}
 	
 	/*

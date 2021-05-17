@@ -18,6 +18,7 @@ use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\WalletSystem\BankAccount;
+use App\Models\WalletSystem\BankTransaction;
 
 class BankTransactionControllerTest extends TestCase
 {
@@ -27,7 +28,46 @@ class BankTransactionControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testUploadTransaction() {
+	public function testIndexTransaction()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$bank_account = BankAccount::factory()->create();
+		$bank_transactions = BankTransaction::factory(10)->create([
+			'user_id' => 1,
+		]);
+		
+		$response = $this->getJson('/api/v1/bank-transaction?per_page=5&page=0');
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'id',
+						'reference',
+						'concepto',
+						'amount',
+						'code',
+						'user' => [
+							'username',
+							'privilegio'
+						]
+					]
+				],
+				'page',
+				'totalRows'
+			])
+			->assertJsonFragment([
+				'totalRows' => 10
+			]);
+	}
+	
+	public function testUploadTransaction()
+	{
 		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
