@@ -77,11 +77,9 @@ class BankAccountController extends Controller
 		}
 	}
 	
-	public function edit(BankAccountRequestEdit $request, $id)
+	public function edit(BankAccountRequestEdit $request, BankAccount $bank_account)
 	{
-		$bankAccount = BankAccount::findOrFail(intVal($id));
-		
-		$bankAccount->update($request->toArray());
+		$bank_account->update($request->toArray());
 		
 		$payload = [
 			'n_account' => $request->n_account,
@@ -99,10 +97,8 @@ class BankAccountController extends Controller
 		], 200);
 	}
 	
-	public function destroy($id, $massive = false)
+	public function destroy(BankAccount $bank_account, $massive = false)
 	{
-		$bank_account = BankAccount::findOrFail(intVal($id));
-		
 		$bank_account->delete();
 		
 		if (!$massive) {
@@ -134,7 +130,7 @@ class BankAccountController extends Controller
 				'name' => $bank_account->name,
 				'account' => $bank_account->n_account,
 			];
-			$this->destroy($bank_account->id, true);
+			$this->destroy($bank_account, true);
 			$i++;
 		}
 		
