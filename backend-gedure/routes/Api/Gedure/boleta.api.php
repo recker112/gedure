@@ -34,16 +34,16 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_upload'])
 
 // Edit boleta
 Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_edit'])
-	->put('boleta/{id}', [BoletaController::class, 'edit']);
+	->put('boleta/{boleta}', [BoletaController::class, 'edit']);
+
+// Download boleta
+Route::middleware(['auth:api'])
+	->get('download/boleta/{boleta}', [BoletaController::class, 'download']);
+
+// Eliminar boleta
+Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
+	->delete('boleta/{boleta}', [BoletaController::class, 'destroy']);
 
 // Massive destroy boleta
 Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
 	->delete('massive/boleta', [BoletaController::class, 'destroyMassive']);
-
-// Download boleta
-Route::middleware(['auth:api'])
-	->get('download/boleta/{id}', [BoletaController::class, 'download']);
-
-// Eliminar boleta
-Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
-	->delete('boleta/{id}', [BoletaController::class, 'destroy']);
