@@ -26,11 +26,11 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_create'])
 
 // Edit bank account
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_edit'])
-	->put('bank-account/{id}', [BankAccountController::class, 'edit']);
+	->put('bank-account/{bank_account}', [BankAccountController::class, 'edit']);
 
 // Delete bank account
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
-	->delete('bank-account/{id}', [BankAccountController::class, 'destroy']);
+	->delete('bank-account/{bank_account}', [BankAccountController::class, 'destroy']);
 
 // Delete massive bank account
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_destroy'])
