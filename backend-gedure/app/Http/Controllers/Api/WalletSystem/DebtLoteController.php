@@ -122,9 +122,8 @@ class DebtLoteController extends Controller
 		], 200);
 	}
 	
-	public function edit(DebtLoteEditRequest $request, $id) {
+	public function edit(DebtLoteEditRequest $request, DebtLote $debt_lote) {
 		$user = $request->user();
-		$debt_lote = DebtLote::findOrFail(intVal($id));
 		
 		$debt_lote->reason = $request->reason;
 		$debt_lote->amount_to_pay = $request->new_price;
@@ -135,7 +134,7 @@ class DebtLoteController extends Controller
 			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
 			foreach($request->selected_users as $userId) {
 				$find_debt = Debt::where('user_id', $userId)
-					->where('debt_lote_id', $id)
+					->where('debt_lote_id', $debt_lote->id)
 					->first();
 				$userExist = User::find(intVal($userId));
 				
@@ -160,10 +159,8 @@ class DebtLoteController extends Controller
 		], 200);
 	}
 	
-	public function delete($id) 
+	public function delete(DebtLote $debt_lote) 
 	{
-		$debt_lote = DebtLote::findOrFail(intVal($id));
-		
 		// NOTA(RECKER): Eliminar si no hay debts en el lote
 		if (!count($debt_lote->debts)) {
 			$debt_lote->delete();

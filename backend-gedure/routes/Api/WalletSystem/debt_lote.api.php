@@ -30,11 +30,11 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_create'])
 
 // Edit debt lote
 Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_edit'])
-	->put('deuda/lote/{id}', [DebtLoteController::class, 'edit']);
+	->put('deuda/lote/{debt_lote}', [DebtLoteController::class, 'edit']);
 
 // Delete debt lote
 Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_delete'])
-	->delete('deuda/lote/{id}', [DebtLoteController::class, 'delete']);
+	->delete('deuda/lote/{debt_lote}', [DebtLoteController::class, 'delete']);
 
 // Deudas users
 Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_edit'])
