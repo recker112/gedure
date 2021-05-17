@@ -25,4 +25,4 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:contact_index'])
 
 // DestroyContacto
 Route::middleware(['auth:api', 'scopes:admin', 'can:contact_destroy'])
-	->delete('contacto/{id}', [ContactoController::class, 'destroy']);
+	->delete('contacto/{contacto}', [ContactoController::class, 'destroy']);
