@@ -168,16 +168,13 @@ class PostController extends Controller
 		], 201);
 	}
 	
-	public function edit(PostRequest $request, $slug)
+	public function edit(PostRequest $request, Post $post)
 	{
 		$user = $request->user();
 		$portada = $request->file('portada');
 		$galery = $request->file('galery');
 		$delete_galery = json_decode($request->delete_galery);
 		$delete_portada = json_decode($request->delete_portada);
-		
-		$post = Post::where('slug', $slug)
-			->firstOrFail();
 		
 		// NOTA(RECKER): Verificar si puede modificar todas las publicaciones
 		$verify = $user->can('posts_others') ? false
@@ -269,12 +266,9 @@ class PostController extends Controller
 		], 200);
 	}
 	
-	public function destroy(Request $resquest, $slug)
+	public function destroy(Request $resquest, Post $post)
 	{
 		$user = $resquest->user();
-		
-		$post = Post::where('slug', $slug)
-			->firstOrFail();
 		
 		// NOTA(RECKER): Verificar si puede modificar todas las publicaciones
 		$verify = $user->can('posts_others') ? false

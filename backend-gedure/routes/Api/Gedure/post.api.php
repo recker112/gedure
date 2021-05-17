@@ -34,11 +34,11 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:posts_create'])
 
 // EditPost
 Route::middleware(['auth:api', 'scopes:admin', 'can:posts_edit'])
-	->put('posts/{slug}', [PostController::class, 'edit']);
+	->put('posts/{post:slug}', [PostController::class, 'edit']);
 
 // DeletePost
 Route::middleware(['auth:api', 'scopes:admin', 'can:posts_destroy'])
-	->delete('posts/{slug}', [PostController::class, 'destroy']);
+	->delete('posts/{post:slug}', [PostController::class, 'destroy']);
 
 // TableAdminPost
 Route::middleware(['auth:api', 'scopes:admin', 'can:posts_index'])
