@@ -77,6 +77,7 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'bank_transaction_index']);
 		Permission::create(['name' => 'bank_transaction_upload']);
 		Permission::create(['name' => 'bank_transaction_asign']);
+		Permission::create(['name' => 'bank_transaction_delete']);
 		
 		/*
 			PERMISSIONS USER

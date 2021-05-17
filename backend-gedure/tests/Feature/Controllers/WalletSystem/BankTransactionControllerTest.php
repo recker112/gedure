@@ -11,7 +11,6 @@ use Illuminate\Http\File;
 
 // Excel
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\BankTransactionImport;
 
 // Passport
 use Laravel\Passport\Passport;
@@ -66,6 +65,35 @@ class BankTransactionControllerTest extends TestCase
 			]);
 	}
 	
+	public function testDelete()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$bank_account = BankAccount::factory()->create();
+		$bank_transaction = BankTransaction::factory()->create();
+		$response = $this->deleteJson("/api/v1/bank-transaction/$bank_transaction->id");
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		// Error 404
+		$response = $this->deleteJson("/api/v1/bank-transaction/99");
+		$response->assertStatus(404);
+		
+		// Error already taked
+		$bank_transaction = BankTransaction::factory()->create([
+			'user_id' => 1,
+		]);
+		$response = $this->deleteJson("/api/v1/bank-transaction/$bank_transaction->id");
+		$response->assertStatus(400);
+	}
+	
 	public function testUploadTransaction()
 	{
 		//$this->withoutExceptionHandling();
@@ -87,7 +115,10 @@ class BankTransactionControllerTest extends TestCase
 			'transactions' => $fileUpload
 		]);
 		
-		$response->assertOk();
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
 		
 		Excel::assertQueued($file->getFileName());
 	}

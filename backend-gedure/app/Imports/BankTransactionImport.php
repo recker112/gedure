@@ -29,7 +29,7 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	{
 		$parse = $row['concepto'];
 		$parse = explode('.', $parse);
-		if (count($parse) < 4) {
+		if (count($parse) < 4 || $row['abono'] === null || $row['referencia'] === null) {
 			return null;
 		}
 		$concepto = explode(' ', $parse[2])[0];
