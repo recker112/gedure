@@ -38,7 +38,7 @@ Route::middleware(['auth:api'])
 
 // Soft delete user
 Route::middleware(['auth:api', 'scopes:admin', 'can:users_delete'])
-	->delete('user/{id}', [UserController::class, 'delete']);
+	->delete('user/{user}', [UserController::class, 'delete']);
 
 // Matricula Upload
 Route::middleware(['auth:api', 'scopes:admin', 'can:users_upload_matricula'])

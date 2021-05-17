@@ -402,10 +402,8 @@ class UserController extends Controller
 		],200);
 	}
 	
-	public function delete($id, $massive = false)
+	public function delete(User $user, $massive = false)
 	{
-		$user = User::findOrFail($id);
-		
 		Storage::disk('user_avatars')->delete($user->avatarOriginal);
 		$curso_id = $user->alumno;
 		$user->delete();
@@ -443,7 +441,7 @@ class UserController extends Controller
 		$i=0;
 		$users_list = [];
 		foreach($users as $user) {
-			$this->delete($user->id, true);
+			$this->delete($user, true);
 			$users_list[] = $user->privilegio.$user->username." ($user->name)";
 			$i++;
 		}
