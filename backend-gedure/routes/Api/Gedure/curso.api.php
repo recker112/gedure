@@ -26,7 +26,7 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_create'])
 
 // Delete curso
 Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_destroy'])
-	->delete('curso/{id}', [CursoController::class, 'destroy']);
+	->delete('curso/{curso}', [CursoController::class, 'destroy']);
 
 // Destroy massive curso
 Route::middleware(['auth:api', 'scopes:admin', 'can:cursos_destroy'])
