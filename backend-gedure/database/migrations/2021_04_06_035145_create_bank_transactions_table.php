@@ -20,11 +20,16 @@ class CreateBankTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
+			$table->foreignId('user_id')
+				->nullable()
+				->constrained()
+				->onUpdate('cascade')
+				->onDelete('cascade');
+			
 			$table->integer('reference');
 			$table->integer('concepto');
 			$table->decimal('amount', 15, 2);
 			$table->char('code', 4);
-			$table->boolean('taked')->default('0');
 			$table->timestamps();
 		});
 	}

@@ -20,7 +20,7 @@ class BankTransaction extends Model
 		'concepto',
 		'amount',
 		'code',
-		'taked',
+		'user_id',
 	];
 	
 	/**
@@ -29,11 +29,21 @@ class BankTransaction extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'created_at', 'updated_at',
+		'created_at', 'updated_at', 'user_id', 'bank_account_id',
 	];
+	
+	public function bank_account()
+	{
+		return $this->belongsTo('App\Models\WalletSystem\BankAccount');
+	}
 	
 	public function transaction()
 	{
 		return $this->morphOne('App\Models\WalletSystem\Transaction', 'transable');
+	}
+	
+	public function user()
+	{
+		return $this->belongsTo('App\Models\User');
 	}
 }

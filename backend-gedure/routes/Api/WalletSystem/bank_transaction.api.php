@@ -17,7 +17,13 @@ use App\Http\Controllers\Api\WalletSystem\BankTransactionController;
 */
 
 // Upload transactions
-Route::middleware(['auth:api', 'scopes:admin', 'can:bank_account_create'])
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_index'])
+	->get('bank-transaction', [
+		BankTransactionController::class, 'index'
+	]);
+
+// Upload transactions
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_upload'])
 	->post('bank-account/{bank_account}/transaction', [
 		BankTransactionController::class, 'upload'
 	])
