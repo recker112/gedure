@@ -18,14 +18,14 @@ use App\Http\Controllers\Api\Auth\InvitationController;
 
 // Invite users
 Route::middleware(['auth:api', 'scopes:admin', 'can:users_create'])
-	->post('invitation/users', [InvitationController::class, 'invite']);
+	->post('invitation', [InvitationController::class, 'invite']);
 
 // Show users
-Route::get('invitation/user/{key}', [InvitationController::class, 'show']);
+Route::get('invitation/{invitation:invitation_key}', [InvitationController::class, 'show']);
 
 // Resend email
 Route::middleware(['auth:api', 'scopes:admin', 'can:users_edit'])
-	->get('invitation/resend-email/{id}', [InvitationController::class, 'resend']);
+	->get('invitation/resend-email/{user}', [InvitationController::class, 'resend']);
 
 // Register user
 Route::post('invitation/register', [InvitationController::class, 'register']);

@@ -42,7 +42,7 @@ class InvitationControllerTest extends TestCase
 			'seccion' => 'A',
 		]);
 		
-		$response = $this->postJson('/api/v1/invitation/users', [
+		$response = $this->postJson('/api/v1/invitation', [
 			'username' => 'luis',
 			'name' => 'Luis Enrrique',
 			'email' => 'test@test.test',
@@ -85,7 +85,7 @@ class InvitationControllerTest extends TestCase
 			'invitation_key' => $key
 		]);
 		
-		$response = $this->getJson('/api/v1/invitation/user/'.$key);
+		$response = $this->getJson('/api/v1/invitation/'.$key);
 		
 		$response->assertOk()
 			->assertJsonStructure([
