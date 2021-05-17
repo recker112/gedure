@@ -55,7 +55,7 @@ export default function CreateUser({ tableRef }) {
 		
 		let url;
 		if (submitData.invitation_mode) {
-			url = 'v1/invitation/users';
+			url = 'v1/invitation';
 		}else {
 			url = 'v1/user';
 		}

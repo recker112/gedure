@@ -90,19 +90,16 @@ class InvitationController extends Controller
 		],201);
 	}
 	
-	public function show($key)
+	public function show(Invitation $invitation)
 	{
 		// Verificar no existencia
-		$key = Invitation::where('invitation_key', $key)->firstOrFail();
-		$user = $key->user;
+		$user = $invitation->user;
 		
 		return response()->json($user->only(['name', 'username']),200);
 	}
 	
-	public function resend($id)
+	public function resend(User $user)
 	{
-		$user = User::findOrFail(intVal($id));
-		
 		if (!$user->email) {
 			return response()->json([
 				'msg' => 'El usuario no posee ningún correo'
