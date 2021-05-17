@@ -161,7 +161,8 @@ class BoletaControllerTest extends TestCase
 							'seccion'
 						],
 					]
-				]
+				],
+				'user'
 			]);
 	}
 	

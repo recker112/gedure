@@ -82,15 +82,13 @@ class BoletaController extends Controller
 	
 	public function show($id)
 	{
-		$boletas = Boleta::where('user_id', $id)
-			->with('curso')
-			->get()
-			->toArray();
-		$user = User::find(intVal($id))->only('name');
+		$user = User::with(['boletas', 'boletas.curso'])->find(intVal($id));
+		$name = $user->name;
+		$boletas = $user->boletas->toArray();
 		
 		return response()->json([
 			'boletas' => $boletas,
-			'user' => $user,
+			'user' => $name,
 		], 200);
 	}
 	
@@ -105,9 +103,8 @@ class BoletaController extends Controller
 		return response()->json($boletas, 200);
 	}
 	
-	public function edit(BoletaEditRequest $request, $id)
+	public function edit(BoletaEditRequest $request, Boleta $boleta)
 	{
-		$boleta = Boleta::findOrFail(intVal($id));
 		$filePath = "users/$boleta->user_id/boletas/{$boleta->curso->code}";
 		$fileName = "lapso_{$boleta->lapso}_{$boleta->curso->code}.pdf";
 		
@@ -145,10 +142,9 @@ class BoletaController extends Controller
 			],200);
 	}
 	
-	public function download($id)
+	public function download(Boleta $boleta)
 	{
 		$user = request()->user();
-		$boleta = Boleta::findOrFail(intVal($id));
 		
 		if (Storage::missing($boleta->boleta)) {
 			return response()->json([
@@ -228,9 +224,8 @@ class BoletaController extends Controller
 		],200);
 	}
 	
-	public function destroy($id, $massive = false)
+	public function destroy(Boleta $boleta, $massive = false)
 	{
-		$boleta = Boleta::findOrFail(intVal($id));
 		$filePath = $boleta->boleta;
 		$boleta_curso = $boleta->curso->curso;
 		$boleta_seccion = $boleta->curso->seccion;
@@ -268,18 +263,19 @@ class BoletaController extends Controller
 	public function destroyMassive(MassiveBoletaRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
-		$users = User::with('boletas', 'alumno')
+		$users = User::with('alumno')
 			->whereIn('id', $ids)
 			->get();
 		
 		$i=0;
 		foreach($users as $user) {
 			$boleta = $user->boletas()
-				 ->where('curso_id', $user->alumno->curso_id)
-				 ->where('lapso', $request->lapso)
-				 ->first();
+				->with('curso', 'user:id,name,username')
+				->where('curso_id', $user->alumno->curso_id)
+				->where('lapso', $request->lapso)
+				->first();
 			
-			$this->destroy($boleta->id, true);
+			$this->destroy($boleta, true);
 			$i++;
 		}
 		
