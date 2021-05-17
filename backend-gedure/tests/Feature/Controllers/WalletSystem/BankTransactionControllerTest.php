@@ -65,6 +65,46 @@ class BankTransactionControllerTest extends TestCase
 			]);
 	}
 	
+	public function testAssign()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$bank_account = BankAccount::factory()->create();
+		$bank_transaction = BankTransaction::factory()->create();
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->wallet()->create([
+			'balance' => 400
+		]);
+		
+		$response = $this->putJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
+			'user_selected' => $user->id,
+		]);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		// Error 404
+		$response = $this->deleteJson("/api/v1/bank-transaction/99");
+		$response->assertStatus(404);
+		
+		// Error already taked
+		$bank_transaction = BankTransaction::factory()->create([
+			'user_id' => 1,
+		]);
+		$response = $this->putJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
+			'user_selected' => $user->id,
+		]);
+		$response->assertStatus(400);
+	}
+	
 	public function testDelete()
 	{
 		//$this->withoutExceptionHandling();

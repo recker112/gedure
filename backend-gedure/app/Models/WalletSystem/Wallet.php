@@ -17,7 +17,7 @@ class Wallet extends Model
 	 */
 	protected $fillable = [
 		'user_id',
-		'money',
+		'balance',
 	];
 	
 	/**
@@ -27,6 +27,15 @@ class Wallet extends Model
 	 */
 	protected $hidden = [
 		'created_at', 'updated_at', 'deleted_at'
+	];
+	
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'balance' => 'float'
 	];
 	
 	public function user()

@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +19,7 @@ class CreateWalletsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->decimal('money', 15, 2)->default(0);
+			$table->decimal('balance', 15, 2)->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 		});

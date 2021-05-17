@@ -22,11 +22,12 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_index'])
 		BankTransactionController::class, 'index'
 	]);
 
-// Delete transactions
-Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_delete'])
-	->delete('bank-transaction/{bank_transaction}', [
-		BankTransactionController::class, 'destroy'
-	]);
+// Assign transactions
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_assign'])
+	->put('bank-transaction/{bank_transaction}/assign', [
+		BankTransactionController::class, 'assign'
+	])
+	->whereNumber('bank_transaction');
 
 // Upload transactions
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_upload'])
@@ -34,3 +35,10 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_upload'])
 		BankTransactionController::class, 'upload'
 	])
 	->whereNumber('user');
+
+// Delete transactions
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_delete'])
+	->delete('bank-transaction/{bank_transaction}', [
+		BankTransactionController::class, 'destroy'
+	])
+	->whereNumber('bank_transaction');

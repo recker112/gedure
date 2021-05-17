@@ -32,14 +32,18 @@ class BankTransaction extends Model
 		'created_at', 'updated_at', 'user_id', 'bank_account_id',
 	];
 	
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'amount' => 'float'
+	];
+	
 	public function bank_account()
 	{
 		return $this->belongsTo('App\Models\WalletSystem\BankAccount');
-	}
-	
-	public function transaction()
-	{
-		return $this->morphOne('App\Models\WalletSystem\Transaction', 'transable');
 	}
 	
 	public function user()

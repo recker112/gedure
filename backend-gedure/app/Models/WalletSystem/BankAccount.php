@@ -36,4 +36,9 @@ class BankAccount extends Model
 	{
 		return $this->hasMany('App\Models\WalletSystem\BankTransaction');
 	}
+	
+	public function transactions()
+	{
+		return $this->morphMany('App\Models\WalletSystem\Transaction', 'transable');
+	}
 }

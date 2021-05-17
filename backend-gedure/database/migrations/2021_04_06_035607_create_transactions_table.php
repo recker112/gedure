@@ -1,4 +1,4 @@
-<?php
+d<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -30,11 +30,10 @@ class CreateTransactionsTable extends Migration
 			
 			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
 			$table->string('transable_type')->nullable()->default(null);
-			
 			$table->enum('type', ['deuda', 'transferencia', 'pago verficado']);
-			$table->text('reason');
+			$table->json('payload');
 			$table->decimal('amount', 15, 2);
-			$table->decimal('remaining', 15, 2);
+			$table->decimal('previous_balance', 15, 2);
 			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible']);
 			$table->boolean('exonerado')->default(0);
 			$table->timestamps();
