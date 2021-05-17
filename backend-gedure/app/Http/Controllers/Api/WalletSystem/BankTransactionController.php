@@ -56,4 +56,19 @@ class BankTransactionController extends Controller
 			'msg' => 'Transacciones en progreso',
 		],200);
 	}
+	
+	public function destroy(BankTransaction $bank_transaction, $massive = false)
+	{
+		if ($bank_transaction->user) {
+			return response()->json([
+				'msg' => 'No puede eliminar una transacciรณn tomada',
+			], 400);
+		}
+		
+		$bank_transaction->delete();
+		
+		return response()->json([
+				'msg' => 'Transacciรณn borrada',
+			], 200);
+	}
 }

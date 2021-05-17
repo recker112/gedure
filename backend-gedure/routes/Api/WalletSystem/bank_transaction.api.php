@@ -16,10 +16,16 @@ use App\Http\Controllers\Api\WalletSystem\BankTransactionController;
 |
 */
 
-// Upload transactions
+// Get transactions
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_index'])
 	->get('bank-transaction', [
 		BankTransactionController::class, 'index'
+	]);
+
+// Delete transactions
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_delete'])
+	->delete('bank-transaction/{bank_transaction}', [
+		BankTransactionController::class, 'destroy'
 	]);
 
 // Upload transactions
