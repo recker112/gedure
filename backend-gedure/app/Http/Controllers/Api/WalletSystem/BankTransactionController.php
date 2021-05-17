@@ -11,8 +11,10 @@ use App\Http\Requests\wallet_system\BankTransactionRequest;
 use App\Imports\BankTransactionImport;
 
 // Models
+use App\Models\User;
 use App\Models\WalletSystem\BankTransaction;
 use App\Models\WalletSystem\BankAccount;
+use App\Models\WalletSystem\Transaction;
 
 class BankTransactionController extends Controller
 {
@@ -39,6 +41,52 @@ class BankTransactionController extends Controller
 			'page' => request()->page * 1, 
 			'totalRows' => $bank_transaction_count
 		], 200);
+	}
+	
+	public function assign(BankTransaction $bank_transaction, Request $request)
+	{
+		if ($bank_transaction->user) {
+			return response()->json([
+				'msg' => 'Esta transferencia ya fue reclamada',
+			],400);
+		}
+		
+		$user = User::with('wallet')
+			->find(intVal($request->user_selected));
+		
+		if (!$user) {
+			response()->json([
+				'msg' => 'El usuario que seleccionรณ no existe'
+			], 400);
+		}
+		
+		// NOTA(RECKER): Asignar transferencia bancaria
+		$bank_transaction->user_id = $user->id;
+		$bank_transaction->save();
+		
+		// NOTA(RECKER): Crear transaccion
+		$payload = [
+			[
+				'reason' => 'Verificación de transferencia bancaria',
+				'amount' => $bank_transaction->amount,
+			]
+		];
+		$transaction = $user->transactions()->create([
+			'type' => 'pago verficado',
+			'payload' => json_encode($payload),
+			'amount' => $bank_transaction->amount,
+			'previous_balance' => $user->wallet->balance,
+			'payment_method' => 'transferencia o depósito bancario',
+		]);
+		$bank_transaction->bank_account->transactions()->save($transaction);
+		
+		// NOTA(RECKER): Agregar saldo
+		$user->wallet->balance += $bank_transaction->amount;
+		$user->save();
+		
+		return response()->json([
+			'msg' => 'Transferencia asignada',
+		],200);
 	}
 	
 	public function upload(BankAccount $bank_account, BankTransactionRequest $request) {

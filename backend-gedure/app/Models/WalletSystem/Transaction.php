@@ -20,9 +20,10 @@ class Transaction extends Model
 		'exonerante_id',
 		'transable_id',
 		'transable_type',
-		'reason',
+		'type',
+		'payload',
 		'amount',
-		'remaining',
+		'previous_balance',
 		'payment_method',
 		'exonerado',
 	];
@@ -33,7 +34,17 @@ class Transaction extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'updated_at', 'deleted_at'
+		'updated_at', 'deleted_at', 'user_id', 'transable_id', 'transable_type'
+	];
+	
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'amount' => 'float',
+		'remaining' => 'float',
 	];
 	
 	public function user()
