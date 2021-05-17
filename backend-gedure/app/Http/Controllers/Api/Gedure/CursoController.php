@@ -83,15 +83,13 @@ class CursoController extends Controller
 		}
 	}
 	
-	public function destroy($id, $massive = false) {
-		$curso = Curso::findOrFail(intVal($id));
-		
+	public function destroy(Curso $curso, $massive = false) {
 		// Eliminar boletas
-		$boletas = Boleta::where('curso_id', intVal($id))->get();
+		$boletas = $curso->boletas;
 		$controller = new BoletaController();
 		$countBoletas = count($boletas);
 		foreach($boletas as $boleta) {
-			$controller->destroy($boleta->id);
+			$controller->destroy($boleta, true);
 		}
 		
 		if (!$massive) {
@@ -117,13 +115,14 @@ class CursoController extends Controller
 	public function destroyMassive(MassiveUsersRequest $request)
 	{
 		$ids = json_decode(urldecode($request->ids));
-		$cursos = Curso::whereIn('id', $ids)->get();
+		$cursos = Curso::with('boletas', 'boletas.curso', 'boletas.user:id,name,username')
+			->whereIn('id', $ids)->get();
 		
 		$i=0;
 		$names=[];
 		foreach($cursos as $curso) {
 			$names[]=$curso->code;
-			$this->destroy($curso->id, true);
+			$this->destroy($curso, true);
 			$i++;
 		}
 		

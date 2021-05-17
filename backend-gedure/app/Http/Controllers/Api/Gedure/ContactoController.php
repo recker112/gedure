@@ -43,9 +43,7 @@ class ContactoController extends Controller
 		], 201);
 	}
 	
-	public function destroy(Request $request, $id) {
-		$contacto = Contacto::findOrFail($id);
-		
+	public function destroy(Request $request, Contacto $contacto) {
 		$payload = [
 			'asunto' => $contacto->asunto,
 			'nombre' => $contacto->nombre,
@@ -53,7 +51,7 @@ class ContactoController extends Controller
 		];
 
 		$request->user()->logs()->create([
-			'action' => "Solicitud de contรกcto eliminada",
+			'action' => "Solicitud de contácto eliminada",
 			'payload' => json_encode($payload),
 			'type' => 'gedure'
 		]);
