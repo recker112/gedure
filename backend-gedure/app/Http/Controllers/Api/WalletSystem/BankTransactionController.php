@@ -65,10 +65,16 @@ class BankTransactionController extends Controller
 		$bank_transaction->save();
 		
 		// NOTA(RECKER): Crear transaccion
+		$bank_account = $bank_transaction->bank_account;
 		$payload = [
-			[
+			'data' => [
 				'reason' => 'Verificación de transferencia bancaria',
 				'amount' => $bank_transaction->amount,
+			],
+			'extra_data' => [
+				'name' => $bank_account->name,
+				'code' => $bank_account->code,
+				'type' => $bank_account->type
 			]
 		];
 		$transaction = $user->transactions()->create([
@@ -78,7 +84,7 @@ class BankTransactionController extends Controller
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'transferencia o depósito bancario',
 		]);
-		$bank_transaction->bank_account->transactions()->save($transaction);
+		$bank_transaction->transaction()->save($transaction);
 		
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;
