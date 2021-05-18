@@ -44,7 +44,8 @@ class Transaction extends Model
 	 */
 	protected $casts = [
 		'amount' => 'float',
-		'remaining' => 'float',
+		'previous_balance' => 'float',
+		'exonerado' => 'integer',
 	];
 	
 	public function user()
