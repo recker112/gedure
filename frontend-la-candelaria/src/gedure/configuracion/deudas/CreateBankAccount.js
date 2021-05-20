@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { 
 	Grid,
-	Typography,
+	Box,
 	Paper,
 	MenuItem,
 	Button,
@@ -61,9 +61,9 @@ export default function CreateBankAccount({ tableRef }) {
 	return (
 		<Grid item xs={12}>
 			<Paper className='paper--padding'>
-				<Typography variant='h6' className='text__bold--semi'>
-					Añadir una cuenta de transferencias
-				</Typography>
+				<Box fontSize='h6.fontSize' mb={2} className='text__bold--semi'>
+					Cargar transacciones bancarias
+				</Box>
 				<form autoComplete='off'>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6} md={4}>

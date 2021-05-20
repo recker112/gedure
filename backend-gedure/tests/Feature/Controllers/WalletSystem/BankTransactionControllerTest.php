@@ -27,6 +27,35 @@ class BankTransactionControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
+	public function testUploadTransaction()
+	{
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Excel::fake();
+		Storage::fake('local');
+		
+		$bank_account = BankAccount::factory()->create();
+		$id = $bank_account->id;
+		
+		$file = new File(base_path('tests/files_required/EstadoCuenta.xlsx'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson("/api/v1/bank-account/$id/transaction", [
+			'transactions' => $fileUpload
+		]);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		Excel::assertQueued($file->getFileName());
+	}
+	
 	public function testIndexTransaction()
 	{
 		//$this->withoutExceptionHandling();
@@ -132,34 +161,5 @@ class BankTransactionControllerTest extends TestCase
 		]);
 		$response = $this->deleteJson("/api/v1/bank-transaction/$bank_transaction->id");
 		$response->assertStatus(400);
-	}
-	
-	public function testUploadTransaction()
-	{
-		//$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::find(1),
-			['admin']
-		);
-		
-		Excel::fake();
-		Storage::fake('local');
-		
-		$bank_account = BankAccount::factory()->create();
-		$id = $bank_account->id;
-		
-		$file = new File(base_path('tests/files_required/EstadoCuenta.xls'));
-		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
-		
-		$response = $this->postJson("/api/v1/bank-account/$id/transaction", [
-			'transactions' => $fileUpload
-		]);
-		
-		$response->assertOk()
-			->assertJsonStructure([
-				'msg',
-			]);
-		
-		Excel::assertQueued($file->getFileName());
 	}
 }

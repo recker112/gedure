@@ -24,7 +24,7 @@ class BankTransactionRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'transactions' => 'required|file|mimes:xls,xlsx,csv,ods',
+			'transactions' => 'required|file|mimes:xlsx,csv,ods',
 		];
 	}
 }

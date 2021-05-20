@@ -144,6 +144,10 @@ const initialState = {
 	createBankAccount: {
 		loading: false,
 		data: {},
+	},
+	uploadBankTransaction: {
+		loading: false,
+		data: {},
 	}
 };
 

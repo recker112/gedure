@@ -3,7 +3,6 @@
 namespace App\Imports;
 
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -19,11 +18,11 @@ use App\Mail\Invitation as MailInvitation;
 
 // Models
 use App\Models\User;
-use App\Models\Curso;
-use App\Models\PersonalDataUser;
+use App\Models\Gedure\Curso;
+use App\Models\Gedure\PersonalDataUser;
 
 // Controllers
-use App\Http\Controllers\Api\CursoController;
+use App\Http\Controllers\Api\Gedure\CursoController;
 
 class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithChunkReading, ShouldQueue
 {

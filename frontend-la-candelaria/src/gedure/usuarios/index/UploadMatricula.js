@@ -99,7 +99,7 @@ export default function UploadMatricula() {
 							})}
 							defaultValue={null}
 							style={{display: 'none'}}
-							accept="application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+							accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
 							type="file"
 						/>
 						<label htmlFor="matricula-upload-file">

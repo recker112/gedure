@@ -14,15 +14,15 @@ export function parseToAccountString(n_account) {
 }
 
 export function parseFloatToMoneyString(float) {
-	let moneyText = float;
+	let moneyText = float.toString();
 	moneyText = moneyText.split('.');
-	let decimals = moneyText[1];
+	let decimals = moneyText[1] || '00';
 	let amount = moneyText[0].split('');
 	moneyText = '';
-
+	
 	for(let i = 1; amount.length >= i; i++) {
 		if (i % 3 === 0) {
-			moneyText = `.${amount[amount.length - i]}${moneyText}`;
+			moneyText = `${amount[i] ? '.' : ''}${amount[amount.length - i]}${moneyText}`;
 		}else {
 			moneyText = `${amount[amount.length - i]}${moneyText}`;
 		}

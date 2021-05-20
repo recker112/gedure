@@ -27,13 +27,14 @@ class BankTransactionController extends Controller
 		
 		$bank_transaction = BankTransaction::with('user')
 			->where('concepto', 'like', '%'.$search.'%')
-			->orWhere('referencie', 'like', '%'.$search.'%')
+			->orWhere('reference', 'like', '%'.$search.'%')
 			->offset($page)
 			->limit($perPage)
+			->orderBy('id', 'desc')
 			->get();
 		
 		$bank_transaction_count = BankTransaction::where('concepto', 'like', '%'.$search.'%')
-			->orWhere('referencie', 'like', '%'.$search.'%')
+			->orWhere('reference', 'like', '%'.$search.'%')
 			->count();
 		
 		return response()->json([
@@ -97,7 +98,6 @@ class BankTransactionController extends Controller
 	
 	public function upload(BankAccount $bank_account, BankTransactionRequest $request) {
 		$file = $request->file('transactions');
-		
 		
 		$result = (new BankTransactionImport($bank_account->id))->queue($file)->allOnQueue('high');
 		
