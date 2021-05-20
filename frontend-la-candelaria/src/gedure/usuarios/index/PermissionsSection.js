@@ -140,11 +140,11 @@ function PermissionsNoSuper(props){
 		},
 		{
 			name: 'contact_index',
-			label: 'Ver solicitudes de contácto',
+			label: 'Ver solicitudes de contรกcto',
 			nested: [
 				{
 					name: 'contact_destroy',
-					label: 'Eliminar solicitudes de contácto',
+					label: 'Eliminar solicitudes de contรกcto',
 				}
 			]
 		},
@@ -221,6 +221,24 @@ function PermissionsNoSuper(props){
 				{
 					name: 'bank_account_destroy',
 					label: 'Eliminar cuenta bancaria'
+				},
+			]
+		},
+		{
+			name: 'bank_transaction_index',
+			label: 'Ver transacciones bancarias',
+			nested: [
+				{
+					name: 'bank_transaction_upload',
+					label: 'Cargar transacciones bancarias'
+				},
+				{
+					name: 'bank_transaction_assign',
+					label: 'Asignar transacción bancaria'
+				},
+				{
+					name: 'bank_transaction_delete',
+					label: 'Eliminar transacción bancaria'
 				},
 			]
 		},
@@ -301,7 +319,7 @@ export default function PermissionsSection(props) {
 				</Grid>
 				<Grid item xs={12}>
 					<DialogContentText>
-						Al activar este permiso el usuario tendrá poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
+						Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrรก usar todo lo actual y lo futuro. Use esta opciรณn con cautela.
 					</DialogContentText>
 				</Grid>
 				<PermissionsNoSuper 

@@ -223,6 +223,10 @@ class LoginController extends Controller
 				'bank_account_create',
 				'bank_account_edit',
 				'bank_account_destroy',
+				'bank_transaction_index',
+				'bank_transaction_upload',
+				'bank_transaction_assign',
+				'bank_transaction_delete',
 			],
 			'V-' => [
 				//

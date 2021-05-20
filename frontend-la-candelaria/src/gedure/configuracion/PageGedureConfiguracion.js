@@ -102,7 +102,7 @@ function Header() {
 }
 
 export default function PageUserIndex() {
-	document.title = 'La Candelaria - Configuraciรณn del sistema';
+	document.title = 'La Candelaria - Configuración del sistema';
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
@@ -123,7 +123,7 @@ export default function PageUserIndex() {
 			path: `${url}/deudas`,
 			component: <Deudas />,
 			exact: true,
-			iCanSee: Boolean(permissions?.gedure?.bank_account_index),
+			iCanSee: Boolean(permissions?.gedure?.bank_account_index) || Boolean(permissions?.gedure?.bank_transaction_index),
 		},
 		{
 			path: `${url}/usuarios-desactivados`,

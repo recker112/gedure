@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 // Models
-use App\Models\wallet_system\BankTransaction;
+use App\Models\WalletSystem\BankTransaction;
 
 class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading
 {
@@ -22,9 +22,6 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 		$this->bank_id = $bank_id;
 	}
 	
-	/**
-	* @param Collection $collection
-	*/
 	public function model(array $row)
 	{
 		$parse = $row['concepto'];

@@ -24,7 +24,7 @@ class MatriculaRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'database' => 'required|file|mimes:xls,xlsx,csv,ods'
+			'database' => 'required|file|mimes:xlsx,csv,ods'
 		];
 	}
 }
