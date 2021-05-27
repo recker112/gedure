@@ -122,6 +122,7 @@ export default function TableBankAccount({ tableRef }) {
 					{
 						icon: () => (<EditIcon />),
 						tooltip: 'Editar',
+						hidden: massiveDelete,
 						disabled: !permissions?.gedure?.bank_account_edit,
 						onClick: (event, rowData) => {
 							dispatch(updateDialogs('editBankAccount', true, false, rowData));

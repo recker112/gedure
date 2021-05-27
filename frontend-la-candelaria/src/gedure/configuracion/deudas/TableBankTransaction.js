@@ -127,6 +127,7 @@ export default function TableBankTransaction({ tableRef }) {
 					{
 						icon: () => (<AssignmentIcon />),
 						tooltip: 'Asignar',
+						hidden: massiveDelete,
 						disabled: !permissions?.gedure?.bank_transaction_assign,
 						onClick: (event, rowData) => {
 							dispatch(updateDialogs('assignBankTransaction', true, false, rowData));

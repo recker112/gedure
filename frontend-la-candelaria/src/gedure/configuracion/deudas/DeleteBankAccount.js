@@ -7,16 +7,30 @@ import DialogConfirmation from '../../../components/DialogConfirmation';
 import { parseToAccountString } from '../../../components/funciones/ParseString';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import { useSelector } from 'react-redux';
 
 export default function DeleteBankAccount({ tableRef }) {
 	const { data } = useSelector((state) => ({
 		data: state.dialogs.deleteConfirmation.data,
 	}));
-	const dispatch = useDispatch();
 	
 	const { fetchData } = useFetch();
+	
+	const onConfirmMassive = async handleClose => {
+		const prepare = {
+			url: `v1/bank-account?ids=${encodeURI(JSON.stringify(data.ids))}`,
+			type: 'delete',
+			message404: 'Las cuentas ya no existen',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
+	}
 	
 	const onConfirm = async handleClose => {
 		const prepare = {
@@ -26,8 +40,6 @@ export default function DeleteBankAccount({ tableRef }) {
 		};
 		
 		const response = await fetchData(prepare);
-
-		dispatch(updateDialogs('deleteConfirmation', false, true));
 		
 		if (response) {
 			tableRef.current && tableRef.current.onQueryChange();
@@ -38,7 +50,7 @@ export default function DeleteBankAccount({ tableRef }) {
 	
 	if (data.deleteMassive) {
 		return (
-			<DialogConfirmation callback={null}>
+			<DialogConfirmation callback={onConfirmMassive}>
 				Está a punto de eliminar <strong>{data.ids?.length}</strong> cuenta(s). Al realizarse esta acción todas las transacciones bancarias registradas de las mismas serán borradas, pero las transacciones internas realizadas dentro del sistema no se verán afectadas. Tenga en cuenta que esta acción no se puede deshacer.
 			</DialogConfirmation>
 		)

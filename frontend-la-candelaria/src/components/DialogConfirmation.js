@@ -15,15 +15,16 @@ import AnimationDialog from './AnimationDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import updateDialogs from '../actions/updateDialogs';
 
-export default function DialogConfirmation({ callback, children }) {
+export default function DialogConfirmation(props) {
+	const { callback, dialog = 'deleteConfirmation', children } = props;
 	const { open, loading } = useSelector((state) => ({
-		open: state.dialogs.deleteConfirmation.open,
-		loading: state.dialogs.deleteConfirmation.loading,
+		open: state.dialogs[dialog].open,
+		loading: state.dialogs[dialog].loading,
 	}));
 	const dispatch = useDispatch();
 
 	const handleClose = () => {
-		dispatch(updateDialogs('deleteConfirmation', false, true));
+		dispatch(updateDialogs(dialog, false, true));
 	};
 
 	return (
@@ -46,7 +47,7 @@ export default function DialogConfirmation({ callback, children }) {
 				<Button
 					disabled={loading}
 					onClick={() => {
-						dispatch(updateDialogs('deleteConfirmation', true, true));
+						dispatch(updateDialogs(dialog, true, true));
 						callback(handleClose);
 					}}
 				>
