@@ -141,7 +141,7 @@ export default function TableBankTransaction({ tableRef }) {
 								const data = {
 									id: rowData.id,
 								}
-								dispatch(updateDialogs('deleteConfirmation', true, false, data));
+								dispatch(updateDialogs('deleteBankTransaction', true, false, data));
 							}else {
 								let i = 0;
 								let newData = [];
@@ -149,7 +149,7 @@ export default function TableBankTransaction({ tableRef }) {
 									newData[i] = value.id;
 									i++;
 								}
-								dispatch(updateDialogs('deleteConfirmation', true, false, {
+								dispatch(updateDialogs('deleteBankTransaction', true, false, {
 									deleteMassive: true,
 									ids: newData
 								}));
