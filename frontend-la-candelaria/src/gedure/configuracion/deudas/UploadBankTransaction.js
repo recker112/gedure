@@ -114,7 +114,7 @@ export default function CreateBankAccount({ tableRef }) {
 								})}
 								defaultValue={null}
 								style={{display: 'none'}}
-								accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/vnd.oasis.opendocument.spreadsheet"
+								accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.csv,application/vnd.oasis.opendocument.spreadsheet"
 								type="file"
 							/>
 							<label htmlFor="upload-transactions">
