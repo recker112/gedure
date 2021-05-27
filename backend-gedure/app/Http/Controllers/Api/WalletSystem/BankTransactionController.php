@@ -69,8 +69,10 @@ class BankTransactionController extends Controller
 		$bank_account = $bank_transaction->bank_account;
 		$payload = [
 			'data' => [
-				'reason' => 'Verificación de transferencia bancaria',
-				'amount' => $bank_transaction->amount,
+				[
+					'reason' => 'Verificación de transferencia bancaria',
+					'amount' => $bank_transaction->amount,
+				]
 			],
 			'extra_data' => [
 				'name' => $bank_account->name,
@@ -92,7 +94,7 @@ class BankTransactionController extends Controller
 		$user->save();
 		
 		return response()->json([
-			'msg' => 'Transferencia asignada',
+			'msg' => 'Transacción asignada',
 		],200);
 	}
 	
@@ -115,14 +117,14 @@ class BankTransactionController extends Controller
 	{
 		if ($bank_transaction->user) {
 			return response()->json([
-				'msg' => 'No puede eliminar una transacciรณn tomada',
+				'msg' => 'No puede eliminar una transacción tomada',
 			], 400);
 		}
 		
 		$bank_transaction->delete();
 		
 		return response()->json([
-				'msg' => 'Transacciรณn borrada',
+				'msg' => 'Transacción borrada',
 			], 200);
 	}
 }

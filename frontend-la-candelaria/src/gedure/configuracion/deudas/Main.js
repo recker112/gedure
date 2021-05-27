@@ -13,6 +13,7 @@ import DeleteBankAccount from './DeleteBankAccount';
 // Bank Transaction
 import UploadBankTransaction from './UploadBankTransaction';
 import TableBankTransaction from './TableBankTransaction';
+import DeleteBankTransaction from './DeleteBankTransaction';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -43,6 +44,7 @@ export default function Main() {
 			{permissions?.gedure?.bank_transaction_index && (
 				<React.Fragment>
 					<TableBankTransaction tableRef={tableRefBankTransaction} />
+					<DeleteBankTransaction tableRef={tableRefBankTransaction} />
 				</React.Fragment>
 			)}
 		</Grid>

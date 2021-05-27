@@ -50,7 +50,12 @@ const initialState = {
 		loading: false,
 		data: {},
 	},
-	editBankAccount : {
+	editBankAccount: {
+		open: false,
+		loading: false,
+		data: {}
+	},
+	deleteBankTransaction: {
 		open: false,
 		loading: false,
 		data: {}
