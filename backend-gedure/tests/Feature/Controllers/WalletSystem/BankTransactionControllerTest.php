@@ -80,6 +80,7 @@ class BankTransactionControllerTest extends TestCase
 						'concepto',
 						'amount',
 						'code',
+						'date',
 						'user' => [
 							'username',
 							'privilegio'

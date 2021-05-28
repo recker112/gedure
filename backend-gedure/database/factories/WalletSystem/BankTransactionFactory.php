@@ -27,6 +27,7 @@ class BankTransactionFactory extends Factory
 			'reference' => $this->faker->numerify('###'),
 			'concepto' => $this->faker->numerify('###'),
 			'amount' => $this->faker->numerify('#######'),
+			'date' => $this->faker->date(),
 			'code' => $this->faker->randomElement(['0102', '0104', '0105']),
 		];
 	}

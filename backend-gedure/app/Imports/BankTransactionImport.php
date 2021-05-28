@@ -24,19 +24,22 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	
 	public function model(array $row)
 	{
-		$parse = $row['concepto'];
+		$parse = trim($row['concepto']);
 		$parse = explode('.', $parse);
 		if (count($parse) < 4 || $row['abono'] === null || $row['referencia'] === null) {
 			return null;
 		}
 		$concepto = explode(' ', $parse[2])[0];
 		$code = str_replace(['(', ')'], "", $parse[3]);
+		$date = explode('/', trim($row['fecha']));
+		$date = "$date[2]-$date[1]-$date[0]";
 
 		return new BankTransaction([
 			'bank_account_id' => $this->bank_id,
 			'reference' => $row['referencia'],
 			'concepto' => $concepto,
 			'amount' => $row['abono'],
+			'date' => $date,
 			'code' => $code,
 		]);
 	}

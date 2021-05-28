@@ -34,7 +34,7 @@ class CreateTransactionsTable extends Migration
 			$table->json('payload');
 			$table->decimal('amount', 15, 2);
 			$table->decimal('previous_balance', 15, 2);
-			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible']);
+			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible', 'Otros']);
 			$table->boolean('exonerado')->default(0);
 			$table->timestamps();
 			$table->softDeletes();
