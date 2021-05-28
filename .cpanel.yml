@@ -6,3 +6,4 @@ deployment:
 		- /bin/mv -f backend-gedure/ ./
 		- /bin/rm -Rf backend-gedure
 		- /bin/mv -f public/ $DEPLOYPATH
+		- composer install
