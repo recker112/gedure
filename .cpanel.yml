@@ -1,9 +1,9 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=../public_html/
-    - /bin/mv -f backend-gedure/* ../laravel
-    - /bin/rm -Rf ../public_html/static
+    - export DEPLOYPATH=../../public_html/
+    - /bin/mv -f backend-gedure/* ../../laravel
+    - /bin/rm -Rf ../../public_html/static
     - /bin/mv -f backend-gedure/public/* $DEPLOYPATH
-    - cd ../laravel
+    - cd ../../laravel
     - composer install
