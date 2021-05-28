@@ -28,6 +28,7 @@ class BankTransactionController extends Controller
 		$bank_transaction = BankTransaction::with('user')
 			->where('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
+			->orWhere('date', 'like', '%'.$search.'%')
 			->offset($page)
 			->limit($perPage)
 			->orderBy('id', 'desc')
@@ -57,7 +58,7 @@ class BankTransactionController extends Controller
 		
 		if (!$user) {
 			response()->json([
-				'msg' => 'El usuario que seleccionรณ no existe'
+				'msg' => 'El usuario que seleccionó no existe'
 			], 400);
 		}
 		

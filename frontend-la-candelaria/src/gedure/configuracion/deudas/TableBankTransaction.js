@@ -94,6 +94,10 @@ export default function TableBankTransaction({ tableRef }) {
 						field: 'concepto'
 					},
 					{
+						title: 'Fecha de transferencia', 
+						field: 'date'
+					},
+					{
 						title: 'Monto', 
 						field: 'amount',
 						render: (rowData) => parseFloatToMoneyString(rowData.amount),

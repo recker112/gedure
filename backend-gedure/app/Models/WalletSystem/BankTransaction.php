@@ -19,6 +19,7 @@ class BankTransaction extends Model
 		'reference',
 		'concepto',
 		'amount',
+		'date',
 		'code',
 		'user_id',
 	];
@@ -38,7 +39,8 @@ class BankTransaction extends Model
 	 * @var array
 	 */
 	protected $casts = [
-		'amount' => 'float'
+		'amount' => 'float',
+		'date' => 'date:d-m-Y'
 	];
 	
 	public function bank_account()
