@@ -6,4 +6,4 @@ deployment:
     - /bin/rm -Rf ../../public_html/static
     - /bin/cp -Rf backend-gedure/public/* $DEPLOYPATH
     - cd ../../laravel
-    - composer install
+    - /opt/cpanel/composer/bin/composer install
