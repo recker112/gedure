@@ -7,3 +7,4 @@ deployment:
     - /bin/cp -Rf backend-gedure/public/* $DEPLOYPATH
     - cd ../../laravel
     - /opt/cpanel/composer/bin/composer install
+    - /bin/php artisan migrate --seed
