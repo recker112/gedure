@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=../public_html/
+    - /bin/rm -Rf frontend-la-candelaria
+		- /bin/mv -f backend-gedure/ ./
+		- /bin/rm -Rf backend-gedure
+		- /bin/mv -f public/ $DEPLOYPATH
