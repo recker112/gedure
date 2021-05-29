@@ -33,6 +33,15 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 		$code = str_replace(['(', ')'], "", $parse[3]);
 		$date = explode('/', trim($row['fecha']));
 		$date = "$date[2]-$date[1]-$date[0]";
+		
+		$find = BankTransaction::where('date', $date)
+			->where('concepto', $concepto)
+			->where('reference', $row['referencia'])
+			->first();
+			
+		if($find) {
+			return null;
+		}
 
 		return new BankTransaction([
 			'bank_account_id' => $this->bank_id,
