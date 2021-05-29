@@ -96,6 +96,23 @@ class BankTransactionController extends Controller
 		$user->wallet->balance += $bank_transaction->amount;
 		$user->wallet->save();
 		
+		$payload = [
+			'id' => $bank_transaction->id,
+			'concepto' => $bank_transaction->concepto,
+			'reference' => $bank_transaction->reference,
+			'amount' => $bank_transaction->amount,
+			'code' => $bank_transaction->code,
+			'date' => $bank_transaction->date,
+			'username' => $user->username,
+			'privilegio' => $user->privilegio,
+		];
+
+		$request->user()->logs()->create([
+			'action' => 'Transacción bancaria asignada manualmente',
+			'payload' => json_encode($payload),
+			'type' => 'gedure',
+		]);
+		
 		return response()->json([
 			'msg' => 'Transacción asignada',
 		],200);
@@ -157,22 +174,25 @@ class BankTransactionController extends Controller
 		$i=0;
 		$transactions=[];
 		foreach($bank_transactions as $bank_transaction) {
-			$transactions[$i] = [
-				'id' => $bank_transaction->id,
-				'concepto' => $bank_transaction->concepto,
-				'reference' => $bank_transaction->reference,
-				'amount' => $bank_transaction->amount,
-				'code' => $bank_transaction->code,
-				'date' => $bank_transaction->date,
-			];
 			$this->destroy($bank_transaction, true);
-			$i++;
+			
+			if (!$bank_transaction->exists) {
+				$transactions[$i] = [
+					'id' => $bank_transaction->id,
+					'concepto' => $bank_transaction->concepto,
+					'reference' => $bank_transaction->reference,
+					'amount' => $bank_transaction->amount,
+					'code' => $bank_transaction->code,
+					'date' => $bank_transaction->date,
+				];
+				$i++;
+			}
 		}
 		
 		if (!$i) {
 			return response()->json([
 				'msg' => "No se ha eliminado ninguna transacción bancaria",
-			], 200);
+			], 400);
 		}
 		
 		$payload = [

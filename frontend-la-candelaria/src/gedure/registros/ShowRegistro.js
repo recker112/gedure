@@ -334,6 +334,23 @@ export default function ShowRegistros() {
 					))}
 				</DialogContentText>
 			);
+		}else if (data.action === 'Transacción bancaria asignada manualmente') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) asignó manualmente al usuario <strong>{`${data.payload.privilegio}${data.payload.username}`}</strong> la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenia los siguientes datos:
+					<br />
+					<br />
+					<strong>Concepto:</strong> {data.payload.concepto}
+					<br />
+					<strong>Referencia:</strong> {data.payload.reference}
+					<br />
+					<strong>Monto:</strong> {data.payload.amount}
+					<br />
+					<strong>Banco:</strong> {data.payload.code}
+					<br />
+					<strong>Fecha de la transacción:</strong> {data.payload.date}
+				</DialogContentText>
+			);
 		}else if (data.action === 'Transacción bancaria eliminada') {
 			return (
 				<DialogContentText>
@@ -354,7 +371,7 @@ export default function ShowRegistros() {
 		}else if (data.action === 'Transacciones bancarias eliminadas masivamente') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.count}</strong> transacciones bancarias, las cuales fueron los siguientes:
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.count}</strong> transaccion(es) bancaria(s), las cuales fueron los siguientes:
 					{data.payload.transactions?.map((data, i) => (
 						<React.Fragment>
 							<br />
