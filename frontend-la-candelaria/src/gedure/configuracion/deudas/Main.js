@@ -6,14 +6,15 @@ import {
 
 // Components
 // Bank Account
-import CreateBankAccount from './CreateBankAccount';
-import TableBankAccount from './TableBankAccount';
-import EditBankAccount from './EditBankAccount';
-import DeleteBankAccount from './DeleteBankAccount';
+import CreateBankAccount from './BankAccount/CreateBankAccount';
+import TableBankAccount from './BankAccount/TableBankAccount';
+import EditBankAccount from './BankAccount/EditBankAccount';
+import DeleteBankAccount from './BankAccount/DeleteBankAccount';
 // Bank Transaction
-import UploadBankTransaction from './UploadBankTransaction';
-import TableBankTransaction from './TableBankTransaction';
-import DeleteBankTransaction from './DeleteBankTransaction';
+import UploadBankTransaction from './BankTransaction/UploadBankTransaction';
+import TableBankTransaction from './BankTransaction/TableBankTransaction';
+import AssignBankTransaction from './BankTransaction/AssignBankTransaction';
+import DeleteBankTransaction from './BankTransaction/DeleteBankTransaction';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -44,6 +45,7 @@ export default function Main() {
 			{permissions?.gedure?.bank_transaction_index && (
 				<React.Fragment>
 					<TableBankTransaction tableRef={tableRefBankTransaction} />
+					<AssignBankTransaction tableRef={tableRefBankTransaction} />
 					<DeleteBankTransaction tableRef={tableRefBankTransaction} />
 				</React.Fragment>
 			)}

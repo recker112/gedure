@@ -51,7 +51,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 	
 	const asyncRequestUsers = async search => {
 		const prepare = {
-			url: `v1/find/user?search=${encodeURI(search)}&privilegio=V-`,
+			url: `v1/find/users?search=${encodeURI(search)}&privilegio=V-`,
 			type: 'get',
 			messageToFinish: false,
 		};
@@ -147,7 +147,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 								label='Deuda para:'
 								control={control}
 								disabled={loading}
-								helperText='Seleccione a los usuarios que recibirán esta deuda'
+								helperText='Seleccione a los usuarios que recibirรกn esta deuda'
 								fullWidth
 							>
 								<MenuItem value=''><em>Ninguno</em></MenuItem>
@@ -199,7 +199,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 				<SwitchHook
 					control={control}
 					name='create_more'
-					label="Crear más de uno"
+					label="Crear mรกs de uno"
 					labelPlacement="start"
 					color="primary"
 					disabled={loading}

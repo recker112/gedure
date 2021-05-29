@@ -55,6 +55,11 @@ const initialState = {
 		loading: false,
 		data: {}
 	},
+	assignBankTransaction: {
+		open: false,
+		loading: false,
+		data: {}
+	},
 	deleteBankTransaction: {
 		open: false,
 		loading: false,

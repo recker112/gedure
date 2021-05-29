@@ -5,22 +5,22 @@ import {
 } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import GroupIcon from '@material-ui/icons/Group';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import EditIcon from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-import useFetch from '../../../hooks/useFetch';
+import useFetch from '../../../../hooks/useFetch';
 
 // Components
-import { tableIcons, tableLocation } from '../../../components/TableConfig';
-import { BankListSearch } from '../../../components/funciones/BankList';
-import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
+import { tableIcons, tableLocation } from '../../../../components/TableConfig';
+import { BankListSearch } from '../../../../components/funciones/BankList';
+import { parseToAccountString } from '../../../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import updateDialogs from '../../../../actions/updateDialogs';
 
-export default function TableBankTransaction({ tableRef }) {
+export default function TableBankAccount({ tableRef }) {
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
 	}));
@@ -36,7 +36,7 @@ export default function TableBankTransaction({ tableRef }) {
 	
 	const onFetch = useCallback(async (query) => {
 		const prepare = {
-			url: `v1/bank-transaction?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
+			url: `v1/bank-account?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(
 				query.search
 			)}`,
 			type: 'get',
@@ -75,42 +75,33 @@ export default function TableBankTransaction({ tableRef }) {
 		<Grid item xs={12}>
 			<MaterialTable
 				tableRef={tableRef}
-				title="Transacciones bancarias" 
+				title="Cuentas bancarias" 
 				icons={tableIcons}
 				localization={tableLocation}
 				data={onFetch}
 				onChangeRowsPerPage={handleChange}
 				columns={[
 					{
-						title: 'Id',
-						field: 'id'
+						title: 'N° cuenta',
+						field: 'n_account',
+						render: rowData => parseToAccountString(rowData.n_account)
 					},
 					{
-						title: 'Referencia',
-						field: 'reference',
+						title: 'Nombre',
+						field: 'name',
 					},
 					{
-						title: 'Concepto', 
-						field: 'concepto'
+						title: 'Correo', 
+						field: 'email'
 					},
 					{
-						title: 'Fecha de transferencia', 
-						field: 'date'
-					},
-					{
-						title: 'Monto', 
-						field: 'amount',
-						render: (rowData) => parseFloatToMoneyString(rowData.amount),
+						title: 'Tipo', 
+						field: 'type'
 					},
 					{
 						title: 'Banco', 
 						field: 'code',
 						render: (rowData) => BankListSearch[rowData.code] || 'No especificado',
-					},
-					{
-						title: 'Reclamado por', 
-						field: 'taked_by',
-						render: (rowData) => rowData.user?.privilegio+rowData.user?.username || 'No reclamado',
 					},
 				]}
 				actions={[
@@ -129,24 +120,25 @@ export default function TableBankTransaction({ tableRef }) {
 						},
 					},
 					{
-						icon: () => (<AssignmentIcon />),
-						tooltip: 'Asignar',
+						icon: () => (<EditIcon />),
+						tooltip: 'Editar',
 						hidden: massiveDelete,
-						disabled: !permissions?.gedure?.bank_transaction_assign,
+						disabled: !permissions?.gedure?.bank_account_edit,
 						onClick: (event, rowData) => {
-							dispatch(updateDialogs('assignBankTransaction', true, false, rowData));
+							dispatch(updateDialogs('editBankAccount', true, false, rowData));
 						}
 					},
 					{
 						icon: () => (<Delete />),
-						tooltip: 'Eliminar',
-						disabled: !permissions?.gedure?.bank_transaction_delete,
+						tooltip: 'Eliminar curso',
+						disabled: !permissions?.gedure?.bank_account_destroy,
 						onClick: (event, rowData) => {
 							if (!massiveDelete) {
 								const data = {
 									id: rowData.id,
+									n_account: rowData.n_account,
 								}
-								dispatch(updateDialogs('deleteBankTransaction', true, false, data));
+								dispatch(updateDialogs('deleteConfirmation', true, false, data));
 							}else {
 								let i = 0;
 								let newData = [];
@@ -154,7 +146,7 @@ export default function TableBankTransaction({ tableRef }) {
 									newData[i] = value.id;
 									i++;
 								}
-								dispatch(updateDialogs('deleteBankTransaction', true, false, {
+								dispatch(updateDialogs('deleteConfirmation', true, false, {
 									deleteMassive: true,
 									ids: newData
 								}));

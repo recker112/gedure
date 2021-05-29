@@ -12,7 +12,7 @@ import {
 
 import { useForm } from "react-hook-form";
 
-import useFetch from '../../../hooks/useFetch';
+import useFetch from '../../../../hooks/useFetch';
 
 // Components
 import {
@@ -21,13 +21,13 @@ import {
 	SelectHook,
 	SwitchHook,
 } from '@form-inputs';
-import { BankList } from '../../../components/funciones/BankList';
-import AnimationDialog from '../../../components/AnimationDialog';
-import LoadingComponent from '../../../components/LoadingComponent';
+import { BankList } from '../../../../components/funciones/BankList';
+import AnimationDialog from '../../../../components/AnimationDialog';
+import LoadingComponent from '../../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import updateDialogs from '../../../../actions/updateDialogs';
 
 export default function EditBankAccount({ tableRef }) {
 	const { open, loading, data } = useSelector((state) => ({

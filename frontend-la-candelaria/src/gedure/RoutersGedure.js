@@ -6,17 +6,19 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 // Redux
 import { useSelector } from 'react-redux';
 
-// Routers
-const PageIndex = lazy(() => import('./index/PageIndex'));
-//const PageRegistros = lazy(() => import('./registros/PageRegistros'));
+// Routers User
 //const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
+
+// Routers Admin
+const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 //const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
-const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
+//const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
 //const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
-const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
+//const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
 //const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
 
 export default function RoutersGedure() {
@@ -28,12 +30,12 @@ export default function RoutersGedure() {
 	}));
 	
 	const listA = useMemo(() => [
-		/*{
+		{
 			path: `${url}/registros`,
 			component: <PageRegistros />,
 			exact: true,
 			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
-		},*/
+		},
 		{
 			path: `${url}/usuarios`,
 			component: <RoutersUsers />,
@@ -52,12 +54,12 @@ export default function RoutersGedure() {
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
 		},*/
-		{
+		/*{
 			path: `${url}/lotes-deudas`,
 			component: <RoutersDeudas />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.debt_lote_index),
-		},
+		},*/
 		/*{
 			path: `${url}/soli-contacto`,
 			component: <PageSoliContacto />,
@@ -112,7 +114,7 @@ export default function RoutersGedure() {
 			})}
 
 			<Route path={`${url}/cuenta`}>
-				<PageCuenta />
+				{/*<PageCuenta />*/}
 			</Route>
 
 			<Route path={`${url}/preguntas-frecuentes`}>

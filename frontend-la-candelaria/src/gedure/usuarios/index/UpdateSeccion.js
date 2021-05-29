@@ -82,7 +82,7 @@ export default function UpdateSeccion({ tableRef }) {
 	
 	return (
 		<Dialog open={open} onClose={handleClose} TransitionComponent={AnimationDialog}>
-			<DialogTitle>Cambiar sección</DialogTitle>
+			<DialogTitle>Cambiar secciรณn</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid container alignItems='center' item xs={12}>
@@ -103,7 +103,7 @@ export default function UpdateSeccion({ tableRef }) {
 					<Grid item xs={12}  sm={6}>
 						<SelectHook
 							name='seccion'
-							label='Sección'
+							label='Secciรณn'
 							control={control}
 							disabled={loading}
 							fullWidth
