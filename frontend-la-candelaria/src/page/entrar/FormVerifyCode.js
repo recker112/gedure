@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ResendEmail(props) {
 	const { loading, handleSendEmail } = props;
-	const [wait, setWait] = useState(240);
+	const [wait, setWait] = useState(120);
 	let divisor_for_minutes = wait % (60 * 60);
 	let minutes = Math.floor(divisor_for_minutes / 60);
 	let divisor_for_seconds = divisor_for_minutes % 60;
@@ -56,7 +56,7 @@ function ResendEmail(props) {
 		if (wait) {
 			timer = setTimeout(waitTwoMinutes,1000);
 		}else if (loading) {
-			setWait(240);
+			setWait(120);
 		}
 		
 		return ()=> clearTimeout(timer);

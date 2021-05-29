@@ -67,7 +67,7 @@ function Aside({ step }) {
 							<Fade in={true}>
 								<Grid item xs={12}>
 									<Typography align='center' className='text__bold--big text__opacity--semi' variant='h6'>
-										Enviaremos un código de verificación a su correo electrónico, es posible que el correo pueda tardar hasta 5 minutos en ser enviado.
+										Enviaremos un código de verificación a su correo electrónico, es posible que el correo pueda tardar hasta 2 minutos en ser enviado.
 									</Typography>
 								</Grid>
 							</Fade>
