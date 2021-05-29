@@ -62,7 +62,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->getJson('/api/v1/find/user');
+		$response = $this->getJson('/api/v1/find/users');
 		
 		$response->assertOk()
 			->assertJsonStructure([

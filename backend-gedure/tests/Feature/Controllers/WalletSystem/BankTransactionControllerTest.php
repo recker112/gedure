@@ -112,7 +112,7 @@ class BankTransactionControllerTest extends TestCase
 			'balance' => 400
 		]);
 		
-		$response = $this->putJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
+		$response = $this->postJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
 			'user_selected' => $user->id,
 		]);
 		
@@ -122,14 +122,14 @@ class BankTransactionControllerTest extends TestCase
 			]);
 		
 		// Error 404
-		$response = $this->deleteJson("/api/v1/bank-transaction/99");
+		$response = $this->postJson("/api/v1/bank-transaction/99/assign");
 		$response->assertStatus(404);
 		
 		// Error already taked
 		$bank_transaction = BankTransaction::factory()->create([
 			'user_id' => 1,
 		]);
-		$response = $this->putJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
+		$response = $this->postJson("/api/v1/bank-transaction/$bank_transaction->id/assign", [
 			'user_selected' => $user->id,
 		]);
 		$response->assertStatus(400);
@@ -162,5 +162,33 @@ class BankTransactionControllerTest extends TestCase
 		]);
 		$response = $this->deleteJson("/api/v1/bank-transaction/$bank_transaction->id");
 		$response->assertStatus(400);
+	}
+	
+	public function testDeleteMassive()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+
+		$bank_transactions = BankTransaction::factory(4)->create();
+		
+		$ids = json_encode([1,3,4]);
+
+		$response = $this->deleteJson('/api/v1/bank-transaction?ids='.urlencode($ids));
+
+		$response->assertOk()
+		->assertJsonStructure([
+			'msg'
+		]);
+
+		$this->assertDatabaseMissing('bank_transactions', [
+			'reference' => $bank_transactions[0]->reference,
+		]);
+		
+		// Error 422
+		$response = $this->deleteJson("/api/v1/bank-transaction");
+		$response->assertStatus(422);
 	}
 }

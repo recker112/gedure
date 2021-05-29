@@ -1,10 +1,10 @@
 import React from 'react';
 
-import useFetch from '../../../hooks/useFetch';
+import useFetch from '../../../../hooks/useFetch';
 
 // Components
-import DialogConfirmation from '../../../components/DialogConfirmation';
-import { parseToAccountString } from '../../../components/funciones/ParseString';
+import DialogConfirmation from '../../../../components/DialogConfirmation';
+import { parseToAccountString } from '../../../../components/funciones/ParseString';
 
 // Redux
 import { useSelector } from 'react-redux';

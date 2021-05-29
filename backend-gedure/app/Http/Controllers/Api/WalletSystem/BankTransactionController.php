@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 use App\Http\Requests\wallet_system\BankTransactionRequest;
+use App\Http\Requests\wallet_system\BankTransactionAssignRequest;
+use App\Http\Requests\MassiveUsersRequest;
 
 // Excel
 use App\Imports\BankTransactionImport;
@@ -45,7 +47,7 @@ class BankTransactionController extends Controller
 		], 200);
 	}
 	
-	public function assign(BankTransaction $bank_transaction, Request $request)
+	public function assign(BankTransaction $bank_transaction, BankTransactionAssignRequest $request)
 	{
 		if ($bank_transaction->user) {
 			return response()->json([
@@ -92,7 +94,7 @@ class BankTransactionController extends Controller
 		
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;
-		$user->save();
+		$user->wallet->save();
 		
 		return response()->json([
 			'msg' => 'Transacción asignada',
@@ -118,8 +120,25 @@ class BankTransactionController extends Controller
 	{
 		if ($bank_transaction->user) {
 			return response()->json([
-				'msg' => 'No puede eliminar una transacción tomada',
+				'msg' => 'No puede eliminar una transacción reclamada',
 			], 400);
+		}
+		
+		if (!$massive) {
+			$payload = [
+				'id' => $bank_transaction->id,
+				'concepto' => $bank_transaction->concepto,
+				'reference' => $bank_transaction->reference,
+				'amount' => $bank_transaction->amount,
+				'code' => $bank_transaction->code,
+				'date' => $bank_transaction->date,
+			];
+
+			request()->user()->logs()->create([
+				'action' => 'Transacción bancaria eliminada',
+				'payload' => json_encode($payload),
+				'type' => 'gedure',
+			]);
 		}
 		
 		$bank_transaction->delete();
@@ -127,5 +146,48 @@ class BankTransactionController extends Controller
 		return response()->json([
 				'msg' => 'Transacción borrada',
 			], 200);
+	}
+	
+	public function destroyMassive(MassiveUsersRequest $request)
+	{
+		$ids = json_decode(urldecode($request->ids));
+		$bank_transactions = BankTransaction::whereIn('id', $ids)->get();
+		
+		
+		$i=0;
+		$transactions=[];
+		foreach($bank_transactions as $bank_transaction) {
+			$transactions[$i] = [
+				'id' => $bank_transaction->id,
+				'concepto' => $bank_transaction->concepto,
+				'reference' => $bank_transaction->reference,
+				'amount' => $bank_transaction->amount,
+				'code' => $bank_transaction->code,
+				'date' => $bank_transaction->date,
+			];
+			$this->destroy($bank_transaction, true);
+			$i++;
+		}
+		
+		if (!$i) {
+			return response()->json([
+				'msg' => "No se ha eliminado ninguna transacción bancaria",
+			], 200);
+		}
+		
+		$payload = [
+			'count' => $i,
+			'transactions' => $transactions,
+		];
+		
+		$request->user()->logs()->create([
+				'action' => 'Transacciones bancarias eliminadas masivamente',
+				'payload' => json_encode($payload),
+				'type' => 'gedure',
+			]);
+		
+		return response()->json([
+			'msg' => "$i transacciones bancarias eliminadas",
+		], 200);
 	}
 }

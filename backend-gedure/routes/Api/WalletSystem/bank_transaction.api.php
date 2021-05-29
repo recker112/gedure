@@ -24,7 +24,7 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_index'])
 
 // Assign transactions
 Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_assign'])
-	->put('bank-transaction/{bank_transaction}/assign', [
+	->post('bank-transaction/{bank_transaction}/assign', [
 		BankTransactionController::class, 'assign'
 	])
 	->whereNumber('bank_transaction');
@@ -42,3 +42,9 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_delete'])
 		BankTransactionController::class, 'destroy'
 	])
 	->whereNumber('bank_transaction');
+
+// Delete Massive transactions
+Route::middleware(['auth:api', 'scopes:admin', 'can:bank_transaction_delete'])
+	->delete('bank-transaction', [
+		BankTransactionController::class, 'destroyMassive'
+	]);

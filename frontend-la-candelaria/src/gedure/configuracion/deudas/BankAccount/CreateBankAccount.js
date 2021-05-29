@@ -10,7 +10,7 @@ import {
 
 import { useForm } from "react-hook-form";
 
-import useFetch from '../../../hooks/useFetch';
+import useFetch from '../../../../hooks/useFetch';
 
 // Components
 import {
@@ -18,12 +18,12 @@ import {
 	InputMaskHook,
 	SelectHook,
 } from '@form-inputs';
-import { BankList } from '../../../components/funciones/BankList';
-import LoadingComponent from '../../../components/LoadingComponent';
+import { BankList } from '../../../../components/funciones/BankList';
+import LoadingComponent from '../../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../../actions/updateForms';
+import updateForms from '../../../../actions/updateForms';
 
 export default function CreateBankAccount({ tableRef }) {
 	const { loading } = useSelector((state) => ({

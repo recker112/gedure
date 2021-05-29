@@ -42,7 +42,7 @@ export function PersonalRepresentanteUbiForm(props) {
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
 					<Typography variant='h6' component='span' className='text__bold--semi'>
-						Ubicación del representante
+						Ubicaciรณn del representante
 					</Typography>
 					<Box mt={1}>
 						<Divider />
@@ -67,7 +67,7 @@ export function PersonalRepresentanteUbiForm(props) {
 				<Grid item xs={12}>
 					<AutoCompleteHook
 						name='personalData.repre_ubi_municipio'
-						label='Estado'
+						label='Municipio'
 						options={
 							watch('personalData.repre_ubi_estado', null) !== null
 							? buscarMunicipioVE(watch('personalData.repre_ubi_estado'))
@@ -87,7 +87,7 @@ export function PersonalRepresentanteUbiForm(props) {
 				<Grid item xs={12}>
 					<AutoCompleteHook
 						name='personalData.repre_ubi_parroquia'
-						label='Estado'
+						label='Parroquia'
 						options={
 							(watch('personalData.repre_ubi_municipio', null) !== null &&
 								watch('personalData.repre_ubi_estado', null) !== null) ? buscarParroquiaVE(watch('personalData.repre_ubi_estado'),watch('personalData.repre_ubi_municipio'))

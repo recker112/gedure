@@ -39,8 +39,7 @@ class BankTransaction extends Model
 	 * @var array
 	 */
 	protected $casts = [
-		'amount' => 'float',
-		'date' => 'date:d-m-Y'
+		'amount' => 'float'
 	];
 	
 	public function bank_account()
