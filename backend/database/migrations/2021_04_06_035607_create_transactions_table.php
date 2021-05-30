@@ -28,6 +28,8 @@ class CreateTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('set null');
 			
+			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
+			$table->string('transable_type')->nullable()->default(null);
 			$table->enum('type', ['deuda', 'transferencia', 'pago verficado', 'manual']);
 			$table->json('payload');
 			$table->decimal('amount', 15, 2);

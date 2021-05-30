@@ -43,6 +43,11 @@ class Debt extends Model
 		return $this->belongsTo('App\Models\WalletSystem\DebtLote');
 	}
 	
+	public function transaction()
+	{
+		return $this->morphOne('App\Models\WalletSystem\Transaction', 'transable');
+	}
+	
 	/*
 	TIMEZONES
 	*/

@@ -91,10 +91,12 @@ class BankTransactionController extends Controller
 			'payment_method' => 'transferencia o depósito bancario',
 		]);
 		
+		// NOTA(RECKER): Guardar relación polimorfica
+		$bank_transaction->transaction()->save($transaction);
+		
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;
 		$user->wallet->save();
-		
 		$payload = [
 			'id' => $bank_transaction->id,
 			'concepto' => $bank_transaction->concepto,
