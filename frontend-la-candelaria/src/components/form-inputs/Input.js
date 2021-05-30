@@ -98,7 +98,7 @@ export function InputPasswordHook(props) {
 
 
 function NumberFormatMoney(props) {
-	const { inputRef, onChange, format, ...other } = props;
+	const { inputRef, onChange, format, negative, ...other } = props;
 
 	const MAX_VAL = 999999999999;
 	const withValueLimit = (inputObj) => {
@@ -118,7 +118,7 @@ function NumberFormatMoney(props) {
 			isAllowed={withValueLimit}
 			decimalScale={2}
 			decimalSeparator=','
-			allowNegative={false}
+			allowNegative={negative}
 		/>
 	);
 }
@@ -148,6 +148,7 @@ export function InputMaskHook(props) {
 		format='',
 		helperText = '', 
 		defaultValue = '',
+		negative = false,
 		...rest 
 	} = props;
 	
@@ -179,6 +180,7 @@ export function InputMaskHook(props) {
 			}}
 			inputProps={{
 				format: format,
+				negative: negative
 			}}
 		/>
 	);

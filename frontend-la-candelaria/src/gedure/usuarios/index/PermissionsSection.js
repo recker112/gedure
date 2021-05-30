@@ -177,6 +177,16 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
+			name: 'wallet_index',
+			label: 'Ver monederos',
+			nested: [
+				{
+					name: 'wallet_administration',
+					label: 'Administrar monederos',
+				},
+			]
+		},
+		{
 			name: 'debt_lote_index',
 			label: 'Ver lotes de deudas',
 			nested: [

@@ -38,11 +38,6 @@ class Debt extends Model
 		return $this->belongsTo('App\Models\User');
 	}
 	
-	public function transaction()
-	{
-		return $this->morphOne('App\Models\WalletSystem\Transaction', 'transable');
-	}
-	
 	public function debt_lote()
 	{
 		return $this->belongsTo('App\Models\WalletSystem\DebtLote');

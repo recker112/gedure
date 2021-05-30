@@ -47,11 +47,6 @@ class BankTransaction extends Model
 		return $this->belongsTo('App\Models\WalletSystem\BankAccount');
 	}
 	
-	public function transaction()
-	{
-		return $this->morphOne('App\Models\WalletSystem\Transaction', 'transable');
-	}
-	
 	public function user()
 	{
 		return $this->belongsTo('App\Models\User');
