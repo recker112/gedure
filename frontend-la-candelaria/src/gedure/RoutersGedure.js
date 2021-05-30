@@ -16,6 +16,7 @@ const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 //const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 //const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
+const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
 //const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 //const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
@@ -58,8 +59,14 @@ export default function RoutersGedure() {
 			path: `${url}/lotes-deudas`,
 			component: <RoutersDeudas />,
 			exact: false,
-			iCanSee: Boolean(permissions?.administrar?.debt_lote_index),
+			iCanSee: Boolean(permissions?.administrar_transac?.debt_lote_index),
 		},*/
+		{
+			path: `${url}/monederos`,
+			component: <PageMonederos />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar_transac?.wallet_index),
+		},
 		/*{
 			path: `${url}/soli-contacto`,
 			component: <PageSoliContacto />,

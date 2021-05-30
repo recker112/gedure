@@ -79,7 +79,7 @@ export default function PageDeudasIndex() {
 							variant='contained' 
 							color='primary' 
 							onClick={handleCreate}
-							disabled={!permissions.administrar?.debt_lote_create}
+							disabled={!permissions.administrar_transac?.debt_lote_create}
 						>
 							Crear lote de deudas
 						</Button>

@@ -192,6 +192,22 @@ class LoginController extends Controller
 				'boletas_destroy',
 				'contact_index',
 				'contact_destroy',
+			],
+			'V-' => [
+				//
+			]
+		];
+		
+		foreach($listA[$user->privilegio] as $perm) {
+			if (isset($permissionsDB[$perm])) {
+				$permissions['administrar'][$perm] = true; 
+			}
+		}
+		
+		$listAT = [
+			'A-' => [
+				'wallet_index',
+				'wallet_administration',
 				'debt_lote_index',
 				'debt_lote_create',
 				'debt_lote_edit',
@@ -204,10 +220,9 @@ class LoginController extends Controller
 				//
 			]
 		];
-		
-		foreach($listA[$user->privilegio] as $perm) {
+		foreach($listAT[$user->privilegio] as $perm) {
 			if (isset($permissionsDB[$perm])) {
-				$permissions['administrar'][$perm] = true; 
+				$permissions['administrar_transac'][$perm] = true; 
 			}
 		}
 		

@@ -81,7 +81,7 @@ export default function TableDeudas({ tableRef }) {
 						field: 'amount_to_pay',
 						render: rowData => parseFloatToMoneyString(rowData.amount_to_pay),
 					},
-					{title: 'Fecha de creación', field: 'created_at'}
+					{title: 'Fecha de creaciรณn', field: 'created_at'}
 				]}
 				data={onFetch}
 				localization={tableLocation}
@@ -104,7 +104,7 @@ export default function TableDeudas({ tableRef }) {
 					{
 						icon: () => (<EditIcon data-tour='edit_deuda' />),
 						tooltip: 'Editar',
-						disabled: !permissions.administrar?.debt_lote_edit,
+						disabled: !permissions.administrar_transac?.debt_lote_edit,
 						onClick: (event, rowData) => {
 							const { id, reason, amount_to_pay } = rowData;
 							dispatch(updateDialogs('editLoteDeuda', true, false, {
@@ -117,7 +117,7 @@ export default function TableDeudas({ tableRef }) {
 					{
 						icon: () => (<DeleteIcon data-tour='delete_deuda' />),
 						tooltip: 'Borrar',
-						disabled: !permissions.administrar?.debt_lote_delete,
+						disabled: !permissions.administrar_transac?.debt_lote_delete,
 						onClick: (event, rowData) => {
 							const { id, reason } = rowData;
 							dispatch(updateDialogs('deleteConfirmation', true, false, {
