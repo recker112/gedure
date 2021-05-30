@@ -106,23 +106,5 @@ class WalletControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
-		
-		// Error balance negativo
-		$user->wallet->balance = 0.00;
-		$user->wallet->save();
-		
-		$response = $this->putJson('/api/v1/wallet/'.$user->wallet->id, [
-			'data' => [
-				[
-					'reason' => 'Intereses por la movida de dinero',
-					'amount' => 0,
-				]
-			],
-		]);
-		
-		$response->assertStatus(400)
-			->assertJsonStructure([
-				'msg'
-			]);
 	}
 }
