@@ -91,7 +91,13 @@ Route::prefix('v1')
 	->group(base_path('routes/Api/WalletSystem/debt_lote.api.php'));
 
 /*
-Deb API
+Debt API
 */
 Route::prefix('v1')
 	->group(base_path('routes/Api/WalletSystem/debt.api.php'));
+
+/*
+Wallet API
+*/
+Route::prefix('v1')
+	->group(base_path('routes/Api/WalletSystem/wallet.api.php'));

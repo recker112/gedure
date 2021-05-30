@@ -81,7 +81,7 @@ export default function TableDeudas({ tableRef }) {
 						field: 'amount_to_pay',
 						render: rowData => parseFloatToMoneyString(rowData.amount_to_pay),
 					},
-					{title: 'Fecha de creaciรณn', field: 'created_at'}
+					{title: 'Fecha de creación', field: 'created_at'}
 				]}
 				data={onFetch}
 				localization={tableLocation}

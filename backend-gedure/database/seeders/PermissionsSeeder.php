@@ -60,7 +60,7 @@ class PermissionsSeeder extends Seeder
 		
 		// NOTA(RECKER): Permisos de Wallet
 		Permission::create(['name' => 'wallet_index']);
-		Permission::create(['name' => 'wallet_administration']);
+		Permission::create(['name' => 'wallet_edit']);
 		
 		// NOTA(RECKER): Permisos de Deudas
 		Permission::create(['name' => 'debt_lote_index']);

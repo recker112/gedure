@@ -90,7 +90,6 @@ class BankTransactionController extends Controller
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'transferencia o depósito bancario',
 		]);
-		$bank_transaction->transaction()->save($transaction);
 		
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;

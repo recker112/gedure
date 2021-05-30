@@ -65,6 +65,11 @@ const initialState = {
 		loading: false,
 		data: {}
 	},
+	editWallet: {
+		open: false,
+		loading: false,
+		data: {}
+	},
 };
 
 const reducer =  (state = initialState, { type, payload }) => {

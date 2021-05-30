@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+// Carbon
+use Carbon\Carbon;
+
 class Wallet extends Model
 {
   use HasFactory, SoftDeletes;
@@ -26,7 +29,7 @@ class Wallet extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'created_at', 'updated_at', 'deleted_at'
+		'deleted_at', 'user_id'
 	];
 	
 	/**
@@ -41,5 +44,20 @@ class Wallet extends Model
 	public function user()
 	{
 		return $this->belongsTo('App\Models\User');
+	}
+	
+	/*
+	TIMEZONES
+	*/
+	public function getCreatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
+	}
+	
+	public function getUpdatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-d-m h:i A');
 	}
 }
