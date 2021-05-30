@@ -13,14 +13,14 @@ import { useSelector } from 'react-redux';
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
-//const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
-//const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
+const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
+const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 //const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
-const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
-//const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
+//const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
+const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
-//const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
-//const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
+const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
+const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
 
 export default function RoutersGedure() {
 	let { url } = useRouteMatch();
@@ -43,36 +43,36 @@ export default function RoutersGedure() {
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
 		},
-		/*{
+		{
 			path: `${url}/publicaciones`,
 			component: <RoutersPosts />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.posts_index),
-		},*/
-		/*{
+		},
+		{
 			path: `${url}/boletas`,
 			component: <RoutersBoletas />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
-		},*/
+		},
 		/*{
 			path: `${url}/lotes-deudas`,
 			component: <RoutersDeudas />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar_transac?.debt_lote_index),
 		},*/
-		{
+		/*{
 			path: `${url}/monederos`,
 			component: <PageMonederos />,
 			exact: true,
 			iCanSee: Boolean(permissions?.administrar_transac?.wallet_index),
-		},
-		/*{
+		},*/
+		{
 			path: `${url}/soli-contacto`,
 			component: <PageSoliContacto />,
 			exact: true,
 			iCanSee: Boolean(permissions?.administrar?.contact_index),
-		},*/
+		},
 		{
 			path: `${url}/configuracion`,
 			component: <PageGedureConfiguracion />,
@@ -82,12 +82,12 @@ export default function RoutersGedure() {
 	], [permissions, url]);
 	
 	const listV = useMemo(() => [
-		/*{
+		{
 			path: `${url}/boletas`,
 			component: <PageBoletas />,
 			exact: true,
 			iCanSee: true,
-		},*/
+		},
 	], [url]);
 	
 	return (
@@ -121,11 +121,11 @@ export default function RoutersGedure() {
 			})}
 
 			<Route path={`${url}/cuenta`}>
-				{/*<PageCuenta />*/}
+				<PageCuenta />
 			</Route>
 
 			<Route path={`${url}/preguntas-frecuentes`}>
-				{/*<PageFAQ />*/}
+				<PageFAQ />
 			</Route>
 
 			<Route>
