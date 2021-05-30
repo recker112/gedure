@@ -24,6 +24,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 //import AssignmentIcon from '@material-ui/icons/Assignment';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import CachedIcon from '@material-ui/icons/Cached';
 
 // Components
 import { HiddeOnScroll } from '../Header';
@@ -36,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
 	item: {
 		marginRight: 15,
 		textDecoration: 'none',
+	},
+	itemOld: {
+		marginRight: 15,
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'underline',
+		}
 	},
 	button: {
 		opacity: 0.9,
@@ -79,7 +87,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ReturnSelected (props) {
-	const { url=null, handle, nested, children, noExact } = props;
+	const { 
+		url=null, 
+		handle, 
+		nested, 
+		children, 
+		component = RouterLink, 
+		noExact, 
+		...rest 
+	} = props;
 	
 	const classes = useStyles();
 	
@@ -90,12 +106,13 @@ export function ReturnSelected (props) {
 	
 	return (
 		<ListItem 
+			{...rest}
 			button 
 			dense 
 			selected={Boolean(match)} 
 			className={nested ? classes.nested : classes.button}
 			onClick={handle}
-			component={url !== null ? RouterLink : null}
+			component={url !== null ? component : null}
 			to={url}
 		>
 			{children}
@@ -159,6 +176,17 @@ function MobileMenu() {
 									<VpnKeyIcon />
 								</ListItemIcon>
 								<ListItemText primary='Entrar' /> 
+							</ReturnSelected>
+							<ReturnSelected 
+								url='https://old.lacandelaria.com.ve'
+								component='a'
+								href="https://old.lacandelaria.com.ve"
+								handle={handleClose}
+							>
+								<ListItemIcon>
+									<CachedIcon />
+								</ListItemIcon>
+								<ListItemText primary='Volver al sistema anterior' /> 
 							</ReturnSelected>
 						</List>
 					</Container>
@@ -231,6 +259,12 @@ function HeaderNoAuth() {
 						>
 							Entrar
 						</Link>
+						<a
+							className={classes.itemOld}
+							href="https://old.lacandelaria.com.ve"
+						>
+							Volver al sistema anterior
+						</a>
 					</Toolbar>
 				</Hidden>
 			</AppBar>

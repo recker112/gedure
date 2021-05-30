@@ -28,7 +28,7 @@ const PageShowNews = lazy(() => import('./page/noticias/PageShowNews'));
 const PageContactanos = lazy(() => import('./page/contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
-const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
+//const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
 const PageInvitation = lazy(() => import('./page/invitation/PageInvitation'));
 const PageSetup = lazy(() => import('./gedure/setup/PageSetup'));
 
@@ -155,7 +155,7 @@ export function Loader(props){
 			{theme === 'light' ? 
 				(
 				<React.Fragment>
-					<img src={logoL} alt='Logo de la instituciรณn' className='loading__img' />
+					<img src={logoL} alt='Logo de la institución' className='loading__img' />
 					<ReactLoading type="bars" color="#00000080" width={150} height={100} />
 				</React.Fragment>
 				)
@@ -169,6 +169,16 @@ export function Loader(props){
 			}
 		</Grid>
 	)
+}
+
+export function NotFound() {
+	const classes = useStyles();
+	
+	return (
+		<Box className={classes.containerErrorBoundary} fontSize='body1.fontSize' align='center'>
+			La dirección que está solicitando no se encuentra disponible actualmente.
+		</Box>
+	);
 }
 
 export default function Routers() {
@@ -203,7 +213,7 @@ export default function Routers() {
 					</PublicRoute>
 
 					<ProtectRoute path='/gedure'>
-						<RoutersGedure />
+						{/*<RoutersGedure />*/}
 					</ProtectRoute>
 
 					<ProtectRoute path='/setup'>
@@ -215,7 +225,7 @@ export default function Routers() {
 					</PublicRoute>
 
 					<PublicRoute>
-						No encontrado
+						<NotFound />
 					</PublicRoute>
 				</Switch>
 			</Suspense>
