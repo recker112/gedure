@@ -319,7 +319,7 @@ export default function PermissionsSection(props) {
 				</Grid>
 				<Grid item xs={12}>
 					<DialogContentText>
-						Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrรก usar todo lo actual y lo futuro. Use esta opciรณn con cautela.
+						Al activar este permiso el usuario tendrรก poder absoluto del sistema, podrá usar todo lo actual y lo futuro. Use esta opción con cautela.
 					</DialogContentText>
 				</Grid>
 				<PermissionsNoSuper 
