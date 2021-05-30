@@ -51,7 +51,7 @@ class DebtControllerTest extends TestCase
 	
 	public function testIndex()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
