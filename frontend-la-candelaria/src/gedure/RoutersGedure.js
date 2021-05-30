@@ -7,7 +7,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // Routers User
-//const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
+const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 
 // Routers Admin
 const PageIndex = lazy(() => import('./index/PageIndex'));
