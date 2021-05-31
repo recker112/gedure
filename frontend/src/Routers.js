@@ -28,7 +28,7 @@ const PageShowNews = lazy(() => import('./page/noticias/PageShowNews'));
 const PageContactanos = lazy(() => import('./page/contactanos/PageContactanos'));
 const PageLogin = lazy(() => import('./page/entrar/PageLogin'));
 const PageRecovery = lazy(() => import('./page/entrar/PageRecovery'));
-//const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
+const RoutersGedure = lazy(() => import('./gedure/RoutersGedure'));
 const PageInvitation = lazy(() => import('./page/invitation/PageInvitation'));
 const PageSetup = lazy(() => import('./gedure/setup/PageSetup'));
 
@@ -213,7 +213,7 @@ export default function Routers() {
 					</PublicRoute>
 
 					<ProtectRoute path='/gedure'>
-						{/*<RoutersGedure />*/}
+						<RoutersGedure />
 					</ProtectRoute>
 
 					<ProtectRoute path='/setup'>
