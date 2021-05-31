@@ -88,7 +88,7 @@ function Header() {
 				fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} 
 				className='text__bold--semi'
 			>
-				Configuraciรณn del sistema,
+				Configuración del sistema,
 			</Box>
 			<Box 
 				color='primary.contrastText' 

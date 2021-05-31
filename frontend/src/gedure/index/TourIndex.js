@@ -25,7 +25,7 @@ export default function TourIndex() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Gedure v5.0.0-beta.0
+						Gedure
 					</Typography>
 					<Typography variant='body1'>
 						Bienvenido a Gedure, durante estas guias podrá enterarse de las funcionalidades las cuales tiene disponible. Si lo desea puede saltarse esta guia usando el boton.
