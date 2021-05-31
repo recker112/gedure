@@ -84,7 +84,7 @@
 		<div class='main'>
 			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
-				Fuiste invitado al sistema, de click en el botón para poder saber cuál es su usuario y crear una contraseña.
+				Este es un correo de invitación al sistema, de click en el botón para poder saber cuál es su usuario y crear una contraseña.
 			</p>
 			<div class='main__button main__line'>
 				<a target='_blank' href='{{ config('app.url', '') }}/invitacion/{{ $key }}' class="button">
@@ -94,7 +94,7 @@
 		</div>
 		<footer class='footer'>
 			<p>
-				&copy; 2020 - Desarrollado por Recker
+				&copy; U.E.P.A.P.E.P "La Candelaria" | 2021
 			</p>
 			<p>
 				Powered by gedure

@@ -35,7 +35,7 @@ class RecoveryPasswordController extends Controller
 			$step=0;
 		}else {
 			// NOTA(RECKER): Si ya hay un registro
-			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(4);
+			$timeUpdated = $user->recoveryPassword->updated_at->addMinutes(2);
 			$timeCreated = $user->recoveryPassword->created_at->addMinutes(10);
 			
 			if ($user->recoveryPassword && $timeNow >= $timeCreated) {

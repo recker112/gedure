@@ -17,7 +17,7 @@ function Footer() {
 			<Container>
 				<Grid container alignItems="center">
 					<Grid item xs={12} sm>
-						<Typography>&copy; U.E.P A.P.E.P "La Candelaria" | 2020</Typography>
+						<Typography>&copy; U.E.P A.P.E.P "La Candelaria" | 2021</Typography>
 						<Typography variant="body2" className="text__opacity--semi">
 							Desarrollado por Recker
 						</Typography>
