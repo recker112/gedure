@@ -76,7 +76,7 @@
 		<div class='main'>
 			<p class='main__text' style='text-align: center'>Hola <strong>{{ $user->name }}</strong>.</p>
 			<p class='main__line main__text'>
-				Este código es enviado por seguridad, copie y pegue este código en la web para continuar. En caso de no ser usted, simplemente ignore este correo.
+				Este correo es enviado por seguridad, copie y pegue este código en el campo solicitado para continuar. En caso de no ser usted el que haya solicitado este código simplemente ignore este correo.
 			</p>
 			<p class='main__code main__line'>
 				{{ $code }}
@@ -84,7 +84,7 @@
 		</div>
 		<footer class='footer'>
 			<p>
-				&copy; 2020 - Desarrollado por Recker
+				&copy; U.E.P.A.P.E.P "La Candelaria" | 2021
 			</p>
 			<p>
 				Powered by gedure
