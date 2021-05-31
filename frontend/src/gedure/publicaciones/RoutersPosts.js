@@ -6,6 +6,9 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 // Redux
 import { useSelector } from 'react-redux';
 
+// Componets
+import { NotFound } from '../../Routers';
+
 // Routers
 const PagePublicaciones = lazy(() => import('./index/PagePublicaciones'));
 const PageCrearPost = lazy(() =>  import('./crear/PageCrearPost'));
@@ -51,7 +54,7 @@ function RoutersPanel() {
 			})}
 
 			<Route>
-				No encontrado
+				<NotFound />
 			</Route>
 		</Switch>
 	);

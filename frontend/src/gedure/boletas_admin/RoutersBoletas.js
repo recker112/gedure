@@ -3,6 +3,9 @@ import React, { lazy } from 'react';
 // React Router
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
+// Components
+import { NotFound } from '../../Routers';
+
 // Routers
 const PageBoletasIndex = lazy(() => import('./index/PageBoletasIndex'));
 const PageShowBoletas = lazy(() => import('./show/PageShowBoletas'));
@@ -22,7 +25,7 @@ export default function RoutersBoletas() {
 				</Route>
 				
 				<Route>
-					No encontrado
+					<NotFound />
 				</Route>
 			</Switch>
 		</React.Fragment>

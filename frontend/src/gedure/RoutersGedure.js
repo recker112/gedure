@@ -6,6 +6,9 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 // Redux
 import { useSelector } from 'react-redux';
 
+// Components
+import { NotFound } from '../Routers';
+
 // Routers User
 const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
 
@@ -129,7 +132,7 @@ export default function RoutersGedure() {
 			</Route>
 
 			<Route>
-				No encontrado
+				<NotFound />
 			</Route>
 		</Switch>
 	);
