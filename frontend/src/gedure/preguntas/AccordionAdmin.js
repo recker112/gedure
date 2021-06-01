@@ -55,7 +55,7 @@ export default function AccordionAdmin({ expanded, handleChange, classes }) {
 				</AccordionSummary>
 				<AccordionDetails>
 					<Typography>
-						<strong>Gedure</strong> está familiarizado con el <strong>formato SACE</strong> para las boletas, esto permite que simplemente usted carge la boleta de un estudiante <strong>sin que tenga que modificar nada</strong>. Debe de tener en cuenta que <strong>cada boleta</strong> debe estar <strong>separada</strong> y debe de tener el <strong>formato PDF</strong>, una vez cumpla esto requisitos simplemente <strong>comprima</strong> todas las boletas en el <strong>orden que quiera</strong> en un <strong>archivo ZIP</strong> y súbalo al servidor, el sistema se encargará de distribuirlas a los estudiantes existentes.
+						<strong>Gedure busca automáticamente</strong> al estudiante después de <strong>encontrar una cédula</strong> en el archivo <strong>PDF</strong>, esto le permite <strong>usar cualquier formato en la boleta</strong> ya que el sistema se encargará de adaptarse al formato dado. Debe de tener en cuenta que <strong>cada boleta</strong> debe estar <strong>separada</strong> y debe de tener el <strong>formato PDF</strong>, una vez cumpla esto requisitos simplemente <strong>comprima</strong> todas las boletas en el <strong>orden que quiera</strong> en un <strong>archivo ZIP</strong> y súbalo al servidor, el sistema se encargará de distribuirlas a los estudiantes existentes.
 						<br />
 						<br />
 						Cabe destacar que <strong>solo puede subir boletas del curso actual</strong> donde esté el estudiante, si desea modificar boletas anteriores tendrá que hacerlo manualmente.
