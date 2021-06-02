@@ -38,6 +38,7 @@ class BankTransactionController extends Controller
 		
 		$bank_transaction_count = BankTransaction::where('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
+			->orWhere('date', 'like', '%'.$search.'%')
 			->count();
 		
 		return response()->json([

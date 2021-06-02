@@ -47,13 +47,13 @@ class Boleta extends Model
 	public function getCreatedAtAttribute($value) {
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-d-m h:i A');
+			->format('Y-m-d h:i A');
 	}
 	
 	public function getUpdatedAtAttribute($value) {
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-d-m h:i A');
+			->format('Y-m-d h:i A');
 	}
 	
 	public function getFechaHumanoAttribute()
@@ -66,7 +66,7 @@ class Boleta extends Model
 		if ($date_created->diffInDays($dateNow) <= 3) {
 			$show = $date_created->diffForHumans();
 		}else {
-			$show = 'el '.$date_created->format('Y-d-m h:i A');
+			$show = 'el '.$date_created->format('Y-m-d h:i A');
 		}
 		
 		return $show;
@@ -80,7 +80,7 @@ class Boleta extends Model
 		if ($date_updated->diffInDays($dateNow) <= 3) {
 			$show = $date_updated->diffForHumans();
 		}else {
-			$show = 'el '.$date_updated->format('Y-d-m h:i A');
+			$show = 'el '.$date_updated->format('Y-m-d h:i A');
 		}
 		
 		return $show;
