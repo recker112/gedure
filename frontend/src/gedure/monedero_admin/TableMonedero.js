@@ -60,10 +60,10 @@ export default function TableDeudas({ tableRef }) {
 	}, []);
 	
 	return (
-		<div data-tour='table'>
+		<div data-tour='wallet_table'>
 			<MaterialTable
 				tableRef={tableRef}
-				title="Lotes de deudas registradas" 
+				title="Monederos" 
 				icons={tableIcons}
 				columns={[
 					{

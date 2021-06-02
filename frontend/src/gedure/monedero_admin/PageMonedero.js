@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import TableMonedero from './TableMonedero';
 import EditMonedero from './EditMonedero';
+import TourMonedero from './TourMonedero';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -41,6 +42,7 @@ export default function PageMonederos() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourMonedero />
 		</main>
 	);
 }
