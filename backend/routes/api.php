@@ -101,3 +101,9 @@ Wallet API
 */
 Route::prefix('v1')
 	->group(base_path('routes/Api/WalletSystem/wallet.api.php'));
+
+/*
+Transaction API
+*/
+Route::prefix('v1')
+	->group(base_path('routes/Api/WalletSystem/transaction.api.php'));
