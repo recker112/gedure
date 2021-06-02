@@ -72,7 +72,7 @@ class BankTransactionController extends Controller
 		// NOTA(RECKER): Crear transaccion
 		$bank_account = $bank_transaction->bank_account;
 		$payload = [
-			'data' => [
+			'actions' => [
 				[
 					'reason' => 'Verificación de transferencia bancaria',
 					'amount' => $bank_transaction->amount,
@@ -98,6 +98,8 @@ class BankTransactionController extends Controller
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;
 		$user->wallet->save();
+		
+		// NOTA(RECKER): Logs
 		$payload = [
 			'id' => $bank_transaction->id,
 			'concepto' => $bank_transaction->concepto,

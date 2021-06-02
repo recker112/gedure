@@ -55,7 +55,7 @@ export default function EditLoteDeuda({ tableRef }) {
 	}));
 	const dispatch = useDispatch();
 	
-	const { control, handleSubmit, setError } = useForm({
+	const { control, handleSubmit } = useForm({
 		mode: 'onTouched',
 		shouldUnregister: true,
 	});
@@ -65,7 +65,7 @@ export default function EditLoteDeuda({ tableRef }) {
 		shouldUnregister: true,
   });
 	
-	const { fetchData } = useFetch(setError);
+	const { fetchData } = useFetch();
 	
 	const handleClose = () => {
 		if (!loading) {
