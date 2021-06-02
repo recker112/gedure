@@ -65,6 +65,7 @@ function PageNews() {
 		setHasFinish(false);
 		setSearch(data.search);
 		setLoading(true);
+		setError(false);
   };
 	
 	useEffect(()=>{
@@ -111,11 +112,13 @@ function PageNews() {
 		// eslint-disable-next-line
 	}, [loading]);
 	
+	// NOTA(RECKER): Refrescar datos al hacer logout
 	useEffect(() => {
 		if (!loading && !auth) {
 			setData([]);
 			setHasFinish(false);
 			setLoading(true);
+			setError(false);
 		}
 		// eslint-disable-next-line
 	},[auth]);
