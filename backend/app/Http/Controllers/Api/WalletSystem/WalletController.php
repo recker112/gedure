@@ -52,7 +52,7 @@ class WalletController extends Controller
 		}
 		
 		$payload = [
-			'data' => $request->data,
+			'actions' => $request->data,
 		];
 		
 		// Verificar balance negativo
@@ -62,17 +62,33 @@ class WalletController extends Controller
 			], 400);
 		}
 		
+		$previous_balance = $user->wallet->balance;
 		$transaction = $user->transactions()->create([
 			'type' => 'manual',
 			'payload' => json_encode($payload),
 			'amount' => $total_amount,
-			'previous_balance' => $user->wallet->balance,
+			'previous_balance' => $previous_balance,
 			'payment_method' => 'otros',
 		]);
 		
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $total_amount;
 		$user->wallet->save();
+		
+		// NOTA(RECKER): Logs
+		$payload = [
+			'actions' => $request->data,
+			'username' => $user->username,
+			'privilegio' => $user->privilegio,
+			'amount' => $total_amount,
+			'previous_balance' => $previous_balance,
+		];
+
+		$request->user()->logs()->create([
+			'action' => 'Actualización de monedero manual',
+			'payload' => json_encode($payload),
+			'type' => 'transaction',
+		]);
 		
 		return response()->json([
 			'msg' => 'Transacción realizada'

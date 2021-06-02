@@ -15,7 +15,7 @@ import {
 // Components
 import AnimationDialog from '../../components/AnimationDialog';
 import converterCursoCode from '../../components/funciones/converterCursoCode';
-import { parseToAccountString } from '../../components/funciones/ParseString';
+import { parseToAccountString, parseFloatToMoneyString } from '../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -344,7 +344,7 @@ export default function ShowRegistros() {
 					<br />
 					<strong>Referencia:</strong> {data.payload.reference}
 					<br />
-					<strong>Monto:</strong> {data.payload.amount}
+					<strong>Monto:</strong> {parseFloatToMoneyString(data.payload.amount || 0)}
 					<br />
 					<strong>Banco:</strong> {data.payload.code}
 					<br />
@@ -361,7 +361,7 @@ export default function ShowRegistros() {
 					<br />
 					<strong>Referencia:</strong> {data.payload.reference}
 					<br />
-					<strong>Monto:</strong> {data.payload.amount}
+					<strong>Monto:</strong> {parseFloatToMoneyString(data.payload.amount || 0)}
 					<br />
 					<strong>Banco:</strong> {data.payload.code}
 					<br />
@@ -382,13 +382,35 @@ export default function ShowRegistros() {
 							<br />
 							<strong>Referencia:</strong> {data.reference}
 							<br />
-							<strong>Monto:</strong> {data.amount}
+							<strong>Monto:</strong> {parseFloatToMoneyString(data.amount || 0)}
 							<br />
 							<strong>Banco:</strong> {data.code}
 							<br />
 							<strong>Fecha de la transacción:</strong> {data.date}
 						</React.Fragment>
 					))}
+				</DialogContentText>
+			);
+		}else if (data.action === 'Actualización de monedero manual') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) actualizó el monedero del usuario <strong>{data.payload.privilegio+data.payload.username}</strong> con las siguientes acciones:
+					{data.payload.actions?.map((data, i) => (
+						<React.Fragment>
+							<br />
+							<br />
+							<strong>#{i+1}</strong>
+							<br />
+							<strong>Motivo:</strong> {data.reason}
+							<br />
+							<strong>Monto:</strong> {parseFloatToMoneyString(data.amount || 0)}
+						</React.Fragment>
+					))}
+					<br />
+					<br />
+					<strong>Saldo en cuenta:</strong> {parseFloatToMoneyString(data.payload.previous_balance || 0)}
+					<br />
+					<strong>Nuevo saldo:</strong> {parseFloatToMoneyString(data.payload.amount+data.payload.previous_balance || 0)}
 				</DialogContentText>
 			);
 		}else {

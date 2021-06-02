@@ -14,7 +14,7 @@ import { NotFound } from '../Routers';
 
 // Routers Admin
 const PageIndex = lazy(() => import('./index/PageIndex'));
-//const PageRegistros = lazy(() => import('./registros/PageRegistros'));
+const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 //const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 //const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
@@ -34,12 +34,12 @@ export default function RoutersGedure() {
 	}));
 	
 	const listA = useMemo(() => [
-		/*{
+		{
 			path: `${url}/registros`,
 			component: <PageRegistros />,
 			exact: true,
 			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
-		},*/
+		},
 		/*{
 			path: `${url}/usuarios`,
 			component: <RoutersUsers />,
