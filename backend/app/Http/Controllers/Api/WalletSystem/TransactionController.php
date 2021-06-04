@@ -22,6 +22,7 @@ class TransactionController extends Controller
 		
 		$transaction = Transaction::with('user:id,username,privilegio')
 			->where('created_at', 'like', '%'.$search.'%')
+			->orWhere('id', 'like', '%'.$search.'%')
 			->orWhereHas('user', function (Builder $query) {
 					$search = request()->search;
 					$query->where('username', 'LIKE', "%$search%");
@@ -44,5 +45,13 @@ class TransactionController extends Controller
 			'page' => request()->page * 1, 
 			'totalRows' => $transaction_count
 		], 200);
+	}
+	
+	public function show($id)
+	{
+		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+			->findOrFail(intVal($id));
+		
+		return response()->json($transaction, 200);
 	}
 }

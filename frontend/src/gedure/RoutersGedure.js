@@ -18,9 +18,10 @@ const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 //const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 //const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
+//const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 //const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
 const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
-//const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
+const RoutersTransacciones = lazy(() => import('./transacciones_admin/RoutersTransacciones'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 //const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
 //const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
@@ -59,6 +60,12 @@ export default function RoutersGedure() {
 			iCanSee: Boolean(permissions?.administrar?.boletas_index),
 		},*/
 		/*{
+			path: `${url}/soli-contacto`,
+			component: <PageSoliContacto />,
+			exact: true,
+			iCanSee: Boolean(permissions?.administrar?.contact_index),
+		},*/
+		/*{
 			path: `${url}/lotes-deudas`,
 			component: <RoutersDeudas />,
 			exact: false,
@@ -70,12 +77,12 @@ export default function RoutersGedure() {
 			exact: true,
 			iCanSee: Boolean(permissions?.administrar_transac?.wallet_index),
 		},
-		/*{
-			path: `${url}/soli-contacto`,
-			component: <PageSoliContacto />,
-			exact: true,
-			iCanSee: Boolean(permissions?.administrar?.contact_index),
-		},*/
+		{
+			path: `${url}/transacciones`,
+			component: <RoutersTransacciones />,
+			exact: false,
+			iCanSee: Boolean(permissions?.administrar_transac?.transaction_index),
+		},
 		{
 			path: `${url}/configuracion`,
 			component: <PageGedureConfiguracion />,

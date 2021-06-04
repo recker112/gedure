@@ -83,6 +83,9 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'bank_transaction_assign']);
 		Permission::create(['name' => 'bank_transaction_delete']);
 		
+		// NOTA(RECKER): Permisos de Transacciones
+		Permission::create(['name' => 'transaction_index']);
+		
 		/*
 			PERMISSIONS USER
 		*/

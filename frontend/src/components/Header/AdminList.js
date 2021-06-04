@@ -19,6 +19,7 @@ import {
 	Post as PostIcon,
 	FilePdf as FilePdfIcon,
 	Bank as BankIcon,
+	Cash as CashIcon,
 	PiggyBank as PiggyBankIcon,
 	Wallet as WalletIcon,
 } from 'mdi-material-ui';
@@ -119,9 +120,9 @@ function AdminList({ handleClose }) {
 				<React.Fragment>
 					<ReturnSelected handle={handleOpenTransacciones}>
 						<ListItemIcon>
-							<BankIcon />
+							<CashIcon />
 						</ListItemIcon>
-						<ListItemText primary='Transacciones' /> 
+						<ListItemText primary='Sistema de dinero' /> 
 						{transacciones ? <ExpandLess /> : <ExpandMore />}
 					</ReturnSelected>
 					<Collapse in={transacciones} timeout="auto" unmountOnExit>
@@ -140,6 +141,14 @@ function AdminList({ handleClose }) {
 										<PiggyBankIcon />
 									</ListItemIcon>
 									<ListItemText primary="Lotes de deudas" />
+								</ReturnSelected>
+							)}
+							{permissions?.administrar_transac?.transaction_index && (
+								<ReturnSelected url='/gedure/transacciones' handle={handleClose} nested noExact>
+									<ListItemIcon>
+										<BankIcon />
+									</ListItemIcon>
+									<ListItemText primary="Transacciones" />
 								</ReturnSelected>
 							)}
 						</List>
