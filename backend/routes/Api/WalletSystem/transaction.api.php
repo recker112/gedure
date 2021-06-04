@@ -16,6 +16,10 @@ use App\Http\Controllers\Api\WalletSystem\TransactionController;
 |
 */
 
-// Index debts of lote
-Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
+// Index transactions
+Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction', [TransactionController::class, 'index']);
+
+// Show transactions
+Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
+	->get('transaction/{id}', [TransactionController::class, 'show']);

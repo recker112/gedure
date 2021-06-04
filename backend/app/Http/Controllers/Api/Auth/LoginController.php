@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use Spatie\Permission\Models\Permission;
 
 // Auth Class
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 // Models
 use App\Models\User;
 use App\Models\Auth\Block;
-use Spatie\Permission\Models\Permission;
 
 class LoginController extends Controller
 {
@@ -215,6 +215,7 @@ class LoginController extends Controller
 				'debt_create',
 				'debt_delete',
 				'debt_refund',
+				'transaction_index',
 			],
 			'V-' => [
 				//

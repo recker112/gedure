@@ -56,4 +56,34 @@ class TransactionControllerTest extends TestCase
 				'totalRows' => 5
 			]);
 	}
+	
+	public function testShow()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$user = User::factory()->create();
+		$transactions = Transaction::factory(5)->create([
+			'user_id' => $user->id,
+		]);
+		
+		$response = $this->getJson('/api/v1/transaction/1');
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'id',
+				'user',
+				'exonerante',
+				'type',
+				'payload',
+				'amount',
+				'previous_balance',
+				'payment_method',
+				'exonerado',
+				'created_at',
+			]);
+	}
 }

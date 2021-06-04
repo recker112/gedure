@@ -148,6 +148,10 @@ const initialState = {
 	uploadBankTransaction: {
 		loading: false,
 		data: {},
+	},
+	showTransaction: {
+		loading: true,
+		data: {},
 	}
 };
 
