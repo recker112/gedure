@@ -23,3 +23,7 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 // Show transactions
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction/{id}', [TransactionController::class, 'show']);
+
+// Show transactions
+Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
+	->get('transaction/{id}/download', [TransactionController::class, 'download']);

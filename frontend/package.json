@@ -15,8 +15,6 @@
     "axios": "^0.21.1",
     "date-fns": "^2.22.1",
     "google-maps-react": "^2.0.6",
-    "html2canvas": "^1.0.0-rc.7",
-    "jspdf": "^2.3.1",
     "material-table": "^1.69.3",
     "material-ui-dropzone": "^3.5.0",
     "mdi-material-ui": "^6.22.1",
