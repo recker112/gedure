@@ -54,6 +54,7 @@ class Transaction extends Model
 		'amount' => 'float',
 		'previous_balance' => 'float',
 		'exonerado' => 'integer',
+		'payload' => 'object',
 	];
 	
 	public function user()

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TableRequest;
 
+// PDF
+use PDF;
+
 // Models
 use App\Models\User;
 use App\Models\WalletSystem\Transaction;
@@ -53,5 +56,17 @@ class TransactionController extends Controller
 			->findOrFail(intVal($id));
 		
 		return response()->json($transaction, 200);
+	}
+	
+	public function download($id)
+	{
+		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+			->findOrFail(intVal($id));
+		
+		$pdf = PDF::loadView('gedure.transactionPDF', [
+				'transaction' => $transaction
+			]);
+		
+		return $pdf->download("transaccion_$transaction->id.pdf");
 	}
 }

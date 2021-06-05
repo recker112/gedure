@@ -1,12 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useParams, Link as RouteLink } from 'react-router-dom';
 
 import { useReactToPrint } from 'react-to-print';
-
-import html2canvas from 'html2canvas';
-
-import { jsPDF } from "jspdf";
 
 import { 
 	Container,
@@ -25,6 +21,8 @@ import useFetch from '../../../hooks/useFetch';
 
 // Components
 import TransactionPDF from './TransactionPDF';
+import downloadFiles from '../../../components/funciones/downloadFiles';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PageVerTransacciones() {
 	const pdfRef = useRef(null);
+	const [donwloading, setDonwloading] = useState(false);
+	
 	const { id } = useParams();
 	document.title = 'La Candelaria - Ver transacciones';
 	
@@ -63,13 +63,22 @@ export default function PageVerTransacciones() {
   });
 	
 	const handleDownload = async () => {
-		const canvas = await html2canvas(document.getElementById('PDF'));
-		const imgData = canvas.toDataURL('image/jpeg');
-		console.log(imgData);
+		setDonwloading(true);
+		const prepare = {
+			url: `v1/transaction/${id}/download`,
+			type: 'get',
+			messageToFinish: false,
+			data: {
+				responseType: 'blob',
+			}
+		};
 		
-		/*const doc = new jsPDF();
-		doc.addImage(imgData, 'PNG', 0, 0);
-		doc.save(`transaccion-${id}.pdf`);*/
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			downloadFiles(response, `transaccion_${id}.pdf`);
+		}
+		setDonwloading(false)
 	};
 	
 	useEffect(()=>{
@@ -84,7 +93,6 @@ export default function PageVerTransacciones() {
 			const response = await fetchData(prepare);
 
 			if (response) {
-				response.payload = JSON.parse(response.payload);
 				dispatch(updateForms('showTransaction', false, response));
 			}
 		}
@@ -101,23 +109,25 @@ export default function PageVerTransacciones() {
 		<main className={classes.containerMain}>
 			<Container>
 				<Box mb={3}>
-					<Grid container justify='space-between'>
+					<Grid container>
 						<Tooltip title='Volver' arrow>
 							<IconButton disabled={loading} component={RouteLink} to='/gedure/transacciones' aria-label="return">
 								<ArrowBackIcon />
 							</IconButton>
 						</Tooltip>
-						<div>
-							<Tooltip title='Descargar' arrow>
-								<IconButton 
-									disabled={loading || !data.id} 
-									aria-label="download"
-									onClick={handleDownload}
-									component='span'
-								>
-									<GetAppIcon />
-								</IconButton>
-							</Tooltip>
+						<Grid container justify='flex-end' alignItems='center' item xs>
+							<LoadingComponent loading={donwloading}>
+								<Tooltip title='Descargar' arrow>
+									<IconButton 
+										disabled={loading || !data.id} 
+										aria-label="download"
+										onClick={handleDownload}
+										component='span'
+									>
+										<GetAppIcon />
+									</IconButton>
+								</Tooltip>
+							</LoadingComponent>
 							<Tooltip title='Imprimir' arrow>
 								<IconButton 
 									disabled={loading || !data.id} 
@@ -128,7 +138,7 @@ export default function PageVerTransacciones() {
 									<PrintIcon />
 								</IconButton>
 							</Tooltip>
-						</div>
+						</Grid>
 					</Grid>
 				</Box>
 				{loading && (

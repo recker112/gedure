@@ -60,7 +60,7 @@ export default function TransactionPDF({ data, pdfRef }) {
 						{data.user.name} ({data.user.privilegio+data.user.username})
 					</Typography>
 				</Grid>
-				{data.type === 'pago verficado' && (
+				{data.type === 'pago verificado' && (
 					<Grid item xs={12} sm={6}>
 						<Typography align='right' className='text__bold--semi'>
 							Pago realizado a:
