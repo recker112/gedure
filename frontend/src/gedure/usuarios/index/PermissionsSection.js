@@ -252,6 +252,10 @@ function PermissionsNoSuper(props){
 				},
 			]
 		},
+		{
+			name: 'transaction_index',
+			label: 'Ver transacciones del sistema',
+		},
 	];
 	
 	if (!super_admin) {
