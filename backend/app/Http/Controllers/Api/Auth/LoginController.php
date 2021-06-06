@@ -34,7 +34,7 @@ class LoginController extends Controller
 			return response()->json($jsonMessage, 400);
 		}
 		
-		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
 			->find(Auth::id());
 		
 		// Verificar bloqueos
@@ -81,7 +81,7 @@ class LoginController extends Controller
 	
 	public function relogin()
 	{
-		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
 			->find(Auth::id());
 		
 		$user->logs()->create([

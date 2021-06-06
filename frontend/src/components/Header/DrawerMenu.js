@@ -19,6 +19,7 @@ import {
 	Bullhorn as BullhornIcon,
 	Help as HelpIcon,
 	FrequentlyAskedQuestions as FAQIcon,
+	Wallet as WalletIcon,
 } from 'mdi-material-ui';
 // import { mdiFaceAgent } from '@mdi/js';
 
@@ -81,6 +82,12 @@ function DrawerMenu() {
 						{privilegio === 'A-' && (
 							<AdminList handleClose={handleClose} />
 						)}
+						<ReturnSelected url='/gedure/monedero' handle={handleClose}>
+							<ListItemIcon>
+								<WalletIcon />
+							</ListItemIcon>
+							<ListItemText primary='Monedero' /> 
+						</ReturnSelected>
 						<ReturnSelected handle={handleExpandHelp}>
 							<ListItemIcon>
 								<HelpIcon />
