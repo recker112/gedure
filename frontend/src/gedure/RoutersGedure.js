@@ -20,7 +20,6 @@ const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 //const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
 //const RoutersDeudas = lazy(() => import('./deudas_admin/RoutersDeudas'));
-const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
 const RoutersTransacciones = lazy(() => import('./transacciones_admin/RoutersTransacciones'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
 
@@ -74,12 +73,6 @@ export default function RoutersGedure() {
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar_transac?.debt_lote_index),
 		},*/
-		{
-			path: `${url}/monederos`,
-			component: <PageMonederos />,
-			exact: true,
-			iCanSee: Boolean(permissions?.administrar_transac?.wallet_index),
-		},
 		{
 			path: `${url}/transacciones`,
 			component: <RoutersTransacciones />,
