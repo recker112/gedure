@@ -23,6 +23,9 @@ const PageRegistros = lazy(() => import('./registros/PageRegistros'));
 const PageMonederos = lazy(() => import('./monedero_admin/PageMonedero'));
 const RoutersTransacciones = lazy(() => import('./transacciones_admin/RoutersTransacciones'));
 const PageGedureConfiguracion = lazy(() => import('./configuracion/PageGedureConfiguracion'));
+
+// Routers Generales
+const PageMonedero = lazy(() => import('./monedero/RoutersMonedero'));
 //const PageCuenta = lazy(() => import('./cuenta/PageCuenta'));
 //const PageFAQ = lazy(() => import('./preguntas/PageFAQ'));
 
@@ -129,6 +132,10 @@ export default function RoutersGedure() {
 
 				return null;
 			})}
+			
+			<Route path={`${url}/monedero`}>
+				<PageMonedero />
+			</Route>
 
 			<Route path={`${url}/cuenta`}>
 				{/*<PageCuenta />*/}
