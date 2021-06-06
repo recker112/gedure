@@ -151,7 +151,7 @@ export default function PageVerTransacciones() {
 				)}
 				{(!loading && !data.id) && (
 					<Box align='center' fontSize='body1.fontSize'>
-						No se pudo encontrar la transacciรณn solicitada.
+						No se pudo encontrar la transacción solicitada.
 					</Box>
 				)}
 			</Container>

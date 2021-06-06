@@ -8,6 +8,8 @@ import { NotFound } from '../../Routers';
 
 // Routers
 const PageIndex = lazy(() => import('./index/PageIndex'));
+const PageShow = lazy(() => import('./show/PageShow'));
+const PageVerify = lazy(() => import('./verify_pay/PageVerify'));
 
 export default function RoutersTransacciones() {
 	let { url } = useRouteMatch();
@@ -19,8 +21,12 @@ export default function RoutersTransacciones() {
 					<PageIndex />
 				</Route>
 				
-				<Route path={`${url}/transaccione/ver/:id`} exact>
-					
+				<Route path={`${url}/verificar-pago`} exact>
+					<PageVerify />
+				</Route>
+				
+				<Route path={`${url}/transacciones/ver/:id`} exact>
+					<PageShow />
 				</Route>
 				
 				<Route>

@@ -86,7 +86,7 @@ class BankTransactionController extends Controller
 		];
 		$transaction = $user->transactions()->create([
 			'type' => 'pago verificado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'amount' => $bank_transaction->amount,
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'transferencia o depósito bancario',
