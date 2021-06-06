@@ -131,7 +131,7 @@ export default function TransactionPDF({ data, pdfRef }) {
 				</Typography>
 				<br/>
 				<Typography component='span' className='text__bold--semi'>
-					Restante en cuenta: 
+					Saldo en monedero: 
 				</Typography>
 				<Typography component='span'>
 					{' '+parseFloatToMoneyString(data.amount+data.previous_balance)}

@@ -20,10 +20,22 @@ use App\Http\Controllers\Api\WalletSystem\TransactionController;
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction', [TransactionController::class, 'index']);
 
+// Index transactions user
+Route::middleware(['auth:api'])
+	->get('transaction-user', [TransactionController::class, 'indexUser']);
+
 // Show transactions
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction/{id}', [TransactionController::class, 'show']);
 
-// Show transactions
+// Show transactions user
+Route::middleware(['auth:api'])
+	->get('transaction-user/{id}', [TransactionController::class, 'showUser']);
+
+// Download transactions
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction/{id}/download', [TransactionController::class, 'download']);
+
+// Download transactions user
+Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
+	->get('transaction-user/{id}/download', [TransactionController::class, 'downloadUser']);

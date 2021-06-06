@@ -20,7 +20,7 @@ import PrintIcon from '@material-ui/icons/Print';
 import useFetch from '../../../hooks/useFetch';
 
 // Components
-import TransactionPDF from './TransactionPDF';
+import TransactionPDF from '../../transacciones_admin/ver/TransactionPDF';
 import downloadFiles from '../../../components/funciones/downloadFiles';
 import LoadingComponent from '../../../components/LoadingComponent';
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function PageVerTransacciones() {
+export default function PageShow() {
 	const pdfRef = useRef(null);
 	const [donwloading, setDonwloading] = useState(false);
 	
@@ -65,7 +65,7 @@ export default function PageVerTransacciones() {
 	const handleDownload = async () => {
 		setDonwloading(true);
 		const prepare = {
-			url: `v1/transaction/${id}/download`,
+			url: `v1/transaction-user/${id}/download`,
 			type: 'get',
 			messageToFinish: false,
 			data: {
@@ -84,7 +84,7 @@ export default function PageVerTransacciones() {
 	useEffect(()=>{
 		const requestPost = async () => {
 			const prepare = {
-				url: `v1/transaction/${id}`,
+				url: `v1/transaction-user/${id}`,
 				type: 'get',
 				messageToFinish: false,
 				messageTo404: false,
@@ -111,7 +111,7 @@ export default function PageVerTransacciones() {
 				<Box mb={3}>
 					<Grid container>
 						<Tooltip title='Volver' arrow>
-							<IconButton disabled={loading} component={RouteLink} to='/gedure/transacciones' aria-label="return">
+							<IconButton disabled={loading} component={RouteLink} to='/gedure/monedero' aria-label="return">
 								<ArrowBackIcon />
 							</IconButton>
 						</Tooltip>

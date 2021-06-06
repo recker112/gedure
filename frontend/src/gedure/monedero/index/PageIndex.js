@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { 
 	Grid, 
 	Container,
@@ -40,7 +42,13 @@ export default function PageIndex() {
 		balance: state.userData.user.wallet.balance,
 	}));
 	
+	const history = useHistory();
+	
 	const classes = useStyles();
+	
+	const handleVerify = () => {
+		history.push('/gedure/monedero/verificar-pago');
+	}
 	
 	return (
 		<main className={classes.containerMain}>
@@ -73,6 +81,7 @@ export default function PageIndex() {
 							variant='contained' 
 							color='primary'
 							data-tour='create'
+							onClick={handleVerify}
 						>
 							Verificar pago
 						</Button>
