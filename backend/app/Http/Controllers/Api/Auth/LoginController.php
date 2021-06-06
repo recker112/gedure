@@ -206,8 +206,6 @@ class LoginController extends Controller
 		
 		$listAT = [
 			'A-' => [
-				'wallet_index',
-				'wallet_edit',
 				'debt_lote_index',
 				'debt_lote_create',
 				'debt_lote_edit',

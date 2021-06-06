@@ -30,7 +30,7 @@ class CreateTransactionsTable extends Migration
 			
 			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
 			$table->string('transable_type')->nullable()->default(null);
-			$table->enum('type', ['deuda', 'transferencia', 'pago verificado', 'manual']);
+			$table->enum('type', ['deuda', 'transferencia', 'pago verificado']);
 			$table->json('payload');
 			$table->decimal('amount', 15, 2);
 			$table->decimal('previous_balance', 15, 2);

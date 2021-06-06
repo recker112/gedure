@@ -21,7 +21,6 @@ import {
 	Bank as BankIcon,
 	Cash as CashIcon,
 	PiggyBank as PiggyBankIcon,
-	Wallet as WalletIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -127,14 +126,6 @@ function AdminList({ handleClose }) {
 					</ReturnSelected>
 					<Collapse in={transacciones} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							{permissions?.administrar_transac?.wallet_index && (
-								<ReturnSelected url='/gedure/monederos' handle={handleClose} nested noExact>
-									<ListItemIcon>
-										<WalletIcon />
-									</ListItemIcon>
-									<ListItemText primary="Monederos" />
-								</ReturnSelected>
-							)}
 							{permissions?.administrar_transac?.debt_lote_index && (
 								<ReturnSelected url='/gedure/lotes-deudas' handle={handleClose} nested noExact>
 									<ListItemIcon>

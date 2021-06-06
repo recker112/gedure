@@ -16,10 +16,3 @@ use App\Http\Controllers\Api\WalletSystem\WalletController;
 |
 */
 
-// Index wallet
-Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_index'])
-	->get('wallet', [WalletController::class, 'index']);
-
-// Edit wallet
-Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_edit'])
-	->put('wallet/{wallet}', [WalletController::class, 'edit']);
