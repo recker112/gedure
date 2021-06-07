@@ -175,12 +175,13 @@ class UserController extends Controller
 			]);
 			
 			CursoController::orderAlumnos($curso->id);
-			
-			$user->wallet()->create();
 		}else if ($user->privilegio === 'A-') {
 			$personal_data = PersonalDataAdmin::create();
 			$personal_data->user()->save($user);
 		}
+		
+		// NOTA(RECKER): Crear wallet
+		$user->wallet()->create();
 		
 		// NOTA(RECKER): Asignar permisos
 		if ($request->super_admin && $user->privilegio === 'A-') {

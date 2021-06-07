@@ -107,3 +107,9 @@ Transaction API
 */
 Route::prefix('v1')
 	->group(base_path('routes/Api/WalletSystem/transaction.api.php'));
+
+/*
+PendingPayments API
+*/
+Route::prefix('v1')
+	->group(base_path('routes/Api/WalletSystem/pending_payment.api.php'));

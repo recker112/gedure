@@ -80,6 +80,8 @@ class BankTransactionController extends Controller
 			],
 			'extra_data' => [
 				'name' => $bank_account->name,
+				'rif' => $bank_account->rif,
+				'n_account' => $bank_account->n_account,
 				'code' => $bank_account->code,
 				'type' => $bank_account->type
 			]

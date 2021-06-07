@@ -12,10 +12,6 @@ if (!localStorage.getItem('gd-tour')) {
 const initialState = {
 	tema: localStorage.getItem('gd-theme'),
 	drawer: false,
-	steppers: {
-		active: 0,
-		skipped: new Set(),
-	},
 	tour: {
 		index: JSON.parse(localStorage.getItem('gd-tour')).index_v1,
 		registros: JSON.parse(localStorage.getItem('gd-tour')).registros_v1,
@@ -53,27 +49,6 @@ const reducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				drawer: payload
-			};
-		}
-			
-		case 'UPDATE_STEPPER_ACTIVE': {
-			return {
-				...state,
-				steppers: {
-					...state.steppers,
-					active: payload
-				}
-			};
-		}
-	
-		case 'UPDATE_STEPPER_SKIPPED': {
-			
-			return {
-				...state,
-				steppers: {
-					...state.steppers,
-					skipped: payload
-				}
 			};
 		}
 			

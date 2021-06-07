@@ -5,9 +5,9 @@ import settings from './reducers/settings';
 import userData from './reducers/userData';
 import forms from './reducers/forms';
 import dialogs from './reducers/dialogs';
-//import appData from './reducers/appData';
+import steppers from './reducers/steppers';
 
-const reducers = combineReducers({settings, userData, forms, dialogs});
+const reducers = combineReducers({settings, userData, forms, dialogs, steppers});
 
 const store = createStore(
 	reducers
