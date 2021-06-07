@@ -5,6 +5,9 @@ namespace App\Models\WalletSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// Carbon
+use Carbon\Carbon;
+
 class PendingPayment extends Model
 {
   use HasFactory;
@@ -30,7 +33,7 @@ class PendingPayment extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'deleted_at', 'user_id'
+		'deleted_at', 'user_id', 'bank_account_id'
 	];
 	
 	public function user()

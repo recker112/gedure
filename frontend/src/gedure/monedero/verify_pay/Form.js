@@ -9,6 +9,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
+import useFetch from '../../../hooks/useFetch';
+
 import { useSnackbar } from 'notistack';
 
 import { useForm, FormProvider } from "react-hook-form";
@@ -25,6 +27,7 @@ import DataPayment from './components/DataPayment';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import updateSteppersActive from '../../../actions/updateSteppersActive';
+import updateWallet from '../../../actions/updateWallet';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -68,6 +71,8 @@ export default function Form({ steps, stepperSelect }) {
 		shouldUnregister: true,
 	});
 	
+	const { fetchData } = useFetch();
+	
 	const handleFinish = async (submitData) => {
 		dispatch(updateSteppersActive(stepperSelect, activeStep, true));
 		
@@ -85,6 +90,8 @@ export default function Form({ steps, stepperSelect }) {
 				enqueueSnackbar(response.msg, {
 					variant: 'success',
 				});
+				
+				dispatch(updateWallet(response.balance));
 			}else {
 				enqueueSnackbar(response.msg, {
 					variant: 'info',

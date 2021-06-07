@@ -488,6 +488,8 @@
 					<p class='body1'>
 						{{ $transaction->payload->extra_data->name }}
 						<br />
+						J-{{ substr($transaction->payload->extra_data->rif, 0, -1) }}-{{ substr($transaction->payload->extra_data->rif, -1) }}
+						<br />
 						{{ $BankListSearch[$transaction->payload->extra_data->code] }}
 						<br />
 						{{ $transaction->payload->extra_data->type }}

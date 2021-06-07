@@ -68,6 +68,8 @@ export default function TransactionPDF({ data, pdfRef }) {
 						<Typography align='right'>
 							{data.payload.extra_data.name}
 							<br />
+							J-{data.payload.extra_data.rif.slice(0,-1)}-{data.payload.extra_data.rif.charAt(data.payload.extra_data.rif.length - 1)}
+							<br />
 							{BankListSearch[data.payload.extra_data.code]}
 							<br />
 							{data.payload.extra_data.type}
