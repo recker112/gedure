@@ -106,7 +106,7 @@ export default function Form({ steps, stepperSelect }) {
 	
 	return (
 		<FormProvider {...methods}>
-			<Container maxWidth='md' className={classes.container}>
+			<Container maxWidth='md' className={classes.container} data-tour="content">
 				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
 					<form autoComplete='off'>
 						<Grid container spacing={2} item xs={12}>
@@ -115,7 +115,7 @@ export default function Form({ steps, stepperSelect }) {
 					</form>
 				</MuiPickersUtilsProvider>
 			</Container>
-			<Container className={classes.footer}>
+			<Container className={classes.footer} data-tour="controls">
 				<Controls
 					steps={steps}
 					stepper={stepperSelect}

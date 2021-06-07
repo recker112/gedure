@@ -9,7 +9,7 @@ import { useTheme } from '@material-ui/core/styles';
 // Components
 import TourComponent from '../../../components/TourComponent';
 
-export default function TourMonedero() {
+export default function TourVerifyPay() {
 	const theme = useTheme();
 	
 	const steps = [
@@ -18,12 +18,12 @@ export default function TourMonedero() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Monedero
+						Verificar pago
 					</Typography>
 					<Typography variant='body1'>
-						En esta sección podrá <strong>gestionar su monedero</strong>, desde <strong>verificar pagos</strong> realizados hasta <strong>transferir saldo</strong> a otro usuario.
+						En esta sección podrá <strong>verificar los pagos</strong> realizados mediante transferencias o depósito bancario.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(6)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(5)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -33,10 +33,10 @@ export default function TourMonedero() {
 			}
 		},
 		{
-			selector: '[data-tour="balance"]',
+			selector: '[data-tour="return"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí puede visualizar la cantidad de saldo que dispone actualente.
+					Con este botón puede volver a la sección anterior.
 				</Typography>
 			),
 			style: {
@@ -44,10 +44,10 @@ export default function TourMonedero() {
 			},
 		},
 		{
-			selector: '[data-tour="verify_pay"]',
+			selector: '[data-tour="steppers"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permite <strong>comenzar el proceso para verificar un pago</strong> en el sistema.
+					Aquí se muestran las <strong>diferentes etapas</strong> por las cual tiene que pasar para compeltar el proceso.
 				</Typography>
 			),
 			style: {
@@ -55,10 +55,10 @@ export default function TourMonedero() {
 			},
 		},
 		{
-			selector: '[data-tour="transfer"]',
+			selector: '[data-tour="content"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permite <strong>realizar transferencia de saldo</strong> a otras cuentas existentes en el sistema.
+					Aquí puede <strong>visualizar el contenido de la etapa actual</strong>, complete todos los campos para poder pasar a la siguiente.
 				</Typography>
 			),
 			style: {
@@ -66,21 +66,10 @@ export default function TourMonedero() {
 			},
 		},
 		{
-			selector: '[data-tour="wallet_table"]',
+			selector: '[data-tour="controls"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podrá observar todos los movimientos realizados con su monedero en el sistema, puede buscarlos por <strong>ID</strong> o por <strong>Fecha</strong>. También podrá visualizar la factura generada automáticamente por el sistema.
-				</Typography>
-			),
-			style: {
-				backgroundColor: theme.palette.background.paper
-			},
-		},
-		{
-			selector: '[data-tour="refresh"]',
-			content: () => (
-				<Typography variant='body1'>
-					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
+					Aquí puede encontrar los distintos botones que le permitirán <strong>avanzar o retroceder</strong> en los pasos del proceso.
 				</Typography>
 			),
 			style: {
@@ -101,6 +90,6 @@ export default function TourMonedero() {
 	];
 	
 	return (
-		<TourComponent select='monedero' steps={steps} />
+		<TourComponent select='verify_pay' steps={steps} />
 	);
 }

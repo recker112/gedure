@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // Components
 import Aside from '../../../components/steppers/Aside';
 import Form from './Form';
+import TourVerifyPay from './TourVerifyPay';
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -76,6 +77,7 @@ export default function PageVerify() {
 					</Grid>
 				</Slide>
 			</Grid>
+			<TourVerifyPay />
 		</main>
 	);
 }

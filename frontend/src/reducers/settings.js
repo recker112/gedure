@@ -23,6 +23,7 @@ const initialState = {
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,
 		soli_contacto: JSON.parse(localStorage.getItem('gd-tour')).soli_contacto_v1,
 		monedero: JSON.parse(localStorage.getItem('gd-tour')).monedero_v1,
+		verify_pay: JSON.parse(localStorage.getItem('gd-tour')).verify_pay_v1,
 	}
 };
 
