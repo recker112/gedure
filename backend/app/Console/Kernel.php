@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
 	 * @var array
 	 */
 	protected $commands = [
-		//
+		Commands\Payments::class,
 	];
 
 	/**
@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
 	{
 		// php artisan schedule:run
 		$schedule->command('queue:work --stop-when-empty --tries=3 --queue=high,emails,default')->everyMinute()->withoutOverlapping();
+		$schedule->command('pending:payments')->weeklyOn(5, '20:00');
 		$schedule->command('passport:purge')->daily()->withoutOverlapping();
 	}
 
