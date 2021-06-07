@@ -5,11 +5,39 @@ import {
 	Typography,
 } from '@material-ui/core';
 
+import useFetch from '../../../../hooks/useFetch';
+
 // Components
+import DialogConfirmation from '../../../../components/DialogConfirmation';
 import TablePP from './TablePP';
+
+// Redux
+import { useSelector } from 'react-redux';
 
 export default function PendingPayments() {
 	const tableRef = useRef(null);
+	
+	const { data } = useSelector((state) => ({
+		data: state.dialogs.deleteConfirmation.data,
+	}));
+	
+	const { fetchData } = useFetch();
+	
+	const onConfirm = async handleClose => {
+		const prepare = {
+			url: `v1/pending-payment/${data.id}`,
+			type: 'delete',
+			message404: 'No se puede eliminar ese registro',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
+	}
 	
 	return (
 		<React.Fragment>
@@ -26,7 +54,7 @@ export default function PendingPayments() {
 				<ul>
 					<li>
 						<Typography>
-							Todas las transferencias son procesadas los días Viernes a las 08:00 PM.
+							Todos los pagos pendientes son procesados los días Viernes a las 08:00 PM.
 						</Typography>
 					</li>
 					<li>
@@ -44,6 +72,18 @@ export default function PendingPayments() {
 			
 			<Grid item xs={12}>
 				<TablePP tableRef={tableRef} />
+				<DialogConfirmation callback={onConfirm}>
+					{data.status === 'pendiente' && (
+						<span>
+							Está a punto de <strong>eliminar un pago pendiente a verificar</strong> con la referencia <strong>{data.reference}</strong>. Si borra un pago pendiente por error siempre podrá volver a crearlo.
+						</span>
+					)}
+					{data.status !== 'pendiente' && (
+						<span>
+							Este tipo de registros son <strong>eliminados automáticamente en la proxima revisión</strong>, puede eliminarlos manualmente o simplemente esperar a que el sistema lo haga por usted.
+						</span>
+					)}
+				</DialogConfirmation>
 			</Grid>
 		</React.Fragment>
 	);

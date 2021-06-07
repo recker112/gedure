@@ -47,9 +47,9 @@ class PendingPaymentController extends Controller
 	{
 		$user = $request->user();
 		
-		$bank_transaction = BankTransaction::where(function ($query) {
-				$query->where('concepto', request()->reference)
-					->orWhere('reference', request()->reference);
+		$bank_transaction = BankTransaction::where(function ($query) use ($request) {
+				$query->where('concepto', $request->reference)
+					->orWhere('reference', $request->reference);
 			})
 			->where('amount', $request->amount)
 			->where('code', $request->code)
@@ -109,6 +109,19 @@ class PendingPaymentController extends Controller
 		return response()->json([
 			'msg' => 'Pago verificado',
 			'balance' => $user->wallet->balance,
+		], 200);
+	}
+	
+	public function delete($id, Request $request)
+	{
+		$pending_payment = PendingPayment::where('user_id', $request->user()->id)
+			->where('id', $id)
+			->firstOrFail();
+		
+		$pending_payment->delete();
+		
+		return response()->json([
+			'msg' => 'Pago pendiente eliminado',
 		], 200);
 	}
 }

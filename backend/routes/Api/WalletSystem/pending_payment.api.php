@@ -16,10 +16,14 @@ use App\Http\Controllers\Api\WalletSystem\PendingPaymentController;
 |
 */
 
-// Index payment
+// Index pending payment
 Route::middleware(['auth:api'])
-	->get('payment-pending', [PendingPaymentController::class, 'index']);
+	->get('pending-payment', [PendingPaymentController::class, 'index']);
 
-// Verify payment
+// Verify pending payment
 Route::middleware(['auth:api'])
 	->post('bank-account/{bank_account}/payment', [PendingPaymentController::class, 'verify']);
+
+// Delete pending payment
+Route::middleware(['auth:api'])
+	->delete('pending-payment/{id}', [PendingPaymentController::class, 'delete']);

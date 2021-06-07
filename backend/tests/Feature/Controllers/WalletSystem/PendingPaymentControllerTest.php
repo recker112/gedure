@@ -26,17 +26,19 @@ class PendingPaymentControllerTest extends TestCase
 	public function testIndex()
 	{
 		//$this->withoutExceptionHandling();
+		$user = User::find(1);
 		Passport::actingAs(
-			User::find(1),
+			$user,
 			['admin']
 		);
 		
 		$bank_account = BankAccount::factory()->create();
 		$pending_payment = PendingPayment::factory(5)->create([
 			'bank_account_id' => $bank_account->id,
+			'user_id' => $user->id,
 		]);
 		
-		$response = $this->getJson("/api/v1/payment-pending?page=0&per_page=5");
+		$response = $this->getJson("/api/v1/pending-payment?page=0&per_page=5");
 		
 		$response->assertOk()
 			->assertJsonStructure([
@@ -104,5 +106,35 @@ class PendingPaymentControllerTest extends TestCase
 			->assertJsonMissing([
 				'balance'
 			]);
+	}
+	
+	public function testDelete()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$bank_account = BankAccount::factory()->create();
+		$pending_payment = PendingPayment::factory()->create([
+			'bank_account_id' => $bank_account->id,
+		]);
+		
+		$response = $this->deleteJson("/api/v1/pending-payment/".$pending_payment->id);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		// NOTA(RECKER): Pago pendiente no tuyo
+		$pending_payment = PendingPayment::factory()->create([
+			'bank_account_id' => $bank_account->id,
+			'user_id' => 2,
+		]);
+		$response = $this->deleteJson("/api/v1/pending-payment/".$pending_payment->id);
+
+		$response->assertStatus(404);
 	}
 }

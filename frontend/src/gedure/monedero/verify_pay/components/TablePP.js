@@ -14,12 +14,18 @@ import { tableIcons, tableLocation } from '../../../../components/TableConfig';
 import { parseFloatToMoneyString } from '../../../../components/funciones/ParseString';
 import { BankListSearch } from '../../../../components/funciones/BankList';
 
+// Redux
+import { useDispatch } from 'react-redux';
+import updateDialogs from '../../../../actions/updateDialogs';
+
 export default function TablePP({ tableRef }) {
 	const { fetchData } = useFetch();
 	
+	const dispatch = useDispatch();
+	
 	const onFetch = useCallback(async (query) => {
 		const prepare = {
-			url: `v1/payment-pending?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(query.search)}`,
+			url: `v1/pending-payment?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(query.search)}`,
 			type: 'get',
 			messageToFinish: false,
 		};
@@ -81,7 +87,9 @@ export default function TablePP({ tableRef }) {
 						title: 'Estado',
 						field: 'status',
 						render: (rowData) => {
-							let style = {};
+							let style = {
+								color: 'white !important'
+							};
 							if (rowData.status === 'no encontrado') {
 								style.background = '#212020';
 							}else if (rowData.status === 'verificado') {
@@ -112,7 +120,13 @@ export default function TablePP({ tableRef }) {
 						icon: () => (<DeleteIcon data-tour='delete_pending' />),
 						tooltip: 'Eliminar',
 						onClick: (event, rowData) => {
-							//
+							const data = {
+								id: rowData.id,
+								reference: rowData.reference,
+								status: rowData.status,
+							}
+
+							dispatch(updateDialogs('deleteConfirmation', true, false, data));
 						},
 					},
 				]}
