@@ -66,6 +66,7 @@ export default function TableDeudas({ tableRef }) {
 					{
 						title: 'Tipo', 
 						field: 'type',
+						render: (rowData) => rowData.type.charAt(0).toUpperCase()+rowData.type.slice(1),
 					},
 					{
 						title: 'Cantidad', 
@@ -89,7 +90,7 @@ export default function TableDeudas({ tableRef }) {
 						},
 					},
 					{
-						icon: () => (<VisibilityIcon data-tour='view_transaction' />),
+						icon: () => (<VisibilityIcon />),
 						tooltip: 'Ver transaccion',
 						onClick: (event, rowData) => {
 							history.push('/gedure/monedero/transacciones/ver/'+rowData.id);
