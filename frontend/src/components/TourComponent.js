@@ -11,14 +11,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import updateTour from '../actions/updateTour';
 
 function TourComponent({ steps, select, version = 'v1' }) {
-	const selected = `${select}_${version}`;
 	const { tourOpen } = useSelector((state) => ({
 		tourOpen: state.settings.tour[select],
 	}));
 	const dispatch = useDispatch();
 	
 	const handleClose = ()=>{
-		dispatch(updateTour(true, selected));
+		dispatch(updateTour(true, select, version));
 	}
 	
 	return (

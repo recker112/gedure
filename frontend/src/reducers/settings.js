@@ -22,7 +22,7 @@ const initialState = {
 		gedure: JSON.parse(localStorage.getItem('gd-tour')).gedure_v1,
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,
 		soli_contacto: JSON.parse(localStorage.getItem('gd-tour')).soli_contacto_v1,
-		monedero_admin: JSON.parse(localStorage.getItem('gd-tour')).monedero_admin_v1,
+		monedero: JSON.parse(localStorage.getItem('gd-tour')).monedero_v1,
 	}
 };
 
@@ -53,10 +53,11 @@ const reducer = (state = initialState, { type, payload }) => {
 		}
 			
 		case 'UPDATE_TOUR': {
-			const { open, tour } = payload;
+			const { open, tour, version } = payload;
+			const selected = `${tour}_${version}`;
 			
 			let tours = JSON.parse(localStorage.getItem('gd-tour'));
-			tours[tour] = open;
+			tours[selected] = open;
 			localStorage.setItem('gd-tour', JSON.stringify(tours));
 			
 			return {
