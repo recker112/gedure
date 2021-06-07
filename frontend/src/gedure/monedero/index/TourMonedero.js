@@ -7,9 +7,9 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 
 // Components
-import TourComponent from '../../components/TourComponent';
+import TourComponent from '../../../components/TourComponent';
 
-export default function TourCuenta() {
+export default function TourMonedero() {
 	const theme = useTheme();
 	
 	const steps = [
@@ -18,12 +18,12 @@ export default function TourCuenta() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Cuenta
+						Boletas
 					</Typography>
 					<Typography variant='body1'>
-						En esta sección podrá <strong>actualizar sus datos</strong> y realizar diversas acciones de su cuenta.
+						En esta sección podrá <strong>gestionar su monedero</strong>, desde <strong>verificar pagos</strong> realizados hasta <strong>transferir saldo</strong> a otro usuario.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(5)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(6)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -33,10 +33,10 @@ export default function TourCuenta() {
 			}
 		},
 		{
-			selector: '[data-tour="perfil"]',
+			selector: '[data-tour="balance"]',
 			content: () => (
 				<Typography variant='body1'>
-					Esta sección se agrupa los diferentes <strong>datos visibles</strong> su cuenta.
+					Aquí puede visualizar la cantidad de saldo que dispone actualente.
 				</Typography>
 			),
 			style: {
@@ -44,10 +44,10 @@ export default function TourCuenta() {
 			},
 		},
 		{
-			selector: '[data-tour="personal"]',
+			selector: '[data-tour="verify_pay"]',
 			content: () => (
 				<Typography variant='body1'>
-					Esta sección agrupa todos sus <strong>datos personales</strong>.
+					Este botón le permite <strong>comenzar el proceso para verificar un pago</strong> en el sistema.
 				</Typography>
 			),
 			style: {
@@ -55,10 +55,10 @@ export default function TourCuenta() {
 			},
 		},
 		{
-			selector: '[data-tour="contraseña"]',
+			selector: '[data-tour="transfer"]',
 			content: () => (
 				<Typography variant='body1'>
-					En esta sección podrá <strong>cambiar su contraseña</strong>.
+					Este botón le permite <strong>realizar transferencia de saldo</strong> a otras cuentas existentes en el sistema.
 				</Typography>
 			),
 			style: {
@@ -66,10 +66,21 @@ export default function TourCuenta() {
 			},
 		},
 		{
-			selector: '[data-tour="opciones"]',
+			selector: '[data-tour="wallet_table"]',
 			content: () => (
 				<Typography variant='body1'>
-					En esta sección podrá realizar diversas <strong>acciones en su cuenta</strong>.
+					Aquí podrá observar todos los movimientos realizados con su monedero en el sistema, puede buscarlos por <strong>ID</strong> o por <strong>Fecha</strong>. También podrá visualizar la factura generada automáticamente por el sistema.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="refresh"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {
@@ -90,6 +101,6 @@ export default function TourCuenta() {
 	];
 	
 	return (
-		<TourComponent select='cuenta' steps={steps} />
+		<TourComponent select='monedero' steps={steps} />
 	);
 }

@@ -80,7 +80,7 @@ export default function TourRegistros() {
 			selector: '',
 			content: () => (
 				<Typography variant='body1'>
-					Con esto finaliza esta guía, navege entre otras partes del sistema para encontrar más guías.
+					Con esto finaliza esta guía, navegue entre otras partes del sistema para encontrar más guías.
 				</Typography>
 			),
 			style: {

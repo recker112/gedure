@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Components
 import TableTU from './TableTU';
+import TourMonedero from './TourMonedero';
 import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
 
 // Redux
@@ -61,7 +62,7 @@ export default function PageIndex() {
 							</Typography>
 						</Grid>
 						<Grid item xs={12} sm>
-							<Typography variant='h6' align='right'>
+							<Typography variant='h6' align='right' data-tour='balance'>
 								Saldo en monedero: <Box component='span' color='success.main'>{parseFloatToMoneyString(balance || 0)}</Box>
 							</Typography>
 						</Grid>
@@ -72,16 +73,16 @@ export default function PageIndex() {
 						<Button 
 							variant='contained' 
 							color='primary'
-							data-tour='create'
 							className={classes.button}
+							data-tour='transfer'
 						>
 							Transferir saldo
 						</Button>
 						<Button 
 							variant='contained' 
 							color='primary'
-							data-tour='create'
 							onClick={handleVerify}
+							data-tour='verify_pay'
 						>
 							Verificar pago
 						</Button>
@@ -91,6 +92,7 @@ export default function PageIndex() {
 					</Grid>
 				</Grid>
 			</Container>
+			<TourMonedero />
 		</main>
 	);
 }
