@@ -12,7 +12,13 @@ import useFetch from '../../../hooks/useFetch';
 import { tableIcons, tableLocation } from '../../../components/TableConfig';
 import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
 
+// Redux
+import { useDispatch } from 'react-redux';
+import updateWallet from '../../../actions/updateWallet';
+
 export default function TableDeudas({ tableRef }) {
+	const dispatch = useDispatch();
+	
 	const history = useHistory();
 	
 	const { fetchData } = useFetch();
@@ -27,6 +33,9 @@ export default function TableDeudas({ tableRef }) {
 		const response = await fetchData(prepare);
 
 		if (response) {
+			// NOTA(RECKER): Actualizar balance
+			dispatch(updateWallet(response.balance));
+			
 			// Error page void
 			if (response.data.length === 0 && response.page !== 0) {
 				tableRef.current && tableRef.current.onQueryChange();

@@ -94,6 +94,8 @@ export default function PageShow() {
 
 			if (response) {
 				dispatch(updateForms('showTransaction', false, response));
+			}else {
+				dispatch(updateForms('showTransaction', false, {}));
 			}
 		}
 		

@@ -83,7 +83,8 @@ class TransactionControllerTest extends TestCase
 					]
 				],
 				'page',
-				'totalRows'
+				'totalRows',
+				'balance'
 			])
 			->assertJsonFragment([
 				'totalRows' => 5
