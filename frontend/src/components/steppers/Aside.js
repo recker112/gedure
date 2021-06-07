@@ -80,6 +80,7 @@ export default function Aside(props) {
 									className={classes.color}
 									onClick={handleReturn}
 									component='span'
+									data-tour="return"
 								>
 									<ArrowBackIcon />
 								</IconButton>
@@ -96,6 +97,7 @@ export default function Aside(props) {
 						<Stepper activeStep={activeStep} orientation="vertical" classes={{
 								root: classes.root,
 							}}
+							data-tour="steppers"
 						>
 							{steps.map((label) => (
 								<Step key={label}>

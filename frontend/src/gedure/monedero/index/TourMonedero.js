@@ -18,7 +18,7 @@ export default function TourMonedero() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Boletas
+						Monedero
 					</Typography>
 					<Typography variant='body1'>
 						En esta sección podrá <strong>gestionar su monedero</strong>, desde <strong>verificar pagos</strong> realizados hasta <strong>transferir saldo</strong> a otro usuario.
