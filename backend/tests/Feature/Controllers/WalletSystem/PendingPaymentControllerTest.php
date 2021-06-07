@@ -13,6 +13,7 @@ use Laravel\Passport\Passport;
 use App\Models\User;
 use App\Models\WalletSystem\BankAccount;
 use App\Models\WalletSystem\BankTransaction;
+use App\Models\WalletSystem\PendingPayment;
 
 class PendingPaymentControllerTest extends TestCase
 {
@@ -22,6 +23,40 @@ class PendingPaymentControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
+	public function testIndex()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$bank_account = BankAccount::factory()->create();
+		$pending_payment = PendingPayment::factory(5)->create([
+			'bank_account_id' => $bank_account->id,
+		]);
+		
+		$response = $this->getJson("/api/v1/payment-pending?page=0&per_page=5");
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'reference',
+						'amount',
+						'code',
+						'date',
+						'status',
+					]
+				],
+				'page',
+				'totalRows'
+			])
+			->assertJsonFragment([
+				'totalRows' => 5,
+			]);
+	}
+	
 	public function testVerify()
 	{
 		//$this->withoutExceptionHandling();

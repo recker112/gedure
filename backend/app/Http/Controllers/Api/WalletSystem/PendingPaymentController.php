@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\WalletSystem;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\TableRequest;
 use App\Http\Requests\wallet_system\PendingPaymentVerifyRequest;
 
 // Models
@@ -13,6 +14,31 @@ use App\Models\WalletSystem\PendingPayment;
 
 class PendingPaymentController extends Controller
 {
+	public function index(TableRequest $request)
+	{
+		$search = urldecode($request->search);
+
+		$perPage = $request->per_page;
+		$page = $request->page * $perPage;
+		
+		$pending_payment = PendingPayment::where('reference', 'like', '%'.$search.'%')
+			->orWhere('date', 'like', '%'.$search.'%')
+			->offset($page)
+			->limit($perPage)
+			->orderBy('id', 'desc')
+			->get();
+		
+		$pending_payment_count = PendingPayment::where('reference', 'like', '%'.$search.'%')
+			->orWhere('date', 'like', '%'.$search.'%')
+			->count();
+		
+		return response()->json([
+			'data' => $pending_payment,
+			'page' => request()->page * 1, 
+			'totalRows' => $pending_payment_count
+		], 200);
+	}
+	
   public function verify(BankAccount $bank_account, PendingPaymentVerifyRequest $request)
 	{
 		$user = $request->user();
@@ -41,11 +67,15 @@ class PendingPaymentController extends Controller
 			], 200);
 		}
 		
+		// NOTA(RECKER): Asignar transaccion bancaria
+		$bank_transaction->user_id = $user->id;
+		$bank_transaction->save();
+		
 		// NOTA(RECKER): Crear transaccion
 		$payload = [
 			'actions' => [
 				[
-					'reason' => 'Verificación de transferencia bancaria',
+					'reason' => 'Verificaciรณn de transferencia bancaria',
 					'amount' => $bank_transaction->amount,
 				]
 			],
@@ -62,10 +92,10 @@ class PendingPaymentController extends Controller
 			'payload' => $payload,
 			'amount' => $bank_transaction->amount,
 			'previous_balance' => $user->wallet->balance,
-			'payment_method' => 'transferencia o depósito bancario',
+			'payment_method' => 'transferencia o depรณsito bancario',
 		]);
 		
-		// NOTA(RECKER): Guardar relación polimorfica
+		// NOTA(RECKER): Guardar relacion polimorfica
 		$bank_transaction->transaction()->save($transaction);
 		
 		// NOTA(RECKER): Agregar saldo

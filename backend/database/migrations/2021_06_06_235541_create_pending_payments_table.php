@@ -29,7 +29,7 @@ class CreatePendingPaymentsTable extends Migration
 			$table->decimal('amount', 15, 2);
 			$table->date('date');
 			$table->char('code', 4);
-			$table->enum('status', ['pendiente', 'no encontrada', 'verificada'])
+			$table->enum('status', ['pendiente', 'no encontrado', 'verificado'])
 				->default('pendiente');
 			$table->timestamps();
 		});

@@ -16,6 +16,10 @@ use App\Http\Controllers\Api\WalletSystem\PendingPaymentController;
 |
 */
 
-// Index bank account
+// Index payment
+Route::middleware(['auth:api'])
+	->get('payment-pending', [PendingPaymentController::class, 'index']);
+
+// Verify payment
 Route::middleware(['auth:api'])
 	->post('bank-account/{bank_account}/payment', [PendingPaymentController::class, 'verify']);

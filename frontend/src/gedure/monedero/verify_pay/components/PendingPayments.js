@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {
 	Grid,
 	Typography,
 } from '@material-ui/core';
 
+// Components
+import TablePP from './TablePP';
+
 export default function PendingPayments() {
+	const tableRef = useRef(null);
+	
 	return (
 		<React.Fragment>
 			<Grid item xs={12}>
@@ -38,7 +43,7 @@ export default function PendingPayments() {
 			</Grid>
 			
 			<Grid item xs={12}>
-				
+				<TablePP tableRef={tableRef} />
 			</Grid>
 		</React.Fragment>
 	);
