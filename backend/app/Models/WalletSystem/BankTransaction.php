@@ -39,7 +39,9 @@ class BankTransaction extends Model
 	 * @var array
 	 */
 	protected $casts = [
-		'amount' => 'float'
+		'amount' => 'float',
+		'reference' => 'integer',
+		'concepto' => 'integer',
 	];
 	
 	public function bank_account()

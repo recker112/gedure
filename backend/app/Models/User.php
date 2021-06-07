@@ -108,6 +108,11 @@ class User extends Authenticatable
 		return $this->hasMany('App\Models\WalletSystem\BankTransaction')->withTrashed();
 	}
 	
+	public function pending_payments()
+	{
+		return $this->hasMany('App\Models\WalletSystem\PendingPayment');
+	}
+	
 	/*
 		ATRIBUTOS
 	*/
