@@ -21,8 +21,12 @@ class PendingPaymentController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$pending_payment = PendingPayment::where('reference', 'like', '%'.$search.'%')
-			->orWhere('date', 'like', '%'.$search.'%')
+		$pending_payment = PendingPayment::where('user_id', $request->user()->id)
+			->where(function ($query) {
+					$search = urldecode(request()->search);
+					$query->where('reference', 'like', '%'.$search.'%')
+						->orWhere('date', 'like', '%'.$search.'%');
+				})
 			->offset($page)
 			->limit($perPage)
 			->orderBy('id', 'desc')
@@ -75,7 +79,7 @@ class PendingPaymentController extends Controller
 		$payload = [
 			'actions' => [
 				[
-					'reason' => 'Verificaciรณn de transferencia bancaria',
+					'reason' => 'Verificación de transferencia bancaria',
 					'amount' => $bank_transaction->amount,
 				]
 			],
@@ -92,7 +96,7 @@ class PendingPaymentController extends Controller
 			'payload' => $payload,
 			'amount' => $bank_transaction->amount,
 			'previous_balance' => $user->wallet->balance,
-			'payment_method' => 'transferencia o depรณsito bancario',
+			'payment_method' => 'transferencia o depósito bancario',
 		]);
 		
 		// NOTA(RECKER): Guardar relacion polimorfica
