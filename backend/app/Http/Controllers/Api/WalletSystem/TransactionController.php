@@ -91,7 +91,8 @@ class TransactionController extends Controller
 		return response()->json([
 			'data' => $transaction,
 			'page' => request()->page * 1, 
-			'totalRows' => $transaction_count
+			'totalRows' => $transaction_count,
+			'balance' => $request->user()->wallet->balance,
 		], 200);
 	}
 	
