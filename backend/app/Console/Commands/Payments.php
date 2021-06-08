@@ -54,9 +54,10 @@ class Payments extends Command
 		$notFound = 0;
 		foreach($pending_payments as $pending) {
 			// NOTA(RECKER): Buscar transaccion bancaria
-			$bank_transaction = BankTransaction::where(function ($query) use ($pending) {
-					$query->where('concepto', $pending->reference)
-						->orWhere('reference', $pending->reference);
+			$bank_transaction = BankTransaction::doesntHave('user')
+				->where(function ($query) use ($pending) {
+					$query->where('concepto', 'like', "%$pending->reference%")
+						->orWhere('reference', 'like', "%$pending->reference%");
 				})
 				->where('amount', $pending->amount)
 				->where('code', $pending->code)

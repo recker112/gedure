@@ -47,9 +47,10 @@ class PendingPaymentController extends Controller
 	{
 		$user = $request->user();
 		
-		$bank_transaction = BankTransaction::where(function ($query) use ($request) {
-				$query->where('concepto', $request->reference)
-					->orWhere('reference', $request->reference);
+		$bank_transaction = BankTransaction::doesntHave('user')
+			->where(function ($query) use ($request) {
+				$query->where('concepto', 'like', "%$request->reference%")
+					->orWhere('reference', 'like', "%$request->reference%");
 			})
 			->where('amount', $request->amount)
 			->where('code', $request->code)
