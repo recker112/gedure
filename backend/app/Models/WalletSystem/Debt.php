@@ -54,6 +54,6 @@ class Debt extends Model
 	public function getUpdatedAtAttribute($value) {
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-d-m h:i A');
+			->format('Y-m-d h:i A');
 	}
 }
