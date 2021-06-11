@@ -80,7 +80,7 @@ class PendingPaymentController extends Controller
 		$payload = [
 			'actions' => [
 				[
-					'reason' => 'Verificación de transferencia bancaria',
+					'reason' => "Transferencia bancaria #$bank_transaction->id verificada",
 					'amount' => $bank_transaction->amount,
 				]
 			],
@@ -118,7 +118,7 @@ class PendingPaymentController extends Controller
 		];
 
 		$request->user()->logs()->create([
-			'action' => 'Transacción bancaria reclamada',
+			'action' => 'Transacciรณn bancaria reclamada',
 			'payload' => $payload,
 			'type' => 'transaction',
 		]);

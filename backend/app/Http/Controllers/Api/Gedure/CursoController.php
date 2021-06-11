@@ -44,11 +44,14 @@ class CursoController extends Controller
 	}
 	
 	public function findLike(FindLikeRequest $request) {
-		$search = urldecode(request()->search);
+		$search = urldecode($request->search);
+		$limit = $request->limit > 0 ? $request->limit : 0;
 		
 		$cursos = Curso::select('id','code')
 			->where('code', 'like', "%$search%")
-			->limit(15)
+			->when($limit > 0, function ($query) {
+					$query->limit($limit);
+				})
 			->get()
 			->makeVisible(['id', 'code']);
 		

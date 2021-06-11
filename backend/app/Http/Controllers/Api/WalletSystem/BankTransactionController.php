@@ -28,7 +28,8 @@ class BankTransactionController extends Controller
 		$page = $request->page * $perPage;
 		
 		$bank_transaction = BankTransaction::with('user')
-			->where('concepto', 'like', '%'.$search.'%')
+			->where('id', 'like', '%'.$search.'%')
+			->orWhere('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
 			->orWhere('date', 'like', '%'.$search.'%')
 			->offset($page)
@@ -74,7 +75,7 @@ class BankTransactionController extends Controller
 		$payload = [
 			'actions' => [
 				[
-					'reason' => 'Verificación de transferencia bancaria',
+					'reason' => "Transferencia bancaria #$bank_transaction->id verificada",
 					'amount' => $bank_transaction->amount,
 				]
 			],
