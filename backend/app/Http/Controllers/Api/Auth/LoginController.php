@@ -130,7 +130,7 @@ class LoginController extends Controller
 		
 		$user->logs()->create([
 			'action' => "Sesiones cerradas",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'session'
 		]);
 		
