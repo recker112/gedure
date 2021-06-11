@@ -115,8 +115,8 @@ class BankTransactionController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => 'Transacción bancaria asignada manualmente',
-			'payload' => json_encode($payload),
-			'type' => 'gedure',
+			'payload' => $payload,
+			'type' => 'transaction',
 		]);
 		
 		return response()->json([
@@ -159,7 +159,7 @@ class BankTransactionController extends Controller
 
 			request()->user()->logs()->create([
 				'action' => 'Transacción bancaria eliminada',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure',
 			]);
 		}
@@ -208,7 +208,7 @@ class BankTransactionController extends Controller
 		
 		$request->user()->logs()->create([
 				'action' => 'Transacciones bancarias eliminadas masivamente',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure',
 			]);
 		

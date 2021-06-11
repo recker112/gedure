@@ -107,6 +107,22 @@ class PendingPaymentController extends Controller
 		$user->wallet->balance += $bank_transaction->amount;
 		$user->wallet->save();
 		
+		// NOTA(RECKER): Log
+		$payload = [
+			'id' => $bank_transaction->id,
+			'concepto' => $bank_transaction->concepto,
+			'reference' => $bank_transaction->reference,
+			'amount' => $bank_transaction->amount,
+			'code' => $bank_transaction->code,
+			'date' => $bank_transaction->date,
+		];
+
+		$request->user()->logs()->create([
+			'action' => 'Transacción bancaria reclamada',
+			'payload' => $payload,
+			'type' => 'transaction',
+		]);
+		
 		return response()->json([
 			'msg' => 'Pago verificado',
 			'balance' => $user->wallet->balance,

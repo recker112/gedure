@@ -63,7 +63,7 @@ class BankAccountController extends Controller
 			
 			$request->user()->logs()->create([
 				'action' => "Cuenta bancaria creada",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 			
@@ -88,7 +88,7 @@ class BankAccountController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Cuenta bancaria actualizada",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		
@@ -109,7 +109,7 @@ class BankAccountController extends Controller
 
 			request()->user()->logs()->create([
 				'action' => "Cuenta bancaria eliminada",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 		}
@@ -147,7 +147,7 @@ class BankAccountController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Cuentas bancarias eliminadas masivamente",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		

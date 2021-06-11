@@ -109,8 +109,25 @@ class Payments extends Command
 				$user->wallet->balance += $bank_transaction->amount;
 				$user->wallet->save();
 				
+				// NOTA(RECKER): Actualizar el estado de la solicitud
 				$pending->status = 'verificado';
 				$pending->save();
+				
+				// NOTA(RECKER): Log
+				$payload = [
+					'id' => $bank_transaction->id,
+					'concepto' => $bank_transaction->concepto,
+					'reference' => $bank_transaction->reference,
+					'amount' => $bank_transaction->amount,
+					'code' => $bank_transaction->code,
+					'date' => $bank_transaction->date,
+				];
+				
+				$user->logs()->create([
+					'action' => 'Transacción bancaria reclamada',
+					'payload' => $payload,
+					'type' => 'transaction',
+				]);
 				
 				$success++;
 			}

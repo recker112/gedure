@@ -16,6 +16,7 @@ import {
 import AnimationDialog from '../../components/AnimationDialog';
 import converterCursoCode from '../../components/funciones/converterCursoCode';
 import { parseToAccountString, parseFloatToMoneyString } from '../../components/funciones/ParseString';
+import { BankListSearch } from '../../components/funciones/BankList';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -346,7 +347,7 @@ export default function ShowRegistros() {
 					<br />
 					<strong>Monto:</strong> {parseFloatToMoneyString(data.payload.amount || 0)}
 					<br />
-					<strong>Banco:</strong> {data.payload.code}
+					<strong>Banco:</strong> {BankListSearch[data.payload.code] || 'No especificado'}
 					<br />
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
@@ -363,7 +364,7 @@ export default function ShowRegistros() {
 					<br />
 					<strong>Monto:</strong> {parseFloatToMoneyString(data.payload.amount || 0)}
 					<br />
-					<strong>Banco:</strong> {data.payload.code}
+					<strong>Banco:</strong> {BankListSearch[data.payload.code] || 'No especificado'}
 					<br />
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
@@ -384,11 +385,28 @@ export default function ShowRegistros() {
 							<br />
 							<strong>Monto:</strong> {parseFloatToMoneyString(data.amount || 0)}
 							<br />
-							<strong>Banco:</strong> {data.code}
+							<strong>Banco:</strong> {BankListSearch[data.code] || 'No especificado'}
 							<br />
 							<strong>Fecha de la transacción:</strong> {data.date}
 						</React.Fragment>
 					))}
+				</DialogContentText>
+			);
+		}else if (data.action === 'Transacción bancaria reclamada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) reclamó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenia los siguientes datos:
+					<br />
+					<br />
+					<strong>Concepto:</strong> {data.payload.concepto}
+					<br />
+					<strong>Referencia:</strong> {data.payload.reference}
+					<br />
+					<strong>Monto:</strong> {parseFloatToMoneyString(data.payload.amount || 0)}
+					<br />
+					<strong>Banco:</strong> {BankListSearch[data.payload.code] || 'No especificado'}
+					<br />
+					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
 			);
 		}else {

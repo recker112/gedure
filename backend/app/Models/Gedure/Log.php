@@ -27,6 +27,15 @@ class Log extends Model
 		'date_format',
 	];
 	
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'payload' => 'object',
+	];
+	
 	public $timestamps = ["created_at"];
 	const UPDATED_AT = null;
 	

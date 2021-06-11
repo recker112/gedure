@@ -92,7 +92,7 @@ class TransactionController extends Controller
 			'data' => $transaction,
 			'page' => request()->page * 1, 
 			'totalRows' => $transaction_count,
-			'balance' => $request->user()->wallet->balance,
+			'balance' => $user->wallet->balance,
 		], 200);
 	}
 	

@@ -61,6 +61,7 @@ class TransactionControllerTest extends TestCase
 	{
 		//$this->withoutExceptionHandling();
 		$user = User::factory()->create();
+		$user->wallet()->create();
 		$transactions = Transaction::factory(5)->create([
 			'user_id' => $user->id,
 		]);
@@ -92,6 +93,7 @@ class TransactionControllerTest extends TestCase
 		
 		// NOTA(RECKER): Error transacciones no tuyas
 		$user = User::factory()->create();
+		$user->wallet()->create();
 		$transactions = Transaction::factory(5)->create([
 			'user_id' => 900,
 		]);

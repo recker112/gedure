@@ -69,7 +69,7 @@ class CursoController extends Controller
 			
 			$request->user()->logs()->create([
 				'action' => "Curso creado",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 			
@@ -100,7 +100,7 @@ class CursoController extends Controller
 			
 			request()->user()->logs()->create([
 				'action' => "Curso eliminado",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 		}
@@ -139,7 +139,7 @@ class CursoController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Cursos eliminados masivamente",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		return response()->json([

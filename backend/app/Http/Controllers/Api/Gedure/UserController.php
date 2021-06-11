@@ -203,7 +203,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuario creado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -312,7 +312,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuario editado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -424,7 +424,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario desactivado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -460,7 +460,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios desactivados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -515,7 +515,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Actualización de sección masiva',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -594,7 +594,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario restaurado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -626,7 +626,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios restaurados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -651,7 +651,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario eliminado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -688,7 +688,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios eliminados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
