@@ -22,7 +22,7 @@ export default function RoutersBoletas() {
 				</Route>
 				
 				<Route>
-					No encontrado
+					<NotFound />
 				</Route>
 			</Switch>
 		</React.Fragment>
