@@ -15,7 +15,7 @@ import { NotFound } from '../Routers';
 // Routers Admin
 const PageIndex = lazy(() => import('./index/PageIndex'));
 const PageRegistros = lazy(() => import('./registros/PageRegistros'));
-//const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
+const RoutersUsers = lazy(() => import('./usuarios/RoutersUsers'));
 //const RoutersPosts = lazy(() => import('./publicaciones/RoutersPosts'));
 //const RoutersBoletas = lazy(() => import('./boletas_admin/RoutersBoletas'));
 //const PageSoliContacto = lazy(() => import('./soli_contacto/PageSoliContacto'));
@@ -43,12 +43,12 @@ export default function RoutersGedure() {
 			exact: true,
 			iCanSee: Boolean(permissions?.sin_asignar?.registros_index),
 		},
-		/*{
+		{
 			path: `${url}/usuarios`,
 			component: <RoutersUsers />,
 			exact: false,
 			iCanSee: Boolean(permissions?.administrar?.users_index),
-		},*/
+		},
 		/*{
 			path: `${url}/publicaciones`,
 			component: <RoutersPosts />,

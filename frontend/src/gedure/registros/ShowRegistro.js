@@ -338,7 +338,7 @@ export default function ShowRegistros() {
 		}else if (data.action === 'Transacción bancaria asignada manualmente') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) asignó manualmente al usuario <strong>{`${data.payload.privilegio}${data.payload.username}`}</strong> la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenia los siguientes datos:
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) asignó manualmente al usuario <strong>{`${data.payload.privilegio}${data.payload.username}`}</strong> la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
 					<br />
 					<br />
 					<strong>Concepto:</strong> {data.payload.concepto}
@@ -355,7 +355,7 @@ export default function ShowRegistros() {
 		}else if (data.action === 'Transacción bancaria eliminada') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenia los siguientes datos:
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
 					<br />
 					<br />
 					<strong>Concepto:</strong> {data.payload.concepto}
@@ -395,7 +395,7 @@ export default function ShowRegistros() {
 		}else if (data.action === 'Transacción bancaria reclamada') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) reclamó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenia los siguientes datos:
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) reclamó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
 					<br />
 					<br />
 					<strong>Concepto:</strong> {data.payload.concepto}
@@ -407,6 +407,29 @@ export default function ShowRegistros() {
 					<strong>Banco:</strong> {BankListSearch[data.payload.code] || 'No especificado'}
 					<br />
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
+				</DialogContentText>
+			);
+		}else if (data.action === 'Lote de deudas creado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó el lote de deudas <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
+					<br />
+					<br />
+					<strong>Motivo:</strong> {data.payload.reason}
+					<br />
+					<strong>Cantidad a pagar:</strong> {data.payload.amount}
+				</DialogContentText>
+			);
+		}else if (data.action === 'Lote de deudas editado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó el lote de deudas <strong>#{data.payload.id}</strong>.
+				</DialogContentText>
+			);
+		}else if (data.action === 'Lote de deudas eliminado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó el lote de deudas <strong>#{data.payload.id}</strong>.
 				</DialogContentText>
 			);
 		}else {

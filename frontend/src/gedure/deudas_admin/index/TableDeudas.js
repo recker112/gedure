@@ -73,7 +73,6 @@ export default function TableDeudas({ tableRef }) {
 					{
 						title: 'Id', 
 						field: 'id',
-						render: (rowData) => `#${rowData.id}`,
 					},
 					{title: 'Motivo', field: 'reason'},
 					{

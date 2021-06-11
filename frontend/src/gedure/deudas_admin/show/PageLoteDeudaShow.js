@@ -149,21 +149,21 @@ export default function PageLoteDeudaShow() {
 						/>
 						<InfoBox
 							data={{
-								title: 'Usuarios solventes', 
+								title: 'Solventes', 
 								description: `${data.debts_pagas_count} usuario(s)`
 							}}
 							color='info.main'
 						/>
 						<InfoBox
 							data={{
-								title: 'Usuarios no solventes', 
+								title: 'No solventes', 
 								description: `${data.debts_no_pagadas_count} usuario(s)`
 							}}
 							color='error.main'
 						/>
 						<InfoBox
 							data={{
-								title: 'Usuarios con reembolso', 
+								title: 'Reembolsados', 
 								description: `${data.debts_reembolsados_count} usuario(s)`
 							}}
 							color='text.secondary'

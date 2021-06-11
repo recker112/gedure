@@ -27,7 +27,7 @@ import LoadingComponent from '../../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../../actions/updateDialogs';
+import updateDialogs from '../../../actions/updateDialogs'; 
 
 export default function CrearLoteDeuda({ tableRef }) {
 	const { open, loading } = useSelector((state) => ({
@@ -144,27 +144,29 @@ export default function CrearLoteDeuda({ tableRef }) {
 						<Grid item xs={12}>
 							<SelectHook
 								name='type'
-								label='Deuda para:'
+								label='Deuda para'
 								control={control}
 								disabled={loading}
-								helperText='Seleccione a los usuarios que recibirรกn esta deuda'
+								helperText='Seleccione a los estudiantes que recibirán esta deuda'
 								fullWidth
 							>
 								<MenuItem value=''><em>Ninguno</em></MenuItem>
-								<MenuItem value='selected'>Usuarios seleccionados</MenuItem>
+								<MenuItem value='all_studiends'>Todos los estudiantes</MenuItem>
+								<MenuItem value='selected'>Estudiantes seleccionados</MenuItem>
 								<MenuItem value='cursos'>Cursos</MenuItem>
 							</SelectHook>
 						</Grid>
 						{watch('type') === 'selected' && (
 							<Grid item xs={12}>
 								<AutoCompleteAsyncHook
-									label='Seleccionar usuarios'
+									label='Seleccionar estudiantes'
 									multiple
 									name='selected_users'
+									filterSelectedOptions
 									asyncRequest={asyncRequestUsers}
 									getOptionLabel={(option) => option.username}
 									renderOption={option => (`${option.privilegio}${option.username} - ${option.name}`)}
-									helperText='Busque a los usuarios que desea seleccionar'
+									helperText='Busque a los estudiantes que desea seleccionar'
 									control={control}
 									rules={{
 										required: { value: true, message: '* Campo requerido' },
@@ -199,7 +201,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 				<SwitchHook
 					control={control}
 					name='create_more'
-					label="Crear mรกs de uno"
+					label="Crear más de uno"
 					labelPlacement="start"
 					color="primary"
 					disabled={loading}

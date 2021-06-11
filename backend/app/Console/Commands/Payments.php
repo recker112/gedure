@@ -82,7 +82,7 @@ class Payments extends Command
 				$payload = [
 					'actions' => [
 						[
-							'reason' => 'Verificación de transferencia bancaria',
+							'reason' => "Transferencia bancaria #$bank_transaction->id verificada",
 							'amount' => $bank_transaction->amount,
 						]
 					],
@@ -124,7 +124,7 @@ class Payments extends Command
 				];
 				
 				$user->logs()->create([
-					'action' => 'Transacción bancaria reclamada',
+					'action' => 'Transacciรณn bancaria reclamada',
 					'payload' => $payload,
 					'type' => 'transaction',
 				]);

@@ -197,6 +197,7 @@ export function AutoCompleteHook(props) {
 		renderOption = null, 
 		multiple = false,
 		rules = null, 
+		filterSelectedOptions = false,
 		...rest 
 	} = props;
 	
@@ -221,6 +222,7 @@ export function AutoCompleteHook(props) {
 			options={options}
 			noOptionsText='No hay resultados'
 			renderOption={renderOption}
+			filterSelectedOptions={filterSelectedOptions}
 			renderInput={(params) => (
 				<TextField
 					{...params}
@@ -244,7 +246,8 @@ export function AutoCompleteAsyncHook(props) {
 		helperText = '',
 		renderOption = null, 
 		multiple = false, 
-		rules = null, 
+		rules = null,
+		filterSelectedOptions = false,
 		...rest 
 	} = props;
 	const [open, setOpen] = useState(false);
@@ -328,6 +331,7 @@ export function AutoCompleteAsyncHook(props) {
 			loadingText='Cargando...'
 			noOptionsText='No hay resultados'
 			renderOption={renderOption}
+			filterSelectedOptions={filterSelectedOptions}
 			renderInput={(params) => (
 				<TextField
 					{...params}
