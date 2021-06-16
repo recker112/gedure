@@ -215,7 +215,7 @@ class UserController extends Controller
 	public function edit(UserEditRequest $request, $id)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::with(['alumno', 'personal_data'])
+		$user = User::with(['alumno', 'personal_data', 'wallet'])
 			->find(intVal($id));
 		$delete_avatar = json_decode($request->delete_avatar);
 		
@@ -331,7 +331,7 @@ class UserController extends Controller
 	public function editSelf(UserEditRequest $request)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::with(['alumno', 'personal_data'])
+		$user = User::with(['alumno', 'personal_data', 'wallet'])
 			->findOrFail($request->user()->id);
 		$delete_avatar = json_decode($request->delete_avatar);
 		

@@ -8,9 +8,8 @@ import { NotFound } from '../../Routers';
 
 // Routers
 const PageDeudasIndex = lazy(() => import('./index/PageDeudasIndex'));
-const PageLoteDeudaShow = lazy(() => import('./show/PageLoteDeudaShow'));
 
-export default function RoutersBoletas() {
+export default function RoutersDeudasUser() {
 	let { url } = useRouteMatch();
 	
 	return (
@@ -18,10 +17,6 @@ export default function RoutersBoletas() {
 			<Switch>
 				<Route path={`${url}/`} exact>
 					<PageDeudasIndex />
-				</Route>
-				
-				<Route path={`${url}/ver/:id`} exact>
-					<PageLoteDeudaShow />
 				</Route>
 				
 				<Route>

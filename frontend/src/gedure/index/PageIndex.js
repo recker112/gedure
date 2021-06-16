@@ -136,7 +136,7 @@ export default function PageUserIndex() {
 							<BoxInfoTitle 
 								title={parseFloatToMoneyString(balance || 0)}
 								subTitle='Saldo en monedero'
-								color={balance > 0 ? 'success.main' : null}
+								color={balance > 0 ? 'success.main' : 'text.secondary'}
 							/>
 						</Grid>
 					</Grid>

@@ -11,6 +11,7 @@ import { NotFound } from '../Routers';
 
 // Routers User
 //const PageBoletas = lazy(() => import('./boletas/PageBoletas'));
+const RoutersDeudasUser = lazy(() => import('./deudas/RoutersDeudasUser'));
 
 // Routers Admin
 const PageIndex = lazy(() => import('./index/PageIndex'));
@@ -94,6 +95,12 @@ export default function RoutersGedure() {
 			exact: true,
 			iCanSee: true,
 		},*/
+		{
+			path: `${url}/deudas`,
+			component: <RoutersDeudasUser />,
+			exact: false,
+			iCanSee: true,
+		},
 	], [url]);
 	
 	return (

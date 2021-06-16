@@ -1,23 +1,23 @@
 import React, { useRef } from 'react';
 
-import { useHistory } from 'react-router-dom';
-
-import { 
-	Grid, 
+import {
 	Container,
 	Box,
-	Typography,
+	Grid,
 	Button,
+	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-// Components
-import TableTU from './TableTU';
-import TourMonedero from './TourMonedero';
+import useFetch from '../../../hooks/useFetch';
+
+// Componets
+import DialogConfirmation from '../../../components/DialogConfirmation';
 import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import updateDialogs from '../../../actions/updateDialogs';
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -30,35 +30,46 @@ const useStyles = makeStyles((theme) => ({
 			marginTop: theme.spacing(12),
 		},
 	},
-	button: {
-		marginRight: theme.spacing(1),
-	},
 }));
 
-export default function PageIndex() {
-	document.title = 'La Candelaria - Monedero';
+export default function PageDeudasIndex() {
+	document.title = 'La Candelaria - Deudas';
 	const tableRef = useRef(null);
 	
-	const { balance } = useSelector((state) => ({
+	const { data, balance } = useSelector((state) => ({
+		data: state.dialogs.deleteConfirmation.data,
 		balance: state.userData.user.wallet.balance,
 	}));
+	const dispatch = useDispatch();
 	
-	const history = useHistory();
+	const { fetchData } = useFetch();
 	
 	const classes = useStyles();
 	
-	const handleVerify = () => {
-		history.push('/gedure/monedero/verificar-pago');
+	const onConfirm = async handleClose => {
+		const prepare = {
+			url: `v1/deuda/lote/${data.id}`,
+			type: 'delete',
+			message404: 'El lote de deuda ya no existe',
+		};
+		
+		const response = await fetchData(prepare);
+		
+		if (response) {
+			tableRef.current && tableRef.current.onQueryChange();
+		}
+		
+		handleClose();
 	}
 	
 	return (
 		<main className={classes.containerMain}>
 			<Container>
-				<Box mb={3}>
+				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>
 					<Grid container justify='space-between' alignItems='center'>
 						<Grid item xs={12} sm>
 							<Typography variant='h4' className='text__bold--big'>
-								Monedero
+								Deudas
 							</Typography>
 						</Grid>
 						<Grid item xs={12} sm>
@@ -69,30 +80,11 @@ export default function PageIndex() {
 					</Grid>
 				</Box>
 				<Grid container spacing={2}>
-					<Grid container justify='flex-end' item xs={12}>
-						<Button 
-							variant='contained' 
-							color='primary'
-							className={classes.button}
-							data-tour='transfer'
-						>
-							Transferir saldo
-						</Button>
-						<Button 
-							variant='contained' 
-							color='primary'
-							onClick={handleVerify}
-							data-tour='verify_pay'
-						>
-							Verificar pago
-						</Button>
-					</Grid>
 					<Grid item xs={12}>
-						<TableTU tableRef={tableRef} />
+						
 					</Grid>
 				</Grid>
 			</Container>
-			<TourMonedero />
 		</main>
 	);
 }
