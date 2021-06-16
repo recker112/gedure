@@ -4,6 +4,14 @@ const initialState = {
 		skipped: new Set(),
 		loading: false,
 		data: {},
+	},
+	setup: {
+		active: 0,
+		skipped: new Set(),
+		loading: false,
+		data: {
+			personal_data: {}
+		},
 	}
 };
 
@@ -12,19 +20,22 @@ const reducer = (state = initialState, { type, payload }) => {
 		case 'UPDATE_STEPPER_ACTIVE': {
 			const { stepper, active, loading, data } = payload;
 			
-			let dataSave;
+			let dataSave = state[stepper].data;
 
 			if (data) {
 				dataSave = data;
-			} else {
-				dataSave = state[stepper].data;
+			}
+			
+			let activeStep = state[stepper].active;
+			if (active !== null) {
+				activeStep = active;
 			}
 
 			return {
 				...state,
 				[stepper]: {
 					...state[stepper],
-					active,
+					active: activeStep,
 					loading,
 					data: dataSave,
 				},

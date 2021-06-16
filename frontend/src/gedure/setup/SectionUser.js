@@ -25,15 +25,14 @@ import LoadingComponent from '../../components/LoadingComponent';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../actions/updateForms';
 import updateSteppersActive from '../../actions/updateSteppersActive';
 import updateDataUser from '../../actions/updateDataUser';
 
 export default function SectionUser() {
 	const { activeStep, loading, data } = useSelector((state) => ({
-		activeStep: state.settings.steppers.active,
-		loading: state.forms.setup.loading,
-		data: state.forms.setup.data,
+		activeStep: state.steppers.setup.active,
+		loading: state.steppers.setup.loading,
+		data: state.steppers.setup.data,
 	}));
 	const dispatch = useDispatch();
 	
@@ -46,23 +45,21 @@ export default function SectionUser() {
 	const history = useHistory();
 	
 	const handleNext = submitData => {
-		dispatch(updateForms('setup', false, {
+		dispatch(updateSteppersActive('setup', activeStep + 1, false, {
 			personal_data: {
 				...data.personal_data,
 				...submitData.personalData,
 			}
 		}));
-		
-		dispatch(updateSteppersActive(activeStep + 1));
   };
 	
 	const handleBack = () => {
-		dispatch(updateSteppersActive(activeStep - 1));
+		dispatch(updateSteppersActive('setup', activeStep - 1));
   };
 	
 	useEffect(() => {
 		const submitRequest = async () => {
-			dispatch(updateForms('setup', true));
+			dispatch(updateSteppersActive('setup', null, true));
 			
 			// Parse data
 			if (data.personal_data.estudi_nacionalidad !== 'V') {
@@ -105,10 +102,11 @@ export default function SectionUser() {
 				}));
 
 				history.push('/gedure');
+				
+				dispatch(updateSteppersActive('setup', 0, false));
+			}else {
+				dispatch(updateSteppersActive('setup', null, false));
 			}
-
-			dispatch(updateForms('setup', false));
-			dispatch(updateSteppersActive(0));
 		}
 			
 		if (activeStep > 2) {

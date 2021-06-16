@@ -63,7 +63,7 @@ export default function PageIndex() {
 						</Grid>
 						<Grid item xs={12} sm>
 							<Typography variant='h6' align='right' data-tour='balance'>
-								Saldo en monedero: <Box component='span' color='success.main'>{parseFloatToMoneyString(balance || 0)}</Box>
+								Saldo en monedero: <Box component='span' color={balance > 0 ? 'success.main' : 'text.secondary'}>{parseFloatToMoneyString(balance || 0)}</Box>
 							</Typography>
 						</Grid>
 					</Grid>
