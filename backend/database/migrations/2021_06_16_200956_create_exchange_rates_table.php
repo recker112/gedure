@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDebtLotesTable extends Migration
+class CreateExchangeRatesTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,11 +13,9 @@ class CreateDebtLotesTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('debt_lotes', function (Blueprint $table) {
-			$table->id();
-			$table->text('reason');
-			$table->decimal('amount_to_pay', 18, 2);
-			$table->enum('exchange_rate_type', ['Bs.S','USD']);
+		Schema::create('exchange_rates', function (Blueprint $table) {
+			$table->char('type', 10)->unique();
+			$table->decimal('amount', 18, 2);
 			$table->timestamps();
 		});
 	}
@@ -29,6 +27,6 @@ class CreateDebtLotesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('debt_lotes');
+		Schema::dropIfExists('exchange_rates');
 	}
 }

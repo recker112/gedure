@@ -52,7 +52,7 @@ export default function SelectAccount() {
 					control={control}
 					rules={{
 						required: '* Campo requerido',
-						min: { value: 1, message: 'Error: El monto debe ser mayor a 0' },
+						min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
 					}}
 					name='amount'
 					label='Monto pagado'

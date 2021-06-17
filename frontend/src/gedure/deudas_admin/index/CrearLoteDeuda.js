@@ -119,7 +119,7 @@ export default function CrearLoteDeuda({ tableRef }) {
 									minLength: { value: 6, message: 'Error: Demaciado corto' },
 									maxLength: { value: 100, message: 'Error: Demaciado largo' },
 								}}
-								name='motivo'
+								name='reason'
 								label='Motivo'
 								helperText='Ingrese el motivo de la deuda'
 								fullWidth
@@ -127,18 +127,33 @@ export default function CrearLoteDeuda({ tableRef }) {
 							/>
 						</Grid>
 						<Grid item xs={12}>
+							<SelectHook
+								name='exchange_rate_type'
+								label='Tipo de moneda'
+								control={control}
+								disabled={loading}
+								helperText='Seleccione la moneda que desea usar para esta deuda'
+								defaultValue='USD'
+								fullWidth
+							>
+								<MenuItem value='USD'>USD</MenuItem>
+								<MenuItem value='Bs.S'>Bs.S</MenuItem>
+							</SelectHook>
+						</Grid>
+						<Grid item xs={12}>
 							<InputMaskHook
 								control={control}
 								rules={{
 									required: '* Campo requerido',
-									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' },
+									min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
 								}}
-								name='cantidad_pagar'
+								name='amount_to_pay'
 								label='Monto a pagar'
 								helperText='Ingrese el monto a pagar de la deuda'
 								fullWidth
 								disabled={loading}
 								mask='money'
+								prefix={watch('exchange_rate_type') || 'USD'}
 							/>
 						</Grid>
 						<Grid item xs={12}>

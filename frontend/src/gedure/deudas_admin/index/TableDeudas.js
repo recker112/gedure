@@ -78,8 +78,9 @@ export default function TableDeudas({ tableRef }) {
 					{
 						title: 'Monto a pagar', 
 						field: 'amount_to_pay',
-						render: rowData => parseFloatToMoneyString(rowData.amount_to_pay),
+						render: rowData => parseFloatToMoneyString(rowData.exchange_rate_type === 'Bs.S' ? rowData.amount_to_pay : rowData.amount_to_pay_exchange),
 					},
+					{title: 'Tasa de cambio', field: 'exchange_rate_type'},
 					{title: 'Fecha de creación', field: 'created_at'}
 				]}
 				data={onFetch}
@@ -105,11 +106,12 @@ export default function TableDeudas({ tableRef }) {
 						tooltip: 'Editar',
 						disabled: !permissions.administrar_transac?.debt_lote_edit,
 						onClick: (event, rowData) => {
-							const { id, reason, amount_to_pay } = rowData;
+							const { id, reason, amount_to_pay, exchange_rate_type } = rowData;
 							dispatch(updateDialogs('editLoteDeuda', true, false, {
 								id, 
 								reason, 
-								amount_to_pay: parseFloat(amount_to_pay)
+								amount_to_pay: parseFloat(amount_to_pay),
+								exchange_rate_type
 							}));
 						},
 					},
