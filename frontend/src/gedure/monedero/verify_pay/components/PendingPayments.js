@@ -54,7 +54,7 @@ export default function PendingPayments() {
 				<ul>
 					<li>
 						<Typography>
-							Todos los pagos pendientes son procesados los días Viernes a las 08:00 PM.
+							Todos los pagos pendientes son procesados los días Viernes a las 8:00 PM.
 						</Typography>
 					</li>
 					<li>

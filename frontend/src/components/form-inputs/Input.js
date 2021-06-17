@@ -96,11 +96,15 @@ export function InputPasswordHook(props) {
 	);
 }
 
+let exchange_icons = {
+	'Bs.S': 'Bs.S ',
+	'USD': '$ ',
+}
 
 function NumberFormatMoney(props) {
-	const { inputRef, onChange, format, negative, ...other } = props;
+	const { inputRef, onChange, format, prefix, negative, ...other } = props;
 
-	const MAX_VAL = 999999999999;
+	const MAX_VAL = 999999999999999999;
 	const withValueLimit = (inputObj) => {
 		const { value } = inputObj;
 		if (value < MAX_VAL) return inputObj;
@@ -114,7 +118,7 @@ function NumberFormatMoney(props) {
 				onChange(values?.floatValue || '');
 			}}
 			thousandSeparator='.'
-			prefix={'Bs/S '}
+			prefix={exchange_icons[prefix]}
 			isAllowed={withValueLimit}
 			decimalScale={2}
 			decimalSeparator=','
@@ -146,6 +150,7 @@ export function InputMaskHook(props) {
 		rules = null,
 		mask='mask',
 		format='',
+		prefix='Bs.S',
 		helperText = '', 
 		defaultValue = '',
 		negative = false,
@@ -179,8 +184,9 @@ export function InputMaskHook(props) {
 				inputComponent: MaskFormats[mask],
 			}}
 			inputProps={{
-				format: format,
-				negative: negative
+				format,
+				negative,
+				prefix
 			}}
 		/>
 	);

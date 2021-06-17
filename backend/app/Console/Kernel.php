@@ -25,15 +25,19 @@ class Kernel extends ConsoleKernel
 	protected function schedule(Schedule $schedule)
 	{
 		// php artisan schedule:run
-		$schedule->command('queue:work --tries=3 --backoff=5 --queue=high,emails,default')
+		$schedule->command('queue:work --tries=3 --backoff=5 --queue=high,commands,default,emails')
 			->everyMinute()
 			->withoutOverlapping()
 			->runInBackground();
+		
+		$schedule->command('passport:purge')
+			->daily();
+		
 		$schedule->command('pending:payments')
 			->weeklyOn(5, '20:00');
-		$schedule->command('passport:purge')
-			->daily()
-			->withoutOverlapping();
+		
+		$schedule->command('queue:reset')
+			->daily();
 	}
 
 	/**

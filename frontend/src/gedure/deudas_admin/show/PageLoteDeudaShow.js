@@ -80,6 +80,7 @@ export default function PageLoteDeudaShow() {
 			
 			if (response) {
 				response.amount_to_pay = parseFloatToMoneyString(response.amount_to_pay);
+				response.amount_to_pay_exchange = parseFloatToMoneyString(response.amount_to_pay_exchange);
 				dispatch(updateForms('pageShowLoteDeuda', false, response));
 			}else {
 				dispatch(updateForms('pageShowLoteDeuda', false, {}));
@@ -125,7 +126,7 @@ export default function PageLoteDeudaShow() {
 						<InfoBox
 							data={{
 								title: 'Monto a pagar', 
-								description: data.amount_to_pay
+								description: data.exchange_rate_type === 'Bs.S' ? data.amount_to_pay : data.amount_to_pay_exchange
 							}}
 							color='success.main'
 						/>

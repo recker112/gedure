@@ -115,7 +115,7 @@ export default function EditLoteDeuda({ tableRef }) {
 								control={control}
 								rules={{
 									required: '* Campo requerido',
-									min: { value: 1, message: 'Error: El monto debe ser mayor a 0' },
+									min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
 								}}
 								name='new_price'
 								label='Monto a pagar'
@@ -124,6 +124,7 @@ export default function EditLoteDeuda({ tableRef }) {
 								fullWidth
 								disabled={loading}
 								mask='money'
+								prefix={data.exchange_rate_type}
 							/>
 						</Grid>
 						{permissions.administrar?.debt_create && (

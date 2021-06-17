@@ -9,6 +9,9 @@ use App\Http\Requests\wallet_system\BankTransactionRequest;
 use App\Http\Requests\wallet_system\BankTransactionAssignRequest;
 use App\Http\Requests\MassiveUsersRequest;
 
+// Artisan
+use Illuminate\Support\Facades\Artisan;
+
 // Excel
 use App\Imports\BankTransactionImport;
 

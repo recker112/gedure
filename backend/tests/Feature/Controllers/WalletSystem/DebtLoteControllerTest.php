@@ -30,8 +30,15 @@ class DebtLoteControllerTest extends TestCase
 		);
 		
 		$deuda_lote = DebtLote::create([
-			'reason' => 'Test',
-			'amount_to_pay' => 400,
+			'reason' => 'Test1',
+			'amount_to_pay' => 5,
+			'exchange_rate_type' => 'USD',
+		]);
+		
+		$deuda_lote2 = DebtLote::create([
+			'reason' => 'Test2',
+			'amount_to_pay' => 400000,
+			'exchange_rate_type' => 'Bs.S',
 		]);
 		
 		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=0');
@@ -43,7 +50,9 @@ class DebtLoteControllerTest extends TestCase
 						'id',
 						'reason',
 						'amount_to_pay',
-						'created_at',
+						'exchange_rate_type',
+						'amount_to_pay_exchange',
+						'created_at'
 					]
 				],
 				'page',
@@ -78,6 +87,7 @@ class DebtLoteControllerTest extends TestCase
 		$deuda_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 400,
+			'exchange_rate_type' => 'Bs.S',
 		]);
 		$id = $deuda_lote->id;
 		
@@ -125,8 +135,22 @@ class DebtLoteControllerTest extends TestCase
 		}
 		
 		$response = $this->postJson('/api/v1/deuda/lote', [
-			'motivo' => 'Mensualidad Abril 2021',
-			'cantidad_pagar' => 600000.93,
+			'reason' => 'Mensualidad Abril 2021',
+			'amount_to_pay' => 600000.93,
+			'exchange_rate_type' => 'Bs.S',
+			'type' => 'cursos',
+			'cursos' => [1],
+		]);
+		
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg',
+			]);
+		
+		$response = $this->postJson('/api/v1/deuda/lote', [
+			'reason' => 'Mensualidad Abril 2022',
+			'amount_to_pay' => 1.9,
+			'exchange_rate_type' => 'USD',
 			'type' => 'cursos',
 			'cursos' => [1],
 		]);
@@ -163,9 +187,10 @@ class DebtLoteControllerTest extends TestCase
 		}
 		
 		$response = $this->postJson('/api/v1/deuda/lote', [
-			'motivo' => 'Mensualidad Abril 2021',
-			'cantidad_pagar' => 600000.93,
+			'reason' => 'Mensualidad Abril 2021',
+			'amount_to_pay' => 600000.93,
 			'type' => 'selected',
+			'exchange_rate_type' => 'Bs.S',
 			'selected_users' => [$users[0]->id, $users[1]->id, $users[2]->id]
 		]);
 		
@@ -192,6 +217,8 @@ class DebtLoteControllerTest extends TestCase
 				'id',
 				'reason',
 				'amount_to_pay',
+				'amount_to_pay_exchange',
+				'exchange_rate_type',
 				'created_at',
 				'updated_at',
 				'debts_count',
@@ -229,6 +256,7 @@ class DebtLoteControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
+			'exchange_rate_type' => 'Bs.S'
 		]);
 		
 		$response = $this->putJson('/api/v1/deuda/lote/'.$debt_lote->id, [
@@ -259,6 +287,7 @@ class DebtLoteControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
+			'exchange_rate_type' => 'Bs.S'
 		]);
 		
 		// Users creator
@@ -300,6 +329,7 @@ class DebtLoteControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
+			'exchange_rate_type' => 'Bs.S'
 		]);
 		
 		// Users creator
