@@ -10,6 +10,7 @@ import {
 	ListItemIcon,
 	ListItemText,
 	Collapse,
+	Box,
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import RoomIcon from '@material-ui/icons/Room';
@@ -113,6 +114,17 @@ function DrawerMenu() {
 						</Collapse>
 					</List>
 				</Container>
+				<Box 
+					mt='auto' 
+					mb={4} 
+					position='relative' 
+					top={16}
+					color='text.secondary' 
+					fontSize='body2.fontSize' 
+					align='center'
+				>
+					Ver. 5.0.0-Beta.0
+				</Box>
 			</div>
 		</Drawer>
 	);
