@@ -17,7 +17,7 @@ import {
 	//FileWord as FileWordIcon,
 	//HammerWrench as HammerWrenchIcon,
 	//BookAlert as BookAlertIcon,
-	PiggyBank as PiggyBankIcon,
+	//PiggyBank as PiggyBankIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -61,12 +61,12 @@ function UserList({ handleClose }) {
 					</ReturnSelected>*/}
 				</List>
 			</Collapse>
-			<ReturnSelected url='/gedure/deudas' handle={handleClose}>
+			{/*<ReturnSelected url='/gedure/deudas' handle={handleClose}>
 				<ListItemIcon>
 					<PiggyBankIcon />
 				</ListItemIcon>
 				<ListItemText primary="Deudas" />
-			</ReturnSelected>
+			</ReturnSelected>*/}
 			{/*<ReturnSelected handle={handleOpenAdmin}>
 				<ListItemIcon>
 					<HammerWrenchIcon />

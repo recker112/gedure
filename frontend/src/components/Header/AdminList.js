@@ -18,9 +18,9 @@ import {
 	AccountMultiple as AccountMultipleIcon,
 	Post as PostIcon,
 	FilePdf as FilePdfIcon,
-	Bank as BankIcon,
-	Cash as CashIcon,
-	PiggyBank as PiggyBankIcon,
+	//Bank as BankIcon,
+	//Cash as CashIcon,
+	//PiggyBank as PiggyBankIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -39,7 +39,7 @@ function GedureIcon(props) {
 
 function AdminList({ handleClose }) {
 	const [principal, setPrincipal] = useState(false);
-	const [transacciones, setTransacciones] = useState(false);
+	//const [transacciones, setTransacciones] = useState(false);
 	
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
@@ -49,9 +49,9 @@ function AdminList({ handleClose }) {
 		setPrincipal(!principal);
 	}
 	
-	const handleOpenTransacciones = () => {
+	/*const handleOpenTransacciones = () => {
 		setTransacciones(!transacciones);
-	}
+	}*/
 	
 	return (
 		<React.Fragment>
@@ -115,7 +115,7 @@ function AdminList({ handleClose }) {
 					</Collapse>
 				</React.Fragment>
 			)}
-			{Object.keys(permissions.administrar_transac).length !== 0 && (
+			{/*Object.keys(permissions.administrar_transac).length !== 0 && (
 				<React.Fragment>
 					<ReturnSelected handle={handleOpenTransacciones}>
 						<ListItemIcon>
@@ -145,7 +145,7 @@ function AdminList({ handleClose }) {
 						</List>
 					</Collapse>
 				</React.Fragment>
-			)}
+			)*/}
 			{Object.keys(permissions.gedure).length !== 0 && (
 				<ReturnSelected url='/gedure/configuracion' handle={handleClose} noExact>
 					<ListItemIcon>
