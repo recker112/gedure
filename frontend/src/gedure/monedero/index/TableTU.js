@@ -1,32 +1,31 @@
 import React, { useCallback } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import MaterialTable from 'material-table';
-import {
-	CurrencyUsd as CurrencyUsdIcon,
-} from 'mdi-material-ui';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-import useFetch from '../../hooks/useFetch';
+import useFetch from '../../../hooks/useFetch';
 
 // Components
-import { tableIcons, tableLocation } from '../../components/TableConfig';
-import { parseFloatToMoneyString } from '../../components/funciones/ParseString';
+import { tableIcons, tableLocation } from '../../../components/TableConfig';
+import { parseFloatToMoneyString } from '../../../components/funciones/ParseString';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import updateDialogs from '../../actions/updateDialogs';
+import { useDispatch } from 'react-redux';
+import updateWallet from '../../../actions/updateWallet';
 
 export default function TableDeudas({ tableRef }) {
-	const { permissions } = useSelector((state) => ({
-		permissions: state.userData.permissions,
-	}));
 	const dispatch = useDispatch();
+	
+	const history = useHistory();
 	
 	const { fetchData } = useFetch();
 	
 	const onFetch = useCallback(async (query) => {
 		const prepare = {
-			url: `v1/wallet?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(query.search)}`,
+			url: `v1/transaction-user?page=${query.page}&per_page=${query.pageSize}&search=${encodeURI(query.search)}`,
 			type: 'get',
 			messageToFinish: false,
 		};
@@ -34,6 +33,9 @@ export default function TableDeudas({ tableRef }) {
 		const response = await fetchData(prepare);
 
 		if (response) {
+			// NOTA(RECKER): Actualizar balance
+			dispatch(updateWallet(response.balance));
+			
 			// Error page void
 			if (response.data.length === 0 && response.page !== 0) {
 				tableRef.current && tableRef.current.onQueryChange();
@@ -60,21 +62,29 @@ export default function TableDeudas({ tableRef }) {
 	}, []);
 	
 	return (
-		<div data-tour='table'>
+		<div data-tour='wallet_table'>
 			<MaterialTable
 				tableRef={tableRef}
-				title="Lotes de deudas registradas" 
+				title="Transacciones realizadas" 
 				icons={tableIcons}
 				columns={[
 					{
-						title: 'Usuario', 
-						field: 'user',
-						render: (rowData) => `${rowData.privilegio}${rowData.username}`,
+						title: 'Id', 
+						field: 'id',
 					},
 					{
-						title: 'Saldo disponible', 
-						field: 'wallet',
-						render: (rowData) => parseFloatToMoneyString(rowData.wallet?.balance || 0)
+						title: 'Tipo', 
+						field: 'type',
+						render: (rowData) => rowData.type.charAt(0).toUpperCase()+rowData.type.slice(1),
+					},
+					{
+						title: 'Cantidad', 
+						field: 'amount',
+						render: (rowData) => parseFloatToMoneyString(rowData.amount || 0)
+					},
+					{
+						title: 'Fecha', 
+						field: 'created_at',
 					},
 				]}
 				data={onFetch}
@@ -89,17 +99,10 @@ export default function TableDeudas({ tableRef }) {
 						},
 					},
 					{
-						icon: () => (<CurrencyUsdIcon data-tour='edit_wallet' />),
-						tooltip: 'Administrar',
-						disabled: !permissions.administrar_transac?.wallet_edit,
+						icon: () => (<VisibilityIcon />),
+						tooltip: 'Ver transaccion',
 						onClick: (event, rowData) => {
-							const { username, privilegio, wallet: { id, balance } } = rowData;
-							dispatch(updateDialogs('editWallet', true, false, {
-								id,
-								username,
-								privilegio,
-								balance,
-							}));
+							history.push('/gedure/monedero/transacciones/ver/'+rowData.id);
 						},
 					},
 				]}

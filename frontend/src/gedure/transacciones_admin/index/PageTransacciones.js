@@ -8,8 +8,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 // Components
-import TableMonedero from './TableMonedero';
-import EditMonedero from './EditMonedero';
+import TableTransacciones from './TableTransacciones';
+
 
 const useStyles = makeStyles((theme) => ({
 	containerMain: {
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function PageMonederos() {
-	document.title = 'La Candelaria - Monederos';
+export default function PagePublicaciones() {
+	document.title = 'La Candelaria - Transacciones';
 	const tableRef = useRef(null);
 	
 	const classes = useStyles();
@@ -33,11 +33,12 @@ export default function PageMonederos() {
 	return (
 		<main className={classes.containerMain}>
 			<Container>
-				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Monederos</Box>
+				<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>
+					Transacciones
+				</Box>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<TableMonedero tableRef={tableRef} />
-						<EditMonedero tableRef={tableRef} />
+						<TableTransacciones tableRef={tableRef} />
 					</Grid>
 				</Grid>
 			</Container>

@@ -24,12 +24,6 @@ const initialState = {
 		loading: true,
 		data: {},
 	},
-	setup: {
-		loading: false,
-		data: {
-			personal_data: {}
-		},
-	},
 	pageIndex: {
 		loading: true,
 		data: {},
@@ -147,6 +141,10 @@ const initialState = {
 	},
 	uploadBankTransaction: {
 		loading: false,
+		data: {},
+	},
+	showTransaction: {
+		loading: true,
 		data: {},
 	}
 };

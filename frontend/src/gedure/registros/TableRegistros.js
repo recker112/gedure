@@ -106,6 +106,7 @@ export default function TableRegistros({ tableRef, filters }) {
 							data.date = format(new Date(data.date_format), 'dd/MM/yy');
 							data.hours = format(new Date(data.date_format), 'hh:mm a');
 							data.username = rowData.user.privilegio+rowData.user.username;
+							data.name = rowData.user.name;
 							dispatch(updateDialogs('showRegistros', true, false, rowData));
 						},
 					},

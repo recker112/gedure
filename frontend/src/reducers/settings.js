@@ -12,10 +12,6 @@ if (!localStorage.getItem('gd-tour')) {
 const initialState = {
 	tema: localStorage.getItem('gd-theme'),
 	drawer: false,
-	steppers: {
-		active: 0,
-		skipped: new Set(),
-	},
 	tour: {
 		index: JSON.parse(localStorage.getItem('gd-tour')).index_v1,
 		registros: JSON.parse(localStorage.getItem('gd-tour')).registros_v1,
@@ -26,6 +22,8 @@ const initialState = {
 		gedure: JSON.parse(localStorage.getItem('gd-tour')).gedure_v1,
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,
 		soli_contacto: JSON.parse(localStorage.getItem('gd-tour')).soli_contacto_v1,
+		monedero: JSON.parse(localStorage.getItem('gd-tour')).monedero_v1,
+		verify_pay: JSON.parse(localStorage.getItem('gd-tour')).verify_pay_v1,
 	}
 };
 
@@ -55,32 +53,12 @@ const reducer = (state = initialState, { type, payload }) => {
 			};
 		}
 			
-		case 'UPDATE_STEPPER_ACTIVE': {
-			return {
-				...state,
-				steppers: {
-					...state.steppers,
-					active: payload
-				}
-			};
-		}
-	
-		case 'UPDATE_STEPPER_SKIPPED': {
-			
-			return {
-				...state,
-				steppers: {
-					...state.steppers,
-					skipped: payload
-				}
-			};
-		}
-			
 		case 'UPDATE_TOUR': {
-			const { open, tour } = payload;
+			const { open, tour, version } = payload;
+			const selected = `${tour}_${version}`;
 			
 			let tours = JSON.parse(localStorage.getItem('gd-tour'));
-			tours[`${tour}_v1`] = open;
+			tours[selected] = open;
 			localStorage.setItem('gd-tour', JSON.stringify(tours));
 			
 			return {

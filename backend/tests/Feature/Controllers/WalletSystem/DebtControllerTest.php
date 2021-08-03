@@ -31,6 +31,7 @@ class DebtControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
+			'exchange_rate_type' => 'Bs.S',
 		]);
 		
 		// Users creator
@@ -51,7 +52,7 @@ class DebtControllerTest extends TestCase
 	
 	public function testIndex()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

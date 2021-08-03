@@ -133,7 +133,7 @@ class BoletaController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Boleta editada",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		
@@ -221,7 +221,7 @@ class BoletaController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Boletas cargadas",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		
@@ -251,7 +251,7 @@ class BoletaController extends Controller
 
 				request()->user()->logs()->create([
 					'action' => "Boleta eliminada",
-					'payload' => json_encode($payload),
+					'payload' => $payload,
 					'type' => 'gedure'
 				]);
 			}
@@ -297,7 +297,7 @@ class BoletaController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Boletas eliminadas masivamente",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		

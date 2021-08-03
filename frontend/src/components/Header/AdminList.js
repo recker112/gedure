@@ -18,9 +18,9 @@ import {
 	AccountMultiple as AccountMultipleIcon,
 	Post as PostIcon,
 	FilePdf as FilePdfIcon,
-	Bank as BankIcon,
-	PiggyBank as PiggyBankIcon,
-	Wallet as WalletIcon,
+	//Bank as BankIcon,
+	//Cash as CashIcon,
+	//PiggyBank as PiggyBankIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -39,7 +39,7 @@ function GedureIcon(props) {
 
 function AdminList({ handleClose }) {
 	const [principal, setPrincipal] = useState(false);
-	const [transacciones, setTransacciones] = useState(false);
+	//const [transacciones, setTransacciones] = useState(false);
 	
 	const { permissions } = useSelector((state) => ({
 		permissions: state.userData.permissions,
@@ -49,9 +49,9 @@ function AdminList({ handleClose }) {
 		setPrincipal(!principal);
 	}
 	
-	const handleOpenTransacciones = () => {
+	/*const handleOpenTransacciones = () => {
 		setTransacciones(!transacciones);
-	}
+	}*/
 	
 	return (
 		<React.Fragment>
@@ -115,25 +115,17 @@ function AdminList({ handleClose }) {
 					</Collapse>
 				</React.Fragment>
 			)}
-			{Object.keys(permissions.administrar_transac).length !== 0 && (
+			{/*Object.keys(permissions.administrar_transac).length !== 0 && (
 				<React.Fragment>
 					<ReturnSelected handle={handleOpenTransacciones}>
 						<ListItemIcon>
-							<BankIcon />
+							<CashIcon />
 						</ListItemIcon>
-						<ListItemText primary='Transacciones' /> 
+						<ListItemText primary='Sistema de dinero' /> 
 						{transacciones ? <ExpandLess /> : <ExpandMore />}
 					</ReturnSelected>
 					<Collapse in={transacciones} timeout="auto" unmountOnExit>
 						<List component="div" disablePadding>
-							{permissions?.administrar_transac?.wallet_index && (
-								<ReturnSelected url='/gedure/monederos' handle={handleClose} nested noExact>
-									<ListItemIcon>
-										<WalletIcon />
-									</ListItemIcon>
-									<ListItemText primary="Monederos" />
-								</ReturnSelected>
-							)}
 							{permissions?.administrar_transac?.debt_lote_index && (
 								<ReturnSelected url='/gedure/lotes-deudas' handle={handleClose} nested noExact>
 									<ListItemIcon>
@@ -142,10 +134,18 @@ function AdminList({ handleClose }) {
 									<ListItemText primary="Lotes de deudas" />
 								</ReturnSelected>
 							)}
+							{permissions?.administrar_transac?.transaction_index && (
+								<ReturnSelected url='/gedure/transacciones' handle={handleClose} nested noExact>
+									<ListItemIcon>
+										<BankIcon />
+									</ListItemIcon>
+									<ListItemText primary="Transacciones" />
+								</ReturnSelected>
+							)}
 						</List>
 					</Collapse>
 				</React.Fragment>
-			)}
+			)*/}
 			{Object.keys(permissions.gedure).length !== 0 && (
 				<ReturnSelected url='/gedure/configuracion' handle={handleClose} noExact>
 					<ListItemIcon>

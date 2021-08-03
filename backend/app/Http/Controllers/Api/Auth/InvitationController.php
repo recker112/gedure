@@ -81,7 +81,7 @@ class InvitationController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuario invitado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		

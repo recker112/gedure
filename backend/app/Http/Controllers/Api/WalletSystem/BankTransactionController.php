@@ -9,6 +9,9 @@ use App\Http\Requests\wallet_system\BankTransactionRequest;
 use App\Http\Requests\wallet_system\BankTransactionAssignRequest;
 use App\Http\Requests\MassiveUsersRequest;
 
+// Artisan
+use Illuminate\Support\Facades\Artisan;
+
 // Excel
 use App\Imports\BankTransactionImport;
 
@@ -28,7 +31,8 @@ class BankTransactionController extends Controller
 		$page = $request->page * $perPage;
 		
 		$bank_transaction = BankTransaction::with('user')
-			->where('concepto', 'like', '%'.$search.'%')
+			->where('id', 'like', '%'.$search.'%')
+			->orWhere('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
 			->orWhere('date', 'like', '%'.$search.'%')
 			->offset($page)
@@ -38,6 +42,7 @@ class BankTransactionController extends Controller
 		
 		$bank_transaction_count = BankTransaction::where('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
+			->orWhere('date', 'like', '%'.$search.'%')
 			->count();
 		
 		return response()->json([
@@ -71,21 +76,23 @@ class BankTransactionController extends Controller
 		// NOTA(RECKER): Crear transaccion
 		$bank_account = $bank_transaction->bank_account;
 		$payload = [
-			'data' => [
+			'actions' => [
 				[
-					'reason' => 'Verificación de transferencia bancaria',
+					'reason' => "Transferencia bancaria #$bank_transaction->id verificada",
 					'amount' => $bank_transaction->amount,
 				]
 			],
 			'extra_data' => [
 				'name' => $bank_account->name,
+				'rif' => $bank_account->rif,
+				'n_account' => $bank_account->n_account,
 				'code' => $bank_account->code,
 				'type' => $bank_account->type
 			]
 		];
 		$transaction = $user->transactions()->create([
-			'type' => 'pago verficado',
-			'payload' => json_encode($payload),
+			'type' => 'pago verificado',
+			'payload' => $payload,
 			'amount' => $bank_transaction->amount,
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'transferencia o depósito bancario',
@@ -97,6 +104,8 @@ class BankTransactionController extends Controller
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $bank_transaction->amount;
 		$user->wallet->save();
+		
+		// NOTA(RECKER): Logs
 		$payload = [
 			'id' => $bank_transaction->id,
 			'concepto' => $bank_transaction->concepto,
@@ -110,8 +119,8 @@ class BankTransactionController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => 'Transacción bancaria asignada manualmente',
-			'payload' => json_encode($payload),
-			'type' => 'gedure',
+			'payload' => $payload,
+			'type' => 'transaction',
 		]);
 		
 		return response()->json([
@@ -154,7 +163,7 @@ class BankTransactionController extends Controller
 
 			request()->user()->logs()->create([
 				'action' => 'Transacción bancaria eliminada',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure',
 			]);
 		}
@@ -203,7 +212,7 @@ class BankTransactionController extends Controller
 		
 		$request->user()->logs()->create([
 				'action' => 'Transacciones bancarias eliminadas masivamente',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure',
 			]);
 		

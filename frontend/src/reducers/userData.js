@@ -2,7 +2,10 @@
 const initialState = {
 	auth: false,
 	access_key: '',
-	user: {},
+	user: {
+		personal_data: {},
+		wallet: {}
+	},
 	permissions: {}
 };
 
@@ -12,6 +15,21 @@ const reducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				...payload
+			};
+		}
+			
+		case 'UPDATE_WALLET_USER': {
+			const { balance } = payload;
+			
+			return {
+				...state,
+				user: {
+					...state.user,
+					wallet: {
+						...state.user.wallet,
+						balance: balance
+					}
+				}
 			};
 		}
 			

@@ -86,7 +86,7 @@ function Header() {
 	});
 	
 	const match4 = useRouteMatch({
-		path: '/panel/usuarios/cargar',
+		path: '/gedure/monedero/verificar-pago',
 		exact: true,
 	});
 

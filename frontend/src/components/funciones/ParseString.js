@@ -13,27 +13,17 @@ export function parseToAccountString(n_account) {
 	return text;
 }
 
-export function parseFloatToMoneyString(float) {
-	let moneyText = float.toString();
-	moneyText = moneyText.split('.');
-	let decimals = moneyText[1] || '00';
-	let amount = moneyText[0].split('');
-	moneyText = '';
-	let negative = false;
+export function parseFloatToMoneyString(number = 0, prefix = 'Bs.S ', decPlaces = 2, thouSeparator = '.', decSeparator = ',') {
+	if (isNaN(number)) return prefix + '0';
 	
-	if (amount[0] === '-') {
-		negative = true;
-		amount.splice(0,1);
-	}
-	for(let i = 1; amount.length >= i; i++) {
-		if (i % 3 === 0) {
-			moneyText = `${amount[i] ? '.' : ''}${amount[amount.length - i]}${moneyText}`;
-		}else {
-			moneyText = `${amount[amount.length - i]}${moneyText}`;
-		}
-	}
-	moneyText = `${negative ? '-' : ''}${moneyText}`;
-	moneyText = `Bs/S ${moneyText},${decimals}`;
-
-	return moneyText;
+  const negative = number < 0 ? '-' : '';
+  let enteros = parseInt((number = Math.abs(+number || 0).toFixed(decPlaces))) + '';
+  // eslint-disable-next-line no-use-before-define
+  let divider = enteros.length;
+	divider = divider > 3 ? divider % 3 : 0;
+	
+	let part1 = divider ? enteros.substr(0, divider) + thouSeparator : '';
+	let part2 = enteros.substr(divider).replace(/(\d{3})(?=\d)/g, '$1' + thouSeparator);
+	let part3 = decPlaces ? decSeparator + Math.abs(number - enteros).toFixed(decPlaces).slice(2) : '';
+  return (prefix + negative + part1 + part2 + part3);
 }

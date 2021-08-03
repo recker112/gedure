@@ -44,11 +44,14 @@ class CursoController extends Controller
 	}
 	
 	public function findLike(FindLikeRequest $request) {
-		$search = urldecode(request()->search);
+		$search = urldecode($request->search);
+		$limit = $request->limit > 0 ? $request->limit : 0;
 		
 		$cursos = Curso::select('id','code')
 			->where('code', 'like', "%$search%")
-			->limit(15)
+			->when($limit > 0, function ($query) {
+					$query->limit($limit);
+				})
 			->get()
 			->makeVisible(['id', 'code']);
 		
@@ -69,7 +72,7 @@ class CursoController extends Controller
 			
 			$request->user()->logs()->create([
 				'action' => "Curso creado",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 			
@@ -100,7 +103,7 @@ class CursoController extends Controller
 			
 			request()->user()->logs()->create([
 				'action' => "Curso eliminado",
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'gedure'
 			]);
 		}
@@ -139,7 +142,7 @@ class CursoController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Cursos eliminados masivamente",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		return response()->json([

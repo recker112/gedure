@@ -27,6 +27,15 @@ class Log extends Model
 		'date_format',
 	];
 	
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'payload' => 'object',
+	];
+	
 	public $timestamps = ["created_at"];
 	const UPDATED_AT = null;
 	
@@ -45,7 +54,7 @@ class Log extends Model
 	public function getCreatedAtAttribute($value) {
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-d-m h:i A');
+			->format('Y-m-d h:i A');
 	}
 	
 	public function getDateFormatAttribute()

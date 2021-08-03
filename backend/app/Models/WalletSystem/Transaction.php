@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+// Carbon
+use Carbon\Carbon;
+
 class Transaction extends Model
 {
   use HasFactory, SoftDeletes;
@@ -34,7 +37,12 @@ class Transaction extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'updated_at', 'deleted_at', 'user_id', 'transable_id', 'transable_type'
+		'updated_at', 
+		'deleted_at',
+		'user_id', 
+		'transable_id',
+		'transable_type',
+		'exonerante_id'
 	];
 	
 	/**
@@ -46,6 +54,7 @@ class Transaction extends Model
 		'amount' => 'float',
 		'previous_balance' => 'float',
 		'exonerado' => 'integer',
+		'payload' => 'object',
 	];
 	
 	public function user()
@@ -61,5 +70,11 @@ class Transaction extends Model
 	public function transable()
 	{
 		return $this->morphTo()->withTrashed();
+	}
+	
+	public function getCreatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-m-d h:i A');
 	}
 }
