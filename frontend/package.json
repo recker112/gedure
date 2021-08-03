@@ -1,6 +1,6 @@
 {
   "name": "frontend-la-candelaria",
-  "version": "5.0.0-Beta.0",
+  "version": "5.0.0-Beta.1",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",

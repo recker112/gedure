@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		opacity: 0.9,
+		transition: '0.5s',
 		borderRadius: '5px',
 		'&:hover': {
 			opacity: 1,

@@ -13,10 +13,8 @@ import useFetch from '../../hooks/useFetch';
 
 // Content
 import BoxInfoRequest from './BoxInfoRequest';
-import BoxInfoTitle from './BoxInfoTitle';
 import converterCursoCode from '../../components/funciones/converterCursoCode';
 import TourIndex from './TourIndex';
-import { parseFloatToMoneyString } from '../../components/funciones/ParseString';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -61,11 +59,10 @@ function Header() {
 export default function PageUserIndex() {
 	document.title = 'La Candelaria - Gedure';
 	
-	const { privilegio, loading, data, balance } = useSelector((state) => ({
+	const { privilegio, loading, data } = useSelector((state) => ({
 		privilegio: state.userData.user.privilegio,
 		loading: state.forms.pageIndex.loading,
 		data: state.forms.pageIndex.data,
-		balance: state.userData.user.wallet.balance,
 	}));
 	const dispatch = useDispatch();
 	
@@ -126,13 +123,6 @@ export default function PageUserIndex() {
 								/>
 							</React.Fragment>
 						)}
-						<Grid container justify='center' spacing={2} item xs={12}>
-							<BoxInfoTitle 
-								title={parseFloatToMoneyString(balance || 0)}
-								subTitle='Saldo en monedero'
-								color={balance > 0 ? 'success.main' : 'text.secondary'}
-							/>
-						</Grid>
 					</Grid>
 				</Container>
 			</Fade>
