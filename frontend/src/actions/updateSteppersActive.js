@@ -1,9 +1,14 @@
 //Se crea una acciรณn la cual será capturada
 //por el reducer correspondiente.
-const updateSteppersActive = (active) => {
+const updateSteppersActive = (stepper, active, loading = false, data = null) => {
   return {
     type: "UPDATE_STEPPER_ACTIVE",
-		payload: active,
+		payload: {
+			stepper,
+			active,
+			loading,
+			data
+		},
   }
 }
 

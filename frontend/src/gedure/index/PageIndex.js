@@ -51,12 +51,6 @@ function Header() {
 						Bienveido a <Box color='secondary.main' component='span'>Gedure</Box>
 					</Box>
 				</Grid>
-				<Grid item xs>
-					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi' align='right'>
-						Versión del sistema
-					</Box>
-					<Box color='secondary.main' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi' align='right'>v5.0.0-Beta.0</Box>
-				</Grid>
 			</Grid>
 		</Container>
 	);

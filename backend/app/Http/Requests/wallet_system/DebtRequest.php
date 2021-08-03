@@ -24,9 +24,10 @@ class DebtRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'motivo' => 'required|string',
-			'cantidad_pagar' => 'required|numeric|min:1',
+			'reason' => 'required|string',
+			'amount_to_pay' => 'required|numeric|min:1',
 			'type' => 'required|string',
+			'exchange_rate_type' => 'required|in:Bs.S,USD',
 			'cursos' => 'nullable|array',
 			'cursos.*' => 'numeric',
 			'selected_users' => 'nullable|array',

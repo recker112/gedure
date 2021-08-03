@@ -175,12 +175,13 @@ class UserController extends Controller
 			]);
 			
 			CursoController::orderAlumnos($curso->id);
-			
-			$user->wallet()->create();
 		}else if ($user->privilegio === 'A-') {
 			$personal_data = PersonalDataAdmin::create();
 			$personal_data->user()->save($user);
 		}
+		
+		// NOTA(RECKER): Crear wallet
+		$user->wallet()->create();
 		
 		// NOTA(RECKER): Asignar permisos
 		if ($request->super_admin && $user->privilegio === 'A-') {
@@ -202,7 +203,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuario creado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -214,7 +215,7 @@ class UserController extends Controller
 	public function edit(UserEditRequest $request, $id)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::with(['alumno', 'personal_data'])
+		$user = User::with(['alumno', 'personal_data', 'wallet'])
 			->find(intVal($id));
 		$delete_avatar = json_decode($request->delete_avatar);
 		
@@ -311,7 +312,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuario editado',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -330,7 +331,7 @@ class UserController extends Controller
 	public function editSelf(UserEditRequest $request)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::with(['alumno', 'personal_data'])
+		$user = User::with(['alumno', 'personal_data', 'wallet'])
 			->findOrFail($request->user()->id);
 		$delete_avatar = json_decode($request->delete_avatar);
 		
@@ -423,7 +424,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario desactivado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -459,7 +460,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios desactivados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -514,7 +515,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Actualización de sección masiva',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -593,7 +594,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario restaurado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -625,7 +626,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios restaurados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		
@@ -650,7 +651,7 @@ class UserController extends Controller
 			];
 			request()->user()->logs()->create([
 				'action' => 'Usuario eliminado',
-				'payload' => json_encode($payload),
+				'payload' => $payload,
 				'type' => 'user',
 			]);
 		}
@@ -687,7 +688,7 @@ class UserController extends Controller
 		];
 		$request->user()->logs()->create([
 			'action' => 'Usuarios eliminados masivamente',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'user',
 		]);
 		

@@ -97,6 +97,10 @@ class DebtLoteController extends Controller
 			$users = User::where('privilegio', 'V-')
 				->whereIn('id', $request->selected_users)
 				->get();
+		}else if ($request->type === 'all_studiends') {
+			// NOTA(RECKER): Obtener todos los estudiantes
+			$users = User::where('privilegio', 'V-')
+				->get();
 		}
 		
 		if (count($users) === 0) {
@@ -105,10 +109,11 @@ class DebtLoteController extends Controller
 			], 400);
 		}
 		
-		// NOTA(RECKER): Creaciรณn del lote de deudas
+		// NOTA(RECKER): Creacion del lote de deudas
 		$debt_lote = DebtLote::create([
-			'reason' => $request->motivo,
-			'amount_to_pay' => $request->cantidad_pagar
+			'reason' => $request->reason,
+			'amount_to_pay' => $request->amount_to_pay,
+			'exchange_rate_type' => $request->exchange_rate_type,
 		]);
 		
 		foreach($users as $user) {
@@ -116,6 +121,18 @@ class DebtLoteController extends Controller
 				'debt_lote_id' => $debt_lote->id
 			]);
 		}
+		
+		// NOTA(RECKER): Log
+		$payload = [
+			'id' => $debt_lote->id,
+			'reason' => $request->motivo,
+			'amount' => $request->cantidad_pagar,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Lote de deudas creado',
+			'payload' => $payload,
+			'type' => 'gedure'
+		]);
 		
 		return response()->json([
 			'msg' => 'Lote de deudas creada',
@@ -148,6 +165,16 @@ class DebtLoteController extends Controller
 			}
 		}
 		
+		// NOTA(RECKER): Log
+		$payload = [
+			'id' => $debt_lote->id,
+		];
+		$request->user()->logs()->create([
+			'action' => 'Lote de deudas editado',
+			'payload' => $payload,
+			'type' => 'gedure'
+		]);
+		
 		if ($debts_created) {
 			return response()->json([
 				'msg' => 'Deudas actualizada y asignaciones completadas',
@@ -178,6 +205,16 @@ class DebtLoteController extends Controller
 		}
 		
 		$debt_lote->delete();
+		
+		// NOTA(RECKER): Log
+		$payload = [
+			'id' => $debt_lote->id,
+		];
+		request()->user()->logs()->create([
+			'action' => 'Lote de deudas eliminado',
+			'payload' => $payload,
+			'type' => 'gedure'
+		]);
 		
 		return response()->json([
 			'msg' => 'Lote de deuda eliminada',

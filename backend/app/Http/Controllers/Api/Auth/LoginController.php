@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use Spatie\Permission\Models\Permission;
 
 // Auth Class
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 // Models
 use App\Models\User;
 use App\Models\Auth\Block;
-use Spatie\Permission\Models\Permission;
 
 class LoginController extends Controller
 {
@@ -34,7 +34,7 @@ class LoginController extends Controller
 			return response()->json($jsonMessage, 400);
 		}
 		
-		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
 			->find(Auth::id());
 		
 		// Verificar bloqueos
@@ -81,7 +81,7 @@ class LoginController extends Controller
 	
 	public function relogin()
 	{
-		$user = User::with(['personal_data', 'alumno', 'alumno.curso'])
+		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
 			->find(Auth::id());
 		
 		$user->logs()->create([
@@ -130,7 +130,7 @@ class LoginController extends Controller
 		
 		$user->logs()->create([
 			'action' => "Sesiones cerradas",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'session'
 		]);
 		
@@ -206,8 +206,6 @@ class LoginController extends Controller
 		
 		$listAT = [
 			'A-' => [
-				'wallet_index',
-				'wallet_edit',
 				'debt_lote_index',
 				'debt_lote_create',
 				'debt_lote_edit',
@@ -215,6 +213,7 @@ class LoginController extends Controller
 				'debt_create',
 				'debt_delete',
 				'debt_refund',
+				'transaction_index',
 			],
 			'V-' => [
 				//

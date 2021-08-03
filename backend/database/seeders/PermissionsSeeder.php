@@ -58,10 +58,6 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'contact_index']);
 		Permission::create(['name' => 'contact_destroy']);
 		
-		// NOTA(RECKER): Permisos de Wallet
-		Permission::create(['name' => 'wallet_index']);
-		Permission::create(['name' => 'wallet_edit']);
-		
 		// NOTA(RECKER): Permisos de Deudas
 		Permission::create(['name' => 'debt_lote_index']);
 		Permission::create(['name' => 'debt_lote_create']);
@@ -82,6 +78,9 @@ class PermissionsSeeder extends Seeder
 		Permission::create(['name' => 'bank_transaction_upload']);
 		Permission::create(['name' => 'bank_transaction_assign']);
 		Permission::create(['name' => 'bank_transaction_delete']);
+		
+		// NOTA(RECKER): Permisos de Transacciones
+		Permission::create(['name' => 'transaction_index']);
 		
 		/*
 			PERMISSIONS USER

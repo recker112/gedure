@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 // Models
 use App\Models\WalletSystem\BankTransaction;
+use App\Models\WalletSystem\BankAccount;
 
 class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading
 {
@@ -24,19 +25,34 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	
 	public function model(array $row)
 	{
+		$bank_account = BankAccount::find($this->bank_id);
+		
+		// NOTA(RECKER): Dividir string
 		$parse = trim($row['concepto']);
 		$parse = explode('.', $parse);
-		if (count($parse) < 4 || $row['abono'] === null || $row['referencia'] === null) {
+		
+		// NOTA(RECKER): Verificar si es una transferencia desde el mismo banco
+		$bypass = $row['concepto'] == 'TRANSFERENCIA A TERCEROS' ? true : false;
+		if ($row['concepto'] != 'TRANSFERENCIA A TERCEROS' && count($parse) < 4) {
 			return null;
 		}
-		$concepto = explode(' ', $parse[2])[0];
-		$code = str_replace(['(', ')'], "", $parse[3]);
+		
+		// NOTA(RECKER): Verificar no null
+		if ($row['abono'] === null || $row['referencia'] === null) {
+			return null;
+		}
+		
+		// NOTA(RECKER): Acomobar textos
+		$concepto = $bypass ? $row['referencia'] : explode(' ', $parse[2])[0];
+		$code = $bypass ? $bank_account->code : str_replace(['(', ')'], "", $parse[3]);
 		$date = explode('/', trim($row['fecha']));
 		$date = "$date[2]-$date[1]-$date[0]";
 		
+		// NOTA(RECKER): Buscar si ya existe una transferencia similar
 		$find = BankTransaction::where('date', $date)
 			->where('concepto', $concepto)
 			->where('reference', $row['referencia'])
+			->where('amount', $row['abono'])
 			->first();
 			
 		if($find) {

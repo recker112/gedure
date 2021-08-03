@@ -27,5 +27,7 @@ class UserSeeder extends Seeder
 		]);
 		
 		$personal_data->user()->save($user);
+		
+		$user->wallet()->create();
 	}
 }

@@ -58,7 +58,7 @@ export default function TourGedure() {
 			selector: '[data-tour="deudas"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podrá gestionar las <strong>cuentas bancarias</strong> y las <strong>transacciones bancarias</strong> necesarias para que las deudas funcionen el el sistema.
+					Aquí podrá gestionar las <strong>cuentas bancarias</strong> y las <strong>transacciones bancarias</strong> necesarias para que los pagos funcionen en el sistema.
 				</Typography>
 			),
 			style: {
@@ -80,7 +80,7 @@ export default function TourGedure() {
 			selector: '',
 			content: () => (
 				<Typography variant='body1'>
-					Con esto finaliza esta guía, navege entre otras partes del sistema para encontrar más guías.
+					Con esto finaliza esta guía, navegue entre otras partes del sistema para encontrar más guías.
 				</Typography>
 			),
 			style: {

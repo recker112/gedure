@@ -87,7 +87,7 @@ export default function PagePublicaciones() {
 					<Grid item xs={12}>
 						<TablePosts tableRef={tableRef} />
 						<DialogConfirmation callback={onConfirm}>
-							Estรก a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrรก deshacer esta acciรณn.
+							Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.
 						</DialogConfirmation>
 					</Grid>
 				</Grid>

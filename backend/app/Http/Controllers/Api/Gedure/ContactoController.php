@@ -52,7 +52,7 @@ class ContactoController extends Controller
 
 		$request->user()->logs()->create([
 			'action' => "Solicitud de contácto eliminada",
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'type' => 'gedure'
 		]);
 		

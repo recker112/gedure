@@ -3,11 +3,14 @@ import React, { lazy } from 'react';
 // React Router
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
+// Components
+import { NotFound } from '../../Routers';
+
 // Routers
 const PageDeudasIndex = lazy(() => import('./index/PageDeudasIndex'));
 const PageLoteDeudaShow = lazy(() => import('./show/PageLoteDeudaShow'));
 
-export default function RoutersBoletas() {
+export default function RoutersDeudas() {
 	let { url } = useRouteMatch();
 	
 	return (
@@ -22,7 +25,7 @@ export default function RoutersBoletas() {
 				</Route>
 				
 				<Route>
-					No encontrado
+					<NotFound />
 				</Route>
 			</Switch>
 		</React.Fragment>

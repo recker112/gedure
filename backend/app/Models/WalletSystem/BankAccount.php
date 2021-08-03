@@ -36,4 +36,9 @@ class BankAccount extends Model
 	{
 		return $this->hasMany('App\Models\WalletSystem\BankTransaction');
 	}
+	
+	public function pending_payments()
+	{
+		return $this->hasMany('App\Models\WalletSystem\PendingPayment');
+	}
 }
