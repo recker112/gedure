@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
 		$schedule->command('passport:purge')
 			->daily();
 		
-		$schedule->command('pending:payments')
-			->weeklyOn(5, '20:00');
+		/*$schedule->command('pending:payments')
+			->weeklyOn(5, '20:00');*/
 		
 		$schedule->command('queue:reset')
 			->daily();
