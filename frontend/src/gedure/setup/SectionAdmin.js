@@ -17,7 +17,7 @@ import updateDataUser from '../../actions/updateDataUser';
 export default function SectionAdmin() {
 	const { user, loading } = useSelector((state) => ({
 		user: state.userData.user,
-		loading: state.forms.setup.loading
+		loading: state.steppers.setup.loading,
 	}));
 	
 	const history = useHistory();

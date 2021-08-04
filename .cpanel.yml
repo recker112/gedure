@@ -5,5 +5,3 @@ deployment:
     - /bin/cp -Rf backend/* ../../laravel
     - /bin/rm -Rf ../../public_html/static
     - /bin/cp -Rf backend/public/* $DEPLOYPATH
-    - cd ../../laravel
-    - /opt/cpanel/composer/bin/composer install
