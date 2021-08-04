@@ -11,7 +11,7 @@ import { PersonalUsuarioForm } from '../usuarios/show/personal-data/PersonalUsua
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import updateForms from '../../actions/updateForms';
+import updateSteppersActive from '../../actions/updateSteppersActive';
 import updateDataUser from '../../actions/updateDataUser';
 
 export default function SectionAdmin() {
@@ -30,7 +30,7 @@ export default function SectionAdmin() {
 	const { fetchData } = useFetch();
 	
 	const onSubmit = async submitData => {
-		dispatch(updateForms('setup', true));
+		dispatch(updateSteppersActive('setup', null, true));
 		
 		if (submitData.personalData.docente === 'No') {
 			submitData.personalData.docente_titulo = null;
@@ -58,7 +58,7 @@ export default function SectionAdmin() {
 			history.push('/gedure');
 		}
 		
-		dispatch(updateForms('setup', false));
+		dispatch(updateSteppersActive('setup', null, false));
 	}
 	
 	return (
