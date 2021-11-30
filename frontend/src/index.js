@@ -20,7 +20,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //Base Url
-window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host + '/api';
+window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host + ':8000/api';
 //window.axios.defaults.baseURL = window.location.protocol + '//gedure8000.run-us-west2.goorm.io/api';
 
 ReactDOM.render(
