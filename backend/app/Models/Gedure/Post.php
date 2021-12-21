@@ -26,7 +26,7 @@ class Post extends Model
 		'user_id',
 	];
 	
-	public function sluggable()
+	public function sluggable(): array
 	{
 		return [
 			'slug' => [
