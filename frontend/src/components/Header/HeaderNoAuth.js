@@ -24,7 +24,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 //import AssignmentIcon from '@material-ui/icons/Assignment';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import CachedIcon from '@material-ui/icons/Cached';
 
 // Components
 import { HiddeOnScroll } from '../Header';
@@ -37,13 +36,6 @@ const useStyles = makeStyles((theme) => ({
 	item: {
 		marginRight: 15,
 		textDecoration: 'none',
-	},
-	itemOld: {
-		marginRight: 15,
-		textDecoration: 'none',
-		'&:hover': {
-			textDecoration: 'underline',
-		}
 	},
 	button: {
 		opacity: 0.9,
@@ -177,17 +169,6 @@ function MobileMenu() {
 								</ListItemIcon>
 								<ListItemText primary='Entrar' /> 
 							</ReturnSelected>
-							<ReturnSelected 
-								url='https://old.lacandelaria.com.ve'
-								component='a'
-								href="https://old.lacandelaria.com.ve"
-								handle={handleClose}
-							>
-								<ListItemIcon>
-									<CachedIcon />
-								</ListItemIcon>
-								<ListItemText primary='Volver al sistema anterior' /> 
-							</ReturnSelected>
 						</List>
 					</Container>
 				</div>
@@ -259,12 +240,6 @@ function HeaderNoAuth() {
 						>
 							Entrar
 						</Link>
-						<a
-							className={classes.itemOld}
-							href="https://old.lacandelaria.com.ve"
-						>
-							Volver al sistema anterior
-						</a>
 					</Toolbar>
 				</Hidden>
 			</AppBar>
