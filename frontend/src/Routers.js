@@ -2,7 +2,7 @@
 import React, { Suspense, lazy } from 'react';
 
 // React Router
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useMatch } from 'react-router-dom';
 
 // Components
 import Navbar from './components/Navbar'
@@ -11,9 +11,11 @@ import Navbar from './components/Navbar'
 const HomePage = lazy(() => import('./pages/home'));
 
 export default function Routers() {
+  const match = useMatch('/entrar');
+
   return (
     <Suspense fallback={<h1>Cargando</h1>}>
-      <Navbar />
+      {(!match) && <Navbar />}
 
       <Routes>
         <Route path='/' element={<HomePage />} />
