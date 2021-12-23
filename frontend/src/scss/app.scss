@@ -1,0 +1,52 @@
+@import 'home';
+
+*::-webkit-scrollbar {
+	width: 13px;
+	height: 13px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: #b7b7b7a3;
+	background-clip: padding-box;
+	border-radius: 30px;
+	border: 3px solid rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background: #b7b7b7e6;
+	border-radius: 30px;
+	border: 3px solid rgba(0,0,0,0);
+	background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-track {
+	background: #efefef21;
+}
+
+.text__opacity--normal {
+	opacity: 0.8;
+}
+
+.text__opacity--semi {
+	opacity: 0.7;
+}
+
+.text__opacity--big {
+	opacity: 0.6;
+}
+
+.text__bold--semi {
+	font-weight: 500 !important;
+}
+
+.text__bold--big {
+	font-weight: 600 !important;
+}
+
+.text__bold--bigMAC {
+	font-weight: 700 !important;
+}
+
+.paper--padding {
+	padding: 15px 25px;
+}
