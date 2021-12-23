@@ -1,4 +1,5 @@
 import { Typography, Box, Stack, Container, Paper, Divider } from "@mui/material";
+import Footer from "../../components/Footer";
 
 import institutoLogo from '../../img/instituto.jpg';
 import SectionEtapas from "./SectionEtapas";
@@ -61,6 +62,7 @@ export default function index() {
           <SectionEtapas />
         </Container>
       </Box>
+      <Footer />
     </>
   )
 }
