@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import { NavLink, useMatch } from "react-router-dom";
 
@@ -115,25 +115,20 @@ const MobileDrawer = () => {
           </Toolbar>
           <Container>
             <List component="nav">
-              {useMemo(
-                () =>
-                  listNav.map((data, index) => {
-                    return (
-                      <ListDrawerNav
-                        key={index}
-                        button
-                        dense
-                        component={NavLink}
-                        to={data.path}
-                        sx={classes.button}
-                      >
-                        <ListItemIcon>{data.icon}</ListItemIcon>
-                        <ListItemText primary={data.text} />
-                      </ListDrawerNav>
-                    );
-                  }),
-                []
-              )}
+              {listNav.map((data, index) => (
+                <ListDrawerNav
+                  key={index}
+                  button
+                  dense
+                  component={NavLink}
+                  to={data.path}
+                  sx={classes.button}
+                  onClick={handleClose}
+                >
+                  <ListItemIcon>{data.icon}</ListItemIcon>
+                  <ListItemText primary={data.text} />
+                </ListDrawerNav>
+              ))}
             </List>
           </Container>
         </Box>
@@ -152,22 +147,18 @@ export default function NoAuth() {
       </Box>
       <Box sx={{ display: { sm: "block", xs: "none" } }}>
         <Toolbar style={classes.toolBar}>
-          {useMemo(
-            () =>
-              listNav.map((data, index) => (
-                <Link
-                  key={index}
-                  style={classes.item}
-                  color="inherit"
-                  underline="hover"
-                  component={NavLink}
-                  to={data.path}
-                >
-                  {data.text}
-                </Link>
-              )),
-            []
-          )}
+          {listNav.map((data, index) => (
+            <Link
+              key={index}
+              style={classes.item}
+              color="inherit"
+              underline="hover"
+              component={NavLink}
+              to={data.path}
+            >
+              {data.text}
+            </Link>
+          ))}
         </Toolbar>
       </Box>
     </>
