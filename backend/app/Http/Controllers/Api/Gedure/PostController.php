@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\TableRequest;
+use App\Http\Requests\Gedure\Post\GetPostRequest;
 use Illuminate\Support\Facades\Storage;
 
 // Intervention
@@ -16,7 +17,7 @@ use App\Models\Gedure\Post;
 
 class PostController extends Controller
 {	
-	public function index(Request $request) {
+	public function index(GetPostRequest $request) {
 		$offset = $request->offset;
 		$limit = $request->limit;
 		$search = urldecode($request->search);
@@ -42,6 +43,11 @@ class PostController extends Controller
 				$finish = true;
 			}
 		}
+
+		// NOTA(RECKER): Verificar si hay post que mostrar.
+		if (count($posts->toArray()) === 0) {
+			$finish = true;
+		}
 		
 		return response()->json([
 			'data' => $posts->toArray(),
@@ -49,7 +55,7 @@ class PostController extends Controller
 		], 200);
 	}
 	
-	public function indexAuth(Request $request) {
+	public function indexAuth(GetPostRequest $request) {
 		$offset = $request->offset;
 		$limit = $request->limit;
 		$search = urldecode($request->search);
@@ -72,6 +78,11 @@ class PostController extends Controller
 			if ($post->id === $firstPost->id) {
 				$finish = true;
 			}
+		}
+
+		// NOTA(RECKER): Verificar si hay post que mostrar.
+		if (count($posts->toArray()) === 0) {
+			$finish = true;
 		}
 		
 		return response()->json([
