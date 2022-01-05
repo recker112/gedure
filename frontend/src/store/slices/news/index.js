@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../notistack";
 
 export const newsPreview = createAsyncThunk(
   'news/preview',
-  async (id, { getState, signal }) => {
+  async (id, { getState, signal, dispatch }) => {
     const axios = window.axios;
     const { auth } = getState().auth;
     const { search, data } = getState().news;
@@ -16,11 +17,25 @@ export const newsPreview = createAsyncThunk(
       url = `v1/posts?offset=${offset}&limit=${limit}&search=${encodeURI(search)}`;
     }
 
-    const res = await axios.get(url, {
-      signal,
-    });
+    try {
+      const res = await axios.get(url, {
+        signal,
+      });
 
-    return res.data;
+      dispatch(updateNotistack({ status: res.status, variant: 'success' }));
+
+      return res.data;
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        // Al cancelar el AJAX
+      } else if (error.response) {
+        const { data, status } = error.response;
+        dispatch(updateNotistack({ status: status, text: data.msg }));
+      } else {
+        dispatch(updateNotistack({ status: 'offline', }));
+      }
+      throw error;
+    }
   }
 );
 
@@ -43,6 +58,10 @@ export const newsSlices = createSlice({
     resetData: state => {
       state.data = [];
       state.search = '';
+    },
+    resetNotistack: state => {
+      state.notistack.text = '';
+      state.notistack.variant = '';
     }
   },
   extraReducers: {
@@ -51,14 +70,16 @@ export const newsSlices = createSlice({
       state.error = false;
       state.hasFinish = false;
     },
-    [newsPreview.rejected]: state => {
+    [newsPreview.rejected]: (state, action) => {
       state.loading = false;
       state.error = true;
     },
     [newsPreview.fulfilled]: (state, action) => {
+      const { data, finish } = action.payload;
+
       state.loading = false;
-      state.data = [...state.data, ...action.payload.data];
-      state.hasFinish = action.payload.finish;
+      state.data = [...state.data, ...data];
+      state.hasFinish = finish;
     }
   }
 });
