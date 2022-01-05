@@ -19,11 +19,11 @@ import PreviewNews from "./PreviewNews";
 
 //Components
 import InfiniteScroll from "react-infinite-scroll-component";
+import useNotifier from "../../hooks/useNotifier";
 
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { newsPreview, resetData, updateSearch } from "../../store/slices/news";
-import { logout } from "../../store/slices/auth";
 
 const classes = {
   container: {
@@ -34,8 +34,12 @@ const classes = {
 };
 
 export default function Index() {
+  useNotifier({
+    messageTo200: false,
+  });
+
   const { loading, data, error, hasFinish, search } = useSelector(
-    (state) => state.news
+    (state) => state.news,
   );
   const dispatch = useDispatch();
 
@@ -134,7 +138,7 @@ export default function Index() {
               </Grid>
             )}
 
-            {data.length === 0 && hasFinish && search.length !== 0 && (
+            {((data.length === 0 && hasFinish) && search.length !== 0) && (
               <Grid item xs={12}>
                 <Typography align="center">
                   No se ha encontrado nada relacionado con "{search}".
