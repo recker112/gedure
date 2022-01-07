@@ -53,18 +53,36 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			$cedula = trim($row['nced']);
 			$email = filter_var($row['email'], FILTER_VALIDATE_EMAIL) ? trim($row['email']) : null;
 			
-			// Verificar que el correo no exista
+			// NOTA(RECKER): Verificar que el correo no exista
 			$emailFound = User::withTrashed()->firstWhere('email', $email);
 			if ($emailFound && $emailFound->username !== $cedula) {
 				$email = null;
 			}
 			
 			if ($user = User::withTrashed()->firstWhere('username',$cedula)) {
+				// NOTA(RECKER): Actualizar estudiante
 				if (!$user->trashed()) {
-					$user->update([
-						'name' => $nombre,
-					]);
+					$oldEmail = $user->email;
 
+					$user->name = $nombre;
+					
+					if (!empty($email)) {
+						$user->email = $email;
+					}
+
+					$user->save();
+
+					// NOTA(RECKER): Enviar correo para usuarios sin email
+					if ($oldEmail === null && $email !== null) {
+						$user->invitation()->create([
+							'invitation_key' => Str::random(40),
+						]);
+
+						$message = (new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails');
+						Mail::to($user)->queue($message);
+					}
+
+					// NOTA(RECKER): Mover estudiante de curso
 					if ($curso) {
 						$curso_old = $user->alumno;
 
@@ -79,6 +97,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 					}	
 				}
 			}else {
+				// NOTA(RECKER): Crear estudiante si existe el curso seleccionado
 				if ($curso) {
 					$user = User::create([
 						'username' => $cedula,
@@ -99,6 +118,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 					
 					$user->givePermissionTo(['boleta_download', 'change_avatar']);
 					
+					// NOTA(RECKER): Enviar invitación
 					if ($user->email) {
 						$user->invitation()->create([
 							'invitation_key' => Str::random(40),
@@ -111,7 +131,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			}
 		}
 
-		// Ordenar seccion
+		// NOTA(RECKER): Ordenar seccion
 		if ($curso) {
 			CursoController::orderAlumnos($curso->id);
 		}
