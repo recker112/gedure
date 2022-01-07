@@ -70,7 +70,7 @@ export const newsSlices = createSlice({
       state.error = false;
       state.hasFinish = false;
     },
-    [newsPreview.rejected]: (state, action) => {
+    [newsPreview.rejected]: state => {
       state.loading = false;
       state.error = true;
     },
