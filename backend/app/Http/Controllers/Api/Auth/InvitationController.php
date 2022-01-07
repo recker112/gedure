@@ -93,7 +93,20 @@ class InvitationController extends Controller
 	public function show(Invitation $invitation)
 	{
 		// Verificar no existencia
+		if (!$invitation) {
+			return response()->json([
+				'msg' => 'Invitación expirada/cancelada'
+			],400);
+		}
+		
 		$user = $invitation->user;
+
+		// Verificar usuario activo
+		if (!$user) {
+			return response()->json([
+				'msg' => 'Usuario desactivado'
+			],400);
+		}
 		
 		return response()->json($user->only(['name', 'username']),200);
 	}

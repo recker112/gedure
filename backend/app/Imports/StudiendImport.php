@@ -47,30 +47,22 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 		
 		foreach ($rows as $row) 
 		{
-			// Parse name
-			$row['apelnom'] = trim(ucwords(strtolower($row['apelnom'])));
-			$arrayName = explode(',',$row['apelnom']);
-			$arrayName[0] = explode(' ',$arrayName[0]);
-			$arrayName[1] = explode(' ',trim($arrayName[1]));
-			$row['apelnom'] = $arrayName[1][0].' '.$arrayName[0][0];
-			
-			// Parse username
-			$row['nced'] = trim($row['nced']);
-			$row['email'] = trim($row['email']);
+			// Celdas
+			$nombre = trim($row['nomalum']). ' ' . trim($row['apelalum']);
+			$nombre = ucwords(strtolower($nombre));
+			$cedula = trim($row['nced']);
+			$email = filter_var($row['email'], FILTER_VALIDATE_EMAIL) ? trim($row['email']) : null;
 			
 			// Verificar que el correo no exista
-			$emailFound = User::withTrashed()->firstWhere('email', $row['email']);
-			if ($row['email'] !== '' && !$emailFound) {
-				$email = $row['email'];
-			}else {
+			$emailFound = User::withTrashed()->firstWhere('email', $email);
+			if ($emailFound && $emailFound->username !== $cedula) {
 				$email = null;
 			}
 			
-			if ($user = User::withTrashed()->firstWhere('username',$row['nced'])) {
+			if ($user = User::withTrashed()->firstWhere('username',$cedula)) {
 				if (!$user->trashed()) {
 					$user->update([
-						'name' => $row['apelnom'],
-						'email' => $email,
+						'name' => $nombre,
 					]);
 
 					if ($curso) {
@@ -89,8 +81,8 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			}else {
 				if ($curso) {
 					$user = User::create([
-						'username' => $row['nced'],
-						'name' => $row['apelnom'],
+						'username' => $cedula,
+						'name' => $nombre,
 						'email' => $email,
 						'privilegio' => 'V-',
 					]);
@@ -112,11 +104,13 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 							'invitation_key' => Str::random(40),
 						]);
 
-						Mail::to($user)->queue((new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails'));
+						$message = (new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails');
+						Mail::to($user)->queue($message);
 					}
 				}
 			}
 		}
+
 		// Ordenar seccion
 		if ($curso) {
 			CursoController::orderAlumnos($curso->id);

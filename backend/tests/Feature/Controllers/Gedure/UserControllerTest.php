@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Mail;
 // Passport
 use Laravel\Passport\Passport;
 // Models
@@ -407,8 +407,14 @@ class UserControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
-		
-		Excel::fake();
+
+		Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+
+		Mail::fake();
 		
 		Storage::fake('local');
 		
@@ -423,8 +429,6 @@ class UserControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
-		
-		Excel::assertQueued($file->getFileName());
 	}
 	
 	public function testIndexDeletedUsers()
