@@ -34,6 +34,7 @@ const classes = {
 };
 
 export default function Index() {
+  document.title = 'La Candelaria - Noticias';
   useNotifier({
     messageTo200: false,
   });
@@ -122,7 +123,7 @@ export default function Index() {
                 >
                   <Grid container spacing={2} justifyContent="center">
                     {data.map((data, index) => (
-                      <PreviewNews key={index} />
+                      <PreviewNews key={index} {...data} />
                     ))}
                   </Grid>
                 </InfiniteScroll>
