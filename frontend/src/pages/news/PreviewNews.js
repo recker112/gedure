@@ -1,4 +1,7 @@
-import { Grid, Paper, Typography } from '@mui/material';
+import { Grid, IconButton, Paper, Typography } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 const classes = {
 	colorsito: (theme) => ({
@@ -6,18 +9,48 @@ const classes = {
 		height: 200,
 		color: theme.palette.secondary.contrastText,
 	}),
+  withImg: (theme) => ({
+		backgroundColor: theme.palette.secondary.main + 'A9',
+		height: 200,
+		color: theme.palette.secondary.contrastText,
+	}),
+  button: (theme) => ({
+    color: theme.palette.secondary.contrastText,
+  }),
 };
 
-export default function PreviewNews() {
+export default function PreviewNews(props) {
+  const { 
+		title,
+		slug,
+		fecha_humano,
+		url_portada,
+	} = props;
+
+  console.log(props);
+
+  const handleClick = () => {
+    console.log('GUARDAR DATA');
+  }
+
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Paper sx={classes.colorsito} className='paper--padding'>
-        <Typography>
-          Título
-        </Typography>
-        <Typography color='text.secondary'>
-          Publicado
-        </Typography>
+      <Paper style={{background: url_portada ? `url("${url_portada}")` : '', backgroundSize: 'cover'}}>
+        <Grid container sx={url_portada ? classes.withImg : classes.colorsito} className='paper--padding'>
+          <Grid item xs={12}>
+            <Typography>
+							{title.length > 100 ? `${title.substring(0, 100)}...` : title}
+						</Typography>
+            <Typography className='text__opacity--semi'>
+              Publicado {fecha_humano}
+            </Typography>
+          </Grid>
+          <Grid container justifyContent='flex-end' alignItems='flex-end' item xs={12}>
+            <IconButton onClick={handleClick} component={RouterLink} to={`noticias/${slug}`} sx={classes.button}>
+							<ArrowForwardIcon />
+						</IconButton>
+          </Grid>
+        </Grid>
       </Paper>
     </Grid>
   )

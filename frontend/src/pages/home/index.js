@@ -28,6 +28,8 @@ const classes = {
 }
 
 export default function index() {
+  document.title = 'La Candelaria';
+
   return (
     <>
       <Box component='main' sx={classes.container}>
