@@ -24,6 +24,7 @@ import useNotifier from "../../hooks/useNotifier";
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { newsPreview, resetData, updateSearch } from "../../store/slices/news";
+import Footer from "../../components/Footer";
 
 const classes = {
   container: {
@@ -39,8 +40,11 @@ export default function Index() {
     messageTo200: false,
   });
 
-  const { loading, data, error, hasFinish, search } = useSelector(
-    (state) => state.news,
+  const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
+    (state) => ({
+      news: state.news,
+      auth: state.auth.auth,
+    }),
   );
   const dispatch = useDispatch();
 
@@ -123,7 +127,7 @@ export default function Index() {
                 >
                   <Grid container spacing={2} justifyContent="center">
                     {data.map((data, index) => (
-                      <PreviewNews key={index} {...data} />
+                      <PreviewNews key={index} data={data} />
                     ))}
                   </Grid>
                 </InfiniteScroll>
@@ -151,6 +155,7 @@ export default function Index() {
           </Grid>
         </Container>
       </Box>
+      {!auth && <Footer />}
     </>
   );
 }

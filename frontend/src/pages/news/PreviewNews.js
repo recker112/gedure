@@ -1,7 +1,13 @@
+// MUI
 import { Grid, IconButton, Paper, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
+// React Router
 import { Link as RouterLink } from 'react-router-dom';
+
+// Redux
+import { useDispatch } from 'react-redux';
+import { updateNews } from '../../store/slices/news/show';
 
 const classes = {
 	colorsito: (theme) => ({
@@ -19,18 +25,18 @@ const classes = {
   }),
 };
 
-export default function PreviewNews(props) {
+export default function PreviewNews({ data }) {
   const { 
 		title,
 		slug,
 		fecha_humano,
 		url_portada,
-	} = props;
+	} = data;
 
-  console.log(props);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    console.log('GUARDAR DATA');
+    dispatch(updateNews({loading: false, data}));
   }
 
   return (
@@ -46,7 +52,7 @@ export default function PreviewNews(props) {
             </Typography>
           </Grid>
           <Grid container justifyContent='flex-end' alignItems='flex-end' item xs={12}>
-            <IconButton onClick={handleClick} component={RouterLink} to={`noticias/${slug}`} sx={classes.button}>
+            <IconButton onClick={handleClick} component={RouterLink} to={`${slug}`} sx={classes.button}>
 							<ArrowForwardIcon />
 						</IconButton>
           </Grid>

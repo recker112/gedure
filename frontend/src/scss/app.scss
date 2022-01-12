@@ -1,4 +1,12 @@
 @import 'home';
+@import 'VisorImgReact';
+
+#root {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+}
 
 *::-webkit-scrollbar {
 	width: 13px;

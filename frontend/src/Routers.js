@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 // Routers
 const HomePage = lazy(() => import('./pages/home'));
 const NewsPage = lazy(() => import('./pages/news'));
+const NewsPageShow = lazy(() => import('./pages/news/show'));
 
 export default function Routers() {
   const match = useMatch('/entrar');
@@ -19,11 +20,11 @@ export default function Routers() {
       {(!match) && <Navbar />}
 
       <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route index path='/' element={<HomePage />} />
 
         <Route path='/noticias/*'>
           <Route path='' element={<NewsPage />} />
-          <Route path=':id' element={<h1>Noticias new</h1>} />
+          <Route path=':slug' element={<NewsPageShow />} />
         </Route>
 
         <Route path='*' element={<h1>Not Found</h1>} />
