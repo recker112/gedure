@@ -59,10 +59,6 @@ export const newsSlices = createSlice({
       state.data = [];
       state.search = '';
     },
-    resetNotistack: state => {
-      state.notistack.text = '';
-      state.notistack.variant = '';
-    }
   },
   extraReducers: {
     [newsPreview.pending]: state => {
