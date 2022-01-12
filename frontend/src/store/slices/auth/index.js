@@ -3,6 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   auth: false,
   access_key: '',
+  user: {
+		personal_data: {},
+		wallet: {}
+	},
+	permissions: {}
 };
 
 export const AuthsSlices = createSlice({
