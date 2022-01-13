@@ -7,11 +7,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Container, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+// Components
+import Noticia from './Noticia';
+import Footer from '../../../components/Footer';
+import useNotifier from '../../../hooks/useNotifier';
+
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import Noticia from './Noticia';
-import { resetData } from '../../../store/slices/news/show';
-import Footer from '../../../components/Footer';
+import { newsData, resetData } from '../../../store/slices/news/show';
 
 const classes = {
   container: {
@@ -23,6 +26,10 @@ const classes = {
 
 export default function Show() {
   let { slug } = useParams();
+  useNotifier({
+    messageTo200: false,
+    messageTo404: false,
+  });
 
   const { news: { loading, data }, auth } = useSelector(state => ({
     news: state.newsShow,
@@ -38,11 +45,17 @@ export default function Show() {
   }
 
   useEffect(() => {
-    //
+    let promise = null;
+    if (loading) {
+      promise = dispatch(newsData(slug));
+    }
+
     return () => {
+      promise.abort();
       dispatch(resetData());
     }
-  }, [dispatch])
+    // eslint-disable-next-line
+  }, [dispatch, slug])
 
   return (
     <>
