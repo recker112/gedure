@@ -4,6 +4,7 @@ import { updateNotistack } from "../notistack";
 export const newsPreview = createAsyncThunk(
   'news/preview',
   async (id, { getState, signal, dispatch }) => {
+    // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     const { auth } = getState().auth;
     const { search, data } = getState().news;
@@ -17,9 +18,10 @@ export const newsPreview = createAsyncThunk(
       url = `v1/posts?offset=${offset}&limit=${limit}&search=${encodeURI(search)}`;
     }
 
+    // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
       const res = await axios.get(url, {
-        signal,
+        signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success' }));
@@ -27,11 +29,13 @@ export const newsPreview = createAsyncThunk(
       return res.data;
     } catch (error) {
       if (axios.isCancel(error)) {
-        // Al cancelar el AJAX
+        // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
+        // NOTA(RECKER): Respuesta del servidor
         const { data, status } = error.response;
         dispatch(updateNotistack({ status: status, text: data.msg }));
       } else {
+        // NOTA(RECKER): Sin respuesta por parte del servidor
         dispatch(updateNotistack({ status: 'offline', }));
       }
       throw error;
