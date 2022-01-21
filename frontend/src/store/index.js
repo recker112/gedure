@@ -6,6 +6,7 @@ import auth from "./slices/auth";
 import news from "./slices/news";
 import newsShow from "./slices/news/show";
 import notistack from "./slices/notistack";
+import contacts from "./slices/contacts";
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     news,
     newsShow,
     notistack,
+    contacts,
   },
 });

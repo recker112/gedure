@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
 	{
 		// php artisan schedule:run
 		$schedule->command('queue:work --tries=3 --backoff=5 --queue=high,commands,default,emails')
-			->everyMinute()
 			->withoutOverlapping()
 			->runInBackground();
 		
@@ -36,7 +35,7 @@ class Kernel extends ConsoleKernel
 		/*$schedule->command('pending:payments')
 			->weeklyOn(5, '20:00');*/
 		
-		$schedule->command('queue:reset')
+		$schedule->command('queue:restart')
 			->daily();
 	}
 

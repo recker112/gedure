@@ -27,7 +27,7 @@ const classes = {
 	},
 }
 
-export default function index() {
+export default function Home() {
   document.title = 'La Candelaria';
 
   return (
