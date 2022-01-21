@@ -34,7 +34,7 @@ const classes = {
   },
 };
 
-export default function Index() {
+export default function News() {
   document.title = 'La Candelaria - Noticias';
   useNotifier({
     messageTo200: false,

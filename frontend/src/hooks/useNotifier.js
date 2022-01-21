@@ -7,8 +7,11 @@ import { resetNotistack } from "../store/slices/notistack";
 
 export default function useNotifier({
   messageTo200 = true,
+  message200 = false,
   messageTo404 = true,
+  message404 = 'Ruta URL no encontrada',
   messageTo422 = true,
+  message422 = 'Error al verificar los datos',
 } = {}) {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -16,9 +19,9 @@ export default function useNotifier({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (notiStatus === 200) {
+    if (notiStatus === 200 || notiStatus === 201) {
       messageTo200 &&
-        enqueueSnackbar(notiText, {
+        enqueueSnackbar(message200 ? message200 : notiText, {
           variant: "success",
         });
     } else if (notiStatus === 401) {
@@ -33,12 +36,12 @@ export default function useNotifier({
       });
     } else if (notiStatus === 404) {
       messageTo404 &&
-        enqueueSnackbar("Ruta URL no encontrada", {
+        enqueueSnackbar(message404, {
           variant: "warning",
         });
     } else if (notiStatus === 422) {
       messageTo422 &&
-        enqueueSnackbar("Error al verificar los datos", {
+        enqueueSnackbar(message422, {
           variant: "error",
         });
     } else if (notiStatus === 500) {
@@ -60,7 +63,10 @@ export default function useNotifier({
     dispatch,
     enqueueSnackbar,
     messageTo200,
+    message200,
     messageTo404,
+    message404,
     messageTo422,
+    message422,
   ]);
 }
