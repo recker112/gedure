@@ -23,50 +23,6 @@ class BoletaControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testBoletasUpload()
-	{
-		//$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::find(1),
-			['admin']
-		);
-		
-		$curso = Curso::create([
-			'code' => '1-A',
-			'curso' => '1',
-			'seccion' => 'A',
-		]);
-		
-		// User Boleta
-		$user = User::factory()->create([
-			'privilegio' => 'V-',
-			'username' => '10814755454',
-		]);
-		$user->alumno()->create([
-			'n_lista' => 99,
-			'curso_id' => $curso->id,
-		]);
-		
-		Storage::fake('local');
-		
-		$file = new File(base_path('tests/files_required/boletas_test_1.zip'));
-		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
-		
-		$response = $this->postJson('/api/v1/boleta', [
-			'boletas' => $fileUpload,
-			'lapso' => '1',
-		]);
-
-		$response->assertStatus(200)
-			->assertJsonStructure([
-				'msg',
-			]);
-		
-		$this->assertDatabaseHas('boletas', [
-        'id' => 1,
-    ]);
-	}
-	
 	public function testBoletasUploadPrimaria()
 	{
 		//$this->withoutExceptionHandling();
@@ -84,7 +40,7 @@ class BoletaControllerTest extends TestCase
 		// User Boleta
 		$user = User::factory()->create([
 			'privilegio' => 'V-',
-			'username' => '11322648135',
+			'username' => '11617577023',
 		]);
 		$user->alumno()->create([
 			'n_lista' => 99,
@@ -95,7 +51,7 @@ class BoletaControllerTest extends TestCase
 		
 		$file = new File(base_path('tests/files_required/boletas_test_primaria.zip'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
-		
+
 		$response = $this->postJson('/api/v1/boleta', [
 			'boletas' => $fileUpload,
 			'lapso' => '1',
