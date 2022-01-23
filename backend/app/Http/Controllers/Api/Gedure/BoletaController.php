@@ -183,17 +183,19 @@ class BoletaController extends Controller
 			$parser = new Parser();
 			$pdf = $parser->parseFile(Storage::path($file));
 			$text = $pdf->getText();
+			$text = str_replace("\t", "", $text);
 			
 			// NOTA(RECKER): Buscar cedula
 			$userExist = null;
-			$reg = '/[0-9]{11}|[0-9]{8}/';
+			$reg = '/[0-9]{8,}/';
 			$is_match = preg_match($reg, $text, $user);
 			if ($is_match) {
 				$user = $user[0];
 				$userExist = User::has('alumno')
 				->firstWhere('username', $user);
 			}
-			
+
+			// NOTA(RECKER): Mover archivo
 			if ($userExist) {
 				$filePath = "users/$userExist->id/boletas/{$userExist->alumno->curso->code}/lapso_{$lapso}_{$userExist->alumno->curso->code}.pdf";
 				
