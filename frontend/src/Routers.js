@@ -12,6 +12,7 @@ const HomePage = lazy(() => import('./pages/home'));
 const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
+const LoginPage = lazy(() => import('./pages/login'));
 
 export default function Routers() {
   const match = useMatch('/entrar');
@@ -29,6 +30,8 @@ export default function Routers() {
         </Route>
 
         <Route path='/contactanos' element={<ContactPage />} />
+
+        <Route path='/entrar' element={<LoginPage />} />
 
         <Route path='*' element={<h1>Not Found</h1>} />
       </Routes>
