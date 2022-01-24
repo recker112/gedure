@@ -23,7 +23,7 @@ class BoletaControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testBoletasUploadPrimaria()
+	public function testBoletasUpload()
 	{
 		//$this->withoutExceptionHandling();
 		Passport::actingAs(
@@ -40,7 +40,7 @@ class BoletaControllerTest extends TestCase
 		// User Boleta
 		$user = User::factory()->create([
 			'privilegio' => 'V-',
-			'username' => '11617577023',
+			'username' => '40000000',
 		]);
 		$user->alumno()->create([
 			'n_lista' => 99,
@@ -49,7 +49,7 @@ class BoletaControllerTest extends TestCase
 		
 		Storage::fake('local');
 		
-		$file = new File(base_path('tests/files_required/boletas_test_primaria.zip'));
+		$file = new File(base_path('tests/files_required/test_boleta_1.zip'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 
 		$response = $this->postJson('/api/v1/boleta', [
@@ -84,7 +84,7 @@ class BoletaControllerTest extends TestCase
 			'database' => $fileUpload,
 		]);
 		
-		$file = new File(base_path('tests/files_required/boletas_test_2.zip'));
+		$file = new File(base_path('tests/files_required/test_boleta_2.zip'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 		
 		$response = $this->postJson('/api/v1/boleta', [
@@ -205,7 +205,7 @@ class BoletaControllerTest extends TestCase
 		
 		$this->testBoletasUpload();
 		
-		$file = new File(base_path('tests/files_required/boletas_test_edit.pdf'));
+		$file = new File(base_path('tests/files_required/test_boleta_edit.pdf'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
 		
 		$response = $this->putJson('/api/v1/boleta/1', [
@@ -248,7 +248,7 @@ class BoletaControllerTest extends TestCase
 		
 		$this->testBoletasUpload();
 		
-		$user = User::firstWhere('username', '10814755454');
+		$user = User::firstWhere('username', '40000000');
 		$user->givePermissionTo('boleta_download');
 		Passport::actingAs(
 			$user,
@@ -297,7 +297,7 @@ class BoletaControllerTest extends TestCase
 		
 		$this->testBoletasUpload();
 		
-		$ids = json_encode([User::where('username', '10814755454')->first()->id]);
+		$ids = json_encode([User::where('username', '40000000')->first()->id]);
 		
 		$response = $this->deleteJson('/api/v1/massive/boleta?ids='.urlencode($ids).'&lapso=1');
 		
