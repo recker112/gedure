@@ -83,11 +83,9 @@ export default function Noticia(props) {
 					<RenderGalery imgs={url_imgs} />
 				)}
         {auth && userRedux.privilegio && (
-					<Grid item xs={12}>
-						<Typography variant='body2' align='right' className='text__opacity--semi'>
-							Noticia solo para usuarios: {only_users ? 'Si' : 'No'}
-						</Typography>
-					</Grid>
+					<Typography variant='body2' align='right' className='text__opacity--semi' sx={{mt: 2}}>
+            Noticia solo para usuarios: {only_users ? 'Si' : 'No'}
+          </Typography>
 				)}
       </Container>
     </>
