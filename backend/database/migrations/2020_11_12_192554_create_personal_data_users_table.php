@@ -59,7 +59,7 @@ class CreatePersonalDataUsersTable extends Migration
 				'Concubino',
 				'Divorciado',
 			])->nullable()->default(null);
-			$table->timestamp("repre_nacimiento")->nullable()->default(null);
+			$table->date("repre_nacimiento")->nullable()->default(null);
 			$table->string("repre_email")->unique()->nullable()->default(null);
 			$table->char("repre_ubi_estado", 30)->nullable()->default(null);
 			$table->string("repre_ubi_municipio")->nullable()->default(null);
@@ -98,7 +98,7 @@ class CreatePersonalDataUsersTable extends Migration
 				'Ambidiestro',
 			])->nullable()->default(null);
 			$table->enum("estudi_nacionalidad", ['V', 'E'])->nullable()->default(null);
-			$table->timestamp("estudi_nacimiento")->nullable()->default(null);
+			$table->date("estudi_nacimiento")->nullable()->default(null);
 			$table->char("estudi_nacimiento_estado", 30)->nullable()->default(null);
 			$table->string("estudi_nacimiento_lugar")->nullable()->default(null);
 			$table->enum("estudi_ubi", [
