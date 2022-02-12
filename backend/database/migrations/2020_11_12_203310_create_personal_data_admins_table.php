@@ -16,14 +16,14 @@ class CreatePersonalDataAdminsTable extends Migration
 		Schema::create('personal_data_admins', function (Blueprint $table) {
 			$table->id();
 			
-			$table->timestamp("nacimiento")->nullable()->default(null);
+			$table->date("nacimiento")->nullable()->default(null);
 			$table->bigInteger('telefono')->nullable()->default(null);
 			$table->enum("sexo", ['Masculino', 'Femenino'])->nullable()->default(null);
 			$table->string('direccion')->nullable()->default(null);
 			$table->enum("docente", ['Si', 'No'])->nullable()->default(null);
 			$table->string('docente_titulo')->nullable()->default(null);
-			$table->timestamp("docente_ingreso_MPPE")->nullable()->default(null);
-			$table->timestamp("docente_ingreso")->nullable()->default(null);
+			$table->date("docente_ingreso_MPPE")->nullable()->default(null);
+			$table->date("docente_ingreso")->nullable()->default(null);
 			$table->softDeletes();
 			$table->timestamps();
 		});
