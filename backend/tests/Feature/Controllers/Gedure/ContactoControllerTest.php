@@ -112,7 +112,7 @@ class ContactoControllerTest extends TestCase
 				'msg',
 			]);
 		
-		$this->assertDeleted($message);
+		$this->assertModelMissing($message);
 	}
 	
 	public function testErrorDestroyContacto()

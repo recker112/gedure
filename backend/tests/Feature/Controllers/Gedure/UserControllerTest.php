@@ -258,7 +258,7 @@ class UserControllerTest extends TestCase
 					'registros_index',
 				]
 			])
-			->assertJsonPath('user.personal_data.telefono', '4269340569');;
+			->assertJsonPath('user.personal_data.telefono', 4269340569);
 		
 		$this->assertDatabaseHas('users', [
 			'username' => 'luis',
@@ -335,7 +335,7 @@ class UserControllerTest extends TestCase
 			]);
 		
 		$this->assertSoftDeleted($user);	
-		$this->assertDeleted($alumno);
+		$this->assertModelMissing($alumno);
 	}
 	
 	public function testDeleteUserMassive()
@@ -653,7 +653,7 @@ class UserControllerTest extends TestCase
 					],
 				],
 			])
-			->assertJsonPath('user.personal_data.telefono', '4269340569');
+			->assertJsonPath('user.personal_data.telefono', 4269340569);
 	}
 	
 	public function testChangeAvatarUser()
@@ -664,6 +664,7 @@ class UserControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
+		$user->guard_name = 'api';
 		$personal_data = PersonalDataUser::create();
 		$personal_data->user()->save($user);
 		$user->givePermissionTo('change_avatar');

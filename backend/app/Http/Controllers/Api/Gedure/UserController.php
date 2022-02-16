@@ -259,7 +259,8 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar avatar
 		if ($avatar && !$delete_avatar) {
-			Storage::disk('public')->delete($user->avatarOriginal);
+			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
+			Storage::disk('public')->delete($rmAvatar);
 			$path = $avatar->store('', 'user_avatars');
 			
 			// NOTA(RECKER): Resize img
@@ -337,14 +338,16 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Eliminar avatar
 		if ($delete_avatar && $user->privilegio !== 'V-' || $delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
-			Storage::disk('user_avatars')->delete($user->avatarOriginal);
+			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
+			Storage::disk('user_avatars')->delete($rmAvatar);
 			$user->avatar = null;
 			$user->save();
 		}
 		
 		// NOTA(RECKER): Actualizar avatar
 		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
-			Storage::disk('user_avatars')->delete($user->avatarOriginal);
+			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
+			Storage::disk('user_avatars')->delete($rmAvatar);
 			$path = $avatar->store('', 'user_avatars');
 			
 			// NOTA(RECKER): Rezise img
@@ -405,7 +408,8 @@ class UserController extends Controller
 	
 	public function delete(User $user, $massive = false)
 	{
-		Storage::disk('user_avatars')->delete($user->avatarOriginal);
+		$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
+		Storage::disk('user_avatars')->delete($rmAvatar);
 		$curso_id = $user->alumno;
 		$user->delete();
 		
