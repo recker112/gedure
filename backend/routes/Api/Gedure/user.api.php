@@ -32,7 +32,7 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:users_create'])
 Route::middleware(['auth:api', 'scopes:admin', 'can:users_edit'])
 	->put('user/{id}', [UserController::class, 'edit']);
 
-// Update users
+// Update user
 Route::middleware(['auth:api'])
 	->put('user', [UserController::class, 'editSelf']);
 

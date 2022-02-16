@@ -219,7 +219,8 @@ class PostController extends Controller
 		// NOTA(RECKER): Actualizar portada
 		if (!empty($portada) && !$delete_portada) {
 			// NOTA(RECKER): Clear files
-			Storage::disk('posts')->delete(json_decode($post->portada));
+			$portaDelete = json_decode($post->portada) ? json_decode($post->portada) : [];
+			Storage::disk('posts')->delete($portaDelete);
 			$path = $portada->storeAs(
 				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
 			);
