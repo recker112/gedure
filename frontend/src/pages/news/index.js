@@ -12,16 +12,16 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-//Form
+// Form
 import { useForm } from "react-hook-form";
 import { InputHook } from "../../components/form/inputs";
 import PreviewNews from "./PreviewNews";
 
-//Components
+// Components
 import InfiniteScroll from "react-infinite-scroll-component";
 import useNotifier from "../../hooks/useNotifier";
 
-//Redux
+// Redux
 import { useSelector, useDispatch } from "react-redux";
 import { newsPreview, resetData, updateSearch } from "../../store/slices/news";
 import Footer from "../../components/Footer";
@@ -40,6 +40,7 @@ export default function News() {
     messageTo200: false,
   });
 
+  // NOTA(RECKER): RTK
   const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
     (state) => ({
       news: state.news,
@@ -50,6 +51,7 @@ export default function News() {
 
   const { control, handleSubmit } = useForm();
 
+  // NOTA(RECKER): Cargar noticias
   useEffect(() => {
     const promise = dispatch(newsPreview());
     return () => {
@@ -58,6 +60,7 @@ export default function News() {
     };
   }, [dispatch]);
 
+  // NOTA(RECKER): Form request
   const onSubmit = async (data) => {
     await dispatch(updateSearch(data.search));
     await dispatch(newsPreview());
@@ -95,12 +98,14 @@ export default function News() {
               </form>
             </Grid>
 
+            {/*NOTA(RECKER): Loading*/}
             {loading && data.length === 0 && (
               <Grid container justifyContent="center" item xs={12}>
                 <CircularProgress />
               </Grid>
             )}
 
+            {/*NOTA(RECKER): Obtener datos*/}
             {data.length > 0 && (
               <Grid item xs={12}>
                 <InfiniteScroll
@@ -134,6 +139,7 @@ export default function News() {
               </Grid>
             )}
 
+            {/*NOTA(RECKER): Error crítico*/}
             {error && (
               <Grid item xs={12}>
                 <Typography align="center">
@@ -143,6 +149,7 @@ export default function News() {
               </Grid>
             )}
 
+            {/*NOTA(RECKER): Error buscador*/}
             {((data.length === 0 && hasFinish) && search.length !== 0) && (
               <Grid item xs={12}>
                 <Typography align="center">
@@ -152,6 +159,15 @@ export default function News() {
                 </Typography>
               </Grid>
             )}
+
+            {/*NOTA(RECKER): Noticia no encontrada*/}
+            {(data.length === 0 && hasFinish) && (
+              <Grid item xs={12}>
+                <Typography align="center">
+                  No hay noticias publicadas.
+                </Typography>
+              </Grid>
+            )}  
           </Grid>
         </Container>
       </Box>
