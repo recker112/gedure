@@ -16,6 +16,7 @@ export const notistacksSlices = createSlice({
       state.notiText = text;
       state.notiStatus = status;
       state.notiErrors = errors;
+      console.log(action.payload);
     },
     resetNotistack: () => initialState,
   },

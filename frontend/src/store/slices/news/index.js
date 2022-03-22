@@ -24,7 +24,7 @@ export const newsPreview = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'success' }));
+      //dispatch(updateNotistack({ status: res.status, variant: 'success' }));
 
       return res.data;
     } catch (error) {

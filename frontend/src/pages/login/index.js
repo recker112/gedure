@@ -2,6 +2,7 @@ import { Box, Grid, Slide } from "@mui/material";
 
 import Aside from "./Aside";
 import institutoFondo from '../../img/instituto.jpg';
+import Form from "./Form";
 
 const classes = {
   container: {
@@ -14,7 +15,6 @@ const classes = {
     background: `url(${institutoFondo}) no-repeat`,
 		backgroundSize: 'cover',
 		width: '100%',
-    height: '100%'
   }
 };
 
@@ -23,7 +23,7 @@ export default function Login() {
 
   return (
     <Box component='main' sx={classes.container}>
-      <Grid container style={{height: '100%'}}>
+      <Grid container sx={{height: '100%'}}>
         <Slide direction="right" in={true}>
           <Grid container alignItems='center' item sm md sx={classes.fondo}>
             <Aside />
@@ -32,7 +32,7 @@ export default function Login() {
 
         <Slide direction="left" in={true}>
           <Grid container alignItems='center' item sm={12} md={8}>
-            FORM
+            <Form />
           </Grid>
         </Slide>
       </Grid>
