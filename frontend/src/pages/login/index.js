@@ -14,7 +14,7 @@ const classes = {
   fondo: {
     background: `url(${institutoFondo}) no-repeat`,
 		backgroundSize: 'cover',
-		width: '100%',
+		width: '100%'
   }
 };
 
@@ -25,7 +25,7 @@ export default function Login() {
     <Box component='main' sx={classes.container}>
       <Grid container sx={{height: '100%'}}>
         <Slide direction="right" in={true}>
-          <Grid container alignItems='center' item sm md sx={classes.fondo}>
+          <Grid container item sm md sx={classes.fondo}>
             <Aside />
           </Grid>
         </Slide>

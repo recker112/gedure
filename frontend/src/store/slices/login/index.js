@@ -19,17 +19,21 @@ export const loginData = createAsyncThunk(
 
       // NOTA(RECKER): Guardar access_key
 			if (data.checkbox) {
-				localStorage.setItem('access_key', JSON.stringify(res.data.access_key));
-				sessionStorage.setItem('access_key', JSON.stringify(res.data.access_key));
+				localStorage.setItem('gd-access_key', JSON.stringify(res.data.access_key));
+				sessionStorage.setItem('gd-access_key', JSON.stringify(res.data.access_key));
 			} else {
-				sessionStorage.setItem('access_key', JSON.stringify(res.data.access_key));
+				sessionStorage.setItem('gd-access_key', JSON.stringify(res.data.access_key));
 			}
 
       // NOTA(RECKER): Guardar datos de usuario
-      dispatch(updateUserData({ user: res.data.user, permissions: res.data.permissions }));
+      const { user, permissions, access_key } = res.data;
+      dispatch(updateUserData({ user, permissions, access_key }));
 
       // NOTA(RECKER): Actualizar auth
       dispatch(updateAuth(true));
+
+      // NOTA(RECKER): Global token
+	    axios.defaults.headers.common['Authorization'] = `Bearer ${access_key}`;
 
       return res.data;
     } catch (error) {

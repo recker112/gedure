@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 // Components
-import Routers from './Routers';
+import Router from './Router';
 
 // MUI
 import { CssBaseline } from '@mui/material';
@@ -53,7 +53,7 @@ export default function App() {
       <ThemeProvider theme={themeConfig}>
         <CssBaseline />
         <span id="top-anchor" />
-        <Routers />
+        <Router />
       </ThemeProvider>
     </SnackbarProvider>
   );

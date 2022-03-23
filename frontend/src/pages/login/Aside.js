@@ -7,8 +7,7 @@ const classes = {
   aside: (theme) => ({
     background: theme.palette.primary.main + 'c7',
     width: '100%',
-    height: '100%',
-    userSelect: 'none',
+    userSelect: 'none'
   }),
   container: {
     py: 2,

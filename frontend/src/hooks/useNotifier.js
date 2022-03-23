@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack";
 
 import { useDispatch, useSelector } from "react-redux";
 import { resetNotistack } from "../store/slices/notistack";
+import { logoutApp } from "../store/slices/auth";
 
 export default function useNotifier({
   messageTo200 = true,
@@ -36,7 +37,7 @@ export default function useNotifier({
         variant: "info",
       });
 
-      //dispatch(logoutApp());
+      dispatch(logoutApp());
     } else if (notiStatus === 403) {
       enqueueSnackbar("No tienes permisos para esta acción", {
         variant: "error",
