@@ -60,7 +60,7 @@ class CreatePersonalDataUsersTable extends Migration
 				'Divorciado',
 			])->nullable()->default(null);
 			$table->date("repre_nacimiento")->nullable()->default(null);
-			$table->string("repre_email")->unique()->nullable()->default(null);
+			$table->string("repre_email")->nullable()->default(null);
 			$table->char("repre_ubi_estado", 30)->nullable()->default(null);
 			$table->string("repre_ubi_municipio")->nullable()->default(null);
 			$table->string("repre_ubi_parroquia")->nullable()->default(null);
