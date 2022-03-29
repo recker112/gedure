@@ -5,14 +5,20 @@ import { useMatch } from "react-router-dom";
 // MUI
 import { AppBar, Box, useScrollTrigger, Slide, Zoom, Fab } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
+// Components
 import NoAuth from "./Nav/NoAuth";
+import Auth from "./Nav/Auth";
+
+// Redux
+import { useSelector } from "react-redux";
 
 const classes = {
-  fab: {
+  fab: (theme) => ({
     position: "fixed",
-    bottom: 16,
-    right: 16,
-  },
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  }),
 };
 
 const HiddeOnScroll = (props) => {
@@ -57,6 +63,8 @@ function ScrollTop(props) {
 export default function Navbar() {
   const match = useMatch("/");
 
+  const auth = useSelector(state => state.auth.auth);
+
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 350,
@@ -69,8 +77,9 @@ export default function Navbar() {
           enableColorOnDark
           variant="static"
           color={!trigger && match ? "transparent" : "primary"}
+          elevation={0}
         >
-          <NoAuth />
+          {auth ? <Auth /> : <NoAuth />}
         </AppBar>
       </HiddeOnScroll>
       <ScrollTop>

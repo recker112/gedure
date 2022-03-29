@@ -16,9 +16,11 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
-import AnnouncementIcon from "@mui/icons-material/Announcement";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import {
+	Bullhorn as BullhornIcon,
+} from 'mdi-material-ui';
 
 // IMG
 import GedureLogo from "../../img/gedure-logo-recto.svg";
@@ -67,7 +69,7 @@ const listNav = [
   {
     text: "Noticias",
     path: "/noticias",
-    icon: <AnnouncementIcon />,
+    icon: <BullhornIcon />,
   },
   {
     text: "Contáctanos",
@@ -81,11 +83,31 @@ const listNav = [
   },
 ];
 
-const ListDrawerNav = ({ children, to, ...rest }) => {
+export const ListDrawerNav = ({ children, to = '', noNav, nested, ...rest }) => {
   const match = useMatch(to);
 
+  const dispatch = useDispatch();
+
+  const handleClose = () => {
+    dispatch(updateDrawer(false));
+  };
+
   return (
-    <ListItem to={to} selected={Boolean(match)} {...rest}>
+    <ListItem 
+      dense
+      button
+      to={to} 
+      selected={Boolean(match)} 
+      component={!noNav && NavLink} 
+      sx={[
+        classes.button,
+        nested && {
+          paddingLeft: 4,
+        }
+      ]}
+      onClick={handleClose}
+      {...rest}
+    >
       {children}
     </ListItem>
   );
@@ -118,12 +140,7 @@ const MobileDrawer = () => {
               {listNav.map((data, index) => (
                 <ListDrawerNav
                   key={index}
-                  button
-                  dense
-                  component={NavLink}
                   to={data.path}
-                  sx={classes.button}
-                  onClick={handleClose}
                 >
                   <ListItemIcon>{data.icon}</ListItemIcon>
                   <ListItemText primary={data.text} />

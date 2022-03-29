@@ -2,6 +2,7 @@ import React from "react";
 
 // MUI
 import { Container, Grid, Typography, Link, Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // FormHook
 import { useForm } from "react-hook-form";
@@ -17,7 +18,6 @@ import { CheckboxHook } from "../../components/form/checkbox";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { loginData } from "../../store/slices/login";
-import LoadingComponent from "../../components/LoadingComponent";
 
 const classes = {
   button: {
@@ -102,16 +102,15 @@ export default function Form() {
           </Grid>
 
           <Grid container justifyContent='center' item xs={12}>
-            <LoadingComponent loading={loading}>
-              <Button
-                type="submit"
-                color='primary'
-                variant='contained'
-                sx={classes.button}
-              >
-                Entrar
-              </Button>
-            </LoadingComponent>
+            <LoadingButton
+              type="submit"
+              color='primary'
+              variant='contained'
+              sx={classes.button}
+              loading={loading}
+            >
+              Entrar
+            </LoadingButton>
           </Grid>
 
           <Grid container justifyContent='center' item xs={12}>
