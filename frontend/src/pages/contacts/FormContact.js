@@ -3,12 +3,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 // MUI
-import { Button, Grid, Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
 import { InputHook, InputMaskHook } from '../../components/form/inputs';
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingComponent from '../../components/LoadingComponent';
 import { contactsData } from '../../store/slices/contacts';
 import useNotifier from '../../hooks/useNotifier';
 
@@ -137,17 +137,15 @@ export default function FormContact() {
 						/>
 					</Grid>
 					<Grid container justifyContent='flex-end' item xs={12}>
-						<LoadingComponent loading={loading}>
-							<Button
-								type='submit' 
-								variant='contained' 
-								color='primary' 
-								disableElevation
-								disabled={loading}
-							>
-								Enviar
-							</Button>
-						</LoadingComponent>
+						<LoadingButton 
+							type='submit'
+							loading={loading} 
+							color='primary' 
+							disableElevation 
+							variant='contained'
+						>
+							Enviar
+						</LoadingButton>
 					</Grid>
         </Grid>
       </form>

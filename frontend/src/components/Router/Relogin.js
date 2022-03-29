@@ -28,10 +28,6 @@ export default function Relogin({ children }) {
     if (loading) {
       query();
     }
-  
-    return () => {
-      //
-    }
   }, [loading, dispatch]);
 
   // NOTA(RECKER): Esperar a que termine la query
