@@ -69,6 +69,7 @@ const MarkdownHeading = ({ ...props }) => {
 		<Typography
 			gutterBottom
 			variant={variant}
+			className="text__bold--big"
 		>
 			{props.children}
 		</Typography>

@@ -5,8 +5,8 @@ import { Box, Collapse, Container, Drawer, List, ListItemIcon, ListItemText, Too
 import HomeIcon from "@mui/icons-material/Home";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RoomIcon from '@mui/icons-material/Room';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import {
-	Bullhorn as BullhornIcon,
   Help as HelpIcon,
   FrequentlyAskedQuestions as FAQIcon,
 } from 'mdi-material-ui';
@@ -59,7 +59,7 @@ export default function DrawerMenu() {
             </ListDrawerNav>
             <ListDrawerNav to='/noticias'>
               <ListItemIcon>
-                <BullhornIcon />
+                <NewspaperIcon />
               </ListItemIcon>
               <ListItemText primary='Noticias' />
             </ListDrawerNav>
