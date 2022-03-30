@@ -16,6 +16,7 @@ const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
+const HomeGedure = lazy(() => import('./pages/gedure/home'));
 
 export default function Routers() {
   const match = useMatch('/entrar');
@@ -48,7 +49,7 @@ export default function Routers() {
           <Route path='/gedure/*'>
             <Route path='' element={
               <AuthProtect>
-                <div>PANEL</div>
+                <HomeGedure />
               </AuthProtect>
             } />
           </Route>
