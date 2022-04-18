@@ -21,6 +21,7 @@ class InfoBoxController extends Controller
 		foreach($posts as $post) {
 			$data_finish['posts'][$iP]['textPrimary'] = $post->title;
 			$data_finish['posts'][$iP]['textSecondary'] = $post->fecha_humano;
+			$data_finish['posts'][$iP]['url'] = $post->slug;
 			$iP++;
 		}
 		
