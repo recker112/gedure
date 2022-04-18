@@ -8,6 +8,7 @@ import newsShow from "./slices/news/show";
 import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
 import login from "./slices/login";
+import gdHome from "./slices/gedure/home";
 
 export default configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export default configureStore({
     notistack,
     contacts,
     login,
+    gdHome,
   },
 });
