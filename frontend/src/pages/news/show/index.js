@@ -41,7 +41,11 @@ export default function Show() {
   const navigate = useNavigate();
 
   const handleReturn = () => {
-    navigate('/noticias');
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/noticias');
+    }
   }
 
   useEffect(() => {
