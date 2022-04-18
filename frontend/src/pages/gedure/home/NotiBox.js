@@ -1,5 +1,8 @@
 import React from 'react';
 
+// React Router
+import { NavLink } from "react-router-dom";
+
 // MUI
 import { CircularProgress, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
@@ -7,7 +10,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function NotiBox(props) {
   const { data, loading } = props;
-
   return (
     <Grid item xs={12} sm={6}>
       <Paper className='paper--padding' elevation={3}>
@@ -38,7 +40,7 @@ export default function NotiBox(props) {
                   </Typography>
                 </Grid>
                 <Grid container justifyContent='flex-end' item xs>
-                  <IconButton>
+                  <IconButton component={NavLink} to={`/noticias/${item.url}`}>
                     <ArrowForwardIcon />
                   </IconButton>
                 </Grid>
