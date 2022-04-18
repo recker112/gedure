@@ -4,6 +4,9 @@ import React, { Suspense, lazy } from 'react';
 // React Router
 import { Route, Routes, useMatch } from 'react-router-dom';
 
+// MUI
+import { Box } from '@mui/material';
+
 // Components
 import Navbar from './components/Navbar'
 import Loader from './components/Router/Loader';
@@ -17,6 +20,22 @@ const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
+
+const classes = {
+  container: {
+    flexGrow: 1,
+    paddingBottom: 10,
+    marginTop: { xs: "80px", sm: 12 },
+  },
+}
+
+function NotFound() {
+	return (
+		<Box sx={classes.container} fontSize='body1.fontSize' textAlign='center'>
+			La dirección que está solicitando no se encuentra disponible actualmente.
+		</Box>
+	);
+}
 
 export default function Routers() {
   const match = useMatch('/entrar');
@@ -52,9 +71,10 @@ export default function Routers() {
                 <HomeGedure />
               </AuthProtect>
             } />
+            <Route path='*' element={<NotFound/>} />
           </Route>
 
-          <Route path='*' element={<h1>Not Found</h1>} />
+          <Route path='*' element={<NotFound/>} />
         </Routes>
       </Relogin>
     </Suspense>
