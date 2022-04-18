@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // MUI
 import { Box, Container, Fade, Grid, Slide } from '@mui/material';
@@ -7,7 +7,8 @@ import { Box, Container, Fade, Grid, Slide } from '@mui/material';
 import NotiBox from './NotiBox';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { NotiBoxData, resetData } from '../../../store/slices/gedure/home';
 
 const classes = {
   container: {
@@ -46,6 +47,23 @@ function Header() {
 export default function Home() {
   document.title = 'La Candelaria - Gedure';
 
+  const { loading, data } = useSelector(state => state.gdHome);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let promise = null;
+
+    if (loading) {
+      promise = dispatch(NotiBoxData());
+    }
+
+    return () => {
+      promise.abort();
+      dispatch(resetData());
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
@@ -56,7 +74,7 @@ export default function Home() {
       <Fade in={true} style={{ transitionDelay: '1000ms' }}>
         <Container sx={classes.content}>
           <Grid container justifyContent='center' spacing={2} data-tour='infoBox'>
-            <NotiBox />
+            <NotiBox data={data.posts} loading={loading} />
           </Grid>
         </Container>
       </Fade>
