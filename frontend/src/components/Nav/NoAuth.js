@@ -98,7 +98,7 @@ export const ListDrawerNav = ({ children, to = '', noNav, nested, ...rest }) => 
       button
       to={to} 
       selected={Boolean(match)} 
-      component={!noNav && NavLink} 
+      component={!noNav ? NavLink : null} 
       sx={[
         classes.button,
         nested && {
