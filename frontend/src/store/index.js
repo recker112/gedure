@@ -9,6 +9,7 @@ import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
 import login from "./slices/login";
 import gdHome from "./slices/gedure/home";
+import gdRegistros from "./slices/gedure/registros";
 
 export default configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export default configureStore({
     contacts,
     login,
     gdHome,
+    gdRegistros,
   },
 });

@@ -1,7 +1,8 @@
 import React from 'react'
 
 // MUI
-import { Box, Container } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
+import Filtrador from './Filtrador';
 
 const classes = {
   container: {
@@ -17,7 +18,10 @@ export default function Registros() {
   return (
     <Box component='main' sx={classes.container}>
       <Container>
-        X
+        <Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Registros</Box>
+        <Grid container spacing={2}>
+          <Filtrador />
+        </Grid>
       </Container>
     </Box>
   )
