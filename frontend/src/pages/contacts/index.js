@@ -19,7 +19,7 @@ const classes = {
 };
 
 export default function Contact() {
-  document.title = 'La Candelaria - Contáctanos';
+  document.title = 'Contáctanos - La Candelaria';
   const { auth } = useSelector(state => state.auth.auth);
 
   return (

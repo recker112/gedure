@@ -1,7 +1,7 @@
 import React from 'react'
 
 // MUI
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 const classes = {
   container: {
@@ -12,6 +12,8 @@ const classes = {
 };
 
 export default function Registros() {
+  document.title = 'Registros - La Candelaria';
+
   return (
     <Box component='main' sx={classes.container}>
       <Container>

@@ -45,7 +45,7 @@ function Header() {
 }
 
 export default function Home() {
-  document.title = 'La Candelaria - Gedure';
+  document.title = 'Gedure - La Candelaria';
 
   const { loading, data } = useSelector(state => state.gdHome);
   const dispatch = useDispatch();
