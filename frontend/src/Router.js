@@ -19,7 +19,10 @@ const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
+
+// Gedure CORE
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
+const RegistrosGedure = lazy(() => import('./pages/gedure/registros'));
 const FAQGedure = lazy(() => import('./pages/gedure/faq'));
 
 const classes = {
@@ -70,6 +73,12 @@ export default function Routers() {
             <Route path='' element={
               <AuthProtect>
                 <HomeGedure />
+              </AuthProtect>
+            } />
+
+            <Route path='registros' element={
+              <AuthProtect>
+                <RegistrosGedure />
               </AuthProtect>
             } />
 
