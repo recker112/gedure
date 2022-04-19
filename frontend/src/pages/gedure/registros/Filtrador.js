@@ -29,7 +29,9 @@ export default function Filtrador() {
   }
 
   const handleReset = () => {
-    reset();
+    reset({
+      type: 'all'
+    });
   }
 
   const onSubmit = async data => {
