@@ -20,6 +20,7 @@ const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
+const FAQGedure = lazy(() => import('./pages/gedure/faq'));
 
 const classes = {
   container: {
@@ -71,7 +72,18 @@ export default function Routers() {
                 <HomeGedure />
               </AuthProtect>
             } />
-            <Route path='*' element={<NotFound/>} />
+
+            <Route path='preguntas-frecuentes' element={
+              <AuthProtect>
+                <FAQGedure />
+              </AuthProtect>
+            } />
+
+            <Route path='*' element={
+              <AuthProtect>
+                <NotFound/>
+              </AuthProtect>
+            } />
           </Route>
 
           <Route path='*' element={<NotFound/>} />
