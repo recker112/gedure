@@ -67,7 +67,7 @@ export default function DrawerMenu() {
             </ListDrawerNav>
 
             {privilegio === 'A-' && (
-              <AdminList handleClose={handleClose} />
+              <AdminList />
             )}
 
             <ListDrawerNav noNav onClick={handleExpandHelp}>

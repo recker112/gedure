@@ -7,7 +7,7 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 // Components
 import { ListDrawerNav } from './NoAuth';
 
-export default function AdminList({ handleClose }) {
+export default function AdminList() {
   return (
     <>
       <ListDrawerNav to='/gedure/registros'>
