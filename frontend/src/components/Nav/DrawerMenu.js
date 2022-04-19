@@ -14,6 +14,7 @@ import {
 // Components
 import GedureLogo from "../../img/gedure-logo-recto.svg";
 import { ListDrawerNav } from './NoAuth';
+import AdminList from './AdminList';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,8 +23,9 @@ import { updateDrawer } from '../../store/slices/configs';
 export default function DrawerMenu() {
   const [helpSection, setHelpSection] = useState(false);
 
-  const { open } = useSelector(state => ({
+  const { open, privilegio } = useSelector(state => ({
     open: state.configs.drawer,
+    privilegio: state.auth.user.privilegio,
   }));
   const dispatch = useDispatch();
 
@@ -63,6 +65,11 @@ export default function DrawerMenu() {
               </ListItemIcon>
               <ListItemText primary='Noticias' />
             </ListDrawerNav>
+
+            {privilegio === 'A-' && (
+              <AdminList handleClose={handleClose} />
+            )}
+
             <ListDrawerNav noNav onClick={handleExpandHelp}>
               <ListItemIcon>
                 <HelpIcon />
