@@ -19,7 +19,7 @@ const classes = {
 };
 
 export default function Login() {
-  document.title = 'La Candelaria - Entrar';
+  document.title = 'Entrar - La Candelaria';
 
   return (
     <Box component='main' sx={classes.container}>

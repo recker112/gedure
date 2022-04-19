@@ -36,7 +36,7 @@ export default function Show() {
     auth: state.auth.auth,
   }));
   const dispatch = useDispatch();
-  document.title = data.title ? `La Candelaria - ${data.title}` : `La Candelaria`;
+  document.title = data.title ? `${data.title} - La Candelaria` : `La Candelaria`;
 
   const navigate = useNavigate();
 
