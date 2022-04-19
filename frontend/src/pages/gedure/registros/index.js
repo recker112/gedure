@@ -85,6 +85,7 @@ export default function Registros() {
       <Container>
         <Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Registros</Box>
         <Grid container spacing={2}>
+          <Filtrador />
           <GlobalFilter
             state={state}
             setGlobalFilter={setGlobalFilter}
