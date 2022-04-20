@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 // MUI
-import { Checkbox, InputAdornment, TextField } from "@mui/material";
+import { Checkbox, IconButton, InputAdornment, TextField, Tooltip } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import GroupIcon from '@mui/icons-material/Group';
 
 // Table
 import {
@@ -132,7 +137,11 @@ export default function ReactTableBase(props) {
         setGlobalFilter={handleGlobalFilter}
         gotoPage={gotoPage}
       />
-      <button onClick={() => allColumns[0].toggleHidden()}>Toggle</button>
+      <Tooltip title="Opciones massivas" arrow>
+        <IconButton component='span' onClick={() => allColumns[0].toggleHidden()}>
+          <GroupIcon />
+        </IconButton>
+      </Tooltip>
       <select
         value={pageSize}
         onChange={(e) => {
@@ -145,18 +154,26 @@ export default function ReactTableBase(props) {
           </option>
         ))}
       </select>
-      <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-        Primera página
-      </button>
-      <button onClick={previousPage} disabled={!canPreviousPage}>
-        Anterior
-      </button>
-      <button onClick={nextPage} disabled={!canNextPage}>
-        Siguiente
-      </button>
-      <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-        Última página
-      </button>
+      <Tooltip title="Primera página" arrow>
+        <IconButton component='span' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <FirstPageIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Anterior" arrow>
+        <IconButton component='span' onClick={previousPage} disabled={!canPreviousPage}>
+          <NavigateBeforeIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Siguiente" arrow>
+        <IconButton component='span' onClick={nextPage} disabled={!canNextPage}>
+          <NavigateNextIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Última página" arrow>
+        <IconButton component='span' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          <LastPageIcon />
+        </IconButton>
+      </Tooltip>
       <div>
         {pageIndex + 1} de {pageOptions.length}
       </div>
