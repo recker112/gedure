@@ -52,6 +52,12 @@ export default function useNotifier({
         enqueueSnackbar(message422, {
           variant: "error",
         });
+    }else if (notiStatus === 429) {
+      enqueueSnackbar("Demasiadas peticiones", {
+        variant: "info",
+      });
+
+      dispatch(logoutApp());
     } else if (notiStatus === 500) {
       enqueueSnackbar("No se ha podido conectar con la base de datos", {
         variant: "error",
