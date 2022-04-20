@@ -68,9 +68,9 @@ export const AuthsSlices = createSlice({
       state.access_key = access_key;
     },
     logoutApp: (state) => {
-      let init = {...initialState};
-      init.relogin = false;
-      state = init;
+      state.auth = false;
+      state.access_key = '';
+      state = initialState;
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
     }
