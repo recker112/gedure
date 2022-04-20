@@ -5,6 +5,7 @@ import { Box, Container, Fade, Grid, Slide } from '@mui/material';
 
 // Components
 import NotiBox from './NotiBox';
+import useNotifier from '../../../hooks/useNotifier';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,6 +47,9 @@ function Header() {
 
 export default function Home() {
   document.title = 'Gedure - La Candelaria';
+  useNotifier({
+    messageTo200: false,
+  });
 
   const { loading, data } = useSelector(state => state.gdHome);
   const dispatch = useDispatch();
