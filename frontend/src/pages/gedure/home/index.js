@@ -62,7 +62,9 @@ export default function Home() {
     }
 
     return () => {
-      promise.abort();
+      if (loading) {
+        promise.abort();
+      }
       dispatch(resetData());
     }
     // eslint-disable-next-line

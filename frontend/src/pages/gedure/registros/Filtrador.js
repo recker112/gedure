@@ -36,7 +36,7 @@ export default function Filtrador() {
 
   const onSubmit = async data => {
     await dispatch(setFilters(data));
-    handleClose()
+    handleClose();
   }
 
   return (

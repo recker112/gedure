@@ -1,11 +1,16 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 
 // MUI
 import { Box, Container, Grid } from '@mui/material';
+
+// Components
 import Filtrador from './Filtrador';
+import useNotifier from '../../../hooks/useNotifier';
 
 // Table
 import ReactTableBase from '../../../components/ReactTableBase';
+import { useDispatch, useSelector } from 'react-redux';
+import { getData, setSearch, setConfigTable, resetTableConfig } from '../../../store/slices/gedure/registros';
 
 const classes = {
   container: {
@@ -17,15 +22,28 @@ const classes = {
 
 export default function Registros() {
   document.title = 'Registros - La Candelaria';
+  useNotifier({
+    messageTo200: false,
+  });
+
+  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+    dataR: state.gdRegistros.tableData.data,
+    loading: state.gdRegistros.tableData.loading,
+    pageSize: state.gdRegistros.tableData.pageSize,
+    pageCount: state.gdRegistros.tableData.pageCount,
+  }));
+  const dispatch = useDispatch();
 
   const columns = useMemo(() => [
     {
       Header: 'Usuario',
       accessor: 'username',
+      Cell: ({ cell: { row: { original: { user: { privilegio, username } } } } }) => `${privilegio}${username}`
     },
     {
       Header: 'Nombre',
       accessor: 'name',
+      Cell: ({ cell: { row: { original: { user: { name } } } } }) => name
     },
     {
       Header: 'Acción',
@@ -34,35 +52,47 @@ export default function Registros() {
     {
       Header: 'Fecha',
       accessor: 'created_at',
-    }
+    },
+    {
+      Header: 'Opciones',
+      accessor: 'options',
+      Cell: () => 'Button'
+    },
   ],[]);
 
-  const data = useMemo(() => [{
-    username: 'recker1',
-    name: 'José Ortiz',
-    action: 'Entrar, afirmativo',
-    created_at: 'hoy'
-  },{
-    username: 'recker2',
-    name: 'José Ortiz',
-    action: 'Entrar, afirmativo',
-    created_at: 'hoy'
-  },{
-    username: 'recker3',
-    name: 'José Ortiz',
-    action: 'Entrar, afirmativo',
-    created_at: 'hoy'
-  },{
-    username: 'recker4',
-    name: 'José Ortiz',
-    action: 'Entrar, afirmativo',
-    created_at: 'hoy'
-  },{
-    username: 'recker5',
-    name: 'José Ortiz',
-    action: 'Entrar, afirmativo',
-    created_at: 'hoy'
-  }], []);
+  const data = useMemo(() => dataR, [dataR]);
+
+  // NOTA(RECKER): Core request
+  useEffect(() => {
+    let promise = null;
+
+    if (loading) {
+      promise = dispatch(getData());
+    }
+
+    return () => {
+      if (loading) {
+        promise.abort(); 
+      }
+    }
+    // eslint-disable-next-line
+  }, [loading]);
+
+  // NOTA(RECKER): Reinicar config al desmontar
+  useEffect(() => {
+    return () => {
+      dispatch(resetTableConfig());
+    }
+    // eslint-disable-next-line
+  },[]);
+
+  const handleGlobalFilter = value => {
+    dispatch(setSearch(value || ""));
+  }
+
+  const handleChange = value => {
+    dispatch(setConfigTable(value));
+  }
 
   return (
     <Box component='main' sx={classes.container}>
@@ -74,6 +104,11 @@ export default function Registros() {
             <ReactTableBase
               data={data}
               columns={columns}
+              pageCountData={pageCount}
+              pageSizeData={pageSize}
+              loading={loading}
+              handleGlobalFilter={handleGlobalFilter}
+              handleChange={handleChange}
             />
           </Grid>
         </Grid>
