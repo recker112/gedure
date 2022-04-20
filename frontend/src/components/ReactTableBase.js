@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // MUI
 import { InputAdornment, TextField } from "@mui/material";
@@ -14,12 +14,13 @@ import {
 } from "react-table";
 
 function GlobalFilter(props) {
-  const { state, setGlobalFilter } = props;
+  const { state, setGlobalFilter, gotoPage } = props;
   const [value, setValue] = useState(state.globalFilter);
 
   const onDebounce = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
-  }, 400);
+    gotoPage(0);
+  }, 500);
 
   return (
     <TextField
@@ -55,7 +56,7 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 export default function ReactTableBase(props) {
-  const { data, columns } = props;
+  const { data, columns, pageSizeData, pageCountData, loading, handleGlobalFilter, handleChange } = props;
 
   const tableInstance = useTable(
     {
@@ -63,7 +64,11 @@ export default function ReactTableBase(props) {
       data,
       initialState: {
         hiddenColumns: ["massiveSelection"],
+        pageSize: pageSizeData,
+        pageIndex: 0,
       },
+      manualPagination: true,
+      pageCount: pageCountData,
     },
     useGlobalFilter,
     usePagination,
@@ -94,7 +99,6 @@ export default function ReactTableBase(props) {
     headerGroups,
     page,
     prepareRow,
-    setGlobalFilter,
     state,
     selectedFlatRows,
     allColumns,
@@ -103,28 +107,33 @@ export default function ReactTableBase(props) {
     nextPage,
     previousPage,
     setPageSize,
-    pageSize,
     pageOptions,
     gotoPage,
     pageCount,
   } = tableInstance;
 
-  const { pageIndex } = state;
+  const { pageIndex, pageSize } = state;
+
+  useEffect(() => {
+    handleChange({ pageIndex, pageSize });
+    // eslint-disable-next-line
+  }, [pageIndex, pageSize]);
 
   return (
     <>
       <GlobalFilter
         state={state}
-        setGlobalFilter={setGlobalFilter}
+        setGlobalFilter={handleGlobalFilter}
+        gotoPage={gotoPage}
       />
       <button onClick={() => allColumns[0].toggleHidden()}>Toggle</button>
       <select
         value={pageSize}
-        onClick={(e) => {
+        onChange={(e) => {
           setPageSize(Number(e.target.value));
         }}
       >
-        {[1, 2, 3, 4, 5].map((pageSize) => (
+        {[10, 20, 30, 40, 50].map((pageSize) => (
           <option key={pageSize} value={pageSize}>
             Show {pageSize}
           </option>
