@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 // MUI
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 // Table
 import {
@@ -22,10 +23,15 @@ function GlobalFilter(props) {
 
   return (
     <TextField
+      size="small"
       value={value || ""}
+      placeholder="Buscar..."
       onChange={(event) => {
         onDebounce(event.target.value);
         setValue(event.target.value);
+      }}
+      InputProps={{
+        startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
       }}
     />
   );
