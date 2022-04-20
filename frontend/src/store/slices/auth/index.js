@@ -70,7 +70,8 @@ export const AuthsSlices = createSlice({
     logoutApp: (state) => {
       state.auth = false;
       state.access_key = '';
-      state = initialState;
+      state.user = {};
+      state.permissions = {};
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
     }
