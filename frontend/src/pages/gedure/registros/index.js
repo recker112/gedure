@@ -1,7 +1,8 @@
 import React, { useMemo, useEffect } from 'react'
 
 // MUI
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Tooltip } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // Components
 import Filtrador from './Filtrador';
@@ -9,6 +10,8 @@ import useNotifier from '../../../hooks/useNotifier';
 
 // Table
 import ReactTableBase from '../../../components/ReactTableBase';
+
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getData, setSearch, setConfigTable, resetTableConfig } from '../../../store/slices/gedure/registros';
 
@@ -56,7 +59,17 @@ export default function Registros() {
     {
       Header: 'Opciones',
       accessor: 'options',
-      Cell: () => 'Button'
+      Cell: ({ cell: { row: { original: { id } } } }) => (
+        <Tooltip title='Ver detalles' arrow>
+          <IconButton
+            onClick={() => {
+              console.log(id);
+            }}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+      )
     },
   ],[]);
 

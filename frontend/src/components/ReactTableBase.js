@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // MUI
-import { InputAdornment, TextField } from "@mui/material";
+import { Checkbox, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
 // Table
@@ -49,7 +49,13 @@ const IndeterminateCheckbox = React.forwardRef(
 
     return (
       <>
-        <input type="checkbox" ref={resolvedRef} {...rest} />
+        <Checkbox 
+          type="checkbox" 
+          ref={resolvedRef} 
+          indeterminate={indeterminate} 
+          color={indeterminate ? 'default' : 'primary'} 
+          {...rest}
+          />
       </>
     );
   }
