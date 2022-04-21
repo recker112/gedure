@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react'
 
 // MUI
-import { Box, Button, Container, Grid, IconButton, Tooltip } from '@mui/material';
+import { Box, Container, Grid, IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // Components
