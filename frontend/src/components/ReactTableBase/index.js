@@ -158,7 +158,12 @@ export default function ReactTableBase(props) {
                         return (
                           <TableCell padding='checkbox' {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
                         )
+                      } else if (column.Header === 'Opciones') {
+                        return (
+                          <TableCell align="right" {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
+                        )
                       }
+
                       return (
                         <TableCell {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
                       )
@@ -178,6 +183,12 @@ export default function ReactTableBase(props) {
                         if (cell.column.id === 'massiveSelection') {
                           return (
                             <TableCell padding='checkbox' {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
+                          )
+                        }
+
+                        else if (cell.column.Header === 'Opciones') {
+                          return (
+                            <TableCell align='right' {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
                           )
                         }
 
