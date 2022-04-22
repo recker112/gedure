@@ -46,7 +46,7 @@ const initialState = {
     loading: true,
     page: 0,
     data: [],
-    pageSize: 10,
+    pageSize: 5,
     search: "",
     totalRows: 0,
     pageCount: 0,
