@@ -20,10 +20,9 @@ import {
 // Components
 import { GlobalFilter } from "./GlobalFilter";
 import { IndeterminateCheckbox } from "./IndeterminateCheckbox";
-import Filtrador from "../../pages/gedure/registros/Filtrador";
 
 export default function ReactTableBase(props) {
-  const { data, columns, pageSizeData, pageCountData, loading, handleGlobalFilter, handleChange } = props;
+  const { data, columns, pageSizeData, pageCountData, loading, handleGlobalFilter, handleChange, filter } = props;
 
   const tableInstance = useTable(
     {
@@ -130,10 +129,6 @@ export default function ReactTableBase(props) {
                 <Tooltip title="Opciones massivas" arrow>
                   <IconButton
                     component='span'
-                    sx={{
-                      mr: 1,
-                      ml: 1,
-                    }}
                     onClick={() => {
                       allColumns[0].toggleHidden();
                       allColumns[5].toggleHidden();
@@ -143,7 +138,7 @@ export default function ReactTableBase(props) {
                     <GroupIcon />
                   </IconButton>
                 </Tooltip>
-                <Filtrador />
+                {filter}
               </>
             )}
           </Toolbar>
