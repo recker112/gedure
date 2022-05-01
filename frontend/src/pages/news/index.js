@@ -161,7 +161,7 @@ export default function News() {
             )}
 
             {/*NOTA(RECKER): Noticia no encontrada*/}
-            {(data.length === 0 && hasFinish) && (
+            {(data.length === 0 && hasFinish && search.length === 0) && (
               <Grid item xs={12}>
                 <Typography align="center">
                   No hay noticias publicadas.
