@@ -162,7 +162,9 @@ export default function ReactTableBase(props) {
               gotoPage={gotoPage}
             />
             {selectedFlatRows.length > 0 ? (
-              massiveOptions(selectedFlatRows)
+              massiveOptions(selectedFlatRows.map(
+                (d) => d.original
+              ))
             ) : (
               <>
                 {massiveOptions && (
@@ -368,21 +370,6 @@ export default function ReactTableBase(props) {
             </Box>
           </TableContainer>
         </Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <pre>
-          <code>
-            {JSON.stringify(
-              {
-                "selectedFlatRows[].original": selectedFlatRows.map(
-                  (d) => d.original
-                ),
-              },
-              null,
-              2
-            )}
-          </code>
-        </pre>
       </Grid>
     </Grid>
   );
