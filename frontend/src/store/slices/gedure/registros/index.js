@@ -69,13 +69,11 @@ export const registrosSlices = createSlice({
       keys.map(key => {
         if (data[key] !== initialState.filters[key]) {
           count++;
-        } else {
-          count -= count > 0 ? -1 : 0;
         }
         return null;
       })
 
-      state.filters = action.payload;
+      state.filters = data;
       state.countFilters = count;
       state.tableData.loading = true;
     },

@@ -24,7 +24,8 @@ export default function Filtrador() {
     dispatch(setFilterBox(true));
   }
 
-  const handleClose = () => {
+  const onClose = async data => {
+    await dispatch(setFilters(data));
     dispatch(setFilterBox(false));
   }
 
@@ -32,11 +33,6 @@ export default function Filtrador() {
     reset({
       type: 'all'
     });
-  }
-
-  const onSubmit = async data => {
-    await dispatch(setFilters(data));
-    handleClose();
   }
 
   return (
@@ -67,7 +63,7 @@ export default function Filtrador() {
                 </IconButton>
               </Tooltip>
               <Tooltip title='Cerrar' arrow>
-                <IconButton onClick={handleSubmit(onSubmit)}>
+                <IconButton onClick={handleSubmit(onClose)}>
                   <CloseIcon />
                 </IconButton>
               </Tooltip>
