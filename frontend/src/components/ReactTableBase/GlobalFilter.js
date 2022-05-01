@@ -31,6 +31,9 @@ export function GlobalFilter(props) {
         onDebounce(event.target.value);
         setValue(event.target.value);
       }}
+      sx={{
+        mr: 1,
+      }}
       InputProps={{
         startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
         endAdornment: <IconButton disabled={!value} onClick={handleClear}><ClearIcon /></IconButton>
