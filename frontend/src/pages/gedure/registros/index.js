@@ -13,6 +13,7 @@ import ReactTableBase from '../../../components/ReactTableBase';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getData, setSearch, setConfigTable, resetTableConfig } from '../../../store/slices/gedure/registros';
+import Filtrador from './Filtrador';
 
 const classes = {
   container: {
@@ -120,6 +121,7 @@ export default function Registros() {
               loading={loading}
               handleGlobalFilter={handleGlobalFilter}
               handleChange={handleChange}
+              filter={<Filtrador />}
             />
           </Grid>
         </Grid>
