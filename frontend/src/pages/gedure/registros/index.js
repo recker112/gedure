@@ -57,6 +57,7 @@ export default function Registros() {
       accessor: 'created_at',
     },
     {
+      id: 'options',
       Header: 'Opciones',
       accessor: 'options',
       Cell: ({ cell: { row: { original: { id } } } }) => (

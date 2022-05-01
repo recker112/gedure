@@ -70,7 +70,7 @@ export default function Filtrador() {
             </Toolbar>
           </AppBar>
           <Container>
-            <Box mt={2}>
+            <Box my={2}>
               <Grid container spacing={2}>
                 <Grid item xs>
                   <RadioHook 

@@ -1,13 +1,32 @@
 import React, { useEffect } from "react";
 
 // MUI
-import { Backdrop, Box, CircularProgress, Grid, IconButton, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Toolbar, Tooltip, Typography } from "@mui/material";
-import { alpha } from '@mui/material/styles';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import GroupIcon from '@mui/icons-material/Group';
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Grid,
+  IconButton,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TableRow,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import GroupIcon from "@mui/icons-material/Group";
 
 // Table
 import {
@@ -22,7 +41,17 @@ import { GlobalFilter } from "./GlobalFilter";
 import { IndeterminateCheckbox } from "./IndeterminateCheckbox";
 
 export default function ReactTableBase(props) {
-  const { data, columns, pageSizeData, pageCountData, loading, handleGlobalFilter, handleChange, filter } = props;
+  const {
+    data,
+    columns,
+    pageSizeData,
+    pageCountData,
+    loading,
+    handleGlobalFilter,
+    handleChange,
+    filter,
+    massiveOptions
+  } = props;
 
   const tableInstance = useTable(
     {
@@ -84,21 +113,31 @@ export default function ReactTableBase(props) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Paper sx={{position: 'relative'}}>
-          <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1, position: 'absolute' }} open={loading}>
+        <Paper sx={{ position: "relative" }}>
+          <Backdrop
+            sx={{
+              color: "#fff",
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+              position: "absolute",
+            }}
+            open={loading}
+          >
             <CircularProgress />
           </Backdrop>
           <Toolbar
             sx={{
               ...(selectedFlatRows.length > 0 && {
                 bgcolor: (theme) =>
-                  alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+                  alpha(
+                    theme.palette.primary.main,
+                    theme.palette.action.activatedOpacity
+                  ),
               }),
             }}
           >
             {selectedFlatRows.length > 0 ? (
               <Typography
-                sx={{ flex: '1 1 100%' }}
+                sx={{ flex: "1 1 100%" }}
                 color="inherit"
                 variant="subtitle1"
                 component="div"
@@ -108,7 +147,7 @@ export default function ReactTableBase(props) {
               </Typography>
             ) : (
               <Typography
-                sx={{ flex: '1 1 100%' }}
+                sx={{ flex: "1 1 100%" }}
                 variant="h6"
                 id="registros"
                 component="div"
@@ -123,48 +162,72 @@ export default function ReactTableBase(props) {
               gotoPage={gotoPage}
             />
             {selectedFlatRows.length > 0 ? (
-              <div>{/*Opciones masivas*/}</div>
+              massiveOptions(selectedFlatRows)
             ) : (
               <>
-                <Tooltip title="Opciones massivas" arrow>
-                  <IconButton
-                    component='span'
-                    onClick={() => {
-                      allColumns[0].toggleHidden();
-                      allColumns[5].toggleHidden();
-                    }}
-                    disabled={selectedFlatRows.length > 0}
-                  >
-                    <GroupIcon />
-                  </IconButton>
-                </Tooltip>
+                {massiveOptions && (
+                  <Tooltip title="Opciones massivas" arrow>
+                    <IconButton
+                      component="span"
+                      onClick={() => {
+                        allColumns.map((column) => {
+                          if (column.id  === 'massiveSelection') {
+                            column.toggleHidden();
+                          } else if (column.id === 'options') {
+                            column.toggleHidden();
+                          }
+                          return null;
+                        });
+                      }}
+                      disabled={selectedFlatRows.length > 0}
+                    >
+                      <GroupIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
                 {filter}
               </>
             )}
           </Toolbar>
           <TableContainer>
-            <Box overflow='auto'>
-              <Table sx={{ minWidth: 650 }} aria-label="React Table" {...getTableProps()}>
-                <TableHead sx={{ 'th': { border: 0 } }}>
+            <Box overflow="auto">
+              <Table
+                sx={{ minWidth: 650 }}
+                aria-label="React Table"
+                {...getTableProps()}
+              >
+                <TableHead sx={{ th: { border: 0 } }}>
                   {headerGroups.map((headerGroup) => (
-                    <TableRow 
-                      sx={{ 'td': { border: 0 } }}
+                    <TableRow
+                      sx={{ td: { border: 0 } }}
                       {...headerGroup.getHeaderGroupProps()}
                     >
                       {headerGroup.headers.map((column) => {
-                        if (column.id === 'massiveSelection') {
+                        if (column.id === "massiveSelection") {
                           return (
-                            <TableCell padding='checkbox' {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
-                          )
-                        } else if (column.Header === 'Opciones') {
+                            <TableCell
+                              padding="checkbox"
+                              {...column.getHeaderProps()}
+                            >
+                              {column.render("Header")}
+                            </TableCell>
+                          );
+                        } else if (column.Header === "Opciones") {
                           return (
-                            <TableCell align="right" {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
-                          )
+                            <TableCell
+                              align="right"
+                              {...column.getHeaderProps()}
+                            >
+                              {column.render("Header")}
+                            </TableCell>
+                          );
                         }
 
                         return (
-                          <TableCell {...column.getHeaderProps()}>{column.render("Header")}</TableCell>
-                        )
+                          <TableCell {...column.getHeaderProps()}>
+                            {column.render("Header")}
+                          </TableCell>
+                        );
                       })}
                     </TableRow>
                   ))}
@@ -173,91 +236,126 @@ export default function ReactTableBase(props) {
                   {page.map((row) => {
                     prepareRow(row);
                     return (
-                      <TableRow
-                        sx={{height: '73px'}}
-                        {...row.getRowProps()}
-                      >
+                      <TableRow sx={{ height: "73px" }} {...row.getRowProps()}>
                         {row.cells.map((cell) => {
-                          if (cell.column.id === 'massiveSelection') {
+                          if (cell.column.id === "massiveSelection") {
                             return (
-                              <TableCell padding='checkbox' {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
-                            )
-                          }
-
-                          else if (cell.column.Header === 'Opciones') {
+                              <TableCell
+                                padding="checkbox"
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render("Cell")}
+                              </TableCell>
+                            );
+                          } else if (cell.column.Header === "Opciones") {
                             return (
-                              <TableCell align='right' {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
-                            )
+                              <TableCell align="right" {...cell.getCellProps()}>
+                                {cell.render("Cell")}
+                              </TableCell>
+                            );
                           }
 
                           return (
-                            <TableCell {...cell.getCellProps()}>{cell.render("Cell")}</TableCell>
-                          )
+                            <TableCell {...cell.getCellProps()}>
+                              {cell.render("Cell")}
+                            </TableCell>
+                          );
                         })}
                       </TableRow>
                     );
                   })}
                   {page.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan='100%'>
-                        <Typography textAlign='center'>No se han encontrado resultados</Typography>
+                      <TableCell colSpan="100%">
+                        <Typography textAlign="center">
+                          No se han encontrado resultados
+                        </Typography>
                       </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
               </Table>
             </Box>
-            <Box overflow='auto' minWidth={352}>
+            <Box overflow="auto" minWidth={352}>
               <Table>
                 <TableFooter>
                   <TableRow>
-                    <TableCell colSpan='100%' sx={{ border: 0 }}>
-                      <Grid container justifyContent='flex-end' alignItems='center' spacing={1} item xs={12}>
+                    <TableCell colSpan="100%" sx={{ border: 0 }}>
+                      <Grid
+                        container
+                        justifyContent="flex-end"
+                        alignItems="center"
+                        spacing={1}
+                        item
+                        xs={12}
+                      >
                         <Grid item>
                           <Select
                             labelId="page-size-table-label"
                             id="page-size-table"
                             value={pageSize}
                             label="Filas"
-                            variant='standard'
+                            variant="standard"
                             onChange={(e) => {
                               setPageSize(Number(e.target.value));
                             }}
                           >
                             {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                              <MenuItem key={pageSize} value={pageSize}>{pageSize} Filas</MenuItem>
+                              <MenuItem key={pageSize} value={pageSize}>
+                                {pageSize} Filas
+                              </MenuItem>
                             ))}
                           </Select>
                         </Grid>
                         <Grid item>
                           <Tooltip title="Primera página" arrow>
-                            <IconButton component='span' onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                            <IconButton
+                              component="span"
+                              onClick={() => gotoPage(0)}
+                              disabled={!canPreviousPage}
+                            >
                               <FirstPageIcon />
                             </IconButton>
                           </Tooltip>
                         </Grid>
                         <Grid item>
                           <Tooltip title="Anterior" arrow>
-                            <IconButton component='span' onClick={previousPage} disabled={!canPreviousPage}>
+                            <IconButton
+                              component="span"
+                              onClick={previousPage}
+                              disabled={!canPreviousPage}
+                            >
                               <NavigateBeforeIcon />
                             </IconButton>
                           </Tooltip>
                         </Grid>
                         <Grid item>
-                          <Box component='span' fontSize='body2.fontSize' color='text.secondary'>
+                          <Box
+                            component="span"
+                            fontSize="body2.fontSize"
+                            color="text.secondary"
+                          >
                             {pageIndex + 1} de {pageOptions.length}
                           </Box>
                         </Grid>
                         <Grid item>
                           <Tooltip title="Siguiente" arrow>
-                            <IconButton component='span' onClick={nextPage} disabled={!canNextPage}>
+                            <IconButton
+                              component="span"
+                              onClick={nextPage}
+                              disabled={!canNextPage}
+                            >
                               <NavigateNextIcon />
                             </IconButton>
                           </Tooltip>
                         </Grid>
                         <Grid item>
                           <Tooltip title="Última página" arrow>
-                            <IconButton component='span' onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                            <IconButton
+                              component="span"
+                              onClick={() => gotoPage(pageCount - 1)}
+                              disabled={!canNextPage}
+                            >
                               <LastPageIcon />
                             </IconButton>
                           </Tooltip>
