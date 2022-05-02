@@ -12,13 +12,14 @@ import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, setSearch, setConfigTable, resetTableConfig } from '../../../store/slices/gedure/registros';
+import { getData, setSearch, setConfigTable, resetTableConfig, setRegBox } from '../../../store/slices/gedure/registros';
 import Filtrador from './Filtrador';
+import ShowRegistro from './ShowRegistro';
 
 const classes = {
   container: {
     flexGrow: 1,
-    paddingBottom: 10,
+    paddingBottom: 6,
     marginTop: { xs: "80px", sm: 12 },
   },
 };
@@ -60,11 +61,11 @@ export default function Registros() {
       id: 'options',
       Header: 'Opciones',
       accessor: 'options',
-      Cell: ({ cell: { row: { original: { id } } } }) => (
+      Cell: ({ cell: { row: { original } } }) => (
         <Tooltip title='Ver detalles' arrow>
           <IconButton
             onClick={() => {
-              console.log(id);
+              dispatch(setRegBox({open: true, data: original}));
             }}
           >
             <VisibilityIcon />
@@ -72,6 +73,7 @@ export default function Registros() {
         </Tooltip>
       )
     },
+    // eslint-disable-next-line
   ],[]);
 
   const data = useMemo(() => dataR, [dataR]);
@@ -126,6 +128,7 @@ export default function Registros() {
             />
           </Grid>
         </Grid>
+        <ShowRegistro />
       </Container>
     </Box>
   )
