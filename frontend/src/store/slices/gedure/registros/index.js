@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../notistack";
+import { format } from 'date-fns';
 
 export const getData = createAsyncThunk(
   'gd_registros/getData',
@@ -50,7 +51,9 @@ const initialState = {
     search: "",
     totalRows: 0,
     pageCount: 0,
-  }
+  },
+  regBox: false,
+  regData: {},
 };
 
 export const registrosSlices = createSlice({
@@ -76,6 +79,22 @@ export const registrosSlices = createSlice({
       state.filters = data;
       state.countFilters = count;
       state.tableData.loading = true;
+    },
+    setRegBox: (state, action) => {
+      const { open, data } = action.payload;
+      let formatData = {...data};
+
+      // Format Data
+      if (Object.keys(formatData).length) {
+        formatData.payload = typeof formatData.payload !== 'object' ? JSON.parse(formatData.payload) : formatData.payload;
+        formatData.date = format(new Date(formatData.date_format), 'dd/MM/yy');
+        formatData.hours = format(new Date(formatData.date_format), 'hh:mm a');
+        formatData.username = formatData.user.privilegio+formatData.user.username;
+        formatData.name = formatData.user.name;
+      }
+
+      state.regBox = open;
+      state.regData = data ? formatData : state.regData;
     },
     setSearch: (state, action) => {
       state.tableData.search = action.payload;
@@ -113,4 +132,4 @@ export const registrosSlices = createSlice({
 
 export default registrosSlices.reducer;
 
-export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig } = registrosSlices.actions;
+export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig, setRegBox } = registrosSlices.actions;
