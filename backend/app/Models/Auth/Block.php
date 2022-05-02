@@ -117,7 +117,7 @@ class Block extends Model
 				
 				$userExist->logs()->create([
 					'action' => "Bloqueo de cuenta",
-					'payload' => json_encode($payload),
+					'payload' => $payload,
 					'type' => 'session'
 				]);
 				
