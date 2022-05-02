@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 import Loader from './components/Router/Loader';
 import Relogin from './components/Router/Relogin';
 import { AuthProtect, NoSeeAuth } from './components/Router/Routers';
+import { useSelector } from 'react-redux';
 
 // Routers
 const HomePage = lazy(() => import('./pages/home'));
@@ -43,6 +44,9 @@ function NotFound() {
 
 export default function Routers() {
   const match = useMatch('/entrar');
+
+  const { permissions } = useSelector(state => state.auth);
+  const { registros_index } = permissions.sin_asignar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -76,11 +80,13 @@ export default function Routers() {
               </AuthProtect>
             } />
 
-            <Route path='registros' element={
-              <AuthProtect>
-                <RegistrosGedure />
-              </AuthProtect>
-            } />
+            {registros_index && (
+              <Route path='registros' element={
+                <AuthProtect>
+                  <RegistrosGedure />
+                </AuthProtect>
+              } />
+            )}
 
             <Route path='preguntas-frecuentes' element={
               <AuthProtect>

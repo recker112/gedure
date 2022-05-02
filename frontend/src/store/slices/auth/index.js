@@ -48,7 +48,12 @@ const initialState = {
 		personal_data: {},
 		wallet: {}
 	},
-	permissions: {}
+	permissions: {
+    sin_asignar: {},
+    administrar: {},
+    administrar_transac: {},
+    gedure: {},
+  }
 };
 
 export const AuthsSlices = createSlice({
