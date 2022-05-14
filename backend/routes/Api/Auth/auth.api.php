@@ -26,11 +26,11 @@ Route::middleware('auth:api')
 
 // Logout
 Route::middleware('auth:api')
-	->post('logout', [LoginController::class, 'logout']);
+	->get('logout', [LoginController::class, 'logout']);
 
 // LogoutAll
 Route::middleware('auth:api')
-	->post('logoutAll', [LoginController::class, 'logoutAllTokens']);
+	->get('logoutAll', [LoginController::class, 'logoutAllTokens']);
 
 // RecoveryPassword
 Route::post('recovery-password', [RecoveryPasswordController::class, 'recoveryPassword']);
