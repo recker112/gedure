@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 // Components
 import DrawerMenu from './DrawerMenu';
+import AvatarMenu from './AvatarMenu';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,6 +62,7 @@ export default function Auth() {
           </IconButton>
         </Tooltip>
       </ChangeTheme>
+      <AvatarMenu />
       <DrawerMenu />
     </Toolbar>
   )
