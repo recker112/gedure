@@ -55,7 +55,9 @@ export default function Show() {
     }
 
     return () => {
-      promise.abort();
+      if (promise) {
+        promise.abort();
+      }
       dispatch(resetData());
     }
     // eslint-disable-next-line
