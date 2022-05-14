@@ -40,6 +40,44 @@ export const relogin = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (data, { getState, signal, dispatch }) => {
+    // NOTA(RECKER): Configurar petición a realizar
+    const axios = window.axios;
+    
+    let url;
+    if (data === 'all') {
+      url = 'v1/logoutAll';
+    } else {
+      url = 'v1/logout';
+    }
+
+    // NOTA(RECKER): Enviar estado de la petición al notistack
+    try {
+      const res = await axios.get(url, {
+        signal, // NOTA(RECKER): Señal para cancelar petición
+      });
+
+      dispatch(updateNotistack({ status: res.status, text: 'Sesión cerrada', variant: 'info' }));
+
+      return res.data;
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        // NOTA(RECKER): No hacer nada al cancelar el AJAX
+      } else if (error.response) {
+        // NOTA(RECKER): Respuesta del servidor
+        const { data, status } = error.response;
+        dispatch(updateNotistack({ status: status, text: data.msg }));
+      } else {
+        // NOTA(RECKER): Sin respuesta por parte del servidor
+        dispatch(updateNotistack({ status: 'offline', }));
+      }
+      throw error;
+    }
+  }
+);
+
 const initialState = {
   auth: false,
   relogin: true,
@@ -72,13 +110,10 @@ export const AuthsSlices = createSlice({
       state.permissions = permissions;
       state.access_key = access_key;
     },
-    logoutApp: (state) => {
-      state.auth = false;
-      state.access_key = '';
-      state.user = {};
-      state.permissions = {};
+    logoutApp: () => {
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
+      return initialState;
     }
   },
   extraReducers: {
@@ -94,6 +129,16 @@ export const AuthsSlices = createSlice({
       state.access_key = access_key;
       state.user = user;
       state.permissions = permissions;
+    },
+    [logout.rejected]: () => {
+      sessionStorage.removeItem('gd-access_key');
+			localStorage.removeItem('gd-access_key');
+      return initialState;
+    },
+    [logout.fulfilled]: () => {
+      sessionStorage.removeItem('gd-access_key');
+			localStorage.removeItem('gd-access_key');
+      return initialState;
     }
   }
 });

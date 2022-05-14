@@ -25,6 +25,7 @@ const LoginPage = lazy(() => import('./pages/login'));
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
 const RegistrosGedure = lazy(() => import('./pages/gedure/registros'));
 const FAQGedure = lazy(() => import('./pages/gedure/faq'));
+const LogoutPage = lazy(() => import('./pages/gedure/logout'));
 
 const classes = {
   container: {
@@ -91,6 +92,12 @@ export default function Routers() {
             <Route path='preguntas-frecuentes' element={
               <AuthProtect>
                 <FAQGedure />
+              </AuthProtect>
+            } />
+
+            <Route path='logout' element={
+              <AuthProtect>
+                <LogoutPage />
               </AuthProtect>
             } />
 

@@ -83,13 +83,13 @@ export default function AvatarMenu() {
       </Grid>
       <Grid item xs={12}>
        <List>
-        <ListDrawerNav to='/gedure/cuenta'>
+        <ListDrawerNav to='/gedure/cuenta' onClick={handleClose}>
          <ListItemIcon>
           <SettingsIcon />
          </ListItemIcon>
          <ListItemText primary='Cuenta' /> 
         </ListDrawerNav>
-        <ListDrawerNav to='/gedure/logout'>
+        <ListDrawerNav to='/gedure/logout' onClick={handleClose}>
          <ListItemIcon>
           <ExitToAppIcon />
          </ListItemIcon>

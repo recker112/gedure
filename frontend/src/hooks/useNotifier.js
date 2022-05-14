@@ -18,14 +18,14 @@ export default function useNotifier({
 } = {}) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { notiText, notiStatus } = useSelector((state) => state.notistack);
+  const { notiText, notiStatus, notiVariant } = useSelector((state) => state.notistack);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (notiStatus === 200 || notiStatus === 201) {
       messageTo200 &&
         enqueueSnackbar(message200 ? message200 : notiText, {
-          variant: "success",
+          variant: notiVariant,
         });
     } else if (notiStatus === 400) {
       messageTo400 &&
@@ -74,6 +74,7 @@ export default function useNotifier({
   }, [
     notiText,
     notiStatus,
+    notiVariant,
     dispatch,
     enqueueSnackbar,
     messageTo200,

@@ -26,9 +26,7 @@ const classes = {
 }
 
 export default function Form() {
-  useNotifier({
-    message200: 'Login exitoso',
-  });
+  useNotifier();
 
   const loading = useSelector(state => state.login.loading);
   const dispatch = useDispatch();
