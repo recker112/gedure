@@ -20,12 +20,13 @@ const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
+const LogoutPage = lazy(() => import('./pages/gedure/logout'));
 
 // Gedure CORE
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
 const RegistrosGedure = lazy(() => import('./pages/gedure/registros'));
 const FAQGedure = lazy(() => import('./pages/gedure/faq'));
-const LogoutPage = lazy(() => import('./pages/gedure/logout'));
+const UsuariosPage = lazy(() => import('./pages/gedure/usuarios'));
 
 const classes = {
   container: {
@@ -48,6 +49,7 @@ export default function Routers() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
+  const { users_index } = permissions.administrar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -85,6 +87,14 @@ export default function Routers() {
               <Route path='registros' element={
                 <AuthProtect>
                   <RegistrosGedure />
+                </AuthProtect>
+              } />
+            )}
+
+            {users_index && (
+              <Route path='usuarios' element={
+                <AuthProtect>
+                  <UsuariosPage />
                 </AuthProtect>
               } />
             )}
