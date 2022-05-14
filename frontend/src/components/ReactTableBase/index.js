@@ -50,7 +50,8 @@ export default function ReactTableBase(props) {
     handleGlobalFilter,
     handleChange,
     filter,
-    massiveOptions
+    massiveOptions,
+    title
   } = props;
 
   const tableInstance = useTable(
@@ -153,7 +154,7 @@ export default function ReactTableBase(props) {
                 component="div"
                 noWrap
               >
-                Registros del sistema
+                {title}
               </Typography>
             )}
             <GlobalFilter

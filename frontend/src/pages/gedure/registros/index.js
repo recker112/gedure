@@ -117,6 +117,7 @@ export default function Registros() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <ReactTableBase
+              title='Registros del sistema'
               data={data}
               columns={columns}
               pageCountData={pageCount}
