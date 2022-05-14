@@ -30,7 +30,7 @@ function Header() {
   const username = useSelector(state => state.auth.user.username);
 
   return (
-    <Container sx={{height: '100%'}}>
+    <Container sx={{height: '100%', userSelect: 'none'}}>
       <Grid container justifyContent='flex-start' alignItems='center' sx={{height: '100%'}}>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h5.fontSize', sm: 'h4.fontSize', md: 'h3.fontSize' }} className='text__bold--semi'>
