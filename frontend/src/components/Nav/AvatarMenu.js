@@ -62,12 +62,13 @@ export default function AvatarMenu() {
       <Grid container justifyContent='center' item xs={12}>
        <Avatar
         sx={{
-         backgroundColor: 'secondary.main',
-         color: 'secondary.contrastText',
-         width: 70, 
-         height: 70
+          backgroundColor: 'secondary.main',
+          color: 'secondary.contrastText',
+          width: 70, 
+          height: 70
         }}
         src={avatar}
+        alt={`Avatar User de ${name}`}
        >
         {name.substring(0, 1).toUpperCase()}
        </Avatar>
