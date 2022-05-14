@@ -113,7 +113,7 @@ export const AuthsSlices = createSlice({
     logoutApp: () => {
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
-      return initialState;
+      return {...initialState, relogin: false};
     }
   },
   extraReducers: {
@@ -133,12 +133,12 @@ export const AuthsSlices = createSlice({
     [logout.rejected]: () => {
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
-      return initialState;
+      return {...initialState, relogin: false};
     },
     [logout.fulfilled]: () => {
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
-      return initialState;
+      return {...initialState, relogin: false};
     }
   }
 });

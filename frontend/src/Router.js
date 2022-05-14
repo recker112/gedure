@@ -95,18 +95,18 @@ export default function Routers() {
               </AuthProtect>
             } />
 
-            <Route path='logout' element={
-              <AuthProtect>
-                <LogoutPage />
-              </AuthProtect>
-            } />
-
             <Route path='*' element={
               <AuthProtect>
                 <NotFound/>
               </AuthProtect>
             } />
           </Route>
+
+          <Route path='logout' element={
+            <AuthProtect returnBack>
+              <LogoutPage />
+            </AuthProtect>
+          } />
 
           <Route path='*' element={<NotFound/>} />
         </Routes>

@@ -20,20 +20,19 @@ const classes = {
 
 export default function FormContact() {
 	useNotifier({
-		message200: 'Mensaje enviado',
 		message422: 'Ya tiene una solicitud en cola',
 	})
 
-  const loading = useSelector(state => state.contacts.loading);
+ const loading = useSelector(state => state.contacts.loading);
 	const dispatch = useDispatch();
 	const maxMensaje = 350;
 
-  const { handleSubmit, watch, control } = useForm({
+ const { handleSubmit, watch, control } = useForm({
 		mode: 'onTouched',
 	});
 
   const onSubmit = (data) => {
-		dispatch(contactsData(data));
+			dispatch(contactsData(data));
   }
 
   return (

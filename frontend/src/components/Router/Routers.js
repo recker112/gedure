@@ -19,7 +19,7 @@ export function NoSeeAuth({ children }) {
   return children;
 }
 
-export function AuthProtect({ children }) {
+export function AuthProtect({ returnBack, children }) {
   const { auth, actived_at } = useSelector((state) => ({
 		auth: state.auth.auth,
 		actived_at: state.auth.user.actived_at
@@ -29,7 +29,7 @@ export function AuthProtect({ children }) {
 
   // NOTA(RECKER): Verificar auth
   if (!auth) {
-    return <Navigate to='/entrar' state={{ from: location }} />
+    return <Navigate to={returnBack ? -1 : '/entrar'} state={{ from: location }} />
   }
 
   // NOTA(RECKER): Verificar actived_at
