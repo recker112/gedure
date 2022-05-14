@@ -89,7 +89,7 @@ export default function AvatarMenu() {
          </ListItemIcon>
          <ListItemText primary='Cuenta' /> 
         </ListDrawerNav>
-        <ListDrawerNav to='/gedure/logout' onClick={handleClose}>
+        <ListDrawerNav to='/logout' onClick={handleClose}>
          <ListItemIcon>
           <ExitToAppIcon />
          </ListItemIcon>

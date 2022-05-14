@@ -8,7 +8,6 @@ import { logoutApp } from "../store/slices/auth";
 
 export default function useNotifier({
   messageTo200 = true,
-  message200 = false,
   messageTo400 = true,
   message400 = false,
   messageTo404 = true,
@@ -24,7 +23,7 @@ export default function useNotifier({
   useEffect(() => {
     if (notiStatus === 200 || notiStatus === 201) {
       messageTo200 &&
-        enqueueSnackbar(message200 ? message200 : notiText, {
+        enqueueSnackbar(notiText, {
           variant: notiVariant,
         });
     } else if (notiStatus === 400) {
@@ -78,7 +77,6 @@ export default function useNotifier({
     dispatch,
     enqueueSnackbar,
     messageTo200,
-    message200,
     messageTo400,
     message400,
     messageTo404,

@@ -14,7 +14,7 @@ export const contactsData = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'success' }));
+      dispatch(updateNotistack({ status: res.status, text: 'Mensaje enviado' }));
 
       return res.data;
     } catch (error) {
