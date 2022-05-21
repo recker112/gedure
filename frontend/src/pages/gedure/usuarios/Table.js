@@ -22,6 +22,7 @@ import Filtrador from "./Filtrador";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getData,
+  refresh,
   resetTableConfig,
   setConfigTable,
   setSearch,
@@ -169,6 +170,10 @@ export default function Table() {
     dispatch(setConfigTable(value));
   };
 
+  const handleRefresh = () => {
+    dispatch(refresh());
+  }
+
   return (
     <ReactTableBase
       title="Lista de usuarios"
@@ -180,6 +185,7 @@ export default function Table() {
       handleGlobalFilter={handleGlobalFilter}
       handleChange={handleChange}
       filter={<Filtrador />}
+      refresh={handleRefresh}
       massiveOptions={dataMassive => (
         <>
           {type === 'V-' && (

@@ -109,6 +109,9 @@ export const registrosSlices = createSlice({
     },
     resetTableConfig: state => {
       state.tableData = initialState.tableData;
+    },
+    refresh: state => {
+      state.tableData.loading = true;
     }
   },
   extraReducers: {
@@ -132,4 +135,4 @@ export const registrosSlices = createSlice({
 
 export default registrosSlices.reducer;
 
-export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig, setRegBox } = registrosSlices.actions;
+export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig, setRegBox, refresh } = registrosSlices.actions;
