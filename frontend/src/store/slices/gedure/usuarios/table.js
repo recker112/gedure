@@ -93,6 +93,9 @@ export const gdUTableSlices = createSlice({
     },
     resetTableConfig: state => {
       state.tableData = initialState.tableData;
+    },
+    refresh: state => {
+      state.tableData.loading = true;
     }
   },
   extraReducers: {
@@ -116,4 +119,4 @@ export const gdUTableSlices = createSlice({
 
 export default gdUTableSlices.reducer;
 
-export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig, setUserBox } = gdUTableSlices.actions;
+export const { setFilterBox, setFilters, setSearch, setConfigTable, resetTableConfig, setUserBox, refresh } = gdUTableSlices.actions;

@@ -11,6 +11,11 @@ import {
 // Components
 import useNotifier from "../../../hooks/useNotifier";
 import Table from "./Table";
+import CreateUser from "./CreateUser";
+
+// Redux
+import { useDispatch } from "react-redux";
+import { setOpen } from "../../../store/slices/gedure/usuarios/forms";
 
 const classes = {
   container: {
@@ -21,7 +26,14 @@ const classes = {
 };
 
 export default function Usuarios() {
+  document.title = 'Usuarios - La Candelaria';
   useNotifier();
+
+  const dispatch = useDispatch();
+
+  const handleOpenCreate = () => {
+    dispatch(setOpen({select: 'create', open: true}));
+  }
 
   return (
     <Box component="main" sx={classes.container}>
@@ -34,12 +46,13 @@ export default function Usuarios() {
             <Button variant="contained" sx={{ mr: 1 }}>
               Cargar estudiantes
             </Button>
-            <Button variant="contained">Crear usuario</Button>
+            <Button variant="contained" onClick={handleOpenCreate}>Crear usuario</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
           </Grid>
         </Grid>
+        <CreateUser />
       </Container>
     </Box>
   );

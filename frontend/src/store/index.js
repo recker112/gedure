@@ -11,6 +11,7 @@ import login from "./slices/login";
 import gdHome from "./slices/gedure/home";
 import gdRegistros from "./slices/gedure/registros";
 import gdUTable from "./slices/gedure/usuarios/table";
+import gdUForms from "./slices/gedure/usuarios/forms";
 
 export default configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export default configureStore({
     gdHome,
     gdRegistros,
     gdUTable,
+    gdUForms,
   },
 });
