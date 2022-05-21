@@ -12,7 +12,7 @@ import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, setSearch, setConfigTable, resetTableConfig, setRegBox } from '../../../store/slices/gedure/registros';
+import { getData, setSearch, setConfigTable, resetTableConfig, setRegBox, refresh } from '../../../store/slices/gedure/registros';
 import Filtrador from './Filtrador';
 import ShowRegistro from './ShowRegistro';
 
@@ -110,6 +110,10 @@ export default function Registros() {
     dispatch(setConfigTable(value));
   }
 
+  const handleRefresh = () => {
+    dispatch(refresh());
+  }
+
   return (
     <Box component='main' sx={classes.container}>
       <Container>
@@ -126,6 +130,7 @@ export default function Registros() {
               handleGlobalFilter={handleGlobalFilter}
               handleChange={handleChange}
               filter={<Filtrador />}
+              refresh={handleRefresh}
             />
           </Grid>
         </Grid>

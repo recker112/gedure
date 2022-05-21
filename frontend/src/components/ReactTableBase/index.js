@@ -27,6 +27,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import GroupIcon from "@mui/icons-material/Group";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 // Table
 import {
@@ -51,7 +52,8 @@ export default function ReactTableBase(props) {
     handleChange,
     filter,
     massiveOptions,
-    title
+    title,
+    refresh
   } = props;
 
   const tableInstance = useTable(
@@ -188,6 +190,14 @@ export default function ReactTableBase(props) {
                     </IconButton>
                   </Tooltip>
                 )}
+                <Tooltip title='Recargar' arrow>
+                  <IconButton
+                    component="span"
+                    onClick={refresh}
+                  >
+                    <RefreshIcon />
+                  </IconButton>
+                </Tooltip>
                 {filter}
               </>
             )}
