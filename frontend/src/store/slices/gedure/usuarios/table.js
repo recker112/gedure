@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../notistack";
-import { format } from 'date-fns';
 
 export const getData = createAsyncThunk(
   'gdUTable/getData',

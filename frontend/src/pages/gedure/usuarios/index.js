@@ -12,6 +12,7 @@ import {
 import useNotifier from "../../../hooks/useNotifier";
 import Table from "./Table";
 import CreateUser from "./CreateUser";
+import UploadStudiends from "./UploadStudiends";
 
 // Redux
 import { useDispatch } from "react-redux";
@@ -35,6 +36,10 @@ export default function Usuarios() {
     dispatch(setOpen({select: 'create', open: true}));
   }
 
+  const handleOpenUpload = () => {
+    dispatch(setOpen({select: 'upload', open: true}));
+  }
+
   return (
     <Box component="main" sx={classes.container}>
       <Container>
@@ -43,7 +48,7 @@ export default function Usuarios() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" sx={{ mr: 1 }}>
+            <Button variant="contained" onClick={handleOpenUpload} sx={{ mr: 1 }}>
               Cargar estudiantes
             </Button>
             <Button variant="contained" onClick={handleOpenCreate}>Crear usuario</Button>
@@ -53,6 +58,7 @@ export default function Usuarios() {
           </Grid>
         </Grid>
         <CreateUser />
+        <UploadStudiends />
       </Container>
     </Box>
   );
