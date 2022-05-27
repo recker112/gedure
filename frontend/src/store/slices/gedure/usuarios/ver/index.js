@@ -14,7 +14,7 @@ export const getData = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
+      //dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
 
       return res.data;
     } catch (error) {
