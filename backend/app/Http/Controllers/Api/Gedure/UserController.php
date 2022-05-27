@@ -251,7 +251,7 @@ class UserController extends Controller
 		}
 		
 		// NOTA(RECKER): Eliminar avatar
-		if ($delete_avatar) {
+		if ($delete_avatar && $user->avatarOriginal !== null) {
 			Storage::disk('user_avatars')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
@@ -345,7 +345,7 @@ class UserController extends Controller
 		}
 		
 		// NOTA(RECKER): Actualizar avatar
-		if ($avatar && !$delete_avatar && $user->privilegio !== 'V-' || $avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
+		if (($avatar && !$delete_avatar && $user->privilegio !== 'V-') || ($avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar'))) {
 			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
 			Storage::disk('user_avatars')->delete($rmAvatar);
 			$path = $avatar->store('', 'user_avatars');
