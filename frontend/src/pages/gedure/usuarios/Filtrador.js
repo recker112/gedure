@@ -19,7 +19,9 @@ export default function Filtrador() {
   const { filterBox, filters, countFilters } = useSelector(state => state.gdUTable);
   const dispatch = useDispatch();
 
-  const { control, handleSubmit, reset, watch, setValue } = useForm();
+  const { control, handleSubmit, reset, watch, setValue } = useForm({
+    defaultValues: filters,
+  });
 
   const handleOpen = () => {
     dispatch(setFilterBox(true));
