@@ -21,7 +21,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 export default function UploadStudiends() {
   const { open, loading, progress } = useSelector(state => state.gdUForms.upload);
   const dispatch = useDispatch();
-  console.log(progress);
 
   const { handleSubmit, register, watch, formState: { errors }, setError } = useForm({
 		shouldUnregister: true,

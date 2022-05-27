@@ -27,6 +27,8 @@ import {
   setConfigTable,
   setSearch,
 } from "../../../store/slices/gedure/usuarios/table";
+import { setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
+import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
 
 export default function Table() {
   let navigate = useNavigate();
@@ -106,7 +108,7 @@ export default function Table() {
         accessor: "options",
         Cell: ({
           cell: {
-            row: { original: { id } },
+            row: { original: { id, username, privilegio } },
           },
         }) => (
           <>
@@ -119,10 +121,10 @@ export default function Table() {
                 <PersonIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Eliminar" arrow>
+            <Tooltip title="Desactivar" arrow>
               <IconButton
                 onClick={() => {
-                  //
+                  dispatch(setConfirmConfgs({confirm: 'disabledAccount', open: true, data: { id, username: privilegio+username }}))
                 }}
               >
                 <DeleteIcon />
@@ -188,21 +190,35 @@ export default function Table() {
       refresh={handleRefresh}
       massiveOptions={dataMassive => (
         <>
-          {type === 'V-' && (
+          {(type === 'V-' || type === 'V-NA') && (
             <Tooltip title="Cambiar de curso" arrow>
               <IconButton
                 onClick={() => {
-                  console.dir(dataMassive)
+                  let i = 0;
+                  let idsArray = [];
+                  for(let value of dataMassive){
+                    idsArray[i] = value.id;
+                    i++;
+                  }
+                  
+                  dispatch(setConfgs({open: true, data: idsArray}))
                 }}
               >
                 <ClassIcon />
               </IconButton>
             </Tooltip>
           )}
-          <Tooltip title="Eliminar" arrow>
+          <Tooltip title="Desactivar" arrow>
             <IconButton
               onClick={() => {
-                console.dir(dataMassive)
+                let i = 0;
+								let idsArray = [];
+								for(let value of dataMassive){
+									idsArray[i] = value.id;
+									i++;
+								}
+
+                dispatch(setConfirmConfgs({confirm: 'disabledAccountMassive', open: true, data: idsArray}))
               }}
             >
               <DeleteIcon />

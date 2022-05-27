@@ -13,10 +13,13 @@ import useNotifier from "../../../hooks/useNotifier";
 import Table from "./Table";
 import CreateUser from "./CreateUser";
 import UploadStudiends from "./UploadStudiends";
+import DialogConfirmation from "../../../components/DialogConfirmation";
+import UpdateSeccion from "./UpdateSeccion";
 
 // Redux
 import { useDispatch } from "react-redux";
 import { setOpen } from "../../../store/slices/gedure/usuarios/forms";
+import { confirmData, confirmDataMassive, setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
 
 const classes = {
   container: {
@@ -59,6 +62,31 @@ export default function Usuarios() {
         </Grid>
         <CreateUser />
         <UploadStudiends />
+        <DialogConfirmation 
+          rdx1='gdUConfirmDisabledAccount' 
+          rdx2='disabledAccount'
+          close={
+            setConfirmConfgs({open: false, data: {}, confirm: 'disabledAccount'})
+          }
+          request={
+            data => confirmData(data.id)
+          }
+        >
+          {(data) => (<span>Está a punto de <strong>desactivar la cuenta {data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.</span>)}
+        </DialogConfirmation>
+        <DialogConfirmation 
+          rdx1='gdUConfirmDisabledAccount' 
+          rdx2='disabledAccountMassive'
+          close={
+            setConfirmConfgs({open: false, data: {}, confirm: 'disabledAccountMassive'})
+          }
+          request={
+            data => confirmDataMassive(data)
+          }
+        >
+          {(data) => (<span>Está a punto de <strong>desactivar {data?.length} cuenta(s)</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.</span>)}
+        </DialogConfirmation>
+        <UpdateSeccion />
       </Container>
     </Box>
   );

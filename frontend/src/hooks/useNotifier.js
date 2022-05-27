@@ -43,7 +43,7 @@ export default function useNotifier({
       });
     } else if (notiStatus === 404) {
       messageTo404 &&
-        enqueueSnackbar(message404, {
+        enqueueSnackbar(notiText ? notiText : message404, {
           variant: "warning",
         });
     } else if (notiStatus === 422) {
