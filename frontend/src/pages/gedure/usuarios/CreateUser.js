@@ -145,7 +145,7 @@ export default function CreateUser() {
           color="primary"
           disabled={loading}
         />
-        <Button disabled={loading} onClick={handleClose} color="inherit">
+        <Button sx={{ml: 1}} disabled={loading} onClick={handleClose} color="inherit">
           Cancelar
         </Button>
         <LoadingButton onClick={handleSubmit(onSubmit)} loading={loading} variant="text" color="inherit">
