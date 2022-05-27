@@ -78,6 +78,7 @@ export default function Routers() {
           } />
 
           <Route path='/gedure/*'>
+            {/* GEDURE */}
             <Route path='' element={
               <AuthProtect>
                 <HomeGedure />
@@ -92,6 +93,7 @@ export default function Routers() {
               } />
             )}
 
+            {/* USER */}
             {users_index && (
               <Route path='usuarios/*'>
                 <Route path='' element={
@@ -100,11 +102,19 @@ export default function Routers() {
                   </AuthProtect>
                 } />
 
-                <Route path='ver/:id/*' element={
+                {/* USER SHOW */}
+                <Route path='ver/:id/' element={
                   <AuthProtect>
                     <UsuariosPageVer />
                   </AuthProtect>
                 }>
+                  <Route path='' element={
+                    'Index'
+                  } />
+
+                  <Route path='curso' element={
+                    'Cursos'
+                  } />
                 </Route>
               </Route>
             )}

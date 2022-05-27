@@ -1,7 +1,7 @@
 import React, { useEffect, Suspense } from 'react'
 
 // Router
-import { useParams, Routes, Route } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 
 // MUI
 import { Box, CircularProgress, Container, Grid } from '@mui/material'
@@ -72,13 +72,7 @@ export default function PageShowUser() {
                     <CircularProgress />
                   </Box>
                 }>
-                  <Routes>
-                    <Route path='/'
-                      element={
-                        <span>HI</span>
-                      }
-                    />
-                  </Routes>
+                  <Outlet />
                 </Suspense>
               </Grid>
             </Grid>
