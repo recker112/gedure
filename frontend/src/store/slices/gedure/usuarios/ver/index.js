@@ -52,6 +52,11 @@ export const gdUSelectedSlices = createSlice({
   name: "gdUSelected",
   initialState,
   reducers: {
+    setUserSelected: (state, action) => {
+      const { user, permissions } = action.payload;
+      state.userSelected = user;
+      state.permissions = permissions;
+    },
     reset: (state, action) => {
       state.loading = true;
       state.userSelected = {...initialState.userSelected};
@@ -76,4 +81,4 @@ export const gdUSelectedSlices = createSlice({
 
 export default gdUSelectedSlices.reducer;
 
-export const { reset } = gdUSelectedSlices.actions;
+export const { setUserSelected, reset } = gdUSelectedSlices.actions;
