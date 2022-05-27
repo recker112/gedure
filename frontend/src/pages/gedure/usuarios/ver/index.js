@@ -27,7 +27,6 @@ export default function PageShowUser() {
   document.title = 'Ver usuario - La Candelaria';
   const { id } = useParams();
   useNotifier({
-    messageTo200: false,
     message404: 'Usuario no encontrado'
   });
 

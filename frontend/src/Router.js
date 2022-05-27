@@ -2,7 +2,7 @@
 import React, { Suspense, lazy } from 'react';
 
 // React Router
-import { Route, Routes, useMatch } from 'react-router-dom';
+import { Route, Routes, useMatch, Navigate } from 'react-router-dom';
 
 // MUI
 import { Box } from '@mui/material';
@@ -22,12 +22,14 @@ const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
 const LogoutPage = lazy(() => import('./pages/gedure/logout'));
 
-// Gedure CORE
+// Gedure core
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
 const RegistrosGedure = lazy(() => import('./pages/gedure/registros'));
 const FAQGedure = lazy(() => import('./pages/gedure/faq'));
+// User core
 const UsuariosPage = lazy(() => import('./pages/gedure/usuarios'));
 const UsuariosPageVer = lazy(() => import('./pages/gedure/usuarios/ver'));
+const UsuariosPAvatar = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PAvatar'));
 
 const classes = {
   container: {
@@ -109,12 +111,17 @@ export default function Routers() {
                   </AuthProtect>
                 }>
                   <Route path='' element={
-                    'Index'
+                    <>
+                      <UsuariosPAvatar />
+                    </>
                   } />
 
                   <Route path='curso' element={
                     'Cursos'
                   } />
+
+                  {/* REDIRECT USER SHOW */}
+                  <Route path='*' element={<Navigate to="" replace />} />
                 </Route>
               </Route>
             )}
