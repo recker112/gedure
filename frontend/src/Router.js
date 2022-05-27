@@ -27,6 +27,7 @@ const HomeGedure = lazy(() => import('./pages/gedure/home'));
 const RegistrosGedure = lazy(() => import('./pages/gedure/registros'));
 const FAQGedure = lazy(() => import('./pages/gedure/faq'));
 const UsuariosPage = lazy(() => import('./pages/gedure/usuarios'));
+const UsuariosPageVer = lazy(() => import('./pages/gedure/usuarios/ver'));
 
 const classes = {
   container: {
@@ -92,11 +93,20 @@ export default function Routers() {
             )}
 
             {users_index && (
-              <Route path='usuarios' element={
-                <AuthProtect>
-                  <UsuariosPage />
-                </AuthProtect>
-              } />
+              <Route path='usuarios/*'>
+                <Route path='' element={
+                  <AuthProtect>
+                    <UsuariosPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='ver/:id/*' element={
+                  <AuthProtect>
+                    <UsuariosPageVer />
+                  </AuthProtect>
+                }>
+                </Route>
+              </Route>
             )}
 
             <Route path='preguntas-frecuentes' element={
