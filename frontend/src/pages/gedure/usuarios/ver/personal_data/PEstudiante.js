@@ -1,16 +1,26 @@
-import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material'
 import React from 'react'
+
+// Router
+import { useParams } from 'react-router-dom';
+
+// MUI
+import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
+
+// Form
 import { useForm, useWatch } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
 import { RadioHook } from '../../../../../components/form/radio';
 import { SelectHook } from '../../../../../components/form/select';
 import DatePickerHook from '../../../../../components/form/datepicker';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { InputHook } from '../../../../../components/form/inputs';
-import AutoCompleteHook from '../../../../../components/form/inputs/AutoCompleteHook';
+import { InputHook, AutoCompleteHook } from '../../../../../components/form/inputs';
+
+// Components
 import { estadosVE } from '../../../../../components/Utils/LocationVE';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+
 
 export function PEstudianteForm({ control, user, handleSubmit, loading }) {
   const estudi_nacionalidad = useWatch({
@@ -163,18 +173,23 @@ export default function PEstudiante() {
   }));
   const dispatch = useDispatch()
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm({
+    shouldUnregister: true,
+  });
 
   const onSubmit = submitData => {
-    const { estudi_nacimiento, estudi_nacionalidad } = submitData.personal_data;
+    let { estudi_nacimiento, estudi_nacionalidad } = submitData.personal_data;
 
     // NOTA(RECKER): NullVars
     if (estudi_nacionalidad !== 'V') {
-			submitData.personalData.estudi_nacimiento_estado = null;
+			submitData.personal_data.estudi_nacimiento_estado = null;
 		}
 
     // NOTA(RECKER): Parse date
-    submitData.personal_data.estudi_nacimiento = `${estudi_nacimiento.getFullYear()}/${estudi_nacimiento.getMonth() + 1}/${estudi_nacimiento.getDate()}`;
+    if (typeof estudi_nacimiento === 'string') {
+      estudi_nacimiento = new Date(estudi_nacimiento);
+    }
+    estudi_nacimiento && (submitData.personal_data.estudi_nacimiento = `${estudi_nacimiento.getFullYear()}/${estudi_nacimiento.getMonth() + 1}/${estudi_nacimiento.getDate()}`);
 
     submitData._method = 'PUT';
 
