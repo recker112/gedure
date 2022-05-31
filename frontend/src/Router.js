@@ -30,6 +30,7 @@ const FAQGedure = lazy(() => import('./pages/gedure/faq'));
 const UsuariosPage = lazy(() => import('./pages/gedure/usuarios'));
 const UsuariosPageVer = lazy(() => import('./pages/gedure/usuarios/ver'));
 const UsuariosPAvatar = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PAvatar'));
+const UsuariosPDatos = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PDatos'));
 
 const classes = {
   container: {
@@ -113,6 +114,7 @@ export default function Routers() {
                   <Route path='' element={
                     <>
                       <UsuariosPAvatar />
+                      <UsuariosPDatos />
                     </>
                   } />
 
