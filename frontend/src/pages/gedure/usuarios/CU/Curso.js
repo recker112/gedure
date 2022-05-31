@@ -4,7 +4,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 
 // Components
-import AutoCompleteAsyncHook from '../../../../components/form/inputs/AutoCompleteAsyncHook';
+import { AutoCompleteAsyncHook } from '../../../../components/form/inputs/index';
 
 // Forms
 import { useWatch } from 'react-hook-form';
