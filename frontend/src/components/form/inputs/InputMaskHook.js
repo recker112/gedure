@@ -3,16 +3,14 @@ import { useController } from "react-hook-form";
 
 import NumberFormat from 'react-number-format';
 
-export function InputMaskHook(props) {
-	const { 
-		name, 
-		control,
-		rules = null,
-		defaultValue = '',
-		helperText = '',
-		...rest 
-	} = props;
-	
+export function InputMaskHook({ 
+	name, 
+	control,
+	rules = null,
+	defaultValue = '',
+	helperText = '',
+	...rest 
+}) {
 	const {
     field: { ref, onChange, ...inputProps },
 		fieldState: { invalid, error }

@@ -9,15 +9,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 // FormHook
 import { useController } from "react-hook-form";
 
-export function InputPasswordHook(props) {
-	const { 
-		name, 
-		control,
-		rules = null, 
-		defaultValue = '',
-		helperText = '',
-		...rest
-	} = props;
+export function InputPasswordHook({ 
+	name, 
+	control,
+	rules = null, 
+	defaultValue = '',
+	helperText = '',
+	...rest
+}) {
   const [visibility, setVisibility] = useState(false);
 
 	const {
