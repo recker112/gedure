@@ -9,7 +9,7 @@ export const uploadAvatar = createAsyncThunk(
     const axios = window.axios;
     let url;
     if (personal) {
-
+      url = `v1/user`;
     }else {
       url = `v1/user/${id}`;
     }
