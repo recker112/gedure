@@ -101,7 +101,7 @@ export default function PDatos() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.gdUSelected.userSelected,
-    loading: state.gdUPD.loading,
+    loading: state.gdUPD.loadingPD,
   }))
   const dispatch = useDispatch();
 
@@ -118,7 +118,7 @@ export default function PDatos() {
     }
 
     submitData._method = 'PUT';
-    dispatch(updateData({submitData, id, errors: setError}));
+    dispatch(updateData({submitData, id, errors: setError, loading: 'loadingPD'}));
   }
 
   return (

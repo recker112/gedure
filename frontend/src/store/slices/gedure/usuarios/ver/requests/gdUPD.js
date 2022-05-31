@@ -56,32 +56,28 @@ export const updateData = createAsyncThunk(
 
 
 const initialState = {
-  loading: false,
+  loadingPD: false,
   progress: 0,
 };
 
 export const gdUPDSlices = createSlice({
   name: "gdUPD",
   initialState,
-  reducers: {
-    setProgress: (state, action) => {
-      const { payload } = action;
-      state.progress = payload;
-    }
-  },
+  reducers: {},
   extraReducers: {
     [updateData.pending]: (state, action) => {
-      state.loading = true;
+      const { loading } = action.meta.arg;
+      state[loading] = true;
     },
     [updateData.rejected]: (state, action) => {
-      state.loading = false;
+      const { loading } = action.meta.arg;
+      state[loading] = false;
     },
     [updateData.fulfilled]: (state, action) => {
-      state.loading = false;
+      const { loading } = action.meta.arg;
+      state[loading] = false;
     },
   }
 });
 
 export default gdUPDSlices.reducer;
-
-export const { setProgress } = gdUPDSlices.actions;
