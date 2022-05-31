@@ -4,7 +4,10 @@ import React, { useEffect, Suspense } from 'react'
 import { useParams, Outlet } from 'react-router-dom';
 
 // MUI
-import { Box, CircularProgress, Container, Grid } from '@mui/material'
+import { Box, CircularProgress, Container, Grid } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import esLocale from 'date-fns/locale/es';
 
 // Components
 import useNotifier from '../../../../hooks/useNotifier';
@@ -71,7 +74,9 @@ export default function PageShowUser() {
                     <CircularProgress />
                   </Box>
                 }>
-                  <Outlet />
+                  <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
+                    <Outlet />
+                  </LocalizationProvider>
                 </Suspense>
               </Grid>
             </Grid>

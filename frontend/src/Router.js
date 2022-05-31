@@ -31,6 +31,7 @@ const UsuariosPage = lazy(() => import('./pages/gedure/usuarios'));
 const UsuariosPageVer = lazy(() => import('./pages/gedure/usuarios/ver'));
 const UsuariosPAvatar = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PAvatar'));
 const UsuariosPDatos = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PDatos'));
+const UsuariosPEstudiante = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PEstudiante'));
 
 const classes = {
   container: {
@@ -116,6 +117,10 @@ export default function Routers() {
                       <UsuariosPAvatar />
                       <UsuariosPDatos />
                     </>
+                  } />
+
+                  <Route path='personal/estudiante' element={
+                    <UsuariosPEstudiante />
                   } />
 
                   <Route path='curso' element={

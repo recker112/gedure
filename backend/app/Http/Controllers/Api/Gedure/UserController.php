@@ -286,8 +286,8 @@ class UserController extends Controller
 		}
 		
 		// NOTA(RECKER): Actualizar datos personales
-		if ($request->personalData) {
-			$user->personal_data()->update($request->personalData);
+		if ($request->personal_data) {
+			$user->personal_data()->update($request->personal_data);
 		}
 		
 		// NOTA(RECKER): Actualizar permisos
@@ -379,8 +379,8 @@ class UserController extends Controller
 		}
 		
 		// NOTA(RECKER): Actualizar datos personales
-		if ($request->personalData) {
-			$user->personal_data()->update($request->personalData);
+		if ($request->personal_data) {
+			$user->personal_data()->update($request->personal_data);
 		}
 		
 		// NOTA(RECKER): Activar cuenta si no se encuentra activa

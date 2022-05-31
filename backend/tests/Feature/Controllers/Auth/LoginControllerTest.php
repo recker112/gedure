@@ -101,13 +101,13 @@ class LoginControllerTest extends TestCase
 	
 	public function testLogout()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::factory()->create(),
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/logout');
+		$response = $this->getJson('/api/v1/logout');
 
 		$response->assertOk()
 			->assertJson([
@@ -123,7 +123,7 @@ class LoginControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->postJson('/api/v1/logoutAll');
+		$response = $this->getJson('/api/v1/logoutAll');
 
 		$response->assertOk()
 			->assertJson([
