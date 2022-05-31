@@ -10,18 +10,16 @@ import {
 
 import { useController } from "react-hook-form";
 
-export function RadioHook(props) {
-	const { 
-		disabled, 
-		label, 
-		name, 
-		control, 
-		defaultValue, 
-		row,
-		radioList,
-		rules = { required: '* Campo requerido' }, 
-	} = props;
-	
+export function RadioHook({ 
+	disabled, 
+	label, 
+	name, 
+	control, 
+	defaultValue, 
+	row,
+	radioList,
+	rules = { required: '* Campo requerido' }, 
+}) {
 	const {
     field: { ...inputProps },
 		fieldState: { invalid }

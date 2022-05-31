@@ -7,16 +7,14 @@ import {
 
 import { useController } from "react-hook-form";
 
-export function SwitchHook(props) {
-	const { 
-		label, 
-		name, 
-		control, 
-		defaultValue = false,
-		labelPlacement = 'end', 
-		...rest
-	} = props;
-	
+export function SwitchHook({ 
+	label, 
+	name, 
+	control, 
+	defaultValue = false,
+	labelPlacement = 'end', 
+	...rest
+}) {
 	const {
     field: { ref, onChange, value, ...inputProps },
   } = useController({

@@ -7,9 +7,7 @@ import {
 
 import { useController } from "react-hook-form";
 
-export function CheckboxHook(props) {
-	const { control, name, label, labelPlacement='end', defaultValue = false, ...rest } = props;
-	
+export function CheckboxHook({ control, name, label, labelPlacement='end', defaultValue = false, ...rest }) {
 	const {
     field: { ref, onChange, ...inputProps },
   } = useController({

@@ -2,15 +2,14 @@ import { TextField } from "@mui/material";
 
 import { useController } from "react-hook-form";
 
-export function InputHook(props) {
-	const { 
-		name, 
-		control,
-		rules = null, 
-		defaultValue = '',
-		helperText = '',
-		...rest
-	} = props;
+export function InputHook({ 
+	name, 
+	control,
+	rules = null, 
+	defaultValue = '',
+	helperText = '',
+	...rest
+}) {
 	const {
     field: { ref, ...inputProps },
 		fieldState: { invalid, error }

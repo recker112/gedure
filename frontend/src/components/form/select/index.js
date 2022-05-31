@@ -9,18 +9,16 @@ import {
 
 import { useController } from "react-hook-form";
 
-export function SelectHook(props) {
-	const {
-		name,
-		label,
-		control,
-		helperText = '',
-		defaultValue = '',
-		rules = { required: '* Campo requerido' },
-		children,
-		...rest
-	} = props;
-	
+export function SelectHook({
+	name,
+	label,
+	control,
+	helperText = '',
+	defaultValue = '',
+	rules = { required: '* Campo requerido' },
+	children,
+	...rest
+}) {
 	const {
     field: { ref, ...inputProps },
 		fieldState: { invalid, error }
