@@ -226,7 +226,7 @@ class UserControllerTest extends TestCase
 				'registros_index' => true,
 				'users_index' => true,
 			],
-			'personalData' => [
+			'personal_data' => [
 				'telefono' => '4269340569'
 			]
 		]);
@@ -625,7 +625,7 @@ class UserControllerTest extends TestCase
 		);
 		
 		$response = $this->putJson('/api/v1/user', [
-			'personalData' => [
+			'personal_data' => [
 				'telefono' => '4269340569'
 			]
 		]);
@@ -658,15 +658,15 @@ class UserControllerTest extends TestCase
 	
 	public function testChangeAvatarUser()
 	{	
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Storage::fake('user_avatars');
 		
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
-		$user->guard_name = 'api';
 		$personal_data = PersonalDataUser::create();
 		$personal_data->user()->save($user);
+		$user->guard_name = 'api';
 		$user->givePermissionTo('change_avatar');
 		Passport::actingAs(
 			$user,
@@ -674,7 +674,6 @@ class UserControllerTest extends TestCase
 		);
 		
 		$avatar = UploadedFile::fake()->image('Universidad.png');
-		
 		$response = $this->putJson('/api/v1/user', [
 			'avatar' => $avatar,
 		]);

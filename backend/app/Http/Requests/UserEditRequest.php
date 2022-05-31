@@ -36,7 +36,7 @@ class UserEditRequest extends FormRequest
 			'seccion' => 'nullable|min:1|max:4',
 			'permissions' => 'nullable|array',
 			'permissions.*' => 'nullable|boolean',
-			'personalData' => 'nullable|array',
+			'personal_data' => 'nullable|array',
 			'super_admin' => 'nullable|boolean',
 		];
 	}
