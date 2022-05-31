@@ -7,7 +7,7 @@ import { Autocomplete, CircularProgress, TextField } from '@mui/material'
 import { useController } from "react-hook-form";
 import useAsyncDebounce from '../../../hooks/useAsyncDebounce';
 
-export default function AutoCompleteAsyncHook({
+export function AutoCompleteAsyncHook({
   name,
   control,
   rules = null, 
