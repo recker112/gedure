@@ -248,6 +248,9 @@ class UserController extends Controller
 			if ($curso_old && $curso_old !== $curso->id) {
 				CursoController::orderAlumnos($curso_old->curso_id);
 			}
+
+			// NOTA(RECKER): Reload relationship
+			$user->load('alumno.curso');
 		}
 		
 		// NOTA(RECKER): Eliminar avatar
