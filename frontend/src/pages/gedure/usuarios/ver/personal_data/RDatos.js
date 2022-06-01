@@ -234,7 +234,7 @@ export default function RDatos() {
     userSelected: state.gdUSelected.userSelected,
     loading: state.gdUPD.loadingRD,
   }));
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { handleSubmit, control } = useForm();
 

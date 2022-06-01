@@ -8,6 +8,7 @@ export default function RatingHook({
   name,
   control,
   defaultValue,
+  disabled,
   ...rest
 }) {
   const [labelRanking, setLabelRanking] = useState(defaultValue);
@@ -26,6 +27,7 @@ export default function RatingHook({
       <Rating
         {...inputProps}
 				{...rest}
+        disabled={disabled}
 				value={value}
         onChange={(event, newValue) => {
           onChange(newValue);

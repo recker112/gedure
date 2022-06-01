@@ -103,6 +103,7 @@ function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user })
           labels={labels}
           name="personal_data.estudi_ubi_condiInfra"
           control={control}
+          disabled={loading}
           defaultValue={Number(user.personal_data.estudi_ubi_condiInfra) || 3}
         />
       </Grid>

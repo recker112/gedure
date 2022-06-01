@@ -12,6 +12,7 @@ export function AutoCompleteHook({
   isOptionEqualToValue,
   getOptionLabel,
   helperText,
+  disabled,
   ...rest
 }) {
   const {
@@ -35,6 +36,7 @@ export function AutoCompleteHook({
 			noOptionsText='No hay resultados'
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
+      disabled={disabled}
 			renderInput={(params) => (
 				<TextField
 					{...params}
