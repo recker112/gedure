@@ -32,6 +32,9 @@ const UsuariosPageVer = lazy(() => import('./pages/gedure/usuarios/ver'));
 const UsuariosPAvatar = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PAvatar'));
 const UsuariosPDatos = lazy(() => import('./pages/gedure/usuarios/ver/perfil/PDatos'));
 const UsuariosPEstudiante = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PEstudiante'));
+const UsuariosPUbicacion = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PUbicacion'));
+const UsuariosPOtros = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/POtros'));
+const UsuariosRDatos = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/RDatos'));
 
 const classes = {
   container: {
@@ -120,7 +123,17 @@ export default function Routers() {
                   } />
 
                   <Route path='personal/estudiante' element={
-                    <UsuariosPEstudiante />
+                    <>
+                      <UsuariosPEstudiante />
+                      <UsuariosPUbicacion />
+                      <UsuariosPOtros />
+                    </>
+                  } />
+
+                  <Route path='personal/representante' element={
+                    <>
+                      <UsuariosRDatos />
+                    </>
                   } />
 
                   <Route path='curso' element={

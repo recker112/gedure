@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
 
-export function PEstudianteForm({ control, user, handleSubmit, loading }) {
+export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, loading }) {
   const estudi_nacionalidad = useWatch({
     control,
     name: "personal_data.estudi_nacionalidad",
@@ -116,6 +116,7 @@ export function PEstudianteForm({ control, user, handleSubmit, loading }) {
           disableFuture
           label="Fecha de nacimiento"
           control={control}
+          disabled={loading}
           name="personal_data.estudi_nacimiento"
           defaultValue={user.personal_data.estudi_nacimiento || ''}
         />
@@ -150,16 +151,18 @@ export function PEstudianteForm({ control, user, handleSubmit, loading }) {
           disabled={loading}
         />
       </Grid>
-      <Grid container justifyContent='flex-end' item xs={12}>
-        <LoadingButton
-          variant='contained' 
-          loading={loading}
-          disableElevation
-          onClick={handleSubmit}
-        >
-          Actualizar
-        </LoadingButton>
-      </Grid>
+      {!buttonDisable && (
+        <Grid container justifyContent='flex-end' item xs={12}>
+          <LoadingButton
+            variant='contained' 
+            loading={loading}
+            disableElevation
+            onClick={handleSubmit}
+          >
+            Actualizar
+          </LoadingButton>
+        </Grid>
+      )}
     </Grid>
   )
 }
