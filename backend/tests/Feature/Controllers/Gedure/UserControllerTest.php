@@ -213,6 +213,12 @@ class UserControllerTest extends TestCase
 			'curso' => '5',
 			'seccion' => 'A',
 		]);
+
+		Curso::create([
+			'code' => '5-B',
+			'curso' => '5',
+			'seccion' => 'B',
+		]);
 		
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
@@ -232,6 +238,8 @@ class UserControllerTest extends TestCase
 			'email' => 'test@test.test',
 			'password' => '1234',
 			'avatar' => $avatar,
+			'curso' => '5',
+			'seccion' => 'B',
 			'permissions' => [
 				'change_avatar' => true,
 				'boleta_download' => true,
@@ -263,7 +271,8 @@ class UserControllerTest extends TestCase
 					'boleta_download',
 				]
 			])
-			->assertJsonPath('user.personal_data.padre_telefono', 4269340569);
+			->assertJsonPath('user.personal_data.padre_telefono', 4269340569)
+			->assertJsonPath('user.alumno.curso.seccion', 'B');
 		
 		$this->assertDatabaseHas('users', [
 			'username' => 'luis',
