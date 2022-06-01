@@ -197,6 +197,86 @@ class UserControllerTest extends TestCase
         'email' => 'test@test.test',
     ]);
 	}
+
+	public function testEditUserStudiend()
+	{
+		$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('user_avatars');
+
+		$curso = Curso::create([
+			'code' => '5-A',
+			'curso' => '5',
+			'seccion' => 'A',
+		]);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->alumno()->create([
+			'curso_id' => $curso->id,
+			'n_lista' => 20,
+		]);
+		$personal_data = PersonalDataUser::create();
+		$personal_data->user()->save($user);
+		
+		$avatar = UploadedFile::fake()->image('Universidad.png');
+		
+		$response = $this->putJson('/api/v1/user/'.$user->id, [
+			'username' => 'luis',
+			'name' => 'Luis Enrrique',
+			'email' => 'test@test.test',
+			'password' => '1234',
+			'avatar' => $avatar,
+			'permissions' => [
+				'change_avatar' => true,
+				'boleta_download' => true,
+			],
+			'personal_data' => [
+				'padre_telefono' => '4269340569'
+			]
+		]);
+		
+		$response->assertOk()
+			->assertJsonStructure([
+				'user' => [
+					'id',
+					'username',
+					'name',
+					'email',
+					'avatar',
+					'actived_at',
+					'privilegio',
+					'alumno' => [
+						'curso'
+					],
+					'personal_data' => [
+						'padre_telefono',
+					],
+				],
+				'permissions' => [
+					'change_avatar',
+					'boleta_download',
+				]
+			])
+			->assertJsonPath('user.personal_data.padre_telefono', 4269340569);
+		
+		$this->assertDatabaseHas('users', [
+			'username' => 'luis',
+      'email' => 'test@test.test',
+			'name' => 'Luis Enrrique',
+    ]);
+		
+		$this->assertDatabaseHas('personal_data_users', [
+			'padre_telefono' => 4269340569,
+    ]);
+		
+		Storage::disk('user_avatars')->assertExists($avatar->hashName());
+	}
 	
 	public function testEditUser()
 	{
@@ -267,7 +347,7 @@ class UserControllerTest extends TestCase
     ]);
 		
 		$this->assertDatabaseHas('personal_data_admins', [
-			'telefono' => '4269340569',
+			'telefono' => 4269340569,
     ]);
 		
 		Storage::disk('user_avatars')->assertExists($avatar->hashName());

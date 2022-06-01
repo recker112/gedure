@@ -215,7 +215,7 @@ class UserController extends Controller
 	public function edit(UserEditRequest $request, $id)
 	{
 		$avatar = $request->file('avatar');
-		$user = User::with(['alumno', 'personal_data', 'wallet'])
+		$user = User::with(['alumno', 'alumno.curso', 'personal_data', 'wallet'])
 			->find(intVal($id));
 		$delete_avatar = json_decode($request->delete_avatar);
 		
@@ -287,7 +287,7 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar datos personales
 		if ($request->personal_data) {
-			$user->personal_data()->update($request->personal_data);
+			$user->personal_data->update($request->personal_data);
 		}
 		
 		// NOTA(RECKER): Actualizar permisos
@@ -316,9 +316,6 @@ class UserController extends Controller
 			'payload' => $payload,
 			'type' => 'user',
 		]);
-		
-		// NOTA(RECKER): Necesario para refrescar las tablas polimorficas
-		$user->refresh();
 		
 		// NOTA(RECKER): Ocultar datos innecesarios
 		$user->makeHidden(['permissions', 'roles']);

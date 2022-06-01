@@ -63,7 +63,10 @@ class PersonalDataUser extends Model
 	protected $casts = [
     'estudi_nacimiento'  => 'date:Y/m/d',
 		'repre_nacimiento'  => 'date:Y/m/d',
-];
+		'madre_telefono' => 'integer',
+		'padre_telefono' => 'integer',
+		'repre_telefono' => 'integer',
+	];
 	
 	protected $hidden = [
 		'created_at', 'updated_at', 'id', 'deleted_at'
