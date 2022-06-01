@@ -36,6 +36,7 @@ const UsuariosPUbicacion = lazy(() => import('./pages/gedure/usuarios/ver/person
 const UsuariosPOtros = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/POtros'));
 const UsuariosRDatos = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/RDatos'));
 const UsuariosRUbicacion = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/RUbicacion'));
+const UsuariosREmpleo = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/REmpleo'));
 
 const classes = {
   container: {
@@ -135,6 +136,7 @@ export default function Routers() {
                     <>
                       <UsuariosRDatos />
                       <UsuariosRUbicacion />
+                      <UsuariosREmpleo />
                     </>
                   } />
 
