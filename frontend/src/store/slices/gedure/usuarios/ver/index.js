@@ -37,7 +37,9 @@ export const getData = createAsyncThunk(
 const initialState = {
   loading: true,
   userSelected: {
-    alumno: {},
+    alumno: {
+      curso: {}
+    },
     personal_data: {},
   },
   permissions: {
