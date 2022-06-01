@@ -285,14 +285,12 @@ function PermissionsNoSuper(props){
 	return null;
 }
 
-export default function Permisos(props) {
-  const { control, disabled, setValue, defaultData = {} } = props;
+export default function Permisos({ control, disabled, setValue, defaultData = {} }) {
   let PermissionsUsers;
 
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
-    defaultValue: ''
   });
 
   const ListUserPermissions = [
@@ -320,9 +318,6 @@ export default function Permisos(props) {
 
   return (
     <>
-      <Grid item xs={12}>
-        <DialogContentText>Permisos</DialogContentText>
-      </Grid>
       {privilegio === 'V-' && (PermissionsUsers)}
       {privilegio === 'A-' && (
         <>

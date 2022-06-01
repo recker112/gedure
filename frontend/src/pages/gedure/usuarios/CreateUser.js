@@ -1,7 +1,7 @@
 import React from 'react';
 
 // MUI
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, MenuItem } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
@@ -128,6 +128,9 @@ export default function CreateUser() {
               disabled={loading}
               control={control}
             />
+            <Grid item xs={12}>
+              <DialogContentText>Permisos</DialogContentText>
+            </Grid>
             <Permisos
               disabled={loading}
               control={control}
