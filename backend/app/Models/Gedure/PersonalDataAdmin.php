@@ -20,6 +20,10 @@ class PersonalDataAdmin extends Model
 		'docente_ingreso_MPPE',
 		'docente_ingreso',
 	];
+
+	protected $casts = [
+		'telefono' => 'integer',
+	];
 	
 	protected $hidden = [
 		'created_at', 'updated_at', 'id', 'deleted_at'
