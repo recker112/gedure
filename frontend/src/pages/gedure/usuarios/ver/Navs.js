@@ -12,10 +12,12 @@ import { useSelector } from 'react-redux';
 const classes = {
   button: {
 		cursor: 'pointer',
+		userSelect: 'none'
 	},
 	buttonNested: tema => ({
 		cursor: 'pointer',
 		ml: tema.spacing(2),
+		userSelect: 'none'
 	})
 }
 
