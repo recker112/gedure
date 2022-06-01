@@ -35,7 +35,7 @@ export function SelectHook({
 			error={invalid}
 		>
 			<InputLabel id={name + '-label'}>{label}</InputLabel>
-			<Select labelId={name + '-label'} id={name} {...inputProps}>
+			<Select labelId={name + '-label'} label={label} id={name} {...inputProps}>
 				{children}
 			</Select>
 			<FormHelperText>{error ? error.message : helperText}</FormHelperText>
