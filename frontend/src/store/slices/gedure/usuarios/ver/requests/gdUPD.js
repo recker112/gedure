@@ -58,6 +58,8 @@ export const updateData = createAsyncThunk(
 const initialState = {
   loadingPD: false,
   loadingPE: false,
+  loadingPU: false,
+  loadingPO: false,
   progress: 0,
 };
 
