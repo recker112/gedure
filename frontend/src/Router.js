@@ -37,6 +37,8 @@ const UsuariosPOtros = lazy(() => import('./pages/gedure/usuarios/ver/personal_d
 const UsuariosRDatos = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/RDatos'));
 const UsuariosRUbicacion = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/RUbicacion'));
 const UsuariosREmpleo = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/REmpleo'));
+const UsuariosPDPadre = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PDPadre'));
+const UsuariosPDMadre = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PDMadre'));
 
 const classes = {
   container: {
@@ -137,6 +139,13 @@ export default function Routers() {
                       <UsuariosRDatos />
                       <UsuariosRUbicacion />
                       <UsuariosREmpleo />
+                    </>
+                  } />
+
+                  <Route path='personal/padres' element={
+                    <>
+                      <UsuariosPDMadre />
+                      <UsuariosPDPadre />
                     </>
                   } />
 
