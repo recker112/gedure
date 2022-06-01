@@ -1,14 +1,24 @@
-import React from 'react'
-import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+
+// Router
 import { useParams } from 'react-router-dom';
+
+// MUI
+import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+// Form
+import { useForm } from 'react-hook-form'
 import { SelectHook } from '../../../../../components/form/select';
 import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
 import { RadioHook } from '../../../../../components/form/radio';
 import DatePickerHook from '../../../../../components/form/datepicker';
 
-function RDatosForm({ control, loading, user, handleSubmit }) {
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+
+function RDatosForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -181,6 +191,38 @@ function RDatosForm({ control, loading, user, handleSubmit }) {
           size='small'
         />
       </Grid>
+      <Grid item xs={12}>
+        <InputHook
+          control={control}
+          rules={{
+            required: '* Campo requerido',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Error: No válido',
+            },
+          }}
+          type='email'
+          name='personal_data.repre_email'
+          label='Correo'
+          size='small'
+          variant='outlined'
+          fullWidth
+          defaultValue={user.personal_data.repre_email || ''}
+          disabled={loading}
+        />
+      </Grid>
+      {!buttonDisable && (
+        <Grid container justifyContent='flex-end' item xs={12}>
+          <LoadingButton
+            variant='contained' 
+            loading={loading}
+            disableElevation
+            onClick={handleSubmit}
+          >
+            Actualizar
+          </LoadingButton>
+        </Grid>
+      )}
     </Grid>
   )
 }
@@ -190,14 +232,32 @@ export default function RDatos() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.gdUSelected.userSelected,
-    loading: state.gdUPD.loadingPE,
+    loading: state.gdUPD.loadingRD,
   }));
   const dispatch = useDispatch()
 
   const { handleSubmit, control } = useForm();
 
   const onSubmit = submitData => {
+    let { repre_nacionalidad, repre_nacimiento } = submitData.personal_data;
 
+    // NOTA(RECKER): Reset Ubi
+    if (repre_nacionalidad === 'E') {
+			submitData.personal_data.repre_ubi_estado = null;
+			submitData.personal_data.repre_ubi_municipio = null;
+			submitData.personal_data.repre_ubi_parroquia = null;
+			submitData.personal_data.repre_ubi_via = null;
+		}
+
+    // NOTA(RECKER): Parse date
+    if (typeof repre_nacimiento === 'string') {
+      repre_nacimiento = new Date(repre_nacimiento);
+    }
+    repre_nacimiento && (submitData.personal_data.repre_nacimiento = `${repre_nacimiento.getFullYear()}/${repre_nacimiento.getMonth() + 1}/${repre_nacimiento.getDate()}`);
+
+    submitData._method = 'PUT';
+
+    dispatch(updateData({submitData, id, loading: 'loadingRD'}));
   }
 
   return (

@@ -20,7 +20,7 @@ export const updateData = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'success', text: 'Avatar actualizado' }));
+      dispatch(updateNotistack({ status: res.status, variant: 'success', text: 'Datos actualizados' }));
 
       // NOTA(RECKER): Update userSelected
       const { user, permissions } = res.data;
@@ -60,6 +60,7 @@ const initialState = {
   loadingPE: false,
   loadingPU: false,
   loadingPO: false,
+  loadingRD: false,
   progress: 0,
 };
 
