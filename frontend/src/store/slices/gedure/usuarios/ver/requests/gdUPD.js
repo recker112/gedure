@@ -61,6 +61,7 @@ const initialState = {
   loadingPU: false,
   loadingPO: false,
   loadingRD: false,
+  loadingRU: false,
   progress: 0,
 };
 

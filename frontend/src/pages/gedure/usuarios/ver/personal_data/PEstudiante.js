@@ -125,7 +125,7 @@ export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, lo
         <Grid item xs={12}>
           <AutoCompleteHook
             name='personal_data.estudi_nacimiento_estado'
-            label='Estado'
+            label='Estado de nacimiento'
             size='small'
             options={estadosVE}
             control={control}
