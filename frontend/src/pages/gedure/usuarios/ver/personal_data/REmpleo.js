@@ -1,11 +1,19 @@
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { useForm, useWatch } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+
+// Router
 import { useParams } from 'react-router-dom';
+
+// MUI
+import { Box, Divider, Grid, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+// Form
+import { useForm, useWatch } from 'react-hook-form';
 import { InputHook } from '../../../../../components/form/inputs';
 import { RadioHook } from '../../../../../components/form/radio';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
 function REmpleoForm({ control, user, loading, handleSubmit, buttonDisable }) {
