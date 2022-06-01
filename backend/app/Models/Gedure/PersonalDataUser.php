@@ -66,6 +66,8 @@ class PersonalDataUser extends Model
 		'madre_telefono' => 'integer',
 		'padre_telefono' => 'integer',
 		'repre_telefono' => 'integer',
+		'madre_cedula' => 'integer',
+		'padre_cedula' => 'integer',
 	];
 	
 	protected $hidden = [
