@@ -1,11 +1,21 @@
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material'
 import React, { useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux';
+
+// Router
 import { useParams } from 'react-router-dom';
+
+// MUI
+import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
+
+// Form
+import { useForm } from 'react-hook-form'
 import { SelectHook } from '../../../../../components/form/select'
+
+// Components
 import { CursosList, SeccionList } from '../../../../../components/Utils/StudiendsLists';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
 export default function PCurso() {
