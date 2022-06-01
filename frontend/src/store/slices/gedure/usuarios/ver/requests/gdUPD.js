@@ -66,6 +66,8 @@ const initialState = {
   loadingPDP: false,
   loadingPDM: false,
   loadingPC: false,
+  loadingPP: false,
+  loadingPPE: false,
   progress: 0,
 };
 
