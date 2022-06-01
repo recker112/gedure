@@ -42,7 +42,7 @@ function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user })
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_ubi || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
@@ -62,7 +62,7 @@ function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user })
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_ubi_tipo || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
@@ -87,7 +87,7 @@ function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user })
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_ubi_zona || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
@@ -113,7 +113,7 @@ function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user })
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_ubi_condiVivienda || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>

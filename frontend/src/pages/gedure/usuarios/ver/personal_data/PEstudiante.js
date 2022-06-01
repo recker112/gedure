@@ -65,7 +65,7 @@ export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, lo
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_estado_civil || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
@@ -83,7 +83,7 @@ export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, lo
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_lateralidad || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
@@ -101,7 +101,7 @@ export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, lo
           control={control}
           disabled={loading}
           defaultValue={user.personal_data.estudi_nacionalidad || ''}
-          variant='standard'
+          size='small'
           fullWidth
         >
           <MenuItem value=''>
