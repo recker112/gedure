@@ -18,6 +18,7 @@ import gdUSelected from "./slices/gedure/usuarios/ver";
 import gdUPA from "./slices/gedure/usuarios/ver/requests/gdUPA";
 import gdUPD from "./slices/gedure/usuarios/ver/requests/gdUPD";
 import gdUPREN from "./slices/gedure/usuarios/ver/requests/gdUPREN";
+import gdPTable from "./slices/gedure/publicaciones/table";
 
 export default configureStore({
   reducer: {
@@ -38,5 +39,6 @@ export default configureStore({
     gdUPA,
     gdUPD,
     gdUPREN,
+    gdPTable,
   },
 });

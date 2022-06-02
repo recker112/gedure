@@ -14,7 +14,7 @@ import Relogin from './components/Router/Relogin';
 import { AuthProtect, NoSeeAuth } from './components/Router/Routers';
 import { useSelector } from 'react-redux';
 
-// Routers
+// Routers Main Page
 const HomePage = lazy(() => import('./pages/home'));
 const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
@@ -44,6 +44,9 @@ const UsuariosPPassword = lazy(() => import('./pages/gedure/usuarios/ver/credenc
 const UsuariosPPermisos = lazy(() => import('./pages/gedure/usuarios/ver/permisos/PPermisos'));
 const UsuariosPOpciones = lazy(() => import('./pages/gedure/usuarios/ver/opciones/POpciones'));
 
+// Publicaciones
+const PublicacionesPage = lazy(() => import('./pages/gedure/publicaciones'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -65,7 +68,7 @@ export default function Routers() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index } = permissions.administrar;
+  const { users_index, posts_index } = permissions.administrar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -172,6 +175,19 @@ export default function Routers() {
                   {/* REDIRECT USER SHOW */}
                   <Route path='*' element={<Navigate to="" replace />} />
                 </Route>
+              </Route>
+            )}
+
+            {/* POST */}
+            {posts_index && (
+              <Route path='publicaciones/*'>
+                <Route path='' element={
+                  <AuthProtect>
+                    <PublicacionesPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='*' element={<NotFound/>} />
               </Route>
             )}
 
