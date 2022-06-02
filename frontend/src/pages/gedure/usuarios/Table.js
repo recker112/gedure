@@ -33,13 +33,15 @@ import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
 export default function Table() {
   let navigate = useNavigate();
 
-  const { dataR, loading, pageSize, pageCount, type } = useSelector((state) => ({
+  const { dataR, loading, pageSize, pageCount, type, permissions } = useSelector((state) => ({
     dataR: state.gdUTable.tableData.data,
     loading: state.gdUTable.tableData.loading,
     pageSize: state.gdUTable.tableData.pageSize,
     pageCount: state.gdUTable.tableData.pageCount,
-    type: state.gdUTable.filters.type
+    type: state.gdUTable.filters.type,
+    permissions: state.auth.permissions,
   }));
+  const { users_edit, users_delete } = permissions.administrar;
   const dispatch = useDispatch();
 
   const columns = useMemo(
@@ -117,6 +119,7 @@ export default function Table() {
                 onClick={() => {
                   navigate(`ver/${id}`);
                 }}
+                disabled={!users_edit}
               >
                 <PersonIcon />
               </IconButton>
@@ -126,6 +129,7 @@ export default function Table() {
                 onClick={() => {
                   dispatch(setConfirmConfgs({confirm: 'disabledAccount', open: true, data: { id, username: privilegio+username }}))
                 }}
+                disabled={!users_delete}
               >
                 <DeleteIcon />
               </IconButton>
@@ -203,6 +207,7 @@ export default function Table() {
                   
                   dispatch(setConfgs({open: true, data: idsArray}))
                 }}
+                disabled={!users_edit}
               >
                 <ClassIcon />
               </IconButton>
@@ -220,6 +225,7 @@ export default function Table() {
 
                 dispatch(setConfirmConfgs({confirm: 'disabledAccountMassive', open: true, data: idsArray}))
               }}
+              disabled={!users_delete}
             >
               <DeleteIcon />
             </IconButton>

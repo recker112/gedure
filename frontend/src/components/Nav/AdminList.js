@@ -21,7 +21,7 @@ export default function AdminList() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index } = permissions.administrar;
+  const { users_index, posts_index } = permissions.administrar;
 
   const handleExpand1 = () => {
     setPrincipal(value => !value);
@@ -54,6 +54,14 @@ export default function AdminList() {
                   <GroupIcon />
                 </ListItemIcon>
                 <ListItemText primary='Usuarios' />
+              </ListDrawerNav>
+            )}
+            {posts_index && (
+              <ListDrawerNav nested to='/gedure/publicaciones'>
+                <ListItemIcon>
+                  <GroupIcon />
+                </ListItemIcon>
+                <ListItemText primary='Publicaciones' />
               </ListDrawerNav>
             )}
           </Collapse>

@@ -41,21 +41,19 @@ import {
 import { GlobalFilter } from "./GlobalFilter";
 import { IndeterminateCheckbox } from "./IndeterminateCheckbox";
 
-export default function ReactTableBase(props) {
-  const {
-    data,
-    columns,
-    pageSizeData,
-    pageCountData,
-    loading,
-    handleGlobalFilter,
-    handleChange,
-    filter,
-    massiveOptions,
-    title,
-    refresh
-  } = props;
-
+export default function ReactTableBase({
+  data,
+  columns,
+  pageSizeData,
+  pageCountData,
+  loading,
+  handleGlobalFilter,
+  handleChange,
+  filter,
+  massiveOptions,
+  title,
+  refresh
+}) {
   const tableInstance = useTable(
     {
       columns,
