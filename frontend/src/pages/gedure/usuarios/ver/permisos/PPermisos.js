@@ -27,7 +27,7 @@ export default function PPermisos() {
   }));
   const dispatch = useDispatch();
 
-  const { handleSubmit, control, setValue } = useForm({
+  const { handleSubmit, control, setValue, register } = useForm({
     shouldUnregister: true,
     defaultValues: {
       privilegio: userSelected.privilegio,
@@ -42,6 +42,7 @@ export default function PPermisos() {
   
   return (
     <Grid container spacing={2}>
+      <input type='hidden' {...register('privilegio')} />
       <Grid item xs={12}>
         <Typography variant='h6' component='span' className='text__bold--semi'>
           Permisos de la cuenta
