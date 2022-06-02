@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GroupIcon from '@mui/icons-material/Group';
 import {
 	HammerWrench as HammerWrenchIcon,
+  Post as PostIcon,
 } from 'mdi-material-ui';
 
 // Components
@@ -59,7 +60,7 @@ export default function AdminList() {
             {posts_index && (
               <ListDrawerNav nested to='/gedure/publicaciones'>
                 <ListItemIcon>
-                  <GroupIcon />
+                  <PostIcon />
                 </ListItemIcon>
                 <ListItemText primary='Publicaciones' />
               </ListDrawerNav>
