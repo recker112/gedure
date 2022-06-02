@@ -10,7 +10,7 @@ export const updateData = createAsyncThunk(
     let url;
     if (personal) {
       url = `v1/user`;
-    }else {
+    } else {
       url = `v1/user/${id}`;
     }
 

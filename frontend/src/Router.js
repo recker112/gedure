@@ -42,6 +42,7 @@ const UsuariosPDMadre = lazy(() => import('./pages/gedure/usuarios/ver/personal_
 const UsuariosPCurso = lazy(() => import('./pages/gedure/usuarios/ver/curso/PCurso'));
 const UsuariosPPassword = lazy(() => import('./pages/gedure/usuarios/ver/credenciales/PPassword'));
 const UsuariosPPermisos = lazy(() => import('./pages/gedure/usuarios/ver/permisos/PPermisos'));
+const UsuariosPOpciones = lazy(() => import('./pages/gedure/usuarios/ver/opciones/POpciones'));
 
 const classes = {
   container: {
@@ -162,6 +163,10 @@ export default function Routers() {
 
                   <Route path='permisos' element={
                     <UsuariosPPermisos />
+                  } />
+
+                  <Route path='opciones' element={
+                    <UsuariosPOpciones />
                   } />
 
                   {/* REDIRECT USER SHOW */}
