@@ -50,7 +50,7 @@ export default function Noticia(props) {
           {title}
         </Typography>
         <Typography className='text__bold--big text__opacity--semi' variant='h6'>
-          Publicado {fecha_humano}
+          Publicado {fecha_humano.search("-") === -1 ? fecha_humano : `el ${fecha_humano}`}
           <Typography className='text__bold--big' variant='h6' component='span' color='primary'>{user?.name && ` - ${user.name}`}</Typography>
           {created_at !== updated_at && (
             <Typography className='text__opacity--semi' variant='h6' component='span'> (Editado {fecha_humano_modify})</Typography>

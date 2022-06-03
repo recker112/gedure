@@ -99,7 +99,7 @@ class Post extends Model
 		if ($date_created->diffInDays($dateNow) <= 3) {
 			$show = $date_created->diffForHumans();
 		}else {
-			$show = 'el '.$date_created->format('Y-m-d h:i A');
+			$show = $date_created->format('Y-m-d h:i A');
 		}
 		
 		return $show;

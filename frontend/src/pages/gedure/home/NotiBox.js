@@ -36,7 +36,7 @@ export default function NotiBox(props) {
                     {item.textPrimary}
                   </Typography>
                   <Typography variant='body1' sx={{ color: 'text.secondary' }}>
-                    {item.textSecondary.slice(3)}
+                    {item.textSecondary}
                   </Typography>
                 </Grid>
                 <Grid container justifyContent='flex-end' item xs>
