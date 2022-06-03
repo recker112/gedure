@@ -14,7 +14,7 @@ import AnimationDialog from '../../../components/AnimationDialog';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpen, uploadData } from '../../../store/slices/gedure/usuarios/forms';
+import { setOpen, uploadMatricula } from '../../../store/slices/gedure/usuarios/forms';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 
@@ -33,7 +33,7 @@ export default function UploadStudiends() {
   const onSubmit = submitData => {
     const formData = new FormData();
 		formData.append('database', submitData.database[0]);
-    dispatch(uploadData({submitData: formData, errors: setError, handleClose}))
+    dispatch(uploadMatricula({submitData: formData, errors: setError, handleClose}))
   }
 
   return (
