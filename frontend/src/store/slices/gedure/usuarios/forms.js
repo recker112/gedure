@@ -89,8 +89,8 @@ export const createData = createAsyncThunk(
   }
 );
 
-export const uploadData = createAsyncThunk(
-  'gdUForms/crear',
+export const uploadMatricula = createAsyncThunk(
+  'gdUForms/uploadMatricula',
   async ({submitData, errors, handleClose}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -189,14 +189,14 @@ export const gdUFormsSlices = createSlice({
     [createData.fulfilled]: (state, action) => {
       state.create.loading = false;
     },
-    [uploadData.pending]: (state, action) => {
+    [uploadMatricula.pending]: (state, action) => {
       state.upload.loading = true;
     },
-    [uploadData.rejected]: (state, action) => {
+    [uploadMatricula.rejected]: (state, action) => {
       state.upload.loading = false;
       state.upload.progress = 0;
     },
-    [uploadData.fulfilled]: (state, action) => {
+    [uploadMatricula.fulfilled]: (state, action) => {
       state.upload.loading = false;
       state.upload.progress = 0;
     }
