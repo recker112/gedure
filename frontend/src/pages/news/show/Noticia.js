@@ -18,8 +18,8 @@ const classes = {
     marginBottom: 3,
   },
   portada: {
-    marginTop: 3, 
-    marginBottom: 3,
+    marginBottom: 16,
+    objectFit: 'cover',
   }
 }
 
@@ -63,7 +63,7 @@ export default function Noticia(props) {
   const NoticiaContent = () => (
 		<React.Fragment>
 			{url_portada ? (
-				<img className={classes.portada} src={url_portada} alt='portada de la publicación' width='100%' height={250} />
+				<img style={classes.portada} src={url_portada} alt='portada de la publicación' width='100%' height={250} />
 			) : null}
 			<ReactMarkdown remarkPlugins={[gfm]} children={content} components={renderersMarkdown} />
 		</React.Fragment>
