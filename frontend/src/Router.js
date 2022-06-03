@@ -46,6 +46,7 @@ const UsuariosPOpciones = lazy(() => import('./pages/gedure/usuarios/ver/opcione
 
 // Publicaciones
 const PublicacionesPage = lazy(() => import('./pages/gedure/publicaciones'));
+const PublicacionesCrear = lazy(() => import('./pages/gedure/publicaciones/crear'));
 
 const classes = {
   container: {
@@ -184,6 +185,12 @@ export default function Routers() {
                 <Route path='' element={
                   <AuthProtect>
                     <PublicacionesPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='crear' element={
+                  <AuthProtect>
+                    <PublicacionesCrear />
                   </AuthProtect>
                 } />
 

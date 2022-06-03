@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Router
+import { useNavigate } from 'react-router-dom';
+
 // MUI
 import { Box, Button, Container, Grid } from '@mui/material';
 
@@ -17,8 +20,10 @@ const classes = {
 export default function Publicaciones() {
   document.title = 'Publicaciones - La Candelaria';
 
-  const handleOpenCreate = () => {
+  const navigate = useNavigate();
 
+  const handleOpenCreate = () => {
+    navigate('crear');
   }
 
   return (
