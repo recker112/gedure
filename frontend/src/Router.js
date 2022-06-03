@@ -47,6 +47,7 @@ const UsuariosPOpciones = lazy(() => import('./pages/gedure/usuarios/ver/opcione
 // Publicaciones
 const PublicacionesPage = lazy(() => import('./pages/gedure/publicaciones'));
 const PublicacionesCrear = lazy(() => import('./pages/gedure/publicaciones/crear'));
+const PublicacionesEditar = lazy(() => import('./pages/gedure/publicaciones/editar'));
 
 const classes = {
   container: {
@@ -69,7 +70,7 @@ export default function Routers() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index, posts_index } = permissions.administrar;
+  const { users_index, posts_index, posts_create, posts_edit } = permissions.administrar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -188,11 +189,21 @@ export default function Routers() {
                   </AuthProtect>
                 } />
 
-                <Route path='crear' element={
-                  <AuthProtect>
-                    <PublicacionesCrear />
-                  </AuthProtect>
-                } />
+                {posts_create && (
+                  <Route path='crear' element={
+                    <AuthProtect>
+                      <PublicacionesCrear />
+                    </AuthProtect>
+                  } />
+                )}
+
+                {posts_edit && (
+                  <Route path='editar/:slug' element={
+                    <AuthProtect>
+                      <PublicacionesEditar />
+                    </AuthProtect>
+                  } />
+                )}
 
                 <Route path='*' element={<NotFound/>} />
               </Route>
