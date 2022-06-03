@@ -15,6 +15,7 @@ import ReactTableBase from '../../../components/ReactTableBase';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataPT, refreshPT, resetTableConfigPT, setConfigTablePT, setSearchPT } from '../../../store/slices/gedure/publicaciones/table';
+import { setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
 
 export default function Table() {
   let navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function Table() {
         accessor: "options",
         Cell: ({
           cell: {
-            row: { original: { slug } },
+            row: { original: { id, slug, title } },
           },
         }) => (
           <>
@@ -82,7 +83,7 @@ export default function Table() {
             <Tooltip title="Eliminar" arrow>
               <IconButton
                 onClick={() => {
-                  //dispatch(setConfirmConfgs({confirm: 'disabledAccount', open: true, data: { id, username: privilegio+username }}))
+                  dispatch(setConfirmConfgsPUB({open: true, data: { slug, title }, confirm: 'delete'}));
                 }}
                 disabled={!posts_destroy}
               >

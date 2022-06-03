@@ -8,6 +8,11 @@ import { Box, Button, Container, Grid } from '@mui/material';
 
 // Components
 import Table from './Table';
+import DialogConfirmation from '../../../components/DialogConfirmation';
+import useNotifier from '../../../hooks/useNotifier';
+
+// Redux
+import { deletePost, setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
 
 const classes = {
   container: {
@@ -19,6 +24,7 @@ const classes = {
 
 export default function Publicaciones() {
   document.title = 'Publicaciones - La Candelaria';
+  useNotifier();
 
   const navigate = useNavigate();
 
@@ -41,6 +47,18 @@ export default function Publicaciones() {
           </Grid>
         </Grid>
       </Container>
+      <DialogConfirmation
+        rdx1='gdPUBConfirm' 
+        rdx2='delete'
+        close={
+          setConfirmConfgsPUB({open: false, data: {}, confirm: 'delete'})
+        }
+        request={
+          data => deletePost(data.slug)
+        }
+      >
+        {(data) => (<span>Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
+      </DialogConfirmation>
     </Box>
   )
 }
