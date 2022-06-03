@@ -12,6 +12,7 @@ import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
 
 // Redux
+import { useSelector } from 'react-redux';
 import { deletePost, setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
 
 const classes = {
@@ -25,6 +26,8 @@ const classes = {
 export default function Publicaciones() {
   document.title = 'Publicaciones - La Candelaria';
   useNotifier();
+
+  const { administrar: { posts_create } } = useSelector((state) => state.auth.permissions);
 
   const navigate = useNavigate();
 
@@ -40,7 +43,7 @@ export default function Publicaciones() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" onClick={handleOpenCreate}>Crear publicación</Button>
+            <Button variant="contained" onClick={handleOpenCreate} disabled={!posts_create}>Crear publicación</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
