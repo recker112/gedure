@@ -288,7 +288,7 @@ export default function ShowRegistro() {
 		}else if (data.action === 'Boletas eliminadas masivamente') {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.boletas}</strong> del sistema.
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.boletas}</strong> boleta(s) del sistema.
 				</DialogContentText>
 			);
 		}else if (data.action === 'Solicitud de contácto eliminada') {
