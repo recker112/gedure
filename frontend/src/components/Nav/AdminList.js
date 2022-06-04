@@ -6,6 +6,7 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GroupIcon from '@mui/icons-material/Group';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import {
 	HammerWrench as HammerWrenchIcon,
   Post as PostIcon,
@@ -22,7 +23,7 @@ export default function AdminList() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index, posts_index } = permissions.administrar;
+  const { users_index, posts_index, boletas_index } = permissions.administrar;
 
   const handleExpand1 = () => {
     setPrincipal(value => !value);
@@ -63,6 +64,14 @@ export default function AdminList() {
                   <PostIcon />
                 </ListItemIcon>
                 <ListItemText primary='Publicaciones' />
+              </ListDrawerNav>
+            )}
+            {boletas_index && (
+              <ListDrawerNav nested to='/gedure/boletas'>
+                <ListItemIcon>
+                  <InsertDriveFileIcon />
+                </ListItemIcon>
+                <ListItemText primary="Boletas" />
               </ListDrawerNav>
             )}
           </Collapse>

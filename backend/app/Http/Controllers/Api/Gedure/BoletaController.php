@@ -76,7 +76,7 @@ class BoletaController extends Controller
 		return response()->json([
 			'data' => $users,
 			'page' => $request->page * 1, 
-			'totalUsers' => $usersCount,
+			'totalRows' => $usersCount,
 		], 200);
 	}
 	
