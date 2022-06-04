@@ -3,9 +3,13 @@ import React from 'react';
 // MUI
 import { Box, Button, Container, Grid } from '@mui/material';
 
+// Components
+import useNotifier from '../../../hooks/useNotifier';
+import DeleteBoleta from './DeleteBoleta';
+import Table from './Table';
+
 // Redux
 import { useSelector } from 'react-redux';
-import Table from './Table';
 
 const classes = {
   container: {
@@ -17,6 +21,7 @@ const classes = {
 
 export default function Boletas() {
   document.title = 'Boletas - La Candelaria';
+  useNotifier();
 
   const { administrar: { boletas_upload } } = useSelector((state) => state.auth.permissions);
 
@@ -38,6 +43,7 @@ export default function Boletas() {
             <Table />
           </Grid>
         </Grid>
+        <DeleteBoleta />
       </Container>
     </Box>
   )

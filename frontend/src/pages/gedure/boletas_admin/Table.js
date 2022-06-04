@@ -15,6 +15,7 @@ import Filtrador from './Filtrador';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataBT, refreshBT, resetTableConfigBT, setConfigTableBT, setSearchBT } from '../../../store/slices/gedure/boletas_admin/table';
+import { setConfgsBD } from '../../../store/slices/gedure/boletas_admin/deleteBoleta';
 
 export default function Table() {
   let navigate = useNavigate();
@@ -172,6 +173,8 @@ export default function Table() {
                 idsArray[i] = value.id;
                 i++;
               }
+
+              dispatch(setConfgsBD({open: true, data: idsArray}))
             }}
             disabled={!boletas_destroy}
           >
