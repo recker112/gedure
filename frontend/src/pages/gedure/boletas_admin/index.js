@@ -6,10 +6,12 @@ import { Box, Button, Container, Grid } from '@mui/material';
 // Components
 import useNotifier from '../../../hooks/useNotifier';
 import DeleteBoleta from './DeleteBoleta';
+import UploadBoleta from './UploadBoleta';
 import Table from './Table';
 
 // Redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOpenBF } from '../../../store/slices/gedure/boletas_admin/forms';
 
 const classes = {
   container: {
@@ -24,9 +26,10 @@ export default function Boletas() {
   useNotifier();
 
   const { administrar: { boletas_upload } } = useSelector((state) => state.auth.permissions);
+  const dispatch = useDispatch();
 
   const handleOpenUpload = () => {
-    //
+    dispatch(setOpenBF({select: 'upload', open: true}));
   }
 
   return (
@@ -44,6 +47,7 @@ export default function Boletas() {
           </Grid>
         </Grid>
         <DeleteBoleta />
+        <UploadBoleta />
       </Container>
     </Box>
   )
