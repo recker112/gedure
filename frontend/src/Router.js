@@ -49,6 +49,9 @@ const PublicacionesPage = lazy(() => import('./pages/gedure/publicaciones'));
 const PublicacionesCrear = lazy(() => import('./pages/gedure/publicaciones/crear'));
 const PublicacionesEditar = lazy(() => import('./pages/gedure/publicaciones/editar'));
 
+// Boletas
+const BoletasPage = lazy(() => import('./pages/gedure/boletas_admin'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -70,7 +73,7 @@ export default function Routers() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index, posts_index, posts_create, posts_edit } = permissions.administrar;
+  const { users_index, posts_index, posts_create, posts_edit, boletas_index } = permissions.administrar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -205,7 +208,27 @@ export default function Routers() {
                   } />
                 )}
 
-                <Route path='*' element={<NotFound/>} />
+                <Route path='*' element={
+                  <AuthProtect>
+                    <NotFound/>
+                  </AuthProtect>
+                } />
+              </Route>
+            )}
+
+            {boletas_index && (
+              <Route path='boletas/*'>
+                <Route path='' element={
+                  <AuthProtect>
+                    <BoletasPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='*' element={
+                  <AuthProtect>
+                    <NotFound/>
+                  </AuthProtect>
+                } />
               </Route>
             )}
 
