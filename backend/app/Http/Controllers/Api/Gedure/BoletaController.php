@@ -283,14 +283,16 @@ class BoletaController extends Controller
 				->where('lapso', $request->lapso)
 				->first();
 			
-			$this->destroy($boleta, true);
-			$i++;
+			if ($boleta) {
+				$this->destroy($boleta, true);
+				$i++;
+			}
 		}
 		
 		if (!$i) {
 			return response()->json([
 				'msg' => "No se ha eliminado ninguna boleta",
-			], 200);
+			], 400);
 		}
 		
 		$payload = [
