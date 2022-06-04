@@ -23,6 +23,7 @@ import gdPUBC from "./slices/gedure/publicaciones/crear";
 import gdPUBConfirm from "./slices/gedure/publicaciones/confirmDialogs";
 import gdPUBE from "./slices/gedure/publicaciones/editar";
 import gdBTable from "./slices/gedure/boletas_admin/table";
+import gdBDelete from "./slices/gedure/boletas_admin/deleteBoleta";
 
 export default configureStore({
   reducer: {
@@ -48,5 +49,6 @@ export default configureStore({
     gdPUBConfirm,
     gdPUBE,
     gdBTable,
+    gdBDelete,
   },
 });
