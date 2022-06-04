@@ -25,6 +25,7 @@ import gdPUBE from "./slices/gedure/publicaciones/editar";
 import gdBTable from "./slices/gedure/boletas_admin/table";
 import gdBDelete from "./slices/gedure/boletas_admin/deleteBoleta";
 import gdBForm from "./slices/gedure/boletas_admin/forms";
+import gdBVerForm from "./slices/gedure/boletas_admin/ver";
 
 export default configureStore({
   reducer: {
@@ -52,5 +53,6 @@ export default configureStore({
     gdBTable,
     gdBDelete,
     gdBForm,
+    gdBVerForm,
   },
 });
