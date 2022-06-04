@@ -82,7 +82,9 @@ class BoletaController extends Controller
 	
 	public function show($id)
 	{
-		$user = User::with(['boletas', 'boletas.curso'])->find(intVal($id));
+		$user = User::with(['boletas' => function ($q) {
+			$q->orderByDesc('id');
+		} , 'boletas.curso'])->find(intVal($id));
 		$name = $user->name;
 		$boletas = $user->boletas->toArray();
 		
