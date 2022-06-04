@@ -51,6 +51,7 @@ const PublicacionesEditar = lazy(() => import('./pages/gedure/publicaciones/edit
 
 // Boletas
 const BoletasPage = lazy(() => import('./pages/gedure/boletas_admin'));
+const BoletasVer = lazy(() => import('./pages/gedure/boletas_admin/ver'));
 
 const classes = {
   container: {
@@ -221,6 +222,12 @@ export default function Routers() {
                 <Route path='' element={
                   <AuthProtect>
                     <BoletasPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='ver/:id' element={
+                  <AuthProtect>
+                    <BoletasVer />
                   </AuthProtect>
                 } />
 
