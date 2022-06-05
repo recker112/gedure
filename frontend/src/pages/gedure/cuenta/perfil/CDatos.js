@@ -56,6 +56,7 @@ export default function CDatos() {
         handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
         userField={user.privilegio === 'A-' && users_edit_admins}
+        nameField={user.privilegio !== 'V-'}
       />
     </Box>
   )

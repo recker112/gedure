@@ -15,7 +15,7 @@ import { InputHook } from '../../../../../components/form/inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-export function PDatosForm({ control, loading, handleSubmit, userField = true, user = {} }) {
+export function PDatosForm({ control, loading, handleSubmit, userField = true, nameField = true, user = {} }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -46,24 +46,26 @@ export function PDatosForm({ control, loading, handleSubmit, userField = true, u
             />
         </Grid>
       )}
-      <Grid item xs={12}>
-        <InputHook
-          control={control}
-          rules={{
-            required: '* Campo requerido',
-            minLength: { value: 3, message: 'Error: Demaciado corto' },
-            maxLength: { value: 90, message: 'Error: Demaciado largo' },
-          }}
-          name='name'
-          label='Nombre de la cuenta'
-          helperText='El nombre puede ser visto por otros usuarios, tenga discreción con lo que coloque aquí'
-          defaultValue={user.name}
-          variant='outlined'
-          size='small'
-          fullWidth
-          disabled={loading}
-        />
-			</Grid>
+      {nameField && (
+        <Grid item xs={12}>
+          <InputHook
+            control={control}
+            rules={{
+              required: '* Campo requerido',
+              minLength: { value: 3, message: 'Error: Demaciado corto' },
+              maxLength: { value: 90, message: 'Error: Demaciado largo' },
+            }}
+            name='name'
+            label='Nombre de la cuenta'
+            helperText='El nombre puede ser visto por otros usuarios, tenga discreción con lo que coloque aquí'
+            defaultValue={user.name}
+            variant='outlined'
+            size='small'
+            fullWidth
+            disabled={loading}
+          />
+        </Grid>
+      )}
       <Grid item xs={12}>
         <InputHook
           control={control}
