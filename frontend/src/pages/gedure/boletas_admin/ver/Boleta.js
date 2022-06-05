@@ -13,6 +13,10 @@ import {
 // Components
 import conveterCursorCode from '../../../../components/Utils/converterCursoCode';
 
+// Redux
+import { useDispatch } from 'react-redux';
+import { setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
+
 const listColors = [
   '#2f80ED',
   '#0F3F6A',
@@ -35,10 +39,15 @@ export default function Boleta({
   curso,
   created_at,
   updated_at,
-  handleRefresh,
 }) {
   const [random] = useState(getRandomInt(listColors.length -1));
+
+  const dispatch = useDispatch();
   
+  const handleDelete = () => {
+    dispatch(setConfgsBC({open: true, data: { curso, lapso, id }, confirm: 'deleteBoleta'}))
+  }
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Paper elevation={0} className='paper--padding'>
@@ -69,7 +78,7 @@ export default function Boleta({
           </Grid>
           <Grid container justifyContent='flex-end' alignItems='center' item xs={12}>
             <Tooltip title='Eliminar' arrow>
-              <LoadingButton color='inherit'>
+              <LoadingButton onClick={handleDelete} color='inherit'>
                 <DeleteForeverIcon />
               </LoadingButton>
             </Tooltip>

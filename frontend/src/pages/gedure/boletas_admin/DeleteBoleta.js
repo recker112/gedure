@@ -14,10 +14,10 @@ import { LapsoList } from '../../../components/Utils/StudiendsLists';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectHook } from '../../../components/form/select';
-import { deleteBoleta, setConfgsBD } from '../../../store/slices/gedure/boletas_admin/deleteBoleta';
+import { deleteBoletaMassive, setConfgsBC } from '../../../store/slices/gedure/boletas_admin/confirmDialogs';
 
 export default function DeleteBoleta() {
-  const { open, loading, data } = useSelector(state => (state.gdBDelete));
+  const { open, loading, data } = useSelector(state => (state.gdBConfirm.deleteBoletaMassive));
   const dispatch = useDispatch();
 
   const { handleSubmit, control } = useForm({
@@ -26,11 +26,11 @@ export default function DeleteBoleta() {
 	});
 
   const onSubmit = (submitData) => {
-    dispatch(deleteBoleta({...submitData, ids: data, _method: 'PUT'}));
+    dispatch(deleteBoletaMassive({...submitData, ids: data, _method: 'PUT'}));
   }
 
   const handleClose = () => {
-    dispatch(setConfgsBD({open: false, data: {}}))
+    dispatch(setConfgsBC({open: false, data: {}, confirm: 'deleteBoletaMassive'}));
   }
 
   const MenuItemList = LapsoList.map(useCallback((data, i) => (

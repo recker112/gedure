@@ -10,10 +10,13 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // Components
 import Boleta from "./Boleta";
 import useNotifier from '../../../../hooks/useNotifier';
+import DialogConfirmation from '../../../../components/DialogConfirmation';
+import conveterCursorCode from '../../../../components/Utils/converterCursoCode';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataBV, setLoadingBV } from '../../../../store/slices/gedure/boletas_admin/ver';
+import { deleteBoleta, setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
 
 const classes = {
   container: {
@@ -33,8 +36,6 @@ export default function VerBoleta() {
 
   let navigate = useNavigate();
 
-  console.log(data);
-
   const handleReturn = () => {
     if (window.history.state && window.history.state.idx > 0) {
       navigate(-1);
@@ -48,10 +49,19 @@ export default function VerBoleta() {
   }
 
   useEffect(() => {
-    dispatch(getDataBV(id));
+    if (loading) {
+      dispatch(getDataBV(id));
+    }
 
     // eslint-disable-next-line
-  }, []);
+  }, [loading]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setLoadingBV({ loading: true, select: 'getData' }))
+    }
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Box component='main' sx={classes.container}>
@@ -81,7 +91,7 @@ export default function VerBoleta() {
 							Boletas subidas de {data.user}
 						</Box>
 						<Grid container spacing={2}>
-							{data.boletas.map((props, key) => (<Boleta key={key} {...props} handleRefresh={handleRefresh} />))}
+							{data.boletas.map((props, key) => (<Boleta key={key} {...props} />))}
 						</Grid>
 					</React.Fragment>
 				) : null}
@@ -90,6 +100,18 @@ export default function VerBoleta() {
 						No hay boletas cargadas para este estudiante.
 					</Box>
 				)}
+        <DialogConfirmation
+          rdx1='gdBConfirm' 
+          rdx2='deleteBoleta'
+          close={
+            setConfgsBC({open: false, data: {}, confirm: 'deleteBoleta'})
+          }
+          request={
+            data => deleteBoleta({ submitData: data, refresh: handleRefresh })
+          }
+        >
+          {(dataR) => (<span>Está a punto de eliminar la boleta <strong>{conveterCursorCode(dataR.curso?.curso)} {dataR.curso?.seccion} - {dataR.lapso}° Lapso</strong> de <strong>{data.user}</strong>. Tenga en cuenta que esta acción no se puede deshacer.</span>)}
+        </DialogConfirmation>
       </Container>
     </Box>
   )
