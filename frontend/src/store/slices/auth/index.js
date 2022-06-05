@@ -107,7 +107,7 @@ export const AuthsSlices = createSlice({
     updateUserData: (state, action) => {
       const { user, permissions, access_key } = action.payload;
       state.user = user;
-      permissions && (state.permissions = permissions);
+      permissions && (state.permissions = {...initialState.permissions,...permissions});
       access_key && (state.access_key = access_key);
     },
     logoutApp: () => {
@@ -128,7 +128,7 @@ export const AuthsSlices = createSlice({
       state.relogin = false;
       state.access_key = access_key;
       state.user = user;
-      state.permissions = permissions;
+      state.permissions = {...initialState.permissions,...permissions};
     },
     [logout.rejected]: () => {
       sessionStorage.removeItem('gd-access_key');

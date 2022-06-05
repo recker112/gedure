@@ -10,6 +10,7 @@ import { PAvatarForm } from '../../usuarios/ver/perfil/PAvatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadAvatar } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPA';
 import { updateUserData } from '../../../../store/slices/auth';
+import { Box } from '@mui/material';
 
 export default function CPerfil() {
   const { user, loadingUpload, loadingDelete, progress } = useSelector(state => ({
@@ -47,13 +48,15 @@ export default function CPerfil() {
   }
 
   return (
-    <PAvatarForm
-      user={user}
-      handleSubmit={handleSubmit(onSubmit)}
-      register={register}
-      progress={progress}
-      loadingUpload={loadingUpload}
-      loadingDelete={loadingDelete}
-    />
+    <Box mb={4}>
+      <PAvatarForm
+        user={user}
+        handleSubmit={handleSubmit(onSubmit)}
+        register={register}
+        progress={progress}
+        loadingUpload={loadingUpload}
+        loadingDelete={loadingDelete}
+      />
+    </Box>
   )
 }

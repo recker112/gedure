@@ -41,6 +41,7 @@ export default function Navs({
 	permissions = true,
 	toBack = true,
 	toBackURL = '/gedure/usuarios',
+	curso = true,
 	children = () => {},
 }) {
   const [personalNav, setPersonalNav] = useState(false);
@@ -93,7 +94,7 @@ export default function Navs({
 					</Box>
 				)}
       </Collapse>
-      {user.privilegio === 'V-' && (
+      {(user.privilegio === 'V-' && curso) && (
 				<Box mb={1}>
 					<ReturnSelected url={`${url}/curso`}>
 						Curso
