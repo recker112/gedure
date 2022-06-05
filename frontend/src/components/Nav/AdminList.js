@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // MUI
 import { Collapse, ListItemIcon, ListItemText } from '@mui/material';
@@ -19,16 +19,13 @@ import { ListDrawerNav } from './NoAuth';
 // Redux
 import { useSelector } from 'react-redux';
 
-export default function AdminList() {
-  const [principal, setPrincipal] = useState(false);
-
+export default function AdminList({
+  expand1,
+  handleExpand1,
+}) {
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
-
-  const handleExpand1 = () => {
-    setPrincipal(value => !value);
-  }
 
   return (
     <>
@@ -48,9 +45,9 @@ export default function AdminList() {
 							<HammerWrenchIcon />
 						</ListItemIcon>
 						<ListItemText primary='Sistema principal' /> 
-						{principal ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+						{expand1 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
 					</ListDrawerNav>
-          <Collapse in={principal} timeout="auto" unmountOnExit>
+          <Collapse in={expand1} timeout="auto" unmountOnExit>
             {users_index && (
               <ListDrawerNav nested to='/gedure/usuarios'>
                 <ListItemIcon>
