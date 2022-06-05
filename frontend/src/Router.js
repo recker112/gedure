@@ -71,6 +71,7 @@ const CuentaRUbicacion = lazy(() => import('./pages/gedure/cuenta/personal_data/
 const CuentaREmpleo = lazy(() => import('./pages/gedure/cuenta/personal_data/CREmpleo'));
 const CuentaDMadre = lazy(() => import('./pages/gedure/cuenta/personal_data/CDMadre'));
 const CuentaDPadre = lazy(() => import('./pages/gedure/cuenta/personal_data/CDPadre'));
+const CuentaPOpciones = lazy(() => import('./pages/gedure/cuenta/opciones'));
 
 const classes = {
   container: {
@@ -308,6 +309,10 @@ export default function Routers() {
                 <Route path='credenciales' element={
                   <CuentaPassword />
                 } />
+
+                <Route path='opciones' element={
+                    <CuentaPOpciones />
+                  } />
 
                 <Route path='*' element={<Navigate to="" replace />} />
               </Route>
