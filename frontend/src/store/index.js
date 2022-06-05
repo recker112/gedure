@@ -23,7 +23,7 @@ import gdPUBC from "./slices/gedure/publicaciones/crear";
 import gdPUBConfirm from "./slices/gedure/publicaciones/confirmDialogs";
 import gdPUBE from "./slices/gedure/publicaciones/editar";
 import gdBTable from "./slices/gedure/boletas_admin/table";
-import gdBDelete from "./slices/gedure/boletas_admin/deleteBoleta";
+import gdBConfirm from "./slices/gedure/boletas_admin/confirmDialogs";
 import gdBForm from "./slices/gedure/boletas_admin/forms";
 import gdBVerForm from "./slices/gedure/boletas_admin/ver";
 
@@ -51,7 +51,7 @@ export default configureStore({
     gdPUBConfirm,
     gdPUBE,
     gdBTable,
-    gdBDelete,
+    gdBConfirm,
     gdBForm,
     gdBVerForm,
   },
