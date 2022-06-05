@@ -10,6 +10,7 @@ export default function DatePickerHook({
   rules = { required: '* Campo requerido' },
   defaultValue = '',
   helperText,
+  disabled,
   disableFuture,
 }) {
   const {
@@ -32,6 +33,7 @@ export default function DatePickerHook({
       onChange={(newValue) => {
         onChange(newValue)
       }}
+      disabled={disabled}
       value={value}
       renderInput={(params) => (
         <TextField 
