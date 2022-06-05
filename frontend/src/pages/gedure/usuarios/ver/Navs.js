@@ -40,6 +40,7 @@ export default function Navs({
 	path,
 	permissions = true,
 	toBack = true,
+	toBackURL = '/gedure/usuarios',
 	children = () => {},
 }) {
   const [personalNav, setPersonalNav] = useState(false);
@@ -48,7 +49,7 @@ export default function Navs({
 
   const handleClick = () => setPersonalNav(value => !value);
 
-  const handleReturn = () => navigate('/gedure/usuarios');
+  const handleReturn = () => navigate(toBackURL);
 
   let url = path ? path : `/gedure/usuarios/ver/${id}`;
 
