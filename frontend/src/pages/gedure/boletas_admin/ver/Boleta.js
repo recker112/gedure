@@ -20,16 +20,15 @@ import { downloadBoleta } from '../../../../store/slices/gedure/boletas_admin/ve
 
 const listColors = [
   '#2f80ED',
-  '#0F3F6A',
   '#219653',
   '#f2994A',
   '#9B51E0',
   '#EB5757',
-  '#333333',
+  '#c1c1c1',
 ];
 
 function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
+	return Math.floor(Math.random() * Math.floor(max + 1));
 }
 
 export default function Boleta({ 
@@ -41,15 +40,19 @@ export default function Boleta({
   created_at,
   updated_at,
 }) {
-  const [random] = useState(getRandomInt(listColors.length -1));
+  const [random] = useState(getRandomInt(listColors.length - 1));
   const [loadingDownload, setLoadingDonwload] = useState(false);
 
   const progress = useSelector(state => state.gdBVerForm.download.progress);
   const dispatch = useDispatch();
   
   const handleDelete = () => {
-    dispatch(setConfgsBC({open: true, data: { curso, lapso, id }, confirm: 'deleteBoleta'}))
+    dispatch(setConfgsBC({open: true, data: { curso, lapso, id }, confirm: 'deleteBoleta'}));
   }
+
+  const handleReplace = () => {
+		dispatch(setConfgsBC({open: true, data: { curso: curso.curso, seccion: curso.seccion, lapso, id }, confirm: 'replaceBoleta'}));
+	}
 
   const handleDownload = async () => {
     setLoadingDonwload(true);
@@ -92,7 +95,7 @@ export default function Boleta({
               </LoadingButton>
             </Tooltip>
             <Tooltip title='Reemplazar' arrow>
-              <LoadingButton color='inherit'>
+              <LoadingButton onClick={handleReplace} color='inherit'>
                 <FileReplace />
               </LoadingButton>
             </Tooltip>

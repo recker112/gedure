@@ -73,6 +73,50 @@ export const deleteBoleta = createAsyncThunk(
   }
 );
 
+export const replaceBoleta = createAsyncThunk(
+  'gdBVerForm/replace',
+  async ({ id, submitData }, { getState, signal, dispatch }) => {
+    // NOTA(RECKER): Configurar petición a realizar
+    const axios = window.axios;
+    let url = `v1/boleta/${id}`;
+
+    // NOTA(RECKER): Onload
+    const onUploadProgress = (progressEvent) => {
+      let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+    
+      dispatch(setProgress({select: 'replaceBoleta', percentCompleted}));
+    };
+
+    // NOTA(RECKER): Enviar estado de la petición al notistack
+    try {
+      const res = await axios.post(url, submitData, {
+        headers: {
+					'Content-Type': 'multipart/form-data'
+				},
+        onUploadProgress,
+        signal, // NOTA(RECKER): Señal para cancelar petición
+      });
+
+      dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
+      dispatch(setProgress({select: 'replaceBoleta', percentCompleted: 0}));
+
+      return res.data;
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        // NOTA(RECKER): No hacer nada al cancelar el AJAX
+      } else if (error.response) {
+        // NOTA(RECKER): Respuesta del servidor
+        const { data, status } = error.response;
+        dispatch(updateNotistack({ status: status, text: data.msg }));
+      } else {
+        // NOTA(RECKER): Sin respuesta por parte del servidor
+        dispatch(updateNotistack({ status: 'offline', }));
+      }
+      throw error;
+    }
+  }
+);
+
 
 const initialState = {
   deleteBoletaMassive: {
@@ -84,6 +128,12 @@ const initialState = {
     open: false,
     loading: false,
     data: {},
+  },
+  replaceBoleta: {
+    open: false,
+    loading: false,
+    data: {},
+    progress: 0,
   }
 };
 
@@ -97,7 +147,11 @@ export const gdBConfirmSlices = createSlice({
       (open !== undefined) && (state[confirm].open = open);
       loading && (state[confirm].loading = loading);
       data && (state[confirm].data = data);
-    }
+    },
+    setProgress: (state, action) => {
+      const { select, percentCompleted } = action.payload;
+      state[select].progress = percentCompleted;
+    },
   },
   extraReducers: {
     [deleteBoletaMassive.pending]: state => {
@@ -122,9 +176,22 @@ export const gdBConfirmSlices = createSlice({
       state.deleteBoleta.data = {};
       state.deleteBoleta.open = false;
     },
+    [replaceBoleta.pending]: state => {
+      state.replaceBoleta.loading = true;
+    },
+    [replaceBoleta.rejected]: (state, action) => {
+      state.replaceBoleta.loading = false;
+      state.replaceBoleta.progress = 0;
+    },
+    [replaceBoleta.fulfilled]: (state, action) => {
+      state.replaceBoleta.loading = false;
+      state.replaceBoleta.data = {};
+      state.replaceBoleta.open = false;
+      state.replaceBoleta.progress = 0;
+    },
   }
 });
 
 export default gdBConfirmSlices.reducer;
 
-export const { setConfgsBC } = gdBConfirmSlices.actions;
+export const { setConfgsBC, setProgress } = gdBConfirmSlices.actions;

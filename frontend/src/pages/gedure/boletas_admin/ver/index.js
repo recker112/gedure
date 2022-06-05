@@ -12,6 +12,7 @@ import Boleta from "./Boleta";
 import useNotifier from '../../../../hooks/useNotifier';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 import conveterCursorCode from '../../../../components/Utils/converterCursoCode';
+import ReplaceBoleta from './ReplaceBoleta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -112,6 +113,7 @@ export default function VerBoleta() {
         >
           {(dataR) => (<span>Está a punto de eliminar la boleta <strong>{conveterCursorCode(dataR.curso?.curso)} {dataR.curso?.seccion} - {dataR.lapso}° Lapso</strong> de <strong>{data.user}</strong>. Tenga en cuenta que esta acción no se puede deshacer.</span>)}
         </DialogConfirmation>
+        <ReplaceBoleta />
       </Container>
     </Box>
   )
