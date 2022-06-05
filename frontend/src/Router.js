@@ -62,6 +62,7 @@ const CuentaPage = lazy(() => import('./pages/gedure/cuenta'));
 const CuentaPAvatar = lazy(() => import('./pages/gedure/cuenta/perfil/CPerfil'));
 const CuentaPDatos = lazy(() => import('./pages/gedure/cuenta/perfil/CDatos'));
 const CuentaPassword = lazy(() => import('./pages/gedure/cuenta/credenciales/CPassword'));
+const CuentaPDUsuario = lazy(() => import('./pages/gedure/cuenta/personal_data/CUsuario'));
 
 const classes = {
   container: {
@@ -267,6 +268,10 @@ export default function Routers() {
                     <CuentaPAvatar />
                     <CuentaPDatos />
                   </>
+                } />
+
+                <Route path='personal/usuario' element={
+                  <CuentaPDUsuario />
                 } />
 
                 <Route path='credenciales' element={
