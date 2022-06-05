@@ -295,6 +295,12 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar permisos
 		$permissions = [];
+		if ($request->user()->id === $user->id) {
+			return response()->json([
+				'msg' => 'Solo otro administrador puede cambiar tus permisos',
+			],400);
+		}
+
 		if ($request->super_admin && $user->privilegio === 'A-') {
 			$user->assignRole('super-admin');
 			$user->syncPermissions();
@@ -362,7 +368,7 @@ class UserController extends Controller
 		}
 		
 		// NOTA(RECKER): Actualizar usuario
-		if ($request->only(['name', 'email', 'password'])) {
+		if ($request->only(['name', 'email', 'password', 'username'])) {
 			if ($request->password) {
 				$request->merge([
 					'password' => bcrypt($request->password),
@@ -371,7 +377,9 @@ class UserController extends Controller
 			
 			if ($user->privilegio === 'V-') {
 				$data = $request->only(['email', 'password']);
-			}else {
+			} else if ($user->privilegio === 'A-' && $user->can('users_edit_admins')) {
+				$data = $request->only(['name', 'email', 'password', 'username']);
+			} else {
 				$data = $request->only(['name', 'email', 'password']);
 			}
 			
