@@ -91,7 +91,7 @@ export const gdUConfirmSlices = createSlice({
 
       (open !== undefined) && (state[confirm].open = open);
       loading && (state[confirm].loading = loading);
-      data && (state[confirm].data = data);
+      Object.keys(data).length && (state[confirm].data = data);
     }
   },
   extraReducers: {
