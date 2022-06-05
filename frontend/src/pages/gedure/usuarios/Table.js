@@ -33,13 +33,14 @@ import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
 export default function Table() {
   let navigate = useNavigate();
 
-  const { dataR, loading, pageSize, pageCount, type, permissions } = useSelector((state) => ({
+  const { dataR, loading, pageSize, pageCount, type, permissions, idU } = useSelector((state) => ({
     dataR: state.gdUTable.tableData.data,
     loading: state.gdUTable.tableData.loading,
     pageSize: state.gdUTable.tableData.pageSize,
     pageCount: state.gdUTable.tableData.pageCount,
     type: state.gdUTable.filters.type,
     permissions: state.auth.permissions,
+    idU: state.auth.user.id,
   }));
   const { users_edit, users_delete } = permissions.administrar;
   const dispatch = useDispatch();
@@ -117,7 +118,7 @@ export default function Table() {
             <Tooltip title="Ver" arrow>
               <IconButton
                 onClick={() => {
-                  navigate(`ver/${id}`);
+                  idU === id ? navigate('/gedure/cuenta') : navigate(`ver/${id}`);
                 }}
                 disabled={!users_edit}
               >

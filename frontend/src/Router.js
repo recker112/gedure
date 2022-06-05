@@ -39,6 +39,7 @@ const UsuariosRUbicacion = lazy(() => import('./pages/gedure/usuarios/ver/person
 const UsuariosREmpleo = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/REmpleo'));
 const UsuariosPDPadre = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PDPadre'));
 const UsuariosPDMadre = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PDMadre'));
+const UsuariosPDUsuario = lazy(() => import('./pages/gedure/usuarios/ver/personal_data/PDUsuario'));
 const UsuariosPCurso = lazy(() => import('./pages/gedure/usuarios/ver/curso/PCurso'));
 const UsuariosPPassword = lazy(() => import('./pages/gedure/usuarios/ver/credenciales/PPassword'));
 const UsuariosPPermisos = lazy(() => import('./pages/gedure/usuarios/ver/permisos/PPermisos'));
@@ -55,6 +56,12 @@ const BoletasVer = lazy(() => import('./pages/gedure/boletas_admin/ver'));
 
 // Solicitudes
 const SoliContactoPage = lazy(() => import('./pages/gedure/soli_contacto'));
+
+// Cuenta
+const CuentaPage = lazy(() => import('./pages/gedure/cuenta'));
+const CuentaPAvatar = lazy(() => import('./pages/gedure/cuenta/perfil/CPerfil'));
+const CuentaPDatos = lazy(() => import('./pages/gedure/cuenta/perfil/CDatos'));
+const CuentaPassword = lazy(() => import('./pages/gedure/cuenta/credenciales/CPassword'));
 
 const classes = {
   container: {
@@ -84,193 +91,213 @@ export default function Routers() {
       <Relogin>
         {(!match) && <Navbar />}
 
-        <Routes>
-          <Route index path='/' element={
-            <NoSeeAuth>
-              <HomePage />
-            </NoSeeAuth>
-          } />
-
-          <Route path='/noticias/*'>
-            <Route path='' element={<NewsPage />} />
-            <Route path=':slug' element={<NewsPageShow />} />
-          </Route>
-
-          <Route path='/contactanos' element={<ContactPage />} />
-
-          <Route path='/entrar' element={
-            <NoSeeAuth>
-              <LoginPage />
-            </NoSeeAuth>
-          } />
-
-          <Route path='/gedure/*'>
-            {/* GEDURE */}
-            <Route path='' element={
-              <AuthProtect>
-                <HomeGedure />
-              </AuthProtect>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route index path='/' element={
+              <NoSeeAuth>
+                <HomePage />
+              </NoSeeAuth>
             } />
 
-            {registros_index && (
-              <Route path='registros' element={
+            <Route path='/noticias/*'>
+              <Route path='' element={<NewsPage />} />
+              <Route path=':slug' element={<NewsPageShow />} />
+            </Route>
+
+            <Route path='/contactanos' element={<ContactPage />} />
+
+            <Route path='/entrar' element={
+              <NoSeeAuth>
+                <LoginPage />
+              </NoSeeAuth>
+            } />
+
+            <Route path='/gedure/*'>
+              <Route path='' element={
                 <AuthProtect>
-                  <RegistrosGedure />
+                  <HomeGedure />
                 </AuthProtect>
               } />
-            )}
 
-            {/* USER */}
-            {users_index && (
-              <Route path='usuarios/*'>
-                <Route path='' element={
+              {registros_index && (
+                <Route path='registros' element={
                   <AuthProtect>
-                    <UsuariosPage />
+                    <RegistrosGedure />
                   </AuthProtect>
                 } />
+              )}
 
-                {/* USER SHOW */}
-                <Route path='ver/:id/' element={
-                  <AuthProtect>
-                    <UsuariosPageVer />
-                  </AuthProtect>
-                }>
+              {users_index && (
+                <Route path='usuarios/*'>
                   <Route path='' element={
-                    <>
-                      <UsuariosPAvatar />
-                      <UsuariosPDatos />
-                    </>
+                    <AuthProtect>
+                      <UsuariosPage />
+                    </AuthProtect>
                   } />
 
-                  <Route path='personal/estudiante' element={
-                    <>
-                      <UsuariosPEstudiante />
-                      <UsuariosPUbicacion />
-                      <UsuariosPOtros />
-                    </>
-                  } />
+                  <Route path='ver/:id/' element={
+                    <AuthProtect>
+                      <UsuariosPageVer />
+                    </AuthProtect>
+                  }>
+                    <Route path='' element={
+                      <>
+                        <UsuariosPAvatar />
+                        <UsuariosPDatos />
+                      </>
+                    } />
 
-                  <Route path='personal/representante' element={
-                    <>
-                      <UsuariosRDatos />
-                      <UsuariosRUbicacion />
-                      <UsuariosREmpleo />
-                    </>
-                  } />
+                    <Route path='personal/estudiante' element={
+                      <>
+                        <UsuariosPEstudiante />
+                        <UsuariosPUbicacion />
+                        <UsuariosPOtros />
+                      </>
+                    } />
 
-                  <Route path='personal/padres' element={
-                    <>
-                      <UsuariosPDMadre />
-                      <UsuariosPDPadre />
-                    </>
-                  } />
+                    <Route path='personal/representante' element={
+                      <>
+                        <UsuariosRDatos />
+                        <UsuariosRUbicacion />
+                        <UsuariosREmpleo />
+                      </>
+                    } />
 
-                  <Route path='curso' element={
-                    <UsuariosPCurso />
-                  } />
+                    <Route path='personal/padres' element={
+                      <>
+                        <UsuariosPDMadre />
+                        <UsuariosPDPadre />
+                      </>
+                    } />
 
-                  <Route path='credenciales' element={
-                    <UsuariosPPassword />
-                  } />
+                    <Route path='personal/usuario' element={
+                      <UsuariosPDUsuario />
+                    } />
 
-                  <Route path='permisos' element={
-                    <UsuariosPPermisos />
-                  } />
+                    <Route path='curso' element={
+                      <UsuariosPCurso />
+                    } />
 
-                  <Route path='opciones' element={
-                    <UsuariosPOpciones />
-                  } />
+                    <Route path='credenciales' element={
+                      <UsuariosPPassword />
+                    } />
 
-                  {/* REDIRECT USER SHOW */}
-                  <Route path='*' element={<Navigate to="" replace />} />
+                    <Route path='permisos' element={
+                      <UsuariosPPermisos />
+                    } />
+
+                    <Route path='opciones' element={
+                      <UsuariosPOpciones />
+                    } />
+
+                    <Route path='*' element={<Navigate to="" replace />} />
+                  </Route>
                 </Route>
-              </Route>
-            )}
+              )}
 
-            {/* POST */}
-            {posts_index && (
-              <Route path='publicaciones/*'>
-                <Route path='' element={
-                  <AuthProtect>
-                    <PublicacionesPage />
-                  </AuthProtect>
-                } />
-
-                {posts_create && (
-                  <Route path='crear' element={
+              {posts_index && (
+                <Route path='publicaciones/*'>
+                  <Route path='' element={
                     <AuthProtect>
-                      <PublicacionesCrear />
+                      <PublicacionesPage />
                     </AuthProtect>
                   } />
-                )}
 
-                {posts_edit && (
-                  <Route path='editar/:slug' element={
+                  {posts_create && (
+                    <Route path='crear' element={
+                      <AuthProtect>
+                        <PublicacionesCrear />
+                      </AuthProtect>
+                    } />
+                  )}
+
+                  {posts_edit && (
+                    <Route path='editar/:slug' element={
+                      <AuthProtect>
+                        <PublicacionesEditar />
+                      </AuthProtect>
+                    } />
+                  )}
+
+                  <Route path='*' element={
                     <AuthProtect>
-                      <PublicacionesEditar />
+                      <NotFound/>
                     </AuthProtect>
                   } />
-                )}
+                </Route>
+              )}
 
-                <Route path='*' element={
+              {boletas_index && (
+                <Route path='boletas/*'>
+                  <Route path='' element={
+                    <AuthProtect>
+                      <BoletasPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='ver/:id' element={
+                    <AuthProtect>
+                      <BoletasVer />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='*' element={
+                    <AuthProtect>
+                      <NotFound/>
+                    </AuthProtect>
+                  } />
+                </Route>
+              )}
+
+              {contact_index && (
+                <Route path='soli-contacto' element={
                   <AuthProtect>
-                    <NotFound/>
+                    <SoliContactoPage />
                   </AuthProtect>
                 } />
-              </Route>
-            )}
+              )}
 
-            {boletas_index && (
-              <Route path='boletas/*'>
-                <Route path='' element={
-                  <AuthProtect>
-                    <BoletasPage />
-                  </AuthProtect>
-                } />
-
-                <Route path='ver/:id' element={
-                  <AuthProtect>
-                    <BoletasVer />
-                  </AuthProtect>
-                } />
-
-                <Route path='*' element={
-                  <AuthProtect>
-                    <NotFound/>
-                  </AuthProtect>
-                } />
-              </Route>
-            )}
-
-            {contact_index && (
-              <Route path='soli-contacto' element={
+              <Route path='cuenta' element={
                 <AuthProtect>
-                  <SoliContactoPage />
+                  <CuentaPage />
+                </AuthProtect>
+              }>
+                <Route path='' element={
+                  <>
+                    <CuentaPAvatar />
+                    <CuentaPDatos />
+                  </>
+                } />
+
+                <Route path='credenciales' element={
+                  <CuentaPassword />
+                } />
+
+                <Route path='*' element={<Navigate to="" replace />} />
+              </Route>
+
+              <Route path='preguntas-frecuentes' element={
+                <AuthProtect>
+                  <FAQGedure />
                 </AuthProtect>
               } />
-            )}
 
-            <Route path='preguntas-frecuentes' element={
-              <AuthProtect>
-                <FAQGedure />
+              <Route path='*' element={
+                <AuthProtect>
+                  <NotFound/>
+                </AuthProtect>
+              } />
+            </Route>
+
+            <Route path='logout' element={
+              <AuthProtect returnBack>
+                <LogoutPage />
               </AuthProtect>
             } />
 
-            <Route path='*' element={
-              <AuthProtect>
-                <NotFound/>
-              </AuthProtect>
-            } />
-          </Route>
-
-          <Route path='logout' element={
-            <AuthProtect returnBack>
-              <LogoutPage />
-            </AuthProtect>
-          } />
-
-          <Route path='*' element={<NotFound/>} />
-        </Routes>
+            <Route path='*' element={<NotFound/>} />
+          </Routes>
+        </Suspense>
       </Relogin>
     </Suspense>
   )

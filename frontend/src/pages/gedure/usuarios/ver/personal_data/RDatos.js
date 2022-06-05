@@ -14,6 +14,9 @@ import { InputHook, InputMaskHook } from '../../../../../components/form/inputs'
 import { RadioHook } from '../../../../../components/form/radio';
 import DatePickerHook from '../../../../../components/form/datepicker';
 
+// Format
+import { format } from 'date-fns';
+
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
@@ -251,9 +254,8 @@ export default function RDatos() {
 
     // NOTA(RECKER): Parse date
     if (typeof repre_nacimiento === 'string') {
-      repre_nacimiento = new Date(repre_nacimiento);
+      submitData.personal_data.repre_nacimiento = format(new Date(repre_nacimiento),'yyyy/MM/dd');
     }
-    repre_nacimiento && (submitData.personal_data.repre_nacimiento = `${repre_nacimiento.getFullYear()}/${repre_nacimiento.getMonth() + 1}/${repre_nacimiento.getDate()}`);
 
     submitData._method = 'PUT';
 

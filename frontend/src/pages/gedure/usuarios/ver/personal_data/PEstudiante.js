@@ -14,6 +14,9 @@ import { SelectHook } from '../../../../../components/form/select';
 import DatePickerHook from '../../../../../components/form/datepicker';
 import { InputHook, AutoCompleteHook } from '../../../../../components/form/inputs';
 
+// Format
+import { format } from 'date-fns';
+
 // Components
 import { estadosVE } from '../../../../../components/Utils/LocationVE';
 
@@ -189,10 +192,9 @@ export default function PEstudiante() {
 		}
 
     // NOTA(RECKER): Parse date
-    if (typeof estudi_nacimiento === 'string') {
-      estudi_nacimiento = new Date(estudi_nacimiento);
+    if (estudi_nacimiento) {
+      submitData.personal_data.estudi_nacimiento = format(new Date(estudi_nacimiento),'yyyy/MM/dd');
     }
-    estudi_nacimiento && (submitData.personal_data.estudi_nacimiento = `${estudi_nacimiento.getFullYear()}/${estudi_nacimiento.getMonth() + 1}/${estudi_nacimiento.getDate()}`);
 
     submitData._method = 'PUT';
 

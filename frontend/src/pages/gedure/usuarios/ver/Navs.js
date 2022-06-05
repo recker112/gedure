@@ -6,9 +6,6 @@ import { useMatch, useNavigate, useParams } from "react-router-dom";
 // MUI
 import { Box, Grid, Collapse } from '@mui/material';
 
-// Redux
-import { useSelector } from 'react-redux';
-
 const classes = {
   button: {
 		cursor: 'pointer',
@@ -21,9 +18,7 @@ const classes = {
 	})
 }
 
-export function ReturnSelected(props) {
-	const { children, url='', onClick, nested } = props;
-	
+export function ReturnSelected({ children, url='', onClick, nested }) {
 	const match = useMatch({
 		path: url,
 		exact: !Boolean(onClick),
@@ -31,7 +26,7 @@ export function ReturnSelected(props) {
 	
 	let navigate = useNavigate();
 	
-	const handleClick = () => navigate(url);
+	const handleClick = () => navigate(url, { replace: true });
 	
 	return (
 		<Box sx={classes[nested ? 'buttonNested' : 'button']} component='span' fontSize='body1.fontSize' color={!match ? "text.secondary" : null} onClick={onClick ? onClick : handleClick}>
@@ -40,18 +35,22 @@ export function ReturnSelected(props) {
 	);
 }
 
-export default function Navs() {
+export default function Navs({
+	user,
+	path,
+	permissions = true,
+	toBack = true,
+	children = () => {},
+}) {
   const [personalNav, setPersonalNav] = useState(false);
   const { id } = useParams();
   let navigate = useNavigate();
-
-  const userSelected = useSelector(state => state.gdUSelected.userSelected);
 
   const handleClick = () => setPersonalNav(value => !value);
 
   const handleReturn = () => navigate('/gedure/usuarios');
 
-  let url = `/gedure/usuarios/ver/${id}`;
+  let url = path ? path : `/gedure/usuarios/ver/${id}`;
 
   return (
     <Grid item xs={12} sm={3}>
@@ -66,7 +65,7 @@ export default function Navs() {
         </ReturnSelected>
 			</Box>
       <Collapse in={personalNav} timeout="auto" unmountOnExit>
-        {userSelected.privilegio === 'V-' && (
+        {user.privilegio === 'V-' && (
 					<React.Fragment>
 						<Box mb={1}>
 							<ReturnSelected url={`${url}/personal/estudiante`} nested>
@@ -85,7 +84,7 @@ export default function Navs() {
 						</Box>
 					</React.Fragment>
 				)}
-				{userSelected.privilegio === 'A-' && (
+				{user.privilegio === 'A-' && (
 					<Box mb={1}>
 						<ReturnSelected url={`${url}/personal/usuario`} nested>
 							Usuario
@@ -93,7 +92,7 @@ export default function Navs() {
 					</Box>
 				)}
       </Collapse>
-      {userSelected.privilegio === 'V-' && (
+      {user.privilegio === 'V-' && (
 				<Box mb={1}>
 					<ReturnSelected url={`${url}/curso`}>
 						Curso
@@ -105,22 +104,28 @@ export default function Navs() {
 					Credenciales
 				</ReturnSelected>
 			</Box>
-			<Box mb={1} data-tour='permisos'>
-				<ReturnSelected url={`${url}/permisos`}>
-					Permisos
-				</ReturnSelected>
-			</Box>
+			{permissions && (
+				<Box mb={1} data-tour='permisos'>
+					<ReturnSelected url={`${url}/permisos`}>
+						Permisos
+					</ReturnSelected>
+				</Box>
+			)}
 			<Box mb={1} data-tour='opciones'>
 				<ReturnSelected url={`${url}/opciones`}>
 					Opciones
 				</ReturnSelected>
 			</Box>
 
-			<Box mb={1} data-tour='regresar'>
-				<ReturnSelected onClick={handleReturn}>
-					Regresar
-				</ReturnSelected>
-			</Box>
+			{toBack && (
+				<Box mb={1} data-tour='regresar'>
+					<ReturnSelected onClick={handleReturn}>
+						Regresar
+					</ReturnSelected>
+				</Box>
+			)}
+
+			{children(ReturnSelected)}
     </Grid>
   )
 }

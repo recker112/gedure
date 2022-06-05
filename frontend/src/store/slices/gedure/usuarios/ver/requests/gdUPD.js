@@ -4,7 +4,7 @@ import { updateNotistack } from "../../../../notistack";
 
 export const updateData = createAsyncThunk(
   'gdUPD/updateData',
-  async ({submitData, id, errors, personal=false}, { getState, signal, dispatch }) => {
+  async ({submitData, id, errors, personal=false, handleUpdate = null}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url;
@@ -24,7 +24,7 @@ export const updateData = createAsyncThunk(
 
       // NOTA(RECKER): Update userSelected
       const { user, permissions } = res.data;
-      dispatch(setUserSelected({user, permissions}));
+      handleUpdate ? handleUpdate({ user }) : dispatch(setUserSelected({user, permissions}));
 
       return res.data;
     } catch (error) {
@@ -68,7 +68,7 @@ const initialState = {
   loadingPC: false,
   loadingPP: false,
   loadingPPE: false,
-  progress: 0,
+  loadingPDU: false,
 };
 
 export const gdUPDSlices = createSlice({

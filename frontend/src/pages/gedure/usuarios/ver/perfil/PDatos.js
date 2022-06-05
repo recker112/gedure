@@ -15,7 +15,7 @@ import { InputHook } from '../../../../../components/form/inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-export function PDatosForm({ control, loading, handleSubmit, user = {} }) {
+export function PDatosForm({ control, loading, handleSubmit, userField = true, user = {} }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -26,24 +26,26 @@ export function PDatosForm({ control, loading, handleSubmit, user = {} }) {
 					<Divider />
 				</Box>
       </Grid>
-      <Grid item xs={12}>
-        <InputHook
-						control={control}
-						rules={{
-							required: '* Campo requerido',
-							minLength: { value: 3, message: 'Error: Demaciado corto' },
-							maxLength: { value: 30, message: 'Error: Demaciado largo' },
-						}}
-						name='username'
-						label='Usuario o cédula'
-						helperText='El usuario identificará a esta cuenta dentro del sistema'
-						defaultValue={user.username} 
-						variant='outlined'
-						size='small'
-						fullWidth
-						disabled={loading}
-					/>
-      </Grid>
+      {userField && (
+        <Grid item xs={12}>
+          <InputHook
+              control={control}
+              rules={{
+                required: '* Campo requerido',
+                minLength: { value: 3, message: 'Error: Demaciado corto' },
+                maxLength: { value: 30, message: 'Error: Demaciado largo' },
+              }}
+              name='username'
+              label='Usuario o cédula'
+              helperText='El usuario identificará a esta cuenta dentro del sistema'
+              defaultValue={user.username} 
+              variant='outlined'
+              size='small'
+              fullWidth
+              disabled={loading}
+            />
+        </Grid>
+      )}
       <Grid item xs={12}>
         <InputHook
           control={control}
@@ -122,13 +124,11 @@ export default function PDatos() {
   }
 
   return (
-    <Box mb={4}>
-      <PDatosForm
-        control={control}
-        user={userSelected}
-        handleSubmit={handleSubmit(onSubmit)}
-        loading={loading}
-      />
-    </Box>
+    <PDatosForm
+      control={control}
+      user={userSelected}
+      handleSubmit={handleSubmit(onSubmit)}
+      loading={loading}
+    />
   )
 }

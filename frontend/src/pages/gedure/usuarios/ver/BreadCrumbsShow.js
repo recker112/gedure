@@ -16,7 +16,10 @@ const classes = {
 	}),
 }
 
-export default function BreadCrumbsShow() {
+export default function BreadCrumbsShow({ 
+  userName,
+  userAvatar,
+}) {
   const { name, avatar } = useSelector(state => ({
     name: state.gdUSelected.userSelected.name,
     avatar: state.gdUSelected.userSelected.avatar,
@@ -27,15 +30,15 @@ export default function BreadCrumbsShow() {
   let BreadCrumbsRouters = location.pathname.split('/').splice(5);
 
   return (
-    <Breadcrumbs aria-label="breadcrumb">
+    <Breadcrumbs sx={{userSelect: 'none',}} aria-label="breadcrumb">
       <Box sx={{
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
       }}>
-        <Avatar src={avatar} sx={classes.avatar} alt={`Avatar de ${name}`}>
-          {name.substring(0, 1).toUpperCase()}
+        <Avatar src={(userAvatar ? userAvatar : avatar)} sx={classes.avatar} alt={`Avatar de ${(userName ? userName : name)}`}>
+          {(userName ? userName : name).substring(0, 1).toUpperCase()}
         </Avatar>
-        <Typography sx={{ml: 1}} component='span' variant='h6' className='text__bold--semi'>{name}</Typography>
+        <Typography sx={{ml: 1}} component='span' variant='h6' className='text__bold--semi'>{(userName ? userName : name)}</Typography>
       </Box>
       {(!BreadCrumbsRouters.length) ? <Typography component='span' variant='h6' className='text__bold--semi'>Perfil</Typography> : BreadCrumbsRouters.map((path, i) => (
         <Typography component='span' variant='h6' className='text__bold--semi' key={i}>

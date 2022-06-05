@@ -18,7 +18,7 @@ import generatePassword from '../../../../../components/Utils/GeneratePassword';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-function PPasswordForm({ control, handleSubmit, setValue, loading, helperText }) {
+export function PPasswordForm({ control, handleSubmit, setValue, loading, helperText }) {
   const [generatePass, setGeneratePass] = useState(false);
   const password = useWatch({
     name: 'password',
