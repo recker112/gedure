@@ -205,7 +205,6 @@ export default function PDUsuario() {
 			submitData.personal_data.docente_ingreso = null;
 			submitData.personal_data.docente_ingreso_MPPE = null;
 		}
-    console.log(submitData);
 
     // NOTA(RECKER): Parse date
     if (nacimiento) {
