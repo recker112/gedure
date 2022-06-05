@@ -23,6 +23,7 @@ export function GlobalFilter(props) {
 
   return (
     <TextField
+      data-tour="gdTable__search"
       size="small"
       value={value || ""}
       placeholder="Buscar..."

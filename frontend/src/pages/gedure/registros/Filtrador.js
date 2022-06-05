@@ -39,7 +39,7 @@ export default function Filtrador() {
     <>
       <Badge badgeContent={countFilters} color="primary">
         <Tooltip title='Filtrador' arrow>
-          <IconButton color='inherit' onClick={handleOpen}>
+          <IconButton color='inherit' onClick={handleOpen} data-tour="gdReg__filters">
             <FilterListIcon />
           </IconButton>
         </Tooltip>

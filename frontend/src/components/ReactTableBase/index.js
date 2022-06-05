@@ -192,6 +192,7 @@ export default function ReactTableBase({
                   <IconButton
                     component="span"
                     onClick={refresh}
+                    data-tour="gdTable__refresh"
                   >
                     <RefreshIcon />
                   </IconButton>
