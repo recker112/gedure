@@ -16,7 +16,7 @@ import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requ
 import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-function PDPadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function PDPadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -152,13 +152,11 @@ export default function PDPadre() {
   }
 
   return (
-    <Box mb={4}>
-      <PDPadreForm
-        control={control}
-        user={userSelected}
-        handleSubmit={handleSubmit(onSubmit)}
-        loading={loading}
-      />
-    </Box>
+    <PDPadreForm
+      control={control}
+      user={userSelected}
+      handleSubmit={handleSubmit(onSubmit)}
+      loading={loading}
+    />
   )
 }

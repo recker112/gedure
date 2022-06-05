@@ -16,7 +16,7 @@ import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requ
 import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-function PDMadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function PDMadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
