@@ -53,6 +53,9 @@ const PublicacionesEditar = lazy(() => import('./pages/gedure/publicaciones/edit
 const BoletasPage = lazy(() => import('./pages/gedure/boletas_admin'));
 const BoletasVer = lazy(() => import('./pages/gedure/boletas_admin/ver'));
 
+// Solicitudes
+const SoliContactoPage = lazy(() => import('./pages/gedure/soli_contacto'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -74,7 +77,7 @@ export default function Routers() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index, posts_index, posts_create, posts_edit, boletas_index } = permissions.administrar;
+  const { users_index, posts_index, posts_create, posts_edit, boletas_index, contact_index } = permissions.administrar;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -237,6 +240,14 @@ export default function Routers() {
                   </AuthProtect>
                 } />
               </Route>
+            )}
+
+            {contact_index && (
+              <Route path='soli-contacto' element={
+                <AuthProtect>
+                  <SoliContactoPage />
+                </AuthProtect>
+              } />
             )}
 
             <Route path='preguntas-frecuentes' element={

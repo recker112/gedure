@@ -7,6 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GroupIcon from '@mui/icons-material/Group';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
 import {
 	HammerWrench as HammerWrenchIcon,
   Post as PostIcon,
@@ -23,7 +24,7 @@ export default function AdminList() {
 
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
-  const { users_index, posts_index, boletas_index } = permissions.administrar;
+  const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
 
   const handleExpand1 = () => {
     setPrincipal(value => !value);
@@ -72,6 +73,14 @@ export default function AdminList() {
                   <InsertDriveFileIcon />
                 </ListItemIcon>
                 <ListItemText primary="Boletas" />
+              </ListDrawerNav>
+            )}
+            {contact_index && (
+              <ListDrawerNav nested to='/gedure/soli-contacto'>
+                <ListItemIcon>
+                  <ContactMailIcon />
+                </ListItemIcon>
+                <ListItemText primary="Solicitudes de contacto" />
               </ListDrawerNav>
             )}
           </Collapse>

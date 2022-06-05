@@ -31,7 +31,7 @@ class ContactoController extends Controller
 		return response()->json([
 			'data' => $lista,
 			'page' => $request->page * 1, 
-			'totalSoli' => $contacto_count
+			'totalRows' => $contacto_count
 		], 200);
 	}
 	
