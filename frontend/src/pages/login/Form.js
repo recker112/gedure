@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { Link as RouterLink } from 'react-router-dom';
 
 // Components
-import useNotifier from "../../hooks/useNotifier";
 import { InputHook, InputPasswordHook } from "../../components/form/inputs";
 import { CheckboxHook } from "../../components/form/checkbox";
 
@@ -26,8 +25,6 @@ const classes = {
 }
 
 export default function Form() {
-  useNotifier();
-
   const loading = useSelector(state => state.login.loading);
   const dispatch = useDispatch();
 

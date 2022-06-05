@@ -3,6 +3,7 @@ import { Box, Grid, Slide } from "@mui/material";
 import Aside from "./Aside";
 import institutoFondo from '../../img/instituto.jpg';
 import Form from "./Form";
+import useNotifier from "../../hooks/useNotifier";
 
 const classes = {
   container: {
@@ -20,6 +21,7 @@ const classes = {
 
 export default function Login() {
   document.title = 'Entrar - La Candelaria';
+  useNotifier();
 
   return (
     <Box component='main' sx={classes.container}>
