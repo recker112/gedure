@@ -24,7 +24,7 @@ const labels = {
 	5: 'Excelente',
 };
 
-function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user }) {
+export function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
