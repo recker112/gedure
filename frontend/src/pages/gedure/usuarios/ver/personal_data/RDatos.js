@@ -21,7 +21,7 @@ import { format } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-function RDatosForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function RDatosForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -253,7 +253,7 @@ export default function RDatos() {
 		}
 
     // NOTA(RECKER): Parse date
-    if (typeof repre_nacimiento === 'string') {
+    if (repre_nacimiento) {
       submitData.personal_data.repre_nacimiento = format(new Date(repre_nacimiento),'yyyy/MM/dd');
     }
 
