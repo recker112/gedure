@@ -16,17 +16,18 @@ import { RadioHook } from '../../../../../components/form/radio';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-function POtrosForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function POtrosForm({ control, loading, user, handleSubmit, buttonDisable }) {
   const estudi_otros_alojado = useWatch({
     control,
     name: "personal_data.estudi_otros_alojado",
+    defaultValue: user.personal_data.estudi_otros_alojado,
   });
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant='h6' component='span' className='text__bold--semi'>
-          Ubicación del estudiante
+          Otros datos del estudiante 
         </Typography>
         <Box mt={1}>
           <Divider />

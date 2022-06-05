@@ -63,6 +63,9 @@ const CuentaPAvatar = lazy(() => import('./pages/gedure/cuenta/perfil/CPerfil'))
 const CuentaPDatos = lazy(() => import('./pages/gedure/cuenta/perfil/CDatos'));
 const CuentaPassword = lazy(() => import('./pages/gedure/cuenta/credenciales/CPassword'));
 const CuentaPDUsuario = lazy(() => import('./pages/gedure/cuenta/personal_data/CUsuario'));
+const CuentaPEstudiante = lazy(() => import('./pages/gedure/cuenta/personal_data/CEstudiante'));
+const CuentaPUbicacion = lazy(() => import('./pages/gedure/cuenta/personal_data/CUbicacion'));
+const CuentaPOtros = lazy(() => import('./pages/gedure/cuenta/personal_data/COtros'));
 
 const classes = {
   container: {
@@ -272,6 +275,14 @@ export default function Routers() {
 
                 <Route path='personal/usuario' element={
                   <CuentaPDUsuario />
+                } />
+
+                <Route path='personal/estudiante' element={
+                  <>
+                    <CuentaPEstudiante />
+                    <CuentaPUbicacion />
+                    <CuentaPOtros />
+                  </>
                 } />
 
                 <Route path='credenciales' element={
