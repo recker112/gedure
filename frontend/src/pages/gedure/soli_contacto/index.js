@@ -20,7 +20,7 @@ const classes = {
 
 export default function SoliContacto() {
   document.title = 'Solicitudes de contacto - La Candelaria';
-  useNotifier()
+  useNotifier();
 
   return (
     <Box component='main' sx={classes.container}>

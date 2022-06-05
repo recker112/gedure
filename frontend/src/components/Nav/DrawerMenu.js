@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateDrawer } from '../../store/slices/configs';
 
 export default function DrawerMenu() {
+  const [expand1, setExpand1] = useState(false);
   const [helpSection, setHelpSection] = useState(false);
 
   const { open, privilegio } = useSelector(state => ({
@@ -31,6 +32,10 @@ export default function DrawerMenu() {
 
   const handleClose = () => { 
     dispatch(updateDrawer(false));
+  }
+
+  const handleExpand1 = () => {
+    setExpand1(value => !value);
   }
 
   const handleExpandHelp = () => {
@@ -67,7 +72,10 @@ export default function DrawerMenu() {
             </ListDrawerNav>
 
             {privilegio === 'A-' && (
-              <AdminList />
+              <AdminList
+                expand1={expand1}
+                handleExpand1={handleExpand1}
+              />
             )}
 
             <ListDrawerNav noNav onClick={handleExpandHelp}>
