@@ -67,7 +67,7 @@ export default function PageShowUser() {
 							<BreadCrumbsShow />
 						</Box>
             <Grid container spacing={2}>
-              <Navs />
+              <Navs user={userSelected} />
               <Grid item xs={12} sm={9}>
                 <Suspense fallback={
                   <Box textAlign='center'>

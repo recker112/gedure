@@ -4,7 +4,7 @@ import { updateNotistack } from "../../../../notistack";
 
 export const uploadAvatar = createAsyncThunk(
   'gdUPA/uploadAvatar',
-  async ({data, id, personal=false}, { getState, signal, dispatch }) => {
+  async ({data, id, personal=false, handleUpdate = null}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url;
@@ -35,10 +35,11 @@ export const uploadAvatar = createAsyncThunk(
 
       // NOTA(RECKER): Update userSelected
       const { user, permissions } = res.data;
-      dispatch(setUserSelected({user, permissions}));
+      handleUpdate ? handleUpdate({ user }) : dispatch(setUserSelected({user, permissions}));
 
       return res.data;
     } catch (error) {
+      console.log(error)
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
