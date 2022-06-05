@@ -39,6 +39,7 @@ export default function AvatarMenu() {
        color: 'secondary.contrastText'
       }}
       src={avatar}
+      data-tour="avatar__menu"
      >
       {name.substring(0, 1).toUpperCase()}
      </Avatar>
@@ -48,6 +49,7 @@ export default function AvatarMenu() {
     anchorEl={target}
     onClose={handleClose}
     open={Boolean(target)}
+    data-tour="observable-parent"
     anchorOrigin={{
 					vertical: 'bottom',
 					horizontal: 'right',

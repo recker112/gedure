@@ -6,6 +6,7 @@ import { Box, Container, Fade, Grid, Slide } from '@mui/material';
 // Components
 import NotiBox from './NotiBox';
 import useNotifier from '../../../hooks/useNotifier';
+import TourHome from './TourHome';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -84,6 +85,7 @@ export default function Home() {
           </Grid>
         </Container>
       </Fade>
+      <TourHome />
     </Box>
   )
 }

@@ -6,6 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // Components
 import useNotifier from '../../../hooks/useNotifier';
+import TourRegistros from './TourRegistros';
 
 // Table
 import ReactTableBase from '../../../components/ReactTableBase';
@@ -67,6 +68,7 @@ export default function Registros() {
             onClick={() => {
               dispatch(setRegBox({open: true, data: original}));
             }}
+            data-tour="gdReg__show"
           >
             <VisibilityIcon />
           </IconButton>
@@ -136,6 +138,7 @@ export default function Registros() {
         </Grid>
         <ShowRegistro />
       </Container>
+      <TourRegistros />
     </Box>
   )
 }
