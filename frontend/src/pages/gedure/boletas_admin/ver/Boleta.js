@@ -14,8 +14,9 @@ import {
 import conveterCursorCode from '../../../../components/Utils/converterCursoCode';
 
 // Redux
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
+import { downloadBoleta } from '../../../../store/slices/gedure/boletas_admin/ver';
 
 const listColors = [
   '#2f80ED',
@@ -41,11 +42,19 @@ export default function Boleta({
   updated_at,
 }) {
   const [random] = useState(getRandomInt(listColors.length -1));
+  const [loadingDownload, setLoadingDonwload] = useState(false);
 
+  const progress = useSelector(state => state.gdBVerForm.download.progress);
   const dispatch = useDispatch();
   
   const handleDelete = () => {
     dispatch(setConfgsBC({open: true, data: { curso, lapso, id }, confirm: 'deleteBoleta'}))
+  }
+
+  const handleDownload = async () => {
+    setLoadingDonwload(true);
+    await dispatch(downloadBoleta({ id, curso, lapso }));
+    setLoadingDonwload(false);
   }
 
   return (
@@ -88,7 +97,7 @@ export default function Boleta({
               </LoadingButton>
             </Tooltip>
             <Tooltip title='Descargar' arrow>
-              <LoadingButton color='inherit'>
+              <LoadingButton loading={loadingDownload} loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} onClick={handleDownload} color='inherit'>
                 <DownloadIcon />
               </LoadingButton>
             </Tooltip>
