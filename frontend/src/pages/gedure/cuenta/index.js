@@ -45,6 +45,7 @@ export default function Cuenta() {
             user={user}
             permissions={false}
             path='/gedure/cuenta'
+            toBackURL={-1}
           />
           <Grid item xs={12} sm={9}>
             <Suspense fallback={
