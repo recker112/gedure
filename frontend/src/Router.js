@@ -66,6 +66,9 @@ const CuentaPDUsuario = lazy(() => import('./pages/gedure/cuenta/personal_data/C
 const CuentaPEstudiante = lazy(() => import('./pages/gedure/cuenta/personal_data/CEstudiante'));
 const CuentaPUbicacion = lazy(() => import('./pages/gedure/cuenta/personal_data/CUbicacion'));
 const CuentaPOtros = lazy(() => import('./pages/gedure/cuenta/personal_data/COtros'));
+const CuentaRDatos = lazy(() => import('./pages/gedure/cuenta/personal_data/CRDatos'));
+const CuentaRUbicacion = lazy(() => import('./pages/gedure/cuenta/personal_data/CRUbicacion'));
+const CuentaREmpleo = lazy(() => import('./pages/gedure/cuenta/personal_data/CREmpleo'));
 
 const classes = {
   container: {
@@ -282,6 +285,14 @@ export default function Routers() {
                     <CuentaPEstudiante />
                     <CuentaPUbicacion />
                     <CuentaPOtros />
+                  </>
+                } />
+
+                <Route path='personal/representante' element={
+                  <>
+                    <CuentaRDatos />
+                    <CuentaRUbicacion />
+                    <CuentaREmpleo />
                   </>
                 } />
 

@@ -19,7 +19,7 @@ import { buscarMunicipioVE, buscarParroquiaVE, estadosVE } from '../../../../../
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
 
-function RUbicacionForm({ loading, control, handleSubmit, user, buttonDisable }) {
+export function RUbicacionForm({ loading, control, handleSubmit, user, buttonDisable }) {
   const repre_ubi_estado = useWatch({
     name: 'personal_data.repre_ubi_estado',
     control,
