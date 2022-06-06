@@ -7,7 +7,10 @@ import { Box, Container } from '@mui/material';
 import useNotifier from '../../../hooks/useNotifier';
 import Table from './Table';
 import ShowSC from './ShowSC';
+import TourSoliC from './TourSoliC';
 import DialogConfirmation from '../../../components/DialogConfirmation';
+
+// Redux
 import { deleteSCT, setConfirmConfgsSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
 
 const classes = {
@@ -43,6 +46,7 @@ export default function SoliContacto() {
           {(data) => (<span>Está a punto de eliminar la solicitud "<strong>{data.asunto}</strong>". Una vez realizada no se podrá deshacer esta acción.</span>)}
         </DialogConfirmation>
       </Container>
+      <TourSoliC />
     </Box>
   )
 }
