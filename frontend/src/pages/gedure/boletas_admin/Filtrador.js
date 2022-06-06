@@ -34,7 +34,6 @@ export default function Filtrador() {
 
   const handleReset = () => {
     reset({
-      type: '',
       curso: '',
       seccion: '',
     });
