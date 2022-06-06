@@ -28,14 +28,14 @@ const classes = {
 };
 
 function Header() {
-  const username = useSelector(state => state.auth.user.username);
+  const name = useSelector(state => state.auth.user.name);
 
   return (
     <Container sx={{height: '100%', userSelect: 'none'}}>
       <Grid container justifyContent='flex-start' alignItems='center' sx={{height: '100%'}}>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h5.fontSize', sm: 'h4.fontSize', md: 'h3.fontSize' }} className='text__bold--semi'>
-						<Box color='secondary.main' component='span'>Hola</Box> {username},
+						<Box color='secondary.main' component='span'>Hola</Box> {name},
 					</Box>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize' }} className='text__bold--semi'>
 						Bienveido a <Box color='secondary.main' component='span'>Gedure</Box>
