@@ -28,7 +28,6 @@ function a11yProps(index) {
 
 export default function NavTabs() {
   const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <LinkTabs
