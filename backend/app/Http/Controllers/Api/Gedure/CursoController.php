@@ -26,7 +26,7 @@ class CursoController extends Controller
 		$page = $request->page * $perPage;
 		
 		$cursos = Curso::where('code', 'like', '%'.$search.'%')
-			->orderBy('created_at', 'desc')
+			->orderBy('code', 'asc')
 			->offset($page)
 			->limit($perPage)
 			->get()
@@ -39,7 +39,7 @@ class CursoController extends Controller
 		return response()->json([
 			'data' => $cursos,
 			'page' => request()->page * 1, 
-			'totalCursos' => $cursos_count
+			'totalRows' => $cursos_count
 		], 200);
 	}
 	

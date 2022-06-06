@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../notistack";
+import { updateNotistack } from "../../../notistack";
+import { refreshCCT } from "./table";
 
 export const createCursoConfigForm = createAsyncThunk(
-  'gdConfigForm/upload',
+  'gdConfigCForm/upload',
   async (submitData, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -15,7 +16,7 @@ export const createCursoConfigForm = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-      //
+      dispatch(refreshCCT());
 
       return res.data;
     } catch (error) {
@@ -41,8 +42,8 @@ const initialState = {
   }
 };
 
-export const gdConfigForm = createSlice({
-  name: "gdConfigForm",
+export const gdConfigCFormSlice = createSlice({
+  name: "gdConfigCForm",
   initialState,
   reducers: {},
   extraReducers: {
@@ -58,4 +59,4 @@ export const gdConfigForm = createSlice({
   }
 });
 
-export default gdConfigForm.reducer;
+export default gdConfigCFormSlice.reducer;

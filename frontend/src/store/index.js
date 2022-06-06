@@ -29,7 +29,9 @@ import gdBVerForm from "./slices/gedure/boletas_admin/ver";
 import gdSCTable from "./slices/gedure/soli_contacto";
 import gdCO from "./slices/gedure/cuenta";
 import gdUserBForm from "./slices/gedure/boletas";
-import gdConfigForm from "./slices/gedure/configuracion/form";
+import gdConfigCForm from "./slices/gedure/configuracion/cursos/form";
+import gdCConfigTable from "./slices/gedure/configuracion/cursos/table";
+import gdGCConfirm from "./slices/gedure/configuracion/cursos/confirm";
 
 export default configureStore({
   reducer: {
@@ -61,6 +63,8 @@ export default configureStore({
     gdSCTable,
     gdCO,
     gdUserBForm,
-    gdConfigForm,
+    gdConfigCForm,
+    gdCConfigTable,
+    gdGCConfirm,
   },
 });
