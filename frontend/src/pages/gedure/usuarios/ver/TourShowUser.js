@@ -91,7 +91,7 @@ export default function TourShowUser() {
 			selector: '[data-tour="gdShowU__regresar"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí puede regresar a <strong>Usuarios</strong>.
+					Aquí puede <strong>regresar a la pestaña anterior</strong>.
 				</Typography>
 			),
 			style: {
