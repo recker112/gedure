@@ -69,6 +69,7 @@ const initialState = {
   loadingPP: false,
   loadingPPE: false,
   loadingPDU: false,
+  loadingActiveAccount: false,
 };
 
 export const gdUPDSlices = createSlice({

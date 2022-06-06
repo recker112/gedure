@@ -73,6 +73,9 @@ const CuentaDMadre = lazy(() => import('./pages/gedure/cuenta/personal_data/CDMa
 const CuentaDPadre = lazy(() => import('./pages/gedure/cuenta/personal_data/CDPadre'));
 const CuentaPOpciones = lazy(() => import('./pages/gedure/cuenta/opciones'));
 
+// Setup
+const SetupPage = lazy(() => import('./pages/gedure/setup'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -329,6 +332,12 @@ export default function Routers() {
                 </AuthProtect>
               } />
             </Route>
+
+            <Route path='setup' element={
+              <AuthProtect>
+                <SetupPage />
+              </AuthProtect>
+            } />
 
             <Route path='logout' element={
               <AuthProtect returnBack>
