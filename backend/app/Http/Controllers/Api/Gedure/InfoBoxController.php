@@ -29,10 +29,11 @@ class InfoBoxController extends Controller
 		if ($user->privilegio === 'V-') {
 			$data_finish['boletas'] = [];
 			$iB=0;
-			foreach($user->boletas as $boleta) {
-				$data_finish['boletas'][$iB]['curso'] = $boleta->curso->curso;
-				$data_finish['boletas'][$iB]['seccion'] = $boleta->curso->seccion;
-				$data_finish['boletas'][$iB]['lapso'] = $boleta->lapso;
+
+			foreach($user->boletas()->limit(3)->orderBy('id', 'desc')->get() as $boleta) {
+				$curso = $boleta->curso->curso;
+				$name_curso = strpos($curso, 'G') ? str_split($curso)[0].' grado' : str_split($curso)[0].' año';
+				$data_finish['boletas'][$iB]['textPrimary'] = $name_curso.' '.$boleta->curso->seccion.' - '.'° lapso';
 				$data_finish['boletas'][$iB]['textSecondary'] = $boleta->fecha_humano;
 				$iB++;
 			}

@@ -10,6 +10,7 @@ use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\Gedure\Post;
+use App\Models\Gedure\Boleta;
 use App\Models\Gedure\Curso;
 
 class InfoBoxControllerTest extends TestCase
@@ -38,9 +39,9 @@ class InfoBoxControllerTest extends TestCase
 			'seccion' => 'A',
 		]);
 		Post::factory(10)->create();
-		$user->boletas()->create([
+		Boleta::factory(10)->create([
+			'user_id' => $user->id,
 			'curso_id' => $curso->id,
-			'boleta' => 'test',
 			'lapso' => '1'
 		]);
 		
@@ -56,9 +57,7 @@ class InfoBoxControllerTest extends TestCase
 				],
 				'boletas' => [
 					'*' => [
-						'curso',
-						'seccion',
-						'lapso',
+						'textPrimary',
 						'textSecondary',
 					]
 				],
