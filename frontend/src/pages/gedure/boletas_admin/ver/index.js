@@ -97,7 +97,7 @@ export default function VerBoleta() {
 					</React.Fragment>
 				) : null}
         {(!loading && !data.boletas.length) && (
-					<Box align='center' fontSize='body1.fontSize'>
+					<Box textAlign='center' fontSize='body1.fontSize'>
 						No hay boletas cargadas para este estudiante.
 					</Box>
 				)}
