@@ -182,6 +182,7 @@ export default function ReactTableBase({
                           return null;
                         });
                       }}
+                      data-tour="gdTable__massive"
                       disabled={selectedFlatRows.length > 0}
                     >
                       <GroupIcon />

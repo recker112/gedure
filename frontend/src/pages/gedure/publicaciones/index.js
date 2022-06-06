@@ -10,6 +10,7 @@ import { Box, Button, Container, Grid } from '@mui/material';
 import Table from './Table';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
+import TourPublic from './TourPublic';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -43,7 +44,7 @@ export default function Publicaciones() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" onClick={handleOpenCreate} disabled={!posts_create}>Crear publicación</Button>
+            <Button variant="contained" data-tour="gdPub__create" onClick={handleOpenCreate} disabled={!posts_create}>Crear publicación</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
@@ -62,6 +63,7 @@ export default function Publicaciones() {
       >
         {(data) => (<span>Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
       </DialogConfirmation>
+      <TourPublic />
     </Box>
   )
 }

@@ -101,7 +101,7 @@ export default function Table() {
           <Chip 
             color={actived_at ? 'primary':'default'}
             label={actived_at ? 'Activo':'Inactivo'}
-            data-tour='status'
+            data-tour="gdUser__status"
           />
         ),
       },
@@ -121,6 +121,7 @@ export default function Table() {
                   idU === id ? navigate('/gedure/cuenta') : navigate(`ver/${id}`);
                 }}
                 disabled={!users_edit}
+                data-tour="gdUser__show"
               >
                 <PersonIcon />
               </IconButton>
@@ -131,6 +132,7 @@ export default function Table() {
                   dispatch(setConfirmConfgs({confirm: 'disabledAccount', open: true, data: { id, username: privilegio+username }}))
                 }}
                 disabled={!users_delete}
+                data-tour="gdUser__delete"
               >
                 <DeleteIcon />
               </IconButton>

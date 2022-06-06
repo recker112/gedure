@@ -16,6 +16,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import MakePost from "./MakePost";
 import ShowPreview from "./ShowPreview";
 import useNotifier from "../../../../hooks/useNotifier";
+import TourCrearPub from "./TourCrearPub";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -88,6 +89,7 @@ export default function PUBLCrear() {
                     disabled={loading}
                     onClick={methods.handleSubmit(handlePreview)}
                     aria-label="preview"
+                    data-tour="gdPub__preview"
                   >
                     {preview ? <EditIcon /> : <VisibilityIcon />}
                   </IconButton>
@@ -99,6 +101,7 @@ export default function PUBLCrear() {
           {preview && <ShowPreview />}
         </form>
       </FormProvider>
+      <TourCrearPub />
     </Box>
   );
 }

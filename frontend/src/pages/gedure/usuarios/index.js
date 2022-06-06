@@ -15,6 +15,7 @@ import CreateUser from "./CreateUser";
 import UploadStudiends from "./UploadStudiends";
 import DialogConfirmation from "../../../components/DialogConfirmation";
 import UpdateSeccion from "./UpdateSeccion";
+import TourUser from "./TourUser";
 
 // Redux
 import { useDispatch } from "react-redux";
@@ -51,10 +52,10 @@ export default function Usuarios() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" onClick={handleOpenUpload} sx={{ mr: 1 }}>
+            <Button variant="contained" data-tour="gdUser__upload"onClick={handleOpenUpload} sx={{ mr: 1 }}>
               Cargar estudiantes
             </Button>
-            <Button variant="contained" onClick={handleOpenCreate}>Crear usuario</Button>
+            <Button variant="contained" data-tour="gdUser__create" onClick={handleOpenCreate}>Crear usuario</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
@@ -88,6 +89,7 @@ export default function Usuarios() {
         </DialogConfirmation>
         <UpdateSeccion />
       </Container>
+      <TourUser />
     </Box>
   );
 }

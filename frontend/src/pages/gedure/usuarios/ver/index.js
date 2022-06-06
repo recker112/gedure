@@ -13,6 +13,7 @@ import esLocale from 'date-fns/locale/es';
 import useNotifier from '../../../../hooks/useNotifier';
 import BreadCrumbsShow from './BreadCrumbsShow';
 import Navs from './Navs';
+import TourShowUser from './TourShowUser';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,6 +84,7 @@ export default function PageShowUser() {
           </>
         )}
       </Container>
+      <TourShowUser />
     </Box>
   )
 }
