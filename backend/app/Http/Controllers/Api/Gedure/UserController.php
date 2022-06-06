@@ -643,7 +643,7 @@ class UserController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => "$i usuarios reactivados",
+			'msg' => "$i usuario(s) reactivados",
 			'users_restored' => $i,
 		],200);
 	}
@@ -705,7 +705,7 @@ class UserController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => "$i usuarios eliminados",
+			'msg' => "$i usuario(s) eliminados",
 			'users_destroy' => $i,
 		],200);
 	}

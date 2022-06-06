@@ -66,7 +66,7 @@ export const deleteCursoMassive = createAsyncThunk(
         let { data, status } = error.response;
 
         if (status === 404) {
-          data.msg = 'Los curso seleccionados ya no existe';
+          data.msg = 'Los curso seleccionados ya no existen';
         }
 
         // NOTA(RECKER): Respuesta del servidor

@@ -83,6 +83,7 @@ const UBoletasPage = lazy(() => import('./pages/gedure/boletas'));
 const GDHeaders = lazy(() => import('./pages/gedure/configuracion'));
 const GDHomePage = lazy(() => import('./pages/gedure/configuracion/home'));
 const GDCursosPage = lazy(() => import('./pages/gedure/configuracion/cursos'));
+const GDUserDisPage = lazy(() => import('./pages/gedure/configuracion/usuarios_desactivados'));
 
 const classes = {
   container: {
@@ -293,6 +294,8 @@ export default function Routers() {
                       <Route path='' element={<GDHomePage />} />
 
                       <Route path='cursos' element={<GDCursosPage />} />
+
+                      <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
 
                       <Route path='*' element={<Navigate to="" replace />} />
                     </Route>
