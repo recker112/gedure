@@ -7,19 +7,30 @@ export default function DatePickerHook({
   label,
   name,
   control,
-  rules = { required: '* Campo requerido' },
+  rules = { 
+    required: '* Campo requerido',
+    validate: {
+      date: v => !isNaN(v) || 'Error: Fecha inválida',
+    }
+  },
   defaultValue = '',
   helperText,
   disabled,
   disableFuture,
 }) {
+  let rulesMake = rules;
+  
+  if (disableFuture) {
+    rulesMake.validate.future = (v) => v - new Date() <= 0 || 'Error: No puede usar fechas futuras';
+  }
+
   const {
     field: { ref, onChange, value, ...inputProps },
 		fieldState: { invalid, error }
   } = useController({
     name,
     control,
-		rules,
+		rules: rulesMake,
     defaultValue,
   });
 
