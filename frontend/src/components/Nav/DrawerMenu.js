@@ -15,6 +15,7 @@ import {
 import GedureLogo from "../../img/gedure-logo-recto.svg";
 import { ListDrawerNav } from './NoAuth';
 import AdminList from './AdminList';
+import UserList from './UserList';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,6 +74,13 @@ export default function DrawerMenu() {
 
             {privilegio === 'A-' && (
               <AdminList
+                expand1={expand1}
+                handleExpand1={handleExpand1}
+              />
+            )}
+
+            {privilegio === 'V-' && (
+              <UserList
                 expand1={expand1}
                 handleExpand1={handleExpand1}
               />
