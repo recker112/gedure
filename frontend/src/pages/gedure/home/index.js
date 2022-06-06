@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // MUI
 import { Box, Container, Fade, Grid, Slide } from '@mui/material';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-import ClassIcon from '@mui/icons-material/Class';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 // Components
 import NotiBox from './NotiBox';
@@ -98,7 +98,7 @@ export default function Home() {
                 data={data.boletas} 
                 title='Boletas cargadas' 
                 loading={loading}
-                icon={<ClassIcon />}
+                icon={<InsertDriveFileIcon />}
               />
             )}
           </Grid>
