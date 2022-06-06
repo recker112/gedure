@@ -32,6 +32,8 @@ import gdUserBForm from "./slices/gedure/boletas";
 import gdConfigCForm from "./slices/gedure/configuracion/cursos/form";
 import gdCConfigTable from "./slices/gedure/configuracion/cursos/table";
 import gdGCConfirm from "./slices/gedure/configuracion/cursos/confirm";
+import gdGCDUTable from "./slices/gedure/configuracion/user_disabled/table";
+import gdGCDUConfirm from "./slices/gedure/configuracion/user_disabled/confirm";
 
 export default configureStore({
   reducer: {
@@ -66,5 +68,7 @@ export default configureStore({
     gdConfigCForm,
     gdCConfigTable,
     gdGCConfirm,
+    gdGCDUTable,
+    gdGCDUConfirm,
   },
 });

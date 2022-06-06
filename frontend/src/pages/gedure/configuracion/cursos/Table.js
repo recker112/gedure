@@ -42,7 +42,7 @@ export default function Table() {
       Header: 'Opciones',
       accessor: 'options',
       Cell: ({ cell: { row: { original: { id, code } } } }) => (
-        <Tooltip title='Ver detalles' arrow>
+        <Tooltip title='Eliminar' arrow>
           <IconButton
             onClick={() => {
               dispatch(setConfirmConfgsGC({open: true, data: {id, code}, confirm: 'delete'}))

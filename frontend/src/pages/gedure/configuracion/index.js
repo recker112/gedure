@@ -28,7 +28,7 @@ const classes = {
 
 function Loading() {
 	return (
-		<Box align='center'>
+		<Box textAlign='center'>
 			<CircularProgress />
 		</Box>
 	);
