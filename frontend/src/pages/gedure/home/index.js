@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 
 // MUI
 import { Box, Container, Fade, Grid, Slide } from '@mui/material';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ClassIcon from '@mui/icons-material/Class';
 
 // Components
 import NotiBox from './NotiBox';
@@ -52,7 +54,11 @@ export default function Home() {
     messageTo200: false,
   });
 
-  const { loading, data } = useSelector(state => state.gdHome);
+  const { loading, data, privilegio } = useSelector(state => ({
+    loading: state.gdHome.loading,
+    data: state.gdHome.data,
+    privilegio: state.auth.user.privilegio,
+  }));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,7 +87,20 @@ export default function Home() {
       <Fade in={true} style={{ transitionDelay: '1000ms' }}>
         <Container sx={classes.content}>
           <Grid container justifyContent='center' spacing={2} data-tour='infoBox'>
-            <NotiBox data={data.posts} loading={loading} />
+            <NotiBox 
+              data={data.posts}
+              title='Últimas noticias'
+              loading={loading}
+              icon={<NewspaperIcon />}
+            />
+            {privilegio === 'V-' && (
+              <NotiBox 
+                data={data.boletas} 
+                title='Boletas cargadas' 
+                loading={loading}
+                icon={<ClassIcon />}
+              />
+            )}
           </Grid>
         </Container>
       </Fade>
