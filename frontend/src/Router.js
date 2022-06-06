@@ -79,6 +79,10 @@ const SetupPage = lazy(() => import('./pages/gedure/setup'));
 // UserBoletas
 const UBoletasPage = lazy(() => import('./pages/gedure/boletas'));
 
+// Gedure Config
+const GDHeaders = lazy(() => import('./pages/gedure/configuracion'));
+const GDHomePage = lazy(() => import('./pages/gedure/configuracion/home'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -104,6 +108,7 @@ export default function Routers() {
   }));
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, posts_create, posts_edit, boletas_index, contact_index } = permissions.administrar;
+  const {  } = permissions.gedure;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -276,6 +281,18 @@ export default function Routers() {
                         <SoliContactoPage />
                       </AuthProtect>
                     } />
+                  )}
+
+                  {Boolean(Object.keys(permissions.gedure).length) && (
+                    <Route path='config' element={
+                      <AuthProtect>
+                        <GDHeaders />
+                      </AuthProtect>
+                    }>
+                      <Route path='' element={<GDHomePage />} />
+
+                      <Route path='*' element={<Navigate to="" replace />} />
+                    </Route>
                   )}
                 </>
               )}
