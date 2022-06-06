@@ -8,6 +8,7 @@ import useNotifier from '../../../hooks/useNotifier';
 import DeleteBoleta from './DeleteBoleta';
 import UploadBoleta from './UploadBoleta';
 import Table from './Table';
+import TourBoleta from './TourBoleta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,7 +41,7 @@ export default function Boletas() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" onClick={handleOpenUpload} disabled={!boletas_upload}>Cargar boletas</Button>
+            <Button variant="contained" data-tour="gdBol__upload" onClick={handleOpenUpload} disabled={!boletas_upload}>Cargar boletas</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
@@ -49,6 +50,7 @@ export default function Boletas() {
         <DeleteBoleta />
         <UploadBoleta />
       </Container>
+      <TourBoleta />
     </Box>
   )
 }
