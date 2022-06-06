@@ -5,12 +5,11 @@ import { Box, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { resetTours } from '../../../../store/slices/configs';
 import { updateNotistack } from '../../../../store/slices/notistack';
 
 export default function ResetTours() {
-  const loading = useSelector(state => state.gdCO.logoutAll.loading);
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
@@ -30,8 +29,7 @@ export default function ResetTours() {
 			</Grid>
       <Grid container justifyContent='flex-end' alignItems='center' item xs={12} sm={4}>
 				<LoadingButton
-          variant='contained' 
-          loading={loading}
+          variant='contained'
           disableElevation
           onClick={handleSubmit}
         >
