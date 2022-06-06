@@ -33,12 +33,14 @@ import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
 export default function Table() {
   let navigate = useNavigate();
 
-  const { dataR, loading, pageSize, pageCount, type, permissions, idU } = useSelector((state) => ({
+  const { dataR, loading, pageSize, pageCount, type, permissions, idU, curso, seccion } = useSelector((state) => ({
     dataR: state.gdUTable.tableData.data,
     loading: state.gdUTable.tableData.loading,
     pageSize: state.gdUTable.tableData.pageSize,
     pageCount: state.gdUTable.tableData.pageCount,
     type: state.gdUTable.filters.type,
+    curso: state.gdUTable.filters.curso,
+    seccion: state.gdUTable.filters.seccion,
     permissions: state.auth.permissions,
     idU: state.auth.user.id,
   }));
@@ -75,10 +77,21 @@ export default function Table() {
         Cell: ({
           cell: {
             row: {
-              original: { privilegio, username },
+              original: { privilegio, username, n_lista },
             },
           },
-        }) => `${privilegio}${username}`,
+        }) => {
+          if (curso && seccion) {
+            return (
+              <React.Fragment>
+                <div>{privilegio+username}</div>
+                <div>N° lista {n_lista}</div>
+              </React.Fragment>
+            )
+          }else {
+            return `${privilegio}${username}`
+          }
+        },
       },
       {
         Header: "Nombre",
