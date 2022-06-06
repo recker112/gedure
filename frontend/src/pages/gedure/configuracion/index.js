@@ -5,7 +5,10 @@ import { Outlet } from 'react-router-dom';
 
 // MUI
 import { Box, CircularProgress, Container, Fade, Grid, Slide } from '@mui/material';
+
+// Components
 import NavTabs from './NavTabs';
+import useNotifier from '../../../hooks/useNotifier';
 
 const classes = {
   container: {
@@ -50,6 +53,7 @@ function Header() {
 
 export default function GDConfig() {
   document.title = 'Configuración del sistema - La Candelaria';
+  useNotifier();
 
   return (
     <Box component='main' sx={classes.container}>

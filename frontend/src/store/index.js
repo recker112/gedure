@@ -29,6 +29,7 @@ import gdBVerForm from "./slices/gedure/boletas_admin/ver";
 import gdSCTable from "./slices/gedure/soli_contacto";
 import gdCO from "./slices/gedure/cuenta";
 import gdUserBForm from "./slices/gedure/boletas";
+import gdConfigForm from "./slices/gedure/configuracion/form";
 
 export default configureStore({
   reducer: {
@@ -60,5 +61,6 @@ export default configureStore({
     gdSCTable,
     gdCO,
     gdUserBForm,
+    gdConfigForm,
   },
 });

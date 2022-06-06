@@ -82,6 +82,7 @@ const UBoletasPage = lazy(() => import('./pages/gedure/boletas'));
 // Gedure Config
 const GDHeaders = lazy(() => import('./pages/gedure/configuracion'));
 const GDHomePage = lazy(() => import('./pages/gedure/configuracion/home'));
+const GDCursosPage = lazy(() => import('./pages/gedure/configuracion/cursos'));
 
 const classes = {
   container: {
@@ -290,6 +291,8 @@ export default function Routers() {
                       </AuthProtect>
                     }>
                       <Route path='' element={<GDHomePage />} />
+
+                      <Route path='cursos' element={<GDCursosPage />} />
 
                       <Route path='*' element={<Navigate to="" replace />} />
                     </Route>
