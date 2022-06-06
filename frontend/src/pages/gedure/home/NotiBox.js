@@ -5,20 +5,18 @@ import { NavLink } from "react-router-dom";
 
 // MUI
 import { CircularProgress, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
-import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function NotiBox(props) {
-  const { data, loading } = props;
+export default function NotiBox({ data, loading, title, icon }) {
   return (
     <Grid item xs={12} sm={6}>
       <Paper className='paper--padding' elevation={3}>
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
             <Stack alignItems='center' direction="row" spacing={2}>
-              <NewspaperIcon />
+              {icon}
               <Typography variant='h6' className='text__bold--semi'>
-                Últimas noticias
+                {title}
               </Typography>
             </Stack>
           </Grid>
@@ -39,11 +37,13 @@ export default function NotiBox(props) {
                     {item.textSecondary}
                   </Typography>
                 </Grid>
-                <Grid container justifyContent='flex-end' item xs>
-                  <IconButton component={NavLink} to={`/noticias/${item.url}`}>
-                    <ArrowForwardIcon />
-                  </IconButton>
-                </Grid>
+                {item.url && (
+                  <Grid container justifyContent='flex-end' item xs>
+                    <IconButton component={NavLink} to={`/noticias/${item.url}`}>
+                      <ArrowForwardIcon />
+                    </IconButton>
+                  </Grid>
+                )}
               </Grid>
               {(data[i+1]) && (
                 <Grid item xs={12}>
