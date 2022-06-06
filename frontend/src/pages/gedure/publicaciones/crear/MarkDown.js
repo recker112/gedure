@@ -71,7 +71,7 @@ function ToolBar({ textRef, value, disabled }) {
 	}
 	
 	return (
-		<Grid item xs={12}>
+		<Grid item xs={12} data-tour="gdPub__tooltip">
 			<Tooltip title='Negrita' arrow>
 				<IconButton onClick={()=>handleFormat('bold')} disabled={disabled} aria-label="format bold">
 					<FormatBoldIcon fontSize="small" />
@@ -150,6 +150,7 @@ export default function MarkDown({ disabled, defaultValue }) {
       <Grid item xs={12}>
 				<TextField
 					{...inputProps}
+					data-tour="gdPub__content"
 					multiline
 					minRows={12}
 					maxRows={20}

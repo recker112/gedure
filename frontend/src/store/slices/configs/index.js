@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//Verificar si ya existe el almacenamiento local de la variable
+//theme para evitar reescribirla
+if (!localStorage.getItem('gd-theme')) {
+	localStorage.setItem('gd-theme', 'light');
+}
+
+if (!localStorage.getItem('gd-tour')) {
+	localStorage.setItem('gd-tour', JSON.stringify({}));
+}
+
 const initialState = {
   tema: localStorage.getItem('gd-theme') || 'light',
   drawer: false,
@@ -9,6 +19,8 @@ const initialState = {
 		usuarios: JSON.parse(localStorage.getItem('gd-tour')).usuarios_v1,
 		ver_usuarios: JSON.parse(localStorage.getItem('gd-tour')).ver_usuarios_v1,
 		publicaciones: JSON.parse(localStorage.getItem('gd-tour')).publicaciones_v1,
+		publicaciones_create: JSON.parse(localStorage.getItem('gd-tour')).publicaciones_create_v1,
+		publicaciones_edit: JSON.parse(localStorage.getItem('gd-tour')).publicaciones_edit_v1,
 		boletas_admin: JSON.parse(localStorage.getItem('gd-tour')).boletas_admin_v1,
 		gedure: JSON.parse(localStorage.getItem('gd-tour')).gedure_v1,
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,

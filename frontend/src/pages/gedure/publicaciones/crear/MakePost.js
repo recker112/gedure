@@ -30,6 +30,7 @@ export default function MakePost() {
 				</Grid>
         <Grid item xs={12}>
           <InputHook
+            data-tour="gdPub__title"
             control={control}
             rules={{
               required: '* Campo requerido',

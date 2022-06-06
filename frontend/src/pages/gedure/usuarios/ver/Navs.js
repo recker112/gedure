@@ -18,7 +18,7 @@ const classes = {
 	})
 }
 
-export function ReturnSelected({ children, url='', onClick, nested }) {
+export function ReturnSelected({ children, url='', onClick, nested, ...rest }) {
 	const match = useMatch({
 		path: url,
 		exact: !Boolean(onClick),
@@ -29,7 +29,7 @@ export function ReturnSelected({ children, url='', onClick, nested }) {
 	const handleClick = () => navigate(url, { replace: true });
 	
 	return (
-		<Box sx={classes[nested ? 'buttonNested' : 'button']} component='span' fontSize='body1.fontSize' color={!match ? "text.secondary" : null} onClick={onClick ? onClick : handleClick}>
+		<Box sx={classes[nested ? 'buttonNested' : 'button']} component='span' fontSize='body1.fontSize' color={!match ? "text.secondary" : null} onClick={onClick ? onClick : handleClick} {...rest}>
 			{children}
 		</Box>
 	);
@@ -57,12 +57,12 @@ export default function Navs({
   return (
     <Grid item xs={12} sm={3}>
       <Box mb={1}>
-        <ReturnSelected url={`${url}`}>
+        <ReturnSelected data-tour="gdShowU__perfil" url={`${url}`}>
           Perfil
         </ReturnSelected>
 			</Box>
       <Box mb={1}>
-        <ReturnSelected url={`${url}/personal`} onClick={handleClick}>
+        <ReturnSelected data-tour="gdShowU__personal" url={`${url}/personal`} onClick={handleClick}>
           Datos personales
         </ReturnSelected>
 			</Box>
@@ -101,26 +101,26 @@ export default function Navs({
 					</ReturnSelected>
 				</Box>
 			)}
-      <Box mb={1} data-tour='contraseña'>
+      <Box mb={1} data-tour="gdShowU__contraseña" >
 				<ReturnSelected url={`${url}/credenciales`}>
 					Credenciales
 				</ReturnSelected>
 			</Box>
 			{permissions && (
-				<Box mb={1} data-tour='permisos'>
+				<Box mb={1} data-tour="gdShowU__permisos">
 					<ReturnSelected url={`${url}/permisos`}>
 						Permisos
 					</ReturnSelected>
 				</Box>
 			)}
-			<Box mb={1} data-tour='opciones'>
+			<Box mb={1} data-tour="gdShowU__opciones">
 				<ReturnSelected url={`${url}/opciones`}>
 					Opciones
 				</ReturnSelected>
 			</Box>
 
 			{toBack && (
-				<Box mb={1} data-tour='regresar'>
+				<Box mb={1} data-tour="gdShowU__regresar">
 					<ReturnSelected onClick={handleReturn}>
 						Regresar
 					</ReturnSelected>

@@ -15,6 +15,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 // Components
 import useNotifier from '../../../../hooks/useNotifier';
 import MakePost from './MakePost';
+import TourEditPub from './TourEditPub';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -96,6 +97,7 @@ function EditarPost({ data: { title, content, slug, only_users } }) {
                 <IconButton
                   disabled={loading}
                   onClick={methods.handleSubmit(handlePreview)}
+                  data-tour="gdPub__preview"
                   aria-label="preview"
                 >
                   {preview ? <EditIcon /> : <VisibilityIcon />}
@@ -138,6 +140,7 @@ export default function Request() {
   return (
     <Box component="main" sx={classes.container}>
       <EditarPost data={data} />
+      <TourEditPub />
     </Box>
   );
 }

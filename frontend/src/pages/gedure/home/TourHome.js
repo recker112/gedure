@@ -7,10 +7,10 @@ import {
 import { useTheme } from '@mui/material/styles';
 
 // Components
+import TourComponent from '../../../components/TourComponent';
 
 // Redux
 import { useSelector } from 'react-redux';
-import TourComponent from '../../../components/TourComponent';
 
 export default function TourHome() {
 	const id = useSelector((state) => state.auth.user.id);
