@@ -31,7 +31,7 @@ export default function DatePickerHook({
     name,
     control,
 		rules: rulesMake,
-    defaultValue,
+    defaultValue: new Date(defaultValue),
   });
 
   return (
