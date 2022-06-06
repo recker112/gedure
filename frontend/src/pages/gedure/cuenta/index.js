@@ -12,6 +12,7 @@ import esLocale from 'date-fns/locale/es';
 // Components
 import BreadCrumbsShow from '../usuarios/ver/BreadCrumbsShow';
 import Navs from '../usuarios/ver/Navs';
+import TourCuenta from './TourCuenta';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -61,6 +62,7 @@ export default function Cuenta() {
           </Grid>
         </Grid>
       </Container>
+      <TourCuenta />
     </Box>
   )
 }
