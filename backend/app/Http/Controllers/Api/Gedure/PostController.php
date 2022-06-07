@@ -29,7 +29,16 @@ class PostController extends Controller
 			->where('only_users', 0)
 			->where('title', 'like', '%'.$search.'%')
 			->get()
-			->makeHidden(['portada', 'galery']);
+			->makeHidden([
+				'portada', 
+				'galery', 
+				'content', 
+				'created_at', 
+				'fecha_humano_modify', 
+				'only_users',
+				'updated_at',
+				'url_imgs',
+			]);
 		
 		// NOTA(RECKER): Obtener primer registro
 		$firstPost = Post::where('only_users', 0)
@@ -66,7 +75,16 @@ class PostController extends Controller
 			->offset($offset)
 			->limit($limit)
 			->get()
-			->makeHidden(['portada', 'galery']);
+			->makeHidden([
+				'portada', 
+				'galery', 
+				'content', 
+				'created_at', 
+				'fecha_humano_modify', 
+				'only_users',
+				'updated_at',
+				'url_imgs',
+			]);
 		
 		// NOTA(RECKER): Obtener primer registro
 		$firstPost = Post::where('title', 'like', '%'.$search.'%')
