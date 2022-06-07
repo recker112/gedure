@@ -13,10 +13,10 @@ import { RadioHook } from '../../../components/form/radio';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilterBox, setFilters } from '../../../store/slices/gedure/usuarios/table';
+import { setFilterBox, setFilters } from '../../../store/slices/tables';
 
 export default function Filtrador() {
-  const { filterBox, filters, countFilters } = useSelector(state => state.gdUTable);
+  const { filterBox, filters, countFilters } = useSelector(state => state.tables.users);
   const dispatch = useDispatch();
 
   const { control, handleSubmit, reset, watch, setValue } = useForm({
@@ -24,7 +24,7 @@ export default function Filtrador() {
   });
 
   const handleOpen = () => {
-    dispatch(setFilterBox(true));
+    dispatch(setFilterBox({ open: true, select: 'users' }));
   }
 
   const onClose = async data => {
@@ -35,8 +35,8 @@ export default function Filtrador() {
       setValue('seccion', '');
     }
 
-    await dispatch(setFilters(data));
-    dispatch(setFilterBox(false));
+    await dispatch(setFilters({ data, select: 'users' }));
+    dispatch(setFilterBox({ open: false, select: 'users' }));
   }
 
   const handleReset = () => {

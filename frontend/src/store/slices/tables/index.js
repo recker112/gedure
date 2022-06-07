@@ -1,11 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducersRegistros } from "./async_trunk/registros/getRegistros";
+import { reducersUsers } from "./async_trunk/users/getUsers";
 
 const initialState = {
   registros: {
     filterBox: false,
     filters: {
       type: 'all'
+    },
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  users: {
+    filterBox: false,
+    filters: {
+      type: '',
+      curso: '',
+      seccion: '',
     },
     countFilters: 0,
     tableData: {
@@ -69,7 +88,8 @@ export const tablesSlices = createSlice({
     }
   },
   extraReducers: {
-    ...reducersRegistros
+    ...reducersRegistros,
+    ...reducersUsers,
   }
 });
 
