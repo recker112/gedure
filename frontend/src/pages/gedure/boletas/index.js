@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
 // MUI
-import { Box, CircularProgress, Container, Grid } from '@mui/material';
+import { Box, CircularProgress, Container, Grid, IconButton, Tooltip } from '@mui/material';
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 // Components
 import useNotifier from '../../../hooks/useNotifier';
@@ -26,6 +27,10 @@ export default function Boletas() {
   const { loading, data } = useSelector(state => state.gdUserBForm.getData);
   const dispatch = useDispatch();
 
+  const handleRefresh = () => {
+    dispatch(getDataUserBF())
+  }
+
   useEffect(() => {
     let promise = null;
 
@@ -45,7 +50,23 @@ export default function Boletas() {
   return (
     <Box component='main' sx={classes.container}>
       <Container>
-        <Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>Boletas cargadas</Box>
+        <Grid container sx={{mb: 3}} justifyContent='space-between'>
+          <Grid item xs={10}>
+            <Box fontSize='h4.fontSize' className='text__bold--big'>Boletas cargadas</Box>
+          </Grid>
+          <Grid container justifyContent='flex-end' alignItems='center' item xs={2}>
+            <Tooltip title="Recargar" arrow>
+              <IconButton
+                disabled={loading}
+                onClick={handleRefresh}
+                aria-label="return"
+                component='span'
+              >
+                <RefreshIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
         {loading && (
           <Box textAlign='center'>
             <CircularProgress />

@@ -83,6 +83,9 @@ const initialState = {
   relogin: true,
   access_key: '',
   user: {
+    alumno: {
+      curso: {}
+    },
 		personal_data: {},
 		wallet: {}
 	},

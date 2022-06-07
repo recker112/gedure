@@ -85,7 +85,10 @@ const GDHeaders = lazy(() => import('./pages/gedure/configuracion'));
 const GDHomePage = lazy(() => import('./pages/gedure/configuracion/home'));
 const GDCursosPage = lazy(() => import('./pages/gedure/configuracion/cursos'));
 const GDUserDisPage = lazy(() => import('./pages/gedure/configuracion/usuarios_desactivados'));
-const GDPagosPage = lazy(() => import('./pages/gedure/configuracion/pagos'));
+// const GDPagosPage = lazy(() => import('./pages/gedure/configuracion/pagos'));
+
+// Lotes deudas
+// const LotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas'));
 
 const classes = {
   container: {
@@ -113,7 +116,13 @@ export default function Routers() {
   }));
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, posts_create, posts_edit, boletas_index, contact_index } = permissions.administrar;
-  const { cursos_index, bank_account_index, bank_transaction_index, users_disabled_index } = permissions.gedure;
+  const { 
+    cursos_index, 
+    // bank_account_index, 
+    // bank_transaction_index, 
+    users_disabled_index
+   } = permissions.gedure;
+  // const { debt_lote_index } = permissions.administrar_transac;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -306,9 +315,9 @@ export default function Routers() {
                         <Route path='cursos' element={<GDCursosPage />} />
                       )}
 
-                      {(bank_account_index || bank_transaction_index) && (
+                      {/* {(bank_account_index || bank_transaction_index) && (
                         <Route path='pagos' element={<GDPagosPage />} />
-                      )}
+                      )} */}
 
                       {users_disabled_index && (
                         <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
@@ -319,6 +328,10 @@ export default function Routers() {
                   )}
                 </>
               )}
+
+              {/* {debt_lote_index && (
+                <Route path='lotes-deudas' element={<LotesDeudasPage />} />
+              )} */}
 
               {privilegio === 'V-' && (
                 <>

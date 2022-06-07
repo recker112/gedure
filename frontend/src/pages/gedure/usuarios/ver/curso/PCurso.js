@@ -59,7 +59,7 @@ export default function PCurso() {
           label='Curso'
           control={control}
           disabled={loading}
-          defaultValue={userSelected.alumno.curso.curso || ''}
+          defaultValue={userSelected.alumno?.curso?.curso || ''}
           size='small'
           fullWidth
         >
@@ -75,7 +75,7 @@ export default function PCurso() {
           label='Sección'
           control={control}
           disabled={loading}
-          defaultValue={userSelected.alumno.curso.seccion || ''}
+          defaultValue={userSelected.alumno?.curso?.seccion || ''}
           size='small'
           fullWidth
         >

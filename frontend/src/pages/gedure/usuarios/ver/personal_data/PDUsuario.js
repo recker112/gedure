@@ -25,6 +25,7 @@ export function PDUsuarioForm({
   user,
   loading,
   handleSubmit,
+  buttonText = 'Actualizar',
 }) {
   const docente = useWatch({
     name: 'personal_data.docente',
@@ -176,7 +177,7 @@ export function PDUsuarioForm({
           disableElevation
           onClick={handleSubmit}
         >
-          Actualizar
+          {buttonText}
         </LoadingButton>
       </Grid>
     </Grid>
