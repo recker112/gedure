@@ -15,8 +15,6 @@ export const login = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      //dispatch(updateNotistack({ status: res.status, variant: 'success' }));
-
       // NOTA(RECKER): Guardar access_key
 			if (data.checkbox) {
 				localStorage.setItem('gd-access_key', JSON.stringify(res.data.access_key));

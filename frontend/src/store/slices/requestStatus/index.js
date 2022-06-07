@@ -8,6 +8,9 @@ import { reducersInfoBox } from "./async_trunk/home/getInfoBox";
 import { reducersLogin } from "./async_trunk/login";
 import { reducersNewsPreview } from "./async_trunk/news/getNewsPreviews";
 import { reducersNewsShow } from "./async_trunk/news/getNewsShow";
+import { reducersChangePassword } from "./async_trunk/recovery/changePassword";
+import { reducersSendEmail } from "./async_trunk/recovery/sendEmail";
+import { reducersVerifyCode } from "./async_trunk/recovery/verifyCode";
 import { reducersUserCreate } from "./async_trunk/users/createUser";
 import { reducersDisableUser } from "./async_trunk/users/disableUser";
 import { reducersDisableUserMassive } from "./async_trunk/users/disableUserMassive";
@@ -22,6 +25,10 @@ import { reducersUploadMatricula } from "./async_trunk/users/uploadMatricula";
 const initialState = {
   login: {
     loading: false,
+  },
+  recovery: {
+    loading: false,
+    data: {},
   },
   contacts: {
     loading: false,
@@ -165,6 +172,9 @@ export const requestStatusSlices = createSlice({
   },
   extraReducers: {
     ...reducersLogin,
+    ...reducersSendEmail,
+    ...reducersVerifyCode,
+    ...reducersChangePassword,
     ...reducersContacts,
     ...reducersNewsPreview,
     ...reducersNewsShow,

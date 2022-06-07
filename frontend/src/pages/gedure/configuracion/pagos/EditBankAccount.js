@@ -21,7 +21,7 @@ export default function EditBankAccount() {
   const { data, open, loading } = useSelector(state => state.requestStatus.editBankAccount);
   const dispatch = useDispatch();
 
-  const { control, handleSubmit, watch } = useForm({
+  const { control, watch } = useForm({
     shouldUnregister: true,
   })
 
