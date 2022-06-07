@@ -31,7 +31,12 @@ export default function NavTabs() {
   const location = useLocation();
 
   const { gedure } = useSelector(state => state.auth.permissions);
-  const { cursos_index, users_disabled_index, bank_account_index, bank_transaction_index } = gedure;
+  const { 
+    cursos_index, 
+    users_disabled_index, 
+    // bank_account_index, 
+    // bank_transaction_index,
+  } = gedure;
 
   return (
     <LinkTabs
@@ -55,14 +60,14 @@ export default function NavTabs() {
           {...a11yProps(0)}
         />
       )}
-      {(bank_account_index || bank_transaction_index) && (
+      {/* {(bank_account_index || bank_transaction_index) && (
         <LinkTab 
           label='Pagos' 
           value={'/gedure/config/pagos'}
           data-tour='pagos'
           {...a11yProps(1)}
         />
-      )}
+      )} */}
       {users_disabled_index && (
         <LinkTab
           label='Usuarios desactivados' 

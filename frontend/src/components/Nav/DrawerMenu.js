@@ -23,6 +23,7 @@ import { updateDrawer } from '../../store/slices/configs';
 
 export default function DrawerMenu() {
   const [expand1, setExpand1] = useState(false);
+  const [expand2, setExpand2] = useState(false);
   const [helpSection, setHelpSection] = useState(false);
 
   const { open, privilegio } = useSelector(state => ({
@@ -37,6 +38,10 @@ export default function DrawerMenu() {
 
   const handleExpand1 = () => {
     setExpand1(value => !value);
+  }
+
+  const handleExpand2 = () => {
+    setExpand2(value => !value);
   }
 
   const handleExpandHelp = () => {
@@ -76,6 +81,8 @@ export default function DrawerMenu() {
               <AdminList
                 expand1={expand1}
                 handleExpand1={handleExpand1}
+                expand2={expand2}
+                handleExpand2={handleExpand2}
               />
             )}
 
@@ -121,7 +128,7 @@ export default function DrawerMenu() {
 					fontSize='body2.fontSize' 
 					textAlign='center'
 				>
-					Ver. 5.0.0
+					Ver. 1.0.0
 				</Box>
       </Box>
     </Drawer>

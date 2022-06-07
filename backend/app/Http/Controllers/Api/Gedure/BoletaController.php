@@ -83,7 +83,9 @@ class BoletaController extends Controller
 	public function show($id)
 	{
 		$user = User::with(['boletas' => function ($q) {
-			$q->orderByDesc('id');
+			$q->select('boletas.*')
+			->join('cursos', 'cursos.id', '=', 'boletas.curso_id')
+			->orderBy('cursos.code', 'desc');
 		} , 'boletas.curso'])->find(intVal($id));
 		$name = $user->name;
 		$boletas = $user->boletas->toArray();
@@ -98,7 +100,10 @@ class BoletaController extends Controller
 	{
 		$user = $request->user();
 		$boletas = $user->boletas()
+			->select('boletas.*')
 			->with('curso')
+			->join('cursos', 'cursos.id', '=', 'boletas.curso_id')
+			->orderBy('cursos.code', 'desc')
 			->get()
 			->toArray();
 		

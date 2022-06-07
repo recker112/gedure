@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 // MUI
 import { Box, CircularProgress, Container, Grid, IconButton, Tooltip } from '@mui/material';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 // Components
 import Boleta from "./Boleta";
@@ -68,7 +69,7 @@ export default function VerBoleta() {
     <Box component='main' sx={classes.container}>
       <Container>
         <Box mb={3}>
-          <Grid container>
+          <Grid container justifyContent='space-between'>
             <Tooltip title="Volver" arrow>
               <IconButton
                 disabled={loading}
@@ -79,6 +80,16 @@ export default function VerBoleta() {
                 <ArrowBackIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title="Recargar" arrow>
+              <IconButton
+                disabled={loading}
+                onClick={handleRefresh}
+                aria-label="return"
+                component='span'
+              >
+                <RefreshIcon />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Box>
         {loading && (
@@ -86,7 +97,7 @@ export default function VerBoleta() {
 						<CircularProgress />
 					</Box>
 				)}
-        {(!loading && data.boletas.length) ? (
+        {(!loading && data.boletas?.length) ? (
 					<React.Fragment>
 						<Box fontSize='h4.fontSize' mb={3} className='text__bold--big'>
 							Boletas subidas de {data.user}
@@ -96,7 +107,7 @@ export default function VerBoleta() {
 						</Grid>
 					</React.Fragment>
 				) : null}
-        {(!loading && !data.boletas.length) && (
+        {(!loading && !data.boletas?.length) && (
 					<Box textAlign='center' fontSize='body1.fontSize'>
 						No hay boletas cargadas para este estudiante.
 					</Box>

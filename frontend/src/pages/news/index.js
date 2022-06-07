@@ -37,9 +37,7 @@ const classes = {
 
 export default function News() {
   document.title = 'Noticias - La Candelaria';
-  useNotifier({
-    messageTo200: false,
-  });
+  useNotifier();
 
   // NOTA(RECKER): RTK
   const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
@@ -48,6 +46,7 @@ export default function News() {
       auth: state.auth.auth,
     }),
   );
+  console.log(auth);
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm();

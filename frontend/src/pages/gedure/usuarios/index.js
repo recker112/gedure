@@ -18,7 +18,7 @@ import UpdateSeccion from "./UpdateSeccion";
 import TourUser from "./TourUser";
 
 // Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRequestStatus } from "../../../store/slices/requestStatus";
 import { disableUser } from "../../../store/slices/requestStatus/async_trunk/users/disableUser";
 import { disableUserMassive } from "../../../store/slices/requestStatus/async_trunk/users/disableUserMassive";
@@ -35,6 +35,7 @@ export default function Usuarios() {
   document.title = 'Usuarios - La Candelaria';
   useNotifier();
 
+  const { users_upload_matricula, users_create } = useSelector(state => state.auth.permissions.administrar)
   const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
@@ -53,10 +54,10 @@ export default function Usuarios() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" data-tour="gdUser__upload"onClick={handleOpenUpload} sx={{ mr: 1 }}>
+            <Button disabled={!users_upload_matricula} variant="contained" data-tour="gdUser__upload"onClick={handleOpenUpload} sx={{ mr: 1 }}>
               Cargar estudiantes
             </Button>
-            <Button variant="contained" data-tour="gdUser__create" onClick={handleOpenCreate}>Crear usuario</Button>
+            <Button disabled={!users_create} variant="contained" data-tour="gdUser__create" onClick={handleOpenCreate}>Crear usuario</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />

@@ -12,6 +12,7 @@ import esLocale from 'date-fns/locale/es';
 // Components
 import useNotifier from '../../../hooks/useNotifier';
 import SectionUser from './SectionUser';
+import SectionAdmin from './SectionAdmin';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -52,6 +53,9 @@ export default function Setup() {
 					</Box>
           {(privilegio === 'V-') && (
 						<SectionUser />
+					)}
+          {(privilegio === 'A-') && (
+						<SectionAdmin />
 					)}
         </Container>
       </LocalizationProvider>

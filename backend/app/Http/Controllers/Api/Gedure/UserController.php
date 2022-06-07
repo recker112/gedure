@@ -532,7 +532,7 @@ class UserController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => "$i estudiantes actualizados"
+			'msg' => "$i estudiante(s) actualizado(s)"
 		],200);
 	}
 	

@@ -9,6 +9,7 @@ import { Box, CircularProgress, Container, Fade, Grid, Slide } from '@mui/materi
 // Components
 import NavTabs from './NavTabs';
 import useNotifier from '../../../hooks/useNotifier';
+import TourConfigs from './TourConfigs';
 
 const classes = {
   container: {
@@ -70,6 +71,7 @@ export default function GDConfig() {
           </Suspense>
         </Container>
       </Fade>
+      <TourConfigs />
     </Box>
   )
 }

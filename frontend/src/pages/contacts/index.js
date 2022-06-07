@@ -20,7 +20,7 @@ const classes = {
 
 export default function Contact() {
   document.title = 'Contáctanos - La Candelaria';
-  const { auth } = useSelector(state => state.auth.auth);
+  const auth = useSelector(state => state.auth.auth);
 
   return (
     <>
