@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkfrontend_la_candelaria=self.webpackChunkfrontend_la_candelaria||[]).push([[8371],{18371:function(n,e,a){a.r(e),a.d(e,{default:function(){return c}});a(72791);var r=a(20890),t=a(80184);function c(){return(0,t.jsx)(r.Z,{textAlign:"center",children:"No hay nada disponible."})}}}]);
+//# sourceMappingURL=8371.bbf09a1c.chunk.js.map
