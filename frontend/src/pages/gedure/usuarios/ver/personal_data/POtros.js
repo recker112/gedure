@@ -14,7 +14,7 @@ import { RadioHook } from '../../../../../components/form/radio';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function POtrosForm({ control, loading, user, handleSubmit, buttonDisable }) {
   const estudi_otros_alojado = useWatch({
@@ -132,7 +132,7 @@ export default function POtros() {
   const { id } = useParams();
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPO,
+    loading: state.requestStatus.personalData.loadingPO,
   }));
   const dispatch = useDispatch()
 

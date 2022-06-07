@@ -12,6 +12,8 @@ import { reducersDisableUser } from "./async_trunk/users/disableUser";
 import { reducersDisableUserMassive } from "./async_trunk/users/disableUserMassive";
 import { reducersGetCurso } from "./async_trunk/users/getCursos";
 import { reducersGetUser } from "./async_trunk/users/getUser";
+import { reducersUpdateAvatar } from "./async_trunk/users/updateAvatar";
+import { reducersUpdateData } from "./async_trunk/users/updateData";
 import { reducersUpdateSeccion } from "./async_trunk/users/updateSeccion";
 import { reducersUploadMatricula } from "./async_trunk/users/uploadMatricula";
 
@@ -82,6 +84,27 @@ const initialState = {
       gedure: {},
     }
   },
+  personalAvatar: {
+    loadingUpload: false,
+    loadingDelete: false,
+    progress: 0,
+  },
+  personalData: {
+    loadingPD: false,
+    loadingPE: false,
+    loadingPU: false,
+    loadingPO: false,
+    loadingRD: false,
+    loadingRU: false,
+    loadingRE: false,
+    loadingPDP: false,
+    loadingPDM: false,
+    loadingPC: false,
+    loadingPP: false,
+    loadingPPE: false,
+    loadingPDU: false,
+    loadingActiveAccount: false,
+  },
   createBankAccount: {
     loading: false,
   },
@@ -100,8 +123,12 @@ export const requestStatusSlices = createSlice({
     },
     setProgress: (state, action) => {
       const { select, percentCompleted } = action.payload;
-      console.log(percentCompleted);
       state[select].progress = percentCompleted;
+    },
+    setUserSelected: (state, action) => {
+      const { user, permissions } = action.payload;
+      state.userShow.userSelected = user;
+      state.userShow.permissions = permissions;
     },
     updateInputs: (state, action) => {
       const { select, input, value } = action.payload;
@@ -133,10 +160,12 @@ export const requestStatusSlices = createSlice({
     ...reducersDisableUserMassive,
     ...reducersUpdateSeccion,
     ...reducersGetUser,
+    ...reducersUpdateAvatar,
+    ...reducersUpdateData,
     ...reducersCreateBankAccount,
   }
 });
 
 export default requestStatusSlices.reducer;
 
-export const { setRequestStatus, setProgress, resetDataRequest, updateInputs } = requestStatusSlices.actions;
+export const { setRequestStatus, setProgress, resetDataRequest, updateInputs, setUserSelected } = requestStatusSlices.actions;

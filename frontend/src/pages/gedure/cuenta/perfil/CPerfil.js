@@ -8,16 +8,16 @@ import { PAvatarForm } from '../../usuarios/ver/perfil/PAvatar';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadAvatar } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPA';
+import { updateAvatar } from '../../../../store/slices/requestStatus/async_trunk/users/updateAvatar';
 import { updateUserData } from '../../../../store/slices/auth';
 import { Box } from '@mui/material';
 
 export default function CPerfil() {
   const { user, loadingUpload, loadingDelete, progress } = useSelector(state => ({
     user: state.auth.user,
-    loadingUpload: state.gdUPA.loadingUpload,
-    loadingDelete: state.gdUPA.loadingDelete,
-    progress: state.gdUPA.progress,
+    loadingUpload: state.requestStatus.personalAvatar.loadingUpload,
+    loadingDelete: state.requestStatus.personalAvatar.loadingDelete,
+    progress: state.requestStatus.personalAvatar.progress,
   }));
   const dispatch = useDispatch();
   
@@ -37,7 +37,7 @@ export default function CPerfil() {
     }
     formData.append('_method', 'PUT');
 
-    await dispatch(uploadAvatar({
+    await dispatch(updateAvatar({
       data: formData, 
       type: submitData.avatar!=='delete' ? 1 : 2, 
       personal: true,

@@ -5,16 +5,16 @@ import { useParams } from 'react-router-dom';
 
 // MUI
 import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Form
 import { useForm } from 'react-hook-form';
 import { SelectHook } from '../../../../../components/form/select';
+import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
-import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function PDPadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
@@ -137,7 +137,7 @@ export default function PDPadre() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPDP,
+    loading: state.requestStatus.personalData.loadingPDP,
   }));
   const dispatch = useDispatch();
 

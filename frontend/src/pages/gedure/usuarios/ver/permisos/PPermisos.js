@@ -15,7 +15,7 @@ import Permisos from '../../CU/Permisos';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function PPermisos() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ export default function PPermisos() {
   const { permissions, loading, userSelected } = useSelector(state => ({
     permissions: state.requestStatus.userShow.permissions,
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPPE,
+    loading: state.requestStatus.personalData.loadingPPE,
   }));
   const dispatch = useDispatch();
 

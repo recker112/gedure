@@ -9,12 +9,14 @@ import { Box, Divider, Grid, MenuItem, Typography } from '@mui/material';
 // Form
 import { useForm } from 'react-hook-form';
 import { SelectHook } from '../../../../../components/form/select';
+import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
+
+// Components
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
-import { InputHook, InputMaskHook } from '../../../../../components/form/inputs';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function PDMadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
@@ -137,7 +139,7 @@ export default function PDMadre() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPDM,
+    loading: state.requestStatus.personalData.loadingPDM,
   }));
   const dispatch = useDispatch();
 
