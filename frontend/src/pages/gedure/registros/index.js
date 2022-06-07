@@ -4,18 +4,21 @@ import React, { useMemo, useEffect } from 'react'
 import { Box, Container, Grid, IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+// Format
+import { format } from 'date-fns';
+
 // Components
 import useNotifier from '../../../hooks/useNotifier';
 import TourRegistros from './TourRegistros';
-
-// Table
+import Filtrador from './Filtrador';
+import ShowRegistro from './ShowRegistro';
 import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, setSearch, setConfigTable, resetTableConfig, setRegBox, refresh } from '../../../store/slices/gedure/registros';
-import Filtrador from './Filtrador';
-import ShowRegistro from './ShowRegistro';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
+import { getRegistros } from '../../../store/slices/tables/async_trunk/registros/getRegistros';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -32,10 +35,10 @@ export default function Registros() {
   });
 
   const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
-    dataR: state.gdRegistros.tableData.data,
-    loading: state.gdRegistros.tableData.loading,
-    pageSize: state.gdRegistros.tableData.pageSize,
-    pageCount: state.gdRegistros.tableData.pageCount,
+    dataR: state.tables.registros.tableData.data,
+    loading: state.tables.registros.tableData.loading,
+    pageSize: state.tables.registros.tableData.pageSize,
+    pageCount: state.tables.registros.tableData.pageCount,
   }));
   const dispatch = useDispatch();
 
@@ -66,7 +69,18 @@ export default function Registros() {
         <Tooltip title='Ver detalles' arrow>
           <IconButton
             onClick={() => {
-              dispatch(setRegBox({open: true, data: original}));
+              let formatData = {...original};
+
+              // Format Data
+              if (Object.keys(formatData).length) {
+                formatData.payload = typeof formatData.payload !== 'object' ? JSON.parse(formatData.payload) : formatData.payload;
+                formatData.date = format(new Date(formatData.date_format), 'dd/MM/yy');
+                formatData.hours = format(new Date(formatData.date_format), 'hh:mm a');
+                formatData.username = formatData.user.privilegio+formatData.user.username;
+                formatData.name = formatData.user.name;
+              }
+
+              dispatch(setRequestStatus({open: true, data: formatData, select: 'showReg'}));
             }}
             data-tour="gdReg__show"
           >
@@ -85,7 +99,7 @@ export default function Registros() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getData());
+      promise = dispatch(getRegistros());
     }
 
     return () => {
@@ -99,21 +113,21 @@ export default function Registros() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfig());
+      dispatch(resetTableConfig({ select: 'registros' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearch(value || ""));
+    dispatch(setSearch({search: value || "", select: 'registros'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTable(value));
+    dispatch(setConfigTable({ ...value, select: 'registros' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refresh());
+    dispatch(refresh({ select: 'registros' }));
   }
 
   return (

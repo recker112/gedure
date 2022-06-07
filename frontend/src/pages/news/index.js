@@ -20,11 +20,12 @@ import PreviewNews from "./PreviewNews";
 // Components
 import InfiniteScroll from "react-infinite-scroll-component";
 import useNotifier from "../../hooks/useNotifier";
+import Footer from "../../components/Footer";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { newsPreview, resetData, updateSearch } from "../../store/slices/news";
-import Footer from "../../components/Footer";
+import { resetDataRequest, updateInputs } from "../../store/slices/requestStatus";
+import { getNewsPreviews } from "../../store/slices/requestStatus/async_trunk/news/getNewsPreviews";
 
 const classes = {
   container: {
@@ -41,29 +42,31 @@ export default function News() {
   });
 
   // NOTA(RECKER): RTK
-  const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
+  const { news: { loading, data, error, hasFinish, search },test, auth } = useSelector(
     (state) => ({
-      news: state.news,
+      news: state.requestStatus.newsPreview,
+      test: state.requestStatus.newsPreview,
       auth: state.auth.auth,
     }),
   );
+  console.log(test);
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm();
 
   // NOTA(RECKER): Cargar noticias
   useEffect(() => {
-    const promise = dispatch(newsPreview());
+    const promise = dispatch(getNewsPreviews());
     return () => {
       promise.abort();
-      dispatch(resetData());
+      dispatch(resetDataRequest({ select: 'newsPreview' }));
     };
   }, [dispatch]);
 
   // NOTA(RECKER): Form request
   const onSubmit = async (data) => {
-    await dispatch(updateSearch(data.search));
-    await dispatch(newsPreview());
+    await dispatch(updateInputs({ select: 'newsPreview', input: 'search', value: data.search }));
+    await dispatch(getNewsPreviews());
   };
 
   return (
@@ -109,10 +112,10 @@ export default function News() {
             {data.length > 0 && (
               <Grid item xs={12}>
                 <InfiniteScroll
-                  dataLength={0}
+                  dataLength={data.length}
                   hasMore={!hasFinish}
                   next={() => {
-                    dispatch(newsPreview());
+                    dispatch(getNewsPreviews());
                   }}
                   scrollThreshold={0.8}
                   loader={

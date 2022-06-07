@@ -12,7 +12,8 @@ import TourHome from './TourHome';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { NotiBoxData, resetData } from '../../../store/slices/gedure/home';
+import { getInfoBox } from '../../../store/slices/requestStatus/async_trunk/home/getInfoBox';
+import { resetDataRequest } from '../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -54,9 +55,8 @@ export default function Home() {
     messageTo200: false,
   });
 
-  const { loading, data, privilegio } = useSelector(state => ({
-    loading: state.gdHome.loading,
-    data: state.gdHome.data,
+  const { infoBox: { loading, data }, privilegio } = useSelector(state => ({
+    infoBox: state.requestStatus.infoBox,
     privilegio: state.auth.user.privilegio,
   }));
   const dispatch = useDispatch();
@@ -65,14 +65,14 @@ export default function Home() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(NotiBoxData());
+      promise = dispatch(getInfoBox());
     }
 
     return () => {
       if (loading) {
         promise.abort();
       }
-      dispatch(resetData());
+      dispatch(resetDataRequest({ select: 'infoBox' }));
     }
     // eslint-disable-next-line
   }, []);

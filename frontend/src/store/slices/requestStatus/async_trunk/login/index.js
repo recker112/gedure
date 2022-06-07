@@ -3,7 +3,7 @@ import { updateAuth, updateUserData } from "../../../auth";
 import { updateNotistack } from "../../../notistack";
 
 export const login = createAsyncThunk(
-  'reqyestStatus/login',
+  'requestStatus/login',
   async (data, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -51,3 +51,15 @@ export const login = createAsyncThunk(
     }
   }
 );
+
+export const reducersLogin = {
+  [login.pending]: (state, action) => {
+    state.login.loading = true;
+  },
+  [login.rejected]: (state, action) => {
+    state.login.loading = false;
+  },
+  [login.fulfilled]: (state, action) => {
+    state.login.loading = false;
+  },
+}

@@ -1,13 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../notistack";
 
-export const newsPreview = createAsyncThunk(
-  'news/preview',
+export const getNewsPreviews = createAsyncThunk(
+  'requestStatus/news/previews',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     const { auth } = getState().auth;
-    const { search, data } = getState().news;
+    const { search, data } = getState().requestStatus.newsPreview;
     const limit = 12;
     const offset = data.length;
     let url = '';
@@ -42,48 +42,3 @@ export const newsPreview = createAsyncThunk(
     }
   }
 );
-
-const initialState = {
-  loading: true,
-  hasFinish: false,
-  search: '',
-  data: [],
-  error: false,
-};
-
-export const newsSlices = createSlice({
-  name: "news",
-  initialState,
-  reducers: {
-    updateSearch: (state, action) => {
-      state.search = action.payload;
-      state.data = [];
-    },
-    resetData: state => {
-      state.data = [];
-      state.search = '';
-    },
-  },
-  extraReducers: {
-    [newsPreview.pending]: state => {
-      state.loading = true;
-      state.error = false;
-      state.hasFinish = false;
-    },
-    [newsPreview.rejected]: state => {
-      state.loading = false;
-      state.error = true;
-    },
-    [newsPreview.fulfilled]: (state, action) => {
-      const { data, finish } = action.payload;
-
-      state.loading = false;
-      state.data = [...state.data, ...data];
-      state.hasFinish = finish;
-    }
-  }
-});
-
-export default newsSlices.reducer;
-
-export const { updateSearch, resetData } = newsSlices.actions;

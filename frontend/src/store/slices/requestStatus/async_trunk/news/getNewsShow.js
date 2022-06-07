@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../notistack";
 
-export const newsData = createAsyncThunk(
-  'news/show/data',
+export const getNewsShow = createAsyncThunk(
+  'requestStatus/news/show',
   async (slug, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -39,45 +39,3 @@ export const newsData = createAsyncThunk(
     }
   }
 );
-
-const initialState = {
-  loading: true,
-  data: {},
-};
-
-export const newsShowSlices = createSlice({
-  name: "news/show",
-  initialState,
-  reducers: {
-    updateNews: (state, action) => {
-      const { loading, data } = action.payload;
-
-      state.loading = loading;
-      state.data = data;
-    },
-    resetData: state => {
-      state.loading = true;
-      state.data = {};
-    },
-  },
-  extraReducers: {
-    [newsData.pending]: state => {
-      state.loading = true;
-      state.data = {};
-    },
-    [newsData.rejected]: state => {
-      state.loading = false;
-      state.data = {};
-    },
-    [newsData.fulfilled]: (state, action) => {
-      const data = action.payload;
-
-      state.loading = false;
-      state.data = data;
-    }
-  }
-});
-
-export default newsShowSlices.reducer;
-
-export const { updateNews, resetData } = newsShowSlices.actions;
