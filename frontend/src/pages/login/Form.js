@@ -16,7 +16,7 @@ import { CheckboxHook } from "../../components/form/checkbox";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { loginData } from "../../store/slices/login";
+import { login } from "../../store/slices/requestStatus/async_trunk/login";
 
 const classes = {
   button: {
@@ -25,7 +25,7 @@ const classes = {
 }
 
 export default function Form() {
-  const loading = useSelector(state => state.login.loading);
+  const loading = useSelector(state => state.requestStatus.login.loading);
   const dispatch = useDispatch();
 
   // NOTA(RECKER): FormHook
@@ -34,7 +34,7 @@ export default function Form() {
 	});
 
   const onSubmit = (data) => {
-		dispatch(loginData(data));
+		dispatch(login(data));
   }
   return (
     <Container maxWidth="sm" className="container--margin">

@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBankAccount } from "../gedure/configuracion/pagos/createBankAccount";
+import { createBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
+import { login } from "./async_trunk/login";
 
 
 const initialState = {
+  login: {
+    loading: false,
+  },
   createBankAccount: {
     loading: false,
   },
@@ -25,6 +29,15 @@ export const requestStatusSlices = createSlice({
     }
   },
   extraReducers: {
+    [login.pending]: (state, action) => {
+      state.login.loading = true;
+    },
+    [login.rejected]: (state, action) => {
+      state.login.loading = false;
+    },
+    [login.fulfilled]: (state, action) => {
+      state.login.loading = false;
+    },
     [createBankAccount.pending]: (state, action) => {
       state.createBankAccount.loading = true;
     },

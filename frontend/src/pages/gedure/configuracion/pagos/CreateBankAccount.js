@@ -14,7 +14,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createBankAccount } from '../../../../store/slices/gedure/configuracion/pagos/createBankAccount';
+import { createBankAccount } from '../../../../store/slices/requestStatus/gedure/configuracion/pagos/createBankAccount';
 
 export default function CreateBankAccount() {
   const loading = useSelector(state => state.requestStatus.createBankAccount.loading);
