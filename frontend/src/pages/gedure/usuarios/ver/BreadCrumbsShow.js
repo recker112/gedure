@@ -21,8 +21,8 @@ export default function BreadCrumbsShow({
   userAvatar,
 }) {
   const { name, avatar } = useSelector(state => ({
-    name: state.gdUSelected.userSelected.name,
-    avatar: state.gdUSelected.userSelected.avatar,
+    name: state.requestStatus.userShow.userSelected.name,
+    avatar: state.requestStatus.userShow.userSelected.avatar,
   }));
 
   let location = useLocation();

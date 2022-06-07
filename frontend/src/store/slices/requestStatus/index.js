@@ -8,7 +8,12 @@ import { reducersLogin } from "./async_trunk/login";
 import { reducersNewsPreview } from "./async_trunk/news/getNewsPreviews";
 import { reducersNewsShow } from "./async_trunk/news/getNewsShow";
 import { reducersUserCreate } from "./async_trunk/users/createUser";
+import { reducersDisableUser } from "./async_trunk/users/disableUser";
+import { reducersDisableUserMassive } from "./async_trunk/users/disableUserMassive";
 import { reducersGetCurso } from "./async_trunk/users/getCursos";
+import { reducersGetUser } from "./async_trunk/users/getUser";
+import { reducersUpdateSeccion } from "./async_trunk/users/updateSeccion";
+import { reducersUploadMatricula } from "./async_trunk/users/uploadMatricula";
 
 
 const initialState = {
@@ -42,6 +47,41 @@ const initialState = {
     loading: false,
     data: null,
   },
+  uploadMatricula: {
+    open: false,
+    loading: false,
+    progress: 0,
+  },
+  disableUser: {
+    open: false,
+    loading: false,
+    data: {},
+  },
+  disableUserMassive: {
+    open: false,
+    loading: false,
+    data: {},
+  },
+  updateSeccion: {
+    open: false,
+    loading: false,
+    data: {},
+  },
+  userShow: {
+    loading: true,
+    userSelected: {
+      alumno: {
+        curso: {}
+      },
+      personal_data: {},
+    },
+    permissions: {
+      sin_asignar: {},
+      administrar: {},
+      administrar_transac: {},
+      gedure: {},
+    }
+  },
   createBankAccount: {
     loading: false,
   },
@@ -59,8 +99,9 @@ export const requestStatusSlices = createSlice({
       data && (state[select].data = data);
     },
     setProgress: (state, action) => {
-      const { payload } = action;
-      state.upload.progress = payload;
+      const { select, percentCompleted } = action.payload;
+      console.log(percentCompleted);
+      state[select].progress = percentCompleted;
     },
     updateInputs: (state, action) => {
       const { select, input, value } = action.payload;
@@ -87,6 +128,11 @@ export const requestStatusSlices = createSlice({
     ...reducersInfoBox,
     ...reducersUserCreate,
     ...reducersGetCurso,
+    ...reducersUploadMatricula,
+    ...reducersDisableUser,
+    ...reducersDisableUserMassive,
+    ...reducersUpdateSeccion,
+    ...reducersGetUser,
     ...reducersCreateBankAccount,
   }
 });

@@ -97,7 +97,7 @@ export function PAvatarForm({ user, loadingUpload, loadingDelete, progress, hand
 export default function PAvatar() {
   const { id } = useParams();
   const { userSelected, loadingUpload, loadingDelete, progress } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loadingUpload: state.gdUPA.loadingUpload,
     loadingDelete: state.gdUPA.loadingDelete,
     progress: state.gdUPA.progress,

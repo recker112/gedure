@@ -10,14 +10,15 @@ import { SelectHook } from '../../../components/form/select';
 
 // Components
 import { CursosList, SeccionList } from '../../../components/Utils/StudiendsLists';
+import AnimationDialog from '../../../components/AnimationDialog';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import AnimationDialog from '../../../components/AnimationDialog';
-import { setConfgs, updateData } from '../../../store/slices/gedure/usuarios/updateSeccion';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { updateSeccion } from '../../../store/slices/requestStatus/async_trunk/users/updateSeccion';
 
 export default function UpdateSeccion() {
-  const { open, loading, data } = useSelector(state => (state.gdUUpdateSeccion));
+  const { open, loading, data } = useSelector(state => (state.requestStatus.updateSeccion));
   const dispatch = useDispatch();
 
   const { handleSubmit, control } = useForm({
@@ -26,11 +27,11 @@ export default function UpdateSeccion() {
 	});
 
   const onSubmit = (submitData) => {
-    dispatch(updateData({...submitData, ids: data, _method: 'PUT'}));
+    dispatch(updateSeccion({...submitData, ids: data, _method: 'PUT'}));
   }
 
   const handleClose = () => {
-    dispatch(setConfgs({open: false, data: {}}))
+    dispatch(setRequestStatus({open: false, select: 'updateSeccion'}))
   }
 
   const MenuItemList = CursosList.map(useCallback((data, i) => (
@@ -57,7 +58,7 @@ export default function UpdateSeccion() {
               name='curso'
 							label='Curso'
 							control={control}
-							disabled={false}
+							disabled={loading}
               variant='standard'
 							fullWidth
             >
@@ -70,7 +71,7 @@ export default function UpdateSeccion() {
               name='seccion'
 							label='Sección'
 							control={control}
-							disabled={false}
+							disabled={loading}
               variant='standard'
 							fullWidth
             >

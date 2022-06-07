@@ -136,7 +136,7 @@ export default function PDPadre() {
   const { id } = useParams();
 
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingPDP,
   }));
   const dispatch = useDispatch();

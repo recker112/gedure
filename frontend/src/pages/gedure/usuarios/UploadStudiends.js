@@ -8,18 +8,19 @@ import { useForm } from 'react-hook-form';
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Typography, Box, Grid } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpen, uploadMatricula } from '../../../store/slices/gedure/usuarios/forms';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { uploadMatricula } from '../../../store/slices/requestStatus/async_trunk/users/uploadMatricula';
 
 
 export default function UploadStudiends() {
-  const { open, loading, progress } = useSelector(state => state.gdUForms.upload);
+  const { open, loading, progress } = useSelector(state => state.requestStatus.uploadMatricula);
   const dispatch = useDispatch();
 
   const { handleSubmit, register, watch, formState: { errors }, setError } = useForm({
@@ -27,7 +28,7 @@ export default function UploadStudiends() {
 	});
 
   const handleClose = () => {
-		dispatch(setOpen({select: 'upload', open: false}));
+		dispatch(setRequestStatus({select: 'uploadMatricula', open: false}));
 	}
 
   const onSubmit = submitData => {

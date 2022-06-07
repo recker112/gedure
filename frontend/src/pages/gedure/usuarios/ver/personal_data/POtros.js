@@ -131,7 +131,7 @@ export function POtrosForm({ control, loading, user, handleSubmit, buttonDisable
 export default function POtros() {
   const { id } = useParams();
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingPO,
   }));
   const dispatch = useDispatch()

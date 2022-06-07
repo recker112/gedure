@@ -234,7 +234,7 @@ export default function RDatos() {
   const { id } = useParams();
 
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingRD,
   }));
   const dispatch = useDispatch();

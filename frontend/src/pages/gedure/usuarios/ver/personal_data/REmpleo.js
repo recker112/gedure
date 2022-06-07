@@ -111,7 +111,7 @@ export default function REmpleo() {
   const { id } = useParams();
 
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingRE,
   }));
   const dispatch = useDispatch();

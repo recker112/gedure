@@ -20,10 +20,9 @@ import Filtrador from "./Filtrador";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
-import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
 import { getUsers } from "../../../store/slices/tables/async_trunk/users/getUsers";
 import { refresh, resetTableConfig, setConfigTable, setSearch } from "../../../store/slices/tables";
+import { setRequestStatus } from "../../../store/slices/requestStatus";
 
 export default function Table() {
   let navigate = useNavigate();
@@ -137,7 +136,7 @@ export default function Table() {
             <Tooltip title="Desactivar" arrow>
               <IconButton
                 onClick={() => {
-                  dispatch(setConfirmConfgs({confirm: 'disabledAccount', open: true, data: { id, username: privilegio+username }}))
+                  dispatch(setRequestStatus({open: true, data: { id, username: privilegio+username }, select: 'disableUser'}));
                 }}
                 disabled={!users_delete}
                 data-tour="gdUser__delete"
@@ -216,7 +215,7 @@ export default function Table() {
                     i++;
                   }
                   
-                  dispatch(setConfgs({open: true, data: idsArray}))
+                  dispatch(setRequestStatus({open: true, data: idsArray, select: 'updateSeccion'}))
                 }}
                 disabled={!users_edit}
               >
@@ -234,7 +233,7 @@ export default function Table() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgs({confirm: 'disabledAccountMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'disableUserMassive', open: true, data: idsArray}))
               }}
               disabled={!users_delete}
             >
