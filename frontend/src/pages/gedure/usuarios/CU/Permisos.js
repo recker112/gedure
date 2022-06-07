@@ -137,7 +137,7 @@ function PermissionsNoSuper(props){
 		},
 		{
 			name: 'contact_index',
-			label: 'Ver solicitudes de contรกcto',
+			label: 'Ver solicitudes de contácto',
 			nested: [
 				{
 					name: 'contact_destroy',
