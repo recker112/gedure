@@ -6,6 +6,7 @@ import { useLocation, Link } from 'react-router-dom';
 // MUI
 import { Tab, Tabs } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
 
 const LinkTabs = styled(Tabs)({
   '& .MuiTabs-indicator': {
@@ -29,6 +30,9 @@ function a11yProps(index) {
 export default function NavTabs() {
   const location = useLocation();
 
+  const { gedure } = useSelector(state => state.auth.permissions);
+  const { cursos_index, users_disabled_index, bank_account_index, bank_transaction_index } = gedure;
+
   return (
     <LinkTabs
       value={location.pathname}
@@ -41,26 +45,32 @@ export default function NavTabs() {
         label='General' 
         value={'/gedure/config'}
         data-tour='general'
-        {...a11yProps(0)}
-      />
-      <LinkTab 
-        label='Cursos' 
-        value={'/gedure/config/cursos'}
-        data-tour='cursos'
         {...a11yProps(1)}
       />
-      <LinkTab 
-        label='Pagos' 
-        value={'/gedure/config/pagos'}
-        data-tour='pagos'
-        {...a11yProps(1)}
-      />
-      <LinkTab
-        label='Usuarios desactivados' 
-        value={'/gedure/config/usuarios-desactivados'}
-        data-tour='usuarios'
-        {...a11yProps(2)}
-      />
+      {cursos_index && (
+        <LinkTab 
+          label='Cursos' 
+          value={'/gedure/config/cursos'}
+          data-tour='cursos'
+          {...a11yProps(0)}
+        />
+      )}
+      {(bank_account_index || bank_transaction_index) && (
+        <LinkTab 
+          label='Pagos' 
+          value={'/gedure/config/pagos'}
+          data-tour='pagos'
+          {...a11yProps(1)}
+        />
+      )}
+      {users_disabled_index && (
+        <LinkTab
+          label='Usuarios desactivados' 
+          value={'/gedure/config/usuarios-desactivados'}
+          data-tour='usuarios'
+          {...a11yProps(2)}
+        />
+      )}
     </LinkTabs>
   )
 }

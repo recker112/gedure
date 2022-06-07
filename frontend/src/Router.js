@@ -111,7 +111,7 @@ export default function Routers() {
   }));
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, posts_create, posts_edit, boletas_index, contact_index } = permissions.administrar;
-  const {  } = permissions.gedure;
+  const { cursos_index, bank_account_index, bank_transaction_index, users_disabled_index } = permissions.gedure;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -294,11 +294,17 @@ export default function Routers() {
                     }>
                       <Route path='' element={<GDHomePage />} />
 
-                      <Route path='cursos' element={<GDCursosPage />} />
+                      {cursos_index && (
+                        <Route path='cursos' element={<GDCursosPage />} />
+                      )}
 
-                      <Route path='pagos' element={<GDPagosPage />} />
+                      {(bank_account_index || bank_transaction_index) && (
+                        <Route path='pagos' element={<GDPagosPage />} />
+                      )}
 
-                      <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
+                      {users_disabled_index && (
+                        <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
+                      )}
 
                       <Route path='*' element={<Navigate to="" replace />} />
                     </Route>

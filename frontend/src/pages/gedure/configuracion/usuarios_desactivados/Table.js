@@ -14,11 +14,12 @@ import { getDataGCDU, refreshGCDU, resetTableConfigGCDU, setConfigTableGCDU, set
 import { setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
 
 export default function Table() {
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, gedure: { users_disabled_restore, users_disabled_destroy } } = useSelector(state => ({
     dataR: state.gdGCDUTable.tableData.data,
     loading: state.gdGCDUTable.tableData.loading,
     pageSize: state.gdGCDUTable.tableData.pageSize,
     pageCount: state.gdGCDUTable.tableData.pageCount,
+    gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
 
@@ -44,6 +45,8 @@ export default function Table() {
         <>
           <Tooltip title='Restaurar' arrow>
             <IconButton
+              component='span'
+              disabled={!users_disabled_restore}
               onClick={() => {
                 dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'restore'}))
               }}
@@ -53,6 +56,8 @@ export default function Table() {
           </Tooltip>
           <Tooltip title='Eliminar' arrow>
             <IconButton
+              component='span'
+              disabled={!users_disabled_destroy}
               onClick={() => {
                 dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'destroy'}))
               }}
@@ -119,6 +124,8 @@ export default function Table() {
         <>
           <Tooltip title="Restaurar" arrow>
             <IconButton
+              component='span'
+              disabled={!users_disabled_restore}
               onClick={() => {
                 let i = 0;
 								let idsArray = [];
@@ -135,6 +142,8 @@ export default function Table() {
           </Tooltip>
           <Tooltip title="Eliminar" arrow>
             <IconButton
+              component='span'
+              disabled={!users_disabled_destroy}
               onClick={() => {
                 let i = 0;
 								let idsArray = [];

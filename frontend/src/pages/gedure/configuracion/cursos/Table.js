@@ -14,11 +14,12 @@ import { getDataCCT, refreshCCT, resetTableConfigCCT, setConfigTableCCT, setSear
 import { setConfirmConfgsGC } from '../../../../store/slices/gedure/configuracion/cursos/confirm';
 
 export default function Table() {
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, gedure: { cursos_destroy } } = useSelector(state => ({
     dataR: state.gdCConfigTable.tableData.data,
     loading: state.gdCConfigTable.tableData.loading,
     pageSize: state.gdCConfigTable.tableData.pageSize,
     pageCount: state.gdCConfigTable.tableData.pageCount,
+    gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
 
@@ -44,9 +45,11 @@ export default function Table() {
       Cell: ({ cell: { row: { original: { id, code } } } }) => (
         <Tooltip title='Eliminar' arrow>
           <IconButton
+            component='span'
             onClick={() => {
               dispatch(setConfirmConfgsGC({open: true, data: {id, code}, confirm: 'delete'}))
             }}
+            disabled={!cursos_destroy}
           >
            <DeleteForeverIcon /> 
           </IconButton>
@@ -109,6 +112,7 @@ export default function Table() {
         <>
           <Tooltip title="Eliminar" arrow>
             <IconButton
+              component='span'
               onClick={() => {
                 let i = 0;
 								let idsArray = [];
@@ -119,6 +123,7 @@ export default function Table() {
 
                 dispatch(setConfirmConfgsGC({confirm: 'deleteMassive', open: true, data: idsArray}))
               }}
+              disabled={!cursos_destroy}
             >
               <DeleteForeverIcon />
             </IconButton>

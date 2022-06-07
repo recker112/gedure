@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
+import { refresh } from "../../../../tables";
 
 export const createBankAccount = createAsyncThunk(
   'requestStatus/createBankAccount',
@@ -16,7 +17,7 @@ export const createBankAccount = createAsyncThunk(
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      
+      dispatch(refresh({ select: 'bankAccounts' }));
 
       return res.data;
     } catch (error) {

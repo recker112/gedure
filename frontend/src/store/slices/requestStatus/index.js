@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
+import { reducersDeleteBankAccount } from "./async_trunk/configuracion/pagos/deleteBankAccount";
 
 // Async request
 import { reducersContacts } from "./async_trunk/contacts";
@@ -108,6 +109,21 @@ const initialState = {
   createBankAccount: {
     loading: false,
   },
+  deleteBankAccount: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  deleteBankAccountMassive: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  editBankAccount: {
+    loading: false,
+    open: false,
+    data: {}
+  },
 };
 
 export const requestStatusSlices = createSlice({
@@ -163,6 +179,7 @@ export const requestStatusSlices = createSlice({
     ...reducersUpdateAvatar,
     ...reducersUpdateData,
     ...reducersCreateBankAccount,
+    ...reducersDeleteBankAccount,
   }
 });
 
