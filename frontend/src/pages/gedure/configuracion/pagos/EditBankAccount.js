@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, MenuItem } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Form
 import { useForm } from 'react-hook-form';
@@ -16,12 +17,13 @@ import { BankList } from '../../../../components/Utils/BankList';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { editBankAccount } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/editBankAccount';
 
 export default function EditBankAccount() {
   const { data, open, loading } = useSelector(state => state.requestStatus.editBankAccount);
   const dispatch = useDispatch();
 
-  const { control, watch } = useForm({
+  const { control, handleSubmit, watch, setError } = useForm({
     shouldUnregister: true,
   })
 
@@ -32,6 +34,13 @@ export default function EditBankAccount() {
   const MenuItemList = BankList.map(useCallback((data, i) => (
 		<MenuItem key={i} value={data.value}>{data.label}</MenuItem>
 	),[]));
+
+  const onSubmit = submitData => {
+    submitData.id = data.id;
+    submitData._method = 'PUT';
+
+    dispatch(editBankAccount({submitData, setError}));
+  }
 
   return (
     <Dialog
@@ -170,6 +179,9 @@ export default function EditBankAccount() {
         <Button sx={{ml: 1}} color='inherit' disabled={loading} onClick={handleClose}>
           Cancelar
         </Button>
+        <LoadingButton onClick={handleSubmit(onSubmit)} loading={loading} variant="text" color="inherit">
+          Actualizar
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   )

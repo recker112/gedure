@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
 import { reducersDeleteBankAccount } from "./async_trunk/configuracion/pagos/deleteBankAccount";
+import { reducersEditBankAccount } from "./async_trunk/configuracion/pagos/editBankAccount";
 
 // Async request
 import { reducersContacts } from "./async_trunk/contacts";
@@ -190,6 +191,7 @@ export const requestStatusSlices = createSlice({
     ...reducersUpdateData,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
+    ...reducersEditBankAccount,
   }
 });
 

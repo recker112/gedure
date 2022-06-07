@@ -3,7 +3,7 @@ import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
 export const createBankAccount = createAsyncThunk(
-  'requestStatus/createBankAccount',
+  'requestStatus/bankAccount/create',
   async ({ submitData, setError }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
