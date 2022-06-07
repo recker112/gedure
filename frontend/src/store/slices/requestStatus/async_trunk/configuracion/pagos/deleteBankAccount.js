@@ -18,6 +18,7 @@ export const deleteBankAccount = createAsyncThunk(
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
       dispatch(refresh({ select: 'bankAccounts' }));
+      dispatch(refresh({ select: 'bankTransactions' }));
 
       return res.data;
     } catch (error) {

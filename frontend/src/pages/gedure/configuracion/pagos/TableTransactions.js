@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 // MUI
 import { IconButton, Tooltip } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 // Components
 import ReactTableBase from '../../../../components/ReactTableBase';
@@ -63,17 +63,17 @@ export default function TableTransactions() {
       id: 'options',
       Header: 'Opciones',
       accessor: 'options',
-      Cell: ({ cell: { row: { original: { id, n_account, rif, name, email, type, code } } } }) => (
+      Cell: ({ cell: { row: { original: { id, amount } } } }) => (
         <>
           <Tooltip title='Asignar' arrow>
             <IconButton
               component='span'
               disabled={!bank_account_edit}
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: { id, n_account, rif, name, email, type, code }, select: 'editBankAccount'}));
+                dispatch(setRequestStatus({open: true, data: { id, amount }, select: 'assignTransaction'}));
               }}
             >
-              <EditIcon /> 
+              <AssignmentIcon /> 
             </IconButton>
           </Tooltip>
           <Tooltip title='Eliminar' arrow>
@@ -81,7 +81,7 @@ export default function TableTransactions() {
               component='span'
               disabled={!bank_account_destroy}
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: { id, n_account}, select: 'deleteBankAccount'}));
+                dispatch(setRequestStatus({open: true, data: { id }, select: 'deleteTransaction'}));
               }}
             >
               <DeleteForeverIcon /> 

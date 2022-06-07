@@ -15,6 +15,8 @@ import TableTransactions from './TableTransactions';
 // Redux
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
 import { deleteBankAccount } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteBankAccount';
+import { deleteBankTransaction } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteBankTransaction';
+import AssignTransaction from './AssignTransaction';
 
 export default function GDPagos() {
   return (
@@ -30,6 +32,19 @@ export default function GDPagos() {
       </Grid>
       <Grid item xs={12}>
         <TableTransactions />
+        <AssignTransaction />
+        <DialogConfirmation
+          rdx1='requestStatus' 
+          rdx2='deleteTransaction'
+          close={
+            setRequestStatus({open: false, data: {}, select: 'deleteTransaction'})
+          }
+          request={
+            data => deleteBankTransaction(data.id)
+          }
+        >
+          {(data) => (<span>Está a punto de eliminar la transacción <strong>#{data.id}</strong>, tenga en cuenta que esta acción no se puede deshacer.</span>)}
+        </DialogConfirmation>
       </Grid>
       <EditBankAccount />
       <DialogConfirmation
