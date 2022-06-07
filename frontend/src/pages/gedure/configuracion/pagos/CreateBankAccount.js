@@ -18,7 +18,6 @@ import { createBankAccount } from '../../../../store/slices/requestStatus/async_
 
 export default function CreateBankAccount() {
   const loading = useSelector(state => state.requestStatus.createBankAccount.loading);
-  console.log(loading);
   const dispatch = useDispatch();
 
   const { control, handleSubmit, setError } = useForm();
