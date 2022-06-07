@@ -17,7 +17,8 @@ import TourShowUser from './TourShowUser';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getData, reset } from '../../../../store/slices/gedure/usuarios/ver';
+import { getUser } from '../../../../store/slices/requestStatus/async_trunk/users/getUser';
+import { resetDataRequest } from '../../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -34,16 +35,16 @@ export default function PageShowUser() {
     message404: 'Usuario no encontrado'
   });
 
-  const { userSelected, loading } = useSelector(state => state.gdUSelected);
+  const { userSelected, loading } = useSelector(state => state.requestStatus.userShow);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (loading) {
-      dispatch(getData(id));
+      dispatch(getUser(id));
     }
 
     return () => {
-      dispatch(reset());
+      dispatch(resetDataRequest({ select: 'userShow' }));
     }
 
     // eslint-disable-next-line

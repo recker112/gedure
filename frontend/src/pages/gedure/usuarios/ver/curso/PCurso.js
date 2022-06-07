@@ -22,7 +22,7 @@ export default function PCurso() {
   const { id } = useParams();
 
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingPC,
   }));
   const dispatch = useDispatch();

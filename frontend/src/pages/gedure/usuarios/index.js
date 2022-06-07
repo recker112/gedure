@@ -19,8 +19,9 @@ import TourUser from "./TourUser";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { confirmData, confirmDataMassive, setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
 import { setRequestStatus } from "../../../store/slices/requestStatus";
+import { disableUser } from "../../../store/slices/requestStatus/async_trunk/users/disableUser";
+import { disableUserMassive } from "../../../store/slices/requestStatus/async_trunk/users/disableUserMassive";
 
 const classes = {
   container: {
@@ -41,7 +42,7 @@ export default function Usuarios() {
   }
 
   const handleOpenUpload = () => {
-    dispatch(setRequestStatus({select: 'uploadUser', open: true}));
+    dispatch(setRequestStatus({select: 'uploadMatricula', open: true}));
   }
 
   return (
@@ -64,25 +65,25 @@ export default function Usuarios() {
         <CreateUser />
         <UploadStudiends />
         <DialogConfirmation 
-          rdx1='gdUConfirmDisabledAccount' 
-          rdx2='disabledAccount'
+          rdx1='requestStatus' 
+          rdx2='disableUser'
           close={
-            setConfirmConfgs({open: false, data: {}, confirm: 'disabledAccount'})
+            setRequestStatus({open: false, data: {}, select: 'disableUser'})
           }
           request={
-            data => confirmData(data.id)
+            data => disableUser(data.id)
           }
         >
           {(data) => (<span>Está a punto de <strong>desactivar la cuenta {data.username}</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.</span>)}
         </DialogConfirmation>
         <DialogConfirmation 
-          rdx1='gdUConfirmDisabledAccount' 
-          rdx2='disabledAccountMassive'
+          rdx1='requestStatus' 
+          rdx2='disableUserMassive'
           close={
-            setConfirmConfgs({open: false, data: {}, confirm: 'disabledAccountMassive'})
+            setRequestStatus({open: false, data: {}, select: 'disableUserMassive'})
           }
           request={
-            data => confirmDataMassive(data)
+            data => disableUserMassive(data)
           }
         >
           {(data) => (<span>Está a punto de <strong>desactivar {data?.length} cuenta(s)</strong>. Si llega a desactivar una cuenta por accidente puede reactivarla.</span>)}

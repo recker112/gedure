@@ -14,7 +14,7 @@ import { updateDataUPREN } from '../../../../../store/slices/gedure/usuarios/ver
 export default function OPRenviar() {
   const { id } = useParams()
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPREN.loading,
   }));
   const dispatch = useDispatch();

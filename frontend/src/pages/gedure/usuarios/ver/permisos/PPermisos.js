@@ -21,8 +21,8 @@ export default function PPermisos() {
   const { id } = useParams();
 
   const { permissions, loading, userSelected } = useSelector(state => ({
-    permissions: state.gdUSelected.permissions,
-    userSelected: state.gdUSelected.userSelected,
+    permissions: state.requestStatus.userShow.permissions,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingPPE,
   }));
   const dispatch = useDispatch();

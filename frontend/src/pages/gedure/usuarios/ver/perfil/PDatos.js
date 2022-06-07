@@ -104,7 +104,7 @@ export default function PDatos() {
   const { id } = useParams();
 
   const { userSelected, loading } = useSelector(state => ({
-    userSelected: state.gdUSelected.userSelected,
+    userSelected: state.requestStatus.userShow.userSelected,
     loading: state.gdUPD.loadingPD,
   }))
   const dispatch = useDispatch();
