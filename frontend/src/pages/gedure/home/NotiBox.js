@@ -8,7 +8,6 @@ import { CircularProgress, Divider, Grid, IconButton, Paper, Stack, Typography }
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function NotiBox({ data, loading, title, icon }) {
-  console.log(data,!loading);
   return (
     <Grid item xs={12} sm={6}>
       <Paper className='paper--padding' elevation={3}>
