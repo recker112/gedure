@@ -124,7 +124,7 @@ export default function TableAccounts() {
 
   return (
     <ReactTableBase
-      title='Usuarios desactivados'
+      title='Cuentas bancarias'
       data={data}
       columns={columns}
       pageCountData={pageCount}

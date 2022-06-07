@@ -2,12 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
-export const createBankAccount = createAsyncThunk(
-  'requestStatus/bankAccount/create',
+export const editBankAccount = createAsyncThunk(
+  'requestStatus/createBankAccount',
   async ({ submitData, setError }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/bank-account';
+    let url = `v1/bank-account/${submitData.id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -47,14 +47,15 @@ export const createBankAccount = createAsyncThunk(
   }
 );
 
-export const reducersCreateBankAccount = {
-  [createBankAccount.pending]: (state, action) => {
-    state.createBankAccount.loading = true;
+export const reducersEditBankAccount = {
+  [editBankAccount.pending]: (state, action) => {
+    state.editBankAccount.loading = true;
   },
-  [createBankAccount.rejected]: (state, action) => {
-    state.createBankAccount.loading = false;
+  [editBankAccount.rejected]: (state, action) => {
+    state.editBankAccount.loading = false;
   },
-  [createBankAccount.fulfilled]: (state, action) => {
-    state.createBankAccount.loading = false;
+  [editBankAccount.fulfilled]: (state, action) => {
+    state.editBankAccount.loading = false;
+    state.editBankAccount.open = false;
   },
 }
