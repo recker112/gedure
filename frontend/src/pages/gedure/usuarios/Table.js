@@ -20,27 +20,22 @@ import Filtrador from "./Filtrador";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getData,
-  refresh,
-  resetTableConfig,
-  setConfigTable,
-  setSearch,
-} from "../../../store/slices/gedure/usuarios/table";
 import { setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
 import { setConfgs } from "../../../store/slices/gedure/usuarios/updateSeccion";
+import { getUsers } from "../../../store/slices/tables/async_trunk/users/getUsers";
+import { refresh, resetTableConfig, setConfigTable, setSearch } from "../../../store/slices/tables";
 
 export default function Table() {
   let navigate = useNavigate();
 
   const { dataR, loading, pageSize, pageCount, type, permissions, idU, curso, seccion } = useSelector((state) => ({
-    dataR: state.gdUTable.tableData.data,
-    loading: state.gdUTable.tableData.loading,
-    pageSize: state.gdUTable.tableData.pageSize,
-    pageCount: state.gdUTable.tableData.pageCount,
-    type: state.gdUTable.filters.type,
-    curso: state.gdUTable.filters.curso,
-    seccion: state.gdUTable.filters.seccion,
+    dataR: state.tables.users.tableData.data,
+    loading: state.tables.users.tableData.loading,
+    pageSize: state.tables.users.tableData.pageSize,
+    pageCount: state.tables.users.tableData.pageCount,
+    type: state.tables.users.filters.type,
+    curso: state.tables.users.filters.curso,
+    seccion: state.tables.users.filters.seccion,
     permissions: state.auth.permissions,
     idU: state.auth.user.id,
   }));
@@ -155,7 +150,7 @@ export default function Table() {
       },
     ],
     // eslint-disable-next-line
-    []
+    [curso,seccion]
   );
 
   const data = useMemo(() => dataR, [dataR]);
@@ -165,7 +160,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getData());
+      promise = dispatch(getUsers());
     }
 
     return () => {
@@ -179,21 +174,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfig());
+      dispatch(resetTableConfig({ select: 'users' }));
     };
     // eslint-disable-next-line
   }, []);
 
   const handleGlobalFilter = (value) => {
-    dispatch(setSearch(value || ""));
+    dispatch(setSearch({search: value || "", select: 'users'}));
   };
 
   const handleChange = (value) => {
-    dispatch(setConfigTable(value));
+    dispatch(setConfigTable({ ...value, select: 'users' }));
   };
 
   const handleRefresh = () => {
-    dispatch(refresh());
+    dispatch(refresh({ select: 'users' }));
   }
 
   return (

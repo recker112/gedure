@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBankAccount, reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
+import { reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
 
 // Async request
 import { reducersContacts } from "./async_trunk/contacts";
