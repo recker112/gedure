@@ -16,7 +16,7 @@ import generatePassword from '../../../../../components/Utils/GeneratePassword';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function PPasswordForm({ control, handleSubmit, setValue, loading, helperText }) {
   const [generatePass, setGeneratePass] = useState(false);
@@ -111,7 +111,7 @@ export function PPasswordForm({ control, handleSubmit, setValue, loading, helper
 export default function PPassword() {
   const { id } = useParams();
 
-  const loading = useSelector(state => state.gdUPD.loadingPP);
+  const loading = useSelector(state => state.requestStatus.personalData.loadingPP);
   const dispatch = useDispatch();
 
   const { handleSubmit, control, setValue } = useForm();

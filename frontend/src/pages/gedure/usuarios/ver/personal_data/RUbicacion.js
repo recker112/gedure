@@ -17,7 +17,7 @@ import { buscarMunicipioVE, buscarParroquiaVE, estadosVE } from '../../../../../
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function RUbicacionForm({ loading, control, handleSubmit, user, buttonDisable }) {
   const repre_ubi_estado = useWatch({
@@ -130,7 +130,7 @@ export default function RUbicacion() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingRU,
+    loading: state.requestStatus.personalData.loadingRU,
   }));
   const dispatch = useDispatch();
 

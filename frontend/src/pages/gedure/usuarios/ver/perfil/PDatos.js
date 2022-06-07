@@ -13,7 +13,7 @@ import { InputHook } from '../../../../../components/form/inputs';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function PDatosForm({ control, loading, handleSubmit, userField = true, nameField = true, user = {} }) {
   return (
@@ -105,7 +105,7 @@ export default function PDatos() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPD,
+    loading: state.requestStatus.personalData.loadingPD,
   }))
   const dispatch = useDispatch();
 

@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setUserSelected } from "..";
-import { updateNotistack } from "../../../../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { setProgress, setUserSelected } from "../..";
+import { updateNotistack } from "../../../notistack";
 
-export const uploadAvatar = createAsyncThunk(
-  'gdUPA/uploadAvatar',
+export const updateAvatar = createAsyncThunk(
+  'requestStatus/user/avatar',
   async ({data, id, personal=false, handleUpdate = null}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -18,7 +18,7 @@ export const uploadAvatar = createAsyncThunk(
     const onUploadProgress = (progressEvent) => {
       let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
     
-      dispatch(setProgress(percentCompleted));
+      dispatch(setProgress({ select: 'personalAvatar', percentCompleted }));
     };
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
@@ -39,7 +39,6 @@ export const uploadAvatar = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      console.log(error)
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
@@ -55,53 +54,32 @@ export const uploadAvatar = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  loadingUpload: false,
-  loadingDelete: false,
-  progress: 0,
-};
-
-export const gdUPASlices = createSlice({
-  name: "gdUPA",
-  initialState,
-  reducers: {
-    setProgress: (state, action) => {
-      const { payload } = action;
-      state.progress = payload;
+export const reducersUpdateAvatar = {
+  [updateAvatar.pending]: (state, action) => {
+    const { type } = action.meta.arg;
+    
+    if (type === 1) {
+      state.personalAvatar.loadingUpload = true;
+    } else if (type === 2) {
+      state.personalAvatar.loadingDelete = true;
     }
   },
-  extraReducers: {
-    [uploadAvatar.pending]: (state, action) => {
-      const { type } = action.meta.arg;
-      
-      if (type === 1) {
-        state.loadingUpload = true;
-      } else if (type === 2) {
-        state.loadingDelete = true;
-      }
-    },
-    [uploadAvatar.rejected]: (state, action) => {
-      const { type } = action.meta.arg;
-      
-      if (type === 1) {
-        state.loadingUpload = false;
-      } else if (type === 2) {
-        state.loadingDelete = false;
-      }
-    },
-    [uploadAvatar.fulfilled]: (state, action) => {
-      const { type } = action.meta.arg;
+  [updateAvatar.rejected]: (state, action) => {
+    const { type } = action.meta.arg;
+    
+    if (type === 1) {
+      state.personalAvatar.loadingUpload = false;
+    } else if (type === 2) {
+      state.personalAvatar.loadingDelete = false;
+    }
+  },
+  [updateAvatar.fulfilled]: (state, action) => {
+    const { type } = action.meta.arg;
 
-      if (type === 1) {
-        state.loadingUpload = false;
-      } else if (type === 2) {
-        state.loadingDelete = false;
-      }
-    },
-  }
-});
-
-export default gdUPASlices.reducer;
-
-export const { setProgress } = gdUPASlices.actions;
+    if (type === 1) {
+      state.personalAvatar.loadingUpload = false;
+    } else if (type === 2) {
+      state.personalAvatar.loadingDelete = false;
+    }
+  },
+}

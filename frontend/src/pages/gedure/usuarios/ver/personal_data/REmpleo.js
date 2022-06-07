@@ -112,7 +112,7 @@ export default function REmpleo() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingRE,
+    loading: state.requestStatus.personalData.loadingRE,
   }));
   const dispatch = useDispatch();
 

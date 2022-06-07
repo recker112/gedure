@@ -19,7 +19,7 @@ import { format } from 'date-fns';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function RDatosForm({ control, loading, user, handleSubmit, buttonDisable }) {
   return (
@@ -235,7 +235,7 @@ export default function RDatos() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingRD,
+    loading: state.requestStatus.personalData.loadingRD,
   }));
   const dispatch = useDispatch();
 

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 
 // MUI
 import { Box, Divider, Grid, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Form
 import { useForm, useWatch } from 'react-hook-form';
@@ -17,8 +18,7 @@ import { format } from 'date-fns';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function PDUsuarioForm({
   control,
@@ -188,7 +188,7 @@ export default function PDUsuario() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPDU,
+    loading: state.requestStatus.personalData.loadingPDU,
   }))
   const dispatch = useDispatch();
 

@@ -22,7 +22,7 @@ import { estadosVE } from '../../../../../components/Utils/LocationVE';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 
 export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, loading }) {
@@ -175,7 +175,7 @@ export default function PEstudiante() {
 
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPE,
+    loading: state.requestStatus.personalData.loadingPE,
   }));
   const dispatch = useDispatch()
 

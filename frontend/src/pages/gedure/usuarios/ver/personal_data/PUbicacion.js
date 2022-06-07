@@ -14,7 +14,7 @@ import RatingHook from '../../../../../components/form/rating';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 const labels = {
 	1: 'Deplorable',
@@ -147,7 +147,7 @@ export default function PUbicacion() {
   const { id } = useParams();
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPD.loadingPU,
+    loading: state.requestStatus.personalData.loadingPU,
   }));
   const dispatch = useDispatch()
 
