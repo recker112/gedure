@@ -11,7 +11,7 @@ import { useWatch } from 'react-hook-form';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurso } from '../../../../store/slices/gedure/usuarios/forms';
+import { getCursos } from '../../../../store/slices/requestStatus/async_trunk/users/getCursos';
 
 export default function Curso({ disabled, control }) {
   const privilegio = useWatch({
@@ -19,11 +19,11 @@ export default function Curso({ disabled, control }) {
     name: "privilegio",
   });
 
-  const data = useSelector(state => state.gdUForms.create.data);
+  const data = useSelector(state => state.requestStatus.createUser.data);
   const dispatch = useDispatch();
 
   const handleRequest = async (valueInput) => {
-    await dispatch(getCurso(valueInput));
+    await dispatch(getCursos(valueInput));
   }
 
   if (privilegio === 'V-') {

@@ -5,7 +5,6 @@ import configs from './slices/configs';
 import auth from "./slices/auth";
 import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
-import gdUTable from "./slices/gedure/usuarios/table";
 import gdUForms from "./slices/gedure/usuarios/forms";
 import gdUConfirmDisabledAccount from "./slices/gedure/usuarios/confirmDialogs";
 import gdUUpdateSeccion from "./slices/gedure/usuarios/updateSeccion";
@@ -38,7 +37,6 @@ export default configureStore({
     auth,
     notistack,
     contacts,
-    gdUTable,
     gdUForms,
     gdUConfirmDisabledAccount,
     gdUUpdateSeccion,
