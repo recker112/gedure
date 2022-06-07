@@ -8,6 +8,7 @@ import { CircularProgress, Divider, Grid, IconButton, Paper, Stack, Typography }
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function NotiBox({ data, loading, title, icon }) {
+  console.log(data,!loading);
   return (
     <Grid item xs={12} sm={6}>
       <Paper className='paper--padding' elevation={3}>
@@ -25,7 +26,11 @@ export default function NotiBox({ data, loading, title, icon }) {
               <CircularProgress />
             </Grid>
           )}
-          {/*Nota(RECKER): Reccorrer items*/}
+          {(!data?.length && !loading) && (
+            <Grid container justifyContent='center' item xs={12}>
+              <Typography>No hay nada que mostrar.</Typography>
+            </Grid>
+          )}
           {(data && !loading) && data.map((item, i) => (
             <React.Fragment key={i}>
               <Grid container justifyContent='space-between' alignItems='center' item xs={12}>
