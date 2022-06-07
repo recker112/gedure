@@ -1,5 +1,8 @@
 import React from 'react'
 
+// MUI
+import { Box } from '@mui/material';
+
 // Components
 import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
@@ -9,7 +12,7 @@ import { destroyUser, destroyUserMassive, restoreUser, restoreUserMassive, setCo
 
 export default function GDUserDis() {
   return (
-    <>
+    <Box sx={{paddingBottom: 6}}>
       <Table />
       <DialogConfirmation
         rdx1='gdGCDUConfirm' 
@@ -59,6 +62,6 @@ export default function GDUserDis() {
       >
         {(data) => (<span>Está a punto de eliminar permanentemente <strong>{data?.length}</strong> usuario(s). Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}
       </DialogConfirmation>
-    </>
+    </Box>
   )
 }

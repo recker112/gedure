@@ -34,6 +34,7 @@ import gdCConfigTable from "./slices/gedure/configuracion/cursos/table";
 import gdGCConfirm from "./slices/gedure/configuracion/cursos/confirm";
 import gdGCDUTable from "./slices/gedure/configuracion/user_disabled/table";
 import gdGCDUConfirm from "./slices/gedure/configuracion/user_disabled/confirm";
+import requestStatus from "./slices/requestStatus";
 
 export default configureStore({
   reducer: {
@@ -70,5 +71,6 @@ export default configureStore({
     gdGCConfirm,
     gdGCDUTable,
     gdGCDUConfirm,
+    requestStatus,
   },
 });
