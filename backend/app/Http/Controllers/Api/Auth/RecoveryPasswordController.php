@@ -50,7 +50,7 @@ class RecoveryPasswordController extends Controller
 				Mail::to($user)->queue((new CodeSecurity($user, $code))->onQueue('emails'));
 				$step=2;
 			}else if ($user->recoveryPassword && $timeNow >= $timeUpdated) {
-				// NOTA(RECKER): Reenviar code si han pasado más de 4 minutos
+				// NOTA(RECKER): Reenviar code si han pasado más de 2 minutos
 				$codeRegistred = $user->recoveryPassword->code;
 				$user->recoveryPassword->updated_at = $timeNow;
 				$user->recoveryPassword->save();

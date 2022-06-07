@@ -20,6 +20,7 @@ const NewsPage = lazy(() => import('./pages/news'));
 const NewsPageShow = lazy(() => import('./pages/news/show'));
 const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
+const RecoveryPage = lazy(() => import('./pages/recovery'));
 const LogoutPage = lazy(() => import('./pages/gedure/logout'));
 
 // Gedure core
@@ -104,6 +105,7 @@ function NotFound() {
 
 export default function Routers() {
   const match = useMatch('/entrar');
+  const match2 = useMatch('/recuperar');
 
   const { permissions, privilegio } = useSelector(state => ({
     permissions: state.auth.permissions,
@@ -116,7 +118,7 @@ export default function Routers() {
   return (
     <Suspense fallback={<Loader />}>
       <Relogin>
-        {(!match) && <Navbar />}
+        {(!match && !match2) && <Navbar />}
 
         <Suspense fallback={<Loader />}>
           <Routes>
@@ -136,6 +138,12 @@ export default function Routers() {
             <Route path='/entrar' element={
               <NoSeeAuth>
                 <LoginPage />
+              </NoSeeAuth>
+            } />
+
+            <Route path='/recuperar' element={
+              <NoSeeAuth>
+                <RecoveryPage />
               </NoSeeAuth>
             } />
 
