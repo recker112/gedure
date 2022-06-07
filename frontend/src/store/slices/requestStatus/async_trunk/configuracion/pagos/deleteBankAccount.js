@@ -2,16 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
-export const createBankAccount = createAsyncThunk(
-  'requestStatus/createBankAccount',
-  async ({ submitData, setError }, { getState, signal, dispatch }) => {
+export const deleteBankAccount = createAsyncThunk(
+  'requestStatus/bank/account/delete',
+  async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/bank-account';
+    let url = `v1/bank-account/${id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
-      const res = await axios.post(url, submitData, {
+      const res = await axios.delete(url, {
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
@@ -27,13 +27,8 @@ export const createBankAccount = createAsyncThunk(
         let { data, status } = error.response;
 
         // NOTA(RECKER): Setear errores en inputs
-        if (status === 422 && Boolean(data.errors)) {
-          for (let key in data.errors) {
-						setError && setError(key, {
-							type: 'fetchRequest',
-							message: 'Error: '+data.errors[key][0],
-						});
-					}
+        if (status === 404) {
+          data.msg = 'La cuenta ya no existe';
         }
 
         // NOTA(RECKER): Respuesta del servidor
@@ -47,14 +42,16 @@ export const createBankAccount = createAsyncThunk(
   }
 );
 
-export const reducersCreateBankAccount = {
-  [createBankAccount.pending]: (state, action) => {
-    state.createBankAccount.loading = true;
+export const reducersDeleteBankAccount = {
+  [deleteBankAccount.pending]: (state, action) => {
+    state.deleteBankAccount.loading = true;
   },
-  [createBankAccount.rejected]: (state, action) => {
-    state.createBankAccount.loading = false;
+  [deleteBankAccount.rejected]: (state, action) => {
+    state.deleteBankAccount.loading = false;
   },
-  [createBankAccount.fulfilled]: (state, action) => {
-    state.createBankAccount.loading = false;
+  [deleteBankAccount.fulfilled]: (state, action) => {
+    state.deleteBankAccount.loading = false;
+    state.deleteBankAccount.data = {};
+    state.deleteBankAccount.open = false;
   },
 }

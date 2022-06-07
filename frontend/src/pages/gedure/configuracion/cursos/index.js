@@ -9,14 +9,19 @@ import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 
 // Redux
+import { useSelector } from 'react-redux';
 import { deleteCurso, deleteCursoMassive, setConfirmConfgsGC } from '../../../../store/slices/gedure/configuracion/cursos/confirm';
 
 export default function GDCursos() {
+  const { cursos_create } = useSelector(state => state.auth.permissions.gedure);
+
   return (
     <Grid container spacing={2} sx={{paddingBottom: 6}}>
-      <Grid item xs={12}>
-        <CreateCurso />
-      </Grid>
+      {cursos_create && (
+        <Grid item xs={12}>
+          <CreateCurso />
+        </Grid>
+      )}
       <Grid item xs={12}>
         <Table />
       </Grid>

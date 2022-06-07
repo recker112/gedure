@@ -3,63 +3,76 @@ import React, { useEffect, useMemo } from 'react'
 // MUI
 import { IconButton, Tooltip } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import RestoreIcon from '@mui/icons-material/Restore';
+import EditIcon from '@mui/icons-material/Edit';
 
 // Components
 import ReactTableBase from '../../../../components/ReactTableBase';
+import { parseToAccountString } from '../../../../components/Utils/ParseString';
+import { BankListSearch } from '../../../../components/Utils/BankList';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataGCDU, refreshGCDU, resetTableConfigGCDU, setConfigTableGCDU, setSearchGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/table';
 import { setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
+import { getBankAccounts } from '../../../../store/slices/tables/async_trunk/configuracion/TableBankAccounts';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tables';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
-export default function Table() {
-  const { dataR, loading, pageSize, pageCount, gedure: { users_disabled_restore, users_disabled_destroy } } = useSelector(state => ({
-    dataR: state.gdGCDUTable.tableData.data,
-    loading: state.gdGCDUTable.tableData.loading,
-    pageSize: state.gdGCDUTable.tableData.pageSize,
-    pageCount: state.gdGCDUTable.tableData.pageCount,
+export default function TableAccounts() {
+  const { dataR, loading, pageSize, pageCount, gedure: { bank_account_edit, bank_account_destroy } } = useSelector(state => ({
+    dataR: state.tables.bankAccounts.tableData.data,
+    loading: state.tables.bankAccounts.tableData.loading,
+    pageSize: state.tables.bankAccounts.tableData.pageSize,
+    pageCount: state.tables.bankAccounts.tableData.pageCount,
     gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
 
   const columns = useMemo(() => [
     {
-      Header: 'Usuario',
-      accessor: 'code',
-      Cell: ({ cell: { row: { original: { privilegio, username } } } }) => `${privilegio}${username}`
+      Header: 'N° cuenta',
+      accessor: 'n_account',
+      Cell: ({ cell: { row: { original: { n_account } } } }) => parseToAccountString(n_account)
     },
     {
       Header: 'Nombre',
       accessor: 'name',
     },
     {
-      Header: 'Correo',
-      accessor: 'email',
+      Header: 'Correo', 
+      accessor: 'email'
+    },
+    {
+      Header: 'Tipo', 
+      accessor: 'type'
+    },
+    {
+      Header: 'Banco', 
+      accessor: 'code',
+      Cell: ({ cell: { row: { original: { code } } } }) => BankListSearch[code] || 'No especificado',
     },
     {
       id: 'options',
       Header: 'Opciones',
       accessor: 'options',
-      Cell: ({ cell: { row: { original: { id, username, privilegio } } } }) => (
+      Cell: ({ cell: { row: { original: { id, n_account, rif, name, email, type, code } } } }) => (
         <>
-          <Tooltip title='Restaurar' arrow>
+          <Tooltip title='Editar' arrow>
             <IconButton
               component='span'
-              disabled={!users_disabled_restore}
+              disabled={!bank_account_edit}
               onClick={() => {
-                dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'restore'}))
+                dispatch(setRequestStatus({open: true, data: { id, n_account, rif, name, email, type, code }, select: 'editBankAccount'}));
               }}
             >
-              <RestoreIcon /> 
+              <EditIcon /> 
             </IconButton>
           </Tooltip>
           <Tooltip title='Eliminar' arrow>
             <IconButton
               component='span'
-              disabled={!users_disabled_destroy}
+              disabled={!bank_account_destroy}
               onClick={() => {
-                dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'destroy'}))
+                dispatch(setRequestStatus({open: true, data: { id, n_account}, select: 'deleteBankAccount'}));
               }}
             >
               <DeleteForeverIcon /> 
@@ -78,7 +91,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataGCDU());
+      promise = dispatch(getBankAccounts());
     }
 
     return () => {
@@ -92,21 +105,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigGCDU());
+      dispatch(resetTableConfig({ select: 'bankAccounts' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearchGCDU(value || ""));
+    dispatch(setSearch({search: value || "", select: 'bankAccounts'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTableGCDU(value));
+    dispatch(setConfigTable({ ...value, select: 'bankAccounts' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refreshGCDU());
+    dispatch(refresh({ select: 'bankAccounts' }));
   }
 
   return (
@@ -122,28 +135,10 @@ export default function Table() {
       refresh={handleRefresh}
       massiveOptions={dataMassive => (
         <>
-          <Tooltip title="Restaurar" arrow>
-            <IconButton
-              component='span'
-              disabled={!users_disabled_restore}
-              onClick={() => {
-                let i = 0;
-								let idsArray = [];
-								for(let value of dataMassive){
-									idsArray[i] = value.id;
-									i++;
-								}
-
-                dispatch(setConfirmConfgsGCDU({confirm: 'restoreMassive', open: true, data: idsArray}))
-              }}
-            >
-              <RestoreIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Eliminar" arrow>
             <IconButton
               component='span'
-              disabled={!users_disabled_destroy}
+              disabled={!bank_account_destroy}
               onClick={() => {
                 let i = 0;
 								let idsArray = [];
