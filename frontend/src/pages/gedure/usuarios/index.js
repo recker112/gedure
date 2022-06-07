@@ -19,8 +19,8 @@ import TourUser from "./TourUser";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { setOpen } from "../../../store/slices/gedure/usuarios/forms";
 import { confirmData, confirmDataMassive, setConfirmConfgs } from "../../../store/slices/gedure/usuarios/confirmDialogs";
+import { setRequestStatus } from "../../../store/slices/requestStatus";
 
 const classes = {
   container: {
@@ -37,11 +37,11 @@ export default function Usuarios() {
   const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
-    dispatch(setOpen({select: 'create', open: true}));
+    dispatch(setRequestStatus({select: 'createUser', open: true}));
   }
 
   const handleOpenUpload = () => {
-    dispatch(setOpen({select: 'upload', open: true}));
+    dispatch(setRequestStatus({select: 'uploadUser', open: true}));
   }
 
   return (

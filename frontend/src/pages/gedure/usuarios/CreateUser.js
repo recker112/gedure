@@ -18,10 +18,11 @@ import { InputHook } from '../../../components/form/inputs/InputHook';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createData, setOpen } from '../../../store/slices/gedure/usuarios/forms';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { createUser } from '../../../store/slices/requestStatus/async_trunk/users/createUser';
 
 export default function CreateUser() {
-  const { open, loading } = useSelector(state => state.gdUForms.create);
+  const { open, loading } = useSelector(state => state.requestStatus.createUser);
   const dispatch = useDispatch();
 
   const { control, handleSubmit, setValue, setError } = useForm({
@@ -29,7 +30,7 @@ export default function CreateUser() {
   });
 
   const handleClose = () => {
-		dispatch(setOpen({select: 'create', open: false}));
+		dispatch(setRequestStatus({select: 'createUser', open: false}));
 	}
 
   const onSubmit = async submitData => {
@@ -37,7 +38,7 @@ export default function CreateUser() {
 			submitData.curso_id = submitData.curso_id.id;
 		}
     
-    await dispatch(createData({submitData, errors: setError, handleClose}));
+    await dispatch(createUser({submitData, errors: setError, handleClose}));
   }
 
   return (

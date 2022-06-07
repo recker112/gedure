@@ -7,6 +7,8 @@ import { reducersInfoBox } from "./async_trunk/home/getInfoBox";
 import { reducersLogin } from "./async_trunk/login";
 import { reducersNewsPreview } from "./async_trunk/news/getNewsPreviews";
 import { reducersNewsShow } from "./async_trunk/news/getNewsShow";
+import { reducersUserCreate } from "./async_trunk/users/createUser";
+import { reducersGetCurso } from "./async_trunk/users/getCursos";
 
 
 const initialState = {
@@ -34,6 +36,11 @@ const initialState = {
   showReg: {
     open: false,
     data: {},
+  },
+  createUser: {
+    open: false,
+    loading: false,
+    data: null,
   },
   createBankAccount: {
     loading: false,
@@ -78,6 +85,8 @@ export const requestStatusSlices = createSlice({
     ...reducersNewsPreview,
     ...reducersNewsShow,
     ...reducersInfoBox,
+    ...reducersUserCreate,
+    ...reducersGetCurso,
     ...reducersCreateBankAccount,
   }
 });
