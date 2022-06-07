@@ -42,14 +42,12 @@ export default function News() {
   });
 
   // NOTA(RECKER): RTK
-  const { news: { loading, data, error, hasFinish, search },test, auth } = useSelector(
+  const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
     (state) => ({
       news: state.requestStatus.newsPreview,
-      test: state.requestStatus.newsPreview,
       auth: state.auth.auth,
     }),
   );
-  console.log(test);
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm();

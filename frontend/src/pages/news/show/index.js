@@ -36,6 +36,7 @@ export default function Show() {
     news: state.requestStatus.newsShow,
     auth: state.auth.auth,
   }));
+  console.log(loading);
   const dispatch = useDispatch();
   document.title = data.title ? `${data.title} - La Candelaria` : `La Candelaria`;
 
