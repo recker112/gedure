@@ -32,3 +32,16 @@ export const getInfoBox = createAsyncThunk(
     }
   }
 );
+
+export const reducersInfoBox = {
+  [getInfoBox.pending]: state => {
+    state.infoBox.loading = true;
+  },
+  [getInfoBox.rejected]: state => {
+    state.infoBox.loading = false;
+  },
+  [getInfoBox.fulfilled]: (state, data) => {
+    state.infoBox.loading = false;
+    state.infoBox.data = data.payload;
+  },
+}

@@ -42,3 +42,22 @@ export const getNewsPreviews = createAsyncThunk(
     }
   }
 );
+
+export const reducersNewsPreview = {
+  [getNewsPreviews.pending]: (state, action) => {
+    state.newsPreview.loading = true;
+    state.newsPreview.error = false;
+    state.newsPreview.hasFinish = false;
+  },
+  [getNewsPreviews.rejected]: (state, action) => {
+    state.newsPreview.loading = false;
+    state.newsPreview.error = true;
+  },
+  [getNewsPreviews.fulfilled]: (state, action) => {
+    const { data, finish } = action.payload;
+    
+    state.newsPreview.loading = false;
+    state.newsPreview.data = [...state.newsPreview.data, ...data];
+    state.newsPreview.hasFinish = finish;
+  },
+}

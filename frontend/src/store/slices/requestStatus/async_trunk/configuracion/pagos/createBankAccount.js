@@ -45,3 +45,15 @@ export const createBankAccount = createAsyncThunk(
     }
   }
 );
+
+export const reducersCreateBankAccount = {
+  [createBankAccount.pending]: (state, action) => {
+    state.createBankAccount.loading = true;
+  },
+  [createBankAccount.rejected]: (state, action) => {
+    state.createBankAccount.loading = false;
+  },
+  [createBankAccount.fulfilled]: (state, action) => {
+    state.createBankAccount.loading = false;
+  },
+}
