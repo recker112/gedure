@@ -9,6 +9,7 @@ import TableAccounts from './TableAccounts';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 import { parseToAccountString } from '../../../../components/Utils/ParseString';
 import EditBankAccount from './EditBankAccount';
+import UploadTransactions from './UploadTransactions';
 
 // Redux
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
@@ -22,6 +23,9 @@ export default function GDPagos() {
       </Grid>
       <Grid item xs={12}>
         <TableAccounts />
+      </Grid>
+      <Grid item xs={12}>
+        <UploadTransactions />
       </Grid>
       <EditBankAccount />
       <DialogConfirmation

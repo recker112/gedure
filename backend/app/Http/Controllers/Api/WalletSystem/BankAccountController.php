@@ -44,7 +44,7 @@ class BankAccountController extends Controller
 	{
 		$search = urldecode($request->search);
 		
-		$bankAccounts = BankAccount::where('name', 'like', "%$search%")
+		$bankAccounts = BankAccount::where('n_account', 'like', "%$search%")
 			->limit(15)
 			->get();
 		

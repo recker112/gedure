@@ -21,6 +21,8 @@ import { reducersUpdateAvatar } from "./async_trunk/users/updateAvatar";
 import { reducersUpdateData } from "./async_trunk/users/updateData";
 import { reducersUpdateSeccion } from "./async_trunk/users/updateSeccion";
 import { reducersUploadMatricula } from "./async_trunk/users/uploadMatricula";
+import { reducersGetBankAccounts } from "./async_trunk/configuracion/pagos/getBankAccounts";
+import { reducersUploadTransactions } from "./async_trunk/configuracion/pagos/uploadTransactions";
 
 
 const initialState = {
@@ -132,6 +134,13 @@ const initialState = {
     open: false,
     data: {}
   },
+  uploadTransactions: {
+    loading: false,
+    open: false,
+    progress: 0,
+    data: {},
+    autoComplete: []
+  },
 };
 
 export const requestStatusSlices = createSlice({
@@ -192,6 +201,8 @@ export const requestStatusSlices = createSlice({
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,
+    ...reducersGetBankAccounts,
+    ...reducersUploadTransactions,
   }
 });
 
