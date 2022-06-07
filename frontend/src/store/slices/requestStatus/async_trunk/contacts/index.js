@@ -32,3 +32,15 @@ export const sendContact = createAsyncThunk(
     }
   }
 );
+
+export const reducersContacts = {
+  [sendContact.pending]: (state, action) => {
+    state.contacts.loading = true;
+  },
+  [sendContact.rejected]: (state, action) => {
+    state.contacts.loading = false;
+  },
+  [sendContact.fulfilled]: (state, action) => {
+    state.contacts.loading = false;
+  },
+}

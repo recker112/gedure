@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
+import { createBankAccount, reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
 
 // Async request
-import { sendContact } from "./async_trunk/contacts";
-import { getInfoBox } from "./async_trunk/home/getInfoBox";
+import { reducersContacts } from "./async_trunk/contacts";
+import { reducersInfoBox } from "./async_trunk/home/getInfoBox";
 import { reducersLogin } from "./async_trunk/login";
-import { getNewsPreviews } from "./async_trunk/news/getNewsPreviews";
-import { getNewsShow } from "./async_trunk/news/getNewsShow";
+import { reducersNewsPreview } from "./async_trunk/news/getNewsPreviews";
+import { reducersNewsShow } from "./async_trunk/news/getNewsShow";
 
 
 const initialState = {
@@ -74,64 +74,11 @@ export const requestStatusSlices = createSlice({
   },
   extraReducers: {
     ...reducersLogin,
-    [sendContact.pending]: (state, action) => {
-      state.contacts.loading = true;
-    },
-    [sendContact.rejected]: (state, action) => {
-      state.contacts.loading = false;
-    },
-    [sendContact.fulfilled]: (state, action) => {
-      state.contacts.loading = false;
-    },
-    [getNewsPreviews.pending]: (state, action) => {
-      state.newsPreview.loading = true;
-      state.newsPreview.error = false;
-      state.newsPreview.hasFinish = false;
-    },
-    [getNewsPreviews.rejected]: (state, action) => {
-      state.newsPreview.loading = false;
-      state.newsPreview.error = true;
-    },
-    [getNewsPreviews.fulfilled]: (state, action) => {
-      const { data, finish } = action.payload;
-      
-      state.newsPreview.loading = false;
-      state.newsPreview.data = [...state.newsPreview.data, ...data];
-      state.newsPreview.hasFinish = finish;
-    },
-    [getNewsShow.pending]: state => {
-      state.newsShow.loading = true;
-      state.newsShow.data = {};
-    },
-    [getNewsShow.rejected]: state => {
-      state.newsShow.loading = false;
-      state.newsShow.data = {};
-    },
-    [getNewsShow.fulfilled]: (state, action) => {
-      const data = action.payload;
-
-      state.newsShow.loading = false;
-      state.newsShow.data = data;
-    },
-    [getInfoBox.pending]: state => {
-      state.infoBox.loading = true;
-    },
-    [getInfoBox.rejected]: state => {
-      state.infoBox.loading = false;
-    },
-    [getInfoBox.fulfilled]: (state, data) => {
-      state.infoBox.loading = false;
-      state.infoBox.data = data.payload;
-    },
-    [createBankAccount.pending]: (state, action) => {
-      state.createBankAccount.loading = true;
-    },
-    [createBankAccount.rejected]: (state, action) => {
-      state.createBankAccount.loading = false;
-    },
-    [createBankAccount.fulfilled]: (state, action) => {
-      state.createBankAccount.loading = false;
-    },
+    ...reducersContacts,
+    ...reducersNewsPreview,
+    ...reducersNewsShow,
+    ...reducersInfoBox,
+    ...reducersCreateBankAccount,
   }
 });
 

@@ -39,3 +39,20 @@ export const getNewsShow = createAsyncThunk(
     }
   }
 );
+
+export const reducersNewsShow = {
+  [getNewsShow.pending]: state => {
+    state.newsShow.loading = true;
+    state.newsShow.data = {};
+  },
+  [getNewsShow.rejected]: state => {
+    state.newsShow.loading = false;
+    state.newsShow.data = {};
+  },
+  [getNewsShow.fulfilled]: (state, action) => {
+    const data = action.payload;
+
+    state.newsShow.loading = false;
+    state.newsShow.data = data;
+  },
+}
