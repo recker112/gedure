@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateAuth, updateUserData } from "../auth";
-import { updateNotistack } from "../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateAuth, updateUserData } from "../../../auth";
+import { updateNotistack } from "../../../notistack";
 
-export const loginData = createAsyncThunk(
-  'login/auth',
+export const login = createAsyncThunk(
+  'reqyestStatus/login',
   async (data, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -51,27 +51,3 @@ export const loginData = createAsyncThunk(
     }
   }
 );
-
-const initialState = {
-  loading: false,
-};
-
-export const LoginSlices = createSlice({
-  name: "login",
-  initialState,
-  extraReducers: {
-    [loginData.pending]: state => {
-      state.loading = true;
-    },
-    [loginData.rejected]: state => {
-      state.loading = false;
-    },
-    [loginData.fulfilled]: (state) => {
-      state.loading = false;
-    }
-  }
-});
-
-export default LoginSlices.reducer;
-
-//export const {  } = LoginSlices.actions;

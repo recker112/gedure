@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../../notistack";
+import { updateNotistack } from "../../../../notistack";
 
 export const createBankAccount = createAsyncThunk(
   'requestStatus/createBankAccount',
