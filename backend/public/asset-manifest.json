@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/static/css/main.861c7e5a.css",
-    "main.js": "/static/js/main.3ae32a09.js",
+    "main.js": "/static/js/main.a039f78d.js",
     "static/js/3114.482cd169.chunk.js": "/static/js/3114.482cd169.chunk.js",
-    "static/js/7308.6554dbd0.chunk.js": "/static/js/7308.6554dbd0.chunk.js",
+    "static/js/7308.e9c3955c.chunk.js": "/static/js/7308.e9c3955c.chunk.js",
     "static/js/7078.6f6d68d3.chunk.js": "/static/js/7078.6f6d68d3.chunk.js",
     "static/js/393.afbaf90f.chunk.js": "/static/js/393.afbaf90f.chunk.js",
     "static/js/7229.4ac12a31.chunk.js": "/static/js/7229.4ac12a31.chunk.js",
@@ -97,9 +97,9 @@
     "static/media/gedure-logo-recto.svg": "/static/media/gedure-logo-recto.110ae6fa48ac9a0199bd2780de01d266.svg",
     "index.html": "/index.html",
     "main.861c7e5a.css.map": "/static/css/main.861c7e5a.css.map",
-    "main.3ae32a09.js.map": "/static/js/main.3ae32a09.js.map",
+    "main.a039f78d.js.map": "/static/js/main.a039f78d.js.map",
     "3114.482cd169.chunk.js.map": "/static/js/3114.482cd169.chunk.js.map",
-    "7308.6554dbd0.chunk.js.map": "/static/js/7308.6554dbd0.chunk.js.map",
+    "7308.e9c3955c.chunk.js.map": "/static/js/7308.e9c3955c.chunk.js.map",
     "7078.6f6d68d3.chunk.js.map": "/static/js/7078.6f6d68d3.chunk.js.map",
     "393.afbaf90f.chunk.js.map": "/static/js/393.afbaf90f.chunk.js.map",
     "7229.4ac12a31.chunk.js.map": "/static/js/7229.4ac12a31.chunk.js.map",
@@ -184,6 +184,6 @@
   },
   "entrypoints": [
     "static/css/main.861c7e5a.css",
-    "static/js/main.3ae32a09.js"
+    "static/js/main.a039f78d.js"
   ]
 }
