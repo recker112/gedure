@@ -14,7 +14,8 @@ import useNotifier from '../../../hooks/useNotifier';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { newsData, resetData } from '../../../store/slices/news/show';
+import { getNewsShow } from '../../../store/slices/requestStatus/async_trunk/news/getNewsShow';
+import { resetDataRequest } from '../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -32,7 +33,7 @@ export default function Show() {
   });
 
   const { news: { loading, data }, auth } = useSelector(state => ({
-    news: state.newsShow,
+    news: state.requestStatus.newsShow,
     auth: state.auth.auth,
   }));
   const dispatch = useDispatch();
@@ -51,14 +52,14 @@ export default function Show() {
   useEffect(() => {
     let promise = null;
     if (loading) {
-      promise = dispatch(newsData(slug));
+      promise = dispatch(getNewsShow(slug));
     }
 
     return () => {
       if (promise) {
         promise.abort();
       }
-      dispatch(resetData());
+      dispatch(resetDataRequest({ select: 'newsShow' }));
     }
     // eslint-disable-next-line
   }, [dispatch, slug])

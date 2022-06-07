@@ -3,12 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 // Reducers
 import configs from './slices/configs';
 import auth from "./slices/auth";
-import news from "./slices/news";
-import newsShow from "./slices/news/show";
 import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
-import gdHome from "./slices/gedure/home";
-import gdRegistros from "./slices/gedure/registros";
 import gdUTable from "./slices/gedure/usuarios/table";
 import gdUForms from "./slices/gedure/usuarios/forms";
 import gdUConfirmDisabledAccount from "./slices/gedure/usuarios/confirmDialogs";
@@ -34,17 +30,14 @@ import gdGCConfirm from "./slices/gedure/configuracion/cursos/confirm";
 import gdGCDUTable from "./slices/gedure/configuracion/user_disabled/table";
 import gdGCDUConfirm from "./slices/gedure/configuracion/user_disabled/confirm";
 import requestStatus from "./slices/requestStatus";
+import tables from "./slices/tables";
 
 export default configureStore({
   reducer: {
     configs,
     auth,
-    news,
-    newsShow,
     notistack,
     contacts,
-    gdHome,
-    gdRegistros,
     gdUTable,
     gdUForms,
     gdUConfirmDisabledAccount,
@@ -70,5 +63,6 @@ export default configureStore({
     gdGCDUTable,
     gdGCDUConfirm,
     requestStatus,
+    tables,
   },
 });

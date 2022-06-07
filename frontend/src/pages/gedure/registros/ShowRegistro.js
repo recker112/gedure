@@ -14,17 +14,14 @@ import { BankListSearch } from '../../../components/Utils/BankList';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setRegBox } from '../../../store/slices/gedure/registros';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function ShowRegistro() {
- const { open, data } = useSelector(state => ({
-  open: state.gdRegistros.regBox,
-  data: state.gdRegistros.regData,
- }));
+ const { open, data } = useSelector(state => state.requestStatus.showReg);
  const dispatch = useDispatch();
 
  const handleClose = () => {
-  dispatch(setRegBox({open: false}));
+  dispatch(setRequestStatus({open: false, select: 'showReg'}));
  }
 
  const Text = useCallback(() => {

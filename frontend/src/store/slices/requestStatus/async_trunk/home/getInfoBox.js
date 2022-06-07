@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../notistack";
 
-export const NotiBoxData = createAsyncThunk(
-  'gd_home/notiBox',
+export const getInfoBox = createAsyncThunk(
+  'requestStatus/infoBox',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -32,35 +32,3 @@ export const NotiBoxData = createAsyncThunk(
     }
   }
 );
-
-const initialState = {
-  loading: true,
-  data: {},
-};
-
-export const gdHomeSlices = createSlice({
-  name: "gd_home",
-  initialState,
-  reducers: {
-    resetData: state => {
-      state.data = {};
-      state.loading = true;
-    },
-  },
-  extraReducers: {
-    [NotiBoxData.pending]: state => {
-      state.loading = true;
-    },
-    [NotiBoxData.rejected]: state => {
-      state.loading = false;
-    },
-    [NotiBoxData.fulfilled]: (state, data) => {
-      state.loading = false;
-      state.data = data.payload;
-    }
-  }
-});
-
-export default gdHomeSlices.reducer;
-
-export const { resetData } = gdHomeSlices.actions;

@@ -8,9 +8,11 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
 import { InputHook, InputMaskHook } from '../../components/form/inputs';
-import { useDispatch, useSelector } from 'react-redux';
-import { contactsData } from '../../store/slices/contacts';
 import useNotifier from '../../hooks/useNotifier';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { sendContact } from '../../store/slices/requestStatus/async_trunk/contacts';
 
 const classes = {
   container: {
@@ -23,7 +25,7 @@ export default function FormContact() {
 		message422: 'Ya tiene una solicitud en cola',
 	})
 
- const loading = useSelector(state => state.contacts.loading);
+ const loading = useSelector(state => state.requestStatus.contacts.loading);
 	const dispatch = useDispatch();
 	const maxMensaje = 350;
 
@@ -32,7 +34,7 @@ export default function FormContact() {
 	});
 
   const onSubmit = (data) => {
-			dispatch(contactsData(data));
+			dispatch(sendContact(data));
   }
 
   return (
