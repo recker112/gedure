@@ -1,95 +1,95 @@
 export const BankList = [
 	{
 		value: '0102',
-		name: 'Banco de Venezuela'
+		label: 'Banco de Venezuela'
 	},
 	{
 		value: '0104',
-		name: 'Venezolano de Crédito'
+		label: 'Venezolano de Crédito'
 	},
 	{
 		value: '0105',
-		name: 'Mercantil'
+		label: 'Mercantil'
 	},
 	{
 		value: '0108',
-		name: 'Provincial'
+		label: 'Provincial'
 	},
 	{
 		value: '0114',
-		name: 'Bancaribe'
+		label: 'Bancaribe'
 	},
 	{
 		value: '0115',
-		name: 'Exterior'
+		label: 'Exterior'
 	},
 	{
 		value: '0116',
-		name: 'Occidental de Descuento'
+		label: 'Occidental de Descuento'
 	},
 	{
 		value: '0128',
-		name: 'Banco Caroní'
+		label: 'Banco Caroní'
 	},
 	{
 		value: '0134',
-		name: 'Banesco'
+		label: 'Banesco'
 	},
 	{
 		value: '0138',
-		name: 'Banco Plaza'
+		label: 'Banco Plaza'
 	},
 	{
 		value: '0151',
-		name: 'BFC Banco Fondo Común'
+		label: 'BFC Banco Fondo Común'
 	},
 	{
 		value: '0156',
-		name: '100% Banco'
+		label: '100% Banco'
 	},
 	{
 		value: '0157',
-		name: 'Delsur'
+		label: 'Delsur'
 	},
 	{
 		value: '0163',
-		name: 'Banco del Tesoro'
+		label: 'Banco del Tesoro'
 	},
 	{
 		value: '0166',
-		name: 'Banco Agrícola de Venezuela'
+		label: 'Banco Agrícola de Venezuela'
 	},
 	{
 		value: '0168',
-		name: 'Bancrecer'
+		label: 'Bancrecer'
 	},
 	{
 		value: '0169',
-		name: 'Mi Banco'
+		label: 'Mi Banco'
 	},
 	{
 		value: '0171',
-		name: 'Banco Activo'
+		label: 'Banco Activo'
 	},
 	{
 		value: '0172',
-		name: 'Bancamiga'
+		label: 'Bancamiga'
 	},
 	{
 		value: '0174',
-		name: 'Banplus'
+		label: 'Banplus'
 	},
 	{
 		value: '0175',
-		name: 'Bicentenario del Pueblo'
+		label: 'Bicentenario del Pueblo'
 	},
 	{
 		value: '0177',
-		name: 'Banfanb'
+		label: 'Banfanb'
 	},
 	{
 		value: '0191',
-		name: 'BNC Nacional de Crédito'
+		label: 'BNC Nacional de Crédito'
 	},
 ];
 
