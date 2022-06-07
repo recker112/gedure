@@ -2,12 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
-export const deleteBankAccount = createAsyncThunk(
+export const deleteBankTransaction = createAsyncThunk(
   'requestStatus/bank/account/delete',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/bank-account/${id}`;
+    let url = `v1/bank-transaction/${id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -17,7 +17,6 @@ export const deleteBankAccount = createAsyncThunk(
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      dispatch(refresh({ select: 'bankAccounts' }));
       dispatch(refresh({ select: 'bankTransactions' }));
 
       return res.data;
@@ -43,16 +42,16 @@ export const deleteBankAccount = createAsyncThunk(
   }
 );
 
-export const reducersDeleteBankAccount = {
-  [deleteBankAccount.pending]: (state, action) => {
-    state.deleteBankAccount.loading = true;
+export const reducersDeleteBankTransaction = {
+  [deleteBankTransaction.pending]: (state, action) => {
+    state.deleteTransaction.loading = true;
   },
-  [deleteBankAccount.rejected]: (state, action) => {
-    state.deleteBankAccount.loading = false;
+  [deleteBankTransaction.rejected]: (state, action) => {
+    state.deleteTransaction.loading = false;
   },
-  [deleteBankAccount.fulfilled]: (state, action) => {
-    state.deleteBankAccount.loading = false;
-    state.deleteBankAccount.data = {};
-    state.deleteBankAccount.open = false;
+  [deleteBankTransaction.fulfilled]: (state, action) => {
+    state.deleteTransaction.loading = false;
+    state.deleteTransaction.data = {};
+    state.deleteTransaction.open = false;
   },
 }

@@ -2,22 +2,21 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
-export const deleteBankAccount = createAsyncThunk(
-  'requestStatus/bank/account/delete',
-  async (id, { getState, signal, dispatch }) => {
+export const assignTransactionRequest = createAsyncThunk(
+  'requestStatus/bank/transaction/assign',
+  async ({submitData, id}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/bank-account/${id}`;
+    let url = `v1/bank-transaction/${id}/assign`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
-      const res = await axios.delete(url, {
+      const res = await axios.post(url, submitData, {
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      dispatch(refresh({ select: 'bankAccounts' }));
       dispatch(refresh({ select: 'bankTransactions' }));
 
       return res.data;
@@ -26,11 +25,6 @@ export const deleteBankAccount = createAsyncThunk(
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
         let { data, status } = error.response;
-
-        // NOTA(RECKER): Setear errores en inputs
-        if (status === 404) {
-          data.msg = 'La cuenta ya no existe';
-        }
 
         // NOTA(RECKER): Respuesta del servidor
         dispatch(updateNotistack({ status: status, text: data.msg }));
@@ -43,16 +37,15 @@ export const deleteBankAccount = createAsyncThunk(
   }
 );
 
-export const reducersDeleteBankAccount = {
-  [deleteBankAccount.pending]: (state, action) => {
-    state.deleteBankAccount.loading = true;
+export const reducersAssignTransaction = {
+  [assignTransactionRequest.pending]: (state, action) => {
+    state.assignTransaction.loading = true;
   },
-  [deleteBankAccount.rejected]: (state, action) => {
-    state.deleteBankAccount.loading = false;
+  [assignTransactionRequest.rejected]: (state, action) => {
+    state.assignTransaction.loading = false;
   },
-  [deleteBankAccount.fulfilled]: (state, action) => {
-    state.deleteBankAccount.loading = false;
-    state.deleteBankAccount.data = {};
-    state.deleteBankAccount.open = false;
+  [assignTransactionRequest.fulfilled]: (state, action) => {
+    state.assignTransaction.loading = false;
+    state.assignTransaction.open = false;
   },
 }

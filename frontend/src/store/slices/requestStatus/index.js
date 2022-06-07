@@ -23,6 +23,9 @@ import { reducersUpdateSeccion } from "./async_trunk/users/updateSeccion";
 import { reducersUploadMatricula } from "./async_trunk/users/uploadMatricula";
 import { reducersGetBankAccounts } from "./async_trunk/configuracion/pagos/getBankAccounts";
 import { reducersUploadTransactions } from "./async_trunk/configuracion/pagos/uploadTransactions";
+import { reducersDeleteBankTransaction } from "./async_trunk/configuracion/pagos/deleteBankTransaction";
+import { reducersSearchUser } from "./async_trunk/configuracion/pagos/searchUser";
+import { reducersAssignTransaction } from "./async_trunk/configuracion/pagos/assignTransaction";
 
 
 const initialState = {
@@ -141,6 +144,17 @@ const initialState = {
     data: {},
     autoComplete: []
   },
+  assignTransaction: {
+    loading: false,
+    open: false,
+    data: {},
+    autoComplete: [],
+  },
+  deleteTransaction: {
+    loading: false,
+    open: false,
+    data: {}
+  },
 };
 
 export const requestStatusSlices = createSlice({
@@ -203,6 +217,9 @@ export const requestStatusSlices = createSlice({
     ...reducersEditBankAccount,
     ...reducersGetBankAccounts,
     ...reducersUploadTransactions,
+    ...reducersDeleteBankTransaction,
+    ...reducersSearchUser,
+    ...reducersAssignTransaction,
   }
 });
 
