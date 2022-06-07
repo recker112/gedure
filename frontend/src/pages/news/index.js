@@ -46,7 +46,6 @@ export default function News() {
       auth: state.auth.auth,
     }),
   );
-  console.log(auth);
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm();
