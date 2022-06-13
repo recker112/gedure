@@ -6,7 +6,7 @@ export const relogin = createAsyncThunk(
   async (data, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/relogin';
+    let url = 'v1/auth/relogin';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -46,12 +46,7 @@ export const logout = createAsyncThunk(
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     
-    let url;
-    if (data === 'all') {
-      url = 'v1/logoutAll';
-    } else {
-      url = 'v1/logout';
-    }
+    let url = 'v1/auth/logout';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

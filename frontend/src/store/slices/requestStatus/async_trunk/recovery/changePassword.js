@@ -6,7 +6,7 @@ export const changePasswordRecovery = createAsyncThunk(
   async ({ submitData, handleNext = null }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/recovery-chpass';
+    let url = 'v1/auth-recovery/chpass';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

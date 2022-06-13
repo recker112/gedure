@@ -7,7 +7,7 @@ export const logoutAll = createAsyncThunk(
   async (handleDestroy, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/logoutAll';
+    let url = 'v1/auth/logout/all';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

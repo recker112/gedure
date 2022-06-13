@@ -18,26 +18,26 @@ use App\Http\Controllers\Api\Auth\RecoveryPasswordController;
 */
 
 // Login
-Route::post('login', [LoginController::class, 'login']);
+Route::post('auth/login', [LoginController::class, 'login']);
 
 // Relogin
 Route::middleware('auth:api')
-	->get('relogin', [LoginController::class, 'relogin']);
+	->get('auth/relogin', [LoginController::class, 'relogin']);
 
 // Logout
 Route::middleware('auth:api')
-	->get('logout', [LoginController::class, 'logout']);
+	->get('auth/logout', [LoginController::class, 'logout']);
 
 // LogoutAll
 Route::middleware('auth:api')
-	->get('logoutAll', [LoginController::class, 'logoutAllTokens']);
+	->get('auth/logout/all', [LoginController::class, 'logoutAllTokens']);
 
 // RecoveryPassword
-Route::post('recovery-password', [RecoveryPasswordController::class, 'recoveryPassword']);
+Route::post('auth-recovery/send', [RecoveryPasswordController::class, 'recoveryPassword']);
 
 // RecoveryPassword
-Route::post('recovery-verify', [RecoveryPasswordController::class, 'recoveryPasswordVerifyCode']);
+Route::post('auth-recovery/verify', [RecoveryPasswordController::class, 'recoveryPasswordVerifyCode']);
 
 // RecoveryChangePass
-Route::post('recovery-chpass', [RecoveryPasswordController::class, 'recoveryChangePassword']);
+Route::post('auth-recovery/chpass', [RecoveryPasswordController::class, 'recoveryChangePassword']);
 	

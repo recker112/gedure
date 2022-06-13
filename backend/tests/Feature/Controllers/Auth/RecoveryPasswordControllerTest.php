@@ -27,7 +27,7 @@ class RecoveryPasswordControllerTest extends TestCase
 		
 		Mail::fake();
 		
-		$response = $this->postJson('/api/v1/recovery-password', [
+		$response = $this->postJson('/api/v1/auth-recovery/password', [
 			'email' => $admin->email,
 		]);
 
@@ -48,7 +48,7 @@ class RecoveryPasswordControllerTest extends TestCase
 			'user_id' => $admin->id
 		]);
 		
-		$response = $this->postJson('/api/v1/recovery-verify', [
+		$response = $this->postJson('/api/v1/auth-recovery/verify', [
 			'email' => $admin->email,
 			'code' => '12345'
 		]);
@@ -69,7 +69,7 @@ class RecoveryPasswordControllerTest extends TestCase
 			'confirm' => 1,
 		]);
 		
-		$response = $this->postJson('/api/v1/recovery-chpass', [
+		$response = $this->postJson('/api/v1/auth-recovery/chpass', [
 			'email' => $admin->email,
 			'password' => 'CS1.6-VHL-Servers'
 		]);
