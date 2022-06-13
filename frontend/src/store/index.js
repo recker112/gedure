@@ -5,7 +5,6 @@ import configs from './slices/configs';
 import auth from "./slices/auth";
 import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
-import gdPUBConfirm from "./slices/gedure/publicaciones/confirmDialogs";
 import gdPUBE from "./slices/gedure/publicaciones/editar";
 import gdBTable from "./slices/gedure/boletas_admin/table";
 import gdBConfirm from "./slices/gedure/boletas_admin/confirmDialogs";
@@ -28,7 +27,6 @@ export default configureStore({
     auth,
     notistack,
     contacts,
-    gdPUBConfirm,
     gdPUBE,
     gdBTable,
     gdBConfirm,

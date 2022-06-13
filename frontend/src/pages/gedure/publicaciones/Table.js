@@ -16,7 +16,7 @@ import ReactTableBase from '../../../components/ReactTableBase';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../../store/slices/tables/async_trunk/publicaciones/getPosts';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from "../../../store/slices/tables";
-import { setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function Table() {
   let navigate = useNavigate();
@@ -84,7 +84,7 @@ export default function Table() {
             <Tooltip title="Eliminar" arrow>
               <IconButton
                 onClick={() => {
-                  dispatch(setConfirmConfgsPUB({open: true, data: { slug, title }, confirm: 'delete'}));
+                  dispatch(setRequestStatus({open: true, data: { slug, title }, select: 'deletePost'}));
                 }}
                 disabled={!posts_destroy}
               >

@@ -28,6 +28,7 @@ import { reducersSearchUser } from "./async_trunk/configuracion/pagos/searchUser
 import { reducersAssignTransaction } from "./async_trunk/configuracion/pagos/assignTransaction";
 import { reducersResendEmailUser } from "./async_trunk/users/resendEmail";
 import { reducersCreatePost } from "./async_trunk/publicaciones/createPost";
+import { reducersDeletePost } from "./async_trunk/publicaciones/deletePost";
 
 
 const initialState = {
@@ -126,6 +127,11 @@ const initialState = {
     loading: false,
     progress: 0,
   },
+  deletePost: {
+    loading: false,
+    open: false,
+    data: {},
+  },
   createBankAccount: {
     loading: false,
   },
@@ -221,6 +227,7 @@ export const requestStatusSlices = createSlice({
     ...reducersUpdateData,
     ...reducersResendEmailUser,
     ...reducersCreatePost,
+    ...reducersDeletePost,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,
