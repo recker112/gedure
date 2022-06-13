@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../notistack";
-import { refresh } from "../../tables";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../notistack";
+import { refresh } from "../../../tables";
 
 export const deletePost = createAsyncThunk(
-  'gdPUBConfirm/delete',
+  'requestUser/post/delete',
   async (slug, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -41,42 +41,16 @@ export const deletePost = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  delete: {
-    open: false,
-    loading: false,
-    data: {},
-  }
-};
-
-export const gdPUBConfirmSlices = createSlice({
-  name: "gdPUBConfirm",
-  initialState,
-  reducers: {
-    setConfirmConfgsPUB: (state, action) => {
-      const { open, loading, data, confirm } = action.payload;
-
-      (open !== undefined) && (state[confirm].open = open);
-      loading && (state[confirm].loading = loading);
-      data && (state[confirm].data = data);
-    }
+export const reducersDeletePost = {
+  [deletePost.pending]: (state, action) => {
+    state.deletePost.loading = true;
   },
-  extraReducers: {
-    [deletePost.pending]: state => {
-      state.delete.loading = true;
-    },
-    [deletePost.rejected]: (state, action) => {
-      state.delete.loading = false;
-    },
-    [deletePost.fulfilled]: (state, action) => {
-      state.delete.loading = false;
-      state.delete.data = {};
-      state.delete.open = false;
-    },
-  }
-});
-
-export default gdPUBConfirmSlices.reducer;
-
-export const { setConfirmConfgsPUB } = gdPUBConfirmSlices.actions;
+  [deletePost.rejected]: (state, action) => {
+    state.deletePost.loading = false;
+  },
+  [deletePost.fulfilled]: (state, action) => {
+    state.deletePost.loading = false;
+    state.deletePost.data = {};
+    state.deletePost.open = false;
+  },
+}

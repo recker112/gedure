@@ -14,7 +14,8 @@ import TourPublic from './TourPublic';
 
 // Redux
 import { useSelector } from 'react-redux';
-import { deletePost, setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { deletePost } from '../../../store/slices/requestStatus/async_trunk/publicaciones/deletePost';
 
 const classes = {
   container: {
@@ -52,10 +53,10 @@ export default function Publicaciones() {
         </Grid>
       </Container>
       <DialogConfirmation
-        rdx1='gdPUBConfirm' 
-        rdx2='delete'
+        rdx1='requestStatus' 
+        rdx2='deletePost'
         close={
-          setConfirmConfgsPUB({open: false, data: {}, confirm: 'delete'})
+          setRequestStatus({open: false, data: {}, select: 'deletePost'})
         }
         request={
           data => deletePost(data.slug)
