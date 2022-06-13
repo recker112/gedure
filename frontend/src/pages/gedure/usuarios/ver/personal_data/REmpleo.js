@@ -14,7 +14,7 @@ import { RadioHook } from '../../../../../components/form/radio';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export function REmpleoForm({ control, user, loading, handleSubmit, buttonDisable }) {
   const repre_empleo = useWatch({

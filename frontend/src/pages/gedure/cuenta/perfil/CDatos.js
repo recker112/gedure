@@ -11,13 +11,13 @@ import { PDatosForm } from '../../usuarios/ver/perfil/PDatos';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 import { updateUserData } from '../../../../store/slices/auth';
 
 export default function CDatos() {
   const { user, loading, users_edit_admins } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPD,
+    loading: state.requestStatus.personalData.loadingPD,
     users_edit_admins: state.auth.permissions.administrar.users_edit_admins,
   }));
   const dispatch = useDispatch();

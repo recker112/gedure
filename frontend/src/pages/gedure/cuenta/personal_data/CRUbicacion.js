@@ -10,12 +10,12 @@ import { RUbicacionForm } from '../../usuarios/ver/personal_data/RUbicacion';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CRUbicacion() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingRU,
+    loading: state.requestStatus.personalData.loadingRU,
   }));
   const dispatch = useDispatch();
 

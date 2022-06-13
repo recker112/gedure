@@ -15,12 +15,12 @@ import { PEstudianteForm } from '../../usuarios/ver/personal_data/PEstudiante';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CEstudiante() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPE,
+    loading: state.requestStatus.personalData.loadingPE,
   }));
   const dispatch = useDispatch();
 

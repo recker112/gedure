@@ -12,12 +12,12 @@ import { PUbicacionForm } from '../../usuarios/ver/personal_data/PUbicacion';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CUbicacion() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPU,
+    loading: state.requestStatus.personalData.loadingPU,
   }));
   const dispatch = useDispatch();
 

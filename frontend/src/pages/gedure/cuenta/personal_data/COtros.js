@@ -8,13 +8,13 @@ import { POtrosForm } from '../../usuarios/ver/personal_data/POtros';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 import { updateUserData } from '../../../../store/slices/auth';
 
 export default function COtros() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPO,
+    loading: state.requestStatus.personalData.loadingPO,
   }));
   const dispatch = useDispatch();
 
