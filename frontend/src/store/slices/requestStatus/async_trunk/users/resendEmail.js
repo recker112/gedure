@@ -1,10 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setUserSelected } from "..";
-import { updateNotistack } from "../../../../notistack";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../notistack";
 
-export const updateDataUPREN = createAsyncThunk(
-  'gdUPREN/updateData',
-  async ({ id }, { getState, signal, dispatch }) => {
+export const resendEmailUser = createAsyncThunk(
+  'requestStatus/user/personal',
+  async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url = `v1/invitation/resend-email/${id}`;
@@ -16,10 +15,6 @@ export const updateDataUPREN = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-
-      // NOTA(RECKER): Update userSelected
-      const { user, permissions } = res.data;
-      dispatch(setUserSelected({user, permissions}));
 
       return res.data;
     } catch (error) {
@@ -43,26 +38,14 @@ export const updateDataUPREN = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  loading: false,
-};
-
-export const gdUPRENSlices = createSlice({
-  name: "gdUPREN",
-  initialState,
-  reducers: {},
-  extraReducers: {
-    [updateDataUPREN.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [updateDataUPREN.rejected]: (state, action) => {
-      state.loading = false;
-    },
-    [updateDataUPREN.fulfilled]: (state, action) => {
-      state.loading = false;
-    },
-  }
-});
-
-export default gdUPRENSlices.reducer;
+export const reducersResendEmailUser = {
+  [resendEmailUser.pending]: (state, action) => {
+    state.personalData.loadingResendEmail = true;
+  },
+  [resendEmailUser.rejected]: (state, action) => {
+    state.personalData.loadingResendEmail = false;
+  },
+  [resendEmailUser.fulfilled]: (state, action) => {
+    state.personalData.loadingResendEmail = false;
+  },
+}

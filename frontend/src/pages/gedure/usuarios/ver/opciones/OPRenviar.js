@@ -9,18 +9,18 @@ import LoadingButton from '@mui/lab/LoadingButton'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateDataUPREN } from '../../../../../store/slices/gedure/usuarios/ver/requests/gdUPREN';
+import { resendEmailUser } from '../../../../../store/slices/requestStatus/async_trunk/users/resendEmail';
 
 export default function OPRenviar() {
   const { id } = useParams()
   const { userSelected, loading } = useSelector(state => ({
     userSelected: state.requestStatus.userShow.userSelected,
-    loading: state.gdUPREN.loading,
+    loading: state.requestStatus.personalData.loadingResendEmail,
   }));
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    dispatch(updateDataUPREN({ id }));
+    dispatch(resendEmailUser(id));
   }
 
   return (
