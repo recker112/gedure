@@ -27,7 +27,7 @@ class LoginController extends Controller
 		
 		$credenciales = $request->only(['username', 'password']);
 		
-		$verifyAuth = Auth::attempt($credenciales);
+		$verifyAuth = Auth::guard('web')->attempt($credenciales);
 		
 		if (!$verifyAuth) {
 			$jsonMessage = Block::checkAttemps($request->username);
@@ -35,7 +35,7 @@ class LoginController extends Controller
 		}
 		
 		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
-			->find(Auth::id());
+			->find(Auth::guard('web')->id());
 		
 		// Verificar bloqueos
 		$block = Block::firstWhere('user_id', $user->id);
