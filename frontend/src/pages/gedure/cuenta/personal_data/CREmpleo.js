@@ -9,12 +9,12 @@ import { REmpleoForm } from '../../usuarios/ver/personal_data/REmpleo';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CREmpleo() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingRE,
+    loading: state.requestStatus.personalData.loadingRE,
   }));
   const dispatch = useDispatch();
 

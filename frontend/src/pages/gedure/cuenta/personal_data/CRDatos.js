@@ -14,13 +14,13 @@ import { RDatosForm } from '../../usuarios/ver/personal_data/RDatos';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 import { updateUserData } from '../../../../store/slices/auth';
 
 export default function CRDatos() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingRD,
+    loading: state.requestStatus.personalData.loadingRD,
   }));
   const dispatch = useDispatch();
 

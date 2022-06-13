@@ -5,7 +5,6 @@ import configs from './slices/configs';
 import auth from "./slices/auth";
 import notistack from "./slices/notistack";
 import contacts from "./slices/contacts";
-import gdUPD from "./slices/gedure/usuarios/ver/requests/gdUPD";
 import gdUPREN from "./slices/gedure/usuarios/ver/requests/gdUPREN";
 import gdPTable from "./slices/gedure/publicaciones/table";
 import gdPUBC from "./slices/gedure/publicaciones/crear";
@@ -32,7 +31,6 @@ export default configureStore({
     auth,
     notistack,
     contacts,
-    gdUPD,
     gdUPREN,
     gdPTable,
     gdPUBC,

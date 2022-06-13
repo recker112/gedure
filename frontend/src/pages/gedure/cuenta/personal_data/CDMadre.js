@@ -12,12 +12,12 @@ import { PDMadreForm } from '../../usuarios/ver/personal_data/PDMadre';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CDMadre() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPDM,
+    loading: state.requestStatus.personalData.loadingPDM,
   }));
   const dispatch = useDispatch();
 

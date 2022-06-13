@@ -9,12 +9,12 @@ import { PDPadreForm } from '../../usuarios/ver/personal_data/PDPadre';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../../../store/slices/auth';
-import { updateData } from '../../../../store/slices/gedure/usuarios/ver/requests/gdUPD';
+import { updateData } from '../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 export default function CDPadre() {
   const { user, loading } = useSelector(state => ({
     user: state.auth.user,
-    loading: state.gdUPD.loadingPDP,
+    loading: state.requestStatus.personalData.loadingPDP,
   }));
   const dispatch = useDispatch();
 
