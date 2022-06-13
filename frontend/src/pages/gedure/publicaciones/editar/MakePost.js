@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 export default function MakePost() {
   const { control, register, watch } = useFormContext();
 
-  const { loading, progress } = useSelector(state => state.gdPUBE);
+  const { loading, progress } = useSelector(state => state.requestStatus.editPost);
 
   return (
     <Paper className='paper--padding' elevation={0}>
