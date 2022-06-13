@@ -14,17 +14,18 @@ import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataPT, refreshPT, resetTableConfigPT, setConfigTablePT, setSearchPT } from '../../../store/slices/gedure/publicaciones/table';
+import { getPosts } from '../../../store/slices/tables/async_trunk/publicaciones/getPosts';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from "../../../store/slices/tables";
 import { setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
 
 export default function Table() {
   let navigate = useNavigate();
 
   const { dataR, loading, pageSize, pageCount, permissions } = useSelector((state) => ({
-    dataR: state.gdPTable.tableData.data,
-    loading: state.gdPTable.tableData.loading,
-    pageSize: state.gdPTable.tableData.pageSize,
-    pageCount: state.gdPTable.tableData.pageCount,
+    dataR: state.tables.posts.tableData.data,
+    loading: state.tables.posts.tableData.loading,
+    pageSize: state.tables.posts.tableData.pageSize,
+    pageCount: state.tables.posts.tableData.pageCount,
     permissions: state.auth.permissions,
   }));
   const { posts_edit, posts_destroy } = permissions.administrar;
@@ -105,7 +106,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataPT());
+      promise = dispatch(getPosts());
     }
 
     return () => {
@@ -119,21 +120,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigPT());
+      dispatch(resetTableConfig({ select: 'posts' }));
     };
     // eslint-disable-next-line
   }, []);
 
   const handleGlobalFilter = (value) => {
-    dispatch(setSearchPT(value || ""));
+    dispatch(setSearch({search: value || "", select: 'posts'}));
   };
 
   const handleChange = (value) => {
-    dispatch(setConfigTablePT(value));
+    dispatch(setConfigTable({ ...value, select: 'posts' }));
   };
 
   const handleRefresh = () => {
-    dispatch(refreshPT());
+    dispatch(refresh({ select: 'posts' }));
   }
 
   return (

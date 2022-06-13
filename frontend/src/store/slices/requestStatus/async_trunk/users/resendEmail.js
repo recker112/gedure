@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../notistack";
 
 export const resendEmailUser = createAsyncThunk(
-  'requestStatus/user/personal',
+  'requestStatus/user/resend/mail',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
