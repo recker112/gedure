@@ -63,12 +63,12 @@ export default function UploadStudiends() {
               <Button variant='contained' color='secondary' component='span' disabled={loading}>Cargar archivo</Button>
             </label>
             {(((watch('database') || []).length !== 0)) && (
-              <Box sx={{width: 1/1}} mt={2}>
+              <Box ml={2}>
                 <Typography>Archivo cargado</Typography>
               </Box>
             )}
             {Boolean(errors.database) && (
-              <Box mt={2} sx={{width: 1/1}} color='#f44336'>
+              <Box ml={2} color='#f44336'>
                 <Typography >{errors.database.message}</Typography>
               </Box>
             )}
