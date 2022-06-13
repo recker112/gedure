@@ -20,7 +20,7 @@ import TourCrearPub from "./TourCrearPub";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../../store/slices/gedure/publicaciones/crear";
+import { createPost } from "../../../../store/slices/requestStatus/async_trunk/publicaciones/createPost";
 
 const classes = {
   container: {
@@ -35,7 +35,7 @@ export default function PUBLCrear() {
   const [preview, setPreview] = useState(false);
   useNotifier();
 
-  const loading = useSelector(state => state.gdPUBC.loading);
+  const loading = useSelector(state => state.requestStatus.createPost.loading);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();

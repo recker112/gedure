@@ -1,8 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { setProgress } from "../..";
 import { updateNotistack } from "../../../notistack";
 
 export const createPost = createAsyncThunk(
-  'gdPUBC/createPost',
+  'requestUser/post/crear',
   async ({ submitData, reset }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -46,34 +47,16 @@ export const createPost = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  loading: false,
-  progress: 0,
-};
-
-export const gdPUBCSlices = createSlice({
-  name: "gdPUBC",
-  initialState,
-  reducers: {
-    setProgress: (state, action) => {
-      const { payload } = action;
-      state.progress = payload;
-    }
+export const reducersCreatePost = {
+  [createPost.pending]: (state, action) => {
+    state.createPost.loading = true;
   },
-  extraReducers: {
-    [createPost.pending]: (state, action) => {
-      state.loading = true;
-    },
-    [createPost.rejected]: (state, action) => {
-      state.loading = false;
-    },
-    [createPost.fulfilled]: (state, action) => {
-      state.loading = false;
-    },
-  }
-});
-
-export default gdPUBCSlices.reducer;
-
-export const { setProgress } = gdPUBCSlices.actions;
+  [createPost.rejected]: (state, action) => {
+    state.createPost.loading = false;
+    state.createPost.progress = 0;
+  },
+  [createPost.fulfilled]: (state, action) => {
+    state.createPost.loading = false;
+    state.createPost.progress = 0;
+  },
+}

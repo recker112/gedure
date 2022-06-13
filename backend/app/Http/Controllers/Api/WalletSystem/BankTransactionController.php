@@ -73,7 +73,7 @@ class BankTransactionController extends Controller
 		$bank_transaction->user_id = $user->id;
 		$bank_transaction->save();
 		
-		// NOTA(RECKER): Crear transaccion
+		// NOTA(RECKER): Armar payload
 		$bank_account = $bank_transaction->bank_account;
 		$payload = [
 			'actions' => [
@@ -90,6 +90,8 @@ class BankTransactionController extends Controller
 				'type' => $bank_account->type
 			]
 		];
+		
+		// NOTA(RECKER): Crear transaccion
 		$transaction = $user->transactions()->create([
 			'type' => 'pago verificado',
 			'payload' => $payload,

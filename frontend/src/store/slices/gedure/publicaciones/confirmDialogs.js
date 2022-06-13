@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../notistack";
-import { refreshPT } from "./table";
+import { refresh } from "../../tables";
 
 export const deletePost = createAsyncThunk(
   'gdPUBConfirm/delete',
@@ -17,7 +17,7 @@ export const deletePost = createAsyncThunk(
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      dispatch(refreshPT());
+      dispatch(refresh({ select: 'posts' }));
 
       return res.data;
     } catch (error) {
