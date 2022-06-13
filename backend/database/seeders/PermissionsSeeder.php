@@ -21,76 +21,76 @@ class PermissionsSeeder extends Seeder
 			PERMISSIONS ADMIN
 		*/
 		// NOTA(RECKER): Permisos de Registros
-		Permission::create(['name' => 'registros_index']);
+		Permission::create(['guard_name' => 'api','name' => 'registros_index']);
 		
 		// NOTA(RECKER): Permisos de Users
-		Permission::create(['name' => 'users_index']);
-		Permission::create(['name' => 'users_create']);
-		Permission::create(['name' => 'users_upload_matricula']);
-		Permission::create(['name' => 'users_edit']);
-		Permission::create(['name' => 'users_edit_admins']);
-		Permission::create(['name' => 'users_delete']);
+		Permission::create(['guard_name' => 'api','name' => 'users_index']);
+		Permission::create(['guard_name' => 'api','name' => 'users_create']);
+		Permission::create(['guard_name' => 'api','name' => 'users_upload_matricula']);
+		Permission::create(['guard_name' => 'api','name' => 'users_edit']);
+		Permission::create(['guard_name' => 'api','name' => 'users_edit_admins']);
+		Permission::create(['guard_name' => 'api','name' => 'users_delete']);
 		// NOTA(RECKER): Permisos de gedure config
-		Permission::create(['name' => 'users_disabled_index']);
-		Permission::create(['name' => 'users_disabled_restore']);
-		Permission::create(['name' => 'users_disabled_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'users_disabled_index']);
+		Permission::create(['guard_name' => 'api','name' => 'users_disabled_restore']);
+		Permission::create(['guard_name' => 'api','name' => 'users_disabled_destroy']);
 		
 		// NOTA(RECKER): Permisos de Publicaciones
-		Permission::create(['name' => 'posts_index']);
-		Permission::create(['name' => 'posts_create']);
-		Permission::create(['name' => 'posts_edit']);
-		Permission::create(['name' => 'posts_destroy']);
-		Permission::create(['name' => 'posts_others']);
+		Permission::create(['guard_name' => 'api','name' => 'posts_index']);
+		Permission::create(['guard_name' => 'api','name' => 'posts_create']);
+		Permission::create(['guard_name' => 'api','name' => 'posts_edit']);
+		Permission::create(['guard_name' => 'api','name' => 'posts_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'posts_others']);
 		
 		// NOTA(RECKER): Permisos de Boletas
-		Permission::create(['name' => 'boletas_index']);
-		Permission::create(['name' => 'boletas_upload']);
-		Permission::create(['name' => 'boletas_edit']);
-		Permission::create(['name' => 'boletas_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'boletas_index']);
+		Permission::create(['guard_name' => 'api','name' => 'boletas_upload']);
+		Permission::create(['guard_name' => 'api','name' => 'boletas_edit']);
+		Permission::create(['guard_name' => 'api','name' => 'boletas_destroy']);
 		
 		// NOTA(RECKER): Permisos de Cursos (gedure)
-		Permission::create(['name' => 'cursos_index']);
-		Permission::create(['name' => 'cursos_create']);
-		Permission::create(['name' => 'cursos_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'cursos_index']);
+		Permission::create(['guard_name' => 'api','name' => 'cursos_create']);
+		Permission::create(['guard_name' => 'api','name' => 'cursos_destroy']);
 		
 		// NOTA(RECKER): Permisos de Solicitud de Contacto
-		Permission::create(['name' => 'contact_index']);
-		Permission::create(['name' => 'contact_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'contact_index']);
+		Permission::create(['guard_name' => 'api','name' => 'contact_destroy']);
 		
 		// NOTA(RECKER): Permisos de Deudas
-		Permission::create(['name' => 'debt_lote_index']);
-		Permission::create(['name' => 'debt_lote_create']);
-		Permission::create(['name' => 'debt_lote_edit']);
-		Permission::create(['name' => 'debt_lote_delete']);
-		Permission::create(['name' => 'debt_create']);
-		Permission::create(['name' => 'debt_delete']);
-		Permission::create(['name' => 'debt_refund']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_lote_index']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_lote_create']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_lote_edit']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_lote_delete']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_create']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_delete']);
+		Permission::create(['guard_name' => 'api','name' => 'debt_refund']);
 		
 		// NOTA(RECKER): Permisos de Cuentas Bancarias (Gedure)
-		Permission::create(['name' => 'bank_account_index']);
-		Permission::create(['name' => 'bank_account_create']);
-		Permission::create(['name' => 'bank_account_edit']);
-		Permission::create(['name' => 'bank_account_destroy']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_account_index']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_account_create']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_account_edit']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_account_destroy']);
 		
 		// NOTA(RECKER): Permisos de Transacciones Bancarias (Gedure)
-		Permission::create(['name' => 'bank_transaction_index']);
-		Permission::create(['name' => 'bank_transaction_upload']);
-		Permission::create(['name' => 'bank_transaction_assign']);
-		Permission::create(['name' => 'bank_transaction_delete']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_transaction_index']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_transaction_upload']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_transaction_assign']);
+		Permission::create(['guard_name' => 'api','name' => 'bank_transaction_delete']);
 		
 		// NOTA(RECKER): Permisos de Transacciones
-		Permission::create(['name' => 'transaction_index']);
+		Permission::create(['guard_name' => 'api','name' => 'transaction_index']);
 		
 		/*
 			PERMISSIONS USER
 		*/
-		Permission::create(['name' => 'change_avatar']);
-		Permission::create(['name' => 'boleta_download']);
-		//Permission::create(['name' => 'horarios']);
-		//Permission::create(['name' => 'soporte']);
-		//Permission::create(['name' => 'account_exonerada']);
+		Permission::create(['guard_name' => 'api','name' => 'change_avatar']);
+		Permission::create(['guard_name' => 'api','name' => 'boleta_download']);
+		//Permission::create(['guard_name' => 'api','name' => 'horarios']);
+		//Permission::create(['guard_name' => 'api','name' => 'soporte']);
+		//Permission::create(['guard_name' => 'api','name' => 'account_exonerada']);
 		
-		$ADMIN = Role::create(['name' => 'super-admin']);
+		$ADMIN = Role::create(['guard_name' => 'api','name' => 'super-admin']);
 		
 		$user = User::find(1);
 		$user->assignRole($ADMIN);
