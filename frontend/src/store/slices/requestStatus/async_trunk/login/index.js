@@ -7,7 +7,7 @@ export const login = createAsyncThunk(
   async (data, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/login';
+    let url = 'v1/auth/login';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

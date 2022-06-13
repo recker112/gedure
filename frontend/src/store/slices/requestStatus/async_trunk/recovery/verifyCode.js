@@ -6,7 +6,7 @@ export const verifyCodeRecovery = createAsyncThunk(
   async ({ submitData, handleNext = null }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/recovery-verify';
+    let url = 'v1/auth-recovery/verify';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

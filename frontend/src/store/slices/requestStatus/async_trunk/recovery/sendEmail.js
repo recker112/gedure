@@ -6,7 +6,7 @@ export const sendEmailRecovery = createAsyncThunk(
   async ({ submitData, handleNext = null }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/recovery-password';
+    let url = 'v1/auth-recovery/send';
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
