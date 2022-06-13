@@ -82,7 +82,7 @@ class ContactoControllerTest extends TestCase
 					]
 				],
 				'page',
-				'totalSoli'
+				'totalRows'
 			])
 			->assertJsonFragment([
 				'id' => $contactos[count($contactos) - 1]->id,
