@@ -20,7 +20,9 @@ import TourEditPub from './TourEditPub';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import ShowPreview from '../crear/ShowPreview';
-import { editPost, requestPost } from '../../../../store/slices/gedure/publicaciones/editar';
+import { requestPost } from '../../../../store/slices/requestStatus/async_trunk/publicaciones/requestPost';
+import { updateInputs } from '../../../../store/slices/requestStatus';
+import { editPost } from '../../../../store/slices/requestStatus/async_trunk/publicaciones/editPost';
 
 const classes = {
   container: {
@@ -35,7 +37,7 @@ function EditarPost({ data: { title, content, slug, only_users } }) {
   const [preview, setPreview] = useState(false);
   useNotifier();
 
-  const loading = useSelector(state => state.gdPUBE.loading);
+  const loading = useSelector(state => state.requestStatus.editPost.loading);
   const dispatch = useDispatch();
 
   let navigate = useNavigate();
@@ -117,14 +119,17 @@ export default function Request() {
   const { slug } = useParams();
 
   const { loading, data } = useSelector(state => ({
-    loading: state.gdPUBE.loadingRequest,
-    data: state.gdPUBE.dataRequest,
+    loading: state.requestStatus.editPost.loadingRequest,
+    data: state.requestStatus.editPost.dataRequest,
   }));
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(requestPost(slug));
 
+    return () => {
+      dispatch(updateInputs({ select: 'editPost', input: 'loadingRequest', value: true }));
+    }
     // eslint-disable-next-line
   }, []);
 

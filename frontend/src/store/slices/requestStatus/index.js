@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+// Async request
 import { reducersCreateBankAccount } from "./async_trunk/configuracion/pagos/createBankAccount";
 import { reducersDeleteBankAccount } from "./async_trunk/configuracion/pagos/deleteBankAccount";
 import { reducersEditBankAccount } from "./async_trunk/configuracion/pagos/editBankAccount";
-
-// Async request
 import { reducersContacts } from "./async_trunk/contacts";
 import { reducersInfoBox } from "./async_trunk/home/getInfoBox";
 import { reducersLogin } from "./async_trunk/login";
@@ -29,6 +29,8 @@ import { reducersAssignTransaction } from "./async_trunk/configuracion/pagos/ass
 import { reducersResendEmailUser } from "./async_trunk/users/resendEmail";
 import { reducersCreatePost } from "./async_trunk/publicaciones/createPost";
 import { reducersDeletePost } from "./async_trunk/publicaciones/deletePost";
+import { reducersRequestPost } from "./async_trunk/publicaciones/requestPost";
+import { reducersEditPost } from "./async_trunk/publicaciones/editPost";
 
 
 const initialState = {
@@ -132,6 +134,12 @@ const initialState = {
     open: false,
     data: {},
   },
+  editPost: {
+    loadingRequest: true,
+    dataRequest: {},
+    loading: false,
+    progress: 0,
+  },
   createBankAccount: {
     loading: false,
   },
@@ -228,6 +236,8 @@ export const requestStatusSlices = createSlice({
     ...reducersResendEmailUser,
     ...reducersCreatePost,
     ...reducersDeletePost,
+    ...reducersRequestPost,
+    ...reducersEditPost,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,
