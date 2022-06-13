@@ -130,7 +130,7 @@ class BoletaControllerTest extends TestCase
 					]
 				],
 				'page',
-				'totalUsers'
+				'totalRows'
 			]);
 	}
 	
