@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducersBankAccounts } from "./async_trunk/configuracion/TableBankAccounts";
 import { reducersBankTransactions } from "./async_trunk/configuracion/TableBankTransactions";
+import { reducersPosts } from "./async_trunk/publicaciones/getPosts";
 import { reducersRegistros } from "./async_trunk/registros/getRegistros";
 import { reducersUsers } from "./async_trunk/users/getUsers";
 
@@ -27,6 +28,22 @@ const initialState = {
       type: '',
       curso: '',
       seccion: '',
+    },
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  posts: {
+    filterBox: false,
+    filters: {
+      type: '',
     },
     countFilters: 0,
     tableData: {
@@ -128,6 +145,7 @@ export const tablesSlices = createSlice({
   extraReducers: {
     ...reducersRegistros,
     ...reducersUsers,
+    ...reducersPosts,
     ...reducersBankAccounts,
     ...reducersBankTransactions,
   }
