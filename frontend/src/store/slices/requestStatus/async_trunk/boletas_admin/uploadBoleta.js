@@ -28,7 +28,6 @@ export const uploadBoleta = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-      dispatch(setProgress({select: 'uploadBoleta', percentCompleted: 0}));
       dispatch(refresh({ select: 'boletas' }));
 
       return res.data;
@@ -57,6 +56,7 @@ export const reducersUploadBoleta = {
   },
   [uploadBoleta.fulfilled]: (state, action) => {
     state.uploadBoleta.loading = false;
+    state.uploadBoleta.progress = 0;
     state.uploadBoleta.data = {};
     state.uploadBoleta.open = false;
   }
