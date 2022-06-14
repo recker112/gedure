@@ -35,6 +35,7 @@ import { reducersDeleteMassiveBoletas } from "./async_trunk/boletas_admin/delete
 import { reducersDeleteBoleta } from "./async_trunk/boletas_admin/deleteBoleta";
 import { reducersGetBoletas } from "./async_trunk/boletas_admin/verBoletas";
 import { reducersDownloadBoleta } from "./async_trunk/boletas_admin/downloadBoleta";
+import { reducersUploadBoleta } from "./async_trunk/boletas_admin/uploadBoleta";
 
 
 const initialState = {
@@ -166,6 +167,11 @@ const initialState = {
     loadingDownload: false,
     progress: 0,
   },
+  uploadBoleta: {
+    open: false,
+    loading: false,
+    progress: 0,
+  },
   createBankAccount: {
     loading: false,
   },
@@ -268,6 +274,7 @@ export const requestStatusSlices = createSlice({
     ...reducersDeleteBoleta,
     ...reducersGetBoletas,
     ...reducersDownloadBoleta,
+    ...reducersUploadBoleta,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,

@@ -17,10 +17,11 @@ import { LapsoList } from '../../../components/Utils/StudiendsLists';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenBF, uploadBoleta } from '../../../store/slices/gedure/boletas_admin/forms';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { uploadBoleta } from '../../../store/slices/requestStatus/async_trunk/boletas_admin/uploadBoleta';
 
 export default function UploadBoleta() {
-  const { open, loading, progress } = useSelector(state => (state.gdBForm.upload));
+  const { open, loading, progress } = useSelector(state => (state.requestStatus.uploadBoleta));
   const dispatch = useDispatch();
 
   const { handleSubmit, register, control, watch, formState: { errors } } = useForm({
@@ -37,7 +38,7 @@ export default function UploadBoleta() {
   }
 
   const handleClose = () => {
-    dispatch(setOpenBF({select: 'upload', open: false}));
+    dispatch(setRequestStatus({select: 'uploadBoleta', open: false}));
   }
 
   const MenuItemList = LapsoList.map(useCallback((data, i) => (
@@ -67,7 +68,7 @@ export default function UploadBoleta() {
 							type="file"
 						/>
 						<label htmlFor="boletas-upload-file">
-							<Button variant='contained' color='secondary' component='span'>Cargar archivo</Button>
+							<Button variant='contained' color={Boolean(errors.boletas) ? 'error' : 'secondary'} component='span'>Cargar archivo</Button>
 						</label>
 						{Boolean(errors.boletas) && (
 							<Box ml={2} color='#f44336'>
