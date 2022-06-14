@@ -31,6 +31,8 @@ import { reducersCreatePost } from "./async_trunk/publicaciones/createPost";
 import { reducersDeletePost } from "./async_trunk/publicaciones/deletePost";
 import { reducersRequestPost } from "./async_trunk/publicaciones/requestPost";
 import { reducersEditPost } from "./async_trunk/publicaciones/editPost";
+import { reducersDeleteMassiveBoletas } from "./async_trunk/boletas_admin/deleteBoletaMassive";
+import { reducersDeleteBoleta } from "./async_trunk/boletas_admin/deleteBoleta";
 
 
 const initialState = {
@@ -140,6 +142,22 @@ const initialState = {
     loading: false,
     progress: 0,
   },
+  deleteBoleta: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  deleteMassiveBoletas: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  replaceBoleta: {
+    loading: false,
+    open: false,
+    data: {},
+    progress: 0,
+  },
   createBankAccount: {
     loading: false,
   },
@@ -238,6 +256,8 @@ export const requestStatusSlices = createSlice({
     ...reducersDeletePost,
     ...reducersRequestPost,
     ...reducersEditPost,
+    ...reducersDeleteMassiveBoletas,
+    ...reducersDeleteBoleta,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,

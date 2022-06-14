@@ -11,11 +11,12 @@ import AnimationDialog from '../../../../components/AnimationDialog';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { replaceBoleta, setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { replaceBoleta } from '../../../../store/slices/requestStatus/async_trunk/boletas_admin/replaceBoleta';
 
 export default function ReplaceBoleta() {
-  const { open, loading, progress, data } = useSelector(state => state.gdBConfirm.replaceBoleta);
+  const { open, loading, progress, data } = useSelector(state => state.requestStatus.replaceBoleta);
   const dispatch = useDispatch();
 
   const { handleSubmit, register, watch, formState: { errors } } = useForm({
@@ -24,7 +25,7 @@ export default function ReplaceBoleta() {
 	});
 
   const handleClose = () => {
-    dispatch(setConfgsBC({open: false, data: {}, confirm: 'replaceBoleta'}));
+    dispatch(setRequestStatus({open: false, data: {}, select: 'replaceBoleta'}));
   }
 
   const onSubmit = submitData => {
@@ -58,7 +59,7 @@ export default function ReplaceBoleta() {
 							type="file"
 						/>
 						<label htmlFor="boleta-upload-file">
-							<Button variant='contained' color='secondary' component='span'>Cargar archivo</Button>
+							<Button variant='contained' color={Boolean(errors.boleta) ? 'error': 'secondary'} component='span'>Cargar archivo</Button>
 						</label>
 						{Boolean(errors.boleta) && (
 							<Box ml={2} color='#f44336'>

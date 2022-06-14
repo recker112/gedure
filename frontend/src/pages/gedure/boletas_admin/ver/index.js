@@ -18,7 +18,8 @@ import ReplaceBoleta from './ReplaceBoleta';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataBV, setLoadingBV } from '../../../../store/slices/gedure/boletas_admin/ver';
-import { deleteBoleta, setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { deleteBoleta } from '../../../../store/slices/requestStatus/async_trunk/boletas_admin/deleteBoleta';
 
 const classes = {
   container: {
@@ -113,10 +114,10 @@ export default function VerBoleta() {
 					</Box>
 				)}
         <DialogConfirmation
-          rdx1='gdBConfirm' 
+          rdx1='requestStatus' 
           rdx2='deleteBoleta'
           close={
-            setConfgsBC({open: false, data: {}, confirm: 'deleteBoleta'})
+            setRequestStatus({open: false, data: {}, select: 'deleteBoleta'})
           }
           request={
             data => deleteBoleta({ submitData: data, refresh: handleRefresh })

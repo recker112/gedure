@@ -247,32 +247,36 @@ class BoletaController extends Controller
 		$boleta_username = $boleta->user->username;
 		$boleta_name = $boleta->user->name;
 		
-		if ($boleta->forceDelete() && Storage::exists($filePath)) {
-			Storage::delete($filePath);
-			
-			if (!$massive) {
-				$payload = [
-					'curso' => $boleta_curso,
-					'seccion' => $boleta_seccion,
-					'username' => $boleta_username,
-					'name' => $boleta_name,
-				];
-
-				request()->user()->logs()->create([
-					'action' => "Boleta eliminada",
-					'payload' => $payload,
-					'type' => 'gedure'
-				]);
-			}
-			
-			return response()->json([
-				'msg' => "Boletas eliminada",
-			],200);
-		}else {
+		// NOTA(RECKER): Delete boleta
+		if (!$boleta->forceDelete()) {
 			return response()->json([
 				'msg' => "No se pudo eliminar la boleta",
 			],400);
 		}
+
+		// NOTA(RECKER): Delete dir if exist boleta
+		if (!Storage::exists($filePath)) {
+			Storage::delete($filePath);
+		}
+			
+		if (!$massive) {
+			$payload = [
+				'curso' => $boleta_curso,
+				'seccion' => $boleta_seccion,
+				'username' => $boleta_username,
+				'name' => $boleta_name,
+			];
+
+			request()->user()->logs()->create([
+				'action' => "Boleta eliminada",
+				'payload' => $payload,
+				'type' => 'gedure'
+			]);
+		}
+		
+		return response()->json([
+			'msg' => "Boleta eliminada",
+		],200);
 	}
 	
 	public function destroyMassive(MassiveBoletaRequest $request)
