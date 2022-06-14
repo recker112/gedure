@@ -4,6 +4,7 @@ import { reducersBankAccounts } from "./async_trunk/configuracion/TableBankAccou
 import { reducersBankTransactions } from "./async_trunk/configuracion/TableBankTransactions";
 import { reducersPosts } from "./async_trunk/publicaciones/getPosts";
 import { reducersRegistros } from "./async_trunk/registros/getRegistros";
+import { reducersSoliContacto } from "./async_trunk/soli_contacto/getSoliContacto";
 import { reducersUsers } from "./async_trunk/users/getUsers";
 
 const initialState = {
@@ -63,6 +64,20 @@ const initialState = {
       curso: '',
       seccion: '',
     },
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  soliContacto: {
+    filterBox: false,
+    filters: {},
     countFilters: 0,
     tableData: {
       loading: true,
@@ -165,6 +180,7 @@ export const tablesSlices = createSlice({
     ...reducersUsers,
     ...reducersPosts,
     ...reducersBoletas,
+    ...reducersSoliContacto,
     ...reducersBankAccounts,
     ...reducersBankTransactions,
   }
