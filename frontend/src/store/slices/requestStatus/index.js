@@ -42,6 +42,10 @@ import { reducersDownloadBoletasUser } from "./async_trunk/boleta/downloadBoleta
 import { reducersCreateCurso } from "./async_trunk/configuracion/cursos/createCurso";
 import { reducersDeleteCurso } from "./async_trunk/configuracion/cursos/deleteCurso";
 import { reducersDeleteMassiveCursos } from "./async_trunk/configuracion/cursos/deleteMassiveCursos";
+import { reducersRestoreUser } from "./async_trunk/configuracion/users_disabled/restoreUser";
+import { reducersRestoreMassiveUser } from "./async_trunk/configuracion/users_disabled/restoreMassiveUsers";
+import { reducersDestroyUser } from "./async_trunk/configuracion/users_disabled/destroyUser";
+import { reducersDestroyMassiveUser } from "./async_trunk/configuracion/users_disabled/destroyMassiveUser";
 
 
 const initialState = {
@@ -242,6 +246,26 @@ const initialState = {
     open: false,
     data: {}
   },
+  restoreUser: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  restoreMassiveUser: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  destroyUser: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  destroyMassiveUser: {
+    loading: false,
+    open: false,
+    data: {}
+  },
 };
 
 export const requestStatusSlices = createSlice({
@@ -323,6 +347,10 @@ export const requestStatusSlices = createSlice({
     ...reducersDeleteBankTransaction,
     ...reducersSearchUser,
     ...reducersAssignTransaction,
+    ...reducersRestoreUser,
+    ...reducersRestoreMassiveUser,
+    ...reducersDestroyUser,
+    ...reducersDestroyMassiveUser,
   }
 });
 

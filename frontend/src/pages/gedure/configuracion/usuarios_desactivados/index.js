@@ -8,56 +8,60 @@ import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 
 // Redux
-import { destroyUser, destroyUserMassive, restoreUser, restoreUserMassive, setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { restoreUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/restoreUser';
+import { restoreMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/restoreMassiveUsers';
+import { destroyUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/destroyUser';
+import { destroyMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/destroyMassiveUser';
 
 export default function GDUserDis() {
   return (
     <Box sx={{paddingBottom: 6}}>
       <Table />
       <DialogConfirmation
-        rdx1='gdGCDUConfirm' 
-        rdx2='restore'
+        rdx1='requestStatus' 
+        rdx2='restoreUser'
         close={
-          setConfirmConfgsGCDU({open: false, data: {}, confirm: 'restore'})
+          setRequestStatus({open: false, data: {}, select: 'restoreUser'})
         }
         request={
           data => restoreUser(data)
         }
       >
-        {(data) => (<span>Está a punto de restaurar al usuario <strong>{data.privilegio+data.username}</strong>. Tenga en cuenta que si reactiva a un estudiante no se asignará a ningún curso.</span>)}
+        {(data) => (<span>Está a punto de restaurar al usuario <strong>{`${data.privilegio}${data.username}`}</strong>. Tenga en cuenta que si reactiva a un estudiante no se asignará a ningún curso.</span>)}
       </DialogConfirmation>
       <DialogConfirmation
-        rdx1='gdGCDUConfirm' 
-        rdx2='restoreMassive'
+        rdx1='requestStatus' 
+        rdx2='restoreMassiveUser'
         close={
-          setConfirmConfgsGCDU({open: false, data: {}, confirm: 'restoreMassive'})
+          setRequestStatus({open: false, data: {}, select: 'restoreMassiveUser'})
         }
         request={
-          data => restoreUserMassive(data)
+          data => restoreMassiveUser(data)
         }
       >
         {(data) => (<span>Está a punto de restaurar <strong>{data?.length}</strong> usuario(s). Tenga en cuenta que si reactiva a un estudiante no se asignará a ningún curso.</span>)}
       </DialogConfirmation>
       <DialogConfirmation
-        rdx1='gdGCDUConfirm' 
-        rdx2='destroy'
+        rdx1='requestStatus' 
+        rdx2='destroyUser'
         close={
-          setConfirmConfgsGCDU({open: false, data: {}, confirm: 'destroy'})
+          setRequestStatus({open: false, data: {}, select: 'destroyUser'})
         }
         request={
           data => destroyUser(data)
         }
       >
-        {(data) => (<span>Está a punto de eliminar permanentemente al usuario <strong>{data.privilegio+data.username}</strong>. Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}
+        {(data) => (<span>Está a punto de eliminar permanentemente al usuario <strong>{`${data.privilegio}${data.username}`}</strong>. Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}
       </DialogConfirmation>
       <DialogConfirmation
-        rdx1='gdGCDUConfirm' 
-        rdx2='destroyMassive'
+        rdx1='requestStatus' 
+        rdx2='destroyMassiveUser'
         close={
-          setConfirmConfgsGCDU({open: false, data: {}, confirm: 'destroyMassive'})
+          setRequestStatus({open: false, data: {}, select: 'destroyMassiveUser'})
         }
         request={
-          data => destroyUserMassive(data)
+          data => destroyMassiveUser(data)
         }
       >
         {(data) => (<span>Está a punto de eliminar permanentemente <strong>{data?.length}</strong> usuario(s). Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}

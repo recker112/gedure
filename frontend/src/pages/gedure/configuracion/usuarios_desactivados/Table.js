@@ -10,9 +10,9 @@ import ReactTableBase from '../../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tables';
 import { getUsersDisabled } from '../../../../store/slices/tables/async_trunk/configuracion/TableUsersDisabled';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount, gedure: { users_disabled_restore, users_disabled_destroy } } = useSelector(state => ({
@@ -49,7 +49,7 @@ export default function Table() {
               component='span'
               disabled={!users_disabled_restore}
               onClick={() => {
-                dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'restore'}))
+                dispatch(setRequestStatus({open: true, data: {id, privilegio, username}, select: 'restoreUser'}))
               }}
             >
               <RestoreIcon /> 
@@ -60,7 +60,7 @@ export default function Table() {
               component='span'
               disabled={!users_disabled_destroy}
               onClick={() => {
-                dispatch(setConfirmConfgsGCDU({open: true, data: {id, privilegio, username}, confirm: 'destroy'}))
+                dispatch(setRequestStatus({open: true, data: {id, privilegio, username}, select: 'destroyUser'}))
               }}
             >
               <DeleteForeverIcon /> 
@@ -135,7 +135,7 @@ export default function Table() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgsGCDU({confirm: 'restoreMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'restoreMassiveUser', open: true, data: idsArray}))
               }}
             >
               <RestoreIcon />
@@ -153,7 +153,7 @@ export default function Table() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'destroyMassiveUser', open: true, data: idsArray}))
               }}
             >
               <DeleteForeverIcon />
