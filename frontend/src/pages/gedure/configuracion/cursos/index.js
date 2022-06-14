@@ -10,7 +10,9 @@ import DialogConfirmation from '../../../../components/DialogConfirmation';
 
 // Redux
 import { useSelector } from 'react-redux';
-import { deleteCurso, deleteCursoMassive, setConfirmConfgsGC } from '../../../../store/slices/gedure/configuracion/cursos/confirm';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { deleteCurso } from '../../../../store/slices/requestStatus/async_trunk/configuracion/cursos/deleteCurso';
+import { deleteMassiveCursos } from '../../../../store/slices/requestStatus/async_trunk/configuracion/cursos/deleteMassiveCursos';
 
 export default function GDCursos() {
   const { cursos_create } = useSelector(state => state.auth.permissions.gedure);
@@ -26,10 +28,10 @@ export default function GDCursos() {
         <Table />
       </Grid>
       <DialogConfirmation
-        rdx1='gdGCConfirm' 
-        rdx2='delete'
+        rdx1='requestStatus' 
+        rdx2='deleteCurso'
         close={
-          setConfirmConfgsGC({open: false, data: {}, confirm: 'delete'})
+          setRequestStatus({open: false, data: {}, select: 'deleteCurso'})
         }
         request={
           data => deleteCurso(data)
@@ -39,13 +41,13 @@ export default function GDCursos() {
       </DialogConfirmation>
 
       <DialogConfirmation
-        rdx1='gdGCConfirm' 
-        rdx2='deleteMassive'
+        rdx1='requestStatus' 
+        rdx2='deleteMassiveCursos'
         close={
-          setConfirmConfgsGC({open: false, data: {}, confirm: 'deleteMassive'})
+          setRequestStatus({open: false, data: {}, select: 'deleteMassiveCursos'})
         }
         request={
-          data => deleteCursoMassive(data)
+          data => deleteMassiveCursos(data)
         }
       >
         {(data) => (<span>Está a punto de eliminar <strong>{data?.length}</strong> cursos. Las boletas de esta sección serán eliminadas por completo, pero los estudiantes se mantendrán activos.</span>)}

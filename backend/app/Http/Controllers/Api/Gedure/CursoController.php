@@ -146,7 +146,7 @@ class CursoController extends Controller
 			'type' => 'gedure'
 		]);
 		return response()->json([
-			'msg' => "$i cursos eliminados"
+			'msg' => "$i curso(s) eliminado(s)"
 		],200);
 	}
 	

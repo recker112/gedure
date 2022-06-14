@@ -39,6 +39,9 @@ import { reducersUploadBoleta } from "./async_trunk/boletas_admin/uploadBoleta";
 import { reducersDeleteSoliContacto } from "./async_trunk/soli_contacto/deleteSoliContacto";
 import { reducersGetBoletasUser } from "./async_trunk/boleta/getBoletasUser";
 import { reducersDownloadBoletasUser } from "./async_trunk/boleta/downloadBoletaUser";
+import { reducersCreateCurso } from "./async_trunk/configuracion/cursos/createCurso";
+import { reducersDeleteCurso } from "./async_trunk/configuracion/cursos/deleteCurso";
+import { reducersDeleteMassiveCursos } from "./async_trunk/configuracion/cursos/deleteMassiveCursos";
 
 
 const initialState = {
@@ -190,6 +193,19 @@ const initialState = {
     open: false,
     data: {}
   },
+  createCurso: {
+    loading: false,
+  },
+  deleteCurso: {
+    loading: false,
+    open: false,
+    data: {}
+  },
+  deleteMassiveCursos: {
+    loading: false,
+    open: false,
+    data: {}
+  },
   createBankAccount: {
     loading: false,
   },
@@ -296,6 +312,9 @@ export const requestStatusSlices = createSlice({
     ...reducersDownloadBoleta,
     ...reducersUploadBoleta,
     ...reducersDeleteSoliContacto,
+    ...reducersCreateCurso,
+    ...reducersDeleteCurso,
+    ...reducersDeleteMassiveCursos,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,

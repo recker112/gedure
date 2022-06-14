@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { reducersBoletas } from "./async_trunk/boletas_admin/getBoletasTable";
 import { reducersBankAccounts } from "./async_trunk/configuracion/TableBankAccounts";
 import { reducersBankTransactions } from "./async_trunk/configuracion/TableBankTransactions";
+import { reducersCursos } from "./async_trunk/configuracion/TableCursos";
 import { reducersPosts } from "./async_trunk/publicaciones/getPosts";
 import { reducersRegistros } from "./async_trunk/registros/getRegistros";
 import { reducersSoliContacto } from "./async_trunk/soli_contacto/getSoliContacto";
@@ -76,6 +77,20 @@ const initialState = {
     },
   },
   soliContacto: {
+    filterBox: false,
+    filters: {},
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  cursos: {
     filterBox: false,
     filters: {},
     countFilters: 0,
@@ -181,6 +196,7 @@ export const tablesSlices = createSlice({
     ...reducersPosts,
     ...reducersBoletas,
     ...reducersSoliContacto,
+    ...reducersCursos,
     ...reducersBankAccounts,
     ...reducersBankTransactions,
   }

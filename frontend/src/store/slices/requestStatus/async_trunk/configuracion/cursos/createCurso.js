@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../../notistack";
-import { refreshCCT } from "./table";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { updateNotistack } from "../../../../notistack";
+import { refresh } from "../../../../tables";
 
-export const createCursoConfigForm = createAsyncThunk(
-  'gdConfigCForm/upload',
+export const createCurso = createAsyncThunk(
+  'requestStatus/curso/create',
   async (submitData, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -16,7 +16,7 @@ export const createCursoConfigForm = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-      dispatch(refreshCCT());
+      dispatch(refresh({ select: 'cursos' }));
 
       return res.data;
     } catch (error) {
@@ -35,28 +35,14 @@ export const createCursoConfigForm = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  createCurso: {
-    loading: false,
-  }
-};
-
-export const gdConfigCFormSlice = createSlice({
-  name: "gdConfigCForm",
-  initialState,
-  reducers: {},
-  extraReducers: {
-    [createCursoConfigForm.pending]: state => {
-      state.createCurso.loading = true;
-    },
-    [createCursoConfigForm.rejected]: (state, action) => {
-      state.createCurso.loading = false;
-    },
-    [createCursoConfigForm.fulfilled]: (state, action) => {
-      state.createCurso.loading = false;
-    },
-  }
-});
-
-export default gdConfigCFormSlice.reducer;
+export const reducersCreateCurso = {
+  [createCurso.pending]: (state, action) => {
+    state.createCurso.loading = true;
+  },
+  [createCurso.rejected]: (state, action) => {
+    state.createCurso.loading = false;
+  },
+  [createCurso.fulfilled]: (state, action) => {
+    state.createCurso.loading = false;
+  },
+}
