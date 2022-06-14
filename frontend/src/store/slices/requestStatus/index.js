@@ -36,6 +36,7 @@ import { reducersDeleteBoleta } from "./async_trunk/boletas_admin/deleteBoleta";
 import { reducersGetBoletas } from "./async_trunk/boletas_admin/verBoletas";
 import { reducersDownloadBoleta } from "./async_trunk/boletas_admin/downloadBoleta";
 import { reducersUploadBoleta } from "./async_trunk/boletas_admin/uploadBoleta";
+import { reducersDeleteSoliContacto } from "./async_trunk/soli_contacto/deleteSoliContacto";
 
 
 const initialState = {
@@ -172,6 +173,15 @@ const initialState = {
     loading: false,
     progress: 0,
   },
+  verSoliContacto: {
+    open: false,
+    data: {}
+  },
+  deleteSoliContacto: {
+    loading: false,
+    open: false,
+    data: {}
+  },
   createBankAccount: {
     loading: false,
   },
@@ -275,6 +285,7 @@ export const requestStatusSlices = createSlice({
     ...reducersGetBoletas,
     ...reducersDownloadBoleta,
     ...reducersUploadBoleta,
+    ...reducersDeleteSoliContacto,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
     ...reducersEditBankAccount,

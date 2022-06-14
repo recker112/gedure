@@ -10,9 +10,9 @@ import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setConfirmConfgsSCT, setSeeBoxSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
 import { getSoliContacto } from '../../../store/slices/tables/async_trunk/soli_contacto/getSoliContacto';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
@@ -49,7 +49,7 @@ export default function Table() {
           <Tooltip title='Ver detalles' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setSeeBoxSCT({open: true, data: original}));
+                dispatch(setRequestStatus({open: true, data: original, select: 'verSoliContacto'}));
               }}
             >
               <VisibilityIcon />
@@ -58,7 +58,7 @@ export default function Table() {
           <Tooltip title='Eliminar' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setConfirmConfgsSCT({open: true, data: original, confirm: 'deleteSC'}))
+                dispatch(setRequestStatus({open: true, data: original, select: 'deleteSoliContacto'}));
               }}
             >
               <DeleteForeverIcon />
