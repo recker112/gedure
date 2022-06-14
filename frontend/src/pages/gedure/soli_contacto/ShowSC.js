@@ -8,14 +8,14 @@ import AnimationDialog from '../../../components/AnimationDialog';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setSeeBoxSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function ShowSC() {
-  const { open, data } = useSelector(state => state.gdSCTable.seeBox);
+  const { open, data } = useSelector(state => state.requestStatus.verSoliContacto);
    const dispatch = useDispatch();
 
    const handleClose = () => {
-    dispatch(setSeeBoxSCT({open: false}));
+    dispatch(setRequestStatus({open: false, select: 'verSoliContacto'}));
    }
 
   return (

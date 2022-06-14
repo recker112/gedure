@@ -11,7 +11,8 @@ import TourSoliC from './TourSoliC';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 
 // Redux
-import { deleteSCT, setConfirmConfgsSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { deleteSoliContacto } from '../../../store/slices/requestStatus/async_trunk/soli_contacto/deleteSoliContacto';
 
 const classes = {
   container: {
@@ -34,13 +35,13 @@ export default function SoliContacto() {
         <Table />
         <ShowSC />
         <DialogConfirmation
-          rdx1='gdSCTable' 
-          rdx2='deleteSC'
+          rdx1='requestStatus' 
+          rdx2='deleteSoliContacto'
           close={
-            setConfirmConfgsSCT({open: false, data: {}, confirm: 'deleteSC'})
+            setRequestStatus({open: false, data: {}, select: 'deleteSoliContacto'})
           }
           request={
-            data => deleteSCT(data.id)
+            data => deleteSoliContacto(data.id)
           }
         >
           {(data) => (<span>Está a punto de eliminar la solicitud "<strong>{data.asunto}</strong>". Una vez realizada no se podrá deshacer esta acción.</span>)}
