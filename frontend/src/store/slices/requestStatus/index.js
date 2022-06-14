@@ -37,6 +37,7 @@ import { reducersGetBoletas } from "./async_trunk/boletas_admin/verBoletas";
 import { reducersDownloadBoleta } from "./async_trunk/boletas_admin/downloadBoleta";
 import { reducersUploadBoleta } from "./async_trunk/boletas_admin/uploadBoleta";
 import { reducersDeleteSoliContacto } from "./async_trunk/soli_contacto/deleteSoliContacto";
+import { reducersLogoutAll } from "./async_trunk/login/logoutAll";
 
 
 const initialState = {
@@ -130,6 +131,7 @@ const initialState = {
     loadingPDU: false,
     loadingActiveAccount: false,
     loadingResendEmail: false,
+    loadingLogoutAll: false,
   },
   createPost: {
     loading: false,
@@ -276,6 +278,7 @@ export const requestStatusSlices = createSlice({
     ...reducersUpdateAvatar,
     ...reducersUpdateData,
     ...reducersResendEmailUser,
+    ...reducersLogoutAll,
     ...reducersCreatePost,
     ...reducersDeletePost,
     ...reducersRequestPost,
