@@ -15,8 +15,8 @@ import conveterCursorCode from '../../../../components/Utils/converterCursoCode'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { setConfgsBC } from '../../../../store/slices/gedure/boletas_admin/confirmDialogs';
 import { downloadBoleta } from '../../../../store/slices/gedure/boletas_admin/ver';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
 const listColors = [
   '#2f80ED',
@@ -47,11 +47,11 @@ export default function Boleta({
   const dispatch = useDispatch();
   
   const handleDelete = () => {
-    dispatch(setConfgsBC({open: true, data: { curso, lapso, id }, confirm: 'deleteBoleta'}));
+    dispatch(setRequestStatus({open: true, data: { curso, lapso, id }, select: 'deleteBoleta'}));
   }
 
   const handleReplace = () => {
-		dispatch(setConfgsBC({open: true, data: { curso: curso.curso, seccion: curso.seccion, lapso, id }, confirm: 'replaceBoleta'}));
+		dispatch(setRequestStatus({open: true, data: { curso: curso.curso, seccion: curso.seccion, lapso, id }, select: 'replaceBoleta'}));
 	}
 
   const handleDownload = async () => {

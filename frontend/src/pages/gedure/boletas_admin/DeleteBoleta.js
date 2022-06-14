@@ -14,10 +14,11 @@ import { LapsoList } from '../../../components/Utils/StudiendsLists';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectHook } from '../../../components/form/select';
-import { deleteBoletaMassive, setConfgsBC } from '../../../store/slices/gedure/boletas_admin/confirmDialogs';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { deleteMassiveBoletas } from '../../../store/slices/requestStatus/async_trunk/boletas_admin/deleteBoletaMassive';
 
 export default function DeleteBoleta() {
-  const { open, loading, data } = useSelector(state => (state.gdBConfirm.deleteBoletaMassive));
+  const { open, loading, data } = useSelector(state => (state.requestStatus.deleteMassiveBoletas));
   const dispatch = useDispatch();
 
   const { handleSubmit, control } = useForm({
@@ -26,11 +27,11 @@ export default function DeleteBoleta() {
 	});
 
   const onSubmit = (submitData) => {
-    dispatch(deleteBoletaMassive({...submitData, ids: data, _method: 'PUT'}));
+    dispatch(deleteMassiveBoletas({...submitData, ids: data, _method: 'PUT'}));
   }
 
   const handleClose = () => {
-    dispatch(setConfgsBC({open: false, data: {}, confirm: 'deleteBoletaMassive'}));
+    dispatch(setRequestStatus({open: false, data: {}, select: 'deleteMassiveBoletas'}));
   }
 
   const MenuItemList = LapsoList.map(useCallback((data, i) => (
