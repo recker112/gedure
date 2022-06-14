@@ -84,7 +84,7 @@
 		</div>
 		<footer class='footer'>
 			<p>
-				&copy; U.E.P.A.P.E.P "La Candelaria" | 2021
+				&copy; U.E.P.A.P.E.P "La Candelaria" | 2022
 			</p>
 			<p>
 				Powered by gedure
