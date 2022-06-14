@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../notistack";
 
 export const getUsersDisabled = createAsyncThunk(
-  'tables/users_disabled',
+  'tables/users_disabled/getUsers',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    const { page, pageSize, search } = getState().gdGCDUTable.tableData;
+    const { page, pageSize, search } = getState().tables.usersDisabled.tableData;
     let url = `v1/user-disabled?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
@@ -34,18 +34,18 @@ export const getUsersDisabled = createAsyncThunk(
 
 export const reducersUsersDisabled = {
   [getUsersDisabled.pending]: state => {
-    state.users_disabled.tableData.loading = true;
+    state.usersDisabled.tableData.loading = true;
   },
   [getUsersDisabled.rejected]: (state, action) => {
-    state.users_disabled.tableData.loading = false;
+    state.usersDisabled.tableData.loading = false;
   },
   [getUsersDisabled.fulfilled]: (state, action) => {
     const { page, totalRows, data } = action.payload;
 
-    state.users_disabled.tableData.loading = false;
-    state.users_disabled.tableData.page = page;
-    state.users_disabled.tableData.data = data;
-    state.users_disabled.tableData.totalRows = totalRows;
-    state.users_disabled.tableData.pageCount = Math.ceil(totalRows / state.users_disabled.tableData.pageSize);
+    state.usersDisabled.tableData.loading = false;
+    state.usersDisabled.tableData.page = page;
+    state.usersDisabled.tableData.data = data;
+    state.usersDisabled.tableData.totalRows = totalRows;
+    state.usersDisabled.tableData.pageCount = Math.ceil(totalRows / state.usersDisabled.tableData.pageSize);
   }
 }

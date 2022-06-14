@@ -141,7 +141,7 @@ const initialState = {
       pageCount: 0,
     },
   },
-  users_disabled: {
+  usersDisabled: {
     filterBox: false,
     filters: {},
     countFilters: 0,

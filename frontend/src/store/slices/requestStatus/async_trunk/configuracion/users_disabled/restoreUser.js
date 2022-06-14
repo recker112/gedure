@@ -17,7 +17,7 @@ export const restoreUser = createAsyncThunk(
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      dispatch(refresh({ select: 'users_disabled' }));
+      dispatch(refresh({ select: 'usersDisabled' }));
 
       return res.data;
     } catch (error) {

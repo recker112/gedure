@@ -16,10 +16,10 @@ import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount, gedure: { users_disabled_restore, users_disabled_destroy } } = useSelector(state => ({
-    dataR: state.tables.users_disabled.tableData.data,
-    loading: state.tables.users_disabled.tableData.loading,
-    pageSize: state.tables.users_disabled.tableData.pageSize,
-    pageCount: state.tables.users_disabled.tableData.pageCount,
+    dataR: state.tables.usersDisabled.tableData.data,
+    loading: state.tables.usersDisabled.tableData.loading,
+    pageSize: state.tables.usersDisabled.tableData.pageSize,
+    pageCount: state.tables.usersDisabled.tableData.pageCount,
     gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
@@ -79,6 +79,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
+      console.log(loading);
       promise = dispatch(getUsersDisabled());
     }
 
@@ -93,21 +94,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfig({ select: 'users_disabled' }));
+      dispatch(resetTableConfig({ select: 'usersDisabled' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearch({search: value || "", select: 'users_disabled'}));
+    dispatch(setSearch({search: value || "", select: 'usersDisabled'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTable({ ...value, select: 'users_disabled' }));
+    dispatch(setConfigTable({ ...value, select: 'usersDisabled' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refresh({ select: 'users_disabled' }));
+    dispatch(refresh({ select: 'usersDisabled' }));
   }
 
   return (
