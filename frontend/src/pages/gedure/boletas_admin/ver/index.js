@@ -17,9 +17,9 @@ import ReplaceBoleta from './ReplaceBoleta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataBV, setLoadingBV } from '../../../../store/slices/gedure/boletas_admin/ver';
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
 import { deleteBoleta } from '../../../../store/slices/requestStatus/async_trunk/boletas_admin/deleteBoleta';
+import { getBoletas } from '../../../../store/slices/requestStatus/async_trunk/boletas_admin/verBoletas';
 
 const classes = {
   container: {
@@ -34,7 +34,7 @@ export default function VerBoleta() {
   const { id } = useParams();
   useNotifier();
 
-  const { loading, data } = useSelector(state => state.gdBVerForm.getData);
+  const { loading, data } = useSelector(state => state.requestStatus.verBoletas);
   const dispatch = useDispatch();
 
   let navigate = useNavigate();
@@ -48,12 +48,12 @@ export default function VerBoleta() {
   };
 
   const handleRefresh = () => {
-    dispatch(setLoadingBV({ loading: true, select: 'getData' }))
+    dispatch(setRequestStatus({ loading: true, select: 'verBoletas' }));
   }
 
   useEffect(() => {
     if (loading) {
-      dispatch(getDataBV(id));
+      dispatch(getBoletas(id));
     }
 
     // eslint-disable-next-line
@@ -61,7 +61,7 @@ export default function VerBoleta() {
 
   useEffect(() => {
     return () => {
-      dispatch(setLoadingBV({ loading: true, select: 'getData' }))
+      dispatch(setRequestStatus({ loading: true, select: 'verBoletas' }));
     }
     // eslint-disable-next-line
   }, [])

@@ -15,8 +15,8 @@ import conveterCursorCode from '../../../../components/Utils/converterCursoCode'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { downloadBoleta } from '../../../../store/slices/gedure/boletas_admin/ver';
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
+import { downloadBoleta } from '../../../../store/slices/requestStatus/async_trunk/boletas_admin/downloadBoleta';
 
 const listColors = [
   '#2f80ED',
@@ -41,9 +41,11 @@ export default function Boleta({
   updated_at,
 }) {
   const [random] = useState(getRandomInt(listColors.length - 1));
-  const [loadingDownload, setLoadingDonwload] = useState(false);
 
-  const progress = useSelector(state => state.gdBVerForm.download.progress);
+  const { progress, loading } = useSelector(state => ({
+    progress: state.requestStatus.verBoletas.progress,
+    loading: state.requestStatus.verBoletas.loadingDownload,
+  }));
   const dispatch = useDispatch();
   
   const handleDelete = () => {
@@ -54,10 +56,8 @@ export default function Boleta({
 		dispatch(setRequestStatus({open: true, data: { curso: curso.curso, seccion: curso.seccion, lapso, id }, select: 'replaceBoleta'}));
 	}
 
-  const handleDownload = async () => {
-    setLoadingDonwload(true);
-    await dispatch(downloadBoleta({ id, curso, lapso }));
-    setLoadingDonwload(false);
+  const handleDownload = () => {
+    dispatch(downloadBoleta({ id, curso, lapso }));
   }
 
   return (
@@ -100,7 +100,7 @@ export default function Boleta({
               </LoadingButton>
             </Tooltip>
             <Tooltip title='Descargar' arrow>
-              <LoadingButton loading={loadingDownload} loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} onClick={handleDownload} color='inherit'>
+              <LoadingButton loading={loading} loadingIndicator={loading && progress < 99 ? `${progress}%` : null} onClick={handleDownload} color='inherit'>
                 <DownloadIcon />
               </LoadingButton>
             </Tooltip>
