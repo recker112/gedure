@@ -37,7 +37,8 @@ import { reducersGetBoletas } from "./async_trunk/boletas_admin/verBoletas";
 import { reducersDownloadBoleta } from "./async_trunk/boletas_admin/downloadBoleta";
 import { reducersUploadBoleta } from "./async_trunk/boletas_admin/uploadBoleta";
 import { reducersDeleteSoliContacto } from "./async_trunk/soli_contacto/deleteSoliContacto";
-import { reducersLogoutAll } from "./async_trunk/login/logoutAll";
+import { reducersGetBoletasUser } from "./async_trunk/boleta/getBoletasUser";
+import { reducersDownloadBoletasUser } from "./async_trunk/boleta/downloadBoletaUser";
 
 
 const initialState = {
@@ -131,7 +132,6 @@ const initialState = {
     loadingPDU: false,
     loadingActiveAccount: false,
     loadingResendEmail: false,
-    loadingLogoutAll: false,
   },
   createPost: {
     loading: false,
@@ -169,6 +169,12 @@ const initialState = {
     data: [],
     loadingDownload: false,
     progress: 0,
+  },
+  verBoletasUser: {
+    loading: true,
+    data: [],
+    progress: 0,
+    loadingDownload: false,
   },
   uploadBoleta: {
     open: false,
@@ -278,7 +284,6 @@ export const requestStatusSlices = createSlice({
     ...reducersUpdateAvatar,
     ...reducersUpdateData,
     ...reducersResendEmailUser,
-    ...reducersLogoutAll,
     ...reducersCreatePost,
     ...reducersDeletePost,
     ...reducersRequestPost,
@@ -286,6 +291,8 @@ export const requestStatusSlices = createSlice({
     ...reducersDeleteMassiveBoletas,
     ...reducersDeleteBoleta,
     ...reducersGetBoletas,
+    ...reducersGetBoletasUser,
+    ...reducersDownloadBoletasUser,
     ...reducersDownloadBoleta,
     ...reducersUploadBoleta,
     ...reducersDeleteSoliContacto,

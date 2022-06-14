@@ -42,11 +42,16 @@ export const relogin = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (data, { getState, signal, dispatch }) => {
+  async (drivers, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     
-    let url = 'v1/auth/logout';
+    let url;
+    if (drivers === 'all') {
+      url = 'v1/auth/logout/all';
+    }else {
+      url = 'v1/auth/logout';
+    }
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -54,7 +59,7 @@ export const logout = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, text: 'Sesión cerrada', variant: 'info' }));
+      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'info' }));
 
       return res.data;
     } catch (error) {

@@ -62,7 +62,7 @@ export default function useNotifier({
         variant: "error",
       });
     } else if (notiStatus === "offline") {
-      enqueueSnackbar("Imposible conectarse con el servidor", {
+      enqueueSnackbar("Revise su conexión a internet", {
         variant: "error",
       });
     }

@@ -11,7 +11,7 @@ import conveterCursorCode from '../../../components/Utils/converterCursoCode';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { downloadBoletaUserBF } from '../../../store/slices/gedure/boletas';
+import { downloadBoletasUser } from '../../../store/slices/requestStatus/async_trunk/boleta/downloadBoletaUser';
 
 const listColors = [
   '#2f80ED',
@@ -36,15 +36,15 @@ export default function Boleta({
   updated_at,
 }) {
   const [random] = useState(getRandomInt(listColors.length - 1));
-  const [loadingDownload, setLoadingDonwload] = useState(false);
 
-  const progress = useSelector(state => state.gdUserBForm.download.progress);
+  const { progress, loading } = useSelector(state => ({
+    loading: state.requestStatus.verBoletasUser.loadingDownload,
+    progress: state.requestStatus.verBoletasUser.progress,
+  }));
   const dispatch = useDispatch();
 
-  const handleDownload = async () => {
-    setLoadingDonwload(true);
-    await dispatch(downloadBoletaUserBF({ id, curso, lapso }));
-    setLoadingDonwload(false);
+  const handleDownload = () => {
+    dispatch(downloadBoletasUser({ id, curso, lapso }));
   }
 
   return (
@@ -77,7 +77,7 @@ export default function Boleta({
           </Grid>
           <Grid container justifyContent='flex-end' alignItems='center' item xs={12}>
             <Tooltip title='Descargar' arrow>
-              <LoadingButton loading={loadingDownload} loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} onClick={handleDownload} color='inherit'>
+              <LoadingButton loading={loading} loadingIndicator={loading && progress < 99 ? `${progress}%` : null} onClick={handleDownload} color='inherit'>
                 <DownloadIcon />
               </LoadingButton>
             </Tooltip>

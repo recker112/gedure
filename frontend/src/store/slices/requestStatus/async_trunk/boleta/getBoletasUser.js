@@ -1,13 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { logoutApp } from "../../../auth";
 import { updateNotistack } from "../../../notistack";
 
-export const logoutAll = createAsyncThunk(
-  'requestStatus/logout/all',
-  async (handleDestroy, { getState, signal, dispatch }) => {
+export const getBoletasUser = createAsyncThunk(
+  'requestStatus/boletas/userGet',
+  async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = 'v1/auth/logout/all';
+    let url = `v1/boletas`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -15,23 +14,13 @@ export const logoutAll = createAsyncThunk(
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'info', text: res.data.msg }));
-
-      // NOTA(RECKER): Destruir sesión
-      dispatch(logoutApp());
-
       return res.data;
     } catch (error) {
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
-        let { data, status } = error.response;
-
-        if (status === 404) {
-          data.msg = 'El usuario ya no existe';
-        }
-
         // NOTA(RECKER): Respuesta del servidor
+        const { data, status } = error.response;
         dispatch(updateNotistack({ status: status, text: data.msg }));
       } else {
         // NOTA(RECKER): Sin respuesta por parte del servidor
@@ -42,14 +31,15 @@ export const logoutAll = createAsyncThunk(
   }
 );
 
-export const reducersLogoutAll = {
-  [logoutAll.pending]: (state, action) => {
-    state.personalData.loadingLogoutAll = true;
+export const reducersGetBoletasUser = {
+  [getBoletasUser.pending]: state => {
+    state.verBoletasUser.loading = true;
   },
-  [logoutAll.rejected]: (state, action) => {
-    state.personalData.loadingLogoutAll = false;
+  [getBoletasUser.rejected]: (state, action) => {
+    state.verBoletasUser.loading = false;
   },
-  [logoutAll.fulfilled]: (state, action) => {
-    state.personalData.loadingLogoutAll = false;
-  },
+  [getBoletasUser.fulfilled]: (state, action) => {
+    state.verBoletasUser.loading = false;
+    state.verBoletasUser.data = action.payload;
+  }
 }

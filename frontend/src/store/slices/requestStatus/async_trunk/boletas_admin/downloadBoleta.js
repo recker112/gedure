@@ -26,7 +26,6 @@ export const downloadBoleta = createAsyncThunk(
       });
 
       downloadFiles(res.data, `Boleta_${curso.curso}-${curso.seccion}_${lapso}_lapso.pdf`);
-      dispatch(setProgress({select: 'verBoletas', percentCompleted: 0}));
 
       return true;
     } catch (error) {
@@ -55,5 +54,6 @@ export const reducersDownloadBoleta = {
   },
   [downloadBoleta.fulfilled]: (state, action) => {
     state.verBoletas.loadingDownload = false;
+    state.verBoletas.progress = 0;
   }
 }
