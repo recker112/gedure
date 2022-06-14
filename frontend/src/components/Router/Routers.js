@@ -19,7 +19,7 @@ export function NoSeeAuth({ children }) {
   return children;
 }
 
-export function AuthProtect({ returnBack, children }) {
+export function AuthProtect({ returnBack, activedAtPass = false, children }) {
   const { auth, actived_at } = useSelector((state) => ({
 		auth: state.auth.auth,
 		actived_at: state.auth.user.actived_at
@@ -33,7 +33,7 @@ export function AuthProtect({ returnBack, children }) {
   }
 
   // NOTA(RECKER): Verificar actived_at
-  if (!actived_at && location.pathname !== '/setup') {
+  if (!actived_at && location.pathname !== '/setup' && !activedAtPass) {
     return <Navigate to='/setup' />
   }
 
