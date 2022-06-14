@@ -22,6 +22,7 @@ const ContactPage = lazy(() => import('./pages/contacts'));
 const LoginPage = lazy(() => import('./pages/login'));
 const RecoveryPage = lazy(() => import('./pages/recovery'));
 const LogoutPage = lazy(() => import('./pages/gedure/logout'));
+const InvitacionPage = lazy(() => import('./pages/invitacion'));
 
 // Gedure core
 const HomeGedure = lazy(() => import('./pages/gedure/home'));
@@ -153,6 +154,12 @@ export default function Routers() {
             <Route path='/recuperar' element={
               <NoSeeAuth>
                 <RecoveryPage />
+              </NoSeeAuth>
+            } />
+
+            <Route path='/invitacion/:key' element={
+              <NoSeeAuth>
+                <InvitacionPage />
               </NoSeeAuth>
             } />
 
@@ -336,7 +343,9 @@ export default function Routers() {
               {privilegio === 'V-' && (
                 <>
                   <Route path='boletas' element={
-                    <UBoletasPage />
+                    <AuthProtect>
+                      <UBoletasPage />
+                    </AuthProtect>
                   } />
                 </>
               )}
@@ -411,7 +420,7 @@ export default function Routers() {
             } />
 
             <Route path='logout' element={
-              <AuthProtect returnBack>
+              <AuthProtect returnBack activedAtPass>
                 <LogoutPage />
               </AuthProtect>
             } />

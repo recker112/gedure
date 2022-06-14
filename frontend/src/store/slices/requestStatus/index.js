@@ -46,6 +46,8 @@ import { reducersRestoreUser } from "./async_trunk/configuracion/users_disabled/
 import { reducersRestoreMassiveUser } from "./async_trunk/configuracion/users_disabled/restoreMassiveUsers";
 import { reducersDestroyUser } from "./async_trunk/configuracion/users_disabled/destroyUser";
 import { reducersDestroyMassiveUser } from "./async_trunk/configuracion/users_disabled/destroyMassiveUser";
+import { reducersGetUserInvitation } from "./async_trunk/invitacion/getUserInvitacion";
+import { reducersAcceptInvitation } from "./async_trunk/invitacion/acceptInvitation";
 
 
 const initialState = {
@@ -55,6 +57,11 @@ const initialState = {
   recovery: {
     loading: false,
     data: {},
+  },
+  invitation: {
+    loading: true,
+    data: {},
+    loadingAccept: false,
   },
   contacts: {
     loading: false,
@@ -313,6 +320,8 @@ export const requestStatusSlices = createSlice({
     ...reducersContacts,
     ...reducersNewsPreview,
     ...reducersNewsShow,
+    ...reducersGetUserInvitation,
+    ...reducersAcceptInvitation,
     ...reducersInfoBox,
     ...reducersUserCreate,
     ...reducersGetCurso,
