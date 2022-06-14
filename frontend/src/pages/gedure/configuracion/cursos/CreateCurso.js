@@ -13,10 +13,10 @@ import { CursosList, SeccionList } from '../../../../components/Utils/StudiendsL
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { createCursoConfigForm } from '../../../../store/slices/gedure/configuracion/cursos/form';
+import { createCurso } from '../../../../store/slices/requestStatus/async_trunk/configuracion/cursos/createCurso';
 
 export default function CreateCurso() {
-  const loading = useSelector(state => state.gdConfigCForm.createCurso.loading);
+  const loading = useSelector(state => state.requestStatus.createCurso.loading);
   const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm();
@@ -30,7 +30,7 @@ export default function CreateCurso() {
 	),[]));
 
   const onSubmit = submitData => {
-    dispatch(createCursoConfigForm(submitData));
+    dispatch(createCurso(submitData));
   }
 
   return (

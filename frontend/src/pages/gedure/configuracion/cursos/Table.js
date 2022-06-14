@@ -10,15 +10,16 @@ import conveterCursorCode from '../../../../components/Utils/converterCursoCode'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataCCT, refreshCCT, resetTableConfigCCT, setConfigTableCCT, setSearchCCT } from '../../../../store/slices/gedure/configuracion/cursos/table';
-import { setConfirmConfgsGC } from '../../../../store/slices/gedure/configuracion/cursos/confirm';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tables';
+import { getCursos } from '../../../../store/slices/tables/async_trunk/configuracion/TableCursos';
+import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount, gedure: { cursos_destroy } } = useSelector(state => ({
-    dataR: state.gdCConfigTable.tableData.data,
-    loading: state.gdCConfigTable.tableData.loading,
-    pageSize: state.gdCConfigTable.tableData.pageSize,
-    pageCount: state.gdCConfigTable.tableData.pageCount,
+    dataR: state.tables.cursos.tableData.data,
+    loading: state.tables.cursos.tableData.loading,
+    pageSize: state.tables.cursos.tableData.pageSize,
+    pageCount: state.tables.cursos.tableData.pageCount,
     gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ export default function Table() {
           <IconButton
             component='span'
             onClick={() => {
-              dispatch(setConfirmConfgsGC({open: true, data: {id, code}, confirm: 'delete'}))
+              dispatch(setRequestStatus({open: true, data: {id, code}, select: 'deleteCurso'}))
             }}
             disabled={!cursos_destroy}
           >
@@ -66,7 +67,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataCCT());
+      promise = dispatch(getCursos());
     }
 
     return () => {
@@ -80,21 +81,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigCCT());
+      dispatch(resetTableConfig({ select: 'cursos' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearchCCT(value || ""));
+    dispatch(setSearch({search: value || "", select: 'cursos'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTableCCT(value));
+    dispatch(setConfigTable({ ...value, select: 'cursos' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refreshCCT());
+    dispatch(refresh({ select: 'cursos' }));
   }
 
   return (
@@ -121,7 +122,7 @@ export default function Table() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgsGC({confirm: 'deleteMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'deleteMassiveCursos', open: true, data: idsArray}))
               }}
               disabled={!cursos_destroy}
             >
