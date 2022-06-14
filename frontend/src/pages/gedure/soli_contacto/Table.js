@@ -10,14 +10,16 @@ import ReactTableBase from '../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataSCT, refreshSCT, resetTableConfigSCT, setConfigTableSCT, setConfirmConfgsSCT, setSearchSCT, setSeeBoxSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
+import { setConfirmConfgsSCT, setSeeBoxSCT } from '../../../store/slices/gedure/soli_contacto/index.js';
+import { getSoliContacto } from '../../../store/slices/tables/async_trunk/soli_contacto/getSoliContacto';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
-    dataR: state.gdSCTable.tableData.data,
-    loading: state.gdSCTable.tableData.loading,
-    pageSize: state.gdSCTable.tableData.pageSize,
-    pageCount: state.gdSCTable.tableData.pageCount,
+    dataR: state.tables.soliContacto.tableData.data,
+    loading: state.tables.soliContacto.tableData.loading,
+    pageSize: state.tables.soliContacto.tableData.pageSize,
+    pageCount: state.tables.soliContacto.tableData.pageCount,
   }));
   const dispatch = useDispatch();
 
@@ -75,7 +77,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataSCT());
+      promise = dispatch(getSoliContacto());
     }
 
     return () => {
@@ -89,21 +91,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigSCT());
+      dispatch(resetTableConfig({ select: 'soliContacto' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearchSCT(value || ""));
+    dispatch(setSearch({search: value || "", select: 'soliContacto'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTableSCT(value));
+    dispatch(setConfigTable({ ...value, select: 'soliContacto' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refreshSCT());
+    dispatch(refresh({ select: 'soliContacto' }));
   }
 
   return (
