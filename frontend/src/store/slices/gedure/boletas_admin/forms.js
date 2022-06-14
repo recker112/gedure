@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../notistack";
-import { refreshBT } from "./table";
+import { refresh } from "../../tables";
 
 export const uploadBoleta = createAsyncThunk(
   'gdBForm/upload',
@@ -27,7 +27,7 @@ export const uploadBoleta = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-      dispatch(refreshBT());
+      dispatch(refresh({ select: 'boletas' }));
 
       return res.data;
     } catch (error) {

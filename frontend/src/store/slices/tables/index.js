@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { reducersBoletas } from "./async_trunk/boletas_admin/getBoletasTable";
 import { reducersBankAccounts } from "./async_trunk/configuracion/TableBankAccounts";
 import { reducersBankTransactions } from "./async_trunk/configuracion/TableBankTransactions";
 import { reducersPosts } from "./async_trunk/publicaciones/getPosts";
@@ -44,6 +45,23 @@ const initialState = {
     filterBox: false,
     filters: {
       type: '',
+    },
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  boletas: {
+    filterBox: false,
+    filters: {
+      curso: '',
+      seccion: '',
     },
     countFilters: 0,
     tableData: {
@@ -146,6 +164,7 @@ export const tablesSlices = createSlice({
     ...reducersRegistros,
     ...reducersUsers,
     ...reducersPosts,
+    ...reducersBoletas,
     ...reducersBankAccounts,
     ...reducersBankTransactions,
   }
