@@ -5,13 +5,13 @@ import { Box, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
-import { logoutAll } from '../../../../store/slices/gedure/cuenta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { logoutAll } from '../../../../store/slices/requestStatus/async_trunk/login/logoutAll';
 
 export default function OLogoutAll() {
-  const loading = useSelector(state => state.gdCO.logoutAll.loading);
+  const loading = useSelector(state => state.requestStatus.personalData.loadingLogoutAll);
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
