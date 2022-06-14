@@ -12,7 +12,7 @@ import TourBoleta from './TourBoleta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenBF } from '../../../store/slices/gedure/boletas_admin/forms';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -30,7 +30,7 @@ export default function Boletas() {
   const dispatch = useDispatch();
 
   const handleOpenUpload = () => {
-    dispatch(setOpenBF({select: 'upload', open: true}));
+    dispatch(setRequestStatus({select: 'uploadBoleta', open: true}));
   }
 
   return (

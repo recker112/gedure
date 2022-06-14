@@ -1,9 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../notistack";
-import { refresh } from "../../tables";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { setProgress } from "../..";
+import { updateNotistack } from "../../../notistack";
+import { refresh } from "../../../tables";
 
 export const uploadBoleta = createAsyncThunk(
-  'gdBForm/upload',
+  'requestStatus/boletas/upload',
   async ({ submitData }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -13,7 +14,7 @@ export const uploadBoleta = createAsyncThunk(
     const onUploadProgress = (progressEvent) => {
       let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
     
-      dispatch(setProgress(percentCompleted));
+      dispatch(setProgress({select: 'uploadBoleta', percentCompleted}));
     };
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
@@ -27,6 +28,7 @@ export const uploadBoleta = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
+      dispatch(setProgress({select: 'uploadBoleta', percentCompleted: 0}));
       dispatch(refresh({ select: 'boletas' }));
 
       return res.data;
@@ -46,43 +48,16 @@ export const uploadBoleta = createAsyncThunk(
   }
 );
 
-
-const initialState = {
-  upload: {
-    open: false,
-    loading: false,
-    progress: 0,
-  }
-};
-
-export const gdBFormSlices = createSlice({
-  name: "gdBForm",
-  initialState,
-  reducers: {
-    setOpenBF: (state, action) => {
-      const { select, open } = action.payload;
-      state[select].open = open;
-    },
-    setProgress: (state, action) => {
-      const { payload } = action;
-      state.upload.progress = payload;
-    }
+export const reducersUploadBoleta = {
+  [uploadBoleta.pending]: state => {
+    state.uploadBoleta.loading = true;
   },
-  extraReducers: {
-    [uploadBoleta.pending]: state => {
-      state.upload.loading = true;
-    },
-    [uploadBoleta.rejected]: (state, action) => {
-      state.upload.loading = false;
-    },
-    [uploadBoleta.fulfilled]: (state, action) => {
-      state.upload.loading = false;
-      state.upload.data = {};
-      state.upload.open = false;
-    },
+  [uploadBoleta.rejected]: (state, action) => {
+    state.uploadBoleta.loading = false;
+  },
+  [uploadBoleta.fulfilled]: (state, action) => {
+    state.uploadBoleta.loading = false;
+    state.uploadBoleta.data = {};
+    state.uploadBoleta.open = false;
   }
-});
-
-export default gdBFormSlices.reducer;
-
-export const { setOpenBF, setProgress } = gdBFormSlices.actions;
+}
