@@ -27,7 +27,6 @@ export const replaceBoleta = createAsyncThunk(
       });
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
-      dispatch(setProgress({select: 'replaceBoleta', percentCompleted: 0}));
 
       return res.data;
     } catch (error) {
@@ -55,6 +54,7 @@ export const reducersReplaceBoleta = {
   },
   [replaceBoleta.fulfilled]: (state, action) => {
     state.replaceBoleta.loading = false;
+    state.replaceBoleta.progress = 0;
     state.replaceBoleta.data = {};
     state.replaceBoleta.open = false;
   }
