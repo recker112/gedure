@@ -13,10 +13,10 @@ import { RadioHook } from '../../../components/form/radio';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilterBoxBT, setFiltersBT } from '../../../store/slices/gedure/boletas_admin/table';
+import { setFilterBox, setFilters } from '../../../store/slices/tables';
 
 export default function Filtrador() {
-  const { filterBox, filters, countFilters } = useSelector(state => state.gdBTable);
+  const { filterBox, filters, countFilters } = useSelector(state => state.tables.boletas);
   const dispatch = useDispatch();
 
   const { control, handleSubmit, reset } = useForm({
@@ -24,12 +24,12 @@ export default function Filtrador() {
   });
 
   const handleOpen = () => {
-    dispatch(setFilterBoxBT(true));
+    dispatch(setFilterBox({ open: true, select: 'boletas' }));
   }
 
   const onClose = async data => {
-    await dispatch(setFiltersBT(data));
-    dispatch(setFilterBoxBT(false));
+    await dispatch(setFilters({ select: 'boletas', data }));
+    dispatch(setFilterBox({ open: false, select: 'boletas' }));
   }
 
   const handleReset = () => {

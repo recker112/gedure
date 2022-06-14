@@ -14,18 +14,19 @@ import Filtrador from './Filtrador';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataBT, refreshBT, resetTableConfigBT, setConfigTableBT, setSearchBT } from '../../../store/slices/gedure/boletas_admin/table';
 import { setConfgsBC } from '../../../store/slices/gedure/boletas_admin/confirmDialogs';
+import { getBoletas } from '../../../store/slices/tables/async_trunk/boletas_admin/getBoletasTable';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
 
 export default function Table() {
   let navigate = useNavigate();
 
   const { dataR, loading, pageSize, pageCount, filters, permissions } = useSelector((state) => ({
-    dataR: state.gdBTable.tableData.data,
-    loading: state.gdBTable.tableData.loading,
-    pageSize: state.gdBTable.tableData.pageSize,
-    pageCount: state.gdBTable.tableData.pageCount,
-    filters: state.gdBTable.filters,
+    dataR: state.tables.boletas.tableData.data,
+    loading: state.tables.boletas.tableData.loading,
+    pageSize: state.tables.boletas.tableData.pageSize,
+    pageCount: state.tables.boletas.tableData.pageCount,
+    filters: state.tables.boletas.filters,
     permissions: state.auth.permissions,
   }));
   const { curso, seccion } = filters;
@@ -120,7 +121,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataBT());
+      promise = dispatch(getBoletas());
     }
 
     return () => {
@@ -134,21 +135,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigBT());
+      dispatch(resetTableConfig({ select: 'boletas' }));
     };
     // eslint-disable-next-line
   }, []);
 
   const handleGlobalFilter = (value) => {
-    dispatch(setSearchBT(value || ""));
+    dispatch(setSearch({search: value || "", select: 'boletas'}));
   };
 
   const handleChange = (value) => {
-    dispatch(setConfigTableBT(value));
+    dispatch(setConfigTable({ ...value, select: 'boletas' }));
   };
 
   const handleRefresh = () => {
-    dispatch(refreshBT());
+    dispatch(refresh({ select: 'boletas' }));
   }
 
   return (
