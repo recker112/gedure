@@ -10,15 +10,16 @@ import ReactTableBase from '../../../../components/ReactTableBase';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataGCDU, refreshGCDU, resetTableConfigGCDU, setConfigTableGCDU, setSearchGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/table';
 import { setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tables';
+import { getUsersDisabled } from '../../../../store/slices/tables/async_trunk/configuracion/TableUsersDisabled';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount, gedure: { users_disabled_restore, users_disabled_destroy } } = useSelector(state => ({
-    dataR: state.gdGCDUTable.tableData.data,
-    loading: state.gdGCDUTable.tableData.loading,
-    pageSize: state.gdGCDUTable.tableData.pageSize,
-    pageCount: state.gdGCDUTable.tableData.pageCount,
+    dataR: state.tables.users_disabled.tableData.data,
+    loading: state.tables.users_disabled.tableData.loading,
+    pageSize: state.tables.users_disabled.tableData.pageSize,
+    pageCount: state.tables.users_disabled.tableData.pageCount,
     gedure: state.auth.permissions.gedure,
   }));
   const dispatch = useDispatch();
@@ -78,7 +79,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataGCDU());
+      promise = dispatch(getUsersDisabled());
     }
 
     return () => {
@@ -92,21 +93,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfigGCDU());
+      dispatch(resetTableConfig({ select: 'users_disabled' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearchGCDU(value || ""));
+    dispatch(setSearch({search: value || "", select: 'users_disabled'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTableGCDU(value));
+    dispatch(setConfigTable({ ...value, select: 'users_disabled' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refreshGCDU());
+    dispatch(refresh({ select: 'users_disabled' }));
   }
 
   return (

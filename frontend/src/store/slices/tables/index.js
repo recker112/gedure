@@ -3,6 +3,7 @@ import { reducersBoletas } from "./async_trunk/boletas_admin/getBoletasTable";
 import { reducersBankAccounts } from "./async_trunk/configuracion/TableBankAccounts";
 import { reducersBankTransactions } from "./async_trunk/configuracion/TableBankTransactions";
 import { reducersCursos } from "./async_trunk/configuracion/TableCursos";
+import { reducersUsersDisabled } from "./async_trunk/configuracion/TableUsersDisabled";
 import { reducersPosts } from "./async_trunk/publicaciones/getPosts";
 import { reducersRegistros } from "./async_trunk/registros/getRegistros";
 import { reducersSoliContacto } from "./async_trunk/soli_contacto/getSoliContacto";
@@ -139,7 +140,21 @@ const initialState = {
       totalRows: 0,
       pageCount: 0,
     },
-  }
+  },
+  users_disabled: {
+    filterBox: false,
+    filters: {},
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
 };
 
 export const tablesSlices = createSlice({
@@ -199,6 +214,7 @@ export const tablesSlices = createSlice({
     ...reducersCursos,
     ...reducersBankAccounts,
     ...reducersBankTransactions,
+    ...reducersUsersDisabled,
   }
 });
 
