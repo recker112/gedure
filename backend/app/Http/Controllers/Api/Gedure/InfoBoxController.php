@@ -33,7 +33,7 @@ class InfoBoxController extends Controller
 			foreach($user->boletas()->limit(3)->orderBy('id', 'desc')->get() as $boleta) {
 				$curso = $boleta->curso->curso;
 				$name_curso = strpos($curso, 'G') ? str_split($curso)[0].' grado' : str_split($curso)[0].' año';
-				$data_finish['boletas'][$iB]['textPrimary'] = $name_curso.' '.$boleta->curso->seccion.' - '.'° lapso';
+				$data_finish['boletas'][$iB]['textPrimary'] = $name_curso.' '.$boleta->curso->seccion.' - '.$boleta->lapso.'° lapso';
 				$data_finish['boletas'][$iB]['textSecondary'] = $boleta->fecha_humano;
 				$iB++;
 			}

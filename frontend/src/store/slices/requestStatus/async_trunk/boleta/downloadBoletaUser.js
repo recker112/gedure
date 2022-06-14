@@ -3,8 +3,8 @@ import { setProgress } from "../..";
 import { downloadFiles } from "../../../../../components/Utils/DownloadFiles";
 import { updateNotistack } from "../../../notistack";
 
-export const downloadBoleta = createAsyncThunk(
-  'requestStatus/boletas/download',
+export const downloadBoletasUser = createAsyncThunk(
+  'requestStatus/boletas/userDownload',
   async ({ id, curso, lapso }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
@@ -14,7 +14,7 @@ export const downloadBoleta = createAsyncThunk(
     const onDownloadProgress = (progressEvent) => {
       let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
     
-      dispatch(setProgress({select: 'verBoletas', percentCompleted}));
+      dispatch(setProgress({select: 'verBoletasUser', percentCompleted}));
     };
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
@@ -29,7 +29,6 @@ export const downloadBoleta = createAsyncThunk(
 
       return true;
     } catch (error) {
-      console.log(error);
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
@@ -45,15 +44,15 @@ export const downloadBoleta = createAsyncThunk(
   }
 );
 
-export const reducersDownloadBoleta = {
-  [downloadBoleta.pending]: state => {
-    state.verBoletas.loadingDownload = true;
+export const reducersDownloadBoletasUser = {
+  [downloadBoletasUser.pending]: state => {
+    state.verBoletasUser.loadingDownload = true;
   },
-  [downloadBoleta.rejected]: (state, action) => {
-    state.verBoletas.loadingDownload = false;
+  [downloadBoletasUser.rejected]: (state, action) => {
+    state.verBoletasUser.loadingDownload = false;
   },
-  [downloadBoleta.fulfilled]: (state, action) => {
-    state.verBoletas.loadingDownload = false;
-    state.verBoletas.progress = 0;
+  [downloadBoletasUser.fulfilled]: (state, action) => {
+    state.verBoletasUser.loadingDownload = false;
+    state.verBoletasUser.progress = 0;
   }
 }

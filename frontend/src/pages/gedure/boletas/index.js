@@ -10,7 +10,8 @@ import Boleta from './Boleta';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getDataUserBF, resetDataUserBF } from '../../../store/slices/gedure/boletas';
+import { getBoletasUser } from '../../../store/slices/requestStatus/async_trunk/boleta/getBoletasUser';
+import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 const classes = {
   container: {
@@ -24,25 +25,25 @@ export default function Boletas() {
   document.title = 'Boletas - La Candelaria';
   useNotifier();
 
-  const { loading, data } = useSelector(state => state.gdUserBForm.getData);
+  const { loading, data } = useSelector(state => state.requestStatus.verBoletasUser);
   const dispatch = useDispatch();
 
   const handleRefresh = () => {
-    dispatch(getDataUserBF())
+    dispatch(getBoletasUser())
   }
 
   useEffect(() => {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getDataUserBF());
+      promise = dispatch(getBoletasUser());
     }
 
     return () => {
       if (loading) {
         promise.abort();
       }
-      dispatch(resetDataUserBF());
+      dispatch(setRequestStatus({ select: 'verBoletasUser', loading: true, data: [] }));
     }
     // eslint-disable-next-line
   }, []);

@@ -1,23 +1,12 @@
 import React from 'react'
 
+// Router
+import { Link as RouteLink } from 'react-router-dom';
+
 // MUI
-import { Box, Grid } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-
-// Components
-
-// Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutAll } from '../../../../store/slices/requestStatus/async_trunk/login/logoutAll';
+import { Box, Button, Grid } from '@mui/material';
 
 export default function OLogoutAll() {
-  const loading = useSelector(state => state.requestStatus.personalData.loadingLogoutAll);
-  const dispatch = useDispatch();
-
-  const handleSubmit = () => {
-    dispatch(logoutAll());
-  }
-
   return (
     <>
       <Grid item xs={12} sm={8}>
@@ -29,14 +18,14 @@ export default function OLogoutAll() {
 				</Box>
 			</Grid>
       <Grid container justifyContent='flex-end' alignItems='center' item xs={12} sm={4}>
-				<LoadingButton
-          variant='contained' 
-          loading={loading}
+        <Button
+          variant='contained'
           disableElevation
-          onClick={handleSubmit}
+          component={RouteLink} 
+          to='/logout?drivers=all'
         >
           Salir
-        </LoadingButton>
+        </Button>
 			</Grid>
     </>
   )
