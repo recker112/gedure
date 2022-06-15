@@ -50,8 +50,6 @@ class DebtLoteControllerTest extends TestCase
 						'id',
 						'reason',
 						'amount_to_pay',
-						'exchange_rate_type',
-						'amount_to_pay_exchange',
 						'created_at'
 					]
 				],
@@ -217,8 +215,6 @@ class DebtLoteControllerTest extends TestCase
 				'id',
 				'reason',
 				'amount_to_pay',
-				'amount_to_pay_exchange',
-				'exchange_rate_type',
 				'created_at',
 				'updated_at',
 				'debts_count',

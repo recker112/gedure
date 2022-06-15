@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected $commands = [
 		Commands\Payments::class,
+		Commands\Exchanges::class,
 	];
 
 	/**
@@ -24,19 +25,25 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		// php artisan schedule:run
+		// NOTA(RECKER): Reiniciar queues
+		$schedule->command('queue:restart')
+			->daily();
+		
+		// NOTA(RECKER): Iniciar queues
 		$schedule->command('queue:work --tries=3 --backoff=5 --queue=high,commands,default,emails')
 			->withoutOverlapping()
 			->runInBackground();
 		
+		// NOTA(RECKER): Limpiar passport
 		$schedule->command('passport:purge')
 			->daily();
+
+		// NOTA(RECKER): Actualizar precio del dolar
+		$schedule->command('exchanges:prices')
+			->hourlyAt(5);
 		
 		/*$schedule->command('pending:payments')
 			->weeklyOn(5, '20:00');*/
-		
-		$schedule->command('queue:restart')
-			->daily();
 	}
 
 	/**

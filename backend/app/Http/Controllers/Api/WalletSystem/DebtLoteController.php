@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Gedure\Curso;
 use App\Models\WalletSystem\Debt;
 use App\Models\WalletSystem\DebtLote;
+use App\Models\WalletSystem\ExchangeRate;
 
 class DebtLoteController extends Controller
 {
@@ -103,17 +104,24 @@ class DebtLoteController extends Controller
 				->get();
 		}
 		
+		// NOTA(RECKER): Verificar usuarios seleccionados
 		if (count($users) === 0) {
 			return response()->json([
 				'msg' => 'No hay usuarios seleccionados',
 			], 400);
+		}
+
+		// NOTA(RECKER): ExchangeRate
+		$amount = $request->amount_to_pay;
+		if ($request->exchange_rate_type === 'USD') {
+			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
+			$amount = $amount * $exrate->amount;
 		}
 		
 		// NOTA(RECKER): Creacion del lote de deudas
 		$debt_lote = DebtLote::create([
 			'reason' => $request->reason,
 			'amount_to_pay' => $request->amount_to_pay,
-			'exchange_rate_type' => $request->exchange_rate_type,
 		]);
 		
 		foreach($users as $user) {

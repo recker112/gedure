@@ -8,10 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class ExchangeRate extends Model
 {
   use HasFactory;
+
+	protected $fillable = [
+		'type',
+		'amount',
+		'created_at',
+	];
+
+	/**
+	 * The attributes casteable.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'amount' => 'float'
+	];
 	
-	protected $primaryKey = 'type';
-	
-	public $incrementing = false;
-	
-	protected $keyType = 'string';
+
+	public $timestamps = ["created_at"];
+	const UPDATED_AT = null;
 }
