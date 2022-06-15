@@ -23,7 +23,6 @@ class DebtLote extends Model
 	protected $fillable = [
 		'reason',
 		'amount_to_pay',
-		'exchange_rate_type'
 	];
 	
 	/**
@@ -44,15 +43,6 @@ class DebtLote extends Model
 		'amount_to_pay' => 'float',
 	];
 	
-	/**
-	 * The accessors to append to the model's array form.
-	 *
-	 * @var array
-	 */
-	protected $appends = [
-		'amount_to_pay_exchange'
-	];
-	
 	public function debts()
 	{
 		return $this->hasMany('App\Models\WalletSystem\Debt');
@@ -65,19 +55,6 @@ class DebtLote extends Model
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
 			->format('Y-m-d h:i A');
-	}
-	
-	public function getAmountToPayExchangeAttribute() {
-		if ($this->exchange_rate_type !== 'Bs.S') {
-			$exchange_rate =  ExchangeRate::find($this->exchange_rate_type);
-			$exchange_rate = $exchange_rate ? $exchange_rate->amount : null;
-			
-			$new_amount = $this->amount_to_pay * $exchange_rate;
-			
-			return $new_amount;
-		}
-		
-		return null;
 	}
 	
 	public function getUpdatedAtAttribute($value) {
