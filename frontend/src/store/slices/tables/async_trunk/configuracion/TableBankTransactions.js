@@ -6,7 +6,7 @@ export const getBankTransactions = createAsyncThunk(
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    const { page, pageSize, search } = getState().tables.bankAccounts.tableData;
+    const { page, pageSize, search } = getState().tables.bankTransactions.tableData;
     let url = `v1/bank-transaction?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack

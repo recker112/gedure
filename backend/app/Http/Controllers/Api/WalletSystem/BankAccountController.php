@@ -152,7 +152,7 @@ class BankAccountController extends Controller
 		]);
 		
 		return response()->json([
-			'msg' => "$i cuentas bancarias eliminadas",
+			'msg' => "$i cuenta(s) bancaria(s) eliminada(s)",
 		], 200);
 	}
 }

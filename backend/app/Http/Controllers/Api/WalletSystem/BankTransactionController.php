@@ -219,7 +219,7 @@ class BankTransactionController extends Controller
 			]);
 		
 		return response()->json([
-			'msg' => "$i transacciones bancarias eliminadas",
+			'msg' => "$i transaccione(s) bancaria(s) eliminada(s)",
 		], 200);
 	}
 }

@@ -18,6 +18,8 @@ import { useSelector } from 'react-redux';
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
 import { deleteBankAccount } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteBankAccount';
 import { deleteBankTransaction } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteBankTransaction';
+import { deleteMassiveBankAccount } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteMassiveBankAccount';
+import { deleteMassiveBankTransaction } from '../../../../store/slices/requestStatus/async_trunk/configuracion/pagos/deleteMassiveBankTransaction';
 
 export default function GDPagos() {
   const { gedure } = useSelector((state) => ({
@@ -54,10 +56,10 @@ export default function GDPagos() {
               setRequestStatus({open: false, data: {}, select: 'deleteBankAccountMassive'})
             }
             request={
-              data => deleteBankAccount(data)
+              data => deleteMassiveBankAccount(data)
             }
           >
-            {(data) => (<span>Está a punto de <strong>eliminar</strong> <strong>{data.ids?.length}</strong> cuenta(s). Al realizarse esta acción todas las <strong>transacciones bancarias</strong> registradas de la misma <strong>serán borradas</strong>, pero las <strong>transacciones internas</strong> realizadas dentro del sistema <strong>no se verán afectadas</strong>. Tenga en cuenta que esta acción no se puede deshacer.</span>)}
+            {(data) => (<span>Está a punto de <strong>eliminar</strong> <strong>{data?.length}</strong> cuenta(s). Al realizarse esta acción todas las <strong>transacciones bancarias</strong> registradas de la misma <strong>serán borradas</strong>, pero las <strong>transacciones internas</strong> realizadas dentro del sistema <strong>no se verán afectadas</strong>. Tenga en cuenta que esta acción no se puede deshacer.</span>)}
           </DialogConfirmation>
         </Grid>
       )}
@@ -81,6 +83,18 @@ export default function GDPagos() {
             }
           >
             {(data) => (<span>Está a punto de eliminar la transacción <strong>#{data.id}</strong>, tenga en cuenta que esta acción no se puede deshacer.</span>)}
+          </DialogConfirmation>
+          <DialogConfirmation
+            rdx1='requestStatus' 
+            rdx2='deleteMassiveBankTransaction'
+            close={
+              setRequestStatus({open: false, data: {}, select: 'deleteMassiveBankTransaction'})
+            }
+            request={
+              data => deleteMassiveBankTransaction(data)
+            }
+          >
+            {(data) => (<span>Está a punto de <strong>eliminar {data?.length}</strong> transaccione(s), tenga en cuenta que esta acción no se puede deshacer.</span>)}
           </DialogConfirmation>
         </Grid>
       )}
