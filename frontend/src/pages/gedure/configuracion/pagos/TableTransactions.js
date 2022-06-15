@@ -12,7 +12,6 @@ import { BankListSearch } from '../../../../components/Utils/BankList';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setConfirmConfgsGCDU } from '../../../../store/slices/gedure/configuracion/user_disabled/confirm';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tables';
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
 import { getBankTransactions } from '../../../../store/slices/tables/async_trunk/configuracion/TableBankTransactions';
@@ -120,6 +119,7 @@ export default function TableTransactions() {
   },[]);
 
   const handleGlobalFilter = value => {
+    console.log(value);
     dispatch(setSearch({search: value || "", select: 'bankTransactions'}));
   }
 
@@ -156,7 +156,7 @@ export default function TableTransactions() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'deleteMassiveBankTransaction', open: true, data: idsArray}))
               }}
             >
               <DeleteForeverIcon />

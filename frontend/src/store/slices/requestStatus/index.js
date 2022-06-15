@@ -48,6 +48,8 @@ import { reducersDestroyUser } from "./async_trunk/configuracion/users_disabled/
 import { reducersDestroyMassiveUser } from "./async_trunk/configuracion/users_disabled/destroyMassiveUser";
 import { reducersGetUserInvitation } from "./async_trunk/invitacion/getUserInvitacion";
 import { reducersAcceptInvitation } from "./async_trunk/invitacion/acceptInvitation";
+import { reducersDeleteMassiveBankAccount } from "./async_trunk/configuracion/pagos/deleteMassiveBankAccount";
+import { reducersDeleteMassiveBankTransaction } from "./async_trunk/configuracion/pagos/deleteMassiveBankTransaction";
 
 
 const initialState = {
@@ -253,6 +255,11 @@ const initialState = {
     open: false,
     data: {}
   },
+  deleteMassiveBankTransaction: {
+    loading: false,
+    open: false,
+    data: {}
+  },
   restoreUser: {
     loading: false,
     open: false,
@@ -350,10 +357,12 @@ export const requestStatusSlices = createSlice({
     ...reducersDeleteMassiveCursos,
     ...reducersCreateBankAccount,
     ...reducersDeleteBankAccount,
+    ...reducersDeleteMassiveBankAccount,
     ...reducersEditBankAccount,
     ...reducersGetBankAccounts,
     ...reducersUploadTransactions,
     ...reducersDeleteBankTransaction,
+    ...reducersDeleteMassiveBankTransaction,
     ...reducersSearchUser,
     ...reducersAssignTransaction,
     ...reducersRestoreUser,

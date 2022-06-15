@@ -3,7 +3,7 @@ import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
 export const deleteBankTransaction = createAsyncThunk(
-  'requestStatus/bank/account/delete',
+  'requestStatus/bank/transaction/delete',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
