@@ -35,7 +35,6 @@ class BankTransactionControllerTest extends TestCase
 			['admin']
 		);
 		
-		Excel::fake();
 		Storage::fake('local');
 		
 		$bank_account = BankAccount::factory()->create();
@@ -52,8 +51,6 @@ class BankTransactionControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
-		
-		Excel::assertQueued($file->getFileName());
 	}
 	
 	public function testIndexTransaction()

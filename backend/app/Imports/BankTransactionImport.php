@@ -28,12 +28,14 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 		$bank_account = BankAccount::find($this->bank_id);
 		
 		// NOTA(RECKER): Dividir string
-		$parse = trim($row['concepto']);
-		$parse = explode('.', $parse);
+		$conceptoParse = trim($row['concepto']);
+		$conceptoParse = explode('.', $conceptoParse);
 		
 		// NOTA(RECKER): Verificar si es una transferencia desde el mismo banco
 		$bypass = $row['concepto'] == 'TRANSFERENCIA A TERCEROS' ? true : false;
-		if ($row['concepto'] != 'TRANSFERENCIA A TERCEROS' && count($parse) < 4) {
+
+		// NOTA(RECKER): Verificar que exista algo válido en la fila concepto
+		if ($row['concepto'] != 'TRANSFERENCIA A TERCEROS' && count($conceptoParse) < 4) {
 			return null;
 		}
 		
@@ -43,8 +45,8 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 		}
 		
 		// NOTA(RECKER): Acomobar textos
-		$concepto = $bypass ? $row['referencia'] : explode(' ', $parse[2])[0];
-		$code = $bypass ? $bank_account->code : str_replace(['(', ')'], "", $parse[3]);
+		$concepto = $bypass ? $row['referencia'] : explode(' ', $conceptoParse[2])[0];
+		$code = $bypass ? $bank_account->code : str_replace(['(', ')'], "", $conceptoParse[3]);
 		$date = explode('/', trim($row['fecha']));
 		$date = "$date[2]-$date[1]-$date[0]";
 		
@@ -63,7 +65,7 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 			'bank_account_id' => $this->bank_id,
 			'reference' => $row['referencia'],
 			'concepto' => $concepto,
-			'amount' => $row['abono'],
+			'amount' => round($row['abono'], 2),
 			'date' => $date,
 			'code' => $code,
 		]);
@@ -76,6 +78,6 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	
 	public function chunkSize(): int
 	{
-		return 1000;
+		return 500;
 	}
 }
