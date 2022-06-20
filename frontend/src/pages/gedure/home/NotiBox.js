@@ -10,7 +10,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 export default function NotiBox({ data, loading, title, icon }) {
   return (
     <Grid item xs={12} sm={6}>
-      <Paper className='paper--padding' elevation={3}>
+      <Paper className='paper--padding' sx={{height: 1/1}} elevation={3}>
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
             <Stack alignItems='center' direction="row" spacing={2}>
