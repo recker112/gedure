@@ -1,9 +1,13 @@
 import React, { useMemo, useEffect } from 'react';
 
+// Router
+import { useNavigate } from 'react-router-dom';
+
 // MUI
 import { IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Components
 import ReactTableBase from '../../../components/ReactTableBase';
@@ -23,6 +27,8 @@ export default function Table() {
     pageCount: state.tablesWallet.lotes_deudas.tableData.pageCount,
   }));
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const columns = useMemo(() => [
     {
@@ -51,19 +57,28 @@ export default function Table() {
           <Tooltip title='Ver' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: original, select: 'verSoliContacto'}));
+                navigate(`ver/${original.id}`);
               }}
             >
               <VisibilityIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Eliminar' arrow>
+          <Tooltip title='Editar' arrow>
             <IconButton
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: original, select: 'deleteSoliContacto'}));
               }}
             >
               <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Eliminar' arrow>
+            <IconButton
+              onClick={() => {
+                dispatch(setRequestStatus({open: true, data: original, select: 'verSoliContacto'}));
+              }}
+            >
+              <DeleteForeverIcon />
             </IconButton>
           </Tooltip>
         </>
