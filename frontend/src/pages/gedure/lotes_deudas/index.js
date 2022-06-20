@@ -6,11 +6,12 @@ import { Box, Button, Container, Grid } from '@mui/material';
 // Components
 import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
+import Table from './Table';
 
 // Redux
-import { useSelector } from 'react-redux';
-import Table from './Table';
-import { deletePost, setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
+import { useDispatch, useSelector } from 'react-redux';
+import CreateLoteDeuda from './CreateLoteDeuda';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 
 const classes = {
   container: {
@@ -25,9 +26,10 @@ export default function LotesDeudas() {
   useNotifier();
 
   const { administrar: { posts_create } } = useSelector((state) => state.auth.permissions);
+  const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
-    //
+    dispatch(setRequestStatus({ select: 'createLoteDeuda', open: true }));
   }
 
   return (
@@ -44,19 +46,8 @@ export default function LotesDeudas() {
             <Table />
           </Grid>
         </Grid>
+        <CreateLoteDeuda />
       </Container>
-      <DialogConfirmation
-        rdx1='gdPUBConfirm' 
-        rdx2='delete'
-        close={
-          setConfirmConfgsPUB({open: false, data: {}, confirm: 'delete'})
-        }
-        request={
-          data => deletePost(data.slug)
-        }
-      >
-        {(data) => (<span>Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
-      </DialogConfirmation>
     </Box>
   )
 }

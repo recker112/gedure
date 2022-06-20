@@ -12,7 +12,7 @@ export function InputMaskHook({
 	...rest 
 }) {
 	const {
-    field: { ref, onChange, ...inputProps },
+    field: { ref, onChange, value, ...inputProps },
 		fieldState: { invalid, error }
   } = useController({
     name,
@@ -22,9 +22,10 @@ export function InputMaskHook({
   });
 	
 	return (
-		<NumberFormat 
-			{...inputProps}
+		<NumberFormat
 			{...rest}
+			{...inputProps}
+			value={Number(value) || ''}
 			customInput={TextField}
 			error={invalid}
 			onValueChange={(values) => {
