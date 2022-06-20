@@ -113,7 +113,7 @@ class DebtLoteController extends Controller
 
 		// NOTA(RECKER): ExchangeRate
 		$amount = $request->amount_to_pay;
-		if ($request->exchange_rate_type === 'USD') {
+		if ($request->exchange_rate_type === '$') {
 			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
 			$amount = $amount * $exrate->amount;
 		}
@@ -121,7 +121,7 @@ class DebtLoteController extends Controller
 		// NOTA(RECKER): Creacion del lote de deudas
 		$debt_lote = DebtLote::create([
 			'reason' => $request->reason,
-			'amount_to_pay' => $request->amount_to_pay,
+			'amount_to_pay' => $amount,
 		]);
 		
 		foreach($users as $user) {
