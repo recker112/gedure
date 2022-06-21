@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 // MUI
-import { Box, Container, Fade, Grid, Slide } from '@mui/material';
+import { Box, Container, Fade, Grid, Link, Slide, Stack, Typography } from '@mui/material';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
@@ -90,33 +90,42 @@ export default function Home() {
       <Fade in={true} style={{ transitionDelay: '1000ms' }}>
         <Container sx={classes.content}>
           <Grid container justifyContent='center' spacing={2} data-tour='infoBox'>
-            <SingleBox
-              title='Saldo en cuenta'
-              data={data.wallet}
-              colorTPrimary={(data.wallet?.balance > 0 && 'success.main') || (data.wallet?.balance <= 0 && 'text.secondary')}
-              loading={loading}
-              icon={<WalletIcon />}
-            />
-            <SingleBox
-              title='Tasa de cambio BCV'
-              data={data.exrate} 
-              loading={loading}
-              icon={<CurrencyExchangeIcon />}
-            />
-            <NotiBox 
-              data={data.posts}
-              title='Noticias'
-              loading={loading}
-              icon={<NewspaperIcon />}
-            />
-            {privilegio === 'V-' && (
-              <NotiBox 
-                data={data.boletas} 
-                title='Boletas cargadas' 
-                loading={loading}
-                icon={<InsertDriveFileIcon />}
-              />
-            )}
+            <Grid item xs={12} sm={6}>
+              <Stack spacing={2}>
+                <SingleBox
+                  title='Saldo en cuenta'
+                  data={data.wallet}
+                  colorTPrimary={(data.wallet?.balance > 0 && 'success.main') || (data.wallet?.balance <= 0 && 'text.secondary')}
+                  loading={loading}
+                  icon={<WalletIcon />}
+                />
+                <SingleBox
+                  title='Tasa de cambio'
+                  extraInfo={<Typography>Esta tasa de cambio está sincronizada con el <Link target='_blank' href='http://www.bcv.org.ve'>Banco Central de Venezuela (BCV)</Link>.</Typography>}
+                  data={data.exrate} 
+                  loading={loading}
+                  icon={<CurrencyExchangeIcon />}
+                />
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Stack spacing={2}>
+                <NotiBox 
+                  data={data.posts}
+                  title='Noticias'
+                  loading={loading}
+                  icon={<NewspaperIcon />}
+                />
+                {privilegio === 'V-' && (
+                  <NotiBox 
+                    data={data.boletas} 
+                    title='Boletas cargadas' 
+                    loading={loading}
+                    icon={<InsertDriveFileIcon />}
+                  />
+                )}
+              </Stack>
+            </Grid>
           </Grid>
         </Container>
       </Fade>
