@@ -20,12 +20,14 @@ import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 import { getLotesDeudas } from '../../../store/slices/tablesWallet/async_trunk/lotes_deudas/TableLotesDeudas';
 
 export default function Table() {
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, administrar_transac } = useSelector(state => ({
     dataR: state.tablesWallet.lotes_deudas.tableData.data,
     loading: state.tablesWallet.lotes_deudas.tableData.loading,
     pageSize: state.tablesWallet.lotes_deudas.tableData.pageSize,
     pageCount: state.tablesWallet.lotes_deudas.tableData.pageCount,
+    permissions: state.auth.permissions.administrar_transac,
   }));
+  const { debt_lote_delete, debt_lote_edit } = administrar_transac;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -65,6 +67,7 @@ export default function Table() {
           </Tooltip>
           <Tooltip title='Editar' arrow>
             <IconButton
+              disabled={!debt_lote_edit}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: original, select: 'editLoteDeuda'}));
               }}
@@ -74,6 +77,7 @@ export default function Table() {
           </Tooltip>
           <Tooltip title='Eliminar' arrow>
             <IconButton
+              disabled={!debt_lote_delete}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: original, select: 'deleteLoteDeuda'}));
               }}
