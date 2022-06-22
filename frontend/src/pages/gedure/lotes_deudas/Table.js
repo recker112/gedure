@@ -16,7 +16,7 @@ import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
-import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 import { getLotesDeudas } from '../../../store/slices/tablesWallet/async_trunk/lotes_deudas/TableLotesDeudas';
 
 export default function Table() {
@@ -66,7 +66,7 @@ export default function Table() {
           <Tooltip title='Editar' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: original, select: 'deleteSoliContacto'}));
+                dispatch(setRequestStatus({open: true, data: original, select: 'editLoteDeuda'}));
               }}
             >
               <EditIcon />
