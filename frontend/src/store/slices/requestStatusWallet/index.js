@@ -5,6 +5,7 @@ import { reducersGetUserSelected } from "./async_trunk/lotes_deudas/getUserSelec
 import { reducersGetUserSelectedWithoutDebt } from "./async_trunk/lotes_deudas/getUserSelectedWithoutDebt";
 import { reducersCreateLoteDebts } from "./async_trunk/lotes_deudas/createLoteDebts";
 import { reducersEditLoteDebts } from "./async_trunk/lotes_deudas/editLoteDebts";
+import { reducersDestroyLoteDebts } from "./async_trunk/lotes_deudas/destroyLoteDebts";
 
 const initialState = {
   createLoteDeuda: {
@@ -17,6 +18,11 @@ const initialState = {
     loading: false,
     data: {},
     dataSelected: [],
+  },
+  deleteLoteDeuda: {
+    open: false,
+    loading: false,
+    data: {},
   },
 };
 
@@ -62,6 +68,7 @@ export const requestStatusWalletSlices = createSlice({
     ...reducersCreateLoteDebts,
     ...reducersGetUserSelectedWithoutDebt,
     ...reducersEditLoteDebts,
+    ...reducersDestroyLoteDebts,
   }
 });
 

@@ -75,7 +75,7 @@ export default function Table() {
           <Tooltip title='Eliminar' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: original, select: 'verSoliContacto'}));
+                dispatch(setRequestStatus({open: true, data: original, select: 'deleteLoteDeuda'}));
               }}
             >
               <DeleteForeverIcon />

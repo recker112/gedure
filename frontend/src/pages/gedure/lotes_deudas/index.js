@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CreateLoteDeuda from './CreateLoteDeuda';
 import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 import EditLoteDeuda from './EditLoteDeuda';
+import { destroyLoteDebts } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/destroyLoteDebts';
 
 const classes = {
   container: {
@@ -49,6 +50,18 @@ export default function LotesDeudas() {
         </Grid>
         <CreateLoteDeuda />
         <EditLoteDeuda />
+        <DialogConfirmation 
+          rdx1='requestStatusWallet' 
+          rdx2='deleteLoteDeuda'
+          close={
+            setRequestStatus({open: false, data: {}, select: 'deleteLoteDeuda'})
+          }
+          request={
+            data => destroyLoteDebts(data)
+          }
+        >
+          {(dataR) => (<span>Está a punto de eliminar el lote de deuda <strong>{dataR.reason} (#{dataR.id})</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
+        </DialogConfirmation>
       </Container>
     </Box>
   )

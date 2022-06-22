@@ -2,20 +2,21 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../notistack";
 import { refresh } from "../../../tablesWallet";
 
-export const editLoteDebts = createAsyncThunk(
-  'requestUserWallet/loteDebt/editar',
-  async ({submitData, id}, { getState, signal, dispatch }) => {
+export const destroyLoteDebts = createAsyncThunk(
+  'requestStatusWallet/loteDebt/destroy',
+  async ({ id }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url = `v1/deuda/lote/${id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
-      const res = await axios.post(url, submitData, {
+      const res = await axios.delete(url, {
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
 
-      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'success' }));
+      dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
+      // NOTA(RECKER): Recargar datos de la tabla
       dispatch(refresh({ select: 'lotes_deudas' }));
 
       return res.data;
@@ -40,16 +41,16 @@ export const editLoteDebts = createAsyncThunk(
   }
 );
 
-export const reducersEditLoteDebts = {
-  [editLoteDebts.pending]: (state, action) => {
-    state.editLoteDeuda.loading = true;
+export const reducersDestroyLoteDebts = {
+  [destroyLoteDebts.pending]: (state, action) => {
+    state.deleteLoteDeuda.loading = true;
   },
-  [editLoteDebts.rejected]: (state, action) => {
-    state.editLoteDeuda.loading = false;
+  [destroyLoteDebts.rejected]: (state, action) => {
+    state.deleteLoteDeuda.loading = false;
   },
-  [editLoteDebts.fulfilled]: (state, action) => {
-    state.editLoteDeuda.loading = false;
-    state.editLoteDeuda.open = false;
-    state.editLoteDeuda.dataSelected = [];
+  [destroyLoteDebts.fulfilled]: (state, action) => {
+    state.deleteLoteDeuda.loading = false;
+    state.deleteLoteDeuda.data = {};
+    state.deleteLoteDeuda.open = false;
   },
 }
