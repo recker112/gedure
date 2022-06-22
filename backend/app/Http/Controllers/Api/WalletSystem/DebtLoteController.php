@@ -149,27 +149,29 @@ class DebtLoteController extends Controller
 	
 	public function edit(DebtLoteEditRequest $request, DebtLote $debt_lote) {
 		$user = $request->user();
+
+		$amount = $request->amount_to_pay;
+		if ($request->exchange_rate_type === '$') {
+			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
+			$amount = $amount * $exrate->amount;
+		}
 		
 		$debt_lote->reason = $request->reason;
-		$debt_lote->amount_to_pay = $request->new_price;
+		$debt_lote->amount_to_pay = $amount;
 		$debt_lote->save();
 		
 		$debts_created=0;
 		if ($user->can('debt_create') && $request->selected_users) {
 			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
-			foreach($request->selected_users as $userId) {
-				$find_debt = Debt::where('user_id', $userId)
-					->where('debt_lote_id', $debt_lote->id)
-					->first();
-				$userExist = User::find(intVal($userId));
+			$users = User::where('privilegio', 'V-')
+				->whereIn('id', $request->selected_users)
+				->get();
 				
-				if (!$find_debt && $userExist) {
-					Debt::create([
-						'user_id' => $userExist->id,
-						'debt_lote_id' => $debt_lote->id,
-					]);
-					$debts_created++;
-				}
+			foreach($users as $user) {
+				$user->debts()->create([
+					'debt_lote_id' => $debt_lote->id,
+				]);
+				$debts_created++;
 			}
 		}
 		
