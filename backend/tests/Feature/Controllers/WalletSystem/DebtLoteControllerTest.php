@@ -135,7 +135,7 @@ class DebtLoteControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/deuda/lote', [
 			'reason' => 'Mensualidad Abril 2021',
 			'amount_to_pay' => 600000.93,
-			'exchange_rate_type' => 'Bs.S',
+			'exchange_rate_type' => 'Bs.',
 			'type' => 'cursos',
 			'cursos' => [1],
 		]);
@@ -148,7 +148,7 @@ class DebtLoteControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/deuda/lote', [
 			'reason' => 'Mensualidad Abril 2022',
 			'amount_to_pay' => 1.9,
-			'exchange_rate_type' => 'USD',
+			'exchange_rate_type' => '$',
 			'type' => 'cursos',
 			'cursos' => [1],
 		]);
@@ -188,7 +188,7 @@ class DebtLoteControllerTest extends TestCase
 			'reason' => 'Mensualidad Abril 2021',
 			'amount_to_pay' => 600000.93,
 			'type' => 'selected',
-			'exchange_rate_type' => 'Bs.S',
+			'exchange_rate_type' => 'Bs.',
 			'selected_users' => [$users[0]->id, $users[1]->id, $users[2]->id]
 		]);
 		
@@ -252,12 +252,12 @@ class DebtLoteControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
-			'exchange_rate_type' => 'Bs.S'
 		]);
 		
 		$response = $this->putJson('/api/v1/deuda/lote/'.$debt_lote->id, [
 			'reason' => 'Nuevo motivo',
-			'new_price' => 700.30,
+			'amount_to_pay' => 700.30,
+			'exchange_rate_type' => 'Bs.',
 			'selected_users' => [$users[0]->id,$users[1]->id,$users[2]->id]
 		]);
 		
