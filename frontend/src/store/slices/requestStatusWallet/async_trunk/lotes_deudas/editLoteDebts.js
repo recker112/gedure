@@ -23,9 +23,13 @@ export const editLoteDebts = createAsyncThunk(
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
-        // NOTA(RECKER): Respuesta del servidor
-        const { data, status } = error.response;
+        let { data, status } = error.response;
 
+        if (status === 404) {
+          data.msg = 'El lote de deuda ya no existe';
+        }
+
+        // NOTA(RECKER): Respuesta del servidor
         dispatch(updateNotistack({ status: status, text: data.msg }));
       } else {
         // NOTA(RECKER): Sin respuesta por parte del servidor

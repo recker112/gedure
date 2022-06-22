@@ -207,7 +207,7 @@ class DebtLoteController extends Controller
 			->where('status', '!=', 'no pagada')
 			->count();
 		
-		// NOTA(RECKER): Eliminar no hay debts pagadas o rembolsadas
+		// NOTA(RECKER): No elimiar lotes con debts pagadas o rembolsadas
 		if ($debts) {
 			return response()->json([
 				'msg' => 'No puede eliminar este lote',
