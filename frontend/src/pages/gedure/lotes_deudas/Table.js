@@ -25,7 +25,7 @@ export default function Table() {
     loading: state.tablesWallet.lotes_deudas.tableData.loading,
     pageSize: state.tablesWallet.lotes_deudas.tableData.pageSize,
     pageCount: state.tablesWallet.lotes_deudas.tableData.pageCount,
-    permissions: state.auth.permissions.administrar_transac,
+    administrar_transac: state.auth.permissions.administrar_transac,
   }));
   const { debt_lote_delete, debt_lote_edit } = administrar_transac;
   const dispatch = useDispatch();

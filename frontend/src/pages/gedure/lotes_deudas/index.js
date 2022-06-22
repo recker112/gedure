@@ -27,7 +27,7 @@ export default function LotesDeudas() {
   document.title = 'Lotes de deudas - La Candelaria';
   useNotifier();
 
-  const { administrar_transac: { debt_lote_create } } = useSelector((state) => state.auth.permissions);
+  const { debt_lote_create } = useSelector((state) => state.auth.permissions.administrar_transac);
   const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
