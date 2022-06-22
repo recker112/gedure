@@ -343,6 +343,12 @@ export default function Routers() {
                       <LotesDeudasPage />
                     </AuthProtect>
                   } />
+
+                  <Route path='*' element={
+                    <AuthProtect>
+                      <NotFound/>
+                    </AuthProtect>
+                  } />
                 </Route>
               )}
 
