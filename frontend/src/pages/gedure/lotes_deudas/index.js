@@ -27,7 +27,7 @@ export default function LotesDeudas() {
   document.title = 'Lotes de deudas - La Candelaria';
   useNotifier();
 
-  const { administrar: { posts_create } } = useSelector((state) => state.auth.permissions);
+  const { administrar_transac: { debt_lote_create } } = useSelector((state) => state.auth.permissions);
   const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
@@ -42,7 +42,7 @@ export default function LotesDeudas() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" data-tour="gdPub__create" onClick={handleOpenCreate} disabled={!posts_create}>Crear lote de deudas</Button>
+            <Button variant="contained" onClick={handleOpenCreate} disabled={!debt_lote_create}>Crear lote de deudas</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
