@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { reducersCreateLoteDebts } from "./async_trunk/lotes_deudas/createLoteDebts";
 
 // Async request
 import { reducersGetUserSelected } from "./async_trunk/lotes_deudas/getUserSelected";
+import { reducersGetUserSelectedWithoutDebt } from "./async_trunk/lotes_deudas/getUserSelectedWithoutDebt";
+import { reducersCreateLoteDebts } from "./async_trunk/lotes_deudas/createLoteDebts";
+import { reducersEditLoteDebts } from "./async_trunk/lotes_deudas/editLoteDebts";
 
 const initialState = {
   createLoteDeuda: {
     open: false,
     loading: false,
     dataUserSelected: [],
+  },
+  editLoteDeuda: {
+    open: false,
+    loading: false,
+    data: {},
+    dataSelected: [],
   },
 };
 
@@ -52,6 +60,8 @@ export const requestStatusWalletSlices = createSlice({
   extraReducers: {
     ...reducersGetUserSelected,
     ...reducersCreateLoteDebts,
+    ...reducersGetUserSelectedWithoutDebt,
+    ...reducersEditLoteDebts,
   }
 });
 

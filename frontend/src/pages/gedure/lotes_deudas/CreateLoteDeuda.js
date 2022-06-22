@@ -66,7 +66,7 @@ export default function CreateLoteDeuda() {
       open={open}
       TransitionComponent={AnimationDialog}
     >
-      <DialogTitle id="confirm-dialog-title">Crear lote de deudas</DialogTitle>
+      <DialogTitle>Crear lote de deudas</DialogTitle>
       <DialogContent>
         <form autoComplete='off'>
           <Grid container spacing={1}>
@@ -103,7 +103,7 @@ export default function CreateLoteDeuda() {
 							>
                 <MenuItem value=''><em>Ninguno</em></MenuItem>
 								<MenuItem value='$'>USD</MenuItem>
-								<MenuItem value='Bs.S'>Bs.S</MenuItem>
+								<MenuItem value='Bs.'>Bs.</MenuItem>
 							</SelectHook>
 						</Grid>
             <Grid item xs={12}>

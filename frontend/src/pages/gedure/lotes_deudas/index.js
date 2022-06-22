@@ -12,6 +12,7 @@ import Table from './Table';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateLoteDeuda from './CreateLoteDeuda';
 import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
+import EditLoteDeuda from './EditLoteDeuda';
 
 const classes = {
   container: {
@@ -47,6 +48,7 @@ export default function LotesDeudas() {
           </Grid>
         </Grid>
         <CreateLoteDeuda />
+        <EditLoteDeuda />
       </Container>
     </Box>
   )
