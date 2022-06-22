@@ -133,8 +133,8 @@ class DebtLoteController extends Controller
 		// NOTA(RECKER): Log
 		$payload = [
 			'id' => $debt_lote->id,
-			'reason' => $request->motivo,
-			'amount' => $request->cantidad_pagar,
+			'reason' => $request->reason,
+			'amount' => $amount,
 		];
 		$request->user()->logs()->create([
 			'action' => 'Lote de deudas creado',

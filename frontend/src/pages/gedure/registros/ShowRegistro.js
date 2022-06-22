@@ -408,7 +408,7 @@ export default function ShowRegistro() {
 					<br />
 					<strong>Motivo:</strong> {data.payload.reason}
 					<br />
-					<strong>Cantidad a pagar:</strong> {data.payload.amount}
+					<strong>Cantidad a pagar:</strong> Bs. {data.payload.amount}
 				</DialogContentText>
 			);
 		}else if (data.action === 'Lote de deudas editado') {
