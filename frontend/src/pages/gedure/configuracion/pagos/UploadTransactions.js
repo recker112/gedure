@@ -72,7 +72,7 @@ export default function UploadTransactions() {
             type="file"
           />
           <label htmlFor="upload-transactions">
-            <Button variant='contained' disableElevation component='span'>
+            <Button variant='contained' color={Boolean(errors.transactions) ? 'error' : 'primary'} disableElevation component='span'>
               Cargar archivo
             </Button>
           </label>
