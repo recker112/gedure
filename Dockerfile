@@ -1,12 +1,11 @@
 FROM php:8.0.22RC1-zts-alpine3.16
 
 # Install dependencies system
-RUN apk add libzip-dev \
-  gd \
-  libpng-dev
+RUN apk add --no-cache libzip-dev gd libpng-dev jpeg-dev freetype-dev
 
-## Install dependencies PHP
-RUN docker-php-ext-install -j$(nproc) gd \
+# ## Install dependencies PHP
+RUN docker-php-ext-configure gd --enable-gd --with-jpeg \
+  && docker-php-ext-install -j$(nproc) gd \
   bcmath \
   mysqli \
   pdo_mysql \ 
