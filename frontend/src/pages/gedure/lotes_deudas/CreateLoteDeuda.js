@@ -199,6 +199,7 @@ export default function CreateLoteDeuda() {
 					disabled={loading}
 				/>
         <Button
+					sx={{ml: 1}}
           onClick={handleClose}
           color='inherit'
         >
