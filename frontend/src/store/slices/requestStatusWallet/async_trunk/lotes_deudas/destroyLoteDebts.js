@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../../../../notistack";
-import { refresh } from "../../../../tables";
+import { updateNotistack } from "../../../notistack";
+import { refresh } from "../../../tablesWallet";
 
-export const deleteBankTransaction = createAsyncThunk(
-  'requestStatus/bank/transaction/delete',
-  async (id, { getState, signal, dispatch }) => {
+export const destroyLoteDebts = createAsyncThunk(
+  'requestStatusWallet/loteDebt/destroy',
+  async ({ id }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/bank-transaction/${id}`;
+    let url = `v1/deuda/lote/${id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -17,7 +17,7 @@ export const deleteBankTransaction = createAsyncThunk(
 
       dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
       // NOTA(RECKER): Recargar datos de la tabla
-      dispatch(refresh({ select: 'bankTransactions' }));
+      dispatch(refresh({ select: 'lotes_deudas' }));
 
       return res.data;
     } catch (error) {
@@ -26,9 +26,8 @@ export const deleteBankTransaction = createAsyncThunk(
       } else if (error.response) {
         let { data, status } = error.response;
 
-        // NOTA(RECKER): Setear errores en inputs
         if (status === 404) {
-          data.msg = 'La cuenta ya no existe';
+          data.msg = 'El lote de deuda ya no existe';
         }
 
         // NOTA(RECKER): Respuesta del servidor
@@ -42,16 +41,16 @@ export const deleteBankTransaction = createAsyncThunk(
   }
 );
 
-export const reducersDeleteBankTransaction = {
-  [deleteBankTransaction.pending]: (state, action) => {
-    state.deleteTransaction.loading = true;
+export const reducersDestroyLoteDebts = {
+  [destroyLoteDebts.pending]: (state, action) => {
+    state.deleteLoteDeuda.loading = true;
   },
-  [deleteBankTransaction.rejected]: (state, action) => {
-    state.deleteTransaction.loading = false;
+  [destroyLoteDebts.rejected]: (state, action) => {
+    state.deleteLoteDeuda.loading = false;
   },
-  [deleteBankTransaction.fulfilled]: (state, action) => {
-    state.deleteTransaction.loading = false;
-    state.deleteTransaction.data = {};
-    state.deleteTransaction.open = false;
+  [destroyLoteDebts.fulfilled]: (state, action) => {
+    state.deleteLoteDeuda.loading = false;
+    state.deleteLoteDeuda.data = {};
+    state.deleteLoteDeuda.open = false;
   },
 }

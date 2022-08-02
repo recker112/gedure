@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // Models
 use App\Models\Gedure\Post;
+use App\Models\WalletSystem\ExchangeRate;
 
 class InfoBoxController extends Controller
 {
@@ -14,7 +15,7 @@ class InfoBoxController extends Controller
 		$user = $request->user();
 		$data_finish = [];
 		
-		// RECKER(NOTA): Obtener últimos posts
+		// NOTA(RECKER): Obtener últimos posts
 		$posts = Post::limit(3)->orderBy('id', 'desc')->get();
 		$data_finish['posts'] = [];
 		$iP=0;
@@ -25,7 +26,7 @@ class InfoBoxController extends Controller
 			$iP++;
 		}
 		
-		// RECKER(NOTA): Obtener datos solo para estudiantes
+		// NOTA(RECKER): Obtener datos solo para estudiantes
 		if ($user->privilegio === 'V-') {
 			$data_finish['boletas'] = [];
 			$iB=0;
@@ -38,6 +39,16 @@ class InfoBoxController extends Controller
 				$iB++;
 			}
 		}
+
+		// NOTA(RECKER): Obtener balance
+		$data_finish['wallet']['textPrimary'] = "Bs. ".$user->wallet->balance;
+		$data_finish['wallet']['balance'] = $user->wallet->balance;
+		$data_finish['wallet']['textSecondary'] = 'Ultima actualización de saldo: '.$user->wallet->updated_at;
+
+		// NOTA(RECKER): Obtener exchange rate
+		$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
+		$data_finish['exrate']['textPrimary'] = "$1 = Bs. ".$exrate->amount;
+		$data_finish['exrate']['textSecondary'] = 'Ultima actualización del precio: '.$exrate->created_at;
 		
 		return response()->json($data_finish,200);
 	}

@@ -25,7 +25,8 @@ class DebtLoteEditRequest extends FormRequest
 	{
 		return [
 			'reason' => 'required|string',
-			'new_price' => 'required|numeric',
+			'amount_to_pay' => 'required|numeric|min:1',
+			'exchange_rate_type' => 'required|in:Bs.,$',
 			'selected_users' => 'nullable|array',
 			'selected_users.*' => 'numeric',
 		];

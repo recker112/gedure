@@ -337,7 +337,19 @@ export default function Routers() {
               )}
 
               {debt_lote_index && (
-                <Route path='lotes-deudas' element={<LotesDeudasPage />} />
+                <Route path='lotes-deudas/*'>
+                  <Route path='' element={
+                    <AuthProtect>
+                      <LotesDeudasPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='*' element={
+                    <AuthProtect>
+                      <NotFound/>
+                    </AuthProtect>
+                  } />
+                </Route>
               )}
 
               {privilegio === 'V-' && (

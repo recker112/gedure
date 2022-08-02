@@ -14,9 +14,10 @@ class CreateExchangeRatesTable extends Migration
 	public function up()
 	{
 		Schema::create('exchange_rates', function (Blueprint $table) {
-			$table->char('type', 10)->unique();
+			$table->id();
+			$table->char('type', 10);
 			$table->decimal('amount', 18, 2);
-			$table->timestamps();
+			$table->timestamp('created_at', 0);
 		});
 	}
 

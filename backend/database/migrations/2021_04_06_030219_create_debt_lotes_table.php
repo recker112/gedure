@@ -17,7 +17,6 @@ class CreateDebtLotesTable extends Migration
 			$table->id();
 			$table->text('reason');
 			$table->decimal('amount_to_pay', 18, 2);
-			$table->enum('exchange_rate_type', ['Bs.S','USD']);
 			$table->timestamps();
 		});
 	}

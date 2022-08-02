@@ -16,7 +16,7 @@ class ExchangeRateSeeder extends Seeder
 	{
 		ExchangeRate::create([
 			'type' => 'USD',
-			'amount' => 3000000
+			'amount' => 5.31
 		]);
 	}
 }

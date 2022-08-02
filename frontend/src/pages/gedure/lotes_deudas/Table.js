@@ -1,74 +1,88 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react';
+
+// Router
+import { useNavigate } from 'react-router-dom';
 
 // MUI
 import { IconButton, Tooltip } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Components
 import ReactTableBase from '../../../components/ReactTableBase';
-import { parseFloatToMoneyString, parseToAccountString } from '../../../components/Utils/ParseString';
+import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { getBankAccounts } from '../../../store/slices/tables/async_trunk/configuracion/TableBankAccounts';
-import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
-import { setRequestStatus } from '../../../store/slices/requestStatus';
+import { useDispatch, useSelector } from 'react-redux'
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
+import { getLotesDeudas } from '../../../store/slices/tablesWallet/async_trunk/lotes_deudas/TableLotesDeudas';
 
-export default function TableAccounts() {
-  const { dataR, loading, pageSize, pageCount, gedure: { bank_transaction_assign, bank_transaction_delete } } = useSelector(state => ({
-    dataR: state.tables.bankAccounts.tableData.data,
-    loading: state.tables.bankAccounts.tableData.loading,
-    pageSize: state.tables.bankAccounts.tableData.pageSize,
-    pageCount: state.tables.bankAccounts.tableData.pageCount,
-    gedure: state.auth.permissions.gedure,
+export default function Table() {
+  const { dataR, loading, pageSize, pageCount, administrar_transac } = useSelector(state => ({
+    dataR: state.tablesWallet.lotes_deudas.tableData.data,
+    loading: state.tablesWallet.lotes_deudas.tableData.loading,
+    pageSize: state.tablesWallet.lotes_deudas.tableData.pageSize,
+    pageCount: state.tablesWallet.lotes_deudas.tableData.pageCount,
+    administrar_transac: state.auth.permissions.administrar_transac,
   }));
+  const { debt_lote_delete, debt_lote_edit } = administrar_transac;
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const columns = useMemo(() => [
-    {
-      Header: 'N° cuenta',
-      accessor: 'n_account',
-      Cell: ({ cell: { row: { original: { n_account } } } }) => parseToAccountString(n_account)
-    },
     {
       Header: 'Id',
       accessor: 'id',
     },
-    {Header: 'Motivo', accessor: 'reason'},
     {
-      Header: 'Monto a pagar', 
-      accessor: 'amount_to_pay',
-      Cell: ({ cell: { row: { original: { exchange_rate_type, amount_to_pay_exchange, amount_to_pay } } } }) => parseFloatToMoneyString(exchange_rate_type === 'Bs.S' ? amount_to_pay : amount_to_pay_exchange),
+      Header: 'Motivo',
+      accessor: 'reason',
     },
-    {Header: 'Tasa de cambio', accessor: 'exchange_rate_type'},
-    {Header: 'Fecha de creación', accessor: 'created_at'},
+    {
+      Header: 'Monto a pagar',
+      accessor: 'amount_to_pay',
+      Cell: ({ cell: { row: { original: { amount_to_pay } } } }) => parseFloatToMoneyString(amount_to_pay),
+    },
+    {
+      Header: 'Fecha',
+      accessor: 'created_at',
+    },
     {
       id: 'options',
       Header: 'Opciones',
       accessor: 'options',
-      Cell: ({ cell: { row: { original: { id, n_account, rif, name, email, type, code } } } }) => (
+      Cell: ({ cell: { row: { original } } }) => (
         <>
-          <Tooltip title='Editar' arrow>
+          <Tooltip title='Ver' arrow>
             <IconButton
-              component='span'
-              disabled={!bank_transaction_assign}
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: { id, n_account, rif, name, email, type, code }, select: 'editBankAccount'}));
+                navigate(`ver/${original.id}`);
               }}
             >
-              <EditIcon /> 
+              <VisibilityIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Editar' arrow>
+            <IconButton
+              disabled={!debt_lote_edit}
+              onClick={() => {
+                dispatch(setRequestStatus({open: true, data: original, select: 'editLoteDeuda'}));
+              }}
+            >
+              <EditIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title='Eliminar' arrow>
             <IconButton
-              component='span'
-              disabled={!bank_transaction_delete}
+              disabled={!debt_lote_delete}
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: { id, n_account}, select: 'deleteBankAccount'}));
+                dispatch(setRequestStatus({open: true, data: original, select: 'deleteLoteDeuda'}));
               }}
             >
-              <DeleteForeverIcon /> 
+              <DeleteForeverIcon />
             </IconButton>
           </Tooltip>
         </>
@@ -84,7 +98,7 @@ export default function TableAccounts() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getBankAccounts());
+      promise = dispatch(getLotesDeudas());
     }
 
     return () => {
@@ -98,26 +112,26 @@ export default function TableAccounts() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfig({ select: 'bankAccounts' }));
+      dispatch(resetTableConfig({ select: 'lotes_deudas' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearch({search: value || "", select: 'bankAccounts'}));
+    dispatch(setSearch({search: value || "", select: 'lotes_deudas'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTable({ ...value, select: 'bankAccounts' }));
+    dispatch(setConfigTable({ ...value, select: 'lotes_deudas' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refresh({ select: 'bankAccounts' }));
+    dispatch(refresh({ select: 'lotes_deudas' }));
   }
 
   return (
     <ReactTableBase
-      title='Lotes de deudas registrados'
+      title='Lista de contáctanos'
       data={data}
       columns={columns}
       pageCountData={pageCount}
@@ -126,28 +140,6 @@ export default function TableAccounts() {
       handleGlobalFilter={handleGlobalFilter}
       handleChange={handleChange}
       refresh={handleRefresh}
-      massiveOptions={dataMassive => (
-        <>
-          <Tooltip title="Eliminar" arrow>
-            <IconButton
-              component='span'
-              disabled={!bank_transaction_delete}
-              onClick={() => {
-                let i = 0;
-								let idsArray = [];
-								for(let value of dataMassive){
-									idsArray[i] = value.id;
-									i++;
-								}
-
-                // dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
-              }}
-            >
-              <DeleteForeverIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      )}
     />
   )
 }

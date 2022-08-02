@@ -4,12 +4,16 @@ import React from 'react';
 import { Box, Button, Container, Grid } from '@mui/material';
 
 // Components
-// import DialogConfirmation from '../../../components/DialogConfirmation';
+import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
+import Table from './Table';
 
 // Redux
-import { useSelector } from 'react-redux';
-import Table from './Table';
+import { useDispatch, useSelector } from 'react-redux';
+import CreateLoteDeuda from './CreateLoteDeuda';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
+import EditLoteDeuda from './EditLoteDeuda';
+import { destroyLoteDebts } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/destroyLoteDebts';
 
 const classes = {
   container: {
@@ -23,10 +27,11 @@ export default function LotesDeudas() {
   document.title = 'Lotes de deudas - La Candelaria';
   useNotifier();
 
-  const { administrar: { posts_create } } = useSelector((state) => state.auth.permissions);
+  const { debt_lote_create } = useSelector((state) => state.auth.permissions.administrar_transac);
+  const dispatch = useDispatch();
 
   const handleOpenCreate = () => {
-    //
+    dispatch(setRequestStatus({ select: 'createLoteDeuda', open: true }));
   }
 
   return (
@@ -37,25 +42,27 @@ export default function LotesDeudas() {
         </Box>
         <Grid container spacing={2}>
           <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" data-tour="gdPub__create" onClick={handleOpenCreate} disabled={!posts_create}>Crear lote de deudas</Button>
+            <Button variant="contained" onClick={handleOpenCreate} disabled={!debt_lote_create}>Crear lote de deudas</Button>
           </Grid>
           <Grid item xs={12}>
             <Table />
           </Grid>
         </Grid>
+        <CreateLoteDeuda />
+        <EditLoteDeuda />
+        <DialogConfirmation 
+          rdx1='requestStatusWallet' 
+          rdx2='deleteLoteDeuda'
+          close={
+            setRequestStatus({open: false, data: {}, select: 'deleteLoteDeuda'})
+          }
+          request={
+            data => destroyLoteDebts(data)
+          }
+        >
+          {(dataR) => (<span>Está a punto de eliminar el lote de deuda <strong>{dataR.reason} (#{dataR.id})</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
+        </DialogConfirmation>
       </Container>
-      {/* <DialogConfirmation
-        rdx1='gdPUBConfirm' 
-        rdx2='delete'
-        close={
-          setConfirmConfgsPUB({open: false, data: {}, confirm: 'delete'})
-        }
-        request={
-          data => deletePost(data.slug)
-        }
-      >
-        {(data) => (<span>Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
-      </DialogConfirmation> */}
     </Box>
   )
 }

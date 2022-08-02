@@ -2,12 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../../notistack";
 import { refresh } from "../../../../tables";
 
-export const deleteBankTransaction = createAsyncThunk(
-  'requestStatus/bank/transaction/delete',
-  async (id, { getState, signal, dispatch }) => {
+export const deleteMassiveBankTransaction = createAsyncThunk(
+  'requestStatus/bank/transaction/deleteMassive',
+  async (ids, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/bank-transaction/${id}`;
+    let url = `v1/bank-transaction?ids=${encodeURI(JSON.stringify(ids))}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -26,9 +26,9 @@ export const deleteBankTransaction = createAsyncThunk(
       } else if (error.response) {
         let { data, status } = error.response;
 
-        // NOTA(RECKER): Setear errores en inputs
+        // NOTA(RECKER): Setear 404
         if (status === 404) {
-          data.msg = 'La cuenta ya no existe';
+          data.msg = 'La transacción ya no existe';
         }
 
         // NOTA(RECKER): Respuesta del servidor
@@ -42,16 +42,16 @@ export const deleteBankTransaction = createAsyncThunk(
   }
 );
 
-export const reducersDeleteBankTransaction = {
-  [deleteBankTransaction.pending]: (state, action) => {
-    state.deleteTransaction.loading = true;
+export const reducersDeleteMassiveBankTransaction = {
+  [deleteMassiveBankTransaction.pending]: (state, action) => {
+    state.deleteMassiveBankTransaction.loading = true;
   },
-  [deleteBankTransaction.rejected]: (state, action) => {
-    state.deleteTransaction.loading = false;
+  [deleteMassiveBankTransaction.rejected]: (state, action) => {
+    state.deleteMassiveBankTransaction.loading = false;
   },
-  [deleteBankTransaction.fulfilled]: (state, action) => {
-    state.deleteTransaction.loading = false;
-    state.deleteTransaction.data = {};
-    state.deleteTransaction.open = false;
+  [deleteMassiveBankTransaction.fulfilled]: (state, action) => {
+    state.deleteMassiveBankTransaction.loading = false;
+    state.deleteMassiveBankTransaction.data = {};
+    state.deleteMassiveBankTransaction.open = false;
   },
 }

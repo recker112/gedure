@@ -20,6 +20,8 @@ export function AutoCompleteAsyncHook({
   handleRequest,
   disabled,
   renderOption,
+  renderTags,
+  limitTags,
   ...rest
 }) {
   const [open, setOpen] = useState(false);
@@ -117,8 +119,10 @@ export function AutoCompleteAsyncHook({
       loading={loading}
       loadingText='Cargando...'
 			noOptionsText='No hay resultados'
+      renderTags={renderTags}
       disabled={disabled}
       renderOption={renderOption}
+      limitTags={limitTags}
       renderInput={(params) => (
         <TextField 
           {...params}
