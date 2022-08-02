@@ -60,7 +60,7 @@ export default function UploadStudiends() {
               type="file"
             />
             <label htmlFor="matricula-upload-file">
-              <Button variant='contained' color='secondary' component='span' disabled={loading}>Cargar archivo</Button>
+              <Button variant='contained' color={Boolean(errors.database) ? 'error' : 'secondary'} component='span' disabled={loading}>Cargar archivo</Button>
             </label>
             {(((watch('database') || []).length !== 0)) && (
               <Box ml={2}>
