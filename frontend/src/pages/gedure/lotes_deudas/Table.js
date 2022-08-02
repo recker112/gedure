@@ -11,7 +11,6 @@ import { parseFloatToMoneyString, parseToAccountString } from '../../../componen
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setConfirmConfgsGCDU } from '../../../store/slices/gedure/configuracion/user_disabled/confirm';
 import { getBankAccounts } from '../../../store/slices/tables/async_trunk/configuracion/TableBankAccounts';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tables';
 import { setRequestStatus } from '../../../store/slices/requestStatus';
@@ -141,7 +140,7 @@ export default function TableAccounts() {
 									i++;
 								}
 
-                dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
+                // dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
               }}
             >
               <DeleteForeverIcon />
