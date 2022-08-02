@@ -16,7 +16,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 if (process.env.NODE_ENV !== 'production') {
-  window.axios.defaults.baseURL = window.location.protocol + '//localhost:8000/api';
+  window.axios.defaults.baseURL = window.location.protocol + '//localhost/api';
 }else {
   window.axios.defaults.baseURL = window.location.protocol + "//" + window.location.host + '/api';
 }
