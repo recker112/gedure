@@ -119,6 +119,7 @@ export default function TableTransactions() {
   },[]);
 
   const handleGlobalFilter = value => {
+    console.log(value);
     dispatch(setSearch({search: value || "", select: 'bankTransactions'}));
   }
 
@@ -155,7 +156,7 @@ export default function TableTransactions() {
 									i++;
 								}
 
-                // dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'deleteMassiveBankTransaction', open: true, data: idsArray}))
               }}
             >
               <DeleteForeverIcon />

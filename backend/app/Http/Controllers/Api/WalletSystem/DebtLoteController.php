@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Gedure\Curso;
 use App\Models\WalletSystem\Debt;
 use App\Models\WalletSystem\DebtLote;
+use App\Models\WalletSystem\ExchangeRate;
 
 class DebtLoteController extends Controller
 {
@@ -103,17 +104,24 @@ class DebtLoteController extends Controller
 				->get();
 		}
 		
+		// NOTA(RECKER): Verificar usuarios seleccionados
 		if (count($users) === 0) {
 			return response()->json([
 				'msg' => 'No hay usuarios seleccionados',
 			], 400);
 		}
+
+		// NOTA(RECKER): ExchangeRate
+		$amount = $request->amount_to_pay;
+		if ($request->exchange_rate_type === '$') {
+			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
+			$amount = $amount * $exrate->amount;
+		}
 		
 		// NOTA(RECKER): Creacion del lote de deudas
 		$debt_lote = DebtLote::create([
 			'reason' => $request->reason,
-			'amount_to_pay' => $request->amount_to_pay,
-			'exchange_rate_type' => $request->exchange_rate_type,
+			'amount_to_pay' => $amount,
 		]);
 		
 		foreach($users as $user) {
@@ -125,8 +133,8 @@ class DebtLoteController extends Controller
 		// NOTA(RECKER): Log
 		$payload = [
 			'id' => $debt_lote->id,
-			'reason' => $request->motivo,
-			'amount' => $request->cantidad_pagar,
+			'reason' => $request->reason,
+			'amount' => $amount,
 		];
 		$request->user()->logs()->create([
 			'action' => 'Lote de deudas creado',
@@ -141,27 +149,29 @@ class DebtLoteController extends Controller
 	
 	public function edit(DebtLoteEditRequest $request, DebtLote $debt_lote) {
 		$user = $request->user();
+
+		$amount = $request->amount_to_pay;
+		if ($request->exchange_rate_type === '$') {
+			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
+			$amount = $amount * $exrate->amount;
+		}
 		
 		$debt_lote->reason = $request->reason;
-		$debt_lote->amount_to_pay = $request->new_price;
+		$debt_lote->amount_to_pay = $amount;
 		$debt_lote->save();
 		
 		$debts_created=0;
 		if ($user->can('debt_create') && $request->selected_users) {
 			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
-			foreach($request->selected_users as $userId) {
-				$find_debt = Debt::where('user_id', $userId)
-					->where('debt_lote_id', $debt_lote->id)
-					->first();
-				$userExist = User::find(intVal($userId));
+			$users = User::where('privilegio', 'V-')
+				->whereIn('id', $request->selected_users)
+				->get();
 				
-				if (!$find_debt && $userExist) {
-					Debt::create([
-						'user_id' => $userExist->id,
-						'debt_lote_id' => $debt_lote->id,
-					]);
-					$debts_created++;
-				}
+			foreach($users as $user) {
+				$user->debts()->create([
+					'debt_lote_id' => $debt_lote->id,
+				]);
+				$debts_created++;
 			}
 		}
 		
@@ -197,7 +207,7 @@ class DebtLoteController extends Controller
 			->where('status', '!=', 'no pagada')
 			->count();
 		
-		// NOTA(RECKER): Eliminar no hay debts pagadas o rembolsadas
+		// NOTA(RECKER): No elimiar lotes con debts pagadas o rembolsadas
 		if ($debts) {
 			return response()->json([
 				'msg' => 'No puede eliminar este lote',

@@ -13,7 +13,7 @@ export function parseToAccountString(n_account) {
 	return text;
 }
 
-export function parseFloatToMoneyString(number = 0, prefix = 'Bs.S ', decPlaces = 2, thouSeparator = '.', decSeparator = ',') {
+export function parseFloatToMoneyString(number = 0, prefix = 'Bs. ', decPlaces = 2, thouSeparator = '.', decSeparator = ',') {
 	if (isNaN(number)) return prefix + '0';
 	
   const negative = number < 0 ? '-' : '';

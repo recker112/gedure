@@ -37,6 +37,8 @@ class InvitationController extends Controller
 		
 		$dataUser = $request->only(['username', 'name', 'privilegio', 'email']);
 		$user = User::create($dataUser);
+		// NOTA(RECKER): Crear wallet
+		$user->wallet()->create();
 		
 		if ($user->privilegio === 'V-') {
 			$personal_data = PersonalDataUser::create();

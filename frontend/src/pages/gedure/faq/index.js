@@ -52,7 +52,7 @@ function Header() {
 }
 
 export default function FAQ() {
-  document.title = 'La Candelaria - Preguntas Frecuentes';
+  document.title = 'Preguntas Frecuentes - La Candelaria';
   const [expand, setExpand] = useState(false);
 
   const handleChange = panel => (event, isExpanded) => {

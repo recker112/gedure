@@ -27,7 +27,7 @@ class DebtRequest extends FormRequest
 			'reason' => 'required|string',
 			'amount_to_pay' => 'required|numeric|min:1',
 			'type' => 'required|string',
-			'exchange_rate_type' => 'required|in:Bs.S,USD',
+			'exchange_rate_type' => 'required|in:Bs.,$',
 			'cursos' => 'nullable|array',
 			'cursos.*' => 'numeric',
 			'selected_users' => 'nullable|array',

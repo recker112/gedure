@@ -146,7 +146,7 @@ export default function TableAccounts() {
 									i++;
 								}
 
-                // dispatch(setConfirmConfgsGCDU({confirm: 'destroyMassive', open: true, data: idsArray}))
+                dispatch(setRequestStatus({select: 'deleteBankAccountMassive', open: true, data: idsArray}))
               }}
             >
               <DeleteForeverIcon />

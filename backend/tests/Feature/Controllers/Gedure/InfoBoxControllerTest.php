@@ -27,6 +27,7 @@ class InfoBoxControllerTest extends TestCase
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
 		]);
+		$user->wallet()->create();
 		
 		Passport::actingAs(
 			$user,
@@ -61,6 +62,15 @@ class InfoBoxControllerTest extends TestCase
 						'textSecondary',
 					]
 				],
+				'wallet' => [
+					'textPrimary',
+					'balance',
+					'textSecondary'
+				],
+				'exrate' => [
+					'textPrimary',
+					'textSecondary'
+				],
 			]);
 	}
 	
@@ -81,6 +91,15 @@ class InfoBoxControllerTest extends TestCase
 						'textPrimary',
 						'textSecondary',
 					]
+				],
+				'wallet' => [
+					'textPrimary',
+					'balance',
+					'textSecondary'
+				],
+				'exrate' => [
+					'textPrimary',
+					'textSecondary'
 				],
 			]);
 	}
