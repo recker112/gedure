@@ -9,9 +9,9 @@ import GroupIcon from '@mui/icons-material/Group';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import {
-  // Cash as CashIcon,
+  Cash as CashIcon,
 	HammerWrench as HammerWrenchIcon,
-  // PiggyBank as PiggyBankIcon,
+  PiggyBank as PiggyBankIcon,
   Post as PostIcon,
 } from 'mdi-material-ui';
 
@@ -32,13 +32,13 @@ function GedureIcon(props) {
 export default function AdminList({
   expand1,
   handleExpand1,
-  // expand2,
-  // handleExpand2,
+  expand2,
+  handleExpand2,
 }) {
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
-  // const { debt_lote_index } = permissions.administrar_transac;
+  const { debt_lote_index } = permissions.administrar_transac;
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function AdminList({
             )}
           </Collapse>
 
-          {/* {Object.keys(permissions.administrar_transac).length !== 0 && (
+          {Object.keys(permissions.administrar_transac).length !== 0 && (
             <>
               <ListDrawerNav noNav onClick={handleExpand2}>
                 <ListItemIcon>
@@ -115,7 +115,7 @@ export default function AdminList({
                 )}
               </Collapse>
             </>
-          )} */}
+          )}
           
           {Object.keys(permissions.gedure).length !== 0 && (
             <ListDrawerNav to='/gedure/config'>

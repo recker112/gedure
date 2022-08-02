@@ -4,13 +4,12 @@ import React from 'react';
 import { Box, Button, Container, Grid } from '@mui/material';
 
 // Components
-import DialogConfirmation from '../../../components/DialogConfirmation';
+// import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
 
 // Redux
 import { useSelector } from 'react-redux';
 import Table from './Table';
-import { deletePost, setConfirmConfgsPUB } from '../../../store/slices/gedure/publicaciones/confirmDialogs';
 
 const classes = {
   container: {
@@ -45,7 +44,7 @@ export default function LotesDeudas() {
           </Grid>
         </Grid>
       </Container>
-      <DialogConfirmation
+      {/* <DialogConfirmation
         rdx1='gdPUBConfirm' 
         rdx2='delete'
         close={
@@ -56,7 +55,7 @@ export default function LotesDeudas() {
         }
       >
         {(data) => (<span>Está a punto de eliminar la noticia <strong>{data.title}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
-      </DialogConfirmation>
+      </DialogConfirmation> */}
     </Box>
   )
 }
