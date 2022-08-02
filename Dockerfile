@@ -21,3 +21,6 @@ RUN php -r "unlink('composer-setup.php');"
 
 ## Move composer to global use
 RUN mv ./composer.phar /usr/local/bin/composer
+
+## Add cron
+RUN echo "*       *       *       *       *       cd /app && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1" >> /etc/crontabs/root
