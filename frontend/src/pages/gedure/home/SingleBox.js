@@ -14,6 +14,7 @@ export default function SingleBox({
   loading,
   data,
   colorTPrimary,
+  textPrimaryFormat,
   textSecondary,
   extraInfo,
 }) {
@@ -47,7 +48,7 @@ export default function SingleBox({
           <Grid container justifyContent="center" item xs={12}>
             <Grid item xs={12}>
               <Typography variant="h5" sx={{ color: colorTPrimary }}>
-                {data.textPrimary}
+                {textPrimaryFormat(data.textPrimary)}
               </Typography>
             </Grid>
             <Grid item xs={12}>
