@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-## Instalación de dependencias
+## Instalación y actualización de dependencias
   init-client:
     working_dir: "/app"
     image: "node:16.16.0-alpine3.16"
@@ -13,7 +13,7 @@ services:
     command: npm install --legacy-peer-deps
   init-server:
     working_dir: "/app"
-    image: "php-gedure"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "init"
       - "init-server"
@@ -30,6 +30,25 @@ services:
         php artisan migrate --seed
         php artisan passport:install
         php artisan storage:link
+  update-server:
+    working_dir: "/app"
+    image: "php-gedure:1.0.0"
+    profiles: 
+      - "update"
+      - "update-server"
+    volumes:
+      - "./backend:/app"
+    command: composer update
+
+## Servidor de testing
+  test-server:
+    working_dir: "/app"
+    image: "php-gedure:1.0.0"
+    profiles: 
+      - "test-server"
+    volumes:
+      - "./backend:/app"
+    command: php artisan test --filter=${FILTER_TEST}
 
 
 ## Servidor de DB
@@ -59,7 +78,7 @@ services:
     command: npm start
   server:
     working_dir: "/app"
-    image: "php-gedure"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "server"
     volumes:
