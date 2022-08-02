@@ -27,7 +27,7 @@ class RecoveryPasswordControllerTest extends TestCase
 		
 		Mail::fake();
 		
-		$response = $this->postJson('/api/v1/auth-recovery/password', [
+		$response = $this->postJson('/api/v1/auth-recovery/send', [
 			'email' => $admin->email,
 		]);
 
