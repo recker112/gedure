@@ -82,7 +82,7 @@ export default function Noticia(props) {
         {url_imgs?.length && (
 					<RenderGalery imgs={url_imgs} />
 				)}
-        {auth && userRedux.privilegio && (
+        {auth && userRedux.privilegio === "A-" && (
 					<Typography variant='body2' align='right' className='text__opacity--semi' sx={{mt: 2}}>
             Noticia solo para usuarios: {only_users ? 'Si' : 'No'}
           </Typography>
