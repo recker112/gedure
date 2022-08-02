@@ -17,6 +17,7 @@ import TourHome from './TourHome';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInfoBox } from '../../../store/slices/requestStatus/async_trunk/home/getInfoBox';
 import { resetDataRequest } from '../../../store/slices/requestStatus';
+import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 
 const classes = {
   container: {
@@ -95,14 +96,16 @@ export default function Home() {
                 <SingleBox
                   title='Saldo en cuenta'
                   data={data.wallet}
-                  colorTPrimary={(data.wallet?.balance > 0 && 'success.main') || (data.wallet?.balance <= 0 && 'text.secondary')}
+                  textPrimaryFormat={ amount => parseFloatToMoneyString(amount) }
+                  colorTPrimary={(data.wallet?.textPrimary > 0 && 'success.main') || (data.wallet?.textPrimary <= 0 && 'text.secondary')}
                   loading={loading}
                   icon={<WalletIcon />}
                 />
                 <SingleBox
                   title='Tasa de cambio'
                   extraInfo={<Typography>Esta tasa de cambio está sincronizada con el <Link target='_blank' href='http://www.bcv.org.ve'>Banco Central de Venezuela (BCV)</Link>.</Typography>}
-                  data={data.exrate} 
+                  data={data.exrate}
+                  textPrimaryFormat={ amount => `$1 = ${parseFloatToMoneyString(amount)}` }
                   loading={loading}
                   icon={<CurrencyExchangeIcon />}
                 />
