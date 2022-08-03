@@ -21,6 +21,9 @@ use App\Models\WalletSystem\BankTransaction;
 use App\Models\WalletSystem\BankAccount;
 use App\Models\WalletSystem\Transaction;
 
+// Notifications
+use App\Jobs\WalletSystem\NotiftyBankTransactionCompleted;
+
 class BankTransactionController extends Controller
 {
 	public function index(TableRequest $request)
@@ -133,7 +136,9 @@ class BankTransactionController extends Controller
 	public function upload(BankAccount $bank_account, BankTransactionRequest $request) {
 		$file = $request->file('transactions');
 		
-		$result = (new BankTransactionImport($bank_account->id))->queue($file)->allOnQueue('high');
+		$result = (new BankTransactionImport($bank_account->id))->queue($file)->allOnQueue('high')->chain([
+			new NotiftyBankTransactionCompleted($request->user(), $bank_account)
+		]);
 		
 		$request->user()->logs()->create([
 			'action' => 'Carga de transacciones bancarias',

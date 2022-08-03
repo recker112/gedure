@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 // Components
 import Router from './Router';
+import useSockets from './hooks/useSockets';
 
 // MUI
 import { CssBaseline } from '@mui/material';
@@ -14,6 +15,7 @@ import { SnackbarProvider } from 'notistack';
 import { useSelector } from 'react-redux';
 
 export default function App() {
+  useSockets();
   const tema = useSelector(state => state.configs.tema);
 
 

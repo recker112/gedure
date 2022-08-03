@@ -64,7 +64,6 @@ class InfoBoxControllerTest extends TestCase
 				],
 				'wallet' => [
 					'textPrimary',
-					'balance',
 					'textSecondary'
 				],
 				'exrate' => [
@@ -94,7 +93,6 @@ class InfoBoxControllerTest extends TestCase
 				],
 				'wallet' => [
 					'textPrimary',
-					'balance',
 					'textSecondary'
 				],
 				'exrate' => [
