@@ -141,7 +141,7 @@ function PermissionsNoSuper(props){
 			nested: [
 				{
 					name: 'contact_destroy',
-					label: 'Eliminar solicitudes de contรกcto',
+					label: 'Eliminar solicitudes de contácto',
 				}
 			]
 		},

@@ -203,7 +203,7 @@ export default function ReactTableBase({
             )}
           </Toolbar>
           <TableContainer>
-            <Box overflow="auto">
+            <Box overflow="auto" minWidth={352}>
               <Table
                 sx={{ minWidth: 650 }}
                 aria-label="React Table"

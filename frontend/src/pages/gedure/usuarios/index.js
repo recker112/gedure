@@ -53,11 +53,28 @@ export default function Usuarios() {
           Usuarios
         </Box>
         <Grid container spacing={2}>
-          <Grid container justifyContent="flex-end" item xs={12}>
-            <Button disabled={!users_upload_matricula} variant="contained" data-tour="gdUser__upload"onClick={handleOpenUpload} sx={{ mr: 1 }}>
-              Cargar estudiantes
-            </Button>
-            <Button disabled={!users_create} variant="contained" data-tour="gdUser__create" onClick={handleOpenCreate}>Crear usuario</Button>
+          <Grid container spacing={1} justifyContent="flex-end" item xs={12}>
+            <Grid item>
+              <Button 
+                disabled={!users_upload_matricula} 
+                variant="contained" 
+                data-tour="gdUser__upload"
+                onClick={handleOpenUpload} 
+                sx={{mr: 1}}
+              >
+                Cargar estudiantes
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button 
+                disabled={!users_create} 
+                variant="contained" 
+                data-tour="gdUser__create" 
+                onClick={handleOpenCreate}
+              >
+                Crear usuario
+              </Button>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Table />
