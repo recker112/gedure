@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // Components
 import DrawerMenu from './DrawerMenu';
 import AvatarMenu from './AvatarMenu';
+import NotifyMenu from './NotifyMenu';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,9 +47,10 @@ export default function Auth() {
           </IconButton>
         </Tooltip>
       </Box>
+      <NotifyMenu />
       <ChangeTheme>
         <Tooltip title={temaText} arrow>
-          <IconButton color="inherit" data-tour="theme__button">
+          <IconButton sx={{mr: 1}} color="inherit" data-tour="theme__button">
             <WbIncandescentIcon />
           </IconButton>
         </Tooltip>

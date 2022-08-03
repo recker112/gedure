@@ -87,10 +87,31 @@ services:
       - "80:8000"
     depends_on:
       - mysql
+    command: php artisan serve --host=0.0.0.0
+  websockets:
+    working_dir: "/app"
+    image: "php-gedure:1.0.1"
+    profiles: 
+      - "server"
+    volumes:
+      - "./backend:/app"
+    ports:
+      - "6001:6001"
+    depends_on:
+      - mysql
+    command: php artisan websockets:serve
+  schedule:
+    working_dir: "/app"
+    image: "php-gedure:1.0.1"
+    profiles: 
+      - "server"
+    volumes:
+      - "./backend:/app"
+    depends_on:
+      - server
     command:
       - /bin/sh
       - -c
       - |
-        crond
         php artisan cache:clear
-        php artisan serve --host=0.0.0.0
+        php artisan schedule:work

@@ -51,13 +51,13 @@ export default function AvatarMenu() {
     open={Boolean(target)}
     data-tour="observable-parent"
     anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right',
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
    >
     <Box sx={{width: 200, padding: 2}}>
      <Grid container spacing={1}>
