@@ -8,9 +8,6 @@ import useSockets from './hooks/useSockets';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// SnackBar
-import { SnackbarProvider } from 'notistack';
-
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -45,18 +42,10 @@ export default function App() {
 	}), [tema]);
 
   return (
-    <SnackbarProvider
-      maxSnack={3}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left'
-      }}
-    >
-      <ThemeProvider theme={themeConfig}>
-        <CssBaseline />
-        <span id="top-anchor" />
-        <Router />
-      </ThemeProvider>
-    </SnackbarProvider>
+    <ThemeProvider theme={themeConfig}>
+      <CssBaseline />
+      <span id="top-anchor" />
+      <Router />
+    </ThemeProvider>
   );
 }

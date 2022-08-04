@@ -2,7 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
+// Components
 import App from './App';
+
+// SnackBar
+import { SnackbarProvider } from 'notistack';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -28,7 +32,15 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+      >
+        <App />
+      </SnackbarProvider>
     </BrowserRouter>
   </Provider>
 );

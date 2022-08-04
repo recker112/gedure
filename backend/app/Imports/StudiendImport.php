@@ -38,7 +38,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 	{
 		$curso = Curso::firstWhere('code',$this->sheetName);
 		
-		// Clear curso
+		// NOTA(RECKER): Limpiar curso
 		if ($curso) {
 			foreach($curso->alumnos as $alumno) {
 				$alumno->delete();
@@ -47,7 +47,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 		
 		foreach ($rows as $row) 
 		{
-			// Celdas
+			// NOTA(RECKER): Parse texto
 			$nombre = trim($row['nomalum']). ' ' . trim($row['apelalum']);
 			$nombre = ucwords(strtolower($nombre));
 			$cedula = trim($row['nced']);
@@ -72,7 +72,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 
 					$user->save();
 
-					// NOTA(RECKER): Enviar correo para usuarios sin email
+					// NOTA(RECKER): Enviar correo para usuarios sin email registrado con anterioridad
 					if ($oldEmail === null && $email !== null) {
 						$user->invitation()->create([
 							'invitation_key' => Str::random(40),

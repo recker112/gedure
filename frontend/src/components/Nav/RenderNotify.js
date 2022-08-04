@@ -36,7 +36,18 @@ function Notify({
     return (
       <Box>
         <Typography className='text__bold--semi'>{data.title}</Typography>
-        <Typography variant='body2' className='text__opacity--semi'>Un administrador te asignó manualmente una transacción la cual acredita {parseFloatToMoneyString(data.bank_transaction.amount)} a su cuenta.</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          Un administrador te asignó manualmente una transacción la cual acredita {parseFloatToMoneyString(data.bank_transaction.amount)} a su cuenta.
+        </Typography>
+      </Box>
+    )
+  }else if (typeParse === "StudiendsUploadCompleteNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          El sistema terminó de procesar el archivo excel con éxito, los estudiantes ya se encuentran completamente activos dentro del sistema.
+        </Typography>
       </Box>
     )
   }
