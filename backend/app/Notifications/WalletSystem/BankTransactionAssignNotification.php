@@ -8,22 +8,22 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
 // Models
-use App\Models\WalletSystem\BankAccount;
+use App\Models\WalletSystem\Transaction;
 
-class BankTransactionsProcessedNotification extends Notification
+class BankTransactionAssignNotification extends Notification
 {
     use Queueable;
 
-    public BankAccount $bank_account;
+    public Transaction $transaction;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(BankAccount $bank_account)
+    public function __construct(Transaction $transaction)
     {
-        $this->bank_account = $bank_account;
+        $this->transaction = $transaction;
     }
 
     /**
@@ -47,6 +47,7 @@ class BankTransactionsProcessedNotification extends Notification
     {
         return new BroadcastMessage([
             'count_notify' => $notifiable->unreadNotifications->count() + 1,
+            'balance' => $this->transaction->amount + $this->transaction->previous_balance,
         ]);
     }
 
@@ -59,11 +60,9 @@ class BankTransactionsProcessedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => '¡Transacciones bancarias cargadas!',
-            'bank_account' => [
-                'n_account' => $this->bank_account->n_account,
-                'name' => $this->bank_account->name,
-                'email' => $this->bank_account->email,
+            'title' => 'Transacción asiganda manualmente',
+            'bank_transaction' => [
+                'amount' => $this->transaction->amount,
             ],
         ];
     }

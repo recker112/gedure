@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // Components
 import { BadgeAlert } from '../BadgeAlert';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { parseToAccountString } from '../Utils/ParseString';
+import { parseFloatToMoneyString, parseToAccountString } from '../Utils/ParseString';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,13 @@ function Notify({
         <br/>- N° cuenta: {parseToAccountString(data.bank_account.n_account || 0)}
         <br/>- Nombre: {data.bank_account.name}
         <br/>- Correo: {data.bank_account.email}</Typography>
+      </Box>
+    )
+  }else if (typeParse === "BankTransactionAssignNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>Un administrador te asignó manualmente una transacción la cual acredita {parseFloatToMoneyString(data.bank_transaction.amount)} a su cuenta.</Typography>
       </Box>
     )
   }
