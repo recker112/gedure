@@ -41,5 +41,9 @@ class AuthServiceProvider extends ServiceProvider
 				return true;
 			}
 		});
+
+		Gate::define('viewWebSocketsDashboard', function ($user = null) {
+			return true;
+	});
 	}
 }
