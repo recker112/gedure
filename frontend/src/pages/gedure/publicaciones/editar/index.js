@@ -73,7 +73,7 @@ function EditarPost({ data: { title, content, slug, only_users } }) {
 		formData.append('delete_galery', submitData.delete_galery);
 		formData.append('_method', 'PUT');
 		submitData.portada?.[0] && formData.append('portada', submitData.portada[0]);
-		submitData.galery.forEach(img => {
+		submitData.galery?.length && submitData.galery.forEach(img => {
 			formData.append('galery[]', img);
 		});
 

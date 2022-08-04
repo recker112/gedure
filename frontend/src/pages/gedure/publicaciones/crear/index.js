@@ -61,7 +61,7 @@ export default function PUBLCrear() {
 		formData.append('content', submitData.markdown);
 		formData.append('only_users', submitData.only_users);
 		submitData.portada[0] && formData.append('portada', submitData.portada[0]);
-		submitData.galery.forEach(img => {
+		submitData.galery?.length && submitData.galery.forEach(img => {
 			formData.append('galery[]', img);
 		});
 
