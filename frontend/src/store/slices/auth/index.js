@@ -1,86 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { updateNotistack } from "../notistack";
-
-export const relogin = createAsyncThunk(
-  'auth/relogin',
-  async (data, { getState, signal, dispatch }) => {
-    // NOTA(RECKER): Configurar petición a realizar
-    const axios = window.axios;
-    let url = 'v1/auth/relogin';
-
-    // NOTA(RECKER): Enviar estado de la petición al notistack
-    try {
-      const res = await axios.get(url, {
-        signal, // NOTA(RECKER): Señal para cancelar petición
-        headers: {
-          Authorization: `Bearer ${data}`
-        }
-      });
-
-      //dispatch(updateNotistack({ status: res.status, variant: 'success' }));
-      res.data.access_key = data;
-
-      // NOTA(RECKER): Global token
-	    axios.defaults.headers.common['Authorization'] = `Bearer ${data}`;
-
-      return res.data;
-    } catch (error) {
-      if (axios.isCancel(error)) {
-        // NOTA(RECKER): No hacer nada al cancelar el AJAX
-      } else if (error.response) {
-        // NOTA(RECKER): Respuesta del servidor
-        const { data, status } = error.response;
-        dispatch(updateNotistack({ status: status, text: data.msg }));
-      } else {
-        // NOTA(RECKER): Sin respuesta por parte del servidor
-        dispatch(updateNotistack({ status: 'offline', }));
-      }
-      throw error;
-    }
-  }
-);
-
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async (drivers, { getState, signal, dispatch }) => {
-    // NOTA(RECKER): Configurar petición a realizar
-    const axios = window.axios;
-    
-    let url;
-    if (drivers === 'all') {
-      url = 'v1/auth/logout/all';
-    }else {
-      url = 'v1/auth/logout';
-    }
-
-    // NOTA(RECKER): Enviar estado de la petición al notistack
-    try {
-      const res = await axios.get(url, {
-        signal, // NOTA(RECKER): Señal para cancelar petición
-      });
-
-      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'info' }));
-
-      return res.data;
-    } catch (error) {
-      if (axios.isCancel(error)) {
-        // NOTA(RECKER): No hacer nada al cancelar el AJAX
-      } else if (error.response) {
-        // NOTA(RECKER): Respuesta del servidor
-        const { data, status } = error.response;
-        dispatch(updateNotistack({ status: status, text: data.msg }));
-      } else {
-        // NOTA(RECKER): Sin respuesta por parte del servidor
-        dispatch(updateNotistack({ status: 'offline', }));
-      }
-      throw error;
-    }
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { getNotify } from "./getNotifys";
+import { logout } from "./logout";
+import { relogin } from "./relogin";
 
 const initialState = {
   auth: false,
   relogin: true,
+  notify: {
+    count: 0,
+    loading: true,
+    finish: false,
+    data: [],
+  },
   access_key: '',
   user: {
     alumno: {
@@ -108,10 +39,23 @@ export const AuthsSlices = createSlice({
       state.relogin = action.payload;
     },
     updateUserData: (state, action) => {
-      const { user, permissions, access_key } = action.payload;
+      const { user, permissions, access_key, count_notify } = action.payload;
       state.user = user;
+      count_notify && (state.notify.count = count_notify);
       permissions && (state.permissions = {...initialState.permissions,...permissions});
       access_key && (state.access_key = access_key);
+    },
+    countNotify: (state, action) => {
+      const count = action.payload;
+      state.notify.count = count;
+    },
+    resetNotify: (state, action) => {
+      state.notify = {...initialState.notify};
+    },
+    updateWallet: (state, action) => {
+      const balance = action.payload;
+      
+      state.user.wallet.balance = balance;
     },
     logoutApp: () => {
       sessionStorage.removeItem('gd-access_key');
@@ -126,12 +70,13 @@ export const AuthsSlices = createSlice({
 			localStorage.removeItem('gd-access_key');
     },
     [relogin.fulfilled]: (state, action) => {
-      const { user, permissions, access_key } = action.payload;
+      const { user, permissions, access_key, count_notify } = action.payload;
       state.auth = true;
       state.relogin = false;
       state.access_key = access_key;
       state.user = user;
       state.permissions = {...initialState.permissions,...permissions};
+      state.notify.count = count_notify;
     },
     [logout.rejected]: () => {
       sessionStorage.removeItem('gd-access_key');
@@ -142,10 +87,27 @@ export const AuthsSlices = createSlice({
       sessionStorage.removeItem('gd-access_key');
 			localStorage.removeItem('gd-access_key');
       return {...initialState, relogin: false};
-    }
+    },
+    [getNotify.fulfilled]: (state, action) => {
+      const { data, finish } = action.payload;
+
+      state.notify.loading = false;
+      state.notify.data = [...state.notify.data, ...data];
+      state.notify.finish = finish;
+      state.notify.count = 0;
+    },
+    [getNotify.pending]: (state, action) => {
+      const arg = action.meta.arg;
+      
+      state.notify.loading = arg?.type === 'more' ? false : true;
+    },
+    [getNotify.rejected]: (state, action) => {
+      state.notify.loading = false;
+      state.notify.data = [];
+    },
   }
 });
 
 export default AuthsSlices.reducer;
 
-export const { updateAuth, updateUserData, updateRelogin, logoutApp } = AuthsSlices.actions;
+export const { updateAuth, updateUserData, updateRelogin, logoutApp, countNotify, updateWallet, resetNotify } = AuthsSlices.actions;
