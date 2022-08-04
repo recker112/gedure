@@ -79,7 +79,6 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      console.log(loading);
       promise = dispatch(getUsersDisabled());
     }
 
