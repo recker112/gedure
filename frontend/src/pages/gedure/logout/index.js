@@ -8,7 +8,7 @@ import { Box, CircularProgress, Container, Grid, Typography } from '@mui/materia
 
 // Redux
 import { useDispatch } from 'react-redux';
-import { logout } from '../../../store/slices/auth';
+import { logout } from "../../../store/slices/auth/logout";
 
 const classes = {
  container: {

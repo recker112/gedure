@@ -5,7 +5,8 @@ import Loader from "./Loader";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { relogin, updateRelogin } from "../../store/slices/auth";
+import { updateRelogin } from "../../store/slices/auth";
+import { relogin } from "../../store/slices/auth/relogin";
 
 export default function Relogin({ children }) {
   const loading = useSelector(state => state.auth.relogin);
