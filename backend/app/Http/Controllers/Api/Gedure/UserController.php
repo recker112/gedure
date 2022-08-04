@@ -27,6 +27,9 @@ use App\Models\Gedure\Curso;
 use App\Models\Gedure\PersonalDataAdmin;
 use App\Models\Gedure\PersonalDataUser;
 
+// Notifications
+use App\Jobs\Gedure\NotiftyUploadStudiendsCompleted;
+
 class UserController extends Controller
 {
   public function index(TableRequest $request)
@@ -540,7 +543,9 @@ class UserController extends Controller
 	{
 		$file = $request->file('database');
 		
-		$result = (new StudiendImport)->queue($file)->allOnQueue('high');
+		$result = (new StudiendImport)->queue($file)->allOnQueue('high')->chain([
+			new NotiftyUploadStudiendsCompleted($request->user())
+		]);
 		
 		$request->user()->logs()->create([
 			'action' => 'Carga de matricula',

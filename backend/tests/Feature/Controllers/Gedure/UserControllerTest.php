@@ -7,10 +7,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Mail;
+
 // Passport
 use Laravel\Passport\Passport;
+
 // Models
 use App\Models\User;
 use App\Models\Gedure\Alumno;
@@ -504,6 +507,7 @@ class UserControllerTest extends TestCase
 		]);
 
 		Mail::fake();
+		Notification::fake();
 		
 		Storage::fake('local');
 		
@@ -513,6 +517,8 @@ class UserControllerTest extends TestCase
 		$response = $this->postJson('/api/v1/user/matricula', [
 			'database' => $fileUpload,
 		]);
+
+		Notification::assertCount(1);
 
 		$response->assertStatus(200)
 			->assertJsonStructure([

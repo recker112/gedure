@@ -40,14 +40,12 @@ export default function useSockets() {
       window.Pusher=require('pusher-js');
 
       window.Echo = new Echo(config);
-      console.log('Conectado');
     }
 
     connect();
 
     return () => {
       if (typeof window?.Echo !== 'undefined') {
-        console.log('Desconectado')
         window.Echo.disconnect();
         window.Echo = undefined;
       } 
