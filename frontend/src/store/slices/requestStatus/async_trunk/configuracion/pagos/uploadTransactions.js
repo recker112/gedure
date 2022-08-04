@@ -26,7 +26,7 @@ export const uploadTransactionsRequest = createAsyncThunk(
 				onUploadProgress: onUploadProgress,
       });
 
-      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'success' }));
+      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'info' }));
 
       return res.data;
     } catch (error) {

@@ -7,11 +7,28 @@ import Echo from 'laravel-echo';
 import { useSelector } from "react-redux";
 
 export default function useSockets() {
-  const { access_key, auth, id } = useSelector((state) => ({
+  const { access_key, auth } = useSelector((state) => ({
     access_key: state.auth.access_key,
     auth: state.auth.auth,
-    id: state.auth.user.id,
   }));
+
+  const config = {
+    broadcaster: 'pusher',
+    key: 'LAC4ANDE47',
+    authEndpoint : process.env.NODE_ENV !== 'production' ? 'http://localhost/broadcasting/auth' : '/broadcasting/auth',
+    auth:{
+      headers: {
+        Authorization: `Bearer ${access_key}`
+      },
+    },
+    wsHost: process.env.NODE_ENV !== 'production' ? 'localhost' : window.location.hostname,
+    wsPort: 6001,
+    wssport: 6001,
+    transports: ['websocket'],
+    enabledTransports: ['ws', 'wss'],
+    forceTLS: false,
+    disableStats: true
+  };
 
   useEffect(() => {
     const connect = async () => {
@@ -22,29 +39,7 @@ export default function useSockets() {
       // Echo
       window.Pusher=require('pusher-js');
 
-      window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: 'LAC4ANDE47',
-        authEndpoint : 'http://localhost/broadcasting/auth',
-        auth:{
-          headers: {
-            Authorization: `Bearer ${access_key}`
-          },
-        },
-        wsHost: 'localhost',
-        wsPort: 6001,
-        wssport: 6001,
-        transports: ['websocket'],
-        enabledTransports: ['ws', 'wss'],
-        forceTLS: false,
-        disableStats: true
-      });
-
-      // NOTA(RECKER): Escuchar canal privado de notificaciones
-      window.Echo.private(`App.Models.User.${id}`).notification(notify => {
-        console.log(notify.title, notify);
-      })
-
+      window.Echo = new Echo(config);
       console.log('Conectado');
     }
 
