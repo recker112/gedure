@@ -1,5 +1,6 @@
 @import 'home';
 @import 'VisorImgReact';
+@import 'animations';
 
 #root {
 	display: flex;
@@ -67,14 +68,4 @@
 .loading__img {
 	width: 150px;
 	animation: logo_loading 0.7s infinite alternate;
-}
-
-@keyframes logo_loading {
-	0% {
-		opacity: 0.9;
-	}
-	
-	100% {
-		opacity: 0.4;
-	}
 }
