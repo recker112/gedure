@@ -4,8 +4,7 @@ namespace App\Notifications\WalletSystem;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 // Models
 use App\Models\WalletSystem\BankAccount;
@@ -41,9 +40,22 @@ class BankTransactionsProcessedNotification extends Notification
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'count_notify' => $notifiable->unreadNotifications->count() + 1,
+        ]);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'title' => '¡Transacciones bancarias cargadas!',
@@ -52,7 +64,6 @@ class BankTransactionsProcessedNotification extends Notification
                 'name' => $this->bank_account->name,
                 'email' => $this->bank_account->email,
             ],
-            'count_notify' => $notifiable->unreadNotifications->count() + 1,
         ];
     }
 }

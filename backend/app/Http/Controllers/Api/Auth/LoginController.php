@@ -76,6 +76,7 @@ class LoginController extends Controller
 			'access_key' => $tokenResult->accessToken,
 			'user' => $user->toArray(),
 			'permissions' => $permissions,
+			'count_notify' => $user->unreadNotifications->count(),
 		], 200);
 	}
 	
@@ -95,7 +96,8 @@ class LoginController extends Controller
 		
 		return response()->json([
 			'user' => $user->toArray(),
-			'permissions' => $permissions
+			'permissions' => $permissions,
+			'count_notify' => $user->unreadNotifications->count(),
 		], 200);
 	}
 	

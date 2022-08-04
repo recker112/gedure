@@ -38,11 +38,16 @@ class SocketsNotification extends Notification
         return ['broadcast', 'database'];
     }
 
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
     public function toArray($notifiable)
     {
         return [
-            'msg_type' => $this->title,
-            'msg_title' => 
+            'title' => $this->title,
             'content' => $this->content,
             'count_notify' => $notifiable->notifications->count() + 1,
         ];

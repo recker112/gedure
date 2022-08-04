@@ -24,8 +24,8 @@ export const login = createAsyncThunk(
 			}
 
       // NOTA(RECKER): Guardar datos de usuario
-      const { user, permissions, access_key } = res.data;
-      dispatch(updateUserData({ user, permissions, access_key }));
+      const { user, permissions, access_key, count_notify } = res.data;
+      dispatch(updateUserData({ user, permissions, access_key, count_notify }));
 
       // NOTA(RECKER): Actualizar auth
       dispatch(updateAuth(true));
