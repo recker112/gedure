@@ -88,6 +88,10 @@ export default function Filtrador() {
                         label: 'Gedure'
                       },
                       {
+                        value: 'transaction',
+                        label: 'Transacciones'
+                      },
+                      {
                         value: 'session',
                         label: 'Sesión'
                       },
