@@ -4,10 +4,11 @@ namespace Tests\Feature\Controllers\WalletSystem;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\File;
+use Tests\TestCase;
 
 // Excel
 use Maatwebsite\Excel\Facades\Excel;
@@ -99,6 +100,8 @@ class BankTransactionControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Notification::fake();
 		
 		$bank_account = BankAccount::factory()->create();
 		$bank_transaction = BankTransaction::factory()->create();
@@ -117,6 +120,8 @@ class BankTransactionControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+
+		Notification::assertCount(1);
 		
 		// Error 404
 		$response = $this->postJson("/api/v1/bank-transaction/99/assign");

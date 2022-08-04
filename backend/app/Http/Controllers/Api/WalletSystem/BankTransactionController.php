@@ -23,6 +23,7 @@ use App\Models\WalletSystem\Transaction;
 
 // Notifications
 use App\Jobs\WalletSystem\NotiftyBankTransactionCompleted;
+use App\Notifications\WalletSystem\BankTransactionAssignNotification;
 
 class BankTransactionController extends Controller
 {
@@ -121,6 +122,9 @@ class BankTransactionController extends Controller
 			'username' => $user->username,
 			'privilegio' => $user->privilegio,
 		];
+
+		// NOTA(RECKER): Notificar al usuario
+		$user->notify(new BankTransactionAssignNotification($transaction));
 
 		$request->user()->logs()->create([
 			'action' => 'Transacción bancaria asignada manualmente',
