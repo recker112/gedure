@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class SocketsNotification extends Notification
@@ -49,7 +48,7 @@ class SocketsNotification extends Notification
         return [
             'title' => $this->title,
             'content' => $this->content,
-            'count_notify' => $notifiable->notifications->count() + 1,
+            'count_notify' => $notifiable->unreadNotifications->count() + 1,
         ];
     }
 }

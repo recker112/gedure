@@ -138,10 +138,11 @@ class BankTransactionController extends Controller
 	}
 	
 	public function upload(BankAccount $bank_account, BankTransactionRequest $request) {
+		$user = User::find($request->user()->id);
 		$file = $request->file('transactions');
 		
-		$result = (new BankTransactionImport($bank_account->id))->queue($file)->allOnQueue('high')->chain([
-			new NotiftyBankTransactionCompleted($request->user(), $bank_account)
+		$result = (new BankTransactionImport($bank_account->id, $user))->queue($file)->allOnQueue('high')->chain([
+			new NotiftyBankTransactionCompleted($user, $bank_account)
 		]);
 		
 		$request->user()->logs()->create([

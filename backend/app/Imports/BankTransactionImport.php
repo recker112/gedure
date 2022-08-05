@@ -7,20 +7,29 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\ImportFailed;
 
 // Models
+use App\Models\User;
 use App\Models\WalletSystem\BankTransaction;
 use App\Models\WalletSystem\BankAccount;
 
-class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading
+// Notifications
+use App\Notifications\ImportFailedNotification;
+
+class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading,  WithEvents
 {
 	use Importable;
 	
-	protected $bank_id;
+	protected int $bank_id;
 
-	public function __construct($bank_id)
+	protected User $importedBy;
+
+	public function __construct(int $bank_id, User $importedBy)
 	{
 		$this->bank_id = $bank_id;
+		$this->importedBy = $importedBy;
 	}
 	
 	public function model(array $row)
@@ -80,4 +89,13 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	{
 		return 500;
 	}
+
+	public function registerEvents(): array
+    {
+			return [
+				ImportFailed::class => function(ImportFailed $event) {
+					$this->importedBy->notify(new ImportFailedNotification('¡Carga de transacciones bancarias fallida!', $event->getException()->getMessage()));
+				},
+			];
+    }
 }

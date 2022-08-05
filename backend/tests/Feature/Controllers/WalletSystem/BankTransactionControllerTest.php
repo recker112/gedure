@@ -37,6 +37,7 @@ class BankTransactionControllerTest extends TestCase
 		);
 		
 		Storage::fake('local');
+		Notification::fake();
 		
 		$bank_account = BankAccount::factory()->create();
 		$id = $bank_account->id;
@@ -47,11 +48,43 @@ class BankTransactionControllerTest extends TestCase
 		$response = $this->postJson("/api/v1/bank-account/$id/transaction", [
 			'transactions' => $fileUpload
 		]);
+
+		Notification::assertCount(1);
 		
 		$response->assertOk()
 			->assertJsonStructure([
 				'msg',
 			]);
+	}
+
+	public function testUploadTransactionFailed()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		Notification::fake();
+		
+		$bank_account = BankAccount::factory()->create();
+		$id = $bank_account->id;
+		
+		$file = new File(base_path('tests/files_required/data_studiends.xlsx'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson("/api/v1/bank-account/$id/transaction", [
+			'transactions' => $fileUpload
+		]);
+
+		Notification::assertCount(1);
+		
+		$response->assertStatus(500)
+			->assertJsonStructure([
+				'message',
+			])
+			->assertJsonPath('message', 'Undefined array key "concepto"');
 	}
 	
 	public function testIndexTransaction()
@@ -92,6 +125,8 @@ class BankTransactionControllerTest extends TestCase
 				'totalRows' => 10
 			]);
 	}
+
+	
 	
 	public function testAssign()
 	{

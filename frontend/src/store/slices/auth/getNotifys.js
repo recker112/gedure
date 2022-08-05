@@ -20,7 +20,6 @@ export const getNotify = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      console.log(error);
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {

@@ -50,6 +50,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "ImportFailedNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          El sistema no pudo procesar el archivo, es posible que haya alguna falla en el formato del archivo excel.
+        </Typography>
+      </Box>
+    )
   }
 
   return null;
