@@ -45,7 +45,7 @@ services:
     working_dir: "/app"
     image: "php-gedure:1.0.1"
     profiles: 
-      - "test-server"
+      - "test"
     volumes:
       - "./backend:/app"
     command: php artisan test --filter=${FILTER_TEST}
@@ -109,9 +109,4 @@ services:
       - "./backend:/app"
     depends_on:
       - server
-    command:
-      - /bin/sh
-      - -c
-      - |
-        php artisan cache:clear
-        php artisan schedule:work
+    command: php artisan schedule:work
