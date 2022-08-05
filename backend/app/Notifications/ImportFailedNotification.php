@@ -8,22 +8,22 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class SocketsNotification extends Notification
+class ImportFailedNotification extends Notification
 {
     use Queueable;
-    
+
     public string $title;
-    public string $content;
+    public string $error;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $title, string $content)
+    public function __construct(string $title, string $error)
     {
         $this->title = $title;
-        $this->content = $content;
+        $this->error = $error;
     }
 
     /**
@@ -38,17 +38,29 @@ class SocketsNotification extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'count_notify' => $notifiable->unreadNotifications->count() + 1,
+        ]);
+    }
+
+    /**
+     * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'title' => $this->title,
-            'content' => $this->content,
-            'count_notify' => $notifiable->unreadNotifications->count() + 1,
+            'error' => $this->error,
         ];
     }
 }
