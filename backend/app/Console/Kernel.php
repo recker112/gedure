@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
 	protected $commands = [
 		Commands\Payments::class,
 		Commands\Exchanges::class,
+		Commands\FixDiskUrl::class,
 	];
 
 	/**
