@@ -31,12 +31,17 @@ const classes = {
 };
 
 export default function PUBLCrear() {
-  document.title = "Crear publicaciones - La Candelaria";
   const [preview, setPreview] = useState(false);
   useNotifier();
 
-  const loading = useSelector(state => state.requestStatus.createPost.loading);
+  const { loading, count_notify } = useSelector(state => ({
+    loading: state.requestStatus.createPost.loading,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Crear publicaciones - La Candelaria` : 'Crear publicaciones - La Candelaria';
 
   const navigate = useNavigate();
 

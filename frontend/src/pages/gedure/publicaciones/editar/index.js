@@ -36,9 +36,15 @@ function EditarPost({ data: { title, content, slug, only_users } }) {
   document.title = "Editar publicaciones - La Candelaria";
   const [preview, setPreview] = useState(false);
   useNotifier();
-
-  const loading = useSelector(state => state.requestStatus.editPost.loading);
+  
+  const { loading, count_notify } = useSelector(state => ({
+    loading: state.requestStatus.editPost.loading,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Editar publicaciones - La Candelaria` : 'Editar publicaciones - La Candelaria';
 
   let navigate = useNavigate();
 

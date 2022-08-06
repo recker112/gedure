@@ -30,12 +30,18 @@ const classes = {
 };
 
 export default function VerBoleta() {
-  document.title = 'Boletas - La Candelaria';
   const { id } = useParams();
   useNotifier();
 
-  const { loading, data } = useSelector(state => state.requestStatus.verBoletas);
+  const { loading, data, count_notify } = useSelector(state => ({
+    loading: state.requestStatus.verBoletas.loading,
+    data: state.requestStatus.verBoletas.data,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Boletas - La Candelaria` : 'Boletas - La Candelaria';
 
   let navigate = useNavigate();
 

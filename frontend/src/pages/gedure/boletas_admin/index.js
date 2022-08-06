@@ -23,11 +23,16 @@ const classes = {
 };
 
 export default function Boletas() {
-  document.title = 'Boletas - La Candelaria';
   useNotifier();
 
-  const { administrar: { boletas_upload } } = useSelector((state) => state.auth.permissions);
+  const { administrar: { boletas_upload }, count_notify } = useSelector((state) => ({
+    administrar: state.auth.permissions.administrar,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Boletas - La Candelaria` : 'Boletas - La Candelaria';
 
   const handleOpenUpload = () => {
     dispatch(setRequestStatus({select: 'uploadBoleta', open: true}));

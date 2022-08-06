@@ -52,14 +52,19 @@ function Header() {
 }
 
 export default function FAQ() {
-  document.title = 'Preguntas Frecuentes - La Candelaria';
   const [expand, setExpand] = useState(false);
+
+  const { count_notify, privilegio } = useSelector(state => ({
+    privilegio: state.auth.user.privilegio,
+    count_notify: state.auth.notify.count,
+  }));
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Preguntas Frecuentes - La Candelaria` : 'Preguntas Frecuentes - La Candelaria';
 
   const handleChange = panel => (event, isExpanded) => {
 		setExpand(isExpanded ? panel : false);
 	}
-  
-  const privilegio = useSelector(state => state.auth.user.privilegio);
 
   return (
     <Box component='main' sx={classes.container}>

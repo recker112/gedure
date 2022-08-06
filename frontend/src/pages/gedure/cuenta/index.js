@@ -27,10 +27,15 @@ const classes = {
 };
 
 export default function Cuenta() {
-  document.title = 'Cuenta - La Candelaria';
   useNotifier();
 
-  const user = useSelector(state => state.auth.user);
+  const { user, count_notify } = useSelector(state => ({
+    user: state.auth.user,
+    count_notify: state.auth.notify.count,
+  }));
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Cuenta - La Candelaria` : 'Cuenta - La Candelaria';
 
   return (
     <Box component='main' sx={classes.container}>

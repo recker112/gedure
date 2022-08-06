@@ -32,13 +32,16 @@ export default function Show() {
     messageTo404: false,
   });
 
-  const { news: { loading, data }, auth } = useSelector(state => ({
+  const { news: { loading, data }, auth, count_notify } = useSelector(state => ({
     news: state.requestStatus.newsShow,
     auth: state.auth.auth,
+    count_notify: state.auth.notify.count,
   }));
   
   const dispatch = useDispatch();
-  document.title = data.title ? `${data.title} - La Candelaria` : `La Candelaria`;
+  // NOTA(RECKER): Title
+  document.title = data.title ? `${data.title} - La Candelaria` : ` - La Candelaria`;
+  document.title = count_notify > 0 ? `(${count_notify}) ${document.title}` : document.title;
 
   const navigate = useNavigate();
 
