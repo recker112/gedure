@@ -41,21 +41,12 @@ function Notify({
         </Typography>
       </Box>
     )
-  }else if (typeParse === "StudiendsUploadCompleteNotification") {
+  }else if (typeParse === "StudiendsUploadCompletedNotification") {
     return (
       <Box>
         <Typography className='text__bold--semi'>{data.title}</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
-          El sistema terminó de procesar el archivo excel con éxito, los estudiantes ya se encuentran completamente activos dentro del sistema.
-        </Typography>
-      </Box>
-    )
-  }else if (typeParse === "ImportFailedNotification") {
-    return (
-      <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
-        <Typography variant='body2' className='text__opacity--semi'>
-          El sistema no pudo procesar el archivo, es posible que haya alguna falla en el formato del archivo excel.
+          El sistema terminó de procesar el archivo excel, dando como resultado el nuevo ingreso de {data.inserts} estudiante(s), actualizando {data.updateds} estudiante(s), y no pudiendo cargar a {data.errors.length} estudiante(s).
         </Typography>
       </Box>
     )

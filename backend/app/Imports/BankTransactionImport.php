@@ -16,7 +16,7 @@ use App\Models\WalletSystem\BankTransaction;
 use App\Models\WalletSystem\BankAccount;
 
 // Notifications
-use App\Notifications\ImportFailedNotification;
+use App\Notifications\SocketsNotification;
 
 class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading,  WithEvents
 {
@@ -98,7 +98,11 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
     {
 			return [
 				ImportFailed::class => function(ImportFailed $event) {
-					$this->importedBy->notify(new ImportFailedNotification('¡Carga de transacciones bancarias fallida!', $event->getException()->getMessage()));
+					$this->importedBy->notify(new SocketsNotification(
+						'Carga de transacciones bancarias fallida', 
+						'El sistema no pudo procesar el archivo, es posible que haya alguna falla en el formato del archivo excel.',
+						['error' => $event->getException()->getMessage()]
+					));
 				},
 			];
     }

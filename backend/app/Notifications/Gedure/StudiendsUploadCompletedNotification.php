@@ -1,29 +1,31 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Gedure;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Notifications\Notification;
 
-class ImportFailedNotification extends Notification
+class StudiendsUploadCompletedNotification extends Notification
 {
     use Queueable;
 
-    public string $title;
-    public string $error;
+    protected int $inserts = 0;
+	protected int $updateds = 0;
+	protected array $errors = [];
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $title, string $error)
+    public function __construct(int $inserts, int $updateds, array $errors)
     {
-        $this->title = $title;
-        $this->error = $error;
+        $this->inserts = $inserts;
+        $this->updateds = $updateds;
+        $this->errors = $errors;
     }
 
     /**
@@ -59,8 +61,10 @@ class ImportFailedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => $this->title,
-            'error' => $this->error,
+            'title' => 'Carga de estudiantes finalizada',
+            'inserts' => $this->inserts,
+            'updateds' => $this->updateds,
+            'errors' => $this->errors,
         ];
     }
 }

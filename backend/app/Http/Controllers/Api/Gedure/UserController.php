@@ -28,7 +28,7 @@ use App\Models\Gedure\PersonalDataAdmin;
 use App\Models\Gedure\PersonalDataUser;
 
 // Notifications
-use App\Jobs\Gedure\NotiftyUploadStudiendsCompleted;
+use App\Jobs\Gedure\UsersImportProcess;
 
 class UserController extends Controller
 {
@@ -541,16 +541,10 @@ class UserController extends Controller
 	
 	public function uploadMassiveStudiends(MatriculaRequest $request)
 	{
-		$file = $request->file('database');
-		
-		$result = (new StudiendImport)->queue($file)->allOnQueue('high')->chain([
-			new NotiftyUploadStudiendsCompleted($request->user())
-		]);
-		
-		$request->user()->logs()->create([
-			'action' => 'Carga de matricula',
-			'type' => 'gedure',
-		]);
+		$excelPath = $request->file('database')->store('upload_excels');
+		$user = User::find($request->user()->id);
+
+		UsersImportProcess::dispatch($user, $excelPath)->onQueue('high');
 		
 		return response()->json([
 			'msg' => 'Matricula en progreso',

@@ -250,6 +250,8 @@ class BoletaControllerTest extends TestCase
 		);
 		
 		$this->testBoletasUpload();
+
+		Notification::fake();
 		
 		$file = new File(base_path('tests/files_required/test_boleta_edit.pdf'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
@@ -257,6 +259,10 @@ class BoletaControllerTest extends TestCase
 		$response = $this->putJson('/api/v1/boleta/1', [
 			'boleta' => $fileUpload,
 		]);
+
+		Notification::assertSentTo(
+			[User::find(2)], SocketsNotification::class
+		);
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -320,6 +326,7 @@ class BoletaControllerTest extends TestCase
 		);
 		
 		Storage::fake('local');
+		Notification::fake();
 		
 		$this->testBoletasUpload();
 		
@@ -329,6 +336,10 @@ class BoletaControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+
+		Notification::assertSentTo(
+			[User::find(2)], SocketsNotification::class
+		);
 	}
 	
 	public function testDeleteBoletaMassive()
@@ -340,6 +351,7 @@ class BoletaControllerTest extends TestCase
 		);
 		
 		Storage::fake('local');
+		Notification::fake();
 		
 		$this->testBoletasUpload();
 		
@@ -351,5 +363,9 @@ class BoletaControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+		
+		Notification::assertSentTo(
+			[User::find(2)], SocketsNotification::class
+		);
 	}
 }
