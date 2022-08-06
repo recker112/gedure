@@ -147,11 +147,11 @@ class PostController extends Controller
 		// NOTA(RECKER): Cargar Portada
 		if (!empty($portada)) {
 			$path = $portada->storeAs(
-				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
+				"posts/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
 			);
 			
 			// NOTA(RECKER): Optimization img
-			$pathToResize = Storage::disk('posts')->path($path);
+			$pathToResize = Storage::disk('public')->path($path);
 			$img = Image::make($pathToResize);
 			$img->save($pathToResize);
 			
@@ -165,11 +165,11 @@ class PostController extends Controller
 			foreach($galery as $file) {
 				// NOTA(RECKER): Mover archivo
 				$path = $file->storeAs(
-					"$post->id", $file->getClientOriginalName(), 'posts'
+					"posts/$post->id", $file->getClientOriginalName(), 'public'
 				);
 				
 				// NOTA(RECKER): Optimization
-				$pathToResize = Storage::disk('posts')->path($path);
+				$pathToResize = Storage::disk('public')->path($path);
 				$img = Image::make($pathToResize);
 				$img->save($pathToResize);
 
@@ -221,16 +221,16 @@ class PostController extends Controller
 		
 		// NOTA(RECKER): Eliminar portada
 		if ($delete_portada) {
-			Storage::disk('posts')->delete($post->portada);
+			Storage::disk('public')->delete($post->portada);
 			$post->portada = null;
 		}
 		
 		// NOTA(RECKER): Eliminar galeria
 		if ($delete_galery) {
 			// NOTA(RECKER): Clear old files
-			$filesDelete = Storage::disk('posts')->files($post->id);
+			$filesDelete = Storage::disk('public')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
-			Storage::disk('posts')->delete($filesDelete);
+			Storage::disk('public')->delete($filesDelete);
 			$post->galery = null;
 		}
 		
@@ -238,13 +238,13 @@ class PostController extends Controller
 		if (!empty($portada) && !$delete_portada) {
 			// NOTA(RECKER): Clear files
 			$portaDelete = json_decode($post->portada) ? json_decode($post->portada) : [];
-			Storage::disk('posts')->delete($portaDelete);
+			Storage::disk('public')->delete($portaDelete);
 			$path = $portada->storeAs(
-				"$post->id", 'portada_'.$portada->getClientOriginalName(), 'posts'
+				"posts/$post->id", 'portada_'.$portada->getClientOriginalName(), 'public'
 			);
 			
 			// NOTA(RECKER): Optimization
-			$pathToResize = Storage::disk('posts')->path($path);
+			$pathToResize = Storage::disk('public')->path($path);
 			$img = Image::make($pathToResize);
 			$img->save($pathToResize);
 			
@@ -257,17 +257,17 @@ class PostController extends Controller
 			$i=0;
 			
 			// NOTA(RECKER): Clear old files excluding portada
-			$filesDelete = Storage::disk('posts')->files($post->id);
+			$filesDelete = Storage::disk('public')->files($post->id);
 			$filesDelete = array_diff($filesDelete, [json_decode($post->portada)]);
-			Storage::disk('posts')->delete($filesDelete);
+			Storage::disk('public')->delete($filesDelete);
 			foreach($galery as $file) {
 				// NOTA(RECKER): Mover archivo
 				$path = $file->storeAs(
-						"$post->id", $file->getClientOriginalName(), 'posts'
+						"posts/$post->id", $file->getClientOriginalName(), 'public'
 					);
 				
 				// NOTA(RECKER): Optimization
-				$pathToResize = Storage::disk('posts')->path($path);
+				$pathToResize = Storage::disk('public')->path($path);
 				$img = Image::make($pathToResize);
 				$img->save($pathToResize);
 

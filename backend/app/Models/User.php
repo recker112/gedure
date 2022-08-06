@@ -126,7 +126,7 @@ class User extends Authenticatable
 	{
 		$avatar = $this->attributes['avatar'];
 		if($avatar) {
-			$url = Storage::disk('user_avatars')->url($avatar);
+			$url = Storage::disk('public')->url($avatar);
 		}else {
 			$url = null;
 		}

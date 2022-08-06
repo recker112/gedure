@@ -258,7 +258,7 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Eliminar avatar
 		if ($delete_avatar && $user->avatarOriginal !== null) {
-			Storage::disk('user_avatars')->delete($user->avatarOriginal);
+			Storage::disk('public')->delete($user->avatarOriginal);
 			$user->avatar = null;
 			$user->save();
 		}
@@ -267,10 +267,10 @@ class UserController extends Controller
 		if ($avatar && !$delete_avatar) {
 			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
 			Storage::disk('public')->delete($rmAvatar);
-			$path = $avatar->store('', 'user_avatars');
+			$path = $avatar->store('avatars', 'public');
 			
 			// NOTA(RECKER): Resize img
-			$pathToResize = Storage::disk('user_avatars')->path($path);
+			$pathToResize = Storage::disk('public')->path($path);
 			$img = Image::make($pathToResize);
 			$img->resize(200, null, function ($constraint) {
 				$constraint->aspectRatio();
@@ -335,6 +335,7 @@ class UserController extends Controller
 		return response()->json([
 			'user' => $user->toArray(),
 			'permissions' => $this->formatPermissions($user),
+			'test' => $user->avatarOriginal,
 		],200);
 	}
 	
@@ -348,7 +349,7 @@ class UserController extends Controller
 		// NOTA(RECKER): Eliminar avatar
 		if ($delete_avatar && $user->privilegio !== 'V-' || $delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar')) {
 			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
-			Storage::disk('user_avatars')->delete($rmAvatar);
+			Storage::disk('public')->delete($rmAvatar);
 			$user->avatar = null;
 			$user->save();
 		}
@@ -356,11 +357,11 @@ class UserController extends Controller
 		// NOTA(RECKER): Actualizar avatar
 		if (($avatar && !$delete_avatar && $user->privilegio !== 'V-') || ($avatar && !$delete_avatar && $user->privilegio === 'V-' && $user->can('change_avatar'))) {
 			$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
-			Storage::disk('user_avatars')->delete($rmAvatar);
-			$path = $avatar->store('', 'user_avatars');
+			Storage::disk('public')->delete($rmAvatar);
+			$path = $avatar->store('avatars', 'public');
 			
 			// NOTA(RECKER): Rezise img
-			$pathToResize = Storage::disk('user_avatars')->path($path);
+			$pathToResize = Storage::disk('public')->path($path);
 			$img = Image::make($pathToResize);
 			$img->resize(200, null, function ($constraint) {
 				$constraint->aspectRatio();
