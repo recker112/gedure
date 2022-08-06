@@ -5,7 +5,7 @@ import { updateNotistack } from "../../../notistack";
 
 export const downloadBoleta = createAsyncThunk(
   'requestStatus/boletas/download',
-  async ({ id, curso, lapso }, { getState, signal, dispatch }) => {
+  async ({ id, curso, lapso, setLoading }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url = `v1/download/boleta/${id}`;
@@ -27,6 +27,8 @@ export const downloadBoleta = createAsyncThunk(
 
       downloadFiles(res.data, `Boleta_${curso.curso}-${curso.seccion}_${lapso}_lapso.pdf`);
 
+      setLoading(false);
+
       return true;
     } catch (error) {
       console.log(error);
@@ -46,14 +48,7 @@ export const downloadBoleta = createAsyncThunk(
 );
 
 export const reducersDownloadBoleta = {
-  [downloadBoleta.pending]: state => {
-    state.verBoletas.loadingDownload = true;
-  },
-  [downloadBoleta.rejected]: (state, action) => {
-    state.verBoletas.loadingDownload = false;
-  },
   [downloadBoleta.fulfilled]: (state, action) => {
-    state.verBoletas.loadingDownload = false;
     state.verBoletas.progress = 0;
   }
 }
