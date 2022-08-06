@@ -109,4 +109,9 @@ services:
       - "./backend:/app"
     depends_on:
       - server
-    command: php artisan schedule:work
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        php artisan cache:clear
+        php artisan schedule:work
