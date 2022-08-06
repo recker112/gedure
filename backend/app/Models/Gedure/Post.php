@@ -50,7 +50,7 @@ class Post extends Model
 	{
 		$portada = json_decode($this->attributes['portada']);
 		if($portada) {
-			$url = Storage::disk('posts')->url($portada);
+			$url = Storage::disk('public')->url($portada);
 		}else {
 			$url = null;
 		}
@@ -64,7 +64,7 @@ class Post extends Model
 			$urls = array();
 			$i = 0;
 			foreach($galery as $img) {
-				$urls[$i] = Storage::disk('posts')
+				$urls[$i] = Storage::disk('public')
 					->url($img);
 				$i++;
 			}
