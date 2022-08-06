@@ -209,7 +209,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::fake('user_avatars');
+		Storage::fake('local');
 
 		$curso = Curso::create([
 			'code' => '5-A',
@@ -287,7 +287,7 @@ class UserControllerTest extends TestCase
 			'padre_telefono' => 4269340569,
     ]);
 		
-		Storage::disk('user_avatars')->assertExists($avatar->hashName());
+		Storage::disk('public')->assertExists('avatars/'.$avatar->hashName());
 	}
 	
 	public function testEditUser()
@@ -298,7 +298,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::fake('user_avatars');
+		Storage::fake('local');
 		
 		$user = User::factory()->create([
 			'privilegio' => 'A-'
@@ -362,7 +362,7 @@ class UserControllerTest extends TestCase
 			'telefono' => 4269340569,
     ]);
 		
-		Storage::disk('user_avatars')->assertExists($avatar->hashName());
+		Storage::disk('public')->assertExists('avatars/'.$avatar->hashName());
 	}
 	
 	public function testErrorCedulaCreateStudiant()
@@ -753,8 +753,8 @@ class UserControllerTest extends TestCase
 	
 	public function testChangeAvatarUser()
 	{	
-		$this->withoutExceptionHandling();
-		Storage::fake('user_avatars');
+		//$this->withoutExceptionHandling();
+		Storage::fake('local');
 		
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
@@ -781,6 +781,6 @@ class UserControllerTest extends TestCase
 				]
 			]);
 		
-		Storage::disk('user_avatars')->assertExists($avatar->hashName());
+		Storage::disk('public')->assertExists('avatars/'.$avatar->hashName());
 	}
 }

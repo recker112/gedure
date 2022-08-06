@@ -421,7 +421,7 @@ class UserController extends Controller
 	public function delete(User $user, $massive = false)
 	{
 		$rmAvatar = $user->avatarOriginal ? $user->avatarOriginal : [];
-		Storage::disk('user_avatars')->delete($rmAvatar);
+		Storage::disk('public')->delete($rmAvatar);
 		$curso_id = $user->alumno;
 		$user->delete();
 		

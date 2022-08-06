@@ -310,7 +310,7 @@ class PostController extends Controller
 			], 403);
 		}
 		
-		Storage::disk('posts')->deleteDirectory($post->id);
+		Storage::disk('public')->deleteDirectory("posts/$post->id");
 		
 		// NOTA(RECKER): Log
 		$payload = [

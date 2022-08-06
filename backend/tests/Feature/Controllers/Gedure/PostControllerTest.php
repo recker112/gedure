@@ -191,7 +191,7 @@ class PostControllerTest extends TestCase
 			['admin']
 		);
 		
-		Storage::fake('posts');
+		Storage::fake('local');
 		
 		$portada = UploadedFile::fake()->image('Universidad.png');
 		
@@ -220,8 +220,8 @@ class PostControllerTest extends TestCase
 		
 		$postCreated = Post::firstWhere('slug', 'testing-tdd');
 		
-		Storage::disk('posts')->assertExists($postCreated->id.'/'.$files[0]->name);
-		Storage::disk('posts')->assertExists($postCreated->id.'/portada_'.$portada->name);
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/portada_'.$portada->name);
 	}
 	
 	public function testEditPost() {
@@ -260,7 +260,7 @@ class PostControllerTest extends TestCase
 			'title' => 'testing TDD'
 		]);
 		
-		Storage::fake('posts');
+		Storage::fake('local');
 		
 		$portada = UploadedFile::fake()->image('test4.jpg');
 		
@@ -285,8 +285,8 @@ class PostControllerTest extends TestCase
 		
 		$postCreated = Post::firstWhere('slug', 'testing-tdd');
 		
-		Storage::disk('posts')->assertExists($postCreated->id.'/'.$files[0]->name);
-		Storage::disk('posts')->assertExists($postCreated->id.'/portada_'.$portada->name);
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/'.$files[0]->name);
+		Storage::disk('public')->assertExists('posts/'.$postCreated->id.'/portada_'.$portada->name);
 	}
 	
 	public function testErrorEditPost() {
@@ -323,13 +323,13 @@ class PostControllerTest extends TestCase
 	}
 	
 	public function testDeletePost() {
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$user = Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
 		
-		Storage::fake('posts');
+		Storage::fake('local');
 		
 		$files = [
 			UploadedFile::fake()->image('test1.png'),
