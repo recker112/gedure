@@ -50,6 +50,7 @@ import { reducersGetUserInvitation } from "./async_trunk/invitacion/getUserInvit
 import { reducersAcceptInvitation } from "./async_trunk/invitacion/acceptInvitation";
 import { reducersDeleteMassiveBankAccount } from "./async_trunk/configuracion/pagos/deleteMassiveBankAccount";
 import { reducersDeleteMassiveBankTransaction } from "./async_trunk/configuracion/pagos/deleteMassiveBankTransaction";
+import { reducersReplaceBoleta } from "./async_trunk/boletas_admin/replaceBoleta";
 
 
 const initialState = {
@@ -345,6 +346,7 @@ export const requestStatusSlices = createSlice({
     ...reducersEditPost,
     ...reducersDeleteMassiveBoletas,
     ...reducersDeleteBoleta,
+    ...reducersReplaceBoleta,
     ...reducersGetBoletas,
     ...reducersGetBoletasUser,
     ...reducersDownloadBoletasUser,

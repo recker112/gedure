@@ -31,7 +31,7 @@ export const downloadBoleta = createAsyncThunk(
 
       return true;
     } catch (error) {
-      console.log(error);
+      setLoading(false);
       if (axios.isCancel(error)) {
         // NOTA(RECKER): No hacer nada al cancelar el AJAX
       } else if (error.response) {
