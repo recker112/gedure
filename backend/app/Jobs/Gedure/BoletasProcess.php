@@ -21,7 +21,7 @@ use App\Models\Gedure\Boleta;
 use App\Notifications\SocketsNotification;
 use App\Notifications\Gedure\ProcessBoletasCompletedNotification;
 
-class ProcessBoletas implements ShouldQueue
+class BoletasProcess implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     
@@ -52,6 +52,9 @@ class ProcessBoletas implements ShouldQueue
      */
     public function handle()
     {	
+        // NOTA(RECKER): Limpiar archivos
+		Storage::delete(Storage::files('unzipped/pdf'));
+
 		$unzipper = new Unzip();
 		$unzipper->extract(Storage::path($this->zipPath), Storage::path('unzipped/pdf'));
 		$files = Storage::allFiles('unzipped/pdf');
@@ -88,10 +91,11 @@ class ProcessBoletas implements ShouldQueue
                 // NOTA(RECKER): Verificar si la boleta está ya en el sistema
 				if ($boletaExist = Boleta::firstWhere('boleta', $filePath)) {
 					$boletaExist->boleta = $filePath;
+                    $boletaExist->updated_at = now();
                     $boletaExist->save();
 
                     // NOTA(RECKER): Verificar curso
-                    $title = '¡Boleta actualizada!';
+                    $title = 'Boleta actualizada';
                     $content = "";
                     $curso = strpos($boletaExist->curso->code, 'G');
 
@@ -110,7 +114,7 @@ class ProcessBoletas implements ShouldQueue
                     ]);
 
                     // NOTA(RECKER): Verificar curso
-                    $title = '¡Nueva boleta disponible!';
+                    $title = 'Nueva boleta disponible';
                     $content = "";
                     $curso = strpos($boleta->curso->code, 'G');
 
@@ -133,10 +137,10 @@ class ProcessBoletas implements ShouldQueue
 		}
 
         // NOTA(RECKER): Limpiar archivos
-		Storage::delete(Storage::files('unzipped'));
+		Storage::delete(Storage::allFiles('unzipped'));
 
         // NOTA(RECKER): Notificar a usuario
-        $this->uploadBy->notify(new ProcessBoletasCompletedNotification('¡Boletas procesadas correctamente!', $i, $u));
+        $this->uploadBy->notify(new ProcessBoletasCompletedNotification('Boletas procesadas correctamente', $i, $u));
 		
 		$payload = [
 			'boletas' => $i + $u,
@@ -151,6 +155,6 @@ class ProcessBoletas implements ShouldQueue
 
     public function failed(Throwable $exception)
     {
-        $this->uploadBy->notify(new SocketsNotification('¡Error al cargar boletas!', 'El sistema no ha podido terminar de procesar las boletas cargadas, es posible que alguna boleta esté corrupta.', ['error' => $exception->getMessage()]));
+        $this->uploadBy->notify(new SocketsNotification('Error al cargar boletas', 'El sistema no ha podido terminar de procesar las boletas cargadas, es posible que alguna boleta esté corrupta.', ['error' => $exception->getMessage()]));
     }
 }

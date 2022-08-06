@@ -8,10 +8,15 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Events\AfterImport;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 // Mails
 use App\Mail\Invitation as MailInvitation;
@@ -24,7 +29,10 @@ use App\Models\Gedure\PersonalDataUser;
 // Controllers
 use App\Http\Controllers\Api\Gedure\CursoController;
 
-class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithChunkReading, ShouldQueue
+// Notifications
+use App\Notifications\Gedure\StudiendsUploadCompletedNotification;
+
+class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsEmptyRows, WithValidation, SkipsOnFailure
 {
 	use Importable;
 
@@ -33,10 +41,14 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 	public $backoff = 0;
 	
 	// NOTA(RECKER): Vars
-	public $sheetName;
+	protected $sheetName = '';
+	protected User $importBy;
+	protected int $inserts = 0;
+	protected int $updateds = 0;
+	protected array $errors = [];
 	
-	public function __construct() {
-		$this->sheetName = '';
+	public function __construct(User $importBy) {
+		$this->importBy = $importBy;
 	}
 	
 	public function collection(Collection $rows)
@@ -49,7 +61,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 				$alumno->delete();
 			}
 		}
-		
+
 		foreach ($rows as $row) 
 		{
 			// NOTA(RECKER): Parse texto
@@ -99,7 +111,8 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 						if ($curso_old && $curso_old->curso_id !== $curso->id) {
 							CursoController::orderAlumnos($curso_old);
 						}
-					}	
+					}
+					$this->updateds++;
 				}
 			}else {
 				// NOTA(RECKER): Crear estudiante si existe el curso seleccionado
@@ -132,6 +145,8 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 						$message = (new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails');
 						Mail::to($user)->queue($message);
 					}
+
+					$this->inserts++;
 				}
 			}
 		}
@@ -141,10 +156,37 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 			CursoController::orderAlumnos($curso->id);
 		}
 	}
-	
-	public function chunkSize(): int
+
+	public function rules(): array
 	{
-		return 500;
+		return [
+			'nced' => [
+				'required',
+				'integer',
+			],
+			'nomalum' => [
+				'required',
+				'string',
+			],
+			'apelalum' => [
+				'required',
+				'string',
+			],
+		];
+	}
+
+	/**
+	 * @param Failure[] $failures
+	 */
+	public function onFailure(Failure ...$failures)
+	{
+		foreach($failures as $failure) {
+			$errors[] = [
+				'fila' => $failure->row(),
+				'errors' => $failure->errors(),
+			];
+		}
+		$this->errors = $errors;
 	}
 	
 	/**
@@ -155,6 +197,13 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithCh
 		return [
 			BeforeSheet::class => function(BeforeSheet $event) {
 				$this->sheetName = $event->getSheet()->getTitle();
+			},
+			AfterImport::class => function(AfterImport $event) {
+				$this->importBy->notify(new StudiendsUploadCompletedNotification(
+					$this->inserts,
+					$this->updateds,
+					$this->errors,
+				));
 			}
 		];
 	}

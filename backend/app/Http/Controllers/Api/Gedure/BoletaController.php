@@ -17,7 +17,10 @@ use App\Models\User;
 use App\Models\Gedure\Boleta;
 
 // Jobs
-use App\Jobs\Gedure\ProcessBoletas;
+use App\Jobs\Gedure\BoletasProcess;
+
+// Notifications
+use App\Notifications\SocketsNotification;
 
 class BoletaController extends Controller
 {
@@ -129,10 +132,24 @@ class BoletaController extends Controller
 		Storage::delete($boleta->boleta);
 		$path = $request->boleta->storeAs($filePath, $fileName);
 		
-		$boleta-> $path;
+		$boleta->boleta = $path;
 		$boleta->updated_at = now();
 		$boleta->save();
+
+		// NOTA(RECKER): Notificaciones
+		$userBoleta = $boleta->user;
+		$title = 'Boleta actualizada manualmente';
+		$content = "";
+		$curso = strpos($boleta->curso->code, 'G');
+
+		if ($curso === false) {
+			$content = "Un administrador actualizó tu boleta {$boleta->curso->curso} año {$boleta->curso->seccion} - {$boleta->lapso}° lapso";
+		}else {
+			$content = "Un administrador actualizó tu boleta {$boleta->curso->curso} grado {$boleta->curso->seccion} - {$boleta->lapso}° lapso";
+		}
+		$userBoleta->notify(new SocketsNotification($title, $content));
 		
+		// NOTA(RECKER): Logs
 		$payload = [
 			'username' => $boleta->user->username,
 			'name' => $boleta->user->name,
@@ -179,11 +196,11 @@ class BoletaController extends Controller
 		$user = User::find($request->user()->id);
 		$zip = $request->file('boletas');
 		$lapso = $request->lapso;
-
+		
 		// NOTA(RECKER): Cargar zip al servidor
 		$zipPath = Storage::putFile('unzipped', new File($zip));
-
-		ProcessBoletas::dispatch($user, $zipPath, $lapso)->onQueue('high');
+		
+		BoletasProcess::dispatch($user, $zipPath, $lapso)->onQueue('high');
 		
 		return response()->json([
 			'msg' => "Boletas en progreso",
@@ -209,6 +226,11 @@ class BoletaController extends Controller
 		if (!Storage::exists($filePath)) {
 			Storage::delete($filePath);
 		}
+
+		$boleta->user->notify(new SocketsNotification(
+			'Boleta eliminada manualmente',
+			"Un administrador borró tu boleta {$boleta_curso} año {$boleta_seccion} - {$boleta->lapso}° lapso"
+		));
 			
 		if (!$massive) {
 			$payload = [

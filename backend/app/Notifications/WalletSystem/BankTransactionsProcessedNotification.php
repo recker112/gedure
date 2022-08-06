@@ -59,7 +59,7 @@ class BankTransactionsProcessedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => '¡Transacciones bancarias cargadas!',
+            'title' => 'Transacciones bancarias cargadas',
             'bank_account' => [
                 'n_account' => $this->bank_account->n_account,
                 'name' => $this->bank_account->name,

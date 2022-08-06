@@ -8,27 +8,30 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 // Models
 use App\Models\User;
 
 // Notifications
-use App\Notifications\Gedure\StudiendsUploadCompleteNotification;
+use App\Imports\StudiendImport;
 
-class NotiftyUploadStudiendsCompleted implements ShouldQueue
+class UsersImportProcess implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public User $user;
+    protected User $user;
+    protected string $excelPath;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user, string $excelPath)
     {
         $this->user = $user;
+        $this->excelPath = $excelPath;
     }
 
     /**
@@ -38,6 +41,16 @@ class NotiftyUploadStudiendsCompleted implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->notify(new StudiendsUploadCompleteNotification());
+        // NOTA(RECKER): Procesar excel
+		(new StudiendImport($this->user))->import($this->excelPath);
+
+        // NOTA(RECKER): Eliminar archivo usado
+        Storage::delete($this->excelPath);
+
+        // NOTA(RECKER): crear logs
+        $this->user->logs()->create([
+			'action' => 'Carga de matricula',
+			'type' => 'gedure',
+		]);
     }
 }
