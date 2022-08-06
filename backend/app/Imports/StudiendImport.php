@@ -27,7 +27,12 @@ use App\Http\Controllers\Api\Gedure\CursoController;
 class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, WithChunkReading, ShouldQueue
 {
 	use Importable;
+
+	// NOTA(RECKER): Configuraciones del queue
+	public $tries = 2;
+	public $backoff = 0;
 	
+	// NOTA(RECKER): Vars
 	public $sheetName;
 	
 	public function __construct() {

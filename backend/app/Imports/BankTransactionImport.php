@@ -21,9 +21,13 @@ use App\Notifications\ImportFailedNotification;
 class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, WithChunkReading,  WithEvents
 {
 	use Importable;
-	
-	protected int $bank_id;
 
+	// NOTA(RECKER): Configuraciones del queue
+	public $tries = 2;
+	public $backoff = 0;
+	
+	// NOTA(RECKER): Vars
+	protected int $bank_id;
 	protected User $importedBy;
 
 	public function __construct(int $bank_id, User $importedBy)
