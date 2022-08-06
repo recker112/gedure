@@ -13,7 +13,7 @@ export const createPost = createAsyncThunk(
     const onUploadProgress = (progressEvent) => {
       let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
     
-      dispatch(setProgress(percentCompleted));
+      dispatch(setProgress({ select: 'editPost', percentCompleted}));
     };
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
