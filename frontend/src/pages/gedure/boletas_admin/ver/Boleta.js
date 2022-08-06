@@ -41,10 +41,10 @@ export default function Boleta({
   updated_at,
 }) {
   const [random] = useState(getRandomInt(listColors.length - 1));
+  const [loading, setLoading] = useState(false);
 
-  const { progress, loading } = useSelector(state => ({
+  const { progress } = useSelector(state => ({
     progress: state.requestStatus.verBoletas.progress,
-    loading: state.requestStatus.verBoletas.loadingDownload,
   }));
   const dispatch = useDispatch();
   
@@ -57,7 +57,8 @@ export default function Boleta({
 	}
 
   const handleDownload = () => {
-    dispatch(downloadBoleta({ id, curso, lapso }));
+    setLoading(true);
+    dispatch(downloadBoleta({ id, curso, lapso, setLoading }));
   }
 
   return (

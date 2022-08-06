@@ -183,7 +183,6 @@ const initialState = {
   verBoletas: {
     loading: true,
     data: [],
-    loadingDownload: false,
     progress: 0,
   },
   verBoletasUser: {
