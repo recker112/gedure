@@ -26,10 +26,15 @@ const classes = {
 };
 
 export default function Publicaciones() {
-  document.title = 'Publicaciones - La Candelaria';
   useNotifier();
 
-  const { administrar: { posts_create } } = useSelector((state) => state.auth.permissions);
+  const { administrar: { posts_create }, count_notify } = useSelector((state) => ({
+    administrar: state.auth.permissions.administrar,
+    count_notify: state.auth.notify.count,
+  }));
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Publicaciones - La Candelaria` : 'Publicaciones - La Candelaria';
 
   const navigate = useNavigate();
 

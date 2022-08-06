@@ -32,11 +32,16 @@ const classes = {
 };
 
 export default function Usuarios() {
-  document.title = 'Usuarios - La Candelaria';
   useNotifier();
-
-  const { users_upload_matricula, users_create } = useSelector(state => state.auth.permissions.administrar)
+  
+  const { permissions: { users_upload_matricula, users_create }, count_notify } = useSelector(state => ({
+    permissions: state.auth.permissions.administrar,
+    count_notify: state.auth.notify.count,
+  }))
   const dispatch = useDispatch();
+  
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Usuarios - La Candelaria` : 'Usuarios - La Candelaria';
 
   const handleOpenCreate = () => {
     dispatch(setRequestStatus({select: 'createUser', open: true}));

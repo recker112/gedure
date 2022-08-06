@@ -22,11 +22,17 @@ const classes = {
 };
 
 export default function Boletas() {
-  document.title = 'Boletas - La Candelaria';
   useNotifier();
 
-  const { loading, data } = useSelector(state => state.requestStatus.verBoletasUser);
+  const { loading, data, count_notify } = useSelector(state => ({
+    loading: state.requestStatus.verBoletasUser.loading,
+    data: state.requestStatus.verBoletasUser.data,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Boletas - La Candelaria` : 'Boletas - La Candelaria';
 
   const handleRefresh = () => {
     dispatch(getBoletasUser())

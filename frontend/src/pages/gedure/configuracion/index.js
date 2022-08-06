@@ -11,6 +11,9 @@ import NavTabs from './NavTabs';
 import useNotifier from '../../../hooks/useNotifier';
 import TourConfigs from './TourConfigs';
 
+// Redux
+import { useSelector } from 'react-redux';
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -53,8 +56,12 @@ function Header() {
 }
 
 export default function GDConfig() {
-  document.title = 'Configuración del sistema - La Candelaria';
   useNotifier();
+
+  const count_notify = useSelector(state => state.auth.notify.count);
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Configuración del sistema - La Candelaria` : 'Configuración del sistema - La Candelaria';
 
   return (
     <Box component='main' sx={classes.container}>

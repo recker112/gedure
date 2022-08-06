@@ -54,16 +54,19 @@ function Header() {
 }
 
 export default function Home() {
-  document.title = 'Gedure - La Candelaria';
   useNotifier({
     messageTo200: false,
   });
-
-  const { infoBox: { loading, data }, privilegio } = useSelector(state => ({
+  
+  const { infoBox: { loading, data }, privilegio, count_notify } = useSelector(state => ({
     infoBox: state.requestStatus.infoBox,
     privilegio: state.auth.user.privilegio,
+    count_notify: state.auth.notify.count,
   }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Gedure - La Candelaria` : 'Gedure - La Candelaria';
 
   useEffect(() => {
     let promise = null;

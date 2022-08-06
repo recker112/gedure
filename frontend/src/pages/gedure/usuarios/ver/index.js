@@ -29,14 +29,19 @@ const classes = {
 };
 
 export default function PageShowUser() {
-  document.title = 'Ver usuario - La Candelaria';
   const { id } = useParams();
   useNotifier({
     message404: 'Usuario no encontrado'
   });
 
-  const { userSelected, loading } = useSelector(state => state.requestStatus.userShow);
+  const { userShow: { userSelected, loading }, count_notify } = useSelector(state => ({
+    userShow: state.requestStatus.userShow,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Ver usuario - La Candelaria` : 'Ver usuario - La Candelaria';
 
   useEffect(() => {
     if (loading) {

@@ -36,17 +36,20 @@ const classes = {
 };
 
 export default function News() {
-  document.title = 'Noticias - La Candelaria';
   useNotifier();
 
   // NOTA(RECKER): RTK
-  const { news: { loading, data, error, hasFinish, search }, auth } = useSelector(
+  const { news: { loading, data, error, hasFinish, search }, auth, count_notify } = useSelector(
     (state) => ({
       news: state.requestStatus.newsPreview,
       auth: state.auth.auth,
+      count_notify: state.auth.notify.count,
     }),
   );
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Registros - La Candelaria` : 'Registros - La Candelaria';
 
   const { control, handleSubmit } = useForm();
 

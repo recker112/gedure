@@ -50,7 +50,9 @@ export const AuthsSlices = createSlice({
       state.notify.count = count;
     },
     resetNotify: (state, action) => {
-      state.notify = {...initialState.notify};
+      state.notify.data = [];
+      state.notify.finish = false;
+      state.notify.loading = true;
     },
     updateWallet: (state, action) => {
       const balance = action.payload;
@@ -89,12 +91,12 @@ export const AuthsSlices = createSlice({
       return {...initialState, relogin: false};
     },
     [getNotify.fulfilled]: (state, action) => {
-      const { data, finish } = action.payload;
+      const { data, finish, unreads } = action.payload;
 
       state.notify.loading = false;
       state.notify.data = [...state.notify.data, ...data];
       state.notify.finish = finish;
-      state.notify.count = 0;
+      state.notify.count = unreads;
     },
     [getNotify.pending]: (state, action) => {
       const arg = action.meta.arg;

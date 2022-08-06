@@ -20,7 +20,13 @@ const classes = {
 
 export default function Contact() {
   document.title = 'Contáctanos - La Candelaria';
-  const auth = useSelector(state => state.auth.auth);
+  const { auth, count_notify } = useSelector(state => ({
+    auth: state.auth.auth,
+    count_notify: state.auth.notify.count,
+  }));
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Contáctanos - La Candelaria` : 'Contáctanos - La Candelaria';
 
   return (
     <>

@@ -11,6 +11,7 @@ import TourSoliC from './TourSoliC';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 
 // Redux
+import { useSelector } from 'react-redux';
 import { setRequestStatus } from '../../../store/slices/requestStatus';
 import { deleteSoliContacto } from '../../../store/slices/requestStatus/async_trunk/soli_contacto/deleteSoliContacto';
 
@@ -25,6 +26,11 @@ const classes = {
 export default function SoliContacto() {
   document.title = 'Solicitudes de contacto - La Candelaria';
   useNotifier();
+
+  const count_notify = useSelector(state => state.auth.notify.count);
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Solicitudes de contacto - La Candelaria` : 'Solicitudes de contacto - La Candelaria';
 
   return (
     <Box component='main' sx={classes.container}>

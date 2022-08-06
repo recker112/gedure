@@ -29,18 +29,21 @@ const classes = {
 };
 
 export default function Registros() {
-  document.title = 'Registros - La Candelaria';
   useNotifier({
     messageTo200: false,
   });
 
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, count_notify } = useSelector(state => ({
     dataR: state.tables.registros.tableData.data,
     loading: state.tables.registros.tableData.loading,
     pageSize: state.tables.registros.tableData.pageSize,
     pageCount: state.tables.registros.tableData.pageCount,
+    count_notify: state.auth.notify.count,
   }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Registros - La Candelaria` : 'Registros - La Candelaria';
 
   const columns = useMemo(() => [
     {
