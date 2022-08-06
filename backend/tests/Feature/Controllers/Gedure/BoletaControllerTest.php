@@ -4,16 +4,24 @@ namespace Tests\Feature\Controllers\Gedure;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\File;
+use Tests\TestCase;
+
 // Passport
 use Laravel\Passport\Passport;
+
 // Models
 use App\Models\User;
 use App\Models\Gedure\Boleta;
 use App\Models\Gedure\Curso;
+use App\Models\Gedure\PersonalDataUser;
+
+// Notifications
+use App\Notifications\SocketsNotification;
+use App\Notifications\Gedure\ProcessBoletasCompletedNotification;
 
 class BoletaControllerTest extends TestCase
 {
@@ -23,6 +31,66 @@ class BoletaControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
+
+	public function testBoletasUploadWithMassiveStudiends()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		Notification::fake();
+		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
+		$users = User::factory(4)->create([
+			'privilegio' => 'V-',
+		]);
+
+		$i = 0;
+		foreach($users as $user) {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
+
+			$user->alumno()->create([
+				'curso_id' => $curso->id,
+				'n_lista' => 10,
+			]);
+
+			$user->username = "4000000$i";
+			$user->save();
+
+			$i++;
+		}
+		
+		$file = new File(base_path('tests/files_required/test_boleta_2.zip'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson('/api/v1/boleta', [
+			'boletas' => $fileUpload,
+			'lapso' => '1',
+		]);
+
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg',
+			]);
+
+		Notification::assertSentTo(
+				[User::find(1)], ProcessBoletasCompletedNotification::class
+		);
+
+		$this->assertDatabaseHas('boletas', [
+				'id' => 3,
+		]);
+	}
+
 	public function testBoletasUpload()
 	{
 		//$this->withoutExceptionHandling();
@@ -48,6 +116,7 @@ class BoletaControllerTest extends TestCase
 		]);
 		
 		Storage::fake('local');
+		Notification::fake();
 		
 		$file = new File(base_path('tests/files_required/test_boleta_1.zip'));
 		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
@@ -61,41 +130,18 @@ class BoletaControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg',
 			]);
+
+		Notification::assertSentTo(
+				[$user], SocketsNotification::class
+		);
 		
+		Notification::assertSentTo(
+				[User::find(1)], ProcessBoletasCompletedNotification::class
+		);
+
 		$this->assertDatabaseHas('boletas', [
         'id' => 1,
     ]);
-	}
-	
-	public function testBoletasUploadWithMassiveStudiends()
-	{
-		//$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::find(1),
-			['admin']
-		);
-		
-		Storage::fake('local');
-		
-		$file = new File(base_path('tests/files_required/data_studiends.xlsx'));
-		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
-		
-		$response = $this->postJson('/api/v1/user/matricula', [
-			'database' => $fileUpload,
-		]);
-		
-		$file = new File(base_path('tests/files_required/test_boleta_2.zip'));
-		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
-		
-		$response = $this->postJson('/api/v1/boleta', [
-			'boletas' => $fileUpload,
-			'lapso' => '1',
-		]);
-
-		$response->assertStatus(200)
-			->assertJsonStructure([
-				'msg',
-			]);
 	}
 	
 	public function testGetUsersWithBoletas()

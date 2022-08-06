@@ -26,7 +26,7 @@ export const uploadMatricula = createAsyncThunk(
 				onUploadProgress: onUploadProgress,
       });
 
-      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'success' }));
+      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: 'info' }));
 
       handleClose();
 

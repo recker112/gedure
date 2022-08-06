@@ -12,18 +12,20 @@ class SocketsNotification extends Notification
 {
     use Queueable;
     
-    public string $title;
-    public string $content;
+    protected string $title;
+    protected string $content;
+    protected array $payload;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $title, string $content)
+    public function __construct(string $title, string $content, array $payload = [])
     {
         $this->title = $title;
         $this->content = $content;
+        $this->payload = $payload;
     }
 
     /**
@@ -61,6 +63,7 @@ class SocketsNotification extends Notification
         return [
             'title' => $this->title,
             'content' => $this->content,
+            'payload' => $this->payload,
         ];
     }
 }

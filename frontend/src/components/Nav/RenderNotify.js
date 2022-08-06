@@ -59,6 +59,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "ProcessBoletasCompletedNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          El sistema terminó de procesar el archivo zip, ingresando {data.inserts} boleta(s) nueva(s) y actualizando {data.updateds} boleta(s).
+        </Typography>
+      </Box>
+    )
   }else if (typeParse === "SocketsNotification") {
     return (
       <Box>
