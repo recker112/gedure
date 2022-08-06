@@ -10,9 +10,6 @@ import { useFormContext } from 'react-hook-form';
 
 export default function DropAreaGalery() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: {
-      'image/jpeg': ['.jpg', '.jpeg', '.png'],
-    },
     onDrop: acceptedFiles => acceptedFiles.map(file => Object.assign(file, {
       preview: URL.createObjectURL(file)
     }))
@@ -40,7 +37,7 @@ export default function DropAreaGalery() {
           src={file.preview}
           style={{
             display: 'block',
-            width: 'auto',
+            width: '100%',
             height: '100%'
           }}
           alt={`preview-${i}`}
@@ -67,7 +64,7 @@ export default function DropAreaGalery() {
   return (
     <section>
       <div style={{border: 'dashed', borderRadius: '4px', borderColor: 'rgba(255, 255, 255, 0.12)', minHeight: 150}} {...getRootProps({className: 'dropzone'})}>
-        <input {...getInputProps()} {...register('galery')} />
+        <input {...getInputProps()} {...register('galery')} id='test' />
         <Box mt={2} textAlign='center'>
           <Typography variant='h5'>
             Galería de imágenes, arrastre o de click para cargar imágenes
