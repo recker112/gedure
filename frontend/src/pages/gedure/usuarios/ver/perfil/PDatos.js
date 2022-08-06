@@ -79,7 +79,7 @@ export function PDatosForm({ control, loading, handleSubmit, userField = true, n
           name='email'
           label='Correo electónico'
           helperText='Este correo será usado en distintas partes del sistema para una comunicación directa con el usuario'
-          defaultValue={user.email}
+          defaultValue={user.email || ''}
           variant='outlined'
           size='small'
           fullWidth
