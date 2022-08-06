@@ -15,13 +15,13 @@ export default function useSockets() {
   const config = {
     broadcaster: 'pusher',
     key: 'LAC4ANDE47',
-    authEndpoint : process.env.NODE_ENV !== 'production' ? 'http://localhost/broadcasting/auth' : '/broadcasting/auth',
+    authEndpoint : `${window.location.protocol}//${window.location.hostname}/broadcasting/auth`,
     auth:{
       headers: {
         Authorization: `Bearer ${access_key}`
       },
     },
-    wsHost: process.env.NODE_ENV !== 'production' ? 'localhost' : window.location.hostname,
+    wsHost: window.location.hostname,
     wsPort: 6001,
     wssport: 6001,
     transports: ['websocket'],
