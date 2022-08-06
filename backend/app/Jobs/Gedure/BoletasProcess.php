@@ -71,16 +71,22 @@ class BoletasProcess implements ShouldQueue
             $text = str_replace(" ", "", $text);
 			
 			// NOTA(RECKER): Obtener cédulas existentes en el PDF
-			$reg = '/[0-9]{8,}/';
+			$reg = '/\d{11}|\d{10}|\d{8}/';
 			$is_match = preg_match($reg, $text, $usersPDF);
 			$userExist = null;
+            if($file === 'unzipped/pdf/Boleta_3-A_3_lapso.pdf') {
+                dd($usersPDF);
+            }
 
             // NOTA(RECKER): Revisar que alguna cédula esté registrada en el sistema y sea un alumno.
             $s = 0;
-            while(!$userExist) {
+            foreach($usersPDF as $user) {
                 $userExist = User::has('alumno')
                 ->firstWhere('username', $usersPDF[$s]);
-                $s++;
+
+                if ($userExist) {
+                    break 1;
+                }
             }
 
 			// NOTA(RECKER): Mover PDF
