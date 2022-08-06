@@ -59,6 +59,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "SocketsNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          {data.content}
+        </Typography>
+      </Box>
+    )
   }
 
   return null;
@@ -81,6 +90,8 @@ export default function RenderNotify({
       promise.abort();
       dispatch(resetNotify());
     }
+
+    // eslint-disable-next-line
   },[])
 
   return (
