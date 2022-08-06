@@ -28,8 +28,16 @@ class NotificationController extends Controller
             ]);
     
     
-        // NOTA(RECKER): Marcar todas las notificaciones como vistas
-        $user->unreadNotifications()->update(['read_at' => now()]);
+        // NOTA(RECKER): Marcar notificaciones vistas
+        $unreads = $user->notifications()
+            ->offset($offset)
+            ->limit($limit)->get();
+        foreach($unreads as $unread) {
+            if ($unread->read_at === null) {
+                $unread->read_at = now();
+                $unread->save();
+            }
+        }
 
         // NOTA(RECKER): Obtener total de registros
         $countTotal = $user->notifications->count();
@@ -44,6 +52,7 @@ class NotificationController extends Controller
         return response()->json([
             'data' => $notifys->toArray(),
 			'finish' => $finish,
+            'unreads' => $user->unreadNotifications->count(),
         ], 200);
     }
 }
