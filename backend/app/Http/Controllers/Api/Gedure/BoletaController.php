@@ -9,12 +9,15 @@ use App\Http\Requests\BoletaRequest;
 use App\Http\Requests\BoletaEditRequest;
 use App\Http\Requests\MassiveBoletaRequest;
 use App\Http\Requests\TableRequest;
-use Smalot\PdfParser\Parser;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
-use VIPSoft\Unzip\Unzip;
+
 //Models
 use App\Models\User;
 use App\Models\Gedure\Boleta;
+
+// Jobs
+use App\Jobs\Gedure\ProcessBoletas;
 
 class BoletaController extends Controller
 {
@@ -173,69 +176,17 @@ class BoletaController extends Controller
 	
   public function upload(BoletaRequest $request)
 	{
+		$user = User::find($request->user()->id);
 		$zip = $request->file('boletas');
 		$lapso = $request->lapso;
-		
-		// Limpiar archivos
-		$clear = Storage::files('unzipped');
-		Storage::delete($clear);
-		
-		$unzipper = new Unzip();
-		$unzipper->extract($zip->getPathName(), Storage::path('unzipped/'));
-		$files = Storage::allFiles('unzipped');
-		
-		$i = 0;
-		foreach($files as $file) {
-			// NOTA(RECKER): Traducir PDF a texto
-			$parser = new Parser();
-			$pdf = $parser->parseFile(Storage::path($file));
-			$text = $pdf->getText();
-			$text = str_replace("\t", "", $text);
-			
-			// NOTA(RECKER): Buscar cedula
-			$userExist = null;
-			$reg = '/[0-9]{8,}/';
-			$is_match = preg_match($reg, $text, $user);
-			if ($is_match) {
-				$user = $user[0];
-				$userExist = User::has('alumno')
-				->firstWhere('username', $user);
-			}
 
-			// NOTA(RECKER): Mover archivo
-			if ($userExist) {
-				$filePath = "users/$userExist->id/boletas/{$userExist->alumno->curso->code}/lapso_{$lapso}_{$userExist->alumno->curso->code}.pdf";
-				
-				if (Storage::exists($filePath)) {
-					Storage::delete($filePath);
-				}
-				
-				if ($boletaExist = Boleta::where('boleta', $filePath)) {
-					$boletaExist->forceDelete();
-				}
-				
-				Storage::move($file, $filePath);
-				$userExist->boletas()->create([
-					'boleta' => $filePath,
-					'lapso' => $lapso,
-					'curso_id' => $userExist->alumno->curso_id
-				]);
-				$i++;
-			}
-		}
-		
-		$payload = [
-			'boletas' => $i,
-		];
+		// NOTA(RECKER): Cargar zip al servidor
+		$zipPath = Storage::putFile('unzipped', new File($zip));
 
-		$request->user()->logs()->create([
-			'action' => "Boletas cargadas",
-			'payload' => $payload,
-			'type' => 'gedure'
-		]);
+		ProcessBoletas::dispatch($user, $zipPath, $lapso)->onQueue('high');
 		
 		return response()->json([
-			'msg' => "$i boletas asignadas",
+			'msg' => "Boletas en progreso",
 		],200);
 	}
 	

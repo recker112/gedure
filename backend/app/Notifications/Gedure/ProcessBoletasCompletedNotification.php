@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Gedure;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,24 +8,24 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class SocketsNotification extends Notification
+class ProcessBoletasCompletedNotification extends Notification
 {
     use Queueable;
-    
+
     protected string $title;
-    protected string $content;
-    protected array $payload;
+    protected int $inserts;
+    protected int $updateds;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $title, string $content, array $payload = [])
+    public function __construct(string $title, int $inserts, int $updateds)
     {
         $this->title = $title;
-        $this->content = $content;
-        $this->payload = $payload;
+        $this->inserts = $inserts;
+        $this->updateds = $updateds;
     }
 
     /**
@@ -62,8 +62,8 @@ class SocketsNotification extends Notification
     {
         return [
             'title' => $this->title,
-            'content' => $this->content,
-            'payload' => $this->payload,
+            'inserts' => $this->inserts,
+            'updateds' => $this->updateds,
         ];
     }
 }

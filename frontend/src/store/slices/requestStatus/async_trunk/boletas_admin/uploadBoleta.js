@@ -27,7 +27,7 @@ export const uploadBoleta = createAsyncThunk(
 				onUploadProgress: onUploadProgress,
       });
 
-      dispatch(updateNotistack({ status: res.status, variant: 'success', text: res.data.msg }));
+      dispatch(updateNotistack({ status: res.status, variant: 'info', text: res.data.msg }));
       dispatch(refresh({ select: 'boletas' }));
 
       return res.data;
