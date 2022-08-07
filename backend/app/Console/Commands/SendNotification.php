@@ -37,7 +37,7 @@ class SendNotification extends Command
 
         $i = 0;
         foreach($allUsers as $user) {
-            $user->notify(new SocketsNotification($this->argument('title'), $this->argument('title')));
+            $user->notify(new SocketsNotification($this->argument('title'), $this->argument('content')));
             $i++;
         }
 
