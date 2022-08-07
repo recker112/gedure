@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
 		Commands\Payments::class,
 		Commands\Exchanges::class,
 		Commands\FixDiskUrl::class,
+		Commands\SendNotification::class,
+		Commands\ClearNotifications::class,
 	];
 
 	/**

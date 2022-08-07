@@ -31,6 +31,17 @@ class FixDiskUrl extends Command
      */
     public function handle()
     {
+        // NOTA(RECKER): Mini fix
+        $fixNames = User::latest()->get();
+
+        foreach($fixNames as $user) {
+            $nombre = str_replace(',', '', $user->name);
+			$nombre = ucwords(strtolower($nombre));
+            
+            $user->name = $nombre;
+            $user->save();
+        }
+
         // NOTA(RECKER): Arreglar tabla users
         $allUsers = User::where('avatar', '!=', null)->get();
 
