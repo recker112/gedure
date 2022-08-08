@@ -475,7 +475,7 @@
 						U.E.P A.P.E.P "La Candelaria"
 					</p>
 					<p class='body1 text__opacity'>
-						Movimiento #{{ $transaction->id }}
+						N° Factura #{{ $transaction->id }}
 					</p>
 				</div>
 			</div>
@@ -566,8 +566,6 @@
 		
 		<div class='body1 text__right'>
 			<span class='text__bold'>Total: </span> {{ parseMoney($transaction->amount) }}
-			<br />
-			<span class='text__bold'>Saldo en monedero: </span> {{ parseMoney($transaction->previous_balance+$transaction->amount) }}
 		</div>
 		
 		<div class='sello'>

@@ -15,7 +15,6 @@ export default function TransactionPDF({
   type,
   payload,
   amount,
-  previous_balance,
   exonerado,
   exonerante,
   created_at,
@@ -33,7 +32,7 @@ export default function TransactionPDF({
 							U.E.P A.P.E.P "La Candelaria"
 						</Typography>
 						<Typography className='text__opacity--semi'>
-							Movimiento #{id}
+							N° Factura #{id}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -83,7 +82,7 @@ export default function TransactionPDF({
 							Pago realizado a:
 						</Typography>
 						<Typography align='right'>
-							Sistema gedure
+							Plataforma
 						</Typography>
 					</Grid>
 				)}
@@ -141,13 +140,6 @@ export default function TransactionPDF({
 				</Typography>
 				<Typography component='span'>
 					{' '+parseFloatToMoneyString(amount)}
-				</Typography>
-				<br/>
-				<Typography component='span' className='text__bold--semi'>
-					Saldo en monedero: 
-				</Typography>
-				<Typography component='span'>
-					{' '+parseFloatToMoneyString(amount+previous_balance)}
 				</Typography>
 			</Box>
 
