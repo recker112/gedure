@@ -70,7 +70,7 @@ export default function Table() {
     {
       Header: 'Fecha del pago',
       accessor: 'updated_at',
-      Cell: ({ cell: { row: { original: { created_at, updated_at } } } }) => created_at === updated_at ? '--------------------' : updated_at,
+      Cell: ({ cell: { row: { original: { status, updated_at } } } }) => status === 'no pagada' ? '--------------------' : updated_at,
     },
     {
       id: 'options',
