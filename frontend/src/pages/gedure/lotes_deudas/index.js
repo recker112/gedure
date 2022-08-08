@@ -7,12 +7,12 @@ import { Box, Button, Container, Grid } from '@mui/material';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
 import Table from './Table';
+import EditLoteDeuda from './EditLoteDeuda';
+import CreateLoteDeuda from './CreateLoteDeuda';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import CreateLoteDeuda from './CreateLoteDeuda';
 import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
-import EditLoteDeuda from './EditLoteDeuda';
 import { destroyLoteDebts } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/destroyLoteDebts';
 
 const classes = {

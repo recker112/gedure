@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 // MUI
 import { Box, CircularProgress, Container, Grid, IconButton, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 // Components
 import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
@@ -92,7 +92,7 @@ export default function ShowDebtLote() {
                   <Grid justifyContent='center' container rowSpacing={2}>
                     <Grid item xs={12}>
                       <Stack alignItems='center' direction="row" spacing={2}>
-                        <AccountBalanceIcon />
+                        <ReceiptIcon />
                         <Typography variant='h6' className='text__bold--semi'>
                           Detalles del lote de deudas
                         </Typography>
