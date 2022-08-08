@@ -22,12 +22,19 @@ class DebtController extends Controller
 		
 		$debts = Debt::with(['user:id,privilegio,username,name', 'transaction'])
 			->where('debt_lote_id', $id)
+			->WhereHas('user', function (Builder $query) use ($search) {
+				$query->where('username', 'LIKE', "%$search%");
+			})
 			->offset($page)
 			->limit($perPage)
 			->get()
 			->toArray();
 		
-		$debtsCount = DebtLote::count();
+		$debtsCount = Debt::where('debt_lote_id', $id)
+			->WhereHas('user', function (Builder $query) use ($search) {
+				$query->where('username', 'LIKE', "%$search%");
+			})
+			->count();
 		
 		return response()->json([
 			'data' => $debts,

@@ -131,7 +131,7 @@ export default function Table() {
 
   return (
     <ReactTableBase
-      title='Lista de contáctanos'
+      title='Lotes de deudas'
       data={data}
       columns={columns}
       pageCountData={pageCount}

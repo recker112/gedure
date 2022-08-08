@@ -27,8 +27,14 @@ export default function LotesDeudas() {
   document.title = 'Lotes de deudas - La Candelaria';
   useNotifier();
 
-  const { debt_lote_create } = useSelector((state) => state.auth.permissions.administrar_transac);
+  const { administrar_transac: { debt_lote_create }, count_notify } = useSelector((state) => ({
+    administrar_transac: state.auth.permissions.administrar_transac,
+    count_notify: state.auth.notify.count,
+  }));
   const dispatch = useDispatch();
+
+  // NOTA(RECKER): Title
+  document.title = count_notify > 0 ? `(${count_notify}) Lotes de deudas - La Candelaria` : 'Lotes de deudas - La Candelaria';
 
   const handleOpenCreate = () => {
     dispatch(setRequestStatus({ select: 'createLoteDeuda', open: true }));
