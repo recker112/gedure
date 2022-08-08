@@ -24,8 +24,7 @@ class TransactionController extends Controller
 		$page = $request->page * $perPage;
 		
 		$transaction = Transaction::with('user:id,username,privilegio')
-			->where('created_at', 'like', '%'.$search.'%')
-			->orWhere('id', 'like', '%'.$search.'%')
+			->where('id', 'like', '%'.$search.'%')
 			->orWhereHas('user', function (Builder $query) {
 					$search = request()->search;
 					$query->where('username', 'LIKE', "%$search%");
