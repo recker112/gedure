@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../notistack";
 
-export const getLotesDeudasUsers = createAsyncThunk(
-  'tablesWallet/lotes_deudas/users',
+export const getTransactions = createAsyncThunk(
+  'tablesWallet/transactions/get',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    const { page, pageSize, search } = getState().tablesWallet.lotesDeudasUsers.tableData;
-    let url = `v1/deuda/lote/${id}/users?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}`;
+    const { page, pageSize, search } = getState().tablesWallet.transacciones.tableData;
+    let url = `v1/transaction?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -32,20 +32,20 @@ export const getLotesDeudasUsers = createAsyncThunk(
   }
 );
 
-export const reducersGetLotesDeudasUsers = {
-  [getLotesDeudasUsers.pending]: state => {
-    state.lotesDeudasUsers.tableData.loading = true;
+export const reducersGetTransactions = {
+  [getTransactions.pending]: state => {
+    state.transacciones.tableData.loading = true;
   },
-  [getLotesDeudasUsers.rejected]: (state, action) => {
-    state.lotesDeudasUsers.tableData.loading = false;
+  [getTransactions.rejected]: (state, action) => {
+    state.transacciones.tableData.loading = false;
   },
-  [getLotesDeudasUsers.fulfilled]: (state, action) => {
+  [getTransactions.fulfilled]: (state, action) => {
     const { page, totalRows, data } = action.payload;
 
-    state.lotesDeudasUsers.tableData.loading = false;
-    state.lotesDeudasUsers.tableData.page = page;
-    state.lotesDeudasUsers.tableData.data = data;
-    state.lotesDeudasUsers.tableData.totalRows = totalRows;
-    state.lotesDeudasUsers.tableData.pageCount = Math.ceil(totalRows / state.lotesDeudasUsers.tableData.pageSize);
+    state.transacciones.tableData.loading = false;
+    state.transacciones.tableData.page = page;
+    state.transacciones.tableData.data = data;
+    state.transacciones.tableData.totalRows = totalRows;
+    state.transacciones.tableData.pageCount = Math.ceil(totalRows / state.transacciones.tableData.pageSize);
   }
 }

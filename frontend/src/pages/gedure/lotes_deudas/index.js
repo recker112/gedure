@@ -24,7 +24,6 @@ const classes = {
 };
 
 export default function LotesDeudas() {
-  document.title = 'Lotes de deudas - La Candelaria';
   useNotifier();
 
   const { administrar_transac: { debt_lote_create }, count_notify } = useSelector((state) => ({

@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GroupIcon from '@mui/icons-material/Group';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import {
   Cash as CashIcon,
 	HammerWrench as HammerWrenchIcon,
@@ -38,7 +39,7 @@ export default function AdminList({
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
-  const { debt_lote_index } = permissions.administrar_transac;
+  const { debt_lote_index, transaction_index } = permissions.administrar_transac;
 
   return (
     <>
@@ -111,6 +112,14 @@ export default function AdminList({
                       <PiggyBankIcon />
                     </ListItemIcon>
                     <ListItemText primary="Lotes de deudas" />
+                  </ListDrawerNav>
+                )}
+                {transaction_index && (
+                  <ListDrawerNav nested to='/gedure/transacciones'>
+                    <ListItemIcon>
+                      <AccountBalanceIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Transacciones" />
                   </ListDrawerNav>
                 )}
               </Collapse>
