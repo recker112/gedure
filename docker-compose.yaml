@@ -65,7 +65,7 @@ services:
     volumes:
       - ~/.docker/mysql-gedure:/var/lib/mysql
   phpmyadmin:
-    image: "phpmyadmin:5.2.0-apache "
+    image: "phpmyadmin:5.2.0-apache"
     profiles:
       - "phpmyadmin"
     ports:
