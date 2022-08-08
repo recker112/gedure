@@ -164,8 +164,17 @@ class DebtLoteController extends Controller
 		if ($user->can('debt_create') && $request->selected_users) {
 			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
 			$users = User::where('privilegio', 'V-')
+				->WhereHas('debts', function (Builder $query) use ($debt_lote) {
+					$query->where('debt_lote_id', '!=', $debt_lote->id);
+				})
 				->whereIn('id', $request->selected_users)
 				->get();
+
+			if (count($users) === 0) {
+				return response()->json([
+					'msg' => 'No hay usuarios seleccionados',
+				], 400);
+			}
 				
 			foreach($users as $user) {
 				$user->debts()->create([
