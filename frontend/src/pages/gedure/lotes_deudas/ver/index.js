@@ -9,6 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 
 // Components
+import useNotifier from '../../../../hooks/useNotifier';
 import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
 import Table from './Table';
 
@@ -26,6 +27,7 @@ const classes = {
 };
 
 export default function ShowDebtLote() {
+  useNotifier();
   const { id } = useParams();
 
   const { count_notify, show: { loading, data } } = useSelector(state => ({

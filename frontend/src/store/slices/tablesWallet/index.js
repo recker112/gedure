@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { reducersGetLotesDeudas } from "./async_trunk/lotes_deudas/TableLotesDeudas";
 import { reducersGetLotesDeudasUsers } from "./async_trunk/lotes_deudas/TableLotesDeudasUsers";
+import { reducersGetTransactions } from "./async_trunk/transacciones/TableTransactions";
 
 const initialState = {
   lotes_deudas: {
@@ -18,6 +19,20 @@ const initialState = {
     },
   },
   lotesDeudasUsers: {
+    filterBox: false,
+    filters: {},
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 0,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  transacciones: {
     filterBox: false,
     filters: {},
     countFilters: 0,
@@ -84,6 +99,7 @@ export const tablesWalletSlices = createSlice({
   extraReducers: {
     ...reducersGetLotesDeudas,
     ...reducersGetLotesDeudasUsers,
+    ...reducersGetTransactions,
   }
 });
 

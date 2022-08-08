@@ -92,6 +92,9 @@ const GDPagosPage = lazy(() => import('./pages/gedure/configuracion/pagos'));
 const LotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas'));
 const ShowLotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas/ver'));
 
+// Transacciones
+const TransaccionesPage = lazy(() => import('./pages/gedure/transacciones'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -124,7 +127,7 @@ export default function Routers() {
     bank_transaction_index, 
     users_disabled_index
    } = permissions.gedure;
-  const { debt_lote_index } = permissions.administrar_transac;
+  const { debt_lote_index, transaction_index } = permissions.administrar_transac;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -348,6 +351,22 @@ export default function Routers() {
                   <Route path='ver/:id' element={
                     <AuthProtect>
                       <ShowLotesDeudasPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='*' element={
+                    <AuthProtect>
+                      <NotFound/>
+                    </AuthProtect>
+                  } />
+                </Route>
+              )}
+
+              {transaction_index && (
+                <Route path='transacciones/*'>
+                  <Route path='' element={
+                    <AuthProtect>
+                      <TransaccionesPage />
                     </AuthProtect>
                   } />
 
