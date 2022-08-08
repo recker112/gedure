@@ -54,7 +54,7 @@
 				}
 			}
 			$newText = $negative ? '-'.$newText : $newText;
-			$newText = 'Bs/S '.$newText.','.$decimals;
+			$newText = 'Bs. '.$newText.','.$decimals;
 			
 			return $newText;
 		}
@@ -365,6 +365,12 @@
 			line-height: 1.5;
 			letter-spacing: 0.00938em;
 		}
+
+		.body1--right {
+			display: inline-table; 
+			width: 100%; 
+			text-align: right;
+		}
 		
 		.h5 {
 			font-size: 1.5em;
@@ -446,6 +452,17 @@
 		table, td, th {
 			border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 		}
+
+		.container__left {
+			float: left; 
+			width: 50%;
+		}
+
+		.container__right {
+			margin-left: 50%;
+			width: 50%;
+			margin-bottom: 20px;
+		}
 	</style>
 </head>
 <body>
@@ -455,7 +472,7 @@
 				<img class='instituto__logo' width='75' src='{{ storage_path('app/public/favicon.png') }}' />
 				<div>
 					<p class='body1 text__bold'>
-						U.E.P.A.P.E.P "La Candelaria"
+						U.E.P A.P.E.P "La Candelaria"
 					</p>
 					<p class='body1 text__opacity'>
 						Movimiento #{{ $transaction->id }}
@@ -470,8 +487,8 @@
 		
 		<hr class='divider' />
 		
-		<div class='container__box'>
-			<div>
+		<div>
+			<div class="container__left">
 				<p class='body1 text__bold'>
 					Comprobante a nombre de:
 				</p>
@@ -479,27 +496,36 @@
 					{{ $transaction->user->name }} ({{ $transaction->user->privilegio . $transaction->user->username }})
 				</p>
 			</div>
-			
-			@if ($transaction->type === 'pago verificado')
-				<div class='text__right'>
-					<p class='body1 text__bold'>
+			<div class="container__right">
+				@if ($transaction->type === 'pago verificado')
+					<p class='body1 body1--right text__bold'>
 						Pago realizado a:
 					</p>
-					<p class='body1'>
+					<p class='body1 body1--right'>
 						{{ $transaction->payload->extra_data->name }}
-						<br />
+					</p>
+					<p class='body1 body1--right'>
 						J-{{ substr($transaction->payload->extra_data->rif, 0, -1) }}-{{ substr($transaction->payload->extra_data->rif, -1) }}
-						<br />
+					</p>
+					<p class='body1 body1--right'>
 						{{ $BankListSearch[$transaction->payload->extra_data->code] }}
-						<br />
+					</p>
+					<p class='body1 body1--right'>
 						{{ $transaction->payload->extra_data->type }}
 					</p>
-				</div>
-			@endif
+				@else
+					<p class='body1 body1--right text__bold'>
+						Pago realizado a:
+					</p>
+					<p class='body1 body1--right'>
+						Sistema gedure
+					</p>
+				@endif
+			</div>
 		</div>
-		
-		<div class='container__box'>
-			<div>
+
+		<div>
+			<div class="container__left">
 				<p class='body1 text__bold'>
 					Fecha:
 				</p>
@@ -507,12 +533,11 @@
 					{{ $transaction->created_at }}
 				</p>
 			</div>
-			
-			<div class='text__right'>
-				<p class='body1 text__bold'>
+			<div class="container__right">
+				<p class='body1 body1--right text__bold'>
 					Método de pago:
 				</p>
-				<p class='body1'>
+				<p class='body1 body1--right'>
 					{{ $transaction->payment_method }}
 				</p>
 			</div>
