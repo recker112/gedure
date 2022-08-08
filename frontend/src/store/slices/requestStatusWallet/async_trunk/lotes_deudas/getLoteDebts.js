@@ -22,7 +22,7 @@ export const getLoteDebts = createAsyncThunk(
         let { data, status } = error.response;
 
         if (status === 404) {
-          data.msg = 'El lote de deuda ya no existe';
+          data.msg = 'El lote de deuda no existe';
         }
 
         // NOTA(RECKER): Respuesta del servidor
