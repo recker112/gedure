@@ -173,6 +173,12 @@ export default function ShowDebtLote() {
             </Grid>
           </>
         )}
+
+        {(!loading && Object.keys(data).length <= 0) && (
+          <Typography align='center'>
+            El lote de deudas #{id} no existe.
+          </Typography>
+        )}
       </Container>
     </Box>
   )

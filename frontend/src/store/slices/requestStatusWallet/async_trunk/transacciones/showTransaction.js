@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { updateNotistack } from "../../../notistack";
 
-export const getLoteDebts = createAsyncThunk(
-  'requestUserWallet/loteDebt/show',
+export const showTransaction = createAsyncThunk(
+  'requestUserWallet/transactions/show',
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/deuda/lote/${id}`;
+    let url = `v1/transaction/${id}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
@@ -22,7 +22,7 @@ export const getLoteDebts = createAsyncThunk(
         let { data, status } = error.response;
 
         if (status === 404) {
-          data.msg = 'El lote de deuda no existe';
+          data.msg = 'La transacción no existe';
         }
 
         // NOTA(RECKER): Respuesta del servidor
@@ -36,16 +36,16 @@ export const getLoteDebts = createAsyncThunk(
   }
 );
 
-export const reducersGetLoteDebts = {
-  [getLoteDebts.pending]: (state, action) => {
-    state.showLoteDeuda.loading = true;
+export const reducersShowTransaction = {
+  [showTransaction.pending]: (state, action) => {
+    state.showTransaction.loading = true;
   },
-  [getLoteDebts.rejected]: (state, action) => {
-    state.showLoteDeuda.loading = false;
+  [showTransaction.rejected]: (state, action) => {
+    state.showTransaction.loading = false;
   },
-  [getLoteDebts.fulfilled]: (state, action) => {
+  [showTransaction.fulfilled]: (state, action) => {
     const data = action.payload;
-    state.showLoteDeuda.loading = false;
-    state.showLoteDeuda.data = data;
+    state.showTransaction.loading = false;
+    state.showTransaction.data = data;
   },
 }

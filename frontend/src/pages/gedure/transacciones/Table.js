@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 // MUI
 import { IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Components
 import ReactTableBase from '../../../components/ReactTableBase';
@@ -16,18 +14,15 @@ import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
-import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 import { getTransactions } from '../../../store/slices/tablesWallet/async_trunk/transacciones/TableTransactions';
 
 export default function Table() {
-  const { dataR, loading, pageSize, pageCount, administrar_transac } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
     dataR: state.tablesWallet.transacciones.tableData.data,
     loading: state.tablesWallet.transacciones.tableData.loading,
     pageSize: state.tablesWallet.transacciones.tableData.pageSize,
     pageCount: state.tablesWallet.transacciones.tableData.pageCount,
-    administrar_transac: state.auth.permissions.administrar_transac,
   }));
-  const { debt_lote_delete, debt_lote_edit } = administrar_transac;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();

@@ -94,6 +94,7 @@ const ShowLotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas/ver')
 
 // Transacciones
 const TransaccionesPage = lazy(() => import('./pages/gedure/transacciones'));
+const VerTransaccionesPage = lazy(() => import('./pages/gedure/transacciones/ver'));
 
 const classes = {
   container: {
@@ -367,6 +368,12 @@ export default function Routers() {
                   <Route path='' element={
                     <AuthProtect>
                       <TransaccionesPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='ver/:id' element={
+                    <AuthProtect>
+                      <VerTransaccionesPage />
                     </AuthProtect>
                   } />
 
