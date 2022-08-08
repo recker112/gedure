@@ -11,7 +11,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Components
 import ReactTableBase from '../../../../components/ReactTableBase';
-import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +34,6 @@ export default function Table() {
     pageCount: state.tablesWallet.lotesDeudasUsers.tableData.pageCount,
     administrar_transac: state.auth.permissions.administrar_transac,
   }));
-  const { debt_lote_delete, debt_lote_edit } = administrar_transac;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
