@@ -146,7 +146,7 @@ export default function TransactionPDF({
       <Grid container justifyContent='center'>
 				<Grid item xs={8} sm={6} md={4}>
 					<Divider />
-					<Typography align='center'>Sello/Firma</Typography>
+					<Typography align='center'>Sello</Typography>
 				</Grid>
 			</Grid>
 

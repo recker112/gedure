@@ -538,7 +538,7 @@
 					Método de pago:
 				</p>
 				<p class='body1 body1--right'>
-					{{ $transaction->payment_method }}
+					{{ ucfirst($transaction->payment_method) }}
 				</p>
 			</div>
 		</div>
@@ -570,7 +570,7 @@
 		
 		<div class='sello'>
 			<hr class='sello__divider'/>
-			<div class='body1 text__center'>Sello/firma</div>
+			<div class='body1 text__center'>Sello</div>
 		</div>
 		
 		@if ($transaction->exonerado)
