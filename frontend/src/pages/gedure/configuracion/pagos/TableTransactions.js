@@ -119,7 +119,6 @@ export default function TableTransactions() {
   },[]);
 
   const handleGlobalFilter = value => {
-    console.log(value);
     dispatch(setSearch({search: value || "", select: 'bankTransactions'}));
   }
 
