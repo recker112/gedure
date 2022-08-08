@@ -90,6 +90,7 @@ const GDPagosPage = lazy(() => import('./pages/gedure/configuracion/pagos'));
 
 // Lotes deudas
 const LotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas'));
+const ShowLotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas/ver'));
 
 const classes = {
   container: {
@@ -341,6 +342,12 @@ export default function Routers() {
                   <Route path='' element={
                     <AuthProtect>
                       <LotesDeudasPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='ver/:id' element={
+                    <AuthProtect>
+                      <ShowLotesDeudasPage />
                     </AuthProtect>
                   } />
 

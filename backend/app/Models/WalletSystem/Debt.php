@@ -30,7 +30,7 @@ class Debt extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-		'created_at', 'deleted_at', 'id', 'user_id', 'debt_lote_id'
+		'deleted_at', 'id', 'user_id', 'debt_lote_id'
 	];
 	
 	public function user()
@@ -51,6 +51,12 @@ class Debt extends Model
 	/*
 	TIMEZONES
 	*/
+	public function getCreatedAtAttribute($value) {
+		return Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-m-d h:i A');
+	}
+	
 	public function getUpdatedAtAttribute($value) {
 		return Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))

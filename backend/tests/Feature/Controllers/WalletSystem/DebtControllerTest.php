@@ -60,7 +60,7 @@ class DebtControllerTest extends TestCase
 		
 		$this->createDebts();
 		
-		$response = $this->getJson('/api/v1/deuda/lote/users/1?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/deuda/lote/1/users?per_page=5&page=0');
 		
 		$response->assertOk()
 			->assertJsonStructure([
