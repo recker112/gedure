@@ -53,16 +53,16 @@ export default function Forms({
       </Container>
       <Container sx={classes.controls}>
         <Stack direction='row' justifyContent='space-between'>
-          <Button disabled={activeStep <= 0} onClick={handleBack}>
+          <Button variant='contained' disableElevation disabled={activeStep <= 0} onClick={handleBack}>
             Regresar
           </Button>
           {activeStep < 2 && (
-            <Button onClick={handleNext}>
+            <Button variant='contained' disableElevation onClick={methods.handleSubmit(handleNext)}>
               Siguiente
             </Button>
           )}
           {activeStep === 2 && (
-            <Button type='submit' onClick={methods.handleSubmit(onSubmit)}>
+            <Button variant='contained' disableElevation onClick={methods.handleSubmit(onSubmit)}>
               Procesar
             </Button>
           )}
