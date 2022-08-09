@@ -9,12 +9,16 @@ use App\Http\Requests\wallet_system\DebtRequest;
 use App\Http\Requests\wallet_system\DebtLoteEditRequest;
 use App\Http\Requests\FindLikeRequest;
 use App\Http\Requests\TableRequest;
+
 //Models
 use App\Models\User;
 use App\Models\Gedure\Curso;
 use App\Models\WalletSystem\Debt;
 use App\Models\WalletSystem\DebtLote;
 use App\Models\WalletSystem\ExchangeRate;
+
+// Notifications
+use App\Notifications\WalletSystem\DebtCreatedNotification;
 
 class DebtLoteController extends Controller
 {
@@ -128,6 +132,7 @@ class DebtLoteController extends Controller
 			$user->debts()->create([
 				'debt_lote_id' => $debt_lote->id
 			]);
+			$user->notify(new DebtCreatedNotification('Nueva deuda pendiente', $amount));
 		}
 		
 		// NOTA(RECKER): Log
@@ -164,8 +169,8 @@ class DebtLoteController extends Controller
 		if ($user->can('debt_create') && $request->selected_users) {
 			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
 			$users = User::where('privilegio', 'V-')
-				->WhereHas('debts', function (Builder $query) use ($debt_lote) {
-					$query->where('debt_lote_id', '!=', $debt_lote->id);
+				->whereDoesntHave('debts', function (Builder $query) use ($debt_lote) {
+					$query->where('debt_lote_id', '==', $debt_lote->id);
 				})
 				->whereIn('id', $request->selected_users)
 				->get();
@@ -180,6 +185,8 @@ class DebtLoteController extends Controller
 				$user->debts()->create([
 					'debt_lote_id' => $debt_lote->id,
 				]);
+
+				$user->notify(new DebtCreatedNotification('Nueva deuda pendiente', $amount));
 				$debts_created++;
 			}
 		}
