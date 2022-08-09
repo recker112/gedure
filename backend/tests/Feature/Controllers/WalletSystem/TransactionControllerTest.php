@@ -71,7 +71,7 @@ class TransactionControllerTest extends TestCase
 			['user']
 		);
 		
-		$response = $this->getJson('/api/v1/transaction-user?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/transaction/user?per_page=5&page=0');
 
 		$response->assertOk()
 			->assertJsonStructure([
