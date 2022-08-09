@@ -49,7 +49,7 @@ export default function VerMonedero() {
     if (window.history.state && window.history.state.idx > 0) {
       navigate(-1);
     } else {
-      navigate('/gedure/transacciones');
+      navigate('/gedure/monedero');
     }
   }
 
