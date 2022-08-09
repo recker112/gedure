@@ -55,7 +55,7 @@ export default function Table() {
           <Tooltip title='Ver' arrow>
             <IconButton
               onClick={() => {
-                navigate(`ver/${original.id}`);
+                navigate(`transacciones/ver/${original.id}`);
               }}
             >
               <VisibilityIcon />

@@ -10,14 +10,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DownloadIcon from '@mui/icons-material/Download';
 
 // Components
-import TransactionPDF from './TransactionPDF';
+import TransactionPDF from '../../transacciones/ver/TransactionPDF';
 import useNotifier from '../../../../hooks/useNotifier';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { showTransaction } from '../../../../store/slices/requestStatusWallet/async_trunk/transacciones/showTransaction';
 import { resetDataRequest } from '../../../../store/slices/requestStatusWallet';
-import { downloadTransaction } from '../../../../store/slices/requestStatusWallet/async_trunk/transacciones/downloadTransaction';
+import { showMonedero } from '../../../../store/slices/requestStatusWallet/async_trunk/monedero/showMonedero';
+import { downloadMonedero } from '../../../../store/slices/requestStatusWallet/async_trunk/monedero/downloadMonedero';
 
 const classes = {
   container: {
@@ -27,21 +27,21 @@ const classes = {
   },
 };
 
-export default function VerTransacciones() {
+export default function VerMonedero() {
   const { id } = useParams();
   useNotifier();
 
   const { count_notify, data, loading, progress, loadingDownload } = useSelector(state => ({
     count_notify: state.auth.notify.count,
-    data: state.requestStatusWallet.showTransaction.data,
-    loading: state.requestStatusWallet.showTransaction.loading,
-    progress: state.requestStatusWallet.showTransaction.progress,
-    loadingDownload: state.requestStatusWallet.showTransaction.loadingDownload,
+    data: state.requestStatusWallet.showMonedero.data,
+    loading: state.requestStatusWallet.showMonedero.loading,
+    progress: state.requestStatusWallet.showMonedero.progress,
+    loadingDownload: state.requestStatusWallet.showMonedero.loadingDownload,
   }));
   const dispatch = useDispatch();
 
   // NOTA(RECKER): Title
-  document.title = count_notify > 0 ? `(${count_notify}) Ver transacciones - La Candelaria` : `Ver transacciones - La Candelaria`;
+  document.title = count_notify > 0 ? `(${count_notify}) Ver transaccion - La Candelaria` : `Ver transaccion - La Candelaria`;
 
   const navigate = useNavigate();
 
@@ -54,25 +54,25 @@ export default function VerTransacciones() {
   }
 
   const handleDownload = () => {
-    dispatch(downloadTransaction(id));
+    dispatch(downloadMonedero(id));
   }
 
   useEffect(() => {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(showTransaction(id));
+      promise = dispatch(showMonedero(id));
     }
 
     return () => {
       if (loading) {
         promise.abort();
       }
-      dispatch(resetDataRequest({ select: 'showTransaction' }));
+      dispatch(resetDataRequest({ select: 'showMonedero' }));
     }
     // eslint-disable-next-line
   }, []);
-  
+
   return (
     <Box component="main" sx={classes.container}>
       <Container>
