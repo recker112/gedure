@@ -1,14 +1,17 @@
 import React from 'react';
 
+// Router
+import { useNavigate } from 'react-router-dom';
+
 // MUI
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
 // Components
 import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
+import Table from './Table';
 
 // Redux
 import { useSelector } from 'react-redux';
-import Table from './Table';
 
 const classes = {
   container: {
@@ -26,6 +29,12 @@ export default function Monedero() {
 
   // NOTA(RECKER): Title
   document.title = count_notify > 0 ? `(${count_notify}) Monedero - La Candelaria` : `Monedero - La Candelaria`;
+
+	const navigate = useNavigate();
+
+	const handleVerify = () => {
+		navigate('/gedure/monedero/verificar-pagos');
+	}
 
   return (
     <Box component="main" sx={classes.container}>
@@ -57,6 +66,7 @@ export default function Monedero() {
 						<Button 
 							variant='contained' 
 							color='primary'
+							onClick={handleVerify}
 							data-tour='verify_pay'
 						>
 							Verificar pago
