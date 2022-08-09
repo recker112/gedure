@@ -76,31 +76,29 @@ export default function VerMonedero() {
   return (
     <Box component="main" sx={classes.container}>
       <Container>
-        <Box mb={3}>
-          <Grid container justifyContent='space-between'>
-            <Grid item xs>
-              <Tooltip title='Volver' arrow>
-                <IconButton onClick={handleReturn} aria-label="return">
-                  <ArrowBackIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item>
-              <Tooltip title='Descargar' arrow>
-                <LoadingButton 
-                  loading={loadingDownload}
-                  component='span'
-                  disabled={loading || Object.keys(data).length <= 0} 
-                  loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} 
-                  onClick={handleDownload} 
-                  color='inherit'
-                >
-                  <DownloadIcon />
-                </LoadingButton>
-              </Tooltip>
-            </Grid>
+        <Grid sx={{mb: 3}} container justifyContent='space-between'>
+          <Grid item xs>
+            <Tooltip title='Volver' arrow>
+              <IconButton onClick={handleReturn} aria-label="return">
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
           </Grid>
-        </Box>
+          <Grid item>
+            <Tooltip title='Descargar' arrow>
+              <LoadingButton 
+                loading={loadingDownload}
+                component='span'
+                disabled={loading || Object.keys(data).length <= 0} 
+                loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} 
+                onClick={handleDownload} 
+                color='inherit'
+              >
+                <DownloadIcon />
+              </LoadingButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
         {loading && (
           <Box textAlign='center'>
             <CircularProgress />
