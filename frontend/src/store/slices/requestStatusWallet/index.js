@@ -11,6 +11,7 @@ import { reducersShowTransaction } from "./async_trunk/transacciones/showTransac
 import { reducersDownloadTransaction } from "./async_trunk/transacciones/downloadTransaction";
 import { reducersShowMonedero } from "./async_trunk/monedero/showMonedero";
 import { reducersDownloadMonedero } from "./async_trunk/monedero/downloadMonedero";
+import { reducersGetAccountSelected } from "./async_trunk/monedero/getAccountSelected";
 
 const initialState = {
   createLoteDeuda: {
@@ -45,6 +46,11 @@ const initialState = {
     progress: 0,
     loadingDownload: false,
   },
+  verifyPayments: {
+    dataAccountSelected: [],
+    loading: true,
+    data: {},
+  }
 };
 
 export const requestStatusWalletSlices = createSlice({
@@ -95,6 +101,7 @@ export const requestStatusWalletSlices = createSlice({
     ...reducersDownloadTransaction,
     ...reducersShowMonedero,
     ...reducersDownloadMonedero,
+    ...reducersGetAccountSelected,
   }
 });
 
