@@ -59,6 +59,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "DebtCreatedNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          Se le ha asignado una nueva deuda de {parseFloatToMoneyString(data.amount)}. Si desea saber mas informacion sobre la misma puede buscar en la zona de deudas.
+        </Typography>
+      </Box>
+    )
   }else if (typeParse === "SocketsNotification") {
     return (
       <Box>

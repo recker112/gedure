@@ -140,7 +140,7 @@ export default function Table() {
 
   return (
     <ReactTableBase
-      title='Lista de usuarios'
+      title='Lista de pagos pendientes'
       data={data}
       columns={columns}
       pageCountData={pageCount}

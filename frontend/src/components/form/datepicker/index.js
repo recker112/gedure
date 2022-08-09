@@ -17,6 +17,8 @@ export default function DatePickerHook({
   helperText,
   disabled,
   disableFuture,
+  views = ['year', 'month', 'day'],
+  openTo = 'year',
 }) {
   let rulesMake = rules;
   
@@ -39,8 +41,8 @@ export default function DatePickerHook({
       disableFuture={disableFuture}
       inputRef={ref}
       label={label}
-      views={['year', 'month', 'day']}
-      openTo="year"
+      views={views}
+      openTo={openTo}
       onChange={(newValue) => {
         onChange(newValue)
       }}
