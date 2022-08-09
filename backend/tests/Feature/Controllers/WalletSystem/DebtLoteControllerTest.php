@@ -4,9 +4,12 @@ namespace Tests\Feature\Controllers\WalletSystem;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+
 // Passport
 use Laravel\Passport\Passport;
+
 // Models
 use App\Models\User;
 use App\Models\Gedure\Curso;
@@ -114,6 +117,8 @@ class DebtLoteControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Notification::fake();
 		
 		$curso = Curso::create([
 			'code' => '1-A',
@@ -139,6 +144,8 @@ class DebtLoteControllerTest extends TestCase
 			'type' => 'cursos',
 			'cursos' => [1],
 		]);
+
+		Notification::assertCount(10);
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -161,11 +168,13 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testCreateDebtWithUsersSelected()
 	{
-		//$this->withoutExceptionHandling();
+		// $this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
+
+		Notification::fake();
 		
 		$curso = Curso::create([
 			'code' => '1-A',
@@ -191,6 +200,8 @@ class DebtLoteControllerTest extends TestCase
 			'exchange_rate_type' => 'Bs.',
 			'selected_users' => [$users[0]->id, $users[1]->id, $users[2]->id]
 		]);
+
+		Notification::assertCount(3);
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -226,16 +237,29 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testEdit()
 	{
-		//$this->withoutExceptionHandling();
+		// $this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
 		);
+
+		Notification::fake();
 		
 		$curso = Curso::create([
 			'code' => '1-A',
 			'curso' => '1',
 			'seccion' => 'A',
+		]);
+
+		// NOTA(RECKER): Crear debts
+		$debt_lote = DebtLote::create([
+			'reason' => 'Test',
+			'amount_to_pay' => 40000,
+		]);
+
+		$debt_lote2 = DebtLote::create([
+			'reason' => 'Test2',
+			'amount_to_pay' => 40000,
 		]);
 		
 		// Users creator
@@ -247,12 +271,11 @@ class DebtLoteControllerTest extends TestCase
 				'n_lista' => 99,
 				'curso_id' => $curso->id,
 			]);
+
+			$user->debts()->create([
+				'debt_lote_id' => $debt_lote2->id,
+			]);
 		}
-		
-		$debt_lote = DebtLote::create([
-			'reason' => 'Test',
-			'amount_to_pay' => 40000,
-		]);
 		
 		$response = $this->putJson('/api/v1/deuda/lote/'.$debt_lote->id, [
 			'reason' => 'Nuevo motivo',
@@ -260,6 +283,8 @@ class DebtLoteControllerTest extends TestCase
 			'exchange_rate_type' => 'Bs.',
 			'selected_users' => [$users[0]->id,$users[1]->id,$users[2]->id]
 		]);
+
+		Notification::assertCount(3);
 		
 		$response->assertOk()
 			->assertJsonStructure([
