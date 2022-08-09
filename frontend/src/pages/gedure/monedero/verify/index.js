@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Slide } from '@mui/material';
 
 // Components
+import useNotifier from '../../../../hooks/useNotifier';
 import Aside from '../../../../components/steppers/Aside';
 import Forms from './Forms';
 
@@ -26,6 +27,7 @@ const steps = [
 ];
 
 export default function VerificarPagos() {
+  useNotifier();
   const [activeStep, setActiveStep] = useState(0);
 
   const { count_notify } = useSelector(state => ({
@@ -65,6 +67,8 @@ export default function VerificarPagos() {
     })
   }
 
+  const handleReset = (callBack) => setActiveStep(0);
+
   return (
     <Grid sx={{ flexGrow: 1 }} container>
       <Slide direction="right" in={true} mountOnEnter unmountOnExit>
@@ -82,6 +86,7 @@ export default function VerificarPagos() {
           <Forms
             handleNext={handleNext}
             handleBack={handleBack}
+            handleReset={handleReset}
             activeStep={activeStep}
           />
         </Grid>

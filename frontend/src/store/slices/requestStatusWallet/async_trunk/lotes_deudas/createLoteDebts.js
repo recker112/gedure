@@ -3,7 +3,7 @@ import { updateNotistack } from "../../../notistack";
 import { refresh } from "../../../tablesWallet";
 
 export const createLoteDebts = createAsyncThunk(
-  'requestUserWallet/loteDebt/crear',
+  'requestStatusWallet/loteDebt/crear',
   async ({submitData, handleClose}, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
