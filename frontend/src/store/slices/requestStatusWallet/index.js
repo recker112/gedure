@@ -9,6 +9,8 @@ import { reducersDestroyLoteDebts } from "./async_trunk/lotes_deudas/destroyLote
 import { reducersGetLoteDebts } from "./async_trunk/lotes_deudas/getLoteDebts";
 import { reducersShowTransaction } from "./async_trunk/transacciones/showTransaction";
 import { reducersDownloadTransaction } from "./async_trunk/transacciones/downloadTransaction";
+import { reducersShowMonedero } from "./async_trunk/monedero/showMonedero";
+import { reducersDownloadMonedero } from "./async_trunk/monedero/downloadMonedero";
 
 const initialState = {
   createLoteDeuda: {
@@ -32,6 +34,12 @@ const initialState = {
     data: {},
   },
   showTransaction: {
+    loading: true,
+    data: {},
+    progress: 0,
+    loadingDownload: false,
+  },
+  showMonedero: {
     loading: true,
     data: {},
     progress: 0,
@@ -85,6 +93,8 @@ export const requestStatusWalletSlices = createSlice({
     ...reducersGetLoteDebts,
     ...reducersShowTransaction,
     ...reducersDownloadTransaction,
+    ...reducersShowMonedero,
+    ...reducersDownloadMonedero,
   }
 });
 

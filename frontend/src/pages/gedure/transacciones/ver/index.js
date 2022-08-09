@@ -90,7 +90,7 @@ export default function VerTransacciones() {
                 <LoadingButton 
                   loading={loadingDownload}
                   component='span'
-                  disabled={loading} 
+                  disabled={loading || Object.keys(data).length <= 0} 
                   loadingIndicator={loadingDownload && progress < 99 ? `${progress}%` : null} 
                   onClick={handleDownload} 
                   color='inherit'

@@ -98,6 +98,7 @@ const VerTransaccionesPage = lazy(() => import('./pages/gedure/transacciones/ver
 
 // Monedero
 const MonederoPage = lazy(() => import('./pages/gedure/monedero'));
+const VerMonederoPage = lazy(() => import('./pages/gedure/monedero/ver'));
 
 const classes = {
   container: {
@@ -392,6 +393,12 @@ export default function Routers() {
                 <Route path='' element={
                   <AuthProtect>
                     <MonederoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='transacciones/ver/:id' element={
+                  <AuthProtect>
+                    <VerMonederoPage />
                   </AuthProtect>
                 } />
 

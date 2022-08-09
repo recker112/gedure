@@ -30,7 +30,7 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 
 // Show transactions user
 Route::middleware(['auth:api'])
-	->get('transaction-user/{id}', [TransactionController::class, 'showUser']);
+	->get('transaction/{id}/user/', [TransactionController::class, 'showUser']);
 
 // Download transactions
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
@@ -38,4 +38,4 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 
 // Download transactions user
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
-	->get('transaction-user/{id}/download', [TransactionController::class, 'downloadUser']);
+	->get('transaction/{id}/user/download', [TransactionController::class, 'downloadUser']);
