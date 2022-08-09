@@ -22,7 +22,7 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 
 // Index transactions user
 Route::middleware(['auth:api'])
-	->get('transaction-user', [TransactionController::class, 'indexUser']);
+	->get('transaction/user', [TransactionController::class, 'indexUser']);
 
 // Show transactions
 Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])

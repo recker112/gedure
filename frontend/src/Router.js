@@ -96,6 +96,9 @@ const ShowLotesDeudasPage = lazy(() => import('./pages/gedure/lotes_deudas/ver')
 const TransaccionesPage = lazy(() => import('./pages/gedure/transacciones'));
 const VerTransaccionesPage = lazy(() => import('./pages/gedure/transacciones/ver'));
 
+// Monedero
+const MonederoPage = lazy(() => import('./pages/gedure/monedero'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -384,6 +387,20 @@ export default function Routers() {
                   } />
                 </Route>
               )}
+
+              <Route path='monedero/*'>
+                <Route path='' element={
+                  <AuthProtect>
+                    <MonederoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='*' element={
+                  <AuthProtect>
+                    <NotFound/>
+                  </AuthProtect>
+                } />
+              </Route>
 
               {privilegio === 'V-' && (
                 <>
