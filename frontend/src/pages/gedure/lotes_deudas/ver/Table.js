@@ -78,7 +78,7 @@ export default function Table() {
       accessor: 'options',
       Cell: ({ cell: { row: { original } } }) => (
         <>
-          {original.status !== 'no pagada' && (
+          {original.status === 'pagada' && (
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
@@ -89,17 +89,7 @@ export default function Table() {
               </IconButton>
             </Tooltip>
           )}
-          {original.status === 'pagada' && (
-            <Tooltip title='Reembolsar' arrow>
-              <IconButton
-                onClick={() => {
-                  dispatch(setRequestStatus({open: true, data: original, select: 'editLoteDeuda'}));
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-          )}
+
           {original.status === 'no pagada' && (
             <Tooltip title='Eliminar' arrow>
               <IconButton
