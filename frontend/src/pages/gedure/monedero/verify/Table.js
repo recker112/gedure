@@ -12,8 +12,8 @@ import { BankListSearch } from '../../../../components/Utils/BankList';
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../../store/slices/tablesWallet';
-import { setRequestStatus } from '../../../../store/slices/requestStatusWallet';
 import { getPendingPayments } from '../../../../store/slices/tablesWallet/async_trunk/monedero/TablePendingPayments';
+import { setRequestStatus } from '../../../../store/slices/requestStatusWallet';
 
 const colorChip = {
   'no encontrado': 'error',
@@ -88,7 +88,7 @@ export default function Table() {
           <Tooltip title='Eliminar' arrow>
             <IconButton
               onClick={() => {
-                dispatch(setRequestStatus({open: true, data: original, select: 'deleteLoteDeuda'}));
+                dispatch(setRequestStatus({open: true, data: original, select: 'deletePendingPayments'}));
               }}
             >
               <DeleteForeverIcon />
