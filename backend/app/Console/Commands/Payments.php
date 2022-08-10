@@ -60,8 +60,8 @@ class Payments extends Command
 			// NOTA(RECKER): Buscar transaccion bancaria
 			$bank_transaction = BankTransaction::doesntHave('user')
 				->where(function ($query) use ($pending) {
-					$query->where('concepto', 'like', "%$pending->reference%")
-						->orWhere('reference', 'like', "%$pending->reference%");
+					$query->where('concepto', 'like', "%$pending->reference")
+						->orWhere('reference', 'like', "%$pending->reference");
 				})
 				->where('amount', $pending->amount)
 				->where('code', $pending->code)
