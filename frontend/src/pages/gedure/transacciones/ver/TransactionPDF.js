@@ -15,6 +15,7 @@ export default function TransactionPDF({
   type,
   payload,
   amount,
+	previous_balance,
   exonerado,
   exonerante,
   created_at,
@@ -140,6 +141,20 @@ export default function TransactionPDF({
 				</Typography>
 				<Typography component='span'>
 					{' '+parseFloatToMoneyString(amount)}
+				</Typography>
+				<br/>
+				<Typography component='span' className='text__bold--semi'>
+					Saldo anterior: 
+				</Typography>
+				<Typography component='span'>
+					{' '+parseFloatToMoneyString(previous_balance)}
+				</Typography>
+				<br/>
+				<Typography component='span' className='text__bold--semi'>
+					Nuevo saldo disponible: 
+				</Typography>
+				<Typography component='span'>
+					{' '+parseFloatToMoneyString(amount+previous_balance)}
 				</Typography>
 			</Box>
 

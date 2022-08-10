@@ -7,6 +7,10 @@ use Illuminate\Console\Command;
 use App\Models\WalletSystem\PendingPayment;
 use App\Models\WalletSystem\BankTransaction;
 
+// Notifications
+use App\Notifications\SocketsNotification;
+use App\Notifications\WalletSystem\PendingPaymentCompletedNotification;
+
 class Payments extends Command
 {
 	/**
@@ -67,6 +71,8 @@ class Payments extends Command
 			if (!$bank_transaction) {
 				$pending->status = 'no encontrado';
 				$pending->save();
+
+				$user = $pending->user->notify(new SocketsNotification('No se pudo procesar su pago', ' El sistema no pudo encontrar alguna transacción que coincidiera con los datos suministrados, es posible que aún no se haya cargado al sistema o que haya algún dato erróneo.'));
 				
 				$notFound++;
 			}else {
@@ -112,6 +118,9 @@ class Payments extends Command
 				// NOTA(RECKER): Actualizar el estado de la solicitud
 				$pending->status = 'verificado';
 				$pending->save();
+
+				// NOTA(RECKER): Notificación
+				$user->notify(new PendingPaymentCompletedNotification('Pago verificado correctamente', $transaction));
 				
 				// NOTA(RECKER): Log
 				$payload = [
@@ -124,7 +133,7 @@ class Payments extends Command
 				];
 				
 				$user->logs()->create([
-					'action' => 'Transacciรณn bancaria reclamada',
+					'action' => 'Transacción bancaria reclamada',
 					'payload' => $payload,
 					'type' => 'transaction',
 				]);
