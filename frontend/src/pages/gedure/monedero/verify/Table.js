@@ -16,9 +16,9 @@ import { setRequestStatus } from '../../../../store/slices/requestStatusWallet';
 import { getPendingPayments } from '../../../../store/slices/tablesWallet/async_trunk/monedero/TablePendingPayments';
 
 const colorChip = {
-  'no pagada': 'error',
-  'pagada': 'success',
-  'reembolsada': 'info',
+  'no encontrado': 'error',
+  'pendiente': 'info',
+  'verificado': 'success',
 }
 
 export default function Table() {
