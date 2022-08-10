@@ -19,6 +19,16 @@ class ExchangeRate extends Model
 	];
 
 	/**
+	 * The attributes that should be hidden for arrays.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'created_at',
+		'updated_at',
+	];
+
+	/**
 	 * The attributes casteable.
 	 *
 	 * @var array
@@ -30,6 +40,11 @@ class ExchangeRate extends Model
 
 	public $timestamps = ["created_at"];
 	const UPDATED_AT = null;
+
+	public function debt_lote()
+	{
+		return $this->hasOne('App\Models\WalletSystem\DebtLote');
+	}
 
 	/*
 	TIMEZONES

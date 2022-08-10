@@ -54,7 +54,7 @@ export default function EditLoteDeuda() {
 
     dispatch(editLoteDebts({ submitData, id: data.id }));
   }
-
+  
   return (
     <Dialog
       open={open}
@@ -94,7 +94,7 @@ export default function EditLoteDeuda() {
 								disabled={loading}
                 size='small'
 								helperText='Seleccione la moneda que desea usar para esta deuda'
-                defaultValue='Bs.'
+                defaultValue={data.exchange_rate_id !== null ? '$' : 'Bs.'}
 								fullWidth
 							>
 								<MenuItem value='$'>USD</MenuItem>
@@ -117,9 +117,9 @@ export default function EditLoteDeuda() {
                 decimalScale={2}
                 thousandSeparator='.'
                 decimalSeparator=','
-                defaultValue={data.amount_to_pay}
+                defaultValue={data.exchange_rate_id !== null ? data.exchange_amount : data.amount_to_pay}
                 allowNegative={false}
-								prefix={watch('exchange_rate_type') ? watch('exchange_rate_type')+' ' : 'Bs. '}
+								prefix={watch('exchange_rate_type') ? watch('exchange_rate_type')+' ' : data.exchange_rate?.type === 'USD' ? '$ ' : 'Bs. '}
 							/>
 						</Grid>
             {administrar_transac.debt_create && (

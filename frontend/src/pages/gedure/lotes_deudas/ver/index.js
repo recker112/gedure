@@ -116,6 +116,18 @@ export default function ShowDebtLote() {
                         {parseFloatToMoneyString(data.amount_to_pay)}
                       </Typography>
                     </Grid>
+                    {(data.exchange_rate_id !== null && data.exchange_rate.type === 'USD') && (
+                      <>
+                        <Grid item xs={12} sm={6} md={4}>
+                          <Typography align='center'>
+                            Monto en dólares a pagar
+                          </Typography>
+                          <Typography align='center' variant="body2" sx={{ color: "text.secondary" }}>
+                            {parseFloatToMoneyString(data.exchange_amount, '$ ')}
+                          </Typography>
+                        </Grid>
+                      </>
+                    )}
                     <Grid item xs={12} sm={6} md={4}>
                       <Typography align='center'>
                         Deuda asigada a

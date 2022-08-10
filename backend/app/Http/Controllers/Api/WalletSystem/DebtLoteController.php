@@ -28,10 +28,12 @@ class DebtLoteController extends Controller
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
 		
-		$debts = DebtLote::where('reason', 'like', "%$search%")
+		$debts = DebtLote::with('exchange_rate:id,type')
+			->where('reason', 'like', "%$search%")
 			->orWhere('id', 'like', "%$search%")
 			->offset($page)
 			->limit($perPage)
+			->latest()
 			->get()
 			->toArray();
 		
@@ -68,18 +70,19 @@ class DebtLoteController extends Controller
 	}
 	
 	public function show($id) {
-		$debt = DebtLote::withCount([
-			'debts',
-			'debts as debts_pagas_count' => function (Builder $query) {
-				$query->where('status', 'pagada');
-			},
-			'debts as debts_no_pagadas_count' => function (Builder $query) {
-				$query->where('status', 'no pagada');
-			},
-			'debts as debts_reembolsados_count' => function (Builder $query) {
-				$query->where('status', 'reembolsado');
-			},
-		])->findOrFail(intVal($id))
+		$debt = DebtLote::with('exchange_rate:id,type')
+			->withCount([
+				'debts',
+				'debts as debts_pagas_count' => function (Builder $query) {
+					$query->where('status', 'pagada');
+				},
+				'debts as debts_no_pagadas_count' => function (Builder $query) {
+					$query->where('status', 'no pagada');
+				},
+				'debts as debts_reembolsados_count' => function (Builder $query) {
+					$query->where('status', 'reembolsado');
+				},
+			])->findOrFail(intVal($id))
 			->makeVisible(['updated_at'])
 			->toArray();
 		
@@ -115,18 +118,23 @@ class DebtLoteController extends Controller
 			], 400);
 		}
 
+		// NOTA(RECKER): Creacion del lote de deudas
+		$debt_lote = new DebtLote;
+		$debt_lote->reason = $request->reason;
+
 		// NOTA(RECKER): ExchangeRate
 		$amount = $request->amount_to_pay;
 		if ($request->exchange_rate_type === '$') {
+			$debt_lote->exchange_amount = $amount;
+			
 			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
 			$amount = $amount * $exrate->amount;
+
+			$debt_lote->exchange_rate_id = $exrate->id;
 		}
-		
-		// NOTA(RECKER): Creacion del lote de deudas
-		$debt_lote = DebtLote::create([
-			'reason' => $request->reason,
-			'amount_to_pay' => $amount,
-		]);
+		$debt_lote->amount_to_pay = $amount;
+
+		$debt_lote->save();
 		
 		foreach($users as $user) {
 			$user->debts()->create([
@@ -155,10 +163,18 @@ class DebtLoteController extends Controller
 	public function edit(DebtLoteEditRequest $request, DebtLote $debt_lote) {
 		$user = $request->user();
 
+		// NOTA(RECKER): ExchangeRate
 		$amount = $request->amount_to_pay;
 		if ($request->exchange_rate_type === '$') {
+			$debt_lote->exchange_amount = $amount;
+			
 			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
 			$amount = $amount * $exrate->amount;
+
+			$debt_lote->exchange_rate_id = $exrate->id;
+		}else {
+			$debt_lote->exchange_rate_id = null;
+			$debt_lote->exchange_amount = 0;
 		}
 		
 		$debt_lote->reason = $request->reason;
