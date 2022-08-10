@@ -44,7 +44,13 @@ export default function Table() {
     {
       Header: 'Monto a pagar',
       accessor: 'amount_to_pay',
-      Cell: ({ cell: { row: { original: { amount_to_pay } } } }) => parseFloatToMoneyString(amount_to_pay),
+      Cell: ({ cell: { row: { original: { amount_to_pay, exchange_rate_id, exchange_amount, exchange_rate } } } }) => {
+        if (exchange_rate_id !== null && exchange_rate?.type === 'USD') {
+          return parseFloatToMoneyString(exchange_amount, '$ ');
+        }else {
+          return parseFloatToMoneyString(amount_to_pay);
+        }
+      },
     },
     {
       Header: 'Fecha',

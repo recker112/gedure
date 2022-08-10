@@ -23,6 +23,7 @@ class DebtLote extends Model
 	protected $fillable = [
 		'reason',
 		'amount_to_pay',
+		'exchange_amount',
 	];
 	
 	/**
@@ -46,6 +47,11 @@ class DebtLote extends Model
 	public function debts()
 	{
 		return $this->hasMany('App\Models\WalletSystem\Debt');
+	}
+
+	public function exchange_rate()
+	{
+		return $this->belongsTo('App\Models\WalletSystem\ExchangeRate');
 	}
 	
 	/*
