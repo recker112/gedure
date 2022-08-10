@@ -68,6 +68,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "PendingPaymentCompletedNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          Su pago pendiente fue verificado correctamente, acreditándole {parseFloatToMoneyString(data.amount)} a su cuenta.
+        </Typography>
+      </Box>
+    )
   }else if (typeParse === "SocketsNotification") {
     return (
       <Box>
