@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
 		});
 
 		Gate::define('viewWebSocketsDashboard', function ($user = null) {
-			return true;
+			return env('WEBSOCKETS_URL_STATS', true);
 	});
 	}
 }
