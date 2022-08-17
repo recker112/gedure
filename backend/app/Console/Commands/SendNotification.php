@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 
 // Models
 use App\Models\User;
@@ -35,13 +36,9 @@ class SendNotification extends Command
     {
         $allUsers = User::get();
 
-        $i = 0;
-        foreach($allUsers as $user) {
-            $user->notify(new SocketsNotification($this->argument('title'), $this->argument('content')));
-            $i++;
-        }
+        Notification::send($allUsers, new SocketsNotification($this->argument('title'), $this->argument('content')));
 
-        $this->info("Notificaciones enviadas: $i");
+        $this->info("Notificaciones enviadas: ".$allUsers->count());
         return 0;
     }
 }
