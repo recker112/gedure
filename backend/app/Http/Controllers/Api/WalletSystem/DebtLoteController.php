@@ -165,20 +165,23 @@ class DebtLoteController extends Controller
 
 		// NOTA(RECKER): ExchangeRate
 		$amount = $request->amount_to_pay;
-		if ($request->exchange_rate_type === '$') {
+		if ($request->exchange_rate_type === '$' && $amount !== $debt_lote->exchange_amount) {
 			$debt_lote->exchange_amount = $amount;
 			
 			$exrate = ExchangeRate::where('type', 'USD')->latest()->first();
 			$amount = $amount * $exrate->amount;
 
 			$debt_lote->exchange_rate_id = $exrate->id;
-		}else {
+
+			$debt_lote->amount_to_pay = $amount;
+		}else if ($request->exchange_rate_type === 'Bs.') {
 			$debt_lote->exchange_rate_id = null;
 			$debt_lote->exchange_amount = 0;
+
+			$debt_lote->amount_to_pay = $amount;
 		}
 		
 		$debt_lote->reason = $request->reason;
-		$debt_lote->amount_to_pay = $amount;
 		$debt_lote->save();
 		
 		$debts_created=0;
