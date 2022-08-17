@@ -1,7 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=../../public_html/
-    - /bin/cp -Rf backend/* ../../laravel
-    - /bin/rm -Rf ../../public_html/static
-    - /bin/cp -Rf backend/public/* $DEPLOYPATH
