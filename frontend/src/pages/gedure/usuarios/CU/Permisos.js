@@ -173,86 +173,86 @@ function PermissionsNoSuper(props){
 				}
 			]
 		},
-		// {
-		// 	name: 'wallet_index',
-		// 	label: 'Ver monederos',
-		// 	nested: [
-		// 		{
-		// 			name: 'wallet_administration',
-		// 			label: 'Administrar monederos',
-		// 		},
-		// 	]
-		// },
-		// {
-		// 	name: 'debt_lote_index',
-		// 	label: 'Ver lotes de deudas',
-		// 	nested: [
-		// 		{
-		// 			name: 'debt_lote_create',
-		// 			label: 'Crear lotes de deudas',
-		// 		},
-		// 		{
-		// 			name: 'debt_lote_edit',
-		// 			label: 'Editar lotes de deudas',
-		// 		},
-		// 		{
-		// 			name: 'debt_lote_delete',
-		// 			label: 'Eliminar lotes de deudas',
-		// 		},
-		// 		{
-		// 			name: 'debt_create',
-		// 			label: 'Asignar deuda individualmente',
-		// 		},
-		// 		{
-		// 			name: 'debt_delete',
-		// 			label: 'Eliminar deuda individualmente',
-		// 		},
-		// 		{
-		// 			name: 'debt_refund',
-		// 			label: 'Reembolsar deuda individualmente',
-		// 		}
-		// 	]
-		// },
-		// {
-		// 	name: 'bank_account_index',
-		// 	label: 'Ver cuentas bancarias',
-		// 	nested: [
-		// 		{
-		// 			name: 'bank_account_create',
-		// 			label: 'Crear cuenta bancaria'
-		// 		},
-		// 		{
-		// 			name: 'bank_account_edit',
-		// 			label: 'Editar cuenta bancaria'
-		// 		},
-		// 		{
-		// 			name: 'bank_account_destroy',
-		// 			label: 'Eliminar cuenta bancaria'
-		// 		},
-		// 	]
-		// },
-		// {
-		// 	name: 'bank_transaction_index',
-		// 	label: 'Ver transacciones bancarias',
-		// 	nested: [
-		// 		{
-		// 			name: 'bank_transaction_upload',
-		// 			label: 'Cargar transacciones bancarias'
-		// 		},
-		// 		{
-		// 			name: 'bank_transaction_assign',
-		// 			label: 'Asignar transacción bancaria'
-		// 		},
-		// 		{
-		// 			name: 'bank_transaction_delete',
-		// 			label: 'Eliminar transacción bancaria'
-		// 		},
-		// 	]
-		// },
-		// {
-		// 	name: 'transaction_index',
-		// 	label: 'Ver transacciones del sistema',
-		// },
+		{
+			name: 'wallet_index',
+			label: 'Ver monederos',
+			nested: [
+				{
+					name: 'wallet_administration',
+					label: 'Administrar monederos',
+				},
+			]
+		},
+		{
+			name: 'debt_lote_index',
+			label: 'Ver lotes de deudas',
+			nested: [
+				{
+					name: 'debt_lote_create',
+					label: 'Crear lotes de deudas',
+				},
+				{
+					name: 'debt_lote_edit',
+					label: 'Editar lotes de deudas',
+				},
+				{
+					name: 'debt_lote_delete',
+					label: 'Eliminar lotes de deudas',
+				},
+				{
+					name: 'debt_create',
+					label: 'Asignar deuda individualmente',
+				},
+				{
+					name: 'debt_delete',
+					label: 'Eliminar deuda individualmente',
+				},
+				{
+					name: 'debt_refund',
+					label: 'Reembolsar deuda individualmente',
+				}
+			]
+		},
+		{
+			name: 'bank_account_index',
+			label: 'Ver cuentas bancarias',
+			nested: [
+				{
+					name: 'bank_account_create',
+					label: 'Crear cuenta bancaria'
+				},
+				{
+					name: 'bank_account_edit',
+					label: 'Editar cuenta bancaria'
+				},
+				{
+					name: 'bank_account_destroy',
+					label: 'Eliminar cuenta bancaria'
+				},
+			]
+		},
+		{
+			name: 'bank_transaction_index',
+			label: 'Ver transacciones bancarias',
+			nested: [
+				{
+					name: 'bank_transaction_upload',
+					label: 'Cargar transacciones bancarias'
+				},
+				{
+					name: 'bank_transaction_assign',
+					label: 'Asignar transacción bancaria'
+				},
+				{
+					name: 'bank_transaction_delete',
+					label: 'Eliminar transacción bancaria'
+				},
+			]
+		},
+		{
+			name: 'transaction_index',
+			label: 'Ver transacciones del sistema',
+		},
 	];
 	
 	if (!super_admin) {

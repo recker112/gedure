@@ -54,23 +54,26 @@ export default function Monedero() {
 					</Grid>
 				</Box>
         <Grid container spacing={2}>
-					<Grid container justifyContent='flex-end' item xs={12}>
-						<Button
-							variant='contained' 
-							color='primary'
-              sx={{mr: 1}}
-							data-tour='transfer'
-						>
-							Transferir saldo
-						</Button>
-						<Button 
-							variant='contained' 
-							color='primary'
-							onClick={handleVerify}
-							data-tour='verify_pay'
-						>
-							Verificar pago
-						</Button>
+					<Grid container justifyContent='flex-end' spacing={1} item xs={12}>
+						<Grid item>
+							<Button
+								variant='contained' 
+								color='primary'
+								data-tour='transfer'
+							>
+								Transferir saldo
+							</Button>
+						</Grid>
+						<Grid item>
+							<Button 
+								variant='contained' 
+								color='primary'
+								onClick={handleVerify}
+								data-tour='verify_pay'
+							>
+								Verificar pago
+							</Button>
+						</Grid>
 					</Grid>
 					<Grid item xs={12}>
 						<Table />
