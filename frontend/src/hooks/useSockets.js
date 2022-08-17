@@ -26,11 +26,11 @@ export default function useSockets() {
     },
     wsHost: window.location.hostname,
     wsPort: 6001,
-    wssport: 6001,
+    wssPort: 6001,
     transports: ['websocket'],
     enabledTransports: ['ws', 'wss'],
     forceTLS: false,
-    disableStats: true
+    disableStats: true,
   };
 
   // NOTA(RECKER): Core
