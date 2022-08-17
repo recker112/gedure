@@ -46,8 +46,23 @@ export default function LotesDeudas() {
           Lotes de deudas
         </Box>
         <Grid container spacing={2}>
-          <Grid container justifyContent="flex-end" item xs={12}>
-            <Button variant="contained" onClick={handleOpenCreate} disabled={!debt_lote_create}>Crear lote de deudas</Button>
+          <Grid container spacing={1} justifyContent="flex-end" item xs={12}>
+            <Grid item>
+              <Button 
+                variant="contained" 
+              >
+                Verificar solvencia
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button 
+                variant="contained" 
+                onClick={handleOpenCreate} 
+                disabled={!debt_lote_create}
+              >
+                Crear lote de deudas
+              </Button>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Table />
@@ -59,7 +74,7 @@ export default function LotesDeudas() {
           rdx1='requestStatusWallet' 
           rdx2='deleteLoteDeuda'
           close={
-            setRequestStatus({open: false, data: {}, select: 'deleteLoteDeuda'})
+            setRequestStatus({open: false, select: 'deleteLoteDeuda'})
           }
           request={
             data => destroyLoteDebts(data)

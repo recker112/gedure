@@ -64,8 +64,7 @@ export default function Usuarios() {
                 disabled={!users_upload_matricula} 
                 variant="contained" 
                 data-tour="gdUser__upload"
-                onClick={handleOpenUpload} 
-                sx={{mr: 1}}
+                onClick={handleOpenUpload}
               >
                 Cargar estudiantes
               </Button>

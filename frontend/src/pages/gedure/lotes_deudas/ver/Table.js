@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 // MUI
 import { Chip, IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Components
