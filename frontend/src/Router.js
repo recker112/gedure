@@ -100,6 +100,7 @@ const VerTransaccionesPage = lazy(() => import('./pages/gedure/transacciones/ver
 const MonederoPage = lazy(() => import('./pages/gedure/monedero'));
 const VerMonederoPage = lazy(() => import('./pages/gedure/monedero/ver'));
 const VerifyPagosPage = lazy(() => import('./pages/gedure/monedero/verify'));
+const TransferirSaldoPage = lazy(() => import('./pages/gedure/monedero/transfer'));
 
 const classes = {
   container: {
@@ -122,6 +123,7 @@ export default function Routers() {
   const match = useMatch('/entrar');
   const match2 = useMatch('/recuperar');
   const match3 = useMatch('/gedure/monedero/verificar-pagos');
+  const match4 = useMatch('/gedure/monedero/transferir-saldo');
 
   const { permissions, privilegio } = useSelector(state => ({
     permissions: state.auth.permissions,
@@ -140,7 +142,7 @@ export default function Routers() {
   return (
     <Suspense fallback={<Loader />}>
       <Relogin>
-        {(!match && !match2 && !match3) && <Navbar />}
+        {(!match && !match2 && !match3 && !match4) && <Navbar />}
 
         <Suspense fallback={<Loader />}>
           <Routes>
@@ -408,6 +410,12 @@ export default function Routers() {
                 <Route path='verificar-pagos' element={
                   <AuthProtect>
                     <VerifyPagosPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='transferir-saldo' element={
+                  <AuthProtect>
+                    <TransferirSaldoPage />
                   </AuthProtect>
                 } />
 

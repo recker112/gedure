@@ -67,22 +67,23 @@ export default function VerificarPagos() {
     })
   }
 
-  const handleReset = (callBack) => setActiveStep(0);
+  const handleReset = () => setActiveStep(0);
 
   return (
     <Grid sx={{ flexGrow: 1 }} container>
       <Slide direction="right" in={true} mountOnEnter unmountOnExit>
-        <Grid sx={classes.aside} item xs={12} sm={12} md={4}>
+        <Grid sx={classes.aside} item xs={12} sm={12} md={4} lg={3}>
           <Aside 
             steps={steps}
             handleReturn={handleReturn}
             activeStep={activeStep}
+            title='Verificar Pagos'
           />
         </Grid>
       </Slide>
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8}>
+        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8} lg={9}>
           <Forms
             handleNext={handleNext}
             handleBack={handleBack}
