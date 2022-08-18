@@ -36,6 +36,10 @@ export default function Monedero() {
 		navigate('/gedure/monedero/verificar-pagos');
 	}
 
+	const handleTransfer = () => {
+		navigate('/gedure/monedero/transferir-saldo');
+	}
+
   return (
     <Box component="main" sx={classes.container}>
       <Container>
@@ -59,6 +63,7 @@ export default function Monedero() {
 							<Button
 								variant='contained' 
 								color='primary'
+								onClick={handleTransfer}
 								data-tour='transfer'
 							>
 								Transferir saldo

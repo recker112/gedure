@@ -1,25 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateWallet } from "../../../auth";
 import { updateNotistack } from "../../../notistack";
 
-export const verifyPayments = createAsyncThunk(
-  'requestStatusWallet/monedero/verify/payments',
+export const verifyTransfer = createAsyncThunk(
+  'requestStatusWallet/monedero/verify/transfer',
   async ({ submitData, callBack }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/bank-account/${submitData.bank_account}/payment`;
+    let url = `v1/wallet/transfer/verify`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
       const res = await axios.post(url, submitData, {
         signal, // NOTA(RECKER): Señal para cancelar petición
       });
-
-      if (res.data.balance) {
-        dispatch(updateWallet(res.data.balance));
-      }
-
-      dispatch(updateNotistack({ status: res.status, text: res.data.msg, variant: res.data.balance ? 'success' : 'info' }));
 
       callBack();
 
@@ -40,14 +33,15 @@ export const verifyPayments = createAsyncThunk(
   }
 );
 
-export const reducersVerifyPayments = {
-  [verifyPayments.pending]: (state, action) => {
-    state.verifyPayments.loading = true;
+export const reducersVerifyTransfer = {
+  [verifyTransfer.pending]: (state, action) => {
+    state.verifyTransfer.loading = true;
   },
-  [verifyPayments.rejected]: (state, action) => {
-    state.verifyPayments.loading = false;
+  [verifyTransfer.rejected]: (state, action) => {
+    state.verifyTransfer.loading = false;
   },
-  [verifyPayments.fulfilled]: (state, action) => {
-    state.verifyPayments.loading = false;
+  [verifyTransfer.fulfilled]: (state, action) => {
+    state.verifyTransfer.loading = false;
+    state.verifyTransfer.data = action.payload;
   },
 }

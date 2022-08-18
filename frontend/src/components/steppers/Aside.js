@@ -57,6 +57,7 @@ export default function Aside({
   steps,
   handleReturn,
   activeStep,
+  title,
 }) {
   return (
     <Container sx={classes.container}>
@@ -75,7 +76,7 @@ export default function Aside({
           </Grid>
           <Grid item xs>
             <Typography sx={classes.title} component='div' variant='h5'>
-              Verificar Pagos
+              {title}
             </Typography>
           </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-// Router 
+// Router
 import { useNavigate } from 'react-router-dom';
 
 // MUI
@@ -21,12 +21,11 @@ const classes = {
 }
 
 const steps = [
-	'Pagos pendientes',
-	'Seleccionar cuenta', 
-	'Datos de la transferencia',
+	'Rellenar datos', 
+	'Confirmar datos',
 ];
 
-export default function VerificarPagos() {
+export default function TransfeririSaldo() {
   useNotifier();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -35,7 +34,7 @@ export default function VerificarPagos() {
   }));
 
   // NOTA(RECKER): Title
-  document.title = count_notify > 0 ? `(${count_notify}) Verificar pagos - La Candelaria` : `Verificar pagos - La Candelaria`;
+  document.title = count_notify > 0 ? `(${count_notify}) Transferir saldo - La Candelaria` : `Transferir saldo - La Candelaria`;
 
   const navigate = useNavigate();
 
@@ -73,11 +72,11 @@ export default function VerificarPagos() {
     <Grid sx={{ flexGrow: 1 }} container>
       <Slide direction="right" in={true} mountOnEnter unmountOnExit>
         <Grid sx={classes.aside} item xs={12} sm={12} md={4} lg={3}>
-          <Aside 
+          <Aside
             steps={steps}
             handleReturn={handleReturn}
             activeStep={activeStep}
-            title='Verificar Pagos'
+            title='Transferir saldo'
           />
         </Grid>
       </Slide>
