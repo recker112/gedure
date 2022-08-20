@@ -14,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
 	 * @var array
 	 */
 	protected $policies = [
-			// 'App\Models\Model' => 'App\Policies\ModelPolicy',
+			'App\Models\WalletSystem\Wallet' => 'App\Policies\WalletSystem\WalletPolicy',
+			'App\Models\Gedure\Post' => 'App\Policies\Gedure\PostPolicy',
 	];
 
 	/**
@@ -36,14 +37,12 @@ class AuthServiceProvider extends ServiceProvider
 		]);
 		
 		// Implicitly grant "Super Admin" role all permission checks using can()
-		Gate::before(function ($user, $ability) {
-			if ($user->hasRole('super-admin')) {
-				return true;
-			}
+		Gate::after(function ($user, $ability) {
+			return $user->hasRole('super-admin'); // note this returns boolean
 		});
 
 		Gate::define('viewWebSocketsDashboard', function ($user = null) {
 			return env('WEBSOCKETS_URL_STATS', true);
-	});
+		});
 	}
 }
