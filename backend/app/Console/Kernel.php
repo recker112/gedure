@@ -32,13 +32,6 @@ class Kernel extends ConsoleKernel
 		$schedule->command('queue:restart')
 			->daily()
 			->sendOutputTo(storage_path('logs/queue_restart.log'));
-		
-		// NOTA(RECKER): Iniciar queues
-		$schedule->command('queue:work --tries=3 --backoff=5 --queue=high,commands,default,emails')
-		->environments(['production'])
-		->withoutOverlapping()
-		->runInBackground()
-		->appendOutputTo(storage_path('logs/queue_work.log'));
 
 		// NOTA(RECKER): Iniciar queues DEV
 		$schedule->command('queue:listen --tries=3 --backoff=5 --queue=high,commands,default,emails')
@@ -46,13 +39,6 @@ class Kernel extends ConsoleKernel
 		->withoutOverlapping()
 		->runInBackground()
 		->appendOutputTo(storage_path('logs/queue_listen.log'));
-
-		// NOTA(RECKER): Iniciar websockets
-		$schedule->command('websockets:serve')
-		->environments(['production'])
-		->withoutOverlapping()
-		->runInBackground()
-		->appendOutputTo(storage_path('logs/websockets_serve.log'));
 		
 		// NOTA(RECKER): Limpiar passport
 		$schedule->command('passport:purge')
