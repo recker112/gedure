@@ -39,7 +39,7 @@ export default function AvatarMenu() {
        color: 'secondary.contrastText'
       }}
       src={avatar}
-      data-tour="avatar__menu"
+      data-tour="avatar-menu"
      >
       {name.substring(0, 1).toUpperCase()}
      </Avatar>

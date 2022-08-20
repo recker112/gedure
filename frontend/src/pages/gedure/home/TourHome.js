@@ -38,7 +38,7 @@ export default function TourHome() {
 			}
 		},
 		{
-			selector: '[data-tour="avatar__menu"]',
+			selector: '[data-tour="avatar-menu"]',
 			content: () => (
 				<Typography variant='body1'>
 					Este boton le permite <strong>desplegar el Avatar Menú</strong> el cual contiene un pequeño menú con acciones relacionadas a la cuenta.
@@ -49,7 +49,7 @@ export default function TourHome() {
 			}
 		},
 		{
-			selector: '[data-tour="theme__button"]',
+			selector: '[data-tour="change-theme"]',
 			content: () => (
 				<Typography variant='body1'>
 					Este boton le permite <strong>cambiar</strong> entre el <strong>Modo Oscuro y el Modo Claro</strong>.
@@ -60,7 +60,18 @@ export default function TourHome() {
 			},
 		},
 		{
-			selector: '[data-tour="drawer__button"]',
+			selector: '[data-tour="notify"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este boton le permite <strong>ver las notificaciones</strong> del sistema.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="drawer"]',
 			content: () => (
 				<Typography variant='body1'>
 					Este boton <strong>abre el menú del sistema</strong>, desde aquí podrá navegar por todo el sistema.

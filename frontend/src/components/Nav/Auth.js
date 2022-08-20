@@ -41,7 +41,7 @@ export default function Auth() {
   return (
     <Toolbar>
       <Box sx={{flexGrow: 1}}>
-        <Tooltip title='Menú' arrow data-tour="drawer__button">
+        <Tooltip title='Menú' arrow data-tour="drawer">
           <IconButton onClick={handleDrawer} color="inherit">
             <MenuIcon />
           </IconButton>
@@ -50,7 +50,7 @@ export default function Auth() {
       <NotifyMenu />
       <ChangeTheme>
         <Tooltip title={temaText} arrow>
-          <IconButton sx={{mr: 1}} color="inherit" data-tour="theme__button">
+          <IconButton sx={{mr: 1}} color="inherit" data-tour="change-theme">
             <WbIncandescentIcon />
           </IconButton>
         </Tooltip>
