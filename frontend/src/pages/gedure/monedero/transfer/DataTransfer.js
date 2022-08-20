@@ -6,9 +6,12 @@ import { Grid, Typography } from '@mui/material';
 // Form
 import { useFormContext } from 'react-hook-form';
 import { InputHook, InputMaskHook } from '../../../../components/form/inputs';
+import { useSelector } from 'react-redux';
 
 export default function DataTransfer() {
   const { control } = useFormContext();
+
+  const balance = useSelector(state => state.auth.user.wallet.balance);
 
   return (
     <>
@@ -42,7 +45,7 @@ export default function DataTransfer() {
             minLength: { value: 3, message: 'Error: Demaciado corto' },
             maxLength: { value: 30, message: 'Error: Demaciado largo' },
           }}
-          name='usernsme'
+          name='username'
           label='Usuario o cédula'
           size='small'
           helperText='Ingrese el usuario al que desea transferir saldo'
@@ -55,9 +58,12 @@ export default function DataTransfer() {
 					rules={{
 						required: '* Campo requerido',
 						min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
+            validate: {
+              balance: v => v <= balance || 'Error: Saldo insuficiente',
+            }
 					}}
           size='small'
-					name='amount_to_send'
+					name='amount_to_transfer'
 					label='Monto a transferir'
 					helperText='Ingrese el monto que desea transferir'
 					fullWidth
