@@ -28,7 +28,7 @@ export default function NotifyMenu() {
   return (
     <>
       <Tooltip arrow title='Notificaciones'>
-        <IconButton sx={{mr: 1}} color="inherit" onClick={handleClick} size="small">
+        <IconButton sx={{mr: 1}} color="inherit" onClick={handleClick} size="small" data-tour="notify">
           <Badge badgeContent={count_notify} color='secondary' max={10}>
             <NotificationsIcon />
           </Badge>
