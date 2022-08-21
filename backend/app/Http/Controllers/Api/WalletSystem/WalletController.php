@@ -30,7 +30,8 @@ class WalletController extends Controller
     $reqAmount = $request->amount_to_transfer;
 
     // Buscar usuario
-    $userFind = User::with(['alumno.curso'])->firstWhere('username', $reqUsername);
+    $userFind = User::with(['alumno.curso:id,code'])->firstWhere('username', $reqUsername);
+    $userFind?->alumno?->curso->makeVisible(['code']);
 
     // Verificar usuario a transferir
     if (!$userFind || $user->id === $userFind->id) {
@@ -48,7 +49,7 @@ class WalletController extends Controller
 
     return response()->json([
       'name' => $userFind->name,
-      'curso' => $userFind->alumno->curso,
+      'curso' => $userFind?->alumno?->curso,
 		], 200);
   }
 }
