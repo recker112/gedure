@@ -41,14 +41,14 @@ export default function Form() {
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography className="text__bold--semi" variant="h3">
+            <Typography className="text__bold--semi" sx={{typography: {xs: 'h4', sm: 'h3'}}}>
               Ingrese sus datos
             </Typography>
           </Grid>
 
           <Grid item xs={12}>
             <InputHook
-              variant="standard"
+              variant="filled"
               control={control}
               rules={{
                 required: '* Campo requerido',
@@ -65,7 +65,7 @@ export default function Form() {
 
           <Grid item xs={12}>
             <InputPasswordHook
-              variant="standard"
+              variant="filled"
               control={control}
               rules={{
                 required: '* Campo requerido',
