@@ -20,23 +20,6 @@ export default function DataTransfer() {
 					Rellenar datos para transferir
 				</Typography>
 			</Grid>
-      <Grid item xs={12}>
-				<Typography>
-					Tenga en cuenta los siguientes puntos antes de transferir saldo
-				</Typography>
-				<ul>
-					<li>
-						<Typography>
-							Una ves realizada la transferencia de saldo no es posible deshacer esa acción.
-						</Typography>
-					</li>
-					<li>
-						<Typography>
-							Verifique bien los datos ingresados.
-						</Typography>
-					</li>
-				</ul>
-			</Grid>
       <Grid item xs={12} sm={6}>
         <InputHook
           control={control}
@@ -48,32 +31,51 @@ export default function DataTransfer() {
           name='username'
           label='Usuario o cédula'
           size='small'
-          helperText='Ingrese el usuario al que desea transferir saldo'
+          variant='filled'
+          helperText='Usuario al que desea transferir saldo'
           fullWidth
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <InputMaskHook
-					control={control}
-					rules={{
-						required: '* Campo requerido',
-						min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
+          control={control}
+          rules={{
+            required: '* Campo requerido',
+            min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
             validate: {
               balance: v => v <= balance || 'Error: Saldo insuficiente',
             }
-					}}
+          }}
           size='small'
-					name='amount_to_transfer'
-					label='Monto a transferir'
-					helperText='Ingrese el monto que desea transferir'
-					fullWidth
+          name='amount_to_transfer'
+          label='Monto a transferir'
+          helperText='Monto que desea transferir'
+          fullWidth
+          variant='filled'
           decimalScale={2}
           thousandSeparator='.'
           decimalSeparator=','
           allowNegative={false}
           prefix={'Bs. '}
-				/>
+        />
       </Grid>
+      <Grid item xs={12}>
+				<Typography variant='subtitle2'>
+					Tenga en cuenta los siguientes puntos antes de transferir saldo
+				</Typography>
+				<ul>
+					<li>
+						<Typography variant='subtitle2'>
+							Una ves realizada la transferencia de saldo no es posible deshacer esa acción.
+						</Typography>
+					</li>
+					<li>
+						<Typography variant='subtitle2'>
+							Verifique bien los datos ingresados.
+						</Typography>
+					</li>
+				</ul>
+			</Grid>
     </>
   )
 }

@@ -13,6 +13,8 @@ export default function DatePickerHook({
       date: v => !isNaN(v) || 'Error: Fecha inválida',
     }
   },
+  size = 'small',
+  variant = 'outlined',
   defaultValue = '',
   helperText,
   disabled,
@@ -50,7 +52,8 @@ export default function DatePickerHook({
       value={value}
       renderInput={(params) => (
         <TextField 
-          size='small' 
+          size={size}
+          variant={variant}
           fullWidth 
           {...inputProps}
           {...params} 

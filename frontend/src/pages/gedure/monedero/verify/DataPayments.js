@@ -31,23 +31,7 @@ export default function DataPayments() {
 					Datos de la transferencia realizada
 				</Typography>
 			</Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <InputMaskHook
-          control={control}
-          rules={{
-            required: '* Campo requerido',
-            minLength: { value: 8, message: 'Error: No válido' },
-          }}
-          name='reference'
-					label='Referencia'
-          size='small'
-          format="########"
-          disabled={loading}
-					helperText='Ingrese los últimos 8 dígitos de la referencia'
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12}>
 				<InputMaskHook
 					control={control}
 					rules={{
@@ -58,6 +42,7 @@ export default function DataPayments() {
 					name='amount'
 					label='Monto pagado'
 					helperText='Ingrese el monto el cual transfirió'
+          variant='filled'
 					fullWidth
           disabled={loading}
           decimalScale={2}
@@ -67,11 +52,29 @@ export default function DataPayments() {
           prefix={'Bs. '}
 				/>
 			</Grid>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6}>
+        <InputMaskHook
+          control={control}
+          rules={{
+            required: '* Campo requerido',
+            minLength: { value: 8, message: 'Error: No válido' },
+          }}
+          name='reference'
+					label='Referencia'
+          variant='filled'
+          size='small'
+          format="########"
+          disabled={loading}
+					helperText='Ingrese los últimos 8 dígitos de la referencia'
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12} sm={6}>
 				<SelectHook
           name='code'
 					label='Banco emisor'
           control={control}
+          variant='filled'
           helperText='Ingrese el banco desde donde realizó la transferencia'
           size='small'
           fullWidth
@@ -83,12 +86,14 @@ export default function DataPayments() {
           {MenuItemList}
         </SelectHook>
 			</Grid>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12}>
         <DatePickerHook
           disableFuture
           name="date"
 					label="Fecha de la transferencia"
+          variant='filled'
           control={control}
+          size='small'
           helperText='Ingrese la fecha en la que realizó la transferencia'
           openTo='day'
           views={['month','day']}
