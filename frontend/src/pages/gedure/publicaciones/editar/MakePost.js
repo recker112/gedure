@@ -41,7 +41,7 @@ export default function MakePost() {
             label='Título'
             helperText='Ingrese un título para su publicación'
             size='small'
-            variant='standard'
+            variant='outlined'
             fullWidth
             defaultValue={''}
             disabled={loading}
