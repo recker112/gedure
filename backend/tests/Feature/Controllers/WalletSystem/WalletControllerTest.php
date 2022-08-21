@@ -46,4 +46,41 @@ class WalletControllerTest extends TestCase
 				'curso',
 			]);
 	}
+
+	public function testConfirmTransfer()
+	{
+		$this->withoutExceptionHandling();
+		$user = User::find(1);
+		Passport::actingAs(
+			$user,
+			['admin']
+		);
+
+		// Agregar saldo
+		$user->wallet->balance = 99;
+		$user->wallet->save();
+		
+		$otherUser = User::factory()->create();
+		$otherUser->wallet()->create();
+
+		$response = $this->postJson('/api/v1/wallet/transfer/confirm', [
+			'username' => $otherUser->username,
+			'password' => '1234',
+			'amount_to_transfer' => 12.43,
+		]);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg',
+				'balance'
+			]);
+
+		$this->assertDatabaseHas('wallets', [
+			'balance' => 99 - 12.43,
+    ]);
+
+		$this->assertDatabaseHas('transactions', [
+			'amount' => 12.43,
+    ]);
+	}
 }

@@ -10,13 +10,14 @@ import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
 import conveterCursorCode from '../../../../components/Utils/converterCursoCode';
-import { InputHook } from '../../../../components/form/inputs';
+import { InputPasswordHook } from '../../../../components/form/inputs';
 
 export default function DataConfirm() {
   const { control, watch } = useFormContext();
 
-  const { data, balance } = useSelector(state => ({
+  const { data, balance, loading } = useSelector(state => ({
     data: state.requestStatusWallet.verifyTransfer.data,
+    loading: state.requestStatusWallet.confirmTransfer.loading,
     balance: state.auth.user.wallet.balance,
   }));
 
@@ -28,69 +29,87 @@ export default function DataConfirm() {
 				</Typography>
 			</Grid>
       <Grid item xs={12}>
-        <Typography variant='h6'>
-          Usuario seleccionado
+        <Typography>
+          <strong>Usuario seleccionado</strong>
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sm={6}>
+        <Typography color='text.secondary'>
+          Usuario o cédula
+        </Typography>
         <Typography>
-          Usuario o cédula: {watch('username')}
+          {watch('username')}
         </Typography>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} sm={6}>
+        <Typography color='text.secondary'>
+          Nombre
+        </Typography>
         <Typography>
-        Nombre: {data.name}
+        {data.name}
         </Typography>
       </Grid>
 
       {data.curso && (
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
+          <Typography color='text.secondary'>
+          Curso actual
+          </Typography>
           <Typography>
-            Curso actual: {conveterCursorCode(data.curso.code)}
+            {conveterCursorCode(data.curso.code) + ' ' + data.curso.code[data.curso.code.length - 1]}
           </Typography>
         </Grid>
       )}
 
       <Grid item xs={12}>
-        <Typography variant='h6'>
-          Información de saldo
+        <Typography>
+          <strong>Información de saldo</strong>
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Typography color='text.secondary'>
+          Monto a transferir
+        </Typography>
+        <Typography>
+          {parseFloatToMoneyString(watch('amount_to_transfer'))}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Typography color='text.secondary'>
+          Saldo actual en monedero
+        </Typography>
+        <Typography>
+          {parseFloatToMoneyString(balance)}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Typography color='text.secondary'>
+          Nuevo saldo disponible
+        </Typography>
+        <Typography>
+          {parseFloatToMoneyString(balance - watch('amount_to_transfer'))}
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography>
-					Monto a transferir: {parseFloatToMoneyString(watch('amount_to_transfer'))}
-				</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>
-					Saldo actual en monedero: {parseFloatToMoneyString(balance)}
-				</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>
-					Nuevo saldo: {parseFloatToMoneyString(balance - watch('amount_to_transfer'))}
-				</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>
-          Confirmar contraseña
+          <strong>Confirmar transacción</strong>
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <InputHook
+        <InputPasswordHook
+          variant="filled"
           control={control}
           rules={{
             required: '* Campo requerido',
-            minLength: { value: 8, message: 'Error: No válido' },
+            minLength: { value: 4, message: 'Error: No válido' },
+            maxLength: { value: 25, message: 'Error: No válida' }
           }}
           name='password'
-					label='Contraseña actual'
-          size='small'
-          variant='filled'
-          disabled={false}
-					helperText='Ingrese su contraseña actual'
+          label='Contraseña'
+          helperText='Ingrese su contraseña actual para confirmar esta transacción'
           fullWidth
+          disabled={loading}
         />
       </Grid>
     </>

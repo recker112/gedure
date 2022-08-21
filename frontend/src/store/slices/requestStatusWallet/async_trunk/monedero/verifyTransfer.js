@@ -3,7 +3,7 @@ import { updateNotistack } from "../../../notistack";
 
 export const verifyTransfer = createAsyncThunk(
   'requestStatusWallet/monedero/verify/transfer',
-  async ({ submitData, callBack }, { getState, signal, dispatch }) => {
+  async ({ submitData, callBack, errors }, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url = `v1/wallet/transfer/verify`;
@@ -23,6 +23,17 @@ export const verifyTransfer = createAsyncThunk(
       } else if (error.response) {
         // NOTA(RECKER): Respuesta del servidor
         const { data, status } = error.response;
+
+        // NOTA(RECKER): Setear errores en inputs
+        if (status === 422 && Boolean(data.errors)) {
+          for (let key in data.errors) {
+						errors && errors(key, {
+							type: 'fetchRequest',
+							message: 'Error: '+data.errors[key][0],
+						});
+					}
+        }
+
         dispatch(updateNotistack({ status: status, text: data.msg }));
       } else {
         // NOTA(RECKER): Sin respuesta por parte del servidor

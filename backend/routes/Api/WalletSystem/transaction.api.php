@@ -37,5 +37,5 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
 	->get('transaction/{id}/download', [TransactionController::class, 'download']);
 
 // Download transactions user
-Route::middleware(['auth:api', 'scopes:admin',  'can:transaction_index'])
+Route::middleware(['auth:api'])
 	->get('transaction/{id}/user/download', [TransactionController::class, 'downloadUser']);

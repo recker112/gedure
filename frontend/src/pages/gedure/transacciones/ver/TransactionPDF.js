@@ -33,7 +33,7 @@ export default function TransactionPDF({
 							U.E.P A.P.E.P "La Candelaria"
 						</Typography>
 						<Typography className='text__opacity--semi'>
-							N° Factura #{id}
+							N° Recibo #{id}
 						</Typography>
 					</Grid>
 				</Grid>
@@ -77,13 +77,23 @@ export default function TransactionPDF({
 						</Typography>
 					</Grid>
 				)}
-        {type === 'deudas' && (
+        {type === 'deuda pagada' && (
 					<Grid item xs={12} sm={6}>
 						<Typography align='right' className='text__bold--semi'>
 							Pago realizado a:
 						</Typography>
 						<Typography align='right'>
 							Plataforma
+						</Typography>
+					</Grid>
+				)}
+				{type === 'transferencia de saldo' && (
+					<Grid item xs={12} sm={6}>
+						<Typography align='right' className='text__bold--semi'>
+							{payload.extra_data.sender ? 'Pago realizado a:' : 'Pago recibido de:'}
+						</Typography>
+						<Typography align='right'>
+							{payload.extra_data.name} ({payload.extra_data.username})
 						</Typography>
 					</Grid>
 				)}

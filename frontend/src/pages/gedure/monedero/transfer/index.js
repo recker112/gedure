@@ -66,7 +66,7 @@ export default function TransfeririSaldo() {
     })
   }
 
-  const handleReset = () => setActiveStep(0);
+  const handleReset = () => navigate('/gedure/monedero');
 
   return (
     <Grid sx={{ flexGrow: 1 }} container>
