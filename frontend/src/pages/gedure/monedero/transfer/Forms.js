@@ -15,6 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
 import DataTransfer from './DataTransfer';
+import DataConfirm from './DataConfirm';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,7 +26,8 @@ const classes = {
     marginTop: 2
   },
   controls: {
-    my: 2,
+    mt: 4,
+    mb: 2,
   }
 }
 
@@ -60,6 +62,9 @@ export default function Form({
             <Grid container spacing={2} item xs={12}>
               {activeStep === 0 && (
                 <DataTransfer />
+              )}
+              {activeStep === 1 && (
+                <DataConfirm />
               )}
             </Grid>
           </LocalizationProvider>

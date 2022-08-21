@@ -42,6 +42,7 @@ export default function SelectAccount() {
           data={dataAccountSelected}
           name='bank_account'
           label='Buscar cuenta bancaria'
+          variant='filled'
           control={control}
           getOptionLabel={(option) => option.name || ''}
           renderOption={(props, option) => (

@@ -20,30 +20,30 @@ export default function PagosPendientes() {
 				</Typography>
 			</Grid>
       <Grid item xs={12}>
-				<Typography>
+        <Table />
+      </Grid>
+			<Grid item xs={12}>
+				<Typography variant='subtitle2'>
 					Tenga en cuenta los siguientes puntos antes de realizar una transferencia:
 				</Typography>
 				<ul>
 					<li>
-						<Typography>
+						<Typography variant='subtitle2'>
 							Los pagos pendientes son procesados todos los días a las 9:00 AM.
 						</Typography>
 					</li>
 					<li>
-						<Typography>
+						<Typography variant='subtitle2'>
 							Verifique bien los datos que está enviando al sistema, si son erroneos no se podrá comprobar el pago.
 						</Typography>
 					</li>
 					<li>
-						<Typography>
+						<Typography variant='subtitle2'>
 							Todos los precios dentro del sistema se actualizan los domingos a las 9:00 AM, intente no hacer transferencias los viernes.
 						</Typography>
 					</li>
 				</ul>
 			</Grid>
-      <Grid item xs={12}>
-        <Table />
-      </Grid>
 			<DialogConfirmation
 				rdx1='requestStatusWallet' 
 				rdx2='deletePendingPayments'

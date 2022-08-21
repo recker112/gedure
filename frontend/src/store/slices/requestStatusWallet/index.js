@@ -62,6 +62,9 @@ const initialState = {
     loading: false,
     data: {},
   },
+  confirmTransfer: {
+    loading: false,
+  },
 };
 
 export const requestStatusWalletSlices = createSlice({

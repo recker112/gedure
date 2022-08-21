@@ -24,10 +24,11 @@ import { verifyPayments } from '../../../../store/slices/requestStatusWallet/asy
 
 const classes = {
   container: {
-    marginTop: 2
+    marginTop: 3
   },
   controls: {
-    my: 2,
+    mt: 4,
+    mb: 2,
   }
 }
 
