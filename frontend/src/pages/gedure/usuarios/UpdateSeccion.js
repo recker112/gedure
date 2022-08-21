@@ -2,7 +2,9 @@ import React, { useCallback } from 'react'
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, MenuItem } from '@mui/material'
-import LoadingButton from '@mui/lab/LoadingButton'
+import LoadingButton from '@mui/lab/LoadingButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Form
 import { useForm } from 'react-hook-form'
@@ -20,6 +22,9 @@ import { updateSeccion } from '../../../store/slices/requestStatus/async_trunk/u
 export default function UpdateSeccion() {
   const { open, loading, data } = useSelector(state => (state.requestStatus.updateSeccion));
   const dispatch = useDispatch();
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const { handleSubmit, control } = useForm({
 		mode: 'onTouched',
@@ -45,6 +50,7 @@ export default function UpdateSeccion() {
   return (
     <Dialog
       open={open}
+      fullScreen={fullScreen}
       TransitionComponent={AnimationDialog}
     >
       <DialogTitle>Cambiar sección</DialogTitle>

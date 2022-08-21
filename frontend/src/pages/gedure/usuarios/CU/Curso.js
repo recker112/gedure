@@ -1,7 +1,7 @@
 import React from 'react'
 
 // MUI
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 
 // Components
 import { AutoCompleteAsyncHook } from '../../../../components/form/inputs/index';
@@ -28,22 +28,29 @@ export default function Curso({ disabled, control }) {
 
   if (privilegio === 'V-') {
     return (
-      <Grid item xs={12}>
-        <AutoCompleteAsyncHook
-          data={data}
-          name='curso_id'
-          label='Seleccionar un curso'
-          helperText='Seleccione el curso en el cual desea ingresar al usuario'
-          control={control}
-          disabled={disabled}
-          getOptionLabel={(option) => option.code || ''}
-          isOptionEqualToValue={(option, value) => option.code === value.code}
-          handleRequest={handleRequest}
-          rules={{
-            required: { value: true, message: '* Campo requerido' },
-          }}
-        />
-      </Grid>
+      <>
+        <Grid sx={{mt: 4}} item xs={12}>
+          <Typography color='text.secondary'>
+            Curso
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <AutoCompleteAsyncHook
+            data={data}
+            name='curso_id'
+            label='Seleccionar un curso'
+            helperText='Seleccione el curso en el cual desea ingresar al usuario'
+            control={control}
+            disabled={disabled}
+            getOptionLabel={(option) => option.code || ''}
+            isOptionEqualToValue={(option, value) => option.code === value.code}
+            handleRequest={handleRequest}
+            rules={{
+              required: { value: true, message: '* Campo requerido' },
+            }}
+          />
+        </Grid>
+      </>
     )
   }
 

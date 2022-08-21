@@ -10,7 +10,7 @@ import { InputPasswordHook } from '../../../../components/form/inputs/InputPassw
 // Components
 import generatePassword from '../../../../components/Utils/GeneratePassword';
 
-export default function Password({ control, loading, setValue }) {
+export default function Password({ control, loading, setValue, variant='outlined', section = true }) {
   const [generatePass, setGeneratePass] = useState(false);
   const invitation_mode = useWatch({
 		control,
@@ -37,6 +37,13 @@ export default function Password({ control, loading, setValue }) {
   if (!invitation_mode) {
     return (
       <>
+        {section && (
+          <Grid sx={{mt: 4}} item xs={12}>
+            <Typography color='text.secondary'>
+              Contraseña
+            </Typography>
+          </Grid>
+        )}
         <Grid item xs={12}>
           <InputPasswordHook
             control={control}
@@ -47,7 +54,7 @@ export default function Password({ control, loading, setValue }) {
             name='password'
             label='Contraseña'
             size='small'
-            variant='standard'
+            variant={variant}
             disabled={loading}
             fullWidth
           />

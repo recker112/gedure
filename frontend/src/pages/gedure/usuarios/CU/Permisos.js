@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 // MUI
-import { DialogContentText, Grid } from '@mui/material';
+import { DialogContentText, Grid, Typography } from '@mui/material';
 
 // Components
 import { SwitchHook } from '../../../../components/form/switch';
@@ -66,16 +66,18 @@ function PermissionsNoSuper(props){
 	
 	const ListNoSuper = [
 		{
+			head: 'Registros',
 			name: 'registros_index',
-			label: 'Ver registros del sistema',
+			label: 'Ver',
 		},
 		{
+			head: 'Usuarios',
 			name: 'users_index',
-			label: 'Ver lista de usuarios',
+			label: 'Ver',
 			nested: [
 				{
 					name: 'users_create',
-					label: 'Crear usuarios',
+					label: 'Crear',
 				},
 				{
 					name: 'users_upload_matricula',
@@ -83,7 +85,7 @@ function PermissionsNoSuper(props){
 				},
 				{
 					name: 'users_edit',
-					label: 'Editar usuarios',
+					label: 'Editar',
 				},
 				{
 					name: 'users_edit_admins',
@@ -91,113 +93,158 @@ function PermissionsNoSuper(props){
 				},
 				{
 					name: 'users_delete',
-					label: 'Desactivar usuarios',
+					label: 'Desactivar',
 				},
 			]
 		},
 		{
-			name: 'posts_index',
-			label: 'Ver noticias publicadas',
-			nested: [
-				{
-					name: 'posts_create',
-					label: 'Crear noticia',
-				},
-				{
-					name: 'posts_edit',
-					label: 'Editar noticia',
-				},
-				{
-					name: 'posts_destroy',
-					label: 'Eliminar noticia',
-				},
-				{
-					name: 'posts_others',
-					label: 'Poder editar las noticias de otros usuarios'
-				}
-			]
-		},
-		{
-			name: 'boletas_index',
-			label: 'Ver boletas cargadas',
-			nested: [
-				{
-					name: 'boletas_upload',
-					label: 'Cargar boleta',
-				},
-				{
-					name: 'boletas_edit',
-					label: 'Editar boleta',
-				},
-				{
-					name: 'boletas_destroy',
-					label: 'Eliminar boleta'
-				}
-			]
-		},
-		{
-			name: 'contact_index',
-			label: 'Ver solicitudes de contácto',
-			nested: [
-				{
-					name: 'contact_destroy',
-					label: 'Eliminar solicitudes de contácto',
-				}
-			]
-		},
-		{
-			name: 'cursos_index',
-			label: 'Ver cursos',
-			nested: [
-				{
-					name: 'cursos_create',
-					label: 'Crear curso',
-				},
-				{
-					name: 'cursos_destroy',
-					label: 'Eliminar curso',
-				}
-			]
-		},
-		{
+			head: 'Usuarios desactivados',
 			name: 'users_disabled_index',
-			label: 'Ver usuarios desactivados',
+			label: 'Ver',
 			nested: [
 				{
 					name: 'users_disabled_restore',
-					label: 'Restaurar usuario',
+					label: 'Restaurar',
 				},
 				{
 					name: 'users_disabled_destroy',
-					label: 'Eliminar usuario',
+					label: 'Eliminar',
 				}
 			]
 		},
 		{
-			name: 'wallet_index',
-			label: 'Ver monederos',
+			head: 'Noticias',
+			name: 'posts_index',
+			label: 'Ver',
 			nested: [
 				{
-					name: 'wallet_administration',
-					label: 'Administrar monederos',
+					name: 'posts_create',
+					label: 'Crear',
+				},
+				{
+					name: 'posts_edit',
+					label: 'Editar',
+				},
+				{
+					name: 'posts_destroy',
+					label: 'Eliminar',
+				},
+				{
+					name: 'posts_others',
+					label: 'Editar noticias de otros usuarios'
+				}
+			]
+		},
+		{
+			head: 'Boletas',
+			name: 'boletas_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'boletas_upload',
+					label: 'Cargar',
+				},
+				{
+					name: 'boletas_edit',
+					label: 'Editar',
+				},
+				{
+					name: 'boletas_destroy',
+					label: 'Eliminar'
+				}
+			]
+		},
+		{
+			head: 'Solicitudes de contacto',
+			name: 'contact_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'contact_destroy',
+					label: 'Eliminar',
+				}
+			]
+		},
+		{
+			head: 'Cursos',
+			name: 'cursos_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'cursos_create',
+					label: 'Crear',
+				},
+				{
+					name: 'cursos_destroy',
+					label: 'Eliminar',
+				}
+			]
+		},
+		// {
+		// 	head: 'Monederos',
+		// 	name: 'wallet_index',
+		// 	label: 'Ver',
+		// 	nested: [
+		// 		{
+		// 			name: 'wallet_administration',
+		// 			label: 'Administrar',
+		// 		},
+		// 	]
+		// },
+		{
+			head: 'Cuentas bancaras',
+			name: 'bank_account_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'bank_account_create',
+					label: 'Crear'
+				},
+				{
+					name: 'bank_account_edit',
+					label: 'Editar'
+				},
+				{
+					name: 'bank_account_destroy',
+					label: 'Eliminar'
 				},
 			]
 		},
 		{
+			head: 'Transacciones bancarias',
+			name: 'bank_transaction_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'bank_transaction_upload',
+					label: 'Cargar'
+				},
+				{
+					name: 'bank_transaction_assign',
+					label: 'Asignar'
+				},
+				{
+					name: 'bank_transaction_delete',
+					label: 'Eliminar'
+				},
+			]
+		},
+		{
+			head: 'Lotes de deudas',
 			name: 'debt_lote_index',
-			label: 'Ver lotes de deudas',
+			label: 'Ver',
 			nested: [
 				{
 					name: 'debt_lote_create',
-					label: 'Crear lotes de deudas',
+					label: 'Crear',
 				},
 				{
 					name: 'debt_lote_edit',
-					label: 'Editar lotes de deudas',
+					label: 'Editar',
 				},
 				{
 					name: 'debt_lote_delete',
-					label: 'Eliminar lotes de deudas',
+					label: 'Eliminar',
 				},
 				{
 					name: 'debt_create',
@@ -207,57 +254,21 @@ function PermissionsNoSuper(props){
 					name: 'debt_delete',
 					label: 'Eliminar deuda individualmente',
 				},
-				{
-					name: 'debt_refund',
-					label: 'Reembolsar deuda individualmente',
-				}
 			]
 		},
 		{
-			name: 'bank_account_index',
-			label: 'Ver cuentas bancarias',
-			nested: [
-				{
-					name: 'bank_account_create',
-					label: 'Crear cuenta bancaria'
-				},
-				{
-					name: 'bank_account_edit',
-					label: 'Editar cuenta bancaria'
-				},
-				{
-					name: 'bank_account_destroy',
-					label: 'Eliminar cuenta bancaria'
-				},
-			]
-		},
-		{
-			name: 'bank_transaction_index',
-			label: 'Ver transacciones bancarias',
-			nested: [
-				{
-					name: 'bank_transaction_upload',
-					label: 'Cargar transacciones bancarias'
-				},
-				{
-					name: 'bank_transaction_assign',
-					label: 'Asignar transacción bancaria'
-				},
-				{
-					name: 'bank_transaction_delete',
-					label: 'Eliminar transacción bancaria'
-				},
-			]
-		},
-		{
+			head: 'Transacciones',
 			name: 'transaction_index',
-			label: 'Ver transacciones del sistema',
+			label: 'Ver',
 		},
 	];
 	
 	if (!super_admin) {
 		const RenderList = ListNoSuper.map((item, i) => (
 			<React.Fragment key={i}>
+				<Grid sx={{mt: 4}} item xs={12}>
+					<Typography color='text.secondary'>{item.head}</Typography>
+				</Grid>
 				<RenderPermission
 					control={control}
 					disabled={disabled}
