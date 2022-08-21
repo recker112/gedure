@@ -15,6 +15,7 @@ import { reducersGetAccountSelected } from "./async_trunk/monedero/getAccountSel
 import { reducersVerifyPayments } from "./async_trunk/monedero/verifyPayments";
 import { reducersDeletePendingPayments } from "./async_trunk/monedero/deletePendingPayments";
 import { reducersVerifyTransfer } from "./async_trunk/monedero/verifyTransfer";
+import { reducersConfirmTransfer } from "./async_trunk/monedero/confirmTransfer";
 
 const initialState = {
   createLoteDeuda: {
@@ -119,6 +120,7 @@ export const requestStatusWalletSlices = createSlice({
     ...reducersVerifyPayments,
     ...reducersDeletePendingPayments,
     ...reducersVerifyTransfer,
+    ...reducersConfirmTransfer,
   }
 });
 

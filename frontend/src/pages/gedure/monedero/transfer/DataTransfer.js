@@ -11,7 +11,10 @@ import { useSelector } from 'react-redux';
 export default function DataTransfer() {
   const { control } = useFormContext();
 
-  const balance = useSelector(state => state.auth.user.wallet.balance);
+  const { balance, loading } = useSelector(state => ({
+    balance: state.auth.user.wallet.balance,
+    loading: state.requestStatusWallet.verifyTransfer.loading,
+  }));
 
   return (
     <>
@@ -33,6 +36,7 @@ export default function DataTransfer() {
           size='small'
           variant='filled'
           helperText='Usuario al que desea transferir saldo'
+          disabled={loading}
           fullWidth
         />
       </Grid>
@@ -50,6 +54,7 @@ export default function DataTransfer() {
           name='amount_to_transfer'
           label='Monto a transferir'
           helperText='Monto que desea transferir'
+          disabled={loading}
           fullWidth
           variant='filled'
           decimalScale={2}
@@ -57,6 +62,22 @@ export default function DataTransfer() {
           decimalSeparator=','
           allowNegative={false}
           prefix={'Bs. '}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <InputHook
+          control={control}
+          rules={{
+            minLength: { value: 4, message: 'Error: Demaciado corto' },
+            maxLength: { value: 50, message: 'Error: Demaciado largo' },
+          }}
+          name='reason'
+          label='Motivo (opcional)'
+          size='small'
+          variant='filled'
+          helperText='Agrege el motivo de la transferencia si lo desea'
+          disabled={loading}
+          fullWidth
         />
       </Grid>
       <Grid item xs={12}>

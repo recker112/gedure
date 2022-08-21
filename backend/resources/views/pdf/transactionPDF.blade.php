@@ -475,7 +475,7 @@
 						U.E.P A.P.E.P "La Candelaria"
 					</p>
 					<p class='body1 text__opacity'>
-						N° Factura #{{ $transaction->id }}
+						N° Recibo #{{ $transaction->id }}
 					</p>
 				</div>
 			</div>
@@ -512,6 +512,13 @@
 					</p>
 					<p class='body1 body1--right'>
 						{{ $transaction->payload->extra_data->type }}
+					</p>
+				@elseif ($transaction->type === 'transferencia de saldo')
+					<p class='body1 body1--right text__bold'>
+						{{ $transaction->payload->extra_data->sender ? 'Pago realizado a:' : 'Pago recibido de:' }}
+					</p>
+					<p class='body1 body1--right'>
+						{{ $transaction->payload->extra_data->name }} ({{ $transaction->payload->extra_data->username }})
 					</p>
 				@else
 					<p class='body1 body1--right text__bold'>

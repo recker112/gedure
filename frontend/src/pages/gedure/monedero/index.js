@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
 // Components
+import useNotifier from '../../../hooks/useNotifier';
 import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 import Table from './Table';
 
@@ -22,6 +23,8 @@ const classes = {
 };
 
 export default function Monedero() {
+	useNotifier();
+	
   const { count_notify, balance } = useSelector(state => ({
     count_notify: state.auth.notify.count,
     balance: state.auth.user.wallet.balance,

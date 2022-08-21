@@ -77,6 +77,15 @@ function Notify({
         </Typography>
       </Box>
     )
+  }else if (typeParse === "TransferCompletedNotification") {
+    return (
+      <Box>
+        <Typography className='text__bold--semi'>Nuevo saldo disponible</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>
+          Se realizo una transferencia de saldo hacia su cuenta, lo cuál le acredita {parseFloatToMoneyString(data.balance)}. Si desea saber mas informacion revise su monedero.
+        </Typography>
+      </Box>
+    )
   }else if (typeParse === "SocketsNotification") {
     return (
       <Box>

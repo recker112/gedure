@@ -16,6 +16,10 @@ use App\Http\Controllers\Api\WalletSystem\WalletController;
 |
 */
 
-// Index transactions
+// Verify transfer
 Route::middleware(['auth:api'])
 	->post('wallet/transfer/verify', [WalletController::class, 'verifyTransfer']);
+
+// Confirm transfer
+Route::middleware(['auth:api'])
+->post('wallet/transfer/confirm', [WalletController::class, 'confirmTransfer']);

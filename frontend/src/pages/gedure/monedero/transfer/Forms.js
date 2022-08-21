@@ -4,7 +4,6 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 // DATE-FNS
-import { format } from 'date-fns';
 import esLocale from 'date-fns/locale/es';
 
 // MUI
@@ -20,6 +19,7 @@ import DataConfirm from './DataConfirm';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyTransfer } from '../../../../store/slices/requestStatusWallet/async_trunk/monedero/verifyTransfer';
+import { confirmTransfer } from '../../../../store/slices/requestStatusWallet/async_trunk/monedero/confirmTransfer';
 
 const classes = {
   container: {
@@ -41,17 +41,18 @@ export default function Form({
 		mode: 'onTouched',
 	});
 
-  const { loading } = useSelector(state => ({
-    loading: state.requestStatusWallet.verifyTransfer.loading,
+  const { loadingVerify, loadingConfirm } = useSelector(state => ({
+    loadingVerify: state.requestStatusWallet.verifyTransfer.loading,
+    loadingConfirm: state.requestStatusWallet.confirmTransfer.loading,
   }));
   const dispatch = useDispatch();
 
-  const callBack = () => {
-    handleNext();
+  const onVerify = submitData => {
+    dispatch(verifyTransfer({ callBack: handleNext, submitData, errors: methods.setError }));
   }
 
-  const verify = submitData => {
-    dispatch(verifyTransfer({ callBack, submitData }));
+  const onSubmit = submitData => {
+    dispatch(confirmTransfer({ callBack: handleReset, submitData, errors: methods.setError }));
   }
 
   return (
@@ -76,7 +77,7 @@ export default function Form({
             Regresar
           </Button>
           {activeStep === 0 && (
-            <LoadingButton loading={loading} variant='contained' disableElevation onClick={methods.handleSubmit(verify)}>
+            <LoadingButton loading={loadingVerify} variant='contained' disableElevation onClick={methods.handleSubmit(onVerify)}>
               Siguiente
             </LoadingButton>
           )}
@@ -84,7 +85,8 @@ export default function Form({
             <LoadingButton
               variant='contained'
               disableElevation
-              onClick={methods.handleSubmit()}
+              loading={loadingConfirm}
+              onClick={methods.handleSubmit(onSubmit)}
             >
               Procesar
             </LoadingButton>

@@ -77,17 +77,17 @@ return [
 				'array'   => 'El campo :attribute no puede tener más que :max elementos.',
 		],
     'max' => [
-				'numeric' => 'El campo :attribute debe ser menor que :max.',
+				'numeric' => 'Debe de ser menor a :max dígitos',
 				'file'    => 'El campo :attribute debe ser menor que :max kilobytes.',
-				'string'  => 'El campo :attribute debe ser menor que :max caracteres.',
+				'string'  => 'Debe ser menor a :max caracteres.',
 				'array'   => 'El campo :attribute puede tener hasta :max elementos.',
 		],
     'mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'mimetypes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'min' => [
-				'numeric' => 'El campo :attribute debe tener al menos :min.',
+				'numeric' => 'Debe contener al menos :min dígitos',
 				'file'    => 'El campo :attribute debe tener al menos :min kilobytes.',
-				'string'  => 'El campo :attribute debe tener al menos :min caracteres.',
+				'string'  => 'Debe contener al menos :min caracteres.',
 				'array'   => 'El campo :attribute debe tener al menos :min elementos.',
 		],
     'multiple_of' => 'The :attribute must be a multiple of :value',
@@ -97,7 +97,7 @@ return [
     'password' => 'La contraseña es incorrecta.',
     'present' => 'El campo :attribute debe estar presente.',
     'regex' => 'El formato del campo :attribute es inválido.',
-    'required' => 'El campo :attribute es requerido.',
+    'required' => 'Campo requerido',
     'required_if' => 'El campo :attribute es requerido cuando el campo :other es :value.',
     'required_unless' => 'El campo :attribute es requerido a menos que :other esté presente en :values.',
     'required_with' => 'El campo :attribute es requerido cuando :values está presente.',
@@ -118,6 +118,7 @@ return [
     'uploaded' => 'El campo :attribute no ha podido ser cargado.',
     'url' => 'El formato de :attribute es inválido.',
     'uuid' => 'El :attribute debe ser un UUID valido.',
+    'current_password' => 'Contraseña incorrecta',
 
     /*
     |--------------------------------------------------------------------------
