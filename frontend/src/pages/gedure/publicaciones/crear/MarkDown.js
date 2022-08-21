@@ -147,14 +147,14 @@ export default function MarkDown({ disabled, defaultValue }) {
     <>
       <ToolBar textRef={textAreaRef} value={markdown} disabled={disabled} />
       <Divider style={{margin: '5px 0', width: '100%'}} />
-      <Grid item xs={12}>
+      <Grid sx={{mt: 1}} item xs={12}>
 				<TextField
 					{...inputProps}
 					data-tour="gdPub__content"
 					multiline
 					minRows={12}
 					maxRows={20}
-          variant='standard'
+          variant='outlined'
 					label='Contenido'
 					error={Boolean(errors.markdown)}
 					helperText={errors?.markdown?.message ? errors.markdown.message : `${markdown?.length} Caracteres`}
