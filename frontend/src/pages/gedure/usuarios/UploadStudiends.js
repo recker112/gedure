@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form';
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Typography, Box, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
@@ -22,6 +24,9 @@ import { uploadMatricula } from '../../../store/slices/requestStatus/async_trunk
 export default function UploadStudiends() {
   const { open, loading, progress } = useSelector(state => state.requestStatus.uploadMatricula);
   const dispatch = useDispatch();
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const { handleSubmit, register, watch, formState: { errors }, setError } = useForm({
 		shouldUnregister: true,
@@ -38,7 +43,7 @@ export default function UploadStudiends() {
   }
 
   return (
-    <Dialog open={open} TransitionComponent={AnimationDialog}>
+    <Dialog open={open} fullScreen={fullScreen} TransitionComponent={AnimationDialog}>
       <DialogTitle>Cargar estudiantes</DialogTitle>
       <DialogContent>
         <Grid container rowSpacing={2}>

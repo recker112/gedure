@@ -1,8 +1,11 @@
 import React from 'react';
 
 // MUI
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, MenuItem, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
@@ -25,6 +28,9 @@ export default function CreateUser() {
   const { open, loading } = useSelector(state => state.requestStatus.createUser);
   const dispatch = useDispatch();
 
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   const { control, handleSubmit, setValue, setError } = useForm({
     shouldUnregister: true,
   });
@@ -42,35 +48,51 @@ export default function CreateUser() {
   }
 
   return (
-    <Dialog open={open} TransitionComponent={AnimationDialog}>
+    <Dialog open={open} fullScreen={fullScreen} TransitionComponent={AnimationDialog}>
       <DialogTitle>Crear usuario</DialogTitle>
       <DialogContent>
         <form autoComplete='off'>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <SwitchHook
-                control={control}
-                label="El usuario genera su contraseña"
-                name='invitation_mode'
-                color="primary"
-                disabled={loading}
-              />
+              <Typography color='text.secondary'>
+                Datos principales
+              </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
+							<SelectHook
+								name='invitation_mode'
+								label='Invitar usuario'
+								control={control}
+								disabled={loading}
+                variant="outlined"
+                defaultValue={false}
+                size='small'
+								fullWidth
+							>
+								<MenuItem value={true}>Si</MenuItem>
+								<MenuItem value={false}>No</MenuItem>
+							</SelectHook>
+						</Grid>
+            <Grid item xs={12} sm={6}>
 							<SelectHook
 								name='privilegio'
 								label='Tipo de cuenta'
 								control={control}
 								disabled={loading}
-                variant="standard"
+                variant="outlined"
+                size='small'
 								fullWidth
 							>
-								<MenuItem value=''><em>Ninguno</em></MenuItem>
 								<MenuItem value='V-'>Estudiante</MenuItem>
 								<MenuItem value='A-'>Administrador</MenuItem>
 							</SelectHook>
 						</Grid>
-            <Grid item xs={12}>
+            <Grid sx={{mt: 4}} item xs={12}>
+              <Typography color='text.secondary'>
+                Datos de la cuenta
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
 							<InputHook
 								control={control}
 								rules={{
@@ -81,12 +103,12 @@ export default function CreateUser() {
 								name='username'
 								label='Usuario o cédula'
 								size='small'
-                variant='standard'
+                variant='outlined'
 								fullWidth
 								disabled={loading}
 							/>
 						</Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
 							<InputHook
 								control={control}
 								rules={{
@@ -97,7 +119,7 @@ export default function CreateUser() {
 								name='name'
 								label='Nombre y apellido'
 								size='small'
-                variant='standard'
+                variant='outlined'
 								fullWidth
 								disabled={loading}
 							/>
@@ -115,7 +137,7 @@ export default function CreateUser() {
 								name='email'
 								label='Correo'
 								size='small'
-                variant='standard'
+                variant='outlined'
 								fullWidth
 								disabled={loading}
 							/>
@@ -129,7 +151,7 @@ export default function CreateUser() {
               disabled={loading}
               control={control}
             />
-            <Grid item xs={12}>
+            <Grid sx={{mt: 4}} item xs={12}>
               <DialogContentText>Permisos</DialogContentText>
             </Grid>
             <Permisos
