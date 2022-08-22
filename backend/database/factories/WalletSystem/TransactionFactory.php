@@ -26,7 +26,7 @@ class TransactionFactory extends Factory
 			'exonerante_id' => null,
 			'transable_id' => null,
 			'transable_type' => null,
-			'type' => $this->faker->randomElement(['deuda', 'transferencia', 'pago verificado']),
+			'type' => $this->faker->randomElement(['deuda pagada', 'transferencia de saldo', 'pago verificado']),
 			'payload' => json_encode([
 				'data' => [
 					[
