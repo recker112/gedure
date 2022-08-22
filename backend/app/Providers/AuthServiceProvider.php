@@ -15,6 +15,7 @@ class AuthServiceProvider extends ServiceProvider
 	 */
 	protected $policies = [
 			'App\Models\WalletSystem\Wallet' => 'App\Policies\WalletSystem\WalletPolicy',
+			'App\Models\WalletSystem\Transaction' => 'App\Policies\WalletSystem\TransactionPolicy',
 			'App\Models\Gedure\Post' => 'App\Policies\Gedure\PostPolicy',
 	];
 
