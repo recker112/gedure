@@ -107,7 +107,7 @@ export default function ReactTableBase({
   const { pageIndex, pageSize } = state;
 
   useEffect(() => {
-    handleChange({ pageIndex, pageSize });
+    handleChange({ pageIndex: pageIndex+1, pageSize });
     // eslint-disable-next-line
   }, [pageIndex, pageSize]);
 

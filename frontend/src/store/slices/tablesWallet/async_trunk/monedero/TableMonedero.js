@@ -40,10 +40,9 @@ export const reducersGetMonedero = {
     state.monedero.tableData.loading = false;
   },
   [getMonedero.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.monedero.tableData.loading = false;
-    state.monedero.tableData.page = page;
     state.monedero.tableData.data = data;
     state.monedero.tableData.totalRows = totalRows;
     state.monedero.tableData.pageCount = Math.ceil(totalRows / state.monedero.tableData.pageSize);

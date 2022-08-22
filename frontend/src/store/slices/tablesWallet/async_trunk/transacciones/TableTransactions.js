@@ -40,10 +40,9 @@ export const reducersGetTransactions = {
     state.transacciones.tableData.loading = false;
   },
   [getTransactions.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.transacciones.tableData.loading = false;
-    state.transacciones.tableData.page = page;
     state.transacciones.tableData.data = data;
     state.transacciones.tableData.totalRows = totalRows;
     state.transacciones.tableData.pageCount = Math.ceil(totalRows / state.transacciones.tableData.pageSize);
