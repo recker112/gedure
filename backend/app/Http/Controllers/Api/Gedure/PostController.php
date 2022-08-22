@@ -331,63 +331,33 @@ class PostController extends Controller
 	
 	public function tableAdmin(TableRequest $request)
 	{
+		// Variables
 		$user = $request->user();
-		
 		$search = urldecode($request->search);
-
 		$perPage = $request->per_page;
 		$page = $request->page * $perPage;
-		
-		if ($user->can('posts_others')) {
-			$posts = Post::with('user:id,username,privilegio')
-				->whereHas('user', function ($query) {
-					$search = request()->search;
-					$query->where('username', 'LIKE', "%$search%");
-				})
-				->orWhere('title', 'LIKE', "%$search%")
-				->orWhere('created_at', 'LIKE', "%$search%")
-				->orderBy('id', 'Desc')
-				->offset($page)
-				->limit($perPage)
-				->get()
-				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano', 'updated_at', 'only_users', 'galery', 'portada', 'content'])
-				->toArray();
-			
-			$post_count = Post::where(function ($query) {
-					$search = request()->search;
-					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%");
-				})
-				->count();
-		}else {
-			$posts = Post::select(['id','slug','created_at','title'])
-				->with('user:id,username,privilegio')
-				->where('user_id', $user->id)
-				->where(function ($query) {
-					$search = request()->search;
-					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%");
-				})
-				->orderBy('id', 'Desc')
-				->offset($page)
-				->limit($perPage)
-				->get()
-				->makeHidden(['fecha_humano_modify', 'url_imgs', 'url_portada', 'fecha_humano', 'updated_at', 'only_users', 'galery', 'portada', 'content'])
-				->toArray();
-			
-			$post_count = Post::where('user_id', $user->id)
-				->where(function ($query) {
-					$search = request()->search;
-					$query->where('title', 'LIKE', "%$search%")
-						->orWhere('created_at', 'LIKE', "%$search%");
-				})
-				->count();
-		}
+
+		// Request
+		$posts = Post::with('user:id,username,privilegio')
+			// Verificar si puede obtener post de otros usuarios
+			->when(!$user->can('posts_others'), function ($query) use ($user) {
+				$query->where('user_id', $user->id);
+			})
+			// Filtrador
+			->where(function ($query) use ($search, $user) {
+				$query->where('title', 'LIKE', "%$search%")
+					->when($user->can('posts_others'), function ($query) use ($search) {
+						$query->orWhereHas('user', function ($query) use ($search) {
+							$query->where('username', 'LIKE', "%$search%");
+						});
+					});
+			})
+			->orderBy('id', 'Desc')
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $posts,
-			'page' => request()->page * 1, 
-			'totalRows' => $post_count
+			'data' => $posts->items(),
+			'totalRows' => $posts->total(),
 		], 200);
 	}
 }
