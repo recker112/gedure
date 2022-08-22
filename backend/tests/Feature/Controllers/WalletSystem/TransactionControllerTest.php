@@ -29,11 +29,11 @@ class TransactionControllerTest extends TestCase
 		);
 		
 		$user = User::factory()->create();
-		$transactions = Transaction::factory(5)->create([
+		$transactions = Transaction::factory(10)->create([
 			'user_id' => $user->id,
 		]);
 		
-		$response = $this->getJson('/api/v1/transaction?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/transaction?per_page=5&page=1');
 
 		$response->assertOk()
 			->assertJsonStructure([
@@ -49,11 +49,10 @@ class TransactionControllerTest extends TestCase
 						]
 					]
 				],
-				'page',
 				'totalRows'
 			])
 			->assertJsonFragment([
-				'totalRows' => 5
+				'totalRows' => 10
 			]);
 	}
 	
@@ -62,7 +61,7 @@ class TransactionControllerTest extends TestCase
 		//$this->withoutExceptionHandling();
 		$user = User::factory()->create();
 		$user->wallet()->create();
-		$transactions = Transaction::factory(5)->create([
+		$transactions = Transaction::factory(10)->create([
 			'user_id' => $user->id,
 		]);
 		
@@ -83,12 +82,10 @@ class TransactionControllerTest extends TestCase
 						'created_at',
 					]
 				],
-				'page',
 				'totalRows',
-				'balance'
 			])
 			->assertJsonFragment([
-				'totalRows' => 5
+				'totalRows' => 10
 			]);
 		
 		// NOTA(RECKER): Error transacciones no tuyas
@@ -103,7 +100,7 @@ class TransactionControllerTest extends TestCase
 			['user']
 		);
 		
-		$response = $this->getJson('/api/v1/transaction-user?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/transaction/user?per_page=5&page=0');
 
 		$response->assertOk()
 			->assertJsonFragment([
@@ -154,7 +151,7 @@ class TransactionControllerTest extends TestCase
 			['user']
 		);
 		
-		$response = $this->getJson('/api/v1/transaction-user/1');
+		$response = $this->getJson('/api/v1/transaction/1/user');
 
 		$response->assertOk()
 			->assertJsonStructure([
@@ -181,7 +178,7 @@ class TransactionControllerTest extends TestCase
 			['user']
 		);
 		
-		$response = $this->getJson('/api/v1/transaction-user/'.$transactions[0]->id);
+		$response = $this->getJson('/api/v1/transaction/'.$transactions[0]->id.'/user');
 
 		$response->assertStatus(404);
 	}

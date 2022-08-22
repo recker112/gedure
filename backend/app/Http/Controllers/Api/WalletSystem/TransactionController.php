@@ -18,80 +18,58 @@ class TransactionController extends Controller
 {
 	public function index(TableRequest $request)
 	{
+		// Variables
 		$search = urldecode($request->search);
-
+		$user = $request->user();
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
-		$transaction = Transaction::with('user:id,username,privilegio')
+		// Request
+		$transactions = Transaction::with('user:id,username,privilegio')
 			->where('id', 'like', '%'.$search.'%')
-			->orWhereHas('user', function (Builder $query) {
-					$search = request()->search;
-					$query->where('username', 'LIKE', "%$search%");
-				})
-			->offset($page)
-			->limit($perPage)
+			->orWhereHas('user', function (Builder $query) use ($search) {
+				$query->where('username', 'LIKE', "%$search%");
+			})
 			->orderBy('id', 'desc')
-			->get()
-			->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado']);
+			->paginate($perPage);
 		
-		$transaction_count = Transaction::where('created_at', 'like', '%'.$search.'%')
-			->orWhere('id', 'like', '%'.$search.'%')
-			->orWhereHas('user', function (Builder $query) {
-					$search = request()->search;
-					$query->where('username', 'LIKE', "%$search%");
-				})
-			->count();
+		// Ocultar datos innecesarios
+		$data = $transactions->getCollection();
+		$data->each(function ($item) {
+			$item->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado', 'user.id']);
+			$item->user->makeHidden(['id']);
+		});
+		$transactions->setCollection($data);
 		
 		return response()->json([
-			'data' => $transaction,
-			'page' => request()->page * 1, 
-			'totalRows' => $transaction_count
+			'data' => $transactions->items(),
+			'totalRows' => $transactions->total(),
 		], 200);
 	}
 	
 	public function indexUser(TableRequest $request)
 	{
+		// Variables
 		$user = $request->user();
-			
 		$search = urldecode($request->search);
-
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
-		$transaction = Transaction::where('user_id', $user->id)
-			->where(function ($query){
-				$search = urldecode(request()->search);
-				$query->where('created_at', 'like', '%'.$search.'%')
-				->orWhere('id', 'like', '%'.$search.'%')
-				->orWhereHas('user', function (Builder $query) {
-						$search = request()->search;
-						$query->where('username', 'LIKE', "%$search%");
-					});
-			})
-			->offset($page)
-			->limit($perPage)
+		// Request
+		$transactions = Transaction::where('user_id', $user->id)
+			->where('id', 'like', '%'.$search.'%')
 			->orderBy('id', 'desc')
-			->get()
-			->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado']);
-		
-		$transaction_count = Transaction::where('user_id', $user->id)
-			->where(function ($query){
-				$search = urldecode(request()->search);
-				$query->where('created_at', 'like', '%'.$search.'%')
-				->orWhere('id', 'like', '%'.$search.'%')
-				->orWhereHas('user', function (Builder $query) {
-						$search = request()->search;
-						$query->where('username', 'LIKE', "%$search%");
-					});
-			})
-			->count();
+			->paginate($perPage);
+			
+		// Ocultar datos innecesarios
+		$data = $transactions->getCollection();
+		$data->each(function ($item) {
+			$item->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado', 'user.id']);
+			$item->user->makeHidden(['id']);
+		});
+		$transactions->setCollection($data);
 		
 		return response()->json([
-			'data' => $transaction,
-			'page' => request()->page * 1, 
-			'totalRows' => $transaction_count,
-			'balance' => $user->wallet->balance,
+			'data' => $transactions->items(),
+			'totalRows' => $transactions->total(),
 		], 200);
 	}
 	
