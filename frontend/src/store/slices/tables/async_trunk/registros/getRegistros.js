@@ -43,10 +43,9 @@ export const reducersRegistros = {
     state.registros.tableData.loading = false;
   },
   [getRegistros.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.registros.tableData.loading = false;
-    state.registros.tableData.page = page;
     state.registros.tableData.data = data;
     state.registros.tableData.totalRows = totalRows;
     state.registros.tableData.pageCount = Math.ceil(totalRows / state.registros.tableData.pageSize);
