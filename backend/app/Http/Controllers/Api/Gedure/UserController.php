@@ -34,6 +34,7 @@ class UserController extends Controller
 {
   public function index(TableRequest $request)
 	{
+		// Variables
 		$search = urldecode(request()->search);
 		$type = $request->type;
 		if ($type === 'V-NA') {
@@ -42,10 +43,9 @@ class UserController extends Controller
 		}
 		$curso = $request->curso;
 		$seccion = $request->seccion;
-
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
+		// Request
 		$users = User::where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
@@ -75,46 +75,11 @@ class UserController extends Controller
 				$query->where('privilegio', '!=', 'A-');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
-			->offset($page)
-			->limit($perPage)
-			->get()
-			->toArray();
-		
-		$usersCount = User::where(function ($query) {
-				$search = urldecode(request()->search);
-				$query->where('username', 'like', '%'.$search.'%')
-					->orWhere('name', 'like', '%'.$search.'%')
-					->orWhere('email', 'like', '%'.$search.'%');
-			})
-			->when($type === 'V-' && !isset($onlyNoAlumno), function ($query) {
-				$query->whereHas('alumno', function (Builder $query) {
-					$query->whereHas('curso', function (Builder $query) {
-						$code = request()->curso.'-'.request()->seccion;
-						$query->where('code', 'like', '%'.$code.'%');
-					});
-				});
-			})
-			->when(isset($onlyNoAlumno), function ($query) {
-				$query->doesntHave('alumno');
-			})
-			->when(!empty($curso) && !empty($seccion) && $type === 'V-' && !isset($onlyNoAlumno), function ($query) {
-				$query->select('users.id', 'users.avatar', 'users.actived_at', 'users.email', 'users.name', 'users.username', 'users.privilegio', 'alumnos.n_lista')
-					->join('alumnos', 'users.id', '=', 'alumnos.user_id')
-					->orderBy('n_lista');
-			})
-			->when(empty($curso) && empty($seccion), function ($query) {
-				$query->orderBy('users.id', 'desc');
-			})
-			->when(!$request->user()->can('users_edit_admins'), function ($query) {
-				$query->where('privilegio', '!=', 'A-');
-			})
-			->where('privilegio', 'like', '%'.$type.'%')
-			->count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $users,
-			'page' => $request->page * 1, 
-			'totalRows' => $usersCount,
+			'data' => $users->items(),
+			'totalRows' => $users->total(),
 		], 200);
 	}
 	
