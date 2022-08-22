@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase
 			['admin']
 		);
 		
-		$response = $this->getJson('/api/v1/user?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/user?per_page=5&page=1');
 		
 		$response->assertStatus(200)
 			->assertJsonStructure([
@@ -53,7 +53,6 @@ class UserControllerTest extends TestCase
 						'actived_at',
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}

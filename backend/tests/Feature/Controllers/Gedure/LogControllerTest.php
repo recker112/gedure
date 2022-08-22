@@ -50,7 +50,6 @@ class LogControllerTest extends TestCase
 						],
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}
