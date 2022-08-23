@@ -148,7 +148,7 @@ export default function Registros() {
               loading={loading}
               handleGlobalFilter={handleGlobalFilter}
               handleChange={handleChange}
-              filter={<Filtrador />}
+              filter={gotoPage => <Filtrador gotoPage={gotoPage} />}
               refresh={handleRefresh}
             />
           </Grid>

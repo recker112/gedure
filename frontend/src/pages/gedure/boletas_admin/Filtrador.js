@@ -15,7 +15,7 @@ import { RadioHook } from '../../../components/form/radio';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterBox, setFilters } from '../../../store/slices/tables';
 
-export default function Filtrador() {
+export default function Filtrador({ gotoPage }) {
   const { filterBox, filters, countFilters } = useSelector(state => state.tables.boletas);
   const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ export default function Filtrador() {
   }
 
   const onClose = async data => {
+    gotoPage(0);
     await dispatch(setFilters({ select: 'boletas', data }));
     dispatch(setFilterBox({ open: false, select: 'boletas' }));
   }

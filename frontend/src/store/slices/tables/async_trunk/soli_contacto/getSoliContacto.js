@@ -40,10 +40,9 @@ export const reducersSoliContacto = {
     state.soliContacto.tableData.loading = false;
   },
   [getSoliContacto.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.soliContacto.tableData.loading = false;
-    state.soliContacto.tableData.page = page;
     state.soliContacto.tableData.data = data;
     state.soliContacto.tableData.totalRows = totalRows;
     state.soliContacto.tableData.pageCount = Math.ceil(totalRows / state.soliContacto.tableData.pageSize);

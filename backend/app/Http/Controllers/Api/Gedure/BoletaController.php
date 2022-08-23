@@ -26,14 +26,15 @@ class BoletaController extends Controller
 {
 	public function index(TableRequest $request)
 	{
+		// Variables
 		$search = urldecode($request->search);
 		$curso = $request->curso;
 		$seccion = $request->seccion;
-		
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
-		
-		$users = User::where('privilegio', 'V-')
+
+		// Request
+		$boletas = User::where('privilegio', 'V-')
+			// Filtrador
 			->where(function ($query) {
 				$search = urldecode(request()->search);
 				$query->where('username', 'like', '%'.$search.'%')
@@ -54,35 +55,19 @@ class BoletaController extends Controller
 				$query->orderBy('users.id', 'desc');
 			})
 			->withCount('boletas')
-			->offset($page)
-			->limit($perPage)
-			->get()
-			->makeHidden(['email', 'actived_at'])
-			->toArray();
-			
-		$usersCount = User::where('privilegio', 'V-')
-			->where(function ($query) {
-				$search = urldecode(request()->search);
-				$query->where('username', 'like', '%'.$search.'%')
-					->orWhere('name', 'like', '%'.$search.'%');
-			})
-			->whereHas('alumno', function (Builder $query) {
-				$query->whereHas('curso', function (Builder $query) {
-					$code = request()->curso.'-'.request()->seccion;
-					$query->where('code', 'like', '%'.$code.'%');
-				});
-			})
-			->when(!empty($curso) && !empty($seccion), function ($query) {
-				$query->join('alumnos', 'users.id', '=', 'alumnos.user_id')
-					->select('users.*', 'alumnos.n_lista')
-					->orderBy('alumnos.n_lista', 'asc');
-			})
-			->count();
+			->paginate($perPage);
+
+		// Mostrar datos
+		$data = $boletas->getCollection();
+		$data->each(function ($item) {
+			$item->makeHidden(['email', 'actived_at']);
+		});
+		$boletas->setCollection($data);
 		
 		return response()->json([
-			'data' => $users,
+			'data' => $boletas->items(),
 			'page' => $request->page * 1, 
-			'totalRows' => $usersCount,
+			'totalRows' => $boletas->total(),
 		], 200);
 	}
 	

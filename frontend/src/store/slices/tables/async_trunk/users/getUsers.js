@@ -43,10 +43,9 @@ export const reducersUsers = {
     state.users.tableData.loading = false;
   },
   [getUsers.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.users.tableData.loading = false;
-    state.users.tableData.page = page;
     state.users.tableData.data = data;
     state.users.tableData.totalRows = totalRows;
     state.users.tableData.pageCount = Math.ceil(totalRows / state.users.tableData.pageSize);

@@ -200,8 +200,8 @@ export default function Table() {
       loading={loading}
       handleGlobalFilter={handleGlobalFilter}
       handleChange={handleChange}
-      filter={<Filtrador />}
       refresh={handleRefresh}
+      filter={gotoPage => <Filtrador gotoPage={gotoPage} />}
       massiveOptions={dataMassive => (
         <>
           {(type === 'V-' || type === 'V-NA') && (
