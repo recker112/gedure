@@ -40,7 +40,7 @@ export const reducersCursos = {
     state.cursos.tableData.loading = false;
   },
   [getCursos.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.cursos.tableData.loading = false;
     state.cursos.tableData.data = data;

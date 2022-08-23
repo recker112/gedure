@@ -40,10 +40,9 @@ export const reducersBankAccounts = {
     state.bankAccounts.tableData.loading = false;
   },
   [getBankAccounts.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.bankAccounts.tableData.loading = false;
-    state.bankAccounts.tableData.page = page;
     state.bankAccounts.tableData.data = data;
     state.bankAccounts.tableData.totalRows = totalRows;
     state.bankAccounts.tableData.pageCount = Math.ceil(totalRows / state.bankAccounts.tableData.pageSize);
