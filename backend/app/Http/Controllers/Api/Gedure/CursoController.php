@@ -23,7 +23,6 @@ class CursoController extends Controller
 		$search = $request->search;
 
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
 		$cursos = Curso::where('code', 'like', '%'.$search.'%')
 			->orderBy('code', 'asc')
