@@ -27,19 +27,18 @@ class CursoController extends Controller
 		
 		$cursos = Curso::where('code', 'like', '%'.$search.'%')
 			->orderBy('code', 'asc')
-			->offset($page)
-			->limit($perPage)
-			->get()
-			->makeVisible(['id', 'code']);
-		
-		//Total de logs
-		$cursos_count = Curso::where('code', 'like', '%'.$search.'%')
-			->count();
+			->paginate($perPage);
+
+		// Mostrar datos
+		$data = $cursos->getCollection();
+		$data->each(function ($item) {
+			$item->makeVisible(['id', 'code']);
+		});
+		$cursos->setCollection($data);
 		
 		return response()->json([
-			'data' => $cursos,
-			'page' => request()->page * 1, 
-			'totalRows' => $cursos_count
+			'data' => $cursos->items(),
+			'totalRows' => $cursos->total(),
 		], 200);
 	}
 	
