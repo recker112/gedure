@@ -43,7 +43,6 @@ export const reducersCursos = {
     const { page, totalRows, data } = action.payload;
 
     state.cursos.tableData.loading = false;
-    state.cursos.tableData.page = page;
     state.cursos.tableData.data = data;
     state.cursos.tableData.totalRows = totalRows;
     state.cursos.tableData.pageCount = Math.ceil(totalRows / state.cursos.tableData.pageSize);
