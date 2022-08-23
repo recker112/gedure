@@ -18,20 +18,13 @@ class ContactoController extends Controller
 		
 		$lista = Contacto::where('nombre', 'like', '%'.$search.'%')
 			->orWhere('asunto', 'like', '%'.$search.'%')
-			->orWhere('created_at', 'like', '%'.$search.'%')
 			->orWhere('email', 'like', '%'.$search.'%')
-			->offset($page)
-			->limit($perPage)
 			->orderBy('id', 'Desc')
-			->get()
-			->toArray();
-		
-		$contacto_count = Contacto::count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $lista,
-			'page' => $request->page * 1, 
-			'totalRows' => $contacto_count
+			'data' => $lista->items(),
+			'totalRows' => $lista->total(),
 		], 200);
 	}
 	

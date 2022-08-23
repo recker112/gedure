@@ -1,6 +1,6 @@
 import React from "react";
 
-import { NavLink, useMatch } from "react-router-dom";
+import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
 
 import {
   Box,
@@ -84,7 +84,8 @@ const listNav = [
 ];
 
 export const ListDrawerNav = ({ children, to = '', noNav, nested, ...rest }) => {
-  const match = useMatch(to);
+  let resolved = useResolvedPath(to);
+  let match = useMatch({ path: resolved.pathname, end: true });
 
   const dispatch = useDispatch();
 

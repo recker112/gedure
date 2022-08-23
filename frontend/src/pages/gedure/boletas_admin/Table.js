@@ -163,7 +163,7 @@ export default function Table() {
       handleGlobalFilter={handleGlobalFilter}
       handleChange={handleChange}
       refresh={handleRefresh}
-      filter={<Filtrador />}
+      filter={gotoPage => <Filtrador gotoPage={gotoPage} />}
       massiveOptions={dataMassive => (
         <Tooltip title="Eliminar boletas" arrow>
           <IconButton

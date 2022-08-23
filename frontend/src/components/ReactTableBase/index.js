@@ -198,7 +198,7 @@ export default function ReactTableBase({
                     <RefreshIcon />
                   </IconButton>
                 </Tooltip>
-                {filter}
+                {filter && filter(gotoPage)}
               </>
             )}
           </Toolbar>

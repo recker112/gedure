@@ -41,10 +41,9 @@ export const reducersBoletas = {
     state.boletas.tableData.loading = false;
   },
   [getBoletas.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.boletas.tableData.loading = false;
-    state.boletas.tableData.page = page;
     state.boletas.tableData.data = data;
     state.boletas.tableData.totalRows = totalRows;
     state.boletas.tableData.pageCount = Math.ceil(totalRows / state.boletas.tableData.pageSize);

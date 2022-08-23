@@ -69,7 +69,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",
@@ -83,7 +83,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",
@@ -180,6 +180,7 @@ export const tablesSlices = createSlice({
 
       state[select].filters = data;
       state[select].countFilters = count;
+      state[select].tableData.page = 1;
       state[select].tableData.loading = true;
     },
     setSearch: (state, action) => {
