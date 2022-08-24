@@ -15,7 +15,6 @@ class PendingPaymentCompletedNotification extends Notification
 {
     use Queueable;
     
-    protected string $title;
     protected Transaction $amount;
 
     /**
@@ -23,9 +22,8 @@ class PendingPaymentCompletedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(string $title, Transaction $transaction)
+    public function __construct(Transaction $transaction)
     {
-        $this->title = $title;
         $this->transaction = $transaction;
     }
 
@@ -63,7 +61,6 @@ class PendingPaymentCompletedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => $this->title,
             'amount' => $this->transaction->amount,
         ];
     }

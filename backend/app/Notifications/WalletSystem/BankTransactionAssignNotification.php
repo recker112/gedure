@@ -60,7 +60,6 @@ class BankTransactionAssignNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Transacción asiganda manualmente',
             'bank_transaction' => [
                 'amount' => $this->transaction->amount,
             ],

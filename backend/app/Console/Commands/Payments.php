@@ -120,7 +120,7 @@ class Payments extends Command
 				$pending->save();
 
 				// NOTA(RECKER): Notificación
-				$user->notify(new PendingPaymentCompletedNotification('Pago verificado correctamente', $transaction));
+				$user->notify(new PendingPaymentCompletedNotification($transaction));
 				
 				// NOTA(RECKER): Log
 				$payload = [

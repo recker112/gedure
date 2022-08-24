@@ -12,7 +12,6 @@ class DebtCreatedNotification extends Notification
 {
     use Queueable;
     
-    protected string $title;
     protected float $amount;
 
     /**
@@ -20,9 +19,8 @@ class DebtCreatedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(string $title, float $amount)
+    public function __construct(float $amount)
     {
-        $this->title = $title;
         $this->amount = $amount;
     }
 
@@ -59,7 +57,6 @@ class DebtCreatedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => $this->title,
             'amount' => $this->amount,
         ];
     }

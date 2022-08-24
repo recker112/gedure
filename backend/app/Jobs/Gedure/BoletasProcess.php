@@ -146,7 +146,7 @@ class BoletasProcess implements ShouldQueue
 		Storage::delete(Storage::allFiles('unzipped'));
 
         // NOTA(RECKER): Notificar a usuario
-        $this->uploadBy->notify(new ProcessBoletasCompletedNotification('Boletas procesadas correctamente', $i, $u));
+        $this->uploadBy->notify(new ProcessBoletasCompletedNotification($i, $u));
 		
 		$payload = [
 			'boletas' => $i + $u,

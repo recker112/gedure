@@ -12,7 +12,6 @@ class ProcessBoletasCompletedNotification extends Notification
 {
     use Queueable;
 
-    protected string $title;
     protected int $inserts;
     protected int $updateds;
 
@@ -21,9 +20,8 @@ class ProcessBoletasCompletedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(string $title, int $inserts, int $updateds)
+    public function __construct(int $inserts, int $updateds)
     {
-        $this->title = $title;
         $this->inserts = $inserts;
         $this->updateds = $updateds;
     }
@@ -61,7 +59,6 @@ class ProcessBoletasCompletedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => $this->title,
             'inserts' => $this->inserts,
             'updateds' => $this->updateds,
         ];
