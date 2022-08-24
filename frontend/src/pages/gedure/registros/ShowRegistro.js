@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
@@ -17,75 +19,78 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function ShowRegistro() {
- const { open, data } = useSelector(state => state.requestStatus.showReg);
- const dispatch = useDispatch();
+	const { open, data } = useSelector(state => state.requestStatus.showReg);
+	const dispatch = useDispatch();
 
- const handleClose = () => {
-  dispatch(setRequestStatus({open: false, select: 'showReg'}));
- }
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
- const Text = useCallback(() => {
+	const handleClose = () => {
+		dispatch(setRequestStatus({ open: false, select: 'showReg' }));
+	}
+
+	const Text = useCallback(() => {
 		if (data.action === 'Inicio de sesión por relogin') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) entró al sistema mediante su llave de relogin.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Inicio de sesión') {
+		} else if (data.action === 'Inicio de sesión') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) entró al sistema mediante el formulario del login.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Bloqueo de cuenta') {
+		} else if (data.action === 'Bloqueo de cuenta') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) bloqueó su cuenta, teniendo un bloqueo de <strong>nivel {data.payload.nivel}</strong> y esperando <strong>{data.payload.time_block} minutos</strong> para su desbloqueo.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Sesión cerrada') {
+		} else if (data.action === 'Sesión cerrada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cerró su sesión dentro del sistema.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Sesiones cerradas') {
+		} else if (data.action === 'Sesiones cerradas') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cerró todas sus sesiones (<strong>{data.payload.tokens}</strong>) dentro del sistema.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Correo de recuperación') {
+		} else if (data.action === 'Correo de recuperación') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) solicitó un correo de recuperación para poder recuperar su contraseña.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Contraseña cambiada via correo') {
+		} else if (data.action === 'Contraseña cambiada via correo') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cambió su contraseña mediante la verificación del correo.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Publicación creada') {
+		} else if (data.action === 'Publicación creada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó una publicación con el título <Link component={NavLink} to={data.payload.url}>{data.payload.title}</Link>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Publicación editada') {
+		} else if (data.action === 'Publicación editada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó la publicación <Link component={NavLink} to={data.payload.url}>{data.payload.title}</Link>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Publicación eliminada') {
+		} else if (data.action === 'Publicación eliminada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) se eliminó la publicación <strong>{data.payload.title}</strong>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario creado') {
+		} else if (data.action === 'Usuario creado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó a un usuario con los siguientes datos:
@@ -98,7 +103,7 @@ export default function ShowRegistro() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario invitado') {
+		} else if (data.action === 'Usuario invitado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) invitó a un usuario con los siguientes datos:
@@ -111,19 +116,19 @@ export default function ShowRegistro() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Contraseña creada por invitación') {
+		} else if (data.action === 'Contraseña creada por invitación') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó una contraseña por medio de la invitación via correo.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario editado') {
+		} else if (data.action === 'Usuario editado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó al usuario <strong>{data.payload.privilegio}{data.payload.username}</strong>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario desactivado') {
+		} else if (data.action === 'Usuario desactivado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) desactivó al usuario con los siguientes datos:
@@ -136,7 +141,7 @@ export default function ShowRegistro() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuarios desactivados masivamente') {
+		} else if (data.action === 'Usuarios desactivados masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) desactivó <strong>{data.payload.users_disabled_count}</strong> usuarios, las cuales son las siguientes:
@@ -150,7 +155,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Actualización de sección masiva') {
+		} else if (data.action === 'Actualización de sección masiva') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cambió el curso a <strong>{data.payload.curso}</strong> de <strong>{data.payload.massive_seccion_update_count}</strong> estudiante(s), los cuales son las siguientes:
@@ -164,7 +169,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Matrícula cargada') {
+		} else if (data.action === 'Matrícula cargada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cargó la matrícula del curso <strong>{data.payload.curso}</strong> cargando <strong>{data.payload.studiends_count}</strong> estudiante(s), los cuales son las siguientes:
@@ -178,7 +183,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario restaurado') {
+		} else if (data.action === 'Usuario restaurado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) restauró al siguiente usuario:
@@ -191,7 +196,7 @@ export default function ShowRegistro() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuarios restaurados masivamente') {
+		} else if (data.action === 'Usuarios restaurados masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) restauró <strong>{data.payload.users_restored_count}</strong> usuarios, los cuales son los siguiente:
@@ -205,7 +210,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuario eliminado') {
+		} else if (data.action === 'Usuario eliminado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó al siguiente usuario del sistema:
@@ -218,7 +223,7 @@ export default function ShowRegistro() {
 					<strong>Correo:</strong> {data.payload.email}.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Usuarios eliminados masivamente') {
+		} else if (data.action === 'Usuarios eliminados masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.users_destroy_count}</strong> usuarios, los cuales son los siguiente:
@@ -232,25 +237,25 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Carga de matricula') {
+		} else if (data.action === 'Carga de matricula') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) subió una matrícula al servidor y esta fue procesada.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Curso creado') {
+		} else if (data.action === 'Curso creado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó el curso <strong>{data.payload.curso}</strong>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Curso eliminado') {
+		} else if (data.action === 'Curso eliminado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó el curso <strong>{data.payload.curso}</strong>, borrando <strong>{data.payload.boletas}</strong> boletas del sistema.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Cursos eliminados masivamente') {
+		} else if (data.action === 'Cursos eliminados masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.cursos}</strong> cursos, los cuales fueron los siguientes:
@@ -264,55 +269,55 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Boletas cargadas') {
+		} else if (data.action === 'Boletas cargadas') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) cargó <strong>{data.payload.boletas}</strong> boletas al sistema.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Boleta editada') {
+		} else if (data.action === 'Boleta editada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó la boleta <strong>{converterCursoCode(data.payload.curso)} {data.payload.seccion} - {data.payload.lapso}° Lapso</strong> del estudiante <strong>{data.payload.name}</strong> ({data.payload.username}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Boleta eliminada') {
+		} else if (data.action === 'Boleta eliminada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la boleta <strong>{converterCursoCode(data.payload.curso)} {data.payload.seccion} - {data.payload.lapso}° Lapso</strong> del estudiante <strong>{data.payload.name}</strong> ({data.payload.username}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Boletas eliminadas masivamente') {
+		} else if (data.action === 'Boletas eliminadas masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.boletas}</strong> boleta(s) del sistema.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Solicitud de contácto eliminada') {
+		} else if (data.action === 'Solicitud de contácto eliminada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la solicitud de contácto <strong>{data.payload.asunto}</strong>, la cual fue escrita por <strong>{data.payload.nombre}</strong> ({data.payload.email}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Cuenta bancaria agregada') {
+		} else if (data.action === 'Cuenta bancaria agregada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) agregó al sistema la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Cuenta bancaria actualizada') {
+		} else if (data.action === 'Cuenta bancaria actualizada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) actualizó los datos de la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Cuenta bancaria eliminada') {
+		} else if (data.action === 'Cuenta bancaria eliminada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la cuenta bancaria <strong>{parseToAccountString(data.payload.n_account)}</strong> ({data.payload.name}).
 				</DialogContentText>
 			);
-		}else if (data.action === 'Cuentas bancarias eliminadas masivamente') {
+		} else if (data.action === 'Cuentas bancarias eliminadas masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.count}</strong> cuentas bancarias, las cuales fueron los siguientes:
@@ -326,7 +331,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Transacción bancaria asignada manualmente') {
+		} else if (data.action === 'Transacción bancaria asignada manualmente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) asignó manualmente al usuario <strong>{`${data.payload.privilegio}${data.payload.username}`}</strong> la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
@@ -343,7 +348,7 @@ export default function ShowRegistro() {
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Transacción bancaria eliminada') {
+		} else if (data.action === 'Transacción bancaria eliminada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
@@ -360,7 +365,7 @@ export default function ShowRegistro() {
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Transacciones bancarias eliminadas masivamente') {
+		} else if (data.action === 'Transacciones bancarias eliminadas masivamente') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó <strong>{data.payload.count}</strong> transaccion(es) bancaria(s), las cuales fueron los siguientes:
@@ -383,7 +388,7 @@ export default function ShowRegistro() {
 					))}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Transacción bancaria reclamada') {
+		} else if (data.action === 'Transacción bancaria reclamada') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) reclamó la transacción bancaria <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
@@ -400,7 +405,7 @@ export default function ShowRegistro() {
 					<strong>Fecha de la transacción:</strong> {data.payload.date}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Lote de deudas creado') {
+		} else if (data.action === 'Lote de deudas creado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) creó el lote de deudas <strong>#{data.payload.id}</strong> la cual contenía los siguientes datos:
@@ -411,44 +416,45 @@ export default function ShowRegistro() {
 					<strong>Cantidad a pagar:</strong> Bs. {data.payload.amount}
 				</DialogContentText>
 			);
-		}else if (data.action === 'Lote de deudas editado') {
+		} else if (data.action === 'Lote de deudas editado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó el lote de deudas <strong>#{data.payload.id}</strong>.
 				</DialogContentText>
 			);
-		}else if (data.action === 'Lote de deudas eliminado') {
+		} else if (data.action === 'Lote de deudas eliminado') {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó el lote de deudas <strong>#{data.payload.id}</strong>.
 				</DialogContentText>
 			);
-		}else {
+		} else {
 			return (
 				<DialogContentText>
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) realizó esta acción.
 				</DialogContentText>
 			);
 		}
-	},[data]);
+	}, [data]);
 
- return (
-  <Dialog
-   open={open}
-   TransitionComponent={AnimationDialog}
-  >
-   <DialogTitle id="confirm-dialog-title">Registro #{data.id}</DialogTitle>
-   <DialogContent>
-    <Text />
-   </DialogContent>
-   <DialogActions>
+	return (
+		<Dialog
+			open={open}
+			TransitionComponent={AnimationDialog}
+			fullScreen={fullScreen}
+		>
+			<DialogTitle id="confirm-dialog-title">Registro #{data.id}</DialogTitle>
+			<DialogContent>
+				<Text />
+			</DialogContent>
+			<DialogActions>
 				<Button
-     color='inherit'
+					color='inherit'
 					onClick={handleClose}
 				>
 					Entendido
 				</Button>
 			</DialogActions>
-  </Dialog>
- )
+		</Dialog>
+	)
 }

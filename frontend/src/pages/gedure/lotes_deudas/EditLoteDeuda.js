@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, MenuItem } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Form
 import { useForm } from 'react-hook-form';
@@ -30,6 +32,9 @@ export default function EditLoteDeuda() {
     administrar_transac: state.auth.permissions.administrar_transac,
   }));
   const dispatch = useDispatch();
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const { control, watch, handleSubmit } = useForm({
 		shouldUnregister: true,
@@ -59,6 +64,7 @@ export default function EditLoteDeuda() {
     <Dialog
       open={open}
       TransitionComponent={AnimationDialog}
+      fullScreen={fullScreen}
     >
       <DialogTitle >Editar lote de deuda #{data.id}</DialogTitle>
       <DialogContent>
