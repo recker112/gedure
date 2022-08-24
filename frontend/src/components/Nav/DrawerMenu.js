@@ -6,7 +6,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RoomIcon from '@mui/icons-material/Room';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import {
   Help as HelpIcon,
   FrequentlyAskedQuestions as FAQIcon,
@@ -91,15 +90,10 @@ export default function DrawerMenu() {
               <UserList
                 expand1={expand1}
                 handleExpand1={handleExpand1}
+                expand2={expand2}
+                handleExpand2={handleExpand2}
               />
             )}
-
-            <ListDrawerNav to='/gedure/monedero'>
-              <ListItemIcon>
-                <AccountBalanceWalletIcon />
-              </ListItemIcon>
-              <ListItemText primary='Monedero' />
-            </ListDrawerNav>
 
             <ListDrawerNav noNav onClick={handleExpandHelp}>
               <ListItemIcon>

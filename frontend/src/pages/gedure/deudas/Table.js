@@ -1,0 +1,130 @@
+import React, { useMemo, useEffect } from 'react';
+
+// Router
+import { useNavigate } from 'react-router-dom';
+
+// MUI
+import { IconButton, Tooltip } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { TextBoxCheck as TextBoxCheckIcon } from 'mdi-material-ui';
+
+// Components
+import ReactTableBase from '../../../components/ReactTableBase';
+import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
+import { getMonedero } from '../../../store/slices/tablesWallet/async_trunk/monedero/TableMonedero';
+
+export default function Table() {
+  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+    dataR: state.tablesWallet.monedero.tableData.data,
+    loading: state.tablesWallet.monedero.tableData.loading,
+    pageSize: state.tablesWallet.monedero.tableData.pageSize,
+    pageCount: state.tablesWallet.monedero.tableData.pageCount,
+  }));
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const columns = useMemo(() => [
+    {
+      Header: 'Id',
+      accessor: 'id',
+    },
+    {
+      Header: 'Motivo',
+      accessor: 'reason',
+    },
+    {
+      Header: 'Cantidad',
+      accessor: 'amount',
+      Cell: ({ cell: { row: { original: { amount } } } }) => parseFloatToMoneyString(amount),
+    },
+    {
+      Header: 'Estado', 
+      accessor: 'status',
+    },
+    {
+      id: 'options',
+      Header: 'Opciones',
+      accessor: 'options',
+      Cell: ({ cell: { row: { original } } }) => (
+        <>
+          <Tooltip title='Ver' arrow>
+            <IconButton
+              onClick={() => {
+                navigate(`/gedure/monedero/transacciones/ver/${original.id}`);
+              }}
+            >
+              <VisibilityIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Pagar' arrow>
+            <IconButton
+              onClick={() => {
+                //
+              }}
+            >
+              <TextBoxCheckIcon />
+            </IconButton>
+          </Tooltip>
+        </>
+      )
+    },
+    // eslint-disable-next-line
+  ],[]);
+
+  const data = useMemo(() => dataR, [dataR]);
+
+  // NOTA(RECKER): Core request
+  useEffect(() => {
+    let promise = null;
+
+    if (loading) {
+      promise = dispatch(getMonedero());
+    }
+
+    return () => {
+      if (loading) {
+        promise.abort(); 
+      }
+    }
+    // eslint-disable-next-line
+  }, [loading]);
+
+  // NOTA(RECKER): Reinicar config al desmontar
+  useEffect(() => {
+    return () => {
+      dispatch(resetTableConfig({ select: 'monedero' }));
+    }
+    // eslint-disable-next-line
+  },[]);
+
+  const handleGlobalFilter = value => {
+    dispatch(setSearch({search: value || "", select: 'monedero'}));
+  }
+
+  const handleChange = value => {
+    dispatch(setConfigTable({ ...value, select: 'monedero' }));
+  }
+
+  const handleRefresh = () => {
+    dispatch(refresh({ select: 'monedero' }));
+  }
+
+  return (
+    <ReactTableBase
+      title='Lista de deudas'
+      data={data}
+      columns={columns}
+      pageCountData={pageCount}
+      pageSizeData={pageSize}
+      loading={loading}
+      handleGlobalFilter={handleGlobalFilter}
+      handleChange={handleChange}
+      refresh={handleRefresh}
+    />
+  )
+}
