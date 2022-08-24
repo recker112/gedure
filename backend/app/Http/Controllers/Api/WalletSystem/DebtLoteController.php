@@ -132,7 +132,7 @@ class DebtLoteController extends Controller
 			$user->debts()->create([
 				'debt_lote_id' => $debt_lote->id
 			]);
-			$user->notify(new DebtCreatedNotification('Nueva deuda pendiente', $amount));
+			$user->notify(new DebtCreatedNotification($amount));
 		}
 		
 		// NOTA(RECKER): Log
@@ -197,7 +197,7 @@ class DebtLoteController extends Controller
 					'debt_lote_id' => $debt_lote->id,
 				]);
 
-				$user->notify(new DebtCreatedNotification('Nueva deuda pendiente', $amount));
+				$user->notify(new DebtCreatedNotification($amount));
 				$debts_created++;
 			}
 		}

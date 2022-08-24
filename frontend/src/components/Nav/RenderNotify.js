@@ -25,26 +25,23 @@ function Notify({
   if (typeParse === "BankTransactionsProcessedNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
-        <Typography variant='body2' className='text__opacity--semi'>Todas las trasacciones subidas fueron procesadas para la cuenta bancaria: 
-        <br/>- N° cuenta: {parseToAccountString(data.bank_account.n_account || 0)}
-        <br/>- Nombre: {data.bank_account.name}
-        <br/>- Correo: {data.bank_account.email}</Typography>
+        <Typography className='text__bold--semi'>Transacciones bancarias cargadas</Typography>
+        <Typography variant='body2' className='text__opacity--semi'>Todas las trasacciones bancarias de la cuenta {parseToAccountString(data.bank_account.n_account || 0)} fueron subidas y procesadas correctamente.</Typography>
       </Box>
     )
   }else if (typeParse === "BankTransactionAssignNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography className='text__bold--semi'>Transacción asiganda manualmente</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
-          Un administrador te asignó manualmente una transacción la cual acredita {parseFloatToMoneyString(data.bank_transaction.amount)} a su cuenta.
+          Un administrador te asignó manualmente una transacción bancaria, lo cual acredita {parseFloatToMoneyString(data.bank_transaction.amount)} a su cuenta.
         </Typography>
       </Box>
     )
   }else if (typeParse === "StudiendsUploadCompletedNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography className='text__bold--semi'>Carga de estudiantes finalizada</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
           El sistema terminó de procesar el archivo excel, dando como resultado el nuevo ingreso de {data.inserts} estudiante(s), actualizando {data.updateds} estudiante(s), y no pudiendo cargar a {data.errors.length} estudiante(s).
         </Typography>
@@ -53,7 +50,7 @@ function Notify({
   }else if (typeParse === "ProcessBoletasCompletedNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography className='text__bold--semi'>Boletas procesadas correctamente</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
           El sistema terminó de procesar el archivo zip, ingresando {data.inserts} boleta(s) nueva(s) y actualizando {data.updateds} boleta(s).
         </Typography>
@@ -62,16 +59,16 @@ function Notify({
   }else if (typeParse === "DebtCreatedNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography className='text__bold--semi'>Nueva deuda pendiente</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
-          Se le ha asignado una nueva deuda de {parseFloatToMoneyString(data.amount)}. Si desea saber mas informacion sobre la misma puede buscar en la zona de deudas.
+          Se le ha asignado una nueva deuda de {parseFloatToMoneyString(data.amount)}.
         </Typography>
       </Box>
     )
   }else if (typeParse === "PendingPaymentCompletedNotification") {
     return (
       <Box>
-        <Typography className='text__bold--semi'>{data.title}</Typography>
+        <Typography className='text__bold--semi'>Pago verificado correctamente</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
           Su pago pendiente fue verificado correctamente, acreditándole {parseFloatToMoneyString(data.amount)} a su cuenta.
         </Typography>
@@ -82,7 +79,7 @@ function Notify({
       <Box>
         <Typography className='text__bold--semi'>Nuevo saldo disponible</Typography>
         <Typography variant='body2' className='text__opacity--semi'>
-          Se realizo una transferencia de saldo hacia su cuenta, lo cuál le acredita {parseFloatToMoneyString(data.balance)}. Si desea saber mas informacion revise su monedero.
+          Se realizo una transferencia de saldo hacia su cuenta, lo cuál le acredita {parseFloatToMoneyString(data.balance)}.
         </Typography>
       </Box>
     )

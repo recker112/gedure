@@ -61,7 +61,6 @@ class StudiendsUploadCompletedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Carga de estudiantes finalizada',
             'inserts' => $this->inserts,
             'updateds' => $this->updateds,
             'errors' => $this->errors,
