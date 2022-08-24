@@ -51,7 +51,7 @@ class WalletController extends Controller
     $payload1 = [
 			'actions' => [
 				[
-					'reason' => $reason ? $reason : "Transferencia de saldo entre cuentas",
+					'reason' => $reason ? trim($reason) : "Transferencia de saldo entre cuentas",
 					'amount' => -$reqAmount,
 				]
       ],
@@ -64,7 +64,7 @@ class WalletController extends Controller
     $payload2 = [
 			'actions' => [
 				[
-					'reason' => $reason ? $reason : "Transferencia de saldo entre cuentas",
+					'reason' => $reason ? trim($reason) : "Transferencia de saldo entre cuentas",
 					'amount' => $reqAmount,
 				]
       ],
