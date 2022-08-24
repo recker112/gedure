@@ -432,7 +432,7 @@
 		}
 		
 		.sello {
-			margin-top: 110px;
+			margin-top: 250px;
 			margin-bottom: 20px;
 		}
 		
@@ -580,7 +580,13 @@
 			<div class='body1 text__center'>Sello</div>
 		</div>
 		
-		@if ($transaction->exonerado)
+		<div class='powered body1 text__opacity--semi text__bold--semi'>
+			Powered by
+			<br/>
+			<img class='powered__img' width='60' src='{{ storage_path('app/public/gedure-logo-recto.svg') }}' />
+		</div>
+
+		@if (!$transaction->exonerado)
 			<div class='text__opacity--semi'>
 				<p class='body1 text__bold'>
 					Pago exonerado por:
@@ -595,12 +601,6 @@
 				<span></span>
 			</div>
 		@endif
-		
-		<div class='powered body1 text__opacity--semi text__bold--semi'>
-			Powered by
-			<br/>
-			<img class='powered__img' width='60' src='{{ storage_path('app/public/gedure-logo-recto.svg') }}' />
-		</div>
 	</div>
 </body>
 </html>

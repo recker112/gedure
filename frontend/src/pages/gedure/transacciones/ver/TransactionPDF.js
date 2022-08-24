@@ -174,20 +174,6 @@ export default function TransactionPDF({
 					<Typography align='center'>Sello</Typography>
 				</Grid>
 			</Grid>
-
-      {exonerado === 1 && (
-				<Box mt={2} style={{opacity: 0.6}}>
-					<Typography className='text__bold--semi'>
-						Pago exonerado por: 
-					</Typography>
-					{exonerante && (
-						<Typography>{exonerante.name} ({exonerante.privilegio+exonerante.username})</Typography>
-					)}
-					{!exonerante && (
-						<Typography>U.E.P.A.P.E.P "La Candelaria"</Typography>
-					)}
-				</Box>
-			)}
 			
 			<Grid 
 				container
@@ -205,6 +191,20 @@ export default function TransactionPDF({
 				</Box>
 				<img src={GedureLogo} alt='logo de Gedure' height='22' />
 			</Grid>
+
+			{exonerado !== 1 && (
+				<Box sx={{textAlign: {xs: 'center', sm: 'left'}}} mt={2} style={{opacity: 0.6}}>
+					<Typography className='text__bold--semi'>
+						Pago exonerado por: 
+					</Typography>
+					{exonerante && (
+						<Typography>{exonerante.name} ({exonerante.privilegio+exonerante.username})</Typography>
+					)}
+					{!exonerante && (
+						<Typography>U.E.P.A.P.E.P "La Candelaria"</Typography>
+					)}
+				</Box>
+			)}
     </Paper>
   )
 }
