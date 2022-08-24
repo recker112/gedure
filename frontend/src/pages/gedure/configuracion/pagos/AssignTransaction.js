@@ -3,6 +3,8 @@ import React from 'react';
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Form
 import { useForm } from 'react-hook-form';
@@ -21,6 +23,9 @@ import { assignTransactionRequest } from '../../../../store/slices/requestStatus
 export default function AssignTransaction() {
   const { autoComplete, data, open, loading } = useSelector(state => state.requestStatus.assignTransaction);
   const dispatch = useDispatch();
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const { control, handleSubmit } = useForm({
     shouldUnregister: true,
@@ -44,6 +49,7 @@ export default function AssignTransaction() {
     <Dialog
       open={open}
       TransitionComponent={AnimationDialog}
+      fullScreen={fullScreen}
     >
       <DialogTitle>Asignar transacción bancaria #{data.id}</DialogTitle>
       <DialogContent>
