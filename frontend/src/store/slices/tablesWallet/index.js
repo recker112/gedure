@@ -76,6 +76,20 @@ const initialState = {
       pageCount: 0,
     },
   },
+  deudas: {
+    filterBox: false,
+    filters: {},
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 1,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
 };
 
 export const tablesWalletSlices = createSlice({

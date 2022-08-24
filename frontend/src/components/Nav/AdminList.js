@@ -2,6 +2,7 @@ import React from 'react';
 
 // MUI
 import { Collapse, ListItemIcon, ListItemText, SvgIcon } from '@mui/material';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -125,6 +126,13 @@ export default function AdminList({
               </Collapse>
             </>
           )}
+
+          <ListDrawerNav to='/gedure/monedero'>
+            <ListItemIcon>
+              <AccountBalanceWalletIcon />
+            </ListItemIcon>
+            <ListItemText primary='Monedero' />
+          </ListDrawerNav>
           
           {Object.keys(permissions.gedure).length !== 0 && (
             <ListDrawerNav to='/gedure/config'>

@@ -102,6 +102,9 @@ const VerMonederoPage = lazy(() => import('./pages/gedure/monedero/ver'));
 const VerifyPagosPage = lazy(() => import('./pages/gedure/monedero/verify'));
 const TransferirSaldoPage = lazy(() => import('./pages/gedure/monedero/transfer'));
 
+// Deudas
+const DeudasPage = lazy(() => import('./pages/gedure/deudas'));
+
 const classes = {
   container: {
     flexGrow: 1,
@@ -416,6 +419,20 @@ export default function Routers() {
                 <Route path='transferir-saldo' element={
                   <AuthProtect>
                     <TransferirSaldoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='*' element={
+                  <AuthProtect>
+                    <NotFound/>
+                  </AuthProtect>
+                } />
+              </Route>
+
+              <Route path='deudas/*'>
+                <Route index element={
+                  <AuthProtect>
+                    <DeudasPage />
                   </AuthProtect>
                 } />
 
