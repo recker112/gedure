@@ -27,19 +27,12 @@ class PendingPaymentController extends Controller
 					$query->where('reference', 'like', '%'.$search.'%')
 						->orWhere('date', 'like', '%'.$search.'%');
 				})
-			->offset($page)
-			->limit($perPage)
 			->orderBy('id', 'desc')
-			->get();
-		
-		$pending_payment_count = PendingPayment::where('reference', 'like', '%'.$search.'%')
-			->orWhere('date', 'like', '%'.$search.'%')
-			->count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $pending_payment,
-			'page' => request()->page * 1, 
-			'totalRows' => $pending_payment_count
+			'data' => $pending_payment->items(),
+			'totalRows' => $pending_payment->total(),
 		], 200);
 	}
 	

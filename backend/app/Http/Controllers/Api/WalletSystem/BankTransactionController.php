@@ -32,27 +32,17 @@ class BankTransactionController extends Controller
 		$search = urldecode($request->search);
 
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
 		$bank_transaction = BankTransaction::with('user')
 			->where('id', 'like', '%'.$search.'%')
 			->orWhere('concepto', 'like', '%'.$search.'%')
 			->orWhere('reference', 'like', '%'.$search.'%')
-			->orWhere('date', 'like', '%'.$search.'%')
-			->offset($page)
-			->limit($perPage)
 			->orderBy('id', 'desc')
-			->get();
-		
-		$bank_transaction_count = BankTransaction::where('concepto', 'like', '%'.$search.'%')
-			->orWhere('reference', 'like', '%'.$search.'%')
-			->orWhere('date', 'like', '%'.$search.'%')
-			->count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $bank_transaction,
-			'page' => request()->page * 1, 
-			'totalRows' => $bank_transaction_count
+			'data' => $bank_transaction->items(),
+			'totalRows' => $bank_transaction->total(),
 		], 200);
 	}
 	

@@ -38,7 +38,7 @@ class PendingPaymentControllerTest extends TestCase
 			'user_id' => $user->id,
 		]);
 		
-		$response = $this->getJson("/api/v1/pending-payment?page=0&per_page=5");
+		$response = $this->getJson("/api/v1/pending-payment?page=1&per_page=5");
 		
 		$response->assertOk()
 			->assertJsonStructure([
@@ -51,7 +51,6 @@ class PendingPaymentControllerTest extends TestCase
 						'status',
 					]
 				],
-				'page',
 				'totalRows'
 			])
 			->assertJsonFragment([
@@ -90,7 +89,7 @@ class PendingPaymentControllerTest extends TestCase
 		
 		// NOTA(RECKER): Pago no existente aun
 		$response = $this->postJson("/api/v1/bank-account/$bank_account->id/payment", [
-			'reference' => 999999,
+			'reference' => 99999999,
 			'amount' => $bank_transaction->amount,
 			'code' => $bank_transaction->code,
 			'date' => $bank_transaction->date,

@@ -17,13 +17,13 @@ class CreateDebtLotesTable extends Migration
 			$table->id();
 			$table->text('reason');
 			$table->decimal('amount_to_pay', 18, 2);
-			$table->timestamps();
-			$table->decimal('exchange_amount', 18, 2);
+			$table->decimal('exchange_amount', 18, 2)->nullable();
 			$table->foreignId('exchange_rate_id')
 				->nullable()
 				->constrained()
 				->onUpdate('set null')
 				->onDelete('set null');
+			$table->timestamps();
 		});
 	}
 

@@ -40,10 +40,9 @@ export const reducersGetLotesDeudas = {
     state.lotes_deudas.tableData.loading = false;
   },
   [getLotesDeudas.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.lotes_deudas.tableData.loading = false;
-    state.lotes_deudas.tableData.page = page;
     state.lotes_deudas.tableData.data = data;
     state.lotes_deudas.tableData.totalRows = totalRows;
     state.lotes_deudas.tableData.pageCount = Math.ceil(totalRows / state.lotes_deudas.tableData.pageSize);

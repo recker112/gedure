@@ -47,7 +47,6 @@ class BankAccountControllerTest extends TestCase
 						'code',
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}

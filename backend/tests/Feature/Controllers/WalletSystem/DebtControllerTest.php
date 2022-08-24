@@ -77,7 +77,6 @@ class DebtControllerTest extends TestCase
 						'transaction',
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}

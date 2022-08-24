@@ -523,7 +523,6 @@ class UserController extends Controller
 		$type = $request->type;
 
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
 		$users = User::onlyTrashed()
 			->where(function ($query) {
@@ -533,25 +532,11 @@ class UserController extends Controller
 					->orWhere('email', 'like', '%'.$search.'%');
 			})
 			->where('privilegio', 'like', '%'.$type.'%')
-			->offset($page)
-			->limit($perPage)
-			->get()
-			->toArray();
-		
-		$usersCount = User::onlyTrashed()
-			->where(function ($query) {
-				$search = urldecode(request()->search);
-				$query->where('username', 'like', '%'.$search.'%')
-					->orWhere('name', 'like', '%'.$search.'%')
-					->orWhere('email', 'like', '%'.$search.'%');
-			})
-			->where('privilegio', 'like', '%'.$type.'%')
-			->count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $users,
-			'page' => $request->page * 1, 
-			'totalRows' => $usersCount,
+			'data' => $users->items(),
+			'totalRows' => $users->total(),
 		], 200);
 	}
 	

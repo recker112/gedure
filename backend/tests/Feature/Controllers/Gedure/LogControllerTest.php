@@ -71,7 +71,6 @@ class LogControllerTest extends TestCase
 		$response->assertOk()
 			->assertJsonStructure([
 				'data' => [],
-				'page',
 				'totalRows'
 			]);
 	}
@@ -112,7 +111,6 @@ class LogControllerTest extends TestCase
 						],
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}
@@ -160,7 +158,6 @@ class LogControllerTest extends TestCase
 						],
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}
