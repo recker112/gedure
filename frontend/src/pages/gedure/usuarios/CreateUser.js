@@ -66,6 +66,7 @@ export default function CreateUser() {
 								disabled={loading}
                 variant="outlined"
                 defaultValue={false}
+                rules={null}
                 size='small'
 								fullWidth
 							>
