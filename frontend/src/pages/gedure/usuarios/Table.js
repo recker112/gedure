@@ -98,16 +98,11 @@ export default function Table() {
       {
         Header: "Estado",
         accessor: "actived_at",
-        Cell: ({
-          cell: {
-            row: {
-              original: { actived_at },
-            },
-          },
-        }) => (
+        Cell: ({ value }) => (
           <Chip 
-            color={actived_at ? 'primary':'default'}
-            label={actived_at ? 'Activo':'Inactivo'}
+            color={value ? 'primary':'default'}
+            label={value ? 'Activo':'Inactivo'}
+            variant='outlined'
             data-tour="gdUser__status"
           />
         ),
