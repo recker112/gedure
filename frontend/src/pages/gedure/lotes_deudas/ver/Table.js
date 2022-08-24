@@ -20,7 +20,6 @@ import { getLotesDeudasUsers } from '../../../../store/slices/tablesWallet/async
 const colorChip = {
   'no pagada': 'error',
   'pagada': 'success',
-  'reembolsada': 'info',
 }
 
 export default function Table() {

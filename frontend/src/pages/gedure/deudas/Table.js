@@ -4,7 +4,7 @@ import React, { useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // MUI
-import { IconButton, Tooltip } from '@mui/material';
+import { Chip, IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { TextBoxCheck as TextBoxCheckIcon } from 'mdi-material-ui';
 
@@ -15,14 +15,19 @@ import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
-import { getMonedero } from '../../../store/slices/tablesWallet/async_trunk/monedero/TableMonedero';
+import { getDeudas } from '../../../store/slices/tablesWallet/async_trunk/deudas/TableDeudas';
+
+const colorChip = {
+  'no pagada': 'error',
+  'pagada': 'success',
+}
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
-    dataR: state.tablesWallet.monedero.tableData.data,
-    loading: state.tablesWallet.monedero.tableData.loading,
-    pageSize: state.tablesWallet.monedero.tableData.pageSize,
-    pageCount: state.tablesWallet.monedero.tableData.pageCount,
+    dataR: state.tablesWallet.deudas.tableData.data,
+    loading: state.tablesWallet.deudas.tableData.loading,
+    pageSize: state.tablesWallet.deudas.tableData.pageSize,
+    pageCount: state.tablesWallet.deudas.tableData.pageCount,
   }));
   const dispatch = useDispatch();
 
@@ -30,21 +35,24 @@ export default function Table() {
 
   const columns = useMemo(() => [
     {
-      Header: 'Id',
-      accessor: 'id',
-    },
-    {
       Header: 'Motivo',
-      accessor: 'reason',
+      accessor: 'debt_lote.reason',
     },
     {
       Header: 'Cantidad',
-      accessor: 'amount',
-      Cell: ({ cell: { row: { original: { amount } } } }) => parseFloatToMoneyString(amount),
+      accessor: 'debt_lote.amount_to_pay',
+      Cell: ({ value }) => parseFloatToMoneyString(value),
     },
     {
       Header: 'Estado', 
       accessor: 'status',
+      Cell: ({ value }) => (
+        <Chip
+          color={colorChip[value]}
+          variant='outlined'
+          label={value.toUpperCase()[0] + value.slice(1)}
+        />
+      ),
     },
     {
       id: 'options',
@@ -52,24 +60,28 @@ export default function Table() {
       accessor: 'options',
       Cell: ({ cell: { row: { original } } }) => (
         <>
-          <Tooltip title='Ver' arrow>
-            <IconButton
-              onClick={() => {
-                navigate(`/gedure/monedero/transacciones/ver/${original.id}`);
-              }}
-            >
-              <VisibilityIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Pagar' arrow>
-            <IconButton
-              onClick={() => {
-                //
-              }}
-            >
-              <TextBoxCheckIcon />
-            </IconButton>
-          </Tooltip>
+          {original.status === 'pagada' && (
+            <Tooltip title='Ver' arrow>
+              <IconButton
+                onClick={() => {
+                  navigate(`/gedure/monedero/transacciones/ver/${original.id}`);
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          {original.status === 'no pagada' && (
+            <Tooltip title='Pagar' arrow>
+              <IconButton
+                onClick={() => {
+                  //
+                }}
+              >
+                <TextBoxCheckIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </>
       )
     },
@@ -83,7 +95,7 @@ export default function Table() {
     let promise = null;
 
     if (loading) {
-      promise = dispatch(getMonedero());
+      promise = dispatch(getDeudas());
     }
 
     return () => {
@@ -97,21 +109,21 @@ export default function Table() {
   // NOTA(RECKER): Reinicar config al desmontar
   useEffect(() => {
     return () => {
-      dispatch(resetTableConfig({ select: 'monedero' }));
+      dispatch(resetTableConfig({ select: 'deudas' }));
     }
     // eslint-disable-next-line
   },[]);
 
   const handleGlobalFilter = value => {
-    dispatch(setSearch({search: value || "", select: 'monedero'}));
+    dispatch(setSearch({search: value || "", select: 'deudas'}));
   }
 
   const handleChange = value => {
-    dispatch(setConfigTable({ ...value, select: 'monedero' }));
+    dispatch(setConfigTable({ ...value, select: 'deudas' }));
   }
 
   const handleRefresh = () => {
-    dispatch(refresh({ select: 'monedero' }));
+    dispatch(refresh({ select: 'deudas' }));
   }
 
   return (

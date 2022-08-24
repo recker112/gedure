@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { reducersGetDeudas } from "./async_trunk/deudas/TableDeudas";
 import { reducersGetLotesDeudas } from "./async_trunk/lotes_deudas/TableLotesDeudas";
 import { reducersGetLotesDeudasUsers } from "./async_trunk/lotes_deudas/TableLotesDeudasUsers";
 import { reducersGetMonedero } from "./async_trunk/monedero/TableMonedero";
@@ -146,6 +147,7 @@ export const tablesWalletSlices = createSlice({
     ...reducersGetTransactions,
     ...reducersGetMonedero,
     ...reducersGetPendingPayments,
+    ...reducersGetDeudas,
   }
 });
 

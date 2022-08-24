@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\TableRequest;
+
 //Models
 use App\Models\User;
 use App\Models\Gedure\Curso;
@@ -23,6 +24,9 @@ class DebtController extends Controller
 		
 		$debts = Debt::with(['debt_lote', 'transaction'])
 			->where('user_id', $user->id)
+			->whereHas('debt_lote', function (Builder $query) use ($search) {
+				$query->where('reason', 'like', "%$search%");
+			})
 			->paginate($perPage);
 
 		// Ocultar datos
