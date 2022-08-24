@@ -19,3 +19,7 @@ use App\Http\Controllers\Api\WalletSystem\DebtController;
 // Index debts of lote users
 Route::middleware(['auth:api'])
 	->get('deuda', [DebtController::class, 'index']);
+
+// Pay debt
+Route::middleware(['auth:api'])
+	->post('deuda/pay/{debt}', [DebtController::class, 'pay']);

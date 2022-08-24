@@ -77,7 +77,7 @@ export default function LotesDeudas() {
             setRequestStatus({open: false, select: 'deleteLoteDeuda'})
           }
           request={
-            data => destroyLoteDebts(data)
+            data => destroyLoteDebts(data.id)
           }
         >
           {(dataR) => (<span>Está a punto de eliminar el lote de deuda <strong>{dataR.reason} (#{dataR.id})</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
