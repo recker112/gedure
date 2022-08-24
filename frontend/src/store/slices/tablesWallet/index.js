@@ -12,7 +12,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",
@@ -26,7 +26,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",
@@ -54,7 +54,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",
@@ -68,7 +68,7 @@ const initialState = {
     countFilters: 0,
     tableData: {
       loading: true,
-      page: 0,
+      page: 1,
       data: [],
       pageSize: 5,
       search: "",

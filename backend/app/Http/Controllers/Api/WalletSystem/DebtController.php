@@ -25,21 +25,11 @@ class DebtController extends Controller
 			->WhereHas('user', function (Builder $query) use ($search) {
 				$query->where('username', 'LIKE', "%$search%");
 			})
-			->offset($page)
-			->limit($perPage)
-			->get()
-			->toArray();
-		
-		$debtsCount = Debt::where('debt_lote_id', $id)
-			->WhereHas('user', function (Builder $query) use ($search) {
-				$query->where('username', 'LIKE', "%$search%");
-			})
-			->count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $debts,
-			'page' => $request->page * 1, 
-			'totalRows' => $debtsCount,
+			'data' => $debts->items(),
+			'totalRows' => $debts->total(),
 		], 200);
 	}
 }

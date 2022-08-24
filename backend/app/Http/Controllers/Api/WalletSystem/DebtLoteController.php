@@ -24,25 +24,17 @@ class DebtLoteController extends Controller
 {
 	public function index(TableRequest $request) {
 		$search = urldecode($request->search);
-		
 		$perPage = $request->per_page;
-		$page = $request->page * $perPage;
 		
 		$debts = DebtLote::with('exchange_rate:id,type')
 			->where('reason', 'like', "%$search%")
 			->orWhere('id', 'like', "%$search%")
-			->offset($page)
-			->limit($perPage)
 			->latest()
-			->get()
-			->toArray();
-		
-		$debtsCount = DebtLote::count();
+			->paginate($perPage);
 		
 		return response()->json([
-			'data' => $debts,
-			'page' => $request->page * 1, 
-			'totalRows' => $debtsCount,
+			'data' => $debts->items(),
+			'totalRows' => $debts->total(),
 		], 200);
 	}
 	

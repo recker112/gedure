@@ -40,10 +40,9 @@ export const reducersGetPendingPayments = {
     state.pendingPayments.tableData.loading = false;
   },
   [getPendingPayments.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.pendingPayments.tableData.loading = false;
-    state.pendingPayments.tableData.page = page;
     state.pendingPayments.tableData.data = data;
     state.pendingPayments.tableData.totalRows = totalRows;
     state.pendingPayments.tableData.pageCount = Math.ceil(totalRows / state.pendingPayments.tableData.pageSize);

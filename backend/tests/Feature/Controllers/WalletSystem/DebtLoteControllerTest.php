@@ -34,17 +34,17 @@ class DebtLoteControllerTest extends TestCase
 		
 		$deuda_lote = DebtLote::create([
 			'reason' => 'Test1',
-			'amount_to_pay' => 5,
-			'exchange_rate_type' => 'USD',
+			'amount_to_pay' => 40,
+			'exchange_amount' => 4,
+			'exchange_rate_id' => 1,
 		]);
 		
 		$deuda_lote2 = DebtLote::create([
 			'reason' => 'Test2',
 			'amount_to_pay' => 400000,
-			'exchange_rate_type' => 'Bs.S',
 		]);
 		
-		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=1');
 
 		$response->assertOk()
 			->assertJsonStructure([
@@ -56,7 +56,6 @@ class DebtLoteControllerTest extends TestCase
 						'created_at'
 					]
 				],
-				'page',
 				'totalRows'
 			]);
 	}
@@ -87,8 +86,7 @@ class DebtLoteControllerTest extends TestCase
 		
 		$deuda_lote = DebtLote::create([
 			'reason' => 'Test',
-			'amount_to_pay' => 400,
-			'exchange_rate_type' => 'Bs.S',
+			'amount_to_pay' => 40,
 		]);
 		$id = $deuda_lote->id;
 		

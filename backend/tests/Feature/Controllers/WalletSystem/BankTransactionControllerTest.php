@@ -118,7 +118,6 @@ class BankTransactionControllerTest extends TestCase
 						]
 					]
 				],
-				'page',
 				'totalRows'
 			])
 			->assertJsonFragment([

@@ -40,10 +40,9 @@ export const reducersUsersDisabled = {
     state.usersDisabled.tableData.loading = false;
   },
   [getUsersDisabled.fulfilled]: (state, action) => {
-    const { page, totalRows, data } = action.payload;
+    const { totalRows, data } = action.payload;
 
     state.usersDisabled.tableData.loading = false;
-    state.usersDisabled.tableData.page = page;
     state.usersDisabled.tableData.data = data;
     state.usersDisabled.tableData.totalRows = totalRows;
     state.usersDisabled.tableData.pageCount = Math.ceil(totalRows / state.usersDisabled.tableData.pageSize);

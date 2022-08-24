@@ -555,7 +555,6 @@ class UserControllerTest extends TestCase
 						'email',
 					]
 				],
-				'page',
 				'totalRows'
 			])
 			->assertJson([

@@ -81,7 +81,6 @@ class ContactoControllerTest extends TestCase
 						'created_at',
 					]
 				],
-				'page',
 				'totalRows'
 			])
 			->assertJsonFragment([
