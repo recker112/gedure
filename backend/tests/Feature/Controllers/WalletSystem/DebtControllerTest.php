@@ -31,7 +31,6 @@ class DebtControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
-			'exchange_rate_type' => 'Bs.S',
 		]);
 		
 		// Users creator
@@ -50,7 +49,7 @@ class DebtControllerTest extends TestCase
 		}
 	}
 	
-	public function testIndex()
+	public function testIndexLote()
 	{
 		//$this->withoutExceptionHandling();
 		Passport::actingAs(
@@ -60,7 +59,7 @@ class DebtControllerTest extends TestCase
 		
 		$this->createDebts();
 		
-		$response = $this->getJson('/api/v1/deuda/lote/1/users?per_page=5&page=0');
+		$response = $this->getJson('/api/v1/deuda/lote/1/users?per_page=5&page=1');
 		
 		$response->assertOk()
 			->assertJsonStructure([
@@ -73,6 +72,34 @@ class DebtControllerTest extends TestCase
 							'privilegio',
 							'username',
 							'name'
+						],
+						'transaction',
+					]
+				],
+				'totalRows'
+			]);
+	}
+
+	public function testIndex()
+	{
+		//$this->withoutExceptionHandling();
+		$this->createDebts();
+		Passport::actingAs(
+			User::find(3),
+			['user']
+		);
+		
+		$response = $this->getJson('/api/v1/deuda?per_page=5&page=1');
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'status',
+						'updated_at',
+						'debt_lote' => [
+							'reason',
+							'amount_to_pay',
 						],
 						'transaction',
 					]

@@ -37,6 +37,23 @@ class DebtLoteController extends Controller
 			'totalRows' => $debts->total(),
 		], 200);
 	}
+
+	public function indexLote(TableRequest $request, $id) {
+		$search = urldecode($request->search);
+		$perPage = $request->per_page;
+		
+		$debts = Debt::with(['user:id,privilegio,username,name', 'transaction'])
+			->where('debt_lote_id', $id)
+			->WhereHas('user', function (Builder $query) use ($search) {
+				$query->where('username', 'LIKE', "%$search%");
+			})
+			->paginate($perPage);
+		
+		return response()->json([
+			'data' => $debts->items(),
+			'totalRows' => $debts->total(),
+		], 200);
+	}
 	
 	public function findUsersLike(FindLikeRequest $request) {
 		$search = urldecode(request()->search);
