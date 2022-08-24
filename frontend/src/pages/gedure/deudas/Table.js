@@ -16,6 +16,7 @@ import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 import { useDispatch, useSelector } from 'react-redux'
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
 import { getDeudas } from '../../../store/slices/tablesWallet/async_trunk/deudas/TableDeudas';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 
 const colorChip = {
   'no pagada': 'error',
@@ -64,7 +65,7 @@ export default function Table() {
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
-                  navigate(`/gedure/monedero/transacciones/ver/${original.id}`);
+                  navigate(`/gedure/monedero/transacciones/ver/${original.transaction?.id}`);
                 }}
               >
                 <VisibilityIcon />
@@ -75,7 +76,7 @@ export default function Table() {
             <Tooltip title='Pagar' arrow>
               <IconButton
                 onClick={() => {
-                  //
+                  dispatch(setRequestStatus({open: true, data: original, select: 'payDebts'}));
                 }}
               >
                 <TextBoxCheckIcon />

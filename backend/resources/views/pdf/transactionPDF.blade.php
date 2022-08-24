@@ -586,7 +586,7 @@
 			<img class='powered__img' width='60' src='{{ storage_path('app/public/gedure-logo-recto.svg') }}' />
 		</div>
 
-		@if (!$transaction->exonerado)
+		@if ($transaction->exonerado)
 			<div class='text__opacity--semi'>
 				<p class='body1 text__bold'>
 					Pago exonerado por:

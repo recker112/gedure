@@ -5,10 +5,14 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 
 // Components
 import Table from './Table';
+import useNotifier from '../../../hooks/useNotifier';
+import DialogConfirmation from '../../../components/DialogConfirmation';
 import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 
 // Redux
 import { useSelector } from 'react-redux';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
+import { paydebs } from '../../../store/slices/requestStatusWallet/async_trunk/deudas/payDebts';
 
 const classes = {
   container: {
@@ -19,6 +23,7 @@ const classes = {
 };
 
 export default function Deudas() {
+  useNotifier();
   const { count_notify, balance } = useSelector(state => ({
     count_notify: state.auth.notify.count,
     balance: state.auth.user.wallet.balance,
@@ -49,6 +54,18 @@ export default function Deudas() {
 						<Table />
 					</Grid>
         </Grid>
+        <DialogConfirmation
+          rdx1='requestStatusWallet' 
+          rdx2='payDebts'
+          close={
+            setRequestStatus({open: false, select: 'payDebts'})
+          }
+          request={
+            data => paydebs(data)
+          }
+        >
+          {(dataR) => (<span>Está a punto de <strong>pagar la deuda "{dataR.debt_lote?.reason}"</strong>, la cuál tiene un <strong>coste de {parseFloatToMoneyString(dataR.debt_lote?.amount_to_pay)}</strong>. Una vez se procese el pago no se podrá deshacer esta acción.</span>)}
+        </DialogConfirmation>
       </Container>
     </Box>
   )

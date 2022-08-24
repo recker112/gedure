@@ -43,6 +43,10 @@ class DebtControllerTest extends TestCase
 				'curso_id' => $curso->id,
 			]);
 
+			$user->wallet()->create([
+				'balance' => 99999999
+			]);
+
 			$user->debts()->create([
 				'debt_lote_id' => $debt_lote->id,
 			]);
@@ -85,7 +89,7 @@ class DebtControllerTest extends TestCase
 		//$this->withoutExceptionHandling();
 		$this->createDebts();
 		Passport::actingAs(
-			User::find(3),
+			User::find(2),
 			['user']
 		);
 		
@@ -105,6 +109,23 @@ class DebtControllerTest extends TestCase
 					]
 				],
 				'totalRows'
+			]);
+	}
+
+	public function testPay()
+	{
+		//$this->withoutExceptionHandling();
+		$this->createDebts();
+		Passport::actingAs(
+			User::find(2),
+			['user']
+		);
+		
+		$response = $this->getJson('/api/v1/deuda/pay/1');
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
 			]);
 	}
 }

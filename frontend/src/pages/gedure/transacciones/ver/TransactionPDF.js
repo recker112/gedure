@@ -192,7 +192,7 @@ export default function TransactionPDF({
 				<img src={GedureLogo} alt='logo de Gedure' height='22' />
 			</Grid>
 
-			{exonerado !== 1 && (
+			{exonerado === 1 && (
 				<Box sx={{textAlign: {xs: 'center', sm: 'left'}}} mt={2} style={{opacity: 0.6}}>
 					<Typography className='text__bold--semi'>
 						Pago exonerado por: 
