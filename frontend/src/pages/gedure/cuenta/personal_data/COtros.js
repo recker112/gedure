@@ -44,11 +44,12 @@ export default function COtros() {
   }
 
   return (
-    <POtrosForm
-      control={control}
-      user={user}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <POtrosForm
+        control={control}
+        user={user}
+        loading={loading}
+      />
+    </form>
   )
 }

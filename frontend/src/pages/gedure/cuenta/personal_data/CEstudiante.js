@@ -54,11 +54,10 @@ export default function CEstudiante() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PEstudianteForm
         control={control}
         user={user}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

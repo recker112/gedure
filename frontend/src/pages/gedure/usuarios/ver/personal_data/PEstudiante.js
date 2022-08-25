@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
 
-export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, loading }) {
+export function PEstudianteForm({ control, user, buttonDisable, loading }) {
   const estudi_nacionalidad = useWatch({
     control,
     name: "personal_data.estudi_nacionalidad",
@@ -160,7 +160,7 @@ export function PEstudianteForm({ control, user, handleSubmit, buttonDisable, lo
             variant='contained' 
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -202,11 +202,10 @@ export default function PEstudiante() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PEstudianteForm
         control={control}
         user={userSelected}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

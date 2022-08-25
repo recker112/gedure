@@ -65,7 +65,7 @@ export default function Forms({
   return (
     <FormProvider {...methods}>
       <Container sx={classes.container}>
-        <form autoComplete='off'>
+        <form autoComplete='off' onSubmit={e => e.preventDefault()}>
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={esLocale}>
             <Grid container spacing={2} item xs={12}>
               {activeStep === 0 && (

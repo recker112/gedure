@@ -15,7 +15,7 @@ import { InputHook } from '../../../../../components/form/inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function PDatosForm({ control, loading, handleSubmit, userField = true, nameField = true, user = {} }) {
+export function PDatosForm({ control, loading, userField = true, nameField = true, user = {} }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -91,7 +91,7 @@ export function PDatosForm({ control, loading, handleSubmit, userField = true, n
           variant='contained' 
           loading={loading}
           disableElevation
-          onClick={handleSubmit}
+          type='submit'
         >
           Actualizar
         </LoadingButton>
@@ -126,11 +126,12 @@ export default function PDatos() {
   }
 
   return (
-    <PDatosForm
-      control={control}
-      user={userSelected}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDatosForm
+        control={control}
+        user={userSelected}
+        loading={loading}
+      />
+    </form>
   )
 }

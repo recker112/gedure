@@ -39,11 +39,10 @@ export default function CDMadre() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PDMadreForm
         control={control}
         user={user}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

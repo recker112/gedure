@@ -45,11 +45,12 @@ export default function CREmpleo() {
   }
 
   return (
-    <REmpleoForm
-      control={control}
-      user={user}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <REmpleoForm
+        control={control}
+        user={user}
+        loading={loading}
+      />
+    </form>
   )
 }

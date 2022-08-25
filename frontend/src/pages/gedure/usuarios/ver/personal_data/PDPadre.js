@@ -16,7 +16,7 @@ import { InputHook, InputMaskHook } from '../../../../../components/form/inputs'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function PDPadreForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function PDPadreForm({ control, loading, user, buttonDisable }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -122,7 +122,7 @@ export function PDPadreForm({ control, loading, user, handleSubmit, buttonDisabl
             variant='contained' 
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -152,11 +152,12 @@ export default function PDPadre() {
   }
 
   return (
-    <PDPadreForm
-      control={control}
-      user={userSelected}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDPadreForm
+        control={control}
+        user={userSelected}
+        loading={loading}
+      />
+    </form>
   )
 }

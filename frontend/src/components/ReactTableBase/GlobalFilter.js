@@ -22,24 +22,22 @@ export function GlobalFilter(props) {
   }
 
   return (
-    <form autoComplete="off">
-      <TextField
-        data-tour="gdTable__search"
-        size="small"
-        value={value || ""}
-        placeholder="Buscar..."
-        variant='standard'
-        onChange={(event) => {
-          onDebounce(event.target.value);
-          setValue(event.target.value);
-        }}
-        sx={{
-          mr: 1,
-        }}
-        InputProps={{
-          startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
-          endAdornment: <IconButton disabled={!value} onClick={handleClear}><ClearIcon /></IconButton>
-        }} />
-    </form>
+    <TextField
+      data-tour="gdTable__search"
+      size="small"
+      value={value || ""}
+      placeholder="Buscar..."
+      variant='standard'
+      onChange={(event) => {
+        onDebounce(event.target.value);
+        setValue(event.target.value);
+      }}
+      sx={{
+        mr: 1,
+      }}
+      InputProps={{
+        startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+        endAdornment: <IconButton disabled={!value} onClick={handleClear}><ClearIcon /></IconButton>
+      }} />
   );
 }
