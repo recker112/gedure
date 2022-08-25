@@ -128,6 +128,7 @@ class UserController extends Controller
 		}
 		
 		$dataUser = $request->only(['username', 'name', 'privilegio', 'email', 'password']);
+		$dataUser['name'] = ucwords($dataUser['name']);
 		$dataUser['password'] = bcrypt($dataUser['password']);
 		$user = User::create($dataUser);
 		
@@ -247,6 +248,10 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar user
 		if ($request->only(['username', 'name', 'email', 'password'])) {
+			$request->merge([
+				'name' => ucwords($request->name),
+			]);
+
 			if ($request->password) {
 				$request->merge([
 					'password' => bcrypt($request->password),
@@ -341,6 +346,7 @@ class UserController extends Controller
 			if ($request->password) {
 				$request->merge([
 					'password' => bcrypt($request->password),
+					'name' => ucwords($request->name),
 				]);
 			}
 			
@@ -351,6 +357,10 @@ class UserController extends Controller
 			} else {
 				$data = $request->only(['name', 'email', 'password']);
 			}
+
+			$request->merge([
+				'name' => ucwords($request->name),
+			]);
 			
 			$user->update($data);
 		}
