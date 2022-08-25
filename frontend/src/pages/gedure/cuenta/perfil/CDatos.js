@@ -49,11 +49,10 @@ export default function CDatos() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PDatosForm
         control={control}
         user={user}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
         userField={user.privilegio === 'A-' && users_edit_admins}
         nameField={user.privilegio !== 'V-'}

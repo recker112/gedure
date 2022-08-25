@@ -16,7 +16,7 @@ import { RadioHook } from '../../../../../components/form/radio';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function POtrosForm({ control, loading, user, handleSubmit, buttonDisable }) {
+export function POtrosForm({ control, loading, user, buttonDisable }) {
   const estudi_otros_alojado = useWatch({
     control,
     name: "personal_data.estudi_otros_alojado",
@@ -118,7 +118,7 @@ export function POtrosForm({ control, loading, user, handleSubmit, buttonDisable
             variant='contained' 
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -153,7 +153,7 @@ export default function POtros() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <POtrosForm
         control={control}
         user={userSelected}

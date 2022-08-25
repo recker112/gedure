@@ -38,11 +38,10 @@ export default function CUbicacion() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PUbicacionForm
         control={control}
         user={user}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

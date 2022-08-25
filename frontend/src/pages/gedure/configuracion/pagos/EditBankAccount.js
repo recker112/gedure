@@ -49,7 +49,7 @@ export default function EditBankAccount() {
     >
       <DialogTitle>Editar cuenta bancaria #{data.id}</DialogTitle>
       <DialogContent>
-        <form autoComplete='off'>
+        <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             {watch('important_data') === true && (
               <Grid item xs={12}>
@@ -165,6 +165,7 @@ export default function EditBankAccount() {
 							</SelectHook>
 						</Grid>
           </Grid>
+          <input type='submit' hidden />
         </form>
       </DialogContent>
       <DialogActions>

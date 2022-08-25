@@ -18,7 +18,7 @@ import generatePassword from '../../../../../components/Utils/GeneratePassword';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function PPasswordForm({ control, handleSubmit, setValue, loading, helperText }) {
+export function PPasswordForm({ control, setValue, loading, helperText }) {
   const [generatePass, setGeneratePass] = useState(false);
   const password = useWatch({
     name: 'password',
@@ -99,7 +99,7 @@ export function PPasswordForm({ control, handleSubmit, setValue, loading, helper
           variant='contained' 
           loading={loading}
           disableElevation
-          onClick={handleSubmit}
+          type='submit'
         >
           Cambiar contraseña
         </LoadingButton>
@@ -123,12 +123,13 @@ export default function PPassword() {
   }
 
   return (
-    <PPasswordForm
-      control={control}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-      setValue={setValue}
-      helperText='Tenga en cuenta que una vez cambiada la contraseña el usuario ya no podrá acceder con su contraseña antigüa, asegurese de informar al usuario de este cambio'
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PPasswordForm
+        control={control}
+        loading={loading}
+        setValue={setValue}
+        helperText='Tenga en cuenta que una vez cambiada la contraseña el usuario ya no podrá acceder con su contraseña antigüa, asegurese de informar al usuario de este cambio'
+      />
+    </form>
   )
 }

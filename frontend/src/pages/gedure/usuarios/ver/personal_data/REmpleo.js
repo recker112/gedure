@@ -16,7 +16,7 @@ import { RadioHook } from '../../../../../components/form/radio';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function REmpleoForm({ control, user, loading, handleSubmit, buttonDisable }) {
+export function REmpleoForm({ control, user, loading, buttonDisable }) {
   const repre_empleo = useWatch({
     name: 'personal_data.repre_empleo',
     control,
@@ -97,7 +97,7 @@ export function REmpleoForm({ control, user, loading, handleSubmit, buttonDisabl
             variant='contained' 
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -134,11 +134,12 @@ export default function REmpleo() {
   }
 
   return (
-    <REmpleoForm
-      control={control}
-      user={userSelected}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <REmpleoForm
+        control={control}
+        user={userSelected}
+        loading={loading}
+      />
+    </form>
   )
 }

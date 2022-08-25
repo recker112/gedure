@@ -24,7 +24,6 @@ export function PDUsuarioForm({
   control,
   user,
   loading,
-  handleSubmit,
   buttonText = 'Actualizar',
 }) {
   const docente = useWatch({
@@ -175,7 +174,7 @@ export function PDUsuarioForm({
           variant='contained' 
           loading={loading}
           disableElevation
-          onClick={handleSubmit}
+          type='submit'
         >
           {buttonText}
         </LoadingButton>
@@ -223,11 +222,12 @@ export default function PDUsuario() {
   }
 
   return (
-    <PDUsuarioForm
-      user={userSelected}
-      control={control}
-      loading={loading}
-      handleSubmit={handleSubmit(onSubmit)}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDUsuarioForm
+        user={userSelected}
+        control={control}
+        loading={loading}
+      />
+    </form>
   )
 }

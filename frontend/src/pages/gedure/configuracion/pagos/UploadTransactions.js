@@ -36,7 +36,7 @@ export default function UploadTransactions() {
   }
 
   return (
-    <Paper component='form' autoComplete='off' className='paper--padding'>
+    <Paper component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='paper--padding'>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant='h6' className='text__bold--semi'>
@@ -89,7 +89,7 @@ export default function UploadTransactions() {
         </Grid>
 
         <Grid container justifyContent='flex-end' item xs={12}>
-          <LoadingButton onClick={handleSubmit(onSubmit)} loading={loading} loadingIndicator={loading && progress < 99 ? `${progress}%` : null} variant="contained" disableElevation>
+          <LoadingButton type='submit' loading={loading} loadingIndicator={loading && progress < 99 ? `${progress}%` : null} variant="contained" disableElevation>
               Cargar
             </LoadingButton>
         </Grid>

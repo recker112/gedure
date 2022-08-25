@@ -68,7 +68,7 @@ export default function EditLoteDeuda() {
     >
       <DialogTitle >Editar lote de deuda #{data.id}</DialogTitle>
       <DialogContent>
-        <form autoComplete='off'>
+        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
 							<DialogContentText>
@@ -92,7 +92,7 @@ export default function EditLoteDeuda() {
                 size='small'
 							/>
 						</Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
 							<SelectHook
 								name='exchange_rate_type'
 								label='Tipo de moneda'
@@ -107,7 +107,7 @@ export default function EditLoteDeuda() {
 								<MenuItem value='Bs.'>Bs.</MenuItem>
 							</SelectHook>
 						</Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
 							<InputMaskHook
 								control={control}
 								rules={{
@@ -147,6 +147,7 @@ export default function EditLoteDeuda() {
               </Grid>
 						)}
           </Grid>
+          <input type='submit' hidden />
         </form>
       </DialogContent>
       <DialogActions>

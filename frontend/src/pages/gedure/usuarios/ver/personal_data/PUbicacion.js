@@ -24,7 +24,7 @@ const labels = {
 	5: 'Excelente',
 };
 
-export function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, user }) {
+export function PUbicacionForm({ control, loading, buttonDisable, user }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -133,7 +133,7 @@ export function PUbicacionForm({ control, loading, buttonDisable, handleSubmit, 
             variant='contained' 
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -159,11 +159,10 @@ export default function PUbicacion() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <PUbicacionForm
         control={control}
         user={userSelected}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

@@ -19,7 +19,7 @@ import { buscarMunicipioVE, buscarParroquiaVE, estadosVE } from '../../../../../
 import { useDispatch, useSelector } from 'react-redux';
 import { updateData } from '../../../../../store/slices/requestStatus/async_trunk/users/updateData';
 
-export function RUbicacionForm({ loading, control, handleSubmit, user, buttonDisable }) {
+export function RUbicacionForm({ loading, control, user, buttonDisable }) {
   const repre_ubi_estado = useWatch({
     name: 'personal_data.repre_ubi_estado',
     control,
@@ -115,7 +115,7 @@ export function RUbicacionForm({ loading, control, handleSubmit, user, buttonDis
             variant='contained'
             loading={loading}
             disableElevation
-            onClick={handleSubmit}
+            type='submit'
           >
             Actualizar
           </LoadingButton>
@@ -155,11 +155,10 @@ export default function RUbicacion() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <RUbicacionForm
         control={control}
         user={userSelected}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

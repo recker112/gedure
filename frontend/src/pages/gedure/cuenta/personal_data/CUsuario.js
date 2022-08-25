@@ -60,11 +60,12 @@ export default function CUsuario() {
   }
 
   return (
-    <PDUsuarioForm
-      user={user}
-      control={control}
-      loading={loading}
-      handleSubmit={handleSubmit(onSubmit)}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDUsuarioForm
+        user={user}
+        control={control}
+        loading={loading}
+      />
+    </form>
   )
 }

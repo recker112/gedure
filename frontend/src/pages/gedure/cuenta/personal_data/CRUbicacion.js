@@ -49,11 +49,10 @@ export default function CRUbicacion() {
   }
 
   return (
-    <Box mb={4}>
+    <Box component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} mb={4}>
       <RUbicacionForm
         control={control}
         user={user}
-        handleSubmit={handleSubmit(onSubmit)}
         loading={loading}
       />
     </Box>

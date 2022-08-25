@@ -53,7 +53,7 @@ export default function AssignTransaction() {
     >
       <DialogTitle>Asignar transacción bancaria #{data.id}</DialogTitle>
       <DialogContent>
-        <form autoComplete='off'>
+        <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <DialogContentText>
@@ -77,6 +77,7 @@ export default function AssignTransaction() {
               />
 						</Grid>
           </Grid>
+          <input type='submit' hidden />
         </form>
       </DialogContent>
       <DialogActions>

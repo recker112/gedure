@@ -51,7 +51,7 @@ export default function CreateUser() {
     <Dialog open={open} fullScreen={fullScreen} TransitionComponent={AnimationDialog}>
       <DialogTitle>Crear usuario</DialogTitle>
       <DialogContent>
-        <form autoComplete='off'>
+        <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Typography color='text.secondary'>
@@ -161,6 +161,7 @@ export default function CreateUser() {
               setValue={setValue}
             />
           </Grid>
+          <input type='submit' hidden />
         </form>
       </DialogContent>
       <DialogActions>

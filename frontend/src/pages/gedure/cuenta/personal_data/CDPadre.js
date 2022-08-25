@@ -36,11 +36,12 @@ export default function CDPadre() {
   }
 
   return (
-    <PDPadreForm
-      control={control}
-      user={user}
-      handleSubmit={handleSubmit(onSubmit)}
-      loading={loading}
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDPadreForm
+        control={control}
+        user={user}
+        loading={loading}
+      />
+    </form>
   )
 }
