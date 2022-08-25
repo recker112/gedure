@@ -6,7 +6,7 @@ export const getUserSelected = createAsyncThunk(
   async (search, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
-    let url = `v1/find/users?search=${encodeURI(search)}&privilegio=V-`;
+    let url = `v1/find/deudas-users?search=${encodeURI(search)}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

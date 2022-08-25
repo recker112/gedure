@@ -66,11 +66,6 @@ class DebtLoteController extends Controller
 					$query->where('debt_lote_id', request()->id_lote_deuda);
 				});
 			})
-			->when(!boolVal($request->not_registred), function ($query) {
-				$query->whereHas('debts', function (Builder $query) {
-					$query->where('debt_lote_id', request()->id_lote_deuda);
-				});
-			})
 			->limit(15)
 			->get()
 			->makeHidden(['personal_data', 'estudiante_data']);
