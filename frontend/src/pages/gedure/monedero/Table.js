@@ -108,6 +108,7 @@ export default function Table() {
   return (
     <ReactTableBase
       title='Lista de transacciones'
+      data-tour="table"
       data={data}
       columns={columns}
       pageCountData={pageCount}

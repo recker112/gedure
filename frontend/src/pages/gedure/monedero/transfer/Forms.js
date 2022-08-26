@@ -72,7 +72,7 @@ export default function Form({
         </form>
       </Container>
       <Container sx={classes.controls}>
-        <Stack direction='row' justifyContent='space-between'>
+        <Stack direction='row' justifyContent='space-between' data-tour='controls'>
           <Button variant='contained' disableElevation disabled={activeStep <= 0} onClick={handleBack}>
             Regresar
           </Button>

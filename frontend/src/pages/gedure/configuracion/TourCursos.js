@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 // Components
 import TourComponent from '../../../components/TourComponent';
 
-export default function TourSoliC() {
+export default function TourCursos() {
 	const theme = useTheme();
 	
 	const steps = [
@@ -18,12 +18,12 @@ export default function TourSoliC() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Solicitudes de contácto
+						Configurar cursos
 					</Typography>
 					<Typography variant='body1'>
-						En esta sección podrá visualizar las <strong>solicitudes</strong> hechas por personas de <strong>afuera del sistema</strong>.
+						En esta sección podrá configurar los cursos que agruparán a los estudiantes en el sistema.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(3)}}>
+					<Button size='small' color='primary' onClick={() => goTo(5)}>
 						Saltar tour
 					</Button>
 				</div>
@@ -33,10 +33,21 @@ export default function TourSoliC() {
 			}
 		},
 		{
-			selector: '[data-tour="gdTable__search"]',
+			selector: '[data-tour="create-curso"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podra buscar registros por por su <strong>nombre, asunto, o correo</strong>.
+					Aquí podrá <strong>crear cursos</strong> en el sistema, con ellos podrá agrupas a estudiantes.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+    {
+			selector: '[data-tour="cursos"]',
+			content: () => (
+				<Typography variant='body1'>
+					Aquí podrá visualizar los <strong>cursos activos</strong> en el sistema, y a su vez, <strong>eliminar</strong> los que ya no necesite.
 				</Typography>
 			),
 			style: {
@@ -44,10 +55,21 @@ export default function TourSoliC() {
 			},
 		},
 		{
-			selector: '[data-tour="gdTable__refresh"]',
+			selector: '[data-tour="gdTable__search"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
+					Puede <strong>buscar</strong> los cursos que desee utilizándo el <strong>código</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="gdTable__massive"]',
+			content: () => (
+				<Typography variant='body1'>
+					También puede usar las <strong>opciones masivas</strong> con las cuales puedes <strong>borrar varios cursos</strong> a la vez.
 				</Typography>
 			),
 			style: {
@@ -68,6 +90,6 @@ export default function TourSoliC() {
 	];
 	
 	return (
-		<TourComponent select='soli_contacto' steps={steps} />
+		<TourComponent select='config_cursos' steps={steps} />
 	);
 }

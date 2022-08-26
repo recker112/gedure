@@ -52,7 +52,10 @@ export default function ReactTableBase({
   filter,
   massiveOptions,
   title,
-  refresh
+  refresh,
+  dataTourMassive = 'gdTable__massive',
+  dataTourGlobal = 'gdTable__search',
+  ...rest
 }) {
   const tableInstance = useTable(
     {
@@ -114,7 +117,7 @@ export default function ReactTableBase({
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Paper sx={{ position: "relative" }}>
+        <Paper sx={{ position: "relative" }} {...rest}>
           <Backdrop
             sx={{
               color: "#fff",
@@ -161,6 +164,7 @@ export default function ReactTableBase({
               state={state}
               setGlobalFilter={handleGlobalFilter}
               gotoPage={gotoPage}
+              dataTourGlobal={dataTourGlobal}
             />
             {selectedFlatRows.length > 0 ? (
               massiveOptions(selectedFlatRows.map(
@@ -182,7 +186,7 @@ export default function ReactTableBase({
                           return null;
                         });
                       }}
-                      data-tour="gdTable__massive"
+                      data-tour={dataTourMassive}
                       disabled={selectedFlatRows.length > 0}
                     >
                       <GroupIcon />
@@ -229,6 +233,7 @@ export default function ReactTableBase({
                           return (
                             <TableCell
                               align="right"
+                              data-tour='table-Opciones'
                               {...column.getHeaderProps()}
                             >
                               {column.render("Header")}
@@ -237,7 +242,7 @@ export default function ReactTableBase({
                         }
 
                         return (
-                          <TableCell {...column.getHeaderProps()}>
+                          <TableCell data-tour={`table-${column.render("Header")}`} {...column.getHeaderProps()}>
                             {column.render("Header")}
                           </TableCell>
                         );

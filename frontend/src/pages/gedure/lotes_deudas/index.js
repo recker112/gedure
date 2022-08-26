@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Button, Container, Grid } from '@mui/material';
 
 // Components
+import TourLotesDeudas from './TourLotesDeudas';
 import DialogConfirmation from '../../../components/DialogConfirmation';
 import useNotifier from '../../../hooks/useNotifier';
 import Table from './Table';
@@ -50,6 +51,7 @@ export default function LotesDeudas() {
             <Grid item>
               <Button 
                 variant="contained" 
+                data-tour="verify-solvencia"
               >
                 Verificar solvencia
               </Button>
@@ -59,6 +61,7 @@ export default function LotesDeudas() {
                 variant="contained" 
                 onClick={handleOpenCreate} 
                 disabled={!debt_lote_create}
+                data-tour="create-lote-deuda"
               >
                 Crear lote de deudas
               </Button>
@@ -83,6 +86,7 @@ export default function LotesDeudas() {
           {(dataR) => (<span>Está a punto de eliminar el lote de deuda <strong>{dataR.reason} (#{dataR.id})</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
         </DialogConfirmation>
       </Container>
+      <TourLotesDeudas />
     </Box>
   )
 }

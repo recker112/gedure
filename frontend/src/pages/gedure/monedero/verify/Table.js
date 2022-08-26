@@ -141,6 +141,7 @@ export default function Table() {
   return (
     <ReactTableBase
       title='Lista de pagos pendientes'
+      data-tour='table'
       data={data}
       columns={columns}
       pageCountData={pageCount}

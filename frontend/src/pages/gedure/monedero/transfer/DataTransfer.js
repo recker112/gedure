@@ -31,6 +31,7 @@ export default function DataTransfer() {
             minLength: { value: 3, message: 'Error: Demaciado corto' },
             maxLength: { value: 30, message: 'Error: Demaciado largo' },
           }}
+          data-tour='user'
           name='username'
           label='Usuario o cédula'
           size='small'
@@ -51,6 +52,7 @@ export default function DataTransfer() {
             }
           }}
           size='small'
+          data-tour="amount"
           name='amount_to_transfer'
           label='Monto a transferir'
           helperText='Monto que desea transferir'
@@ -71,6 +73,7 @@ export default function DataTransfer() {
             minLength: { value: 4, message: 'Error: Demaciado corto' },
             maxLength: { value: 50, message: 'Error: Demaciado largo' },
           }}
+          data-tour="reason"
           name='reason'
           label='Motivo (opcional)'
           size='small'
@@ -80,7 +83,7 @@ export default function DataTransfer() {
           fullWidth
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} data-tour="important">
 				<Typography variant='subtitle2'>
 					Tenga en cuenta los siguientes puntos antes de transferir saldo
 				</Typography>

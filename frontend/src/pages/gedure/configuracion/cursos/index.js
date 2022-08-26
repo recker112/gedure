@@ -4,6 +4,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 
 // Components
+import TourCursos from '../TourCursos';
 import CreateCurso from './CreateCurso';
 import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
@@ -20,11 +21,11 @@ export default function GDCursos() {
   return (
     <Grid container spacing={2} sx={{paddingBottom: 6}}>
       {cursos_create && (
-        <Grid item xs={12}>
+        <Grid item xs={12} data-tour="create-curso">
           <CreateCurso />
         </Grid>
       )}
-      <Grid item xs={12}>
+      <Grid item xs={12} data-tour="cursos">
         <Table />
       </Grid>
       <DialogConfirmation
@@ -52,6 +53,7 @@ export default function GDCursos() {
       >
         {(data) => (<span>Está a punto de eliminar <strong>{data?.length}</strong> cursos. Las boletas de esta sección serán eliminadas por completo, pero los estudiantes se mantendrán activos.</span>)}
       </DialogConfirmation>
+      <TourCursos />
     </Grid>
   )
 }

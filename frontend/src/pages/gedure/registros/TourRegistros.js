@@ -41,17 +41,17 @@ export default function TourRegistros() {
 			}
 		},
 		{
-			selector: '[data-tour="gdReg__filters"]',
+			selector: '[data-tour="gdTable__search"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permitirá <strong>filtrar</strong> los diferentes tipos de <strong>registros</strong> que desee ver.
+					Aquí podrá buscar registros por por su <strong>acción</strong>, <strong>fecha</strong> o <strong>usuario</strong>.
 				</Typography>
 			),
 			style: {
 				backgroundColor: theme.palette.background.paper
 			},
 		},
-    {
+		{
 			selector: '[data-tour="gdTable__refresh"]',
 			content: () => (
 				<Typography variant='body1'>
@@ -63,10 +63,10 @@ export default function TourRegistros() {
 			},
 		},
 		{
-			selector: '[data-tour="gdTable__search"]',
+			selector: '[data-tour="gdReg__filters"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podra buscar registros por por su <strong>acción</strong>, <strong>fecha</strong> o <strong>usuario</strong>.
+					Este botón le permitirá <strong>filtrar</strong> los diferentes tipos de <strong>registros</strong> que desee ver.
 				</Typography>
 			),
 			style: {

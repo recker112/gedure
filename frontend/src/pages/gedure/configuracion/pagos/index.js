@@ -4,6 +4,7 @@ import React from 'react'
 import { Grid } from '@mui/material';
 
 // Components
+import TourPagos from '../TourPagos';
 import CreateBankAccount from './CreateBankAccount';
 import TableAccounts from './TableAccounts';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
@@ -98,6 +99,7 @@ export default function GDPagos() {
           </DialogConfirmation>
         </Grid>
       )}
+      <TourPagos />
     </Grid>
   )
 }

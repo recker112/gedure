@@ -49,14 +49,12 @@ export default function NavTabs() {
       <LinkTab 
         label='General' 
         value={'/gedure/config'}
-        data-tour='general'
         {...a11yProps(1)}
       />
       {cursos_index && (
         <LinkTab 
           label='Cursos' 
           value={'/gedure/config/cursos'}
-          data-tour='cursos'
           {...a11yProps(0)}
         />
       )}
@@ -64,7 +62,6 @@ export default function NavTabs() {
         <LinkTab 
           label='Pagos' 
           value={'/gedure/config/pagos'}
-          data-tour='pagos'
           {...a11yProps(1)}
         />
       )}
@@ -72,7 +69,6 @@ export default function NavTabs() {
         <LinkTab
           label='Usuarios desactivados' 
           value={'/gedure/config/usuarios-desactivados'}
-          data-tour='usuarios'
           {...a11yProps(2)}
         />
       )}

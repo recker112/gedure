@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
 // Components
+import TourMonedero from './TourMonedero';
 import useNotifier from '../../../hooks/useNotifier';
 import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 import Table from './Table';
@@ -54,8 +55,8 @@ export default function Monedero() {
 							</Typography>
 						</Grid>
 						<Grid item xs={12} sm>
-							<Typography variant='h6' align='right' data-tour='balance'>
-								Saldo en monedero: <Box component='span' color={balance > 0 ? 'success.main' : 'text.secondary'}>{parseFloatToMoneyString(balance || 0)}</Box>
+							<Typography variant='h6' align='right'>
+								Saldo en monedero: <Box data-tour='balance' component='span' color={balance > 0 ? 'success.main' : 'text.secondary'}>{parseFloatToMoneyString(balance || 0)}</Box>
 							</Typography>
 						</Grid>
 					</Grid>
@@ -67,7 +68,7 @@ export default function Monedero() {
 								variant='contained' 
 								color='primary'
 								onClick={handleTransfer}
-								data-tour='transfer'
+								data-tour="transfer-saldo"
 							>
 								Transferir saldo
 							</Button>
@@ -77,7 +78,7 @@ export default function Monedero() {
 								variant='contained' 
 								color='primary'
 								onClick={handleVerify}
-								data-tour='verify_pay'
+								data-tour="verify-pago"
 							>
 								Verificar pago
 							</Button>
@@ -88,6 +89,7 @@ export default function Monedero() {
 					</Grid>
 				</Grid>
       </Container>
+			<TourMonedero />
     </Box>
   )
 }

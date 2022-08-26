@@ -46,7 +46,15 @@ export default function Table() {
             original: { user: { username, privilegio } },
           },
         },
-      }) => `${privilegio}${username}`,
+      }) => <span data-tour="table-userdata">{privilegio}{username}</span>,
+    },
+    {
+      Header: 'Nombre',
+      accessor: 'user.name',
+      Cell: ({
+        value
+      }) => <span data-tour="table-userdata">{value}</span>,
+      render: () => 'A',
     },
     {
       Header: 'Estado',
@@ -80,7 +88,7 @@ export default function Table() {
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
-                  navigate(`ver/${original.id}`);
+                  navigate(`/gedure/transacciones/ver/${original.transaction?.id}`);
                 }}
               >
                 <VisibilityIcon />
@@ -145,7 +153,8 @@ export default function Table() {
 
   return (
     <ReactTableBase
-      title='Lista de usuarios'
+      title='Lista de deudas'
+      data-tour="table"
       data={data}
       columns={columns}
       pageCountData={pageCount}
