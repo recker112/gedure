@@ -21,6 +21,12 @@ export default function TransactionPDF({
   created_at,
   payment_method,
 }) {
+	let amount_parse = amount;
+
+	if (type === 'deuda pagada' || (type === 'transferencia de saldo' && payload?.extra_data?.sender)) {
+		amount_parse = amount_parse * -1;
+	}
+
   return (
     <Paper className='paper--padding' id='PDF'>
       <Grid container>
@@ -164,7 +170,7 @@ export default function TransactionPDF({
 					Nuevo saldo disponible: 
 				</Typography>
 				<Typography component='span'>
-					{' '+parseFloatToMoneyString(amount+previous_balance)}
+					{' '+parseFloatToMoneyString(amount_parse+previous_balance)}
 				</Typography>
 			</Box>
 
