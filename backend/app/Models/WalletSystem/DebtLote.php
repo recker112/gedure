@@ -43,6 +43,13 @@ class DebtLote extends Model
 	protected $casts = [
 		'amount_to_pay' => 'float',
 	];
+
+	/**
+	 * The accessors to append to the model's array form.
+	 *
+	 * @var array
+	 */
+	protected $appends = ['fecha_creado'];
 	
 	public function debts()
 	{
@@ -55,16 +62,11 @@ class DebtLote extends Model
 	}
 	
 	/*
-	TIMEZONES
+	TIMEZONES CUSTOM
 	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
-			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
-	}
-	
-	public function getUpdatedAtAttribute($value) {
-		return Carbon::parse($value)
+	public function getFechaCreadoAttribute() {
+		$created_at = $this->attributes['created_at'];
+		return Carbon::parse($created_at)
 			->timezone(config('app.timezone_parse'))
 			->format('Y-m-d h:i A');
 	}

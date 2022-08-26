@@ -31,6 +31,13 @@ class DebtLoteController extends Controller
 			->orWhere('id', 'like', "%$search%")
 			->latest()
 			->paginate($perPage);
+
+			// Ocultar datos
+		$data = $debts->getCollection();
+		$data->each(function ($item) {
+			$item->makeHidden(['created_at','updated_at','exchange_rate_id','important']);
+		});
+		$debts->setCollection($data);
 		
 		return response()->json([
 			'data' => $debts->items(),
