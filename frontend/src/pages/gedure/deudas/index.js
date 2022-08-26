@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
 
 // Components
+import TourDeudas from './TourDeudas';
 import Table from './Table';
 import useNotifier from '../../../hooks/useNotifier';
 import DialogConfirmation from '../../../components/DialogConfirmation';
@@ -43,8 +44,8 @@ export default function Deudas() {
 							</Typography>
 						</Grid>
 						<Grid item xs={12} sm>
-							<Typography variant='h6' align='right' data-tour='balance'>
-								Saldo en monedero: <Box component='span' color={balance > 0 ? 'success.main' : 'text.secondary'}>{parseFloatToMoneyString(balance || 0)}</Box>
+							<Typography variant='h6' align='right'>
+								Saldo en monedero: <Box component='span' data-tour='balance' color={balance > 0 ? 'success.main' : 'text.secondary'}>{parseFloatToMoneyString(balance || 0)}</Box>
 							</Typography>
 						</Grid>
 					</Grid>
@@ -67,6 +68,7 @@ export default function Deudas() {
           {(dataR) => (<span>Está a punto de <strong>pagar la deuda "{dataR.debt_lote?.reason}"</strong>, la cuál tiene un <strong>coste de {parseFloatToMoneyString(dataR.debt_lote?.amount_to_pay)}</strong>. Una vez se procese el pago no se podrá deshacer esta acción.</span>)}
         </DialogConfirmation>
       </Container>
+      <TourDeudas />
     </Box>
   )
 }
