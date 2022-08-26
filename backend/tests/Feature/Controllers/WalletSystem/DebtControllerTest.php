@@ -69,10 +69,11 @@ class DebtControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
+						'id',
 						'status',
+						'created_at',
 						'updated_at',
 						'user' => [
-							'id',
 							'privilegio',
 							'username',
 							'name'
