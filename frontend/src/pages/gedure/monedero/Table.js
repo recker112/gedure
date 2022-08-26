@@ -4,7 +4,7 @@ import React, { useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // MUI
-import { IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // Components
@@ -40,7 +40,24 @@ export default function Table() {
     {
       Header: 'Cantidad',
       accessor: 'amount',
-      Cell: ({ cell: { row: { original: { amount } } } }) => parseFloatToMoneyString(amount),
+      Cell: ({ cell: { row: { original: { type, payload, amount } } } }) => {
+        let color = null;
+
+        if (type === 'pago verificado') {
+          color = 'success.main';
+        } else if (type === 'deuda pagada') {
+          color = 'error.main';
+        } else if (type === 'transferencia de saldo') {
+          !payload.extra_data.sender && (color = 'success.main');
+          payload.extra_data.sender && (color = 'error.main');
+        }
+
+        return (
+          <Box component='span' color={color}>
+            {parseFloatToMoneyString(amount)}
+          </Box>
+        )
+      },
     },
     {
       Header: 'Fecha', 

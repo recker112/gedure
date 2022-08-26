@@ -52,7 +52,7 @@ class WalletController extends Controller
 			'actions' => [
 				[
 					'reason' => $reason ? trim($reason) : "Transferencia de saldo entre cuentas",
-					'amount' => -$reqAmount,
+					'amount' => $reqAmount,
 				]
       ],
       'extra_data' => [
@@ -78,7 +78,7 @@ class WalletController extends Controller
     $transaction1 = $user->transactions()->create([
       'type' => 'transferencia de saldo',
 			'payload' => $payload1,
-			'amount' => -$reqAmount,
+			'amount' => $reqAmount,
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'saldo disponible',
 		]);
