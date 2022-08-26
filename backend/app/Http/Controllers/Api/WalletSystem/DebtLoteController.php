@@ -91,9 +91,6 @@ class DebtLoteController extends Controller
 				'debts as debts_no_pagadas_count' => function (Builder $query) {
 					$query->where('status', 'no pagada');
 				},
-				'debts as debts_reembolsados_count' => function (Builder $query) {
-					$query->where('status', 'reembolsado');
-				},
 			])->findOrFail(intVal($id))
 			->makeVisible(['updated_at'])
 			->toArray();
