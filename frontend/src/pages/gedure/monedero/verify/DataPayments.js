@@ -39,6 +39,7 @@ export default function DataPayments() {
 						min: { value: 0, message: 'Error: El monto debe ser mayor a 0' },
 					}}
           size='small'
+          data-tour="amount"
 					name='amount'
 					label='Monto pagado'
 					helperText='Ingrese el monto el cual transfirió'
@@ -59,6 +60,7 @@ export default function DataPayments() {
             required: '* Campo requerido',
             minLength: { value: 8, message: 'Error: No válido' },
           }}
+          data-tour="reference"
           name='reference'
 					label='Referencia'
           variant='filled'
@@ -71,6 +73,7 @@ export default function DataPayments() {
       </Grid>
       <Grid item xs={12} sm={6}>
 				<SelectHook
+          data-tour="bank"
           name='code'
 					label='Banco emisor'
           control={control}
@@ -89,6 +92,7 @@ export default function DataPayments() {
       <Grid item xs={12}>
         <DatePickerHook
           disableFuture
+          data-tour="date"
           name="date"
 					label="Fecha de la transferencia"
           variant='filled'

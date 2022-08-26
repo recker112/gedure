@@ -26,6 +26,7 @@ function TourComponent({ steps, select, version = 'v1' }) {
 			disableInteraction={true}
 			onAfterOpen={() => {document.body.style.overflowY = 'hidden'}}
 			onBeforeClose={() => {document.body.style.overflowY = 'auto'}}
+			showNavigationNumber={false}
 			showCloseButton={false}
 			rounded={5}
 			lastStepNextButton={

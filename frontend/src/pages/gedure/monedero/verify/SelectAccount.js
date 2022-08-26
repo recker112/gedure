@@ -40,6 +40,7 @@ export default function SelectAccount() {
       <Grid item xs={12}>
         <AutoCompleteAsyncHook
           data={dataAccountSelected}
+          data-tour="bank-account-selected"
           name='bank_account'
           label='Buscar cuenta bancaria'
           variant='filled'
@@ -60,7 +61,7 @@ export default function SelectAccount() {
         />
       </Grid>
       <Grid sx={{mt: 2}} container justifyContent='center' item xs={12}>
-				<Grid item xs={12} sm={8} md={6}>
+				<Grid item xs={12} sm={8} md={7} lg={6} data-tour="bank-account-info">
 					<Card>
 						<CardContent>
 							<Typography variant='h6' color="textSecondary" gutterBottom>

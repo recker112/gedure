@@ -105,6 +105,7 @@ export default function DataConfirm() {
             minLength: { value: 4, message: 'Error: No válido' },
             maxLength: { value: 25, message: 'Error: No válida' }
           }}
+          data-tour='password'
           name='password'
           label='Contraseña'
           helperText='Ingrese su contraseña actual para confirmar esta transacción'

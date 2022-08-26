@@ -133,6 +133,9 @@ export default function TableTransactions() {
   return (
     <ReactTableBase
       title='Cuentas bancarias'
+      data-tour="bank-transaction"
+      dataTourMassive='tableT-massive'
+      dataTourGlobal='tableT-global'
       data={data}
       columns={columns}
       pageCountData={pageCount}

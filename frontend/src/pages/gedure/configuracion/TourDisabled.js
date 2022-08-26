@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 // Components
 import TourComponent from '../../../components/TourComponent';
 
-export default function TourConfigs() {
+export default function TourDisabled() {
 	const theme = useTheme();
 	
 	const steps = [
@@ -18,12 +18,12 @@ export default function TourConfigs() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Configurar Gedure
+						Usuarios desactivados
 					</Typography>
 					<Typography variant='body1'>
-						En esta sección podrá configurar Gedure, adapte el sistema a sus necesidades.
+						En esta sección podrá visualizar a los estudiantes desactivados del sistema.
 					</Typography>
-					<Button size='small' color='primary' onClick={() => {goTo(3)}}>
+					<Button size='small' color='primary' onClick={() => goTo(4)}>
 						Saltar tour
 					</Button>
 				</div>
@@ -32,22 +32,33 @@ export default function TourConfigs() {
 				backgroundColor: theme.palette.background.paper
 			}
 		},
-		{
-			selector: '[data-tour="cursos"]',
+    {
+			selector: '[data-tour="table-disabled"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podrá <strong>crear y eliminar</strong> cursos en el sistema, con ellos podrá agrupas a estudiantes.
+					Aquí podrá <strong>visualizar a los usuarios desactivados</strong> en el sistema. También puede <strong>eliminar definitivamente y restaurar</strong> a un usuario listado en esta tabla.
 				</Typography>
 			),
 			style: {
 				backgroundColor: theme.palette.background.paper
 			},
 		},
-    {
-			selector: '[data-tour="usuarios"]',
+		{
+			selector: '[data-tour="gdTable__search"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podrá <strong>reactivar y eliminar definitivamente</strong> usuarios del sistema.
+					Puede <strong>buscar</strong> a los usuarios que desee utilizándo el <strong>usuario, nombre, y correo</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="gdTable__massive"]',
+			content: () => (
+				<Typography variant='body1'>
+					También puede usar las <strong>opciones masivas</strong> con las cuales puedes <strong>borrar definitivamente o restaurar varios usuarios</strong> a la vez.
 				</Typography>
 			),
 			style: {
@@ -68,6 +79,6 @@ export default function TourConfigs() {
 	];
 	
 	return (
-		<TourComponent select='registros' steps={steps} />
+		<TourComponent select='config_disabled' steps={steps} />
 	);
 }

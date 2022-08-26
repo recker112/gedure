@@ -33,10 +33,10 @@ export default function TourSoliC() {
 			}
 		},
 		{
-			selector: '[data-tour="gdTable__refresh"]',
+			selector: '[data-tour="gdTable__search"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
+					Aquí podra buscar registros por por su <strong>nombre, asunto, o correo</strong>.
 				</Typography>
 			),
 			style: {
@@ -44,10 +44,10 @@ export default function TourSoliC() {
 			},
 		},
 		{
-			selector: '[data-tour="gdTable__search"]',
+			selector: '[data-tour="gdTable__refresh"]',
 			content: () => (
 				<Typography variant='body1'>
-					Aquí podra buscar registros por por su <strong>asunto</strong>, <strong>fecha</strong> o <strong>correo</strong>.
+					Este botón le permite <strong>refrescar los datos</strong> mostrados en la tabla.
 				</Typography>
 			),
 			style: {

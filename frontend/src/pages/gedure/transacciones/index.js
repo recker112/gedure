@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Container, Grid } from '@mui/material';
 
 // Components
+import TourTransactions from './TourTransactions';
 import Table from './Table';
 
 // Redux
@@ -37,6 +38,7 @@ export default function Transacciones() {
           </Grid>
         </Grid>
       </Container>
+      <TourTransactions />
     </Box>
   )
 }

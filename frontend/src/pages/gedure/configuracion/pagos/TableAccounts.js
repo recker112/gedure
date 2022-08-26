@@ -124,6 +124,7 @@ export default function TableAccounts() {
   return (
     <ReactTableBase
       title='Cuentas bancarias'
+      data-tour="bank-account"
       data={data}
       columns={columns}
       pageCountData={pageCount}

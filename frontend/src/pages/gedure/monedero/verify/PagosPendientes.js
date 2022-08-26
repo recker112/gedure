@@ -22,7 +22,7 @@ export default function PagosPendientes() {
       <Grid item xs={12}>
         <Table />
       </Grid>
-			<Grid item xs={12}>
+			<Grid item xs={12} data-tour="important">
 				<Typography variant='subtitle2'>
 					Tenga en cuenta los siguientes puntos antes de realizar una transferencia:
 				</Typography>

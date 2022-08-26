@@ -43,18 +43,29 @@ export default function TourBoleta() {
 				backgroundColor: theme.palette.background.paper
 			},
 		},
-    {
-			selector: '[data-tour="gdBol__filters"]',
+		{
+			selector: '[data-tour="gdTable__search"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permitirá filtrar a los estudiantes que desea ver.
+					Aquí podrá buscar usuarios por por su <strong>usuario</strong> o <strong>nombre</strong>.
 				</Typography>
 			),
 			style: {
 				backgroundColor: theme.palette.background.paper
 			},
 		},
-    {
+		{
+			selector: '[data-tour="gdTable__massive"]',
+			content: () => (
+				<Typography variant='body1'>
+					Este botón le permite usar las <strong>opciones masivas</strong>, con lo cual podrá <strong>seleccionar varios estudiantes</strong> y realizar distintas acciones como: <strong>Eliminar boletas</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
 			selector: '[data-tour="gdTable__refresh"]',
 			content: () => (
 				<Typography variant='body1'>
@@ -66,21 +77,10 @@ export default function TourBoleta() {
 			},
 		},
     {
-			selector: '[data-tour="gdTable__massive"]',
+			selector: '[data-tour="gdBol__filters"]',
 			content: () => (
 				<Typography variant='body1'>
-					Este botón le permite usar las <strong>opciones masivas</strong>, con lo cual podrá <strong>seleccionar varios estudiantes</strong> y realizar distintas acciones como: <strong>Eliminar boletas</strong>.
-				</Typography>
-			),
-			style: {
-				backgroundColor: theme.palette.background.paper
-			},
-		},
-    {
-			selector: '[data-tour="gdTable__search"]',
-			content: () => (
-				<Typography variant='body1'>
-					Aquí podra buscar usuarios por por su <strong>usuario</strong> o <strong>nombre</strong>.
+					Este botón le permitirá filtrar a los estudiantes que desea ver.
 				</Typography>
 			),
 			style: {

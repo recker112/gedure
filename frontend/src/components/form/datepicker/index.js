@@ -21,6 +21,7 @@ export default function DatePickerHook({
   disableFuture,
   views = ['year', 'month', 'day'],
   openTo = 'year',
+  ...rest
 }) {
   let rulesMake = rules;
   
@@ -56,7 +57,8 @@ export default function DatePickerHook({
           variant={variant}
           fullWidth 
           {...inputProps}
-          {...params} 
+          {...params}
+          {...rest}
           error={invalid} 
           helperText={error ? error.message : helperText}
         />

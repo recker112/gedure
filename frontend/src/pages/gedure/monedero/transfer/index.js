@@ -13,6 +13,7 @@ import Forms from './Forms';
 
 // Redux
 import { useSelector } from 'react-redux';
+import TourTransfer from './TourTransfer';
 
 const classes = {
   aside: theme => ({
@@ -82,7 +83,7 @@ export default function TransfeririSaldo() {
       </Slide>
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8} lg={9}>
+        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8} lg={9} data-tour="content">
           <Forms
             handleNext={handleNext}
             handleBack={handleBack}
@@ -91,6 +92,7 @@ export default function TransfeririSaldo() {
           />
         </Grid>
       </Slide>
+      <TourTransfer setStep={setActiveStep} />
     </Grid>
   )
 }

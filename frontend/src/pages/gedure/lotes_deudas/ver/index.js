@@ -9,6 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 
 // Components
+import TourVerLotes from './TourVerLotes';
 import useNotifier from '../../../../hooks/useNotifier';
 import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
 import Table from './Table';
@@ -90,7 +91,7 @@ export default function ShowDebtLote() {
             </Box>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Paper className='paper--padding'>
+                <Paper className='paper--padding' data-tour="view-data">
                   <Grid justifyContent='center' container rowSpacing={2}>
                     <Grid item xs={12}>
                       <Stack alignItems='center' direction="row" spacing={2}>
@@ -154,14 +155,6 @@ export default function ShowDebtLote() {
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                       <Typography align='center'>
-                        Usuarios con reembolso
-                      </Typography>
-                      <Typography align='center' variant="body2" sx={{ color: "text.secondary" }}>
-                        {data.debts_reembolsados_count} usuario(s)
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                      <Typography align='center'>
                         Fecha de creación
                       </Typography>
                       <Typography align='center' variant="body2" sx={{ color: "text.secondary" }}>
@@ -192,6 +185,7 @@ export default function ShowDebtLote() {
           </Typography>
         )}
       </Container>
+      <TourVerLotes />
     </Box>
   )
 }

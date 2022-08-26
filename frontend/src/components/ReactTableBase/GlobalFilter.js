@@ -6,8 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import { useAsyncDebounce } from "react-table";
 
-export function GlobalFilter(props) {
-  const { state, setGlobalFilter, gotoPage } = props;
+export function GlobalFilter({ state, setGlobalFilter, gotoPage, dataTourGlobal }) {
   const [value, setValue] = useState(state.globalFilter);
 
   const onDebounce = useAsyncDebounce((value) => {
@@ -23,7 +22,7 @@ export function GlobalFilter(props) {
 
   return (
     <TextField
-      data-tour="gdTable__search"
+      data-tour={dataTourGlobal}
       size="small"
       value={value || ""}
       placeholder="Buscar..."

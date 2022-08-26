@@ -113,6 +113,7 @@ export default function Table() {
   return (
     <ReactTableBase
       title='Usuarios desactivados'
+      data-tour='table-disabled'
       data={data}
       columns={columns}
       pageCountData={pageCount}

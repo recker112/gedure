@@ -22,11 +22,17 @@ const initialState = {
 		publicaciones_create: JSON.parse(localStorage.getItem('gd-tour')).publicaciones_create_v1,
 		publicaciones_edit: JSON.parse(localStorage.getItem('gd-tour')).publicaciones_edit_v1,
 		boletas_admin: JSON.parse(localStorage.getItem('gd-tour')).boletas_admin_v1,
-		gedure: JSON.parse(localStorage.getItem('gd-tour')).gedure_v1,
 		cuenta: JSON.parse(localStorage.getItem('gd-tour')).cuenta_v1,
 		soli_contacto: JSON.parse(localStorage.getItem('gd-tour')).soli_contacto_v1,
+		lotes_deudas: JSON.parse(localStorage.getItem('gd-tour')).lotes_deudas_v1,
+		lotes_deudas_ver: JSON.parse(localStorage.getItem('gd-tour')).lotes_deudas_ver_v1,
+		transactions: JSON.parse(localStorage.getItem('gd-tour')).transactions_v1,
 		monedero: JSON.parse(localStorage.getItem('gd-tour')).monedero_v1,
 		verify_pay: JSON.parse(localStorage.getItem('gd-tour')).verify_pay_v1,
+		transfer_saldo: JSON.parse(localStorage.getItem('gd-tour')).transfer_saldo_v1,
+		config_cursos: JSON.parse(localStorage.getItem('gd-tour')).config_cursos_v1,
+		config_pagos: JSON.parse(localStorage.getItem('gd-tour')).config_pagos_v1,
+		config_disabled: JSON.parse(localStorage.getItem('gd-tour')).config_disabled_v1,
 	},
 };
 

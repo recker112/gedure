@@ -4,6 +4,7 @@ import React from 'react'
 import { Box } from '@mui/material';
 
 // Components
+import TourDisabled from '../TourDisabled';
 import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 
@@ -66,6 +67,7 @@ export default function GDUserDis() {
       >
         {(data) => (<span>Está a punto de eliminar permanentemente <strong>{data?.length}</strong> usuario(s). Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}
       </DialogConfirmation>
+      <TourDisabled />
     </Box>
   )
 }

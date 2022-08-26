@@ -8,6 +8,7 @@ import { Grid, Slide } from '@mui/material';
 
 // Components
 import useNotifier from '../../../../hooks/useNotifier';
+import TourVerifyPay from './TourVerifyPay';
 import Aside from '../../../../components/steppers/Aside';
 import Forms from './Forms';
 
@@ -83,7 +84,7 @@ export default function VerificarPagos() {
       </Slide>
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8} lg={9}>
+        <Grid container direction='column' justifyContent='space-between' item sm={12} md={8} lg={9} data-tour="content">
           <Forms
             handleNext={handleNext}
             handleBack={handleBack}
@@ -92,6 +93,7 @@ export default function VerificarPagos() {
           />
         </Grid>
       </Slide>
+      <TourVerifyPay setStep={setActiveStep} />
     </Grid>
   )
 }

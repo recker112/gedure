@@ -36,7 +36,7 @@ export default function UploadTransactions() {
   }
 
   return (
-    <Paper component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='paper--padding'>
+    <Paper component='form' autoComplete='off' onSubmit={handleSubmit(onSubmit)} data-tour="upload-bank-transaction" className='paper--padding'>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant='h6' className='text__bold--semi'>
