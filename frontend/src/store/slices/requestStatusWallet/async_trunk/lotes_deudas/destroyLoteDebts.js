@@ -4,7 +4,7 @@ import { refresh } from "../../../tablesWallet";
 
 export const destroyLoteDebts = createAsyncThunk(
   'requestStatusWallet/loteDebt/destroy',
-  async ({ id }, { getState, signal, dispatch }) => {
+  async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
     let url = `v1/deuda/lote/${id}`;
