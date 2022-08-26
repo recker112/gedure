@@ -20,10 +20,6 @@ use App\Http\Controllers\Api\WalletSystem\DebtLoteController;
 Route::middleware(['auth:api', 'scopes:admin', 'can:debt_lote_index'])
 	->get('deuda/lote', [DebtLoteController::class, 'index']);
 
-// Index debts of lote users
-Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
-	->get('deuda/lote/{id}/users', [DebtLoteController::class, 'indexLote']);
-
 // Show debt lote
 Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
 	->get('deuda/lote/{id}', [DebtLoteController::class, 'show']);

@@ -46,6 +46,32 @@ class DebtController extends Controller
 		], 200);
 	}
 
+	public function indexLote(TableRequest $request, $id) {
+		$search = urldecode($request->search);
+		$perPage = $request->per_page;
+		
+		$debts = Debt::with(['user:id,privilegio,username,name', 'transaction'])
+			->where('debt_lote_id', $id)
+			->WhereHas('user', function (Builder $query) use ($search) {
+				$query->where('username', 'LIKE', "%$search%");
+			})
+			->paginate($perPage);
+
+		// Ocultar datos innecesarios
+		$data = $debts->getCollection();
+		$data->each(function ($item) {
+			$item->makeVisible(['id']);
+			$item->transaction?->makeHidden(['amount', 'created_at', 'exonerado', 'payload', 'payment_method', 'previous_balance', 'type']);
+			$item->user?->makeHidden(['id']);
+		});
+		$debts->setCollection($data);
+		
+		return response()->json([
+			'data' => $debts->items(),
+			'totalRows' => $debts->total(),
+		], 200);
+	}
+
 	public function pay(Request $request, Debt $debt) {
 		$this->authorize('pay', $debt);
 		// Variables
@@ -93,6 +119,26 @@ class DebtController extends Controller
 		return response()->json([
 			'msg' => 'Pago procesado correctamente',
 			'balance' => $user->wallet->balance,
+		], 200);
+	}
+
+	public function destroy(Debt $debt) {
+		// Verificar estado
+		if ($debt->status !== 'no pagada') {
+			return response()->json([
+				'msg' => 'No puede borrar deudas ya pagadas',
+			], 400);
+		}
+
+		// Destruir deuda
+		if (!$debt->forceDelete()) {
+			return response()->json([
+				'msg' => 'No se pudo borrar la deuda',
+			], 400);
+		}
+		
+		return response()->json([
+			'msg' => 'Deuda eliminada',
 		], 200);
 	}
 }

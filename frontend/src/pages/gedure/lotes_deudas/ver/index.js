@@ -9,15 +9,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 
 // Components
-import TourVerLotes from './TourVerLotes';
-import useNotifier from '../../../../hooks/useNotifier';
+import DialogConfirmation from '../../../../components/DialogConfirmation';
 import { parseFloatToMoneyString } from '../../../../components/Utils/ParseString';
+import useNotifier from '../../../../hooks/useNotifier';
+import TourVerLotes from './TourVerLotes';
 import Table from './Table';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getLoteDebts } from '../../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/getLoteDebts';
-import { resetDataRequest } from '../../../../store/slices/requestStatusWallet';
+import { resetDataRequest, setRequestStatus } from '../../../../store/slices/requestStatusWallet';
+import { destroyDebt } from '../../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/destroyDebt';
 
 const classes = {
   container: {
@@ -184,6 +186,19 @@ export default function ShowDebtLote() {
             El lote de deudas #{id} no existe.
           </Typography>
         )}
+
+        <DialogConfirmation
+          rdx1='requestStatusWallet' 
+          rdx2='deleteDeuda'
+          close={
+            setRequestStatus({open: false, select: 'deleteDeuda'})
+          }
+          request={
+            data => destroyDebt(data.id)
+          }
+        >
+          {(dataR) => (<span>Está a punto de <strong>eliminar</strong> la <strong>deuda</strong> del usuario <strong>{dataR.user?.privilegio+dataR.user?.username}</strong> la cuál tiene un costo total de <strong>{parseFloatToMoneyString(data.amount_to_pay)}</strong>. Una vez realizada no se podrá deshacer esta acción.</span>)}
+        </DialogConfirmation>
       </Container>
       <TourVerLotes />
     </Box>

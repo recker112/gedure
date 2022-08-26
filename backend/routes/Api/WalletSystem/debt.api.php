@@ -17,9 +17,17 @@ use App\Http\Controllers\Api\WalletSystem\DebtController;
 */
 
 // Index debts of lote users
+Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
+	->get('deuda/lote/{id}/users', [DebtController::class, 'indexLote']);
+
+// Delete debts of lote users
+Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_delete'])
+	->delete('deuda/{debt}', [DebtController::class, 'destroy']);
+
+// Index debts of users
 Route::middleware(['auth:api'])
 	->get('deuda', [DebtController::class, 'index']);
 
-// Pay debt
+// Pay debt of users
 Route::middleware(['auth:api'])
 	->post('deuda/pay/{debt}', [DebtController::class, 'pay']);
