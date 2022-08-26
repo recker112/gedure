@@ -65,7 +65,7 @@ class DebtController extends Controller
 			'actions' => [
 				[
 					'reason' => $reqReason,
-					'amount' => -$reqAmount,
+					'amount' => $reqAmount,
 				]
       ],
 		];
@@ -73,7 +73,7 @@ class DebtController extends Controller
 		$transaction = $user->transactions()->create([
       'type' => 'deuda pagada',
 			'payload' => $payload,
-			'amount' => -$reqAmount,
+			'amount' => $reqAmount,
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'saldo disponible',
 		]);

@@ -35,7 +35,7 @@ class TransactionController extends Controller
 		// Ocultar datos innecesarios
 		$data = $transactions->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado', 'user.id']);
+			$item->makeHidden(['previous_balance', 'payment_method', 'exonerado', 'user.id']);
 			$item->user?->makeHidden(['id']);
 		});
 		$transactions->setCollection($data);
@@ -62,7 +62,7 @@ class TransactionController extends Controller
 		// Ocultar datos innecesarios
 		$data = $transactions->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado', 'user.id']);
+			$item->makeHidden(['previous_balance', 'payment_method', 'exonerado', 'user.id']);
 			$item->user->makeHidden(['id']);
 		});
 		$transactions->setCollection($data);
