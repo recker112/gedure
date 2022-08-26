@@ -61,10 +61,11 @@ class DebtController extends Controller
 		}
 
 		// Generar transacciones
+		$id = $debt->debt_lote->id;
     $payload = [
 			'actions' => [
 				[
-					'reason' => $reqReason,
+					'reason' => $reqReason." (#$id)",
 					'amount' => $reqAmount,
 				]
       ],
