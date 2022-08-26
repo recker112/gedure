@@ -143,12 +143,18 @@ class User extends Authenticatable
 
 		static::deleting(function($user) {
 			if ($user->isForceDeleting()){
+				// Borrar de forma definitiva
 				$user->personal_data()->forceDelete();
 				
 				foreach($user->boletas as $boleta) {
 					$boleta->forceDelete();
 				}
+
+				foreach($user->transactions as $transaction) {
+					$transaction->forceDelete();
+				}
 			}else {
+				// Soft delete
 				$user->personal_data()->delete();
 			
 				if($user->privilegio === 'V-') {
@@ -156,6 +162,10 @@ class User extends Authenticatable
 
 					foreach($user->boletas as $boleta) {
 						$boleta->delete();
+					}
+
+					foreach($user->transactions as $transaction) {
+						$transaction->delete();
 					}
 				}
 			}
@@ -167,6 +177,10 @@ class User extends Authenticatable
 			if ($user->privilegio === 'V-') {
 				foreach($user->boletas as $boleta) {
 					$boleta->restore();
+				}
+
+				foreach($user->transactions as $transaction) {
+					$transaction->restore();
 				}
 			}
 		});
