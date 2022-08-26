@@ -48,6 +48,14 @@ class DebtLoteController extends Controller
 				$query->where('username', 'LIKE', "%$search%");
 			})
 			->paginate($perPage);
+
+		// Ocultar datos innecesarios
+		$data = $debts->getCollection();
+		$data->each(function ($item) {
+			$item->transaction?->makeHidden(['amount', 'created_at', 'exonerado', 'payload', 'payment_method', 'previous_balance', 'type']);
+			$item->user?->makeHidden(['id']);
+		});
+		$debts->setCollection($data);
 		
 		return response()->json([
 			'data' => $debts->items(),

@@ -36,7 +36,7 @@ class TransactionController extends Controller
 		$data = $transactions->getCollection();
 		$data->each(function ($item) {
 			$item->makeHidden(['payload','previous_balance', 'payment_method', 'exonerado', 'user.id']);
-			$item->user->makeHidden(['id']);
+			$item->user?->makeHidden(['id']);
 		});
 		$transactions->setCollection($data);
 		
