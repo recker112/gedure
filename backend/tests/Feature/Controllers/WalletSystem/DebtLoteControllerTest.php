@@ -229,7 +229,6 @@ class DebtLoteControllerTest extends TestCase
 				'debts_count',
 				'debts_pagas_count',
 				'debts_no_pagadas_count',
-				'debts_reembolsados_count'
 			]);
 	}
 	
