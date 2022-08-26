@@ -146,12 +146,19 @@ class User extends Authenticatable
 				// Borrar de forma definitiva
 				$user->personal_data()->forceDelete();
 				
+				// Destruir boletas
 				foreach($user->boletas as $boleta) {
 					$boleta->forceDelete();
 				}
 
+				// Destruir transacciones
 				foreach($user->transactions as $transaction) {
 					$transaction->forceDelete();
+				}
+
+				// Destruir deudas
+				foreach($user->debts as $debts) {
+					$debts->forceDelete();
 				}
 			}else {
 				// Soft delete
@@ -160,12 +167,19 @@ class User extends Authenticatable
 				if($user->privilegio === 'V-') {
 					$user->alumno()->delete();
 
+					// Soft boletas
 					foreach($user->boletas as $boleta) {
 						$boleta->delete();
 					}
 
+					// Soft transacciones
 					foreach($user->transactions as $transaction) {
 						$transaction->delete();
+					}
+
+					// Soft deudas
+					foreach($user->debts as $debts) {
+						$debts->delete();
 					}
 				}
 			}
@@ -175,12 +189,19 @@ class User extends Authenticatable
 			$user->personal_data()->restore();
 			
 			if ($user->privilegio === 'V-') {
+				// Restaurar boletas
 				foreach($user->boletas as $boleta) {
 					$boleta->restore();
 				}
 
+				// Restaurar transacciones
 				foreach($user->transactions as $transaction) {
 					$transaction->restore();
+				}
+
+				// Restaurar deudas
+				foreach($user->debts as $debts) {
+					$debts->restore();
 				}
 			}
 		});
