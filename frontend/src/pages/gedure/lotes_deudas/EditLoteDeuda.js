@@ -4,7 +4,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 // MUI
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, MenuItem, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -75,22 +75,26 @@ export default function EditLoteDeuda() {
                 NOTA: Al usar otra moneda que no sea el bolivar, el sistema convertirá a bolívares el equivalente al precio actual registrado en el sistema, para más información vaya <Link component={NavLink} to='/gedure/preguntas-frecuentes'>aquí</Link>.
               </DialogContentText>
 						</Grid>
-            <Grid item xs={12}>
-							<InputHook
+            <Grid sx={{mt: 4}} item xs={12}>
+              <Typography color='text.secondary'>
+                Configuraciones
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+							<SelectHook
+								name='important'
+								label='Deuda importante'
 								control={control}
-								rules={{
-									required: '* Campo requerido',
-									minLength: { value: 6, message: 'Error: Demaciado corto' },
-									maxLength: { value: 100, message: 'Error: Demaciado largo' },
-								}}
-								name='reason'
-								label='Motivo'
-								helperText='Ingrese el motivo de la deuda'
-								defaultValue={data.reason}
-								fullWidth
 								disabled={loading}
-                size='small'
-							/>
+								defaultValue={Boolean(data.important)}
+								size='small'
+								helperText='Seleccione la importancia de la deuda'
+								rules={null}
+								fullWidth
+							>
+								<MenuItem value={false}>No</MenuItem>
+								<MenuItem value={true}>Si</MenuItem>
+							</SelectHook>
 						</Grid>
             <Grid item xs={12} sm={6}>
 							<SelectHook
@@ -106,6 +110,28 @@ export default function EditLoteDeuda() {
 								<MenuItem value='$'>USD</MenuItem>
 								<MenuItem value='Bs.'>Bs.</MenuItem>
 							</SelectHook>
+						</Grid>
+            <Grid sx={{mt: 4}} item xs={12}>
+              <Typography color='text.secondary'>
+                Datos de la deuda
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+							<InputHook
+								control={control}
+								rules={{
+									required: '* Campo requerido',
+									minLength: { value: 6, message: 'Error: Demaciado corto' },
+									maxLength: { value: 100, message: 'Error: Demaciado largo' },
+								}}
+								name='reason'
+								label='Motivo'
+								helperText='Ingrese el motivo de la deuda'
+								defaultValue={data.reason}
+								fullWidth
+								disabled={loading}
+                size='small'
+							/>
 						</Grid>
             <Grid item xs={12} sm={6}>
 							<InputMaskHook

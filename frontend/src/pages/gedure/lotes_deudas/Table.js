@@ -57,6 +57,17 @@ export default function Table() {
       accessor: 'fecha_creado',
     },
     {
+      Header: 'Importante',
+      accessor: 'important',
+      Cell: ({ value }) => {
+        if (value) {
+          return 'Si';
+        }else {
+          return 'No';
+        }
+      },
+    },
+    {
       id: 'options',
       Header: 'Opciones',
       accessor: 'options',

@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
 		Commands\FixDiskUrl::class,
 		Commands\SendNotification::class,
 		Commands\ClearNotifications::class,
+		Commands\DebtAutomatize::class,
 	];
 
 	/**

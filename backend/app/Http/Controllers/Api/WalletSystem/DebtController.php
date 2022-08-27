@@ -23,20 +23,29 @@ class DebtController extends Controller
 		$perPage = $request->per_page;
 		
 		$debts = Debt::with(['debt_lote', 'transaction'])
+			->select('debts.*','debt_lotes.available_on')
 			->where('user_id', $user->id)
 			->whereHas('debt_lote', function (Builder $query) use ($search) {
 				$query->where('reason', 'like', "%$search%");
 			})
-			->latest()
+			// Filtrador
+			->when(true, function ($query) {
+				$query->whereHas('debt_lote',function ($query) {
+					$query->where('available_on', '<=', now());
+				});
+			})
+			->join('debt_lotes', 'debts.debt_lote_id', '=', 'debt_lotes.id')
+			->orderBy('available_on', 'desc')
+			->orderBy('id', 'desc')
 			->paginate($perPage);
 
 		// Ocultar datos
 		$data = $debts->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['created_at']);
+			$item->makeHidden(['created_at', 'updated_at']);
 			$item->makeVisible(['id']);
 			$item->debt_lote->makeHidden(['id', 'created_at', 'exchange_amount', 'exchange_rate_id']);
-			$item->transaction?->makeHidden(['amount','created_at','exonerado','payload','payment_method','previous_balance','type']);
+			$item->transaction?->makeHidden(['created_at','exonerado','payload','payment_method','previous_balance','type']);
 		});
 		$debts->setCollection($data);
 		
@@ -86,6 +95,32 @@ class DebtController extends Controller
 			], 400);
 		}
 
+		// Verificar estado
+		if ($debt->status === 'pagada') {
+			return response()->json([
+				'msg' => 'Deuda ya pagada',
+			], 400);
+		}
+
+		// Verificar importancia
+		if ($debt->debt_lote->important) {
+			// Obtener todas las deudas pendientes
+			$debtsPending = $user->debts()
+				->with('debt_lote')
+				->where('status', 'no pagada')
+				->where('id', '!=', $debt->id)
+				->whereHas('debt_lote', function ($query) use ($debt) {
+					$query->where('available_on', '<=', $debt->debt_lote->available_on);
+				})
+				->count();
+			
+			if ($debtsPending) {
+				return response()->json([
+					'msg' => 'Debe estar solvente para pagar esta deuda',
+				], 400);
+			}
+		}
+
 		// Generar transacciones
 		$id = $debt->debt_lote->id;
     $payload = [
@@ -112,7 +147,7 @@ class DebtController extends Controller
     $user->wallet->balance -= $reqAmount;
     $user->wallet->save();
 
-		// Cambiar estado de deuda
+		// Cambiar estado de deuda y colocar monto pagado
 		$debt->status = 'pagada';
 		$debt->save();
 		

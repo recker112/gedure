@@ -23,7 +23,10 @@ class DebtLote extends Model
 	protected $fillable = [
 		'reason',
 		'amount_to_pay',
+		'exchange_rate_id',
 		'exchange_amount',
+		'available_on',
+		'important',
 	];
 	
 	/**
@@ -42,6 +45,7 @@ class DebtLote extends Model
 	 */
 	protected $casts = [
 		'amount_to_pay' => 'float',
+		'available_on' => 'date',
 	];
 
 	/**
@@ -64,6 +68,10 @@ class DebtLote extends Model
 	/*
 	TIMEZONES CUSTOM
 	*/
+	public function getAvailableOnAttribute($value) {
+		return Carbon::parse($value);
+	}
+
 	public function getFechaCreadoAttribute() {
 		$created_at = $this->attributes['created_at'];
 		return Carbon::parse($created_at)
