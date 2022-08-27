@@ -20,7 +20,6 @@ class Transaction extends Model
 	 */
 	protected $fillable = [
 		'user_id',
-		'exonerante_id',
 		'transable_id',
 		'transable_type',
 		'type',
@@ -42,7 +41,6 @@ class Transaction extends Model
 		'user_id', 
 		'transable_id',
 		'transable_type',
-		'exonerante_id'
 	];
 	
 	/**
@@ -60,11 +58,6 @@ class Transaction extends Model
 	public function user()
 	{
 		return $this->belongsTo('App\Models\User');
-	}
-	
-	public function exonerante()
-	{
-		return $this->belongsTo('App\Models\User', 'exonerante_id');
 	}
 	
 	public function transable()

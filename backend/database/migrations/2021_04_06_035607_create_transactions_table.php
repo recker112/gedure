@@ -20,14 +20,6 @@ class CreateTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->foreignId('exonerante_id')
-				->nullable()
-				->default(null)
-				->references('id')
-				->on('users')
-				->onUpdate('cascade')
-				->onDelete('set null');
-			
 			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
 			$table->string('transable_type')->nullable()->default(null);
 			$table->enum('type', ['deuda pagada', 'transferencia de saldo', 'pago verificado']);
