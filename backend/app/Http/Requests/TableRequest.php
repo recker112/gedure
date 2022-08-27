@@ -30,6 +30,7 @@ class TableRequest extends FormRequest
 			'curso' => 'nullable|string',
 			'seccion' => 'nullable|string',
 			'type' => 'nullable|string',
+			'future' => 'nullable|string',
 		];
 	}
 }
