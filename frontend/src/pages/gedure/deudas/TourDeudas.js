@@ -23,7 +23,7 @@ export default function TourDeudas() {
 					<Typography variant='body1'>
 						En esta sección podrá <strong>administrar</strong> sus diferentes <strong>deudas</strong> dentro del sistema.
 					</Typography>
-					<Button size='small' color='primary' onClick={()=>{goTo(8)}}>
+					<Button size='small' color='primary' onClick={()=>{goTo(9)}}>
 						Saltar tour
 					</Button>
 				</div>
@@ -59,6 +59,17 @@ export default function TourDeudas() {
 			content: () => (
 				<Typography variant='body1'>
 					Puede <strong>buscar</strong> las transacciones que desee utilizándo el <strong>motivo</strong>.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
+		},
+		{
+			selector: '[data-tour="filters"]',
+			content: () => (
+				<Typography variant='body1'>
+					Con este botón podrá <strong>filtrar</strong> los <strong>resultados</strong> mostrados en la tabla. Actualmente puede utilizar el filtrador para <strong>mostrar deudas futuras</strong>.
 				</Typography>
 			),
 			style: {
