@@ -30,6 +30,7 @@ const initialState = {
 		monedero: JSON.parse(localStorage.getItem('gd-tour')).monedero_v1,
 		verify_pay: JSON.parse(localStorage.getItem('gd-tour')).verify_pay_v1,
 		transfer_saldo: JSON.parse(localStorage.getItem('gd-tour')).transfer_saldo_v1,
+		deudas: JSON.parse(localStorage.getItem('gd-tour')).deudas_v1,
 		config_cursos: JSON.parse(localStorage.getItem('gd-tour')).config_cursos_v1,
 		config_pagos: JSON.parse(localStorage.getItem('gd-tour')).config_pagos_v1,
 		config_disabled: JSON.parse(localStorage.getItem('gd-tour')).config_disabled_v1,

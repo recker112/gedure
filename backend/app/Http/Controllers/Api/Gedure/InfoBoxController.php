@@ -38,6 +38,26 @@ class InfoBoxController extends Controller
 				$data_finish['boletas'][$iB]['textSecondary'] = $boleta->fecha_humano;
 				$iB++;
 			}
+
+			$debts = $user->debts()
+				->where('status', 'no pagada')
+				->whereHas('debt_lote', function ($query) {
+					$query->where('available_on', '<=', now());
+				})
+				->orderBy('id', 'asc')
+				->get();
+
+			$totalAmount = 0;
+			$created_at = now()->timezone(config('app.timezone_parse'))
+				->format('Y-m-d h:i A');
+			foreach ($debts as $debt) {
+				$created_at = $debt->created_at;
+				$totalAmount += $debt->debt_lote->amount_to_pay;
+			}
+
+			// NOTA(RECKER): Obtener balance
+			$data_finish['debts']['textPrimary'] = $totalAmount;
+			$data_finish['debts']['textSecondary'] = 'Ultima actualización de deudas: '.$created_at;
 		}
 
 		// NOTA(RECKER): Obtener balance

@@ -132,6 +132,17 @@ class User extends Authenticatable
 		}
 		return $url;
 	}
+
+	public function isSolvente()
+	{
+		$solvente = $this->debts()->where('status', 'no pagada')
+			->whereHas('debt_lote', function ($query) {
+					$query->where('available_on', '<=', now());
+			})
+			->count();
+
+		return !boolval($solvente);
+	}
 	
 	/*
 		BOOT FUNCTION

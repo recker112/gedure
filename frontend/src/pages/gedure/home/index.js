@@ -5,6 +5,7 @@ import { Box, Container, Fade, Grid, Link, Slide, Stack, Typography } from '@mui
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import SavingsIcon from '@mui/icons-material/Savings';
 import { Wallet as WalletIcon } from 'mdi-material-ui';
 
 // Components
@@ -104,6 +105,17 @@ export default function Home() {
                   loading={loading}
                   icon={<WalletIcon />}
                 />
+                {privilegio === 'V-' && (
+                  <SingleBox
+                    title='Estado de deudas'
+                    data={data.debts}
+                    extraInfo={<Typography>El precio mostrado aquí es la sumatoria de todas las deudas pendientes.</Typography>}
+                    textPrimaryFormat={ amount =>  `${parseFloatToMoneyString(amount)}`}
+                    colorTPrimary={(data.debts?.textPrimary > 0 && 'error.main') || (data.debts?.textPrimary <= 0 && 'text.secondary')}
+                    loading={loading}
+                    icon={<SavingsIcon />}
+                  />
+                )}
                 <SingleBox
                   title='Tasa de cambio'
                   extraInfo={<Typography>Esta tasa de cambio está sincronizada con el <Link target='_blank' href='http://www.bcv.org.ve'>Banco Central de Venezuela (BCV)</Link>.</Typography>}

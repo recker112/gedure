@@ -4,7 +4,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 // MUI
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, MenuItem } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, MenuItem, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -81,6 +81,47 @@ export default function CreateLoteDeuda() {
                 NOTA: Al usar otra moneda que no sea el bolivar, el sistema convertirá a bolívares el equivalente al precio actual registrado en el sistema, para más información vaya <Link component={NavLink} to='/gedure/preguntas-frecuentes'>aquí</Link>.
               </DialogContentText>
 						</Grid>
+						<Grid sx={{mt: 4}} item xs={12}>
+              <Typography color='text.secondary'>
+                Configuraciones
+              </Typography>
+            </Grid>
+						<Grid item xs={12} sm={6}>
+							<SelectHook
+								name='important'
+								label='Deuda importante'
+								control={control}
+								disabled={loading}
+								defaultValue={false}
+								size='small'
+								helperText='Seleccione la importancia de la deuda'
+								rules={null}
+								fullWidth
+							>
+								<MenuItem value={false}>No</MenuItem>
+								<MenuItem value={true}>Si</MenuItem>
+							</SelectHook>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<SelectHook
+								name='exchange_rate_type'
+								label='Tipo de moneda'
+								control={control}
+								disabled={loading}
+                size='small'
+								helperText='Seleccione la moneda que desea usar para esta deuda'
+								fullWidth
+							>
+                <MenuItem value=''><em>Ninguno</em></MenuItem>
+								<MenuItem value='$'>USD</MenuItem>
+								<MenuItem value='Bs.'>Bs.</MenuItem>
+							</SelectHook>
+						</Grid>
+						<Grid sx={{mt: 4}} item xs={12}>
+              <Typography color='text.secondary'>
+                Datos de la deuda
+              </Typography>
+            </Grid>
             <Grid item xs={12}>
 							<InputHook
 								control={control}
@@ -96,21 +137,6 @@ export default function CreateLoteDeuda() {
 								fullWidth
 								disabled={loading}
 							/>
-						</Grid>
-            <Grid item xs={12} sm={6}>
-							<SelectHook
-								name='exchange_rate_type'
-								label='Tipo de moneda'
-								control={control}
-								disabled={loading}
-                size='small'
-								helperText='Seleccione la moneda que desea usar para esta deuda'
-								fullWidth
-							>
-                <MenuItem value=''><em>Ninguno</em></MenuItem>
-								<MenuItem value='$'>USD</MenuItem>
-								<MenuItem value='Bs.'>Bs.</MenuItem>
-							</SelectHook>
 						</Grid>
             <Grid item xs={12} sm={6}>
 							<InputMaskHook
@@ -132,7 +158,7 @@ export default function CreateLoteDeuda() {
 								prefix={watch('exchange_rate_type')+' '}
 							/>
 						</Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
 							<SelectHook
 								name='type'
 								label='Deuda para'

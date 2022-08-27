@@ -29,13 +29,13 @@ class DebtLoteController extends Controller
 		$debts = DebtLote::with('exchange_rate:id,type')
 			->where('reason', 'like', "%$search%")
 			->orWhere('id', 'like', "%$search%")
-			->latest()
+			->orderBy('id','desc')
 			->paginate($perPage);
 
 			// Ocultar datos
 		$data = $debts->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['created_at','updated_at','exchange_rate_id','important']);
+			$item->makeHidden(['created_at','updated_at','exchange_rate_id']);
 		});
 		$debts->setCollection($data);
 		
@@ -125,6 +125,10 @@ class DebtLoteController extends Controller
 		}
 		$debt_lote->amount_to_pay = $amount;
 
+		// Important
+		$debt_lote->important = boolval($request->important);
+
+		// Guardar
 		$debt_lote->save();
 		
 		foreach($users as $user) {
@@ -173,6 +177,11 @@ class DebtLoteController extends Controller
 		}
 		
 		$debt_lote->reason = $request->reason;
+
+		// Important
+		$debt_lote->important = boolval($request->important);
+
+		// Guardar
 		$debt_lote->save();
 		
 		$debts_created=0;

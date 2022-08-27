@@ -21,6 +21,7 @@ import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 const colorChip = {
   'no pagada': 'error',
   'pagada': 'success',
+  'futura': 'default',
 }
 
 export default function Table() {
@@ -42,7 +43,7 @@ export default function Table() {
     {
       Header: 'Cantidad',
       accessor: 'debt_lote.amount_to_pay',
-      Cell: ({ value }) => parseFloatToMoneyString(value),
+      Cell: ({ cell: { row: { original: { debt_lote, transaction} } } }) => (parseFloatToMoneyString(transaction?.amount ? transaction.amount : debt_lote.amount_to_pay)),
     },
     {
       Header: 'Estado', 
@@ -72,7 +73,7 @@ export default function Table() {
               </IconButton>
             </Tooltip>
           )}
-          {original.status === 'no pagada' && (
+          {original.status !== 'pagada' && (
             <Tooltip title='Pagar' arrow>
               <IconButton
                 onClick={() => {

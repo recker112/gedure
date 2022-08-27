@@ -65,7 +65,13 @@ export default function Deudas() {
             data => paydebs(data)
           }
         >
-          {(dataR) => (<span>Está a punto de <strong>pagar la deuda "{dataR.debt_lote?.reason}"</strong>, la cuál tiene un <strong>coste de {parseFloatToMoneyString(dataR.debt_lote?.amount_to_pay)}</strong>. Una vez se procese el pago no se podrá deshacer esta acción.</span>)}
+          {(dataR) => {
+            if (dataR.debt_lote?.important) {
+              return (<span>Está a punto de <strong>pagar la deuda "{dataR.debt_lote?.reason}"</strong>, la cuál tiene un <strong>coste de {parseFloatToMoneyString(dataR.debt_lote?.amount_to_pay)}</strong>. Tenga en cuenta que <strong>para poder pagar</strong> esta deuda <strong>no debe</strong> de tener ninguna <strong>deuda</strong> anterior a esta <strong>en estado no pagado</strong>. También recuerde que una vez se procese el pago no se podrá deshacer esta acción.</span>);
+            }
+
+            return (<span>Está a punto de <strong>pagar la deuda "{dataR.debt_lote?.reason}"</strong>, la cuál tiene un <strong>coste de {parseFloatToMoneyString(dataR.debt_lote?.amount_to_pay)}</strong>. Una vez se procese el pago no se podrá deshacer esta acción.</span>);
+          }}
         </DialogConfirmation>
       </Container>
       <TourDeudas />

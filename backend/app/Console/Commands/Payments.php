@@ -72,7 +72,7 @@ class Payments extends Command
 				$pending->status = 'no encontrado';
 				$pending->save();
 
-				$user = $pending->user->notify(new SocketsNotification('No se pudo procesar su pago', ' El sistema no pudo encontrar alguna transacción que coincidiera con los datos suministrados, es posible que aún no se haya cargado al sistema o que haya algún dato erróneo.'));
+				$user = $pending->user->notify(new SocketsNotification('No se pudo procesar su pago', 'El sistema no pudo encontrar alguna transacción que coincidiera con los datos ingresados, es posible que aún no se haya cargado al sistema o que haya algún dato erróneo.'));
 				
 				$notFound++;
 			}else {
