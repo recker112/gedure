@@ -29,31 +29,38 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		// NOTA(RECKER): Reiniciar queues
+		// Reiniciar queues
 		$schedule->command('queue:restart')
 			->daily()
 			->sendOutputTo(storage_path('logs/queue_restart.log'));
 
-		// NOTA(RECKER): Iniciar queues DEV
+		// Iniciar queues DEV
 		$schedule->command('queue:listen --tries=3 --backoff=5 --queue=high,commands,default,emails')
 		->environments(['local'])
 		->withoutOverlapping()
 		->runInBackground()
 		->appendOutputTo(storage_path('logs/queue_listen.log'));
 		
-		// NOTA(RECKER): Limpiar passport
+		// Limpiar passport
 		$schedule->command('passport:purge')
-			->daily()
+			->weekly()
 			->sendOutputTo(storage_path('logs/passport_purge.log'));
 
-		// NOTA(RECKER): Actualizar precio del dolar
+		// Actualizar precio del dolar
 		$schedule->command('exchanges:prices')
 			->hourlyAt(5)
 			->sendOutputTo(storage_path('logs/exchanges_price.log'))
 			->runInBackground();
 		
-		/*$schedule->command('pending:payments')
-			->weeklyOn(5, '20:00');*/
+		// Automatizar proceso de deudas
+		$schedule->command('debt:automatize')
+			->monthlyOn(1, '04:00')
+			->sendOutputTo(storage_path('logs/debt_automatize.log'))
+			->runInBackground();
+		
+			// Procesar pagos pendientes
+		$schedule->command('pending:payments')
+			->weeklyOn(7, '13:00');
 	}
 
 	/**
