@@ -31,6 +31,7 @@ class DebtControllerTest extends TestCase
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40000,
+			'available_on' => now(),
 		]);
 		
 		// Users creator
@@ -100,11 +101,12 @@ class DebtControllerTest extends TestCase
 			->assertJsonStructure([
 				'data' => [
 					'*' => [
+						'id',
 						'status',
-						'updated_at',
 						'debt_lote' => [
 							'reason',
 							'amount_to_pay',
+							'important'
 						],
 						'transaction',
 					]
@@ -115,14 +117,14 @@ class DebtControllerTest extends TestCase
 
 	public function testPay()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$this->createDebts();
 		Passport::actingAs(
 			User::find(2),
 			['user']
 		);
 		
-		$response = $this->getJson('/api/v1/deuda/pay/1');
+		$response = $this->postJson('/api/v1/deuda/pay/1');
 
 		$response->assertOk()
 			->assertJsonStructure([

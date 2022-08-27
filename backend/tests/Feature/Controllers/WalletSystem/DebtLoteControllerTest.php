@@ -37,11 +37,15 @@ class DebtLoteControllerTest extends TestCase
 			'amount_to_pay' => 40,
 			'exchange_amount' => 4,
 			'exchange_rate_id' => 1,
+			'available_on' => now(),
 		]);
 		
 		$deuda_lote2 = DebtLote::create([
-			'reason' => 'Test2',
-			'amount_to_pay' => 400000,
+			'reason' => 'Test1',
+			'amount_to_pay' => 40,
+			'exchange_amount' => 4,
+			'exchange_rate_id' => 1,
+			'available_on' => now(),
 		]);
 		
 		$response = $this->getJson('/api/v1/deuda/lote?per_page=5&page=1');
@@ -53,7 +57,12 @@ class DebtLoteControllerTest extends TestCase
 						'id',
 						'reason',
 						'amount_to_pay',
-						'created_at'
+						'available_on',
+						'exchange_amount',
+						'exchange_rate',
+						'fecha_creado',
+						'important',
+						'reason',
 					]
 				],
 				'totalRows'
@@ -87,6 +96,7 @@ class DebtLoteControllerTest extends TestCase
 		$deuda_lote = DebtLote::create([
 			'reason' => 'Test',
 			'amount_to_pay' => 40,
+			'available_on' => now(),
 		]);
 		$id = $deuda_lote->id;
 		
@@ -110,7 +120,7 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testCreateDebt()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -166,7 +176,7 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testCreateDebtWithUsersSelected()
 	{
-		// $this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
@@ -251,12 +261,14 @@ class DebtLoteControllerTest extends TestCase
 		// NOTA(RECKER): Crear debts
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
-			'amount_to_pay' => 40000,
+			'amount_to_pay' => 40,
+			'available_on' => now(),
 		]);
 
 		$debt_lote2 = DebtLote::create([
-			'reason' => 'Test2',
-			'amount_to_pay' => 40000,
+			'reason' => 'Test',
+			'amount_to_pay' => 40,
+			'available_on' => now(),
 		]);
 		
 		// Users creator
@@ -304,8 +316,8 @@ class DebtLoteControllerTest extends TestCase
 		
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
-			'amount_to_pay' => 40000,
-			'exchange_rate_type' => 'Bs.S'
+			'amount_to_pay' => 40,
+			'available_on' => now(),
 		]);
 		
 		// Users creator
@@ -346,8 +358,10 @@ class DebtLoteControllerTest extends TestCase
 		
 		$debt_lote = DebtLote::create([
 			'reason' => 'Test',
-			'amount_to_pay' => 40000,
-			'exchange_rate_type' => 'Bs.S'
+			'amount_to_pay' => 40,
+			'exchange_amount' => 4,
+			'exchange_rate_id' => 1,
+			'available_on' => now(),
 		]);
 		
 		// Users creator

@@ -42,9 +42,9 @@ class DebtController extends Controller
 		// Ocultar datos
 		$data = $debts->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['created_at', 'updated_at']);
+			$item->makeHidden(['created_at', 'updated_at', 'available_on']);
 			$item->makeVisible(['id']);
-			$item->debt_lote->makeHidden(['id', 'created_at', 'exchange_amount', 'exchange_rate_id']);
+			$item->debt_lote->makeHidden(['id', 'created_at', 'exchange_amount', 'exchange_rate_id', 'available_on', 'fecha_creado']);
 			$item->transaction?->makeHidden(['created_at','exonerado','payload','payment_method','previous_balance','type']);
 		});
 		$debts->setCollection($data);

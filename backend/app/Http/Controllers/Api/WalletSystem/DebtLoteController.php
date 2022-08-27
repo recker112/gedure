@@ -128,6 +128,9 @@ class DebtLoteController extends Controller
 		// Important
 		$debt_lote->important = boolval($request->important);
 
+		// Disponible a partir de...
+		$debt_lote->available_on = now();
+
 		// Guardar
 		$debt_lote->save();
 		
