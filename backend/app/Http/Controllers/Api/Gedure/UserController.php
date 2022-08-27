@@ -248,9 +248,11 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar user
 		if ($request->only(['username', 'name', 'email', 'password'])) {
-			$request->merge([
-				'name' => ucwords($request->name),
-			]);
+			if ($request->name) {
+				$request->merge([
+					'name' => ucwords($request->name),
+				]);
+			}
 
 			if ($request->password) {
 				$request->merge([
@@ -358,9 +360,11 @@ class UserController extends Controller
 				$data = $request->only(['name', 'email', 'password']);
 			}
 
-			$request->merge([
-				'name' => ucwords($request->name),
-			]);
+			if ($request->name) {
+				$request->merge([
+					'name' => ucwords($request->name),
+				]);
+			}
 			
 			$user->update($data);
 		}
