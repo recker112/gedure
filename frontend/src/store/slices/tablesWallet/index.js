@@ -79,7 +79,9 @@ const initialState = {
   },
   deudas: {
     filterBox: false,
-    filters: {},
+    filters: {
+      future: 'no',
+    },
     countFilters: 0,
     tableData: {
       loading: true,
@@ -112,7 +114,7 @@ export const tablesWalletSlices = createSlice({
           count++;
         }
         return null;
-      })
+      });
 
       state[select].filters = data;
       state[select].countFilters = count;

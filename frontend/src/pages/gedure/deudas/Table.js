@@ -9,6 +9,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { TextBoxCheck as TextBoxCheckIcon } from 'mdi-material-ui';
 
 // Components
+import Filtrador from './Filtrador';
 import ReactTableBase from '../../../components/ReactTableBase';
 import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 
@@ -137,6 +138,7 @@ export default function Table() {
       pageCountData={pageCount}
       pageSizeData={pageSize}
       loading={loading}
+      filter={gotoPage => <Filtrador gotoPage={gotoPage} />}
       handleGlobalFilter={handleGlobalFilter}
       handleChange={handleChange}
       refresh={handleRefresh}

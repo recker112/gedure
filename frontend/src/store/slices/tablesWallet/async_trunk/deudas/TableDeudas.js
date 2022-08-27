@@ -6,8 +6,9 @@ export const getDeudas = createAsyncThunk(
   async (id, { getState, signal, dispatch }) => {
     // NOTA(RECKER): Configurar petición a realizar
     const axios = window.axios;
+    const { future } = getState().tablesWallet.deudas.filters;
     const { page, pageSize, search } = getState().tablesWallet.deudas.tableData;
-    let url = `v1/deuda?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}`;
+    let url = `v1/deuda?page=${page}&per_page=${pageSize}&search=${encodeURI(search)}&future=${future}`;
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {

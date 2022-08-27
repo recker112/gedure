@@ -29,7 +29,7 @@ class DebtController extends Controller
 				$query->where('reason', 'like', "%$search%");
 			})
 			// Filtrador
-			->when(true, function ($query) {
+			->when($request->future !== 'si', function ($query) {
 				$query->whereHas('debt_lote',function ($query) {
 					$query->where('available_on', '<=', now());
 				});
