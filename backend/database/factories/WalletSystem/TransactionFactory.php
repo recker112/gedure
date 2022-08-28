@@ -23,7 +23,6 @@ class TransactionFactory extends Factory
 	{
 		return [
 			'user_id' => 1,
-			'exonerante_id' => null,
 			'transable_id' => null,
 			'transable_type' => null,
 			'type' => $this->faker->randomElement(['deuda pagada', 'transferencia de saldo', 'pago verificado']),
