@@ -525,7 +525,7 @@
 						Pago realizado a:
 					</p>
 					<p class='body1 body1--right'>
-						Sistema gedure
+						Plataforma
 					</p>
 				@endif
 			</div>
@@ -592,11 +592,7 @@
 					Pago exonerado por:
 				</p>
 				<p class='body1'>
-					@if ($transaction->exonerante)
-						{{ $transaction->exonerante->name }} ({{ $transaction->exonerante->privilegio+$transaction->exonerante->username }})
-					@else
-						U.E.P A.P.E.P "La Candelaria"
-					@endif
+					U.E.P A.P.E.P "La Candelaria"
 				</p>
 				<span></span>
 			</div>
