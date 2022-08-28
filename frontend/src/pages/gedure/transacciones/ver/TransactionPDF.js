@@ -203,12 +203,7 @@ export default function TransactionPDF({
 					<Typography className='text__bold--semi'>
 						Pago exonerado por: 
 					</Typography>
-					{exonerante && (
-						<Typography>{exonerante.name} ({exonerante.privilegio+exonerante.username})</Typography>
-					)}
-					{!exonerante && (
-						<Typography>U.E.P.A.P.E.P "La Candelaria"</Typography>
-					)}
+					<Typography>U.E.P.A.P.E.P "La Candelaria"</Typography>
 				</Box>
 			)}
     </Paper>
