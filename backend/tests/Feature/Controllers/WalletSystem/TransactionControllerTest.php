@@ -127,7 +127,6 @@ class TransactionControllerTest extends TestCase
 			->assertJsonStructure([
 				'id',
 				'user',
-				'exonerante',
 				'type',
 				'payload',
 				'amount',
@@ -157,7 +156,6 @@ class TransactionControllerTest extends TestCase
 			->assertJsonStructure([
 				'id',
 				'user',
-				'exonerante',
 				'type',
 				'payload',
 				'amount',

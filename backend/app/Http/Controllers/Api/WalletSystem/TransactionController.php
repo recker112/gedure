@@ -75,7 +75,7 @@ class TransactionController extends Controller
 	
 	public function show($id)
 	{
-		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+		$transaction = Transaction::with(['user:id,username,privilegio,name'])
 			->findOrFail(intVal($id));
 		
 		return response()->json($transaction, 200);
@@ -83,7 +83,7 @@ class TransactionController extends Controller
 	
 	public function showUser($id)
 	{
-		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+		$transaction = Transaction::with(['user:id,username,privilegio,name'])
 			->where('user_id', request()->user()->id)
 			->where('id', $id)
 			->firstOrFail();
@@ -93,7 +93,7 @@ class TransactionController extends Controller
 	
 	public function download($id)
 	{
-		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+		$transaction = Transaction::with(['user:id,username,privilegio,name'])
 			->findOrFail(intVal($id));
 		
 		$pdf = PDF::loadView('pdf.transactionPDF', [
@@ -105,7 +105,7 @@ class TransactionController extends Controller
 	
 	public function downloadUser($id)
 	{
-		$transaction = Transaction::with(['user:id,username,privilegio,name', 'exonerante:id,username,privilegio,name'])
+		$transaction = Transaction::with(['user:id,username,privilegio,name'])
 			->where('user_id', request()->user()->id)
 			->where('id', $id)
 			->firstOrFail();
