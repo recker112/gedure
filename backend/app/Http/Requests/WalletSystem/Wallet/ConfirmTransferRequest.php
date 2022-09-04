@@ -30,7 +30,7 @@ class ConfirmTransferRequest extends FormRequest
         return [
             'password' => ['required', 'current_password:api'],
             'username' => ['required', 'string', new UserTransferVerifyRule()],
-            'amount_to_transfer' => ['required', 'numeric', new BalanceVerifyRule()],
+            'amount_to_transfer' => ['required', 'numeric', 'gt:0', new BalanceVerifyRule()],
             'reason' => ['nullable', 'string', 'min:4', 'max:50'],
         ];
     }
