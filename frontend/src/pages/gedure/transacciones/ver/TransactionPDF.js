@@ -170,7 +170,7 @@ export default function TransactionPDF({
 					Nuevo saldo disponible: 
 				</Typography>
 				<Typography component='span'>
-					{' '+parseFloatToMoneyString(amount_parse+previous_balance)}
+					{' '+parseFloatToMoneyString(exonerado ? previous_balance : amount_parse+previous_balance)}
 				</Typography>
 			</Box>
 
@@ -203,7 +203,7 @@ export default function TransactionPDF({
 					<Typography className='text__bold--semi'>
 						Pago exonerado por: 
 					</Typography>
-					<Typography>U.E.P.A.P.E.P "La Candelaria"</Typography>
+					<Typography>U.E.P A.P.E.P "La Candelaria"</Typography>
 				</Box>
 			)}
     </Paper>

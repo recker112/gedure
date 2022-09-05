@@ -88,17 +88,17 @@ class DebtController extends Controller
 		$reqReason = $debt->debt_lote->reason;
 		$reqAmount = $debt->debt_lote->amount_to_pay;
 
+		// Verificar estado
+		if ($debt->status === 'pagada' || $debt->status !== 'no pagada') {
+			return response()->json([
+				'msg' => 'Deuda ya pagada',
+			], 400);
+		}
+
 		// Verificar saldo
 		if ($reqAmount > $user->wallet->balance) {
 			return response()->json([
 				'msg' => 'Saldo insuficiente',
-			], 400);
-		}
-
-		// Verificar estado
-		if ($debt->status === 'pagada') {
-			return response()->json([
-				'msg' => 'Deuda ya pagada',
 			], 400);
 		}
 

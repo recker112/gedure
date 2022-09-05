@@ -26,7 +26,7 @@ class CreateDebtsTable extends Migration
 				->onUpdate('set null')
 				->onDelete('set null');
 			
-			$table->enum('status', ['pagada', 'no pagada', 'futura'])->default('no pagada');
+			$table->enum('status', ['pagada', 'no pagada', 'futura', 'exonerada'])->default('no pagada');
 			$table->timestamps();
 			$table->softDeletes();
 		});

@@ -20,6 +20,7 @@ import { getLotesDeudasUsers } from '../../../../store/slices/tablesWallet/async
 const colorChip = {
   'no pagada': 'error',
   'pagada': 'success',
+  'exonerada': 'info',
 }
 
 export default function Table() {
@@ -84,7 +85,7 @@ export default function Table() {
       accessor: 'options',
       Cell: ({ cell: { row: { original } } }) => (
         <>
-          {original.status === 'pagada' && (
+          {(original.status === 'pagada' || original.status === 'exonerada') && (
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
@@ -96,7 +97,7 @@ export default function Table() {
             </Tooltip>
           )}
 
-          {original.status === 'no pagada' && (
+          {(original.status === 'no pagada' || original.status === 'futura') && (
             <Tooltip title='Eliminar' arrow>
               <IconButton
                 onClick={() => {
