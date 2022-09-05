@@ -2,6 +2,7 @@
 
 namespace App\Models\WalletSystem;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,13 +48,6 @@ class DebtLote extends Model
 		'amount_to_pay' => 'float',
 		'available_on' => 'date',
 	];
-
-	/**
-	 * The accessors to append to the model's array form.
-	 *
-	 * @var array
-	 */
-	protected $appends = ['fecha_creado'];
 	
 	public function debts()
 	{
@@ -64,18 +58,32 @@ class DebtLote extends Model
 	{
 		return $this->belongsTo('App\Models\WalletSystem\ExchangeRate');
 	}
-	
+
 	/*
-	TIMEZONES CUSTOM
+	 Attributos
 	*/
-	public function getAvailableOnAttribute($value) {
-		return Carbon::parse($value);
+	protected function availableOn(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value),
+		);
 	}
 
-	public function getFechaCreadoAttribute() {
-		$created_at = $this->attributes['created_at'];
-		return Carbon::parse($created_at)
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
+	}
+
+	protected function updatedAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
+			->timezone(config('app.timezone_parse'))
+			->format('Y-m-d h:i A'),
+		);
 	}
 }

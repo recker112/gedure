@@ -35,7 +35,7 @@ class DebtLoteController extends Controller
 			// Ocultar datos
 		$data = $debts->getCollection();
 		$data->each(function ($item) {
-			$item->makeHidden(['created_at','updated_at','exchange_rate_id']);
+			$item->makeHidden(['updated_at','exchange_rate_id']);
 		});
 		$debts->setCollection($data);
 		

@@ -2,6 +2,7 @@
 
 namespace App\Models\Gedure;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,18 +50,23 @@ class Log extends Model
 	}
 	
 	/*
-	TIMEZONES
+	 Attributos
 	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
-			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
-	}
-	
-	public function getDateFormatAttribute()
+	protected function createdAt(): Attribute
 	{
-		return Carbon::parse($this->attributes['created_at'])
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->toDateTimeString();
+			->format('Y-m-d h:i A'),
+		);
+	}
+
+	protected function dateFormat(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($this->attributes['created_at'])
+			->timezone(config('app.timezone_parse'))
+			->toDateTimeString(),
+		);
 	}
 }

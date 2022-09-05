@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -116,32 +117,48 @@ class User extends Authenticatable
 	/*
 		ATRIBUTOS
 	*/
-	
-	public function getAvatarOriginalAttribute()
+	protected function name(): Attribute
 	{
-		return $this->attributes['avatar'];
-	}
-	
-	public function getAvatarAttribute()
-	{
-		$avatar = $this->attributes['avatar'];
-		if($avatar) {
-			$url = Storage::disk('public')->url($avatar);
-		}else {
-			$url = null;
-		}
-		return $url;
+		return Attribute::make(
+			get: fn ($value) => ucwords($value),
+			set: fn ($value) => strtolower(trim($value)),
+		);
 	}
 
-	public function isSolvente()
+	protected function password(): Attribute
 	{
-		$solvente = $this->debts()->where('status', 'no pagada')
-			->whereHas('debt_lote', function ($query) {
-					$query->where('available_on', '<=', now());
-			})
-			->count();
+		return Attribute::make(
+			set: fn ($value) => bcrypt($value),
+		);
+	}
 
-		return !boolval($solvente);
+	protected function avatarOriginal(): Attribute
+	{
+		return Attribute::make(
+			get: fn () => $this->attributes['avatar'],
+		);
+	}
+
+	protected function avatar(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => $value ? Storage::disk('public')->url($value) : null,
+		);
+	}
+
+	protected function isSolvente(): Attribute
+	{
+		return new Attribute(
+			get: function () {
+				$solvente = $this->debts()->where('status', 'no pagada')
+					->whereHas('debt_lote', function ($query) {
+							$query->where('available_on', '<=', now());
+					})
+					->count();
+
+				return !boolval($solvente);
+			},
+		);
 	}
 	
 	/*

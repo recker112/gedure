@@ -60,7 +60,7 @@ class DebtLoteControllerTest extends TestCase
 						'available_on',
 						'exchange_amount',
 						'exchange_rate',
-						'fecha_creado',
+						'created_at',
 						'important',
 						'reason',
 					]

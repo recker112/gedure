@@ -2,6 +2,8 @@ import React from 'react';
 
 // MUI
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 // Components
 import AnimationDialog from '../../../components/AnimationDialog';
@@ -14,6 +16,9 @@ export default function ShowSC() {
   const { open, data } = useSelector(state => state.requestStatus.verSoliContacto);
    const dispatch = useDispatch();
 
+	 const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
    const handleClose = () => {
     dispatch(setRequestStatus({open: false, select: 'verSoliContacto'}));
    }
@@ -24,6 +29,7 @@ export default function ShowSC() {
       onClose={handleClose}
       fullWidth={true}
       maxWidth='xs'
+			fullScreen={fullScreen}
       TransitionComponent={AnimationDialog}
     >
 			<DialogTitle>Solicitud #{data.id}</DialogTitle>
