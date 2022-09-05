@@ -66,7 +66,6 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsE
 		{
 			// NOTA(RECKER): Parse texto
 			$nombre = str_replace(',', '', trim($row['nomalum'])). ' ' .str_replace(',', '', trim($row['apelalum']));
-			$nombre = ucwords(strtolower($nombre));
 			$cedula = trim($row['nced']);
 			$email = filter_var($row['email'], FILTER_VALIDATE_EMAIL) ? trim($row['email']) : null;
 			

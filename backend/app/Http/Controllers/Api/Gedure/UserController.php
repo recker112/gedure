@@ -127,10 +127,7 @@ class UserController extends Controller
 			}
 		}
 		
-		$dataUser = $request->only(['username', 'name', 'privilegio', 'email', 'password']);
-		$dataUser['name'] = ucwords($dataUser['name']);
-		$dataUser['password'] = bcrypt($dataUser['password']);
-		$user = User::create($dataUser);
+		$user = User::create($request->only(['username', 'name', 'privilegio', 'email', 'password']));
 		
 		// NOTA(RECKER): Crear datos adicionales
 		if ($user->privilegio === 'V-') {
@@ -248,18 +245,6 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar user
 		if ($request->only(['username', 'name', 'email', 'password'])) {
-			if ($request->name) {
-				$request->merge([
-					'name' => ucwords($request->name),
-				]);
-			}
-
-			if ($request->password) {
-				$request->merge([
-					'password' => bcrypt($request->password),
-				]);
-			}
-			
 			$user->update($request->only(['username', 'name', 'email', 'password']));
 		}
 		
@@ -345,25 +330,12 @@ class UserController extends Controller
 		
 		// NOTA(RECKER): Actualizar usuario
 		if ($request->only(['name', 'email', 'password', 'username'])) {
-			if ($request->password) {
-				$request->merge([
-					'password' => bcrypt($request->password),
-					'name' => ucwords($request->name),
-				]);
-			}
-			
 			if ($user->privilegio === 'V-') {
 				$data = $request->only(['email', 'password']);
 			} else if ($user->privilegio === 'A-' && $user->can('users_edit_admins')) {
 				$data = $request->only(['name', 'email', 'password', 'username']);
 			} else {
 				$data = $request->only(['name', 'email', 'password']);
-			}
-
-			if ($request->name) {
-				$request->merge([
-					'name' => ucwords($request->name),
-				]);
 			}
 			
 			$user->update($data);

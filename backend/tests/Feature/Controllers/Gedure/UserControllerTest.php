@@ -279,7 +279,7 @@ class UserControllerTest extends TestCase
 		$this->assertDatabaseHas('users', [
 			'username' => 'luis',
       'email' => 'test@test.test',
-			'name' => 'Luis Enrrique',
+			'name' => 'luis enrrique',
     ]);
 		
 		$this->assertDatabaseHas('personal_data_users', [
@@ -354,7 +354,7 @@ class UserControllerTest extends TestCase
 		$this->assertDatabaseHas('users', [
 			'username' => 'luis',
       'email' => 'test@test.test',
-			'name' => 'Luis Enrrique',
+			'name' => 'luis enrrique',
     ]);
 		
 		$this->assertDatabaseHas('personal_data_admins', [

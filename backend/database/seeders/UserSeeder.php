@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 			'username' => 'admin',
 			'name' => 'Super admin',
 			'privilegio' => 'A-',
-			'password' => bcrypt('1234'),
+			'password' => '1234',
 			'actived_at' => now(),
 		]);
 		

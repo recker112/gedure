@@ -2,6 +2,7 @@
 
 namespace App\Models\WalletSystem;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,17 +48,23 @@ class Wallet extends Model
 	}
 	
 	/*
-	TIMEZONES
+	 Attributos
 	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
-	
-	public function getUpdatedAtAttribute($value) {
-		return Carbon::parse($value)
+
+	protected function updatedAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
 }

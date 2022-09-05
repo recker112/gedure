@@ -2,6 +2,7 @@
 
 namespace App\Models\Gedure;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -44,78 +45,71 @@ class Post extends Model
 	}
 	
 	/*
-		ATRIBUTOS
+	 Attributos
 	*/
-	public function getUrlPortadaAttribute()
+	protected function urlPortada(): Attribute
 	{
-		$portada = json_decode($this->attributes['portada']);
-		if($portada) {
-			$url = Storage::disk('public')->url($portada);
-		}else {
-			$url = null;
-		}
-		return $url;
+		return Attribute::make(
+			get: fn () => json_decode($this->attributes['portada']) ? Storage::disk('public')->url(json_decode($this->attributes['portada'])) : null,
+		);
 	}
-	
-	public function getUrlImgsAttribute()
+
+	protected function urlImgs(): Attribute
 	{
-		$galery = json_decode($this->attributes['galery']);
-		if($galery) {
-			$urls = array();
-			$i = 0;
-			foreach($galery as $img) {
-				$urls[$i] = Storage::disk('public')
-					->url($img);
-				$i++;
-			}
-		}else {
-			$urls = null;
-		}
-		return $urls;
+		return Attribute::make(
+			get: function () {
+				$galery = json_decode($this->attributes['galery']) ? json_decode($this->attributes['galery']) : [];
+				$urls = array();
+				$i = 0;
+				foreach($galery as $img) {
+					$urls[$i] = Storage::disk('public')
+						->url($img);
+					$i++;
+				}
+				return $i > 0 ? $urls : null;
+			},
+		);
 	}
-	
-	/*
-	TIMEZONES
-	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
+
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
-	
-	public function getUpdatedAtAttribute($value) {
-		return Carbon::parse($value)
+
+	protected function updatedAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
-	
-	public function getFechaHumanoAttribute()
+
+	protected function fechaHumano(): Attribute
 	{
-		$dateNow = now()
-			->timezone(config('app.timezone_parse'));
-		$date_created = Carbon::parse($this->attributes['created_at'])
-			->timezone(config('app.timezone_parse'));
-		
-		if ($date_created->diffInDays($dateNow) <= 3) {
-			$show = $date_created->diffForHumans();
-		}else {
-			$show = $date_created->format('Y-m-d h:i A');
-		}
-		
-		return $show;
+		return Attribute::make(
+			get: function () {
+				$time = Carbon::parse($this->attributes['created_at'])
+					->timezone(config('app.timezone_parse'));
+				
+				return $time->diffInDays(now()) <= 3 ? $time->diffForHumans() : null;
+			},
+		);
 	}
-	
-	public function getFechaHumanoModifyAttribute()
+
+	protected function fechaHumanoModify(): Attribute
 	{
-		$dateNow = now();
-		$date_updated = Carbon::parse($this->attributes['updated_at']);
-		
-		if ($date_updated->diffInDays($dateNow) <= 3) {
-			$show = $date_updated->diffForHumans();
-		}else {
-			$show = 'el '.$date_updated->format('Y-m-d h:i A');
-		}
-		
-		return $show;
+		return Attribute::make(
+			get: function () {
+				$time = Carbon::parse($this->attributes['updated_at'])
+					->timezone(config('app.timezone_parse'));
+					
+				return $time->diffInDays(now()) <= 3 ? $time->diffForHumans() : null;
+			},
+		);
 	}
 }

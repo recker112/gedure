@@ -54,7 +54,7 @@ export default function Table() {
     },
     {
       Header: 'Fecha',
-      accessor: 'fecha_creado',
+      accessor: 'created_at',
     },
     {
       Header: 'Importante',

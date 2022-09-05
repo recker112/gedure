@@ -2,6 +2,7 @@
 
 namespace App\Models\Gedure;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,11 +29,14 @@ class Contacto extends Model
 	const UPDATED_AT = null;
 	
 	/*
-	TIMEZONES
+	 Attributos
 	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
 }

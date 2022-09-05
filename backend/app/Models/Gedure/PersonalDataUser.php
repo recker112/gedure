@@ -2,6 +2,7 @@
 
 namespace App\Models\Gedure;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -77,5 +78,38 @@ class PersonalDataUser extends Model
 	public function user()
 	{
 		return $this->morphOne('App\Models\User', 'personal_data');
+	}
+
+	/*
+		ATRIBUTOS
+	*/
+	protected function repreNombre(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => ucwords($value),
+			set: fn ($value) => strtolower(trim($value)),
+		);
+	}
+
+	/*
+		ATRIBUTOS
+	*/
+	protected function madreNombre(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => ucwords($value),
+			set: fn ($value) => strtolower(trim($value)),
+		);
+	}
+
+	/*
+		ATRIBUTOS
+	*/
+	protected function padreNombre(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => ucwords($value),
+			set: fn ($value) => strtolower(trim($value)),
+		);
 	}
 }

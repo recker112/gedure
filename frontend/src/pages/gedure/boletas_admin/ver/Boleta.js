@@ -85,7 +85,7 @@ export default function Boleta({
                 color='text.disabled'
                 fontWeight={600}
               >
-                {(created_at === updated_at) ? `Subido ${fecha_humano}` : `Modificado ${fecha_humano_modify}`}
+                {(created_at === updated_at) ? `Subido ${!fecha_humano ? 'el' : ''} ${fecha_humano || created_at}` : `Modificado ${!fecha_humano_modify ? 'el' : ''} ${fecha_humano_modify || updated_at}`}
               </Box>
             </Grid>
           </Grid>

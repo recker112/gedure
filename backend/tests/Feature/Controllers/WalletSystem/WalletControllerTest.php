@@ -49,7 +49,7 @@ class WalletControllerTest extends TestCase
 
 	public function testConfirmTransfer()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$user = User::find(1);
 		Passport::actingAs(
 			$user,

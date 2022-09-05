@@ -47,11 +47,14 @@ class ExchangeRate extends Model
 	}
 
 	/*
-	TIMEZONES
+	 Attributos
 	*/
-	public function getCreatedAtAttribute($value) {
-		return Carbon::parse($value)
+	protected function createdAt(): Attribute
+	{
+		return Attribute::make(
+			get: fn ($value) => Carbon::parse($value)
 			->timezone(config('app.timezone_parse'))
-			->format('Y-m-d h:i A');
+			->format('Y-m-d h:i A'),
+		);
 	}
 }
