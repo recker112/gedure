@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\Gedure;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 // Passport
