@@ -56,6 +56,36 @@ function RenderPermissionNested(props) {
 	)
 }
 
+function RenderPermList({ control, disabled, defaultData, item, setValue }) {
+	return (
+		<>
+			{item.head && (
+				<Grid sx={{mt: 4}} item xs={12}>
+					<Typography color='text.secondary'>{item.head}</Typography>
+				</Grid>
+			)}
+			<RenderPermission
+				control={control}
+				disabled={disabled}
+				defaultData={defaultData}
+				fullWidth={!item.notFullWidth}
+				{...item}
+			/>
+			{(item.nested && item.nested.length > 0) && item.nested.map((itemNested, i) => (
+				<RenderPermissionNested
+					key={i}
+					setValue={setValue}
+					control={control}
+					disabled={disabled}
+					defaultData={defaultData}
+					need={item.name}
+					{...itemNested}
+				/>
+			))}
+		</>
+	);
+}
+
 function PermissionsNoSuper(props){
 	const { control, disabled, setValue, defaultData } = props;
 	const super_admin = useWatch({
@@ -265,30 +295,15 @@ function PermissionsNoSuper(props){
 	
 	if (!super_admin) {
 		const RenderList = ListNoSuper.map((item, i) => (
-			<React.Fragment key={i}>
-				<Grid sx={{mt: 4}} item xs={12}>
-					<Typography color='text.secondary'>{item.head}</Typography>
-				</Grid>
-				<RenderPermission
-					control={control}
-					disabled={disabled}
-					defaultData={defaultData}
-					fullWidth
-					{...item}
-				/>
-				{(item.nested && item.nested.length > 0) && item.nested.map((itemNested, i) => (
-					<RenderPermissionNested
-            key={i}
-						setValue={setValue}
-						control={control}
-						disabled={disabled}
-						defaultData={defaultData}
-						need={item.name}
-						{...itemNested}
-					/>
-				))}
-			</React.Fragment>
-		))
+			<RenderPermList
+				key={i}
+				control={control}
+				disabled={disabled}
+				defaultData={defaultData}
+				item={item}
+				setValue={setValue}
+			/>
+		));
 		
 		return RenderList;
 	}
@@ -296,40 +311,56 @@ function PermissionsNoSuper(props){
 	return null;
 }
 
-export default function Permisos({ control, disabled, setValue, defaultData = {} }) {
-  let PermissionsUsers;
+function PermissionsUser({ control, disabled, defaultData, setValue }) {
+	const ListUserPermissions = [
+		{
+			name: 'boleta_download',
+			label: 'Descargar boletas',
+			notFullWidth: true,
+		},
+		{
+			name: 'change_avatar',
+			label: 'Cambiar avatar',
+			notFullWidth: true,
+		},
+		{
+			head: 'Transacciones',
+			name: 'account_exonerada',
+			label: 'Cuenta exonerada',
+			notFullWidth: true,
+		},
+	];
 
+	const RenderList = ListUserPermissions.map((item, i) => (
+		<RenderPermList
+			key={i}
+			control={control}
+			disabled={disabled}
+			defaultData={defaultData}
+			item={item}
+			setValue={setValue}
+		/>
+	));
+	
+	return RenderList;
+}
+
+export default function Permisos({ control, disabled, setValue, defaultData = {} }) {
   const privilegio = useWatch({
 		control,
     name: 'privilegio',
   });
 
-  const ListUserPermissions = [
-		{
-			name: 'boleta_download',
-			label: 'Descargar boletas',
-		},
-		{
-			name: 'change_avatar',
-			label: 'Cambiar avatar',
-		}
-	];
-
-  if (privilegio === 'V-') {
-    PermissionsUsers = ListUserPermissions.map((item, i) => (
-			<RenderPermission
-				key={i}
-				control={control}
-				disabled={disabled}
-				defaultData={defaultData}
-				{...item}
-			/>
-		))
-  }
-
   return (
     <>
-      {privilegio === 'V-' && (PermissionsUsers)}
+      {privilegio === 'V-' && (
+				<PermissionsUser
+					control={control} 
+					disabled={disabled} 
+					defaultData={defaultData} 
+					setValue={setValue}
+				/>
+			)}
       {privilegio === 'A-' && (
         <>
           <Grid item xs={12}>

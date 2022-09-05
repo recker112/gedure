@@ -22,6 +22,7 @@ import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 const colorChip = {
   'no pagada': 'error',
   'pagada': 'success',
+  'exonerada': 'info',
   'futura': 'default',
 }
 
@@ -63,7 +64,7 @@ export default function Table() {
       accessor: 'options',
       Cell: ({ cell: { row: { original } } }) => (
         <>
-          {original.status === 'pagada' && (
+          {(original.status === 'pagada' || original.status === 'exonerada') && (
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
@@ -74,7 +75,7 @@ export default function Table() {
               </IconButton>
             </Tooltip>
           )}
-          {original.status !== 'pagada' && (
+          {original.status === 'no pagada' && (
             <Tooltip title='Pagar' arrow>
               <IconButton
                 onClick={() => {

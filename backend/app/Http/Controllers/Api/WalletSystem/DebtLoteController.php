@@ -134,10 +134,39 @@ class DebtLoteController extends Controller
 		// Guardar
 		$debt_lote->save();
 		
+		// Generar deudas
 		foreach($users as $user) {
-			$user->debts()->create([
-				'debt_lote_id' => $debt_lote->id
+			$exonerado = $user->can('account_exonerada');
+			$debt = $user->debts()->create([
+				'debt_lote_id' => $debt_lote->id,
+				'status' => $exonerado ? 'exonerada' : 'no pagada',
 			]);
+
+			if ($exonerado) {
+				// Generar transacciones
+				$id = $debt_lote->id;
+				$payload = [
+					'actions' => [
+						[
+							'reason' => $debt_lote->reason." (#$id)",
+							'amount' => $debt_lote->amount_to_pay,
+						]
+					],
+				];
+
+				$transaction = $user->transactions()->create([
+					'type' => 'deuda pagada',
+					'payload' => $payload,
+					'amount' => $debt_lote->amount_to_pay,
+					'previous_balance' => $user->wallet->balance,
+					'payment_method' => 'otros',
+					'exonerado' => 1,
+				]);
+		
+				// Relación polimórfica
+				$debt->transaction()->save($transaction);
+			}
+
 			$user->notify(new DebtCreatedNotification($amount));
 		}
 		
@@ -202,11 +231,39 @@ class DebtLoteController extends Controller
 					'msg' => 'No hay usuarios seleccionados',
 				], 400);
 			}
-				
+			
+			// Generar deudas
 			foreach($users as $user) {
-				$user->debts()->create([
+				$exonerado = $user->can('account_exonerada');
+				$debt = $user->debts()->create([
 					'debt_lote_id' => $debt_lote->id,
+					'status' => $exonerado ? 'exonerada' : 'no pagada',
 				]);
+
+				if ($exonerado) {
+					// Generar transacciones
+					$id = $debt_lote->id;
+					$payload = [
+						'actions' => [
+							[
+								'reason' => $debt_lote->reason." (#$id)",
+								'amount' => $debt_lote->amount_to_pay,
+							]
+						],
+					];
+
+					$transaction = $user->transactions()->create([
+						'type' => 'deuda pagada',
+						'payload' => $payload,
+						'amount' => $debt_lote->amount_to_pay,
+						'previous_balance' => $user->wallet->balance,
+						'payment_method' => 'otros',
+						'exonerado' => 1,
+					]);
+			
+					// Relación polimórfica
+					$debt->transaction()->save($transaction);
+				}
 
 				$user->notify(new DebtCreatedNotification($amount));
 				$debts_created++;
