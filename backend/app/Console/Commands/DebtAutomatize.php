@@ -42,7 +42,7 @@ class DebtAutomatize extends Command
         $lastDebtLote = DebtLote::orderBy('available_on','desc')->first();
         $debtsPending = Debt::where('status', 'futura')
             ->whereHas('debt_lote', function ($query) {
-                $query->where('available_on', '<=', now()->add(3,'month'));
+                $query->where('available_on', '<=', now());
             })
             ->get();
         $initDate = now()->parse('September 01');
@@ -91,15 +91,17 @@ class DebtAutomatize extends Command
         $exo = [];
         while ($initDate <= now()->parse('August 01')->add(1,'year') && $lastDebtLote?->available_on <= now()) {
             // Variables
-            $year = now()->year.'-'.now(1,'year')->year+1;
+            $year = now()->year .'-'. now()->year+1;
             $reason = "Mensualidad ".ucwords($initDate->monthName).' '.$year;
             $amountDebt = $exAmountDebt * $exrate->amount;
             $amountIns = $exAmountIns * $exrate->amount;
 
             // Crear lote de deuda con la inscripción
             if ($initDate->month === 9) {
+                // Creado para el mes de septiembre
+                $created = now()->parse($initDate);
                 // Habilitar deuda desde julio
-                $initDate->sub(2,'month');
+                $available_on = now()->parse($initDate)->sub(2,'month');
 
                 // Lote de deuda
                 $lote = DebtLote::create([
@@ -107,7 +109,8 @@ class DebtAutomatize extends Command
                     'amount_to_pay' => $amountDebt,
                     'exchange_rate_id' => $exrate->id,
                     'exchange_amount' => $exAmountDebt,
-                    'available_on' =>  $initDate,
+                    'available_on' =>  $available_on,
+                    'created_at' => $created,
                     'important' => 0,
                 ]);
     
@@ -131,7 +134,8 @@ class DebtAutomatize extends Command
                     'amount_to_pay' => $amountIns,
                     'exchange_rate_id' => $exrate->id,
                     'exchange_amount' => $exAmountIns,
-                    'available_on' =>  $initDate,
+                    'available_on' =>  $available_on,
+                    'created_at' => $created,
                     'important' => 1,
                 ]);
     
@@ -148,12 +152,11 @@ class DebtAutomatize extends Command
                         $exo[] = $debt->id;
                     }
                 }
-
-                // Acomodar fecha
-                $initDate->add(2,'month');
             } else if ($initDate->month === 8) {
+                // Creado para el mes de agosto
+                $created = now()->parse($initDate);
                 // Habilitar deuda desde julio
-                $initDate->sub(1,'month');
+                $available_on = now()->parse($initDate)->sub(1,'month');
 
                 // Crear lote de deuda para agosto
                 $lote = DebtLote::create([
@@ -161,7 +164,8 @@ class DebtAutomatize extends Command
                     'amount_to_pay' => $amountDebt,
                     'exchange_rate_id' => $exrate->id,
                     'exchange_amount' => $exAmountDebt,
-                    'available_on' =>  $initDate,
+                    'available_on' =>  $available_on,
+                    'created_at' => $created,
                 ]);
 
                 foreach($studiends as $user) {
@@ -186,6 +190,7 @@ class DebtAutomatize extends Command
                     'exchange_rate_id' => $exrate->id,
                     'exchange_amount' => $exAmountDebt,
                     'available_on' =>  $initDate,
+                    'created_at' =>  $initDate,
                 ]);
 
                 foreach($studiends as $user) {

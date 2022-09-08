@@ -42,7 +42,8 @@ class InfoBoxController extends Controller
 			$debts = $user->debts()
 				->where('status', 'no pagada')
 				->whereHas('debt_lote', function ($query) {
-					$query->where('available_on', '<=', now());
+					$query->where('available_on', '<=', now())
+						->where('created_at', '<=', now());
 				})
 				->orderBy('id', 'asc')
 				->get();
