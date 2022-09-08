@@ -27,6 +27,7 @@ class DebtLote extends Model
 		'exchange_rate_id',
 		'exchange_amount',
 		'available_on',
+		'created_at',
 		'important',
 	];
 	

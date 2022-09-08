@@ -146,19 +146,17 @@ class User extends Authenticatable
 		);
 	}
 
-	protected function isSolvente(): Attribute
+	public function isSolvente($date = null)
 	{
-		return new Attribute(
-			get: function () {
-				$solvente = $this->debts()->where('status', 'no pagada')
-					->whereHas('debt_lote', function ($query) {
-							$query->where('available_on', '<=', now());
-					})
-					->count();
+		$date = $date ? $date : now();
+		$solvente = $this->debts()->where('status', 'no pagada')
+			->whereHas('debt_lote', function ($query) use ($date) {
+					$query->where('available_on', '<=', $date)
+						->where('created_at', '<=', $date);
+			})
+			->count();
 
-				return !boolval($solvente);
-			},
-		);
+		return !boolval($solvente);
 	}
 	
 	/*

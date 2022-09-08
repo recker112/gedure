@@ -109,7 +109,7 @@ export default function Home() {
                   <SingleBox
                     title='Estado de deudas'
                     data={data.debts}
-                    extraInfo={<Typography>El precio mostrado aquí es la sumatoria de todas las deudas pendientes.</Typography>}
+                    extraInfo={<Typography>El precio mostrado aquí es la sumatoria de todas las deudas pendientes para poder estar solvente.</Typography>}
                     textPrimaryFormat={ amount =>  `${parseFloatToMoneyString(amount)}`}
                     colorTPrimary={(data.debts?.textPrimary > 0 && 'error.main') || (data.debts?.textPrimary <= 0 && 'text.secondary')}
                     loading={loading}
