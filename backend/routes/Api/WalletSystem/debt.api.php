@@ -31,3 +31,7 @@ Route::middleware(['auth:api'])
 // Pay debt of users
 Route::middleware(['auth:api'])
 	->post('deuda/pay/{debt}', [DebtController::class, 'pay']);
+
+// Pay debt of users
+Route::middleware(['auth:api'])
+	->get('deuda/solvencia', [DebtController::class, 'solvencia']);

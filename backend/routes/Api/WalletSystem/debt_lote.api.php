@@ -36,6 +36,6 @@ Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_edit'])
 Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_delete'])
 	->delete('deuda/lote/{debt_lote}', [DebtLoteController::class, 'delete']);
 
-// Deudas users
+// Deudas find users
 Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_edit'])
 	->get('find/deudas-users', [DebtLoteController::class, 'findUsersLike']);

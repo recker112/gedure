@@ -43,7 +43,10 @@ class User extends Authenticatable
 		'deleted_at',
 		'personal_data_id',
 		'personal_data_type',
+		'is_solvente'
 	];
+
+	protected $appends = ['is_solvente'];
 	
 	/*
 		RELACIONES
@@ -146,7 +149,24 @@ class User extends Authenticatable
 		);
 	}
 
-	public function isSolvente($date = null)
+	protected function isSolvente(): Attribute
+	{
+		return Attribute::make(
+			get: function ($q) {
+				$date =  now();
+				$solvente = $this->debts()->where('status', 'no pagada')
+					->whereHas('debt_lote', function ($query) use ($date) {
+							$query->where('available_on', '<=', $date)
+								->where('created_at', '<=', $date);
+					})
+					->count();
+
+				return !boolval($solvente);
+			},
+		);
+	}
+
+	public function verifySolvente($date = null)
 	{
 		$date = $date ? $date : now();
 		$solvente = $this->debts()->where('status', 'no pagada')
