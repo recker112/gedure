@@ -10,6 +10,7 @@ import useNotifier from '../../../hooks/useNotifier';
 import Table from './Table';
 import EditLoteDeuda from './EditLoteDeuda';
 import CreateLoteDeuda from './CreateLoteDeuda';
+import VerifySolvencia from './VerifySolvencia';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,6 +41,10 @@ export default function LotesDeudas() {
     dispatch(setRequestStatus({ select: 'createLoteDeuda', open: true }));
   }
 
+  const handleOpenVerify = () => {
+    dispatch(setRequestStatus({ select: 'verifySolvencia', open: true }));
+  }
+
   return (
     <Box component="main" sx={classes.container}>
       <Container>
@@ -50,7 +55,8 @@ export default function LotesDeudas() {
           <Grid container spacing={1} justifyContent="flex-end" item xs={12}>
             <Grid item>
               <Button 
-                variant="contained" 
+                variant="contained"
+                onClick={handleOpenVerify}
                 data-tour="verify-solvencia"
               >
                 Verificar solvencia
@@ -73,6 +79,7 @@ export default function LotesDeudas() {
         </Grid>
         <CreateLoteDeuda />
         <EditLoteDeuda />
+        <VerifySolvencia />
         <DialogConfirmation 
           rdx1='requestStatusWallet' 
           rdx2='deleteLoteDeuda'

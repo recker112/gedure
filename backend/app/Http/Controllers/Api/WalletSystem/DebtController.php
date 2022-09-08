@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\TableRequest;
+use App\Http\Requests\FindLikeRequest;
 
 //Models
 use App\Models\User;
@@ -175,5 +176,41 @@ class DebtController extends Controller
 		return response()->json([
 			'msg' => 'Deuda eliminada',
 		], 200);
+	}
+
+	public function solvencia(FindLikeRequest $request) {
+		$search = urldecode(request()->search);
+		
+		$users = User::select('id','username','name','privilegio')
+			->withCount([
+				'debts',
+				'debts as debts_pagas_count' => function (Builder $query) {
+					$query->where('status', 'pagada');
+				},
+				'debts as debts_no_pagadas_count' => function (Builder $query) {
+					$query->where('status', 'no pagada');
+				},
+				'debts as debts_exoneradas_count' => function (Builder $query) {
+					$query->where('status', 'exonerada');
+				},
+			])
+			->with([
+				'debts' => function ($query) {
+					$query->select('id','user_id','status', 'debt_lote_id')
+						->where('status', '=', 'no pagada')
+						->orderBy('debts.id','desc');
+				},
+				'debts.debt_lote' => function ($query) {
+					$query->select('id','reason','amount_to_pay');
+				},
+			])
+			->where('privilegio', 'V-')
+			->where('username', 'like', "%$search%")
+			->limit(15)
+			->get()
+			->makeVisible(['is_solvente'])
+			->makeHidden(['personal_data', 'estudiante_data']);
+		
+		return response()->json($users, 200);
 	}
 }

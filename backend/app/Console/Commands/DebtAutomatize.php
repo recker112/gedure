@@ -42,7 +42,7 @@ class DebtAutomatize extends Command
         $lastDebtLote = DebtLote::orderBy('available_on','desc')->first();
         $debtsPending = Debt::where('status', 'futura')
             ->whereHas('debt_lote', function ($query) {
-                $query->where('available_on', '<=', now());
+                $query->where('available_on', '<=', now()->add(3,'month'));
             })
             ->get();
         $initDate = now()->parse('September 01');
@@ -76,7 +76,7 @@ class DebtAutomatize extends Command
                     'payload' => $payload,
                     'amount' => $debt->debt_lote->amount_to_pay,
                     'previous_balance' => $debt->user->wallet->balance,
-                    'payment_method' => 'otros',
+                    'payment_method' => 'exonerado',
                     'exonerado' => 1,
                 ]);
         
@@ -234,7 +234,7 @@ class DebtAutomatize extends Command
                     'payload' => $payload,
                     'amount' => $debt->debt_lote->amount_to_pay,
                     'previous_balance' => $debt->user->wallet->balance,
-                    'payment_method' => 'otros',
+                    'payment_method' => 'exonerado',
                     'exonerado' => 1,
                 ]);
         
