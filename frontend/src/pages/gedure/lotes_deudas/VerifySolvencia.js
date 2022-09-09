@@ -172,7 +172,7 @@ export default function VerifySolvencia() {
                       <TableCell>{parseFloatToMoneyString(item.debt_lote.amount_to_pay)}</TableCell>
                     </TableRow>
                   ))}
-                  {!watch('user')?.id && (
+                  {(!watch('user')?.id || watch('user')?.debts.length === 0) && (
                     <TableRow>
                       <TableCell component="th" scope="row" colSpan={3} sx={{textAlign: 'center'}}>
                         No hay resultados
