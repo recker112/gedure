@@ -176,7 +176,7 @@ class DebtLoteControllerTest extends TestCase
 	
 	public function testCreateDebtWithUsersSelected()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

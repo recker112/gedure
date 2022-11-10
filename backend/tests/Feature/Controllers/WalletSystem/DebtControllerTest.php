@@ -117,7 +117,7 @@ class DebtControllerTest extends TestCase
 
 	public function testPay()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$this->createDebts();
 		Passport::actingAs(
 			User::find(2),
@@ -130,5 +130,36 @@ class DebtControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+	}
+
+	public function testVerifySolvencia()
+	{
+		$this->withoutExceptionHandling();
+		$this->createDebts();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+
+		$studiend = User::find(2);
+		
+		$response = $this->getJson('/api/v1/deuda/solvencia?search='.urlencode($studiend->username));
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'0' => [
+					'id',
+					'username',
+					'debts',
+					'privilegio',
+					'debts_count',
+				]
+			])
+			->assertJsonFragment([
+				'debts_no_pagadas_count' => "1",
+				'debts_count' => "1",
+				'is_solvente' => false,
+				'reason' => 'Test',
+			]);;
 	}
 }
