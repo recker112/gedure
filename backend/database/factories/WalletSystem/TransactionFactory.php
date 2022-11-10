@@ -36,7 +36,7 @@ class TransactionFactory extends Factory
 			]),
 			'amount' => $this->faker->numerify('#######'),
 			'previous_balance' => $this->faker->numerify('#######'),
-			'payment_method' => $this->faker->randomElement(['transferencia o depósito bancario', 'saldo disponible', 'otros']),
+			'payment_method' => $this->faker->randomElement(['transferencia o depósito bancario', 'saldo disponible']),
 			'exonerado' => 0,
 		];
 	}
