@@ -31,8 +31,14 @@ class Exchanges extends Command
    */
   public function handle()
   {
+    $arrContextOptions=array(
+      "ssl"=>array(
+        "verify_peer"=>false,
+        "verify_peer_name"=>false,
+      ),
+    );
     $exValues = [];
-    $exchanges = file_get_contents("http://www.bcv.org.ve");
+    $exchanges = file_get_contents("https://www.bcv.org.ve", false, stream_context_create($arrContextOptions));
 
     // NOTA(RECKER): Buscar zona del USD
     $find_pos_usd = strpos($exchanges, "USD");
