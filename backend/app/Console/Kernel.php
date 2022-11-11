@@ -31,8 +31,9 @@ class Kernel extends ConsoleKernel
 	{
 		// Reiniciar queues
 		$schedule->command('queue:restart')
+			->timezone('America/Caracas')
 			->daily()
-			->sendOutputTo(storage_path('logs/queue_restart.log'));
+			->appendOutputTo(storage_path('logs/queue_restart.log'));
 
 		// Iniciar queues DEV
 		$schedule->command('queue:listen --tries=3 --backoff=5 --queue=high,commands,default,emails')
@@ -43,24 +44,29 @@ class Kernel extends ConsoleKernel
 		
 		// Limpiar passport
 		$schedule->command('passport:purge')
+			->timezone('America/Caracas')
 			->weekly()
-			->sendOutputTo(storage_path('logs/passport_purge.log'));
+			->appendOutputTo(storage_path('logs/passport_purge.log'));
 
 		// Actualizar precio del dolar
 		$schedule->command('exchanges:prices')
+			->timezone('America/Caracas')
 			->hourlyAt(5)
-			->sendOutputTo(storage_path('logs/exchanges_price.log'))
+			->between('13:00','18:00')
+			->appendOutputTo(storage_path('logs/exchanges_price.log'))
 			->runInBackground();
 		
 		// Automatizar proceso de deudas
 		$schedule->command('debt:automatize')
-			->monthlyOn(1, '04:00')
-			->sendOutputTo(storage_path('logs/debt_automatize.log'))
-			->runInBackground();
+			->timezone('America/Caracas')
+			->monthlyOn(1, '00:00')
+			->appendOutputTo(storage_path('logs/debt_automatize.log'));
 		
 			// Procesar pagos pendientes
 		$schedule->command('pending:payments')
-			->weeklyOn(7, '13:00');
+			->timezone('America/Caracas')
+			->dailyAt('9:00')
+			->appendOutputTo(storage_path('logs/debt_automatize.log'));
 	}
 
 	/**
