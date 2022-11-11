@@ -22,9 +22,15 @@ export default function CreateBankAccount() {
 
   const { control, handleSubmit, setError } = useForm();
 
-  const MenuItemList = BankList.map(useCallback((data, i) => (
-		<MenuItem key={i} value={data.value}>{data.label}</MenuItem>
-	),[]));
+  const MenuItemList = BankList.map(useCallback((data, i) => {
+    if (data.value !== '0175') {
+      return null;
+    }
+
+    return (
+      <MenuItem key={i} value={data.value}>{data.label}</MenuItem>
+    )
+  },[]));
 
   const onSubmit = submitData => {
     dispatch(createBankAccount({ submitData, setError }));
