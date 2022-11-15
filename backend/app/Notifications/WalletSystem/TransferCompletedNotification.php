@@ -22,9 +22,10 @@ class TransferCompletedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(float $amount)
+    public function __construct(float $amount, float $newBalance)
     {
         $this->amount = $amount;
+        $this->newBalance = $newBalance;
     }
 
     /**
@@ -48,7 +49,7 @@ class TransferCompletedNotification extends Notification
     {
         return new BroadcastMessage([
             'count_notify' => $notifiable->unreadNotifications->count() + 1,
-            'balance' => $this->amount,
+            'balance' => $this->newBalance,
         ]);
     }
 
