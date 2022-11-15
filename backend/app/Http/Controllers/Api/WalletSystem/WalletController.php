@@ -98,7 +98,7 @@ class WalletController extends Controller
     $userTransfer->wallet->save();
 
     // Notificar a otro usuario
-    $userTransfer->notify(new TransferCompletedNotification($reqAmount));
+    $userTransfer->notify(new TransferCompletedNotification($reqAmount,$userTransfer->wallet->balance));
 
     return response()->json([
       'msg' => 'Transferencia realizada',
