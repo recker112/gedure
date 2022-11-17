@@ -10,6 +10,9 @@ import { Box, CircularProgress, Container, Fade, Grid, Slide } from '@mui/materi
 import NavTabs from './NavTabs';
 import useNotifier from '../../../hooks/useNotifier';
 
+// SNOW
+import Snowfall from 'react-snowfall';
+
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -23,10 +26,16 @@ const classes = {
 		borderRadius: '0px 0px 15px 15px',
     display: 'flex',
     flexDirection: 'column',
+    position: 'relative'
 	}),
   content: {
 		marginTop: 2
-	}
+	},
+  snow: {
+    position: 'absolute',
+    height: 1/1,
+    width: 1/1,
+  },
 };
 
 function Loading() {
@@ -39,7 +48,7 @@ function Loading() {
 
 function Header() {
   return (
-    <Container sx={{height: '100%', userSelect: 'none'}}>
+    <Container sx={{height: '100%', userSelect: 'none', position: 'relative', zIndex: 10}}>
       <Grid container justifyContent='flex-start' alignItems='center' sx={{height: '100%'}}>
 				<Grid item xs>
 					<Box color='primary.contrastText' fontSize={{ xs: 'h6.fontSize', sm: 'h5.fontSize', md: 'h4.fontSize' }} className='text__bold--semi'>
@@ -66,6 +75,11 @@ export default function GDConfig() {
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
         <Box sx={classes.header}>
+          <Box sx={classes.snow}>
+            <Snowfall
+              snowflakeCount={40}
+            />
+          </Box>
           <Header />
           <NavTabs />
         </Box>
