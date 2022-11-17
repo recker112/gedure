@@ -22,10 +22,11 @@ class TransferCompletedNotification extends Notification
      *
      * @return void
      */
-    public function __construct(float $amount, float $newBalance)
+    public function __construct(float $amount, float $newBalance, int $manual = 0)
     {
         $this->amount = $amount;
         $this->newBalance = $newBalance;
+        $this->manual = $manual;
     }
 
     /**
@@ -63,6 +64,7 @@ class TransferCompletedNotification extends Notification
     {
         return [
             'balance' => $this->amount,
+            'manual' => $this->manual,
         ];
     }
 }

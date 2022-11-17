@@ -50,6 +50,9 @@ export default function Table() {
         } else if (type === 'transferencia de saldo') {
           !payload.extra_data.sender && (color = 'success.main');
           payload.extra_data.sender && (color = 'error.main');
+        } else if (type === 'manual') {
+          (amount > 0) && (color = 'success.main');
+         (amount <= 0) && (color = 'error.main');
         }
 
         return (
