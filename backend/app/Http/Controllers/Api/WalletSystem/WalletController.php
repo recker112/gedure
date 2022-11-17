@@ -46,6 +46,43 @@ class WalletController extends Controller
 		], 200);
   }
 
+  public function edit(Request $request, Wallet $wallet)
+  {
+    $total_amount = 0.00;
+		$user = $wallet->user;
+
+    foreach($request->data as $action) {
+			$total_amount += $action['amount'];
+		}
+
+    $payload = [
+			'data' => $request->data,
+		];
+
+    // NOTA(RECKER): Verificar balance negativo
+		if ($wallet->balance + $total_amount < 0) {
+			return response()->json([
+				'msg' => 'La cuenta no puede quedar con balance negativo'
+			], 400);
+		}
+
+    $transaction = $user->transactions()->create([
+			'type' => 'manual',
+			'payload' => json_encode($payload),
+			'amount' => $total_amount,
+			'previous_balance' => $user->wallet->balance,
+			'payment_method' => 'otros',
+		]);
+		
+		// NOTA(RECKER): Agregar saldo
+		$user->wallet->balance += $total_amount;
+		$user->wallet->save();
+		
+		return response()->json([
+			'msg' => 'Transacción realizada'
+		], 200);
+  }
+
   public function verifyTransfer(VerifyTransferRequest $request)
   {
     $this->authorize('verifyWallet', Wallet::class);

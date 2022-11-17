@@ -22,11 +22,11 @@ class CreateTransactionsTable extends Migration
 			
 			$table->unsignedBigInteger('transable_id')->nullable()->default(null);
 			$table->string('transable_type')->nullable()->default(null);
-			$table->enum('type', ['deuda pagada', 'transferencia de saldo', 'pago verificado']);
+			$table->enum('type', ['deuda pagada', 'transferencia de saldo', 'pago verificado', 'manual']);
 			$table->json('payload');
 			$table->decimal('amount', 18, 2);
 			$table->decimal('previous_balance', 18, 2);
-			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible', 'exonerado']);
+			$table->enum('payment_method', ['transferencia o depósito bancario', 'saldo disponible', 'exonerado', 'otros']);
 			$table->boolean('exonerado')->default(0);
 			$table->timestamps();
 			$table->softDeletes();

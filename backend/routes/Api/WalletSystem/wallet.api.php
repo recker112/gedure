@@ -30,4 +30,4 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_index'])
 
 // Edit wallet
 Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_edit'])
-	->put('wallet/{wallet}', [WalletController::class, 'edit']);
+	->post('wallet/{wallet}', [WalletController::class, 'edit']);
