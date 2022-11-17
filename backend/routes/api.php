@@ -55,10 +55,16 @@ Route::prefix('v1')
 	->group(base_path('routes/Api/Gedure/user.api.php'));
 
 /*
-Users API
+Notifications API
 */
 Route::prefix('v1')
 	->group(base_path('routes/Api/Gedure/notification.api.php'));
+
+/*
+Gedure Config API
+*/
+Route::prefix('v1')
+->group(base_path('routes/Api/Gedure/config.api.php'));
 
 /*
 Invitations API

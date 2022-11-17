@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 
 // Models
 use App\Models\User;
+use App\Models\GedureConfig;
 use App\Models\WalletSystem\DebtLote;
 use App\Models\WalletSystem\Debt;
 use App\Models\WalletSystem\ExchangeRate;
@@ -42,18 +43,18 @@ class DebtAutomatize extends Command
         $lastDebtLote = DebtLote::orderBy('available_on','desc')->first();
         $debtsPending = Debt::where('status', 'futura')
             ->whereHas('debt_lote', function ($query) {
-                $query->where('available_on', '<=', now()->add(3,'month'));
+                $query->where('available_on', '<=', now());
             })
             ->get();
         $initDate = now()->parse('September 01');
 
         // Exchange rate
         $exrate = ExchangeRate::where('type', 'USD')->latest()->first();
-        $exAmountDebt = 4;
-        $exAmountIns = 2;
+        $exAmountDebt = GedureConfig::firstWhere('name', 'gc_mensualidad')->value;
+        $exAmountIns = GedureConfig::firstWhere('name', 'gc_inscripción')->value;
 
         // Verificar debts pendientes
-        $d = 0;
+        $d = [];
         foreach ($debtsPending as $debt) {
             $exonerado = $debt->user->can('account_exonerada');
             $debt->status = $exonerado ? 'exonerada' : 'no pagada';
@@ -83,7 +84,11 @@ class DebtAutomatize extends Command
                 // Relación polimórfica
                 $debt->transaction()->save($transaction);
             }
-            $d++;
+            $d[] = [
+                'id' => $debt->id,
+                'reason' => $debt->debt_lote->reason,
+                'status' => $debt->status,
+            ];
         }
         
         // Recorrer 12 meses
@@ -245,9 +250,16 @@ class DebtAutomatize extends Command
             // Notificar a estudiantes
             Notification::send($studiends, new SocketsNotification('Nuevas deudas disponibles', 'Se han generado las deudas del siguiente año escolar, recuerde mantenerse al día con los pagos.'));
         }
+
+        foreach($d as $item) {
+            $this->info('ID: '.$item['id']);
+            $this->info('Reason: '.$item['reason']);
+            $this->info('Status: '.$item['status']);
+            $this->info('');
+        }
         
         $this->info('Total de meses registrados: '.$i);
-        $this->info('Total de deudas actualizadas: '.$d);
+        $this->info('Total de deudas actualizadas: '.count($d));
         $notifys = $i ? $studiends->count() : 0;
         $this->info("Total de notificaciones enviadas: {$notifys}");
         return 0;

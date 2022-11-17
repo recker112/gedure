@@ -32,6 +32,7 @@ export default function NavTabs() {
 
   const { gedure } = useSelector(state => state.auth.permissions);
   const { 
+    gc_index,
     cursos_index, 
     users_disabled_index, 
     bank_account_index, 
@@ -46,11 +47,15 @@ export default function NavTabs() {
       scrollButtons
       allowScrollButtonsMobile
     >
-      <LinkTab 
-        label='General' 
-        value={'/gedure/config'}
-        {...a11yProps(1)}
-      />
+      {
+        gc_index && (
+          <LinkTab 
+            label='General' 
+            value={'/gedure/config'}
+            {...a11yProps(1)}
+          />
+        )
+      }
       {cursos_index && (
         <LinkTab 
           label='Cursos' 

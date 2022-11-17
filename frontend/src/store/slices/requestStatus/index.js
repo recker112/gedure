@@ -51,6 +51,8 @@ import { reducersAcceptInvitation } from "./async_trunk/invitacion/acceptInvitat
 import { reducersDeleteMassiveBankAccount } from "./async_trunk/configuracion/pagos/deleteMassiveBankAccount";
 import { reducersDeleteMassiveBankTransaction } from "./async_trunk/configuracion/pagos/deleteMassiveBankTransaction";
 import { reducersReplaceBoleta } from "./async_trunk/boletas_admin/replaceBoleta";
+import { reducersGetConfigs } from "./async_trunk/configuracion/general/getConfigs";
+import { reducersSetConfigs } from "./async_trunk/configuracion/general/setConfigs";
 
 
 const initialState = {
@@ -280,6 +282,13 @@ const initialState = {
     open: false,
     data: {}
   },
+  getConfigs: {
+    loading: true,
+    data: null,
+  },
+  setConfigs: {
+    loading: false,
+  },
 };
 
 export const requestStatusSlices = createSlice({
@@ -370,6 +379,8 @@ export const requestStatusSlices = createSlice({
     ...reducersRestoreMassiveUser,
     ...reducersDestroyUser,
     ...reducersDestroyMassiveUser,
+    ...reducersGetConfigs,
+    ...reducersSetConfigs,
   }
 });
 
