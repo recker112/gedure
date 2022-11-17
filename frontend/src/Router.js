@@ -5,7 +5,7 @@ import React, { Suspense, lazy } from 'react';
 import { Route, Routes, useMatch, Navigate } from 'react-router-dom';
 
 // MUI
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 // Components
 import Navbar from './components/Navbar'
@@ -135,6 +135,7 @@ export default function Routers() {
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, posts_create, posts_edit, boletas_index, contact_index } = permissions.administrar;
   const { 
+    gc_index,
     cursos_index, 
     bank_account_index, 
     bank_transaction_index, 
@@ -333,7 +334,9 @@ export default function Routers() {
                         <GDHeaders />
                       </AuthProtect>
                     }>
-                      <Route path='' element={<GDHomePage />} />
+                      {gc_index && (
+                        <Route path='' element={<GDHomePage />} />
+                      )}
 
                       {cursos_index && (
                         <Route path='cursos' element={<GDCursosPage />} />
@@ -347,7 +350,11 @@ export default function Routers() {
                         <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
                       )}
 
-                      <Route path='*' element={<Navigate to="" replace />} />
+                      <Route path='*' element={
+                        <Typography textAlign='center'>
+                          No hay nada disponible.
+                        </Typography>
+                      } />
                     </Route>
                   )}
                 </>

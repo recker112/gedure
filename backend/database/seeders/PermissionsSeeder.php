@@ -77,6 +77,10 @@ class PermissionsSeeder extends Seeder
 		Permission::firstOrCreate(['name' => 'bank_transaction_upload'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'bank_transaction_assign'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'bank_transaction_delete'],['guard_name' => 'api']);
+
+		// NOTA(RECKER): Permisos de Gedure Config (gedure)
+		Permission::firstOrCreate(['name' => 'gc_index'],['guard_name' => 'api']);
+		Permission::firstOrCreate(['name' => 'gc_edit'],['guard_name' => 'api']);
 		
 		// NOTA(RECKER): Permisos de Transacciones
 		Permission::firstOrCreate(['name' => 'transaction_index'],['guard_name' => 'api']);

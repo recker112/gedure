@@ -128,21 +128,6 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
-			head: 'Usuarios desactivados',
-			name: 'users_disabled_index',
-			label: 'Ver',
-			nested: [
-				{
-					name: 'users_disabled_restore',
-					label: 'Restaurar',
-				},
-				{
-					name: 'users_disabled_destroy',
-					label: 'Eliminar',
-				}
-			]
-		},
-		{
 			head: 'Noticias',
 			name: 'posts_index',
 			label: 'Ver',
@@ -193,6 +178,17 @@ function PermissionsNoSuper(props){
 					name: 'contact_destroy',
 					label: 'Eliminar',
 				}
+			]
+		},
+		{
+			head: 'Config general',
+			name: 'gc_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'gc_edit',
+					label: 'Editar',
+				},
 			]
 		},
 		{
@@ -257,6 +253,21 @@ function PermissionsNoSuper(props){
 					name: 'bank_transaction_delete',
 					label: 'Eliminar'
 				},
+			]
+		},
+		{
+			head: 'Usuarios desactivados',
+			name: 'users_disabled_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'users_disabled_restore',
+					label: 'Restaurar',
+				},
+				{
+					name: 'users_disabled_destroy',
+					label: 'Eliminar',
+				}
 			]
 		},
 		{
