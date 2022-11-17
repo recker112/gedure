@@ -47,6 +47,7 @@ class DebtLote extends Model
 	 */
 	protected $casts = [
 		'amount_to_pay' => 'float',
+		'exchange_amount' => 'float',
 		'available_on' => 'date',
 	];
 	
