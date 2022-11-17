@@ -23,3 +23,11 @@ Route::middleware(['auth:api'])
 // Confirm transfer
 Route::middleware(['auth:api'])
 ->post('wallet/transfer/confirm', [WalletController::class, 'confirmTransfer']);
+
+// Index wallet
+Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_index'])
+	->get('wallet', [WalletController::class, 'index']);
+
+// Edit wallet
+Route::middleware(['auth:api', 'scopes:admin', 'can:wallet_edit'])
+	->put('wallet/{wallet}', [WalletController::class, 'edit']);

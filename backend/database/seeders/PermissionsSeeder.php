@@ -81,6 +81,10 @@ class PermissionsSeeder extends Seeder
 		// NOTA(RECKER): Permisos de Gedure Config (gedure)
 		Permission::firstOrCreate(['name' => 'gc_index'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'gc_edit'],['guard_name' => 'api']);
+
+		// NOTA(RECKER): Monederos Admin
+		Permission::firstOrCreate(['name' => 'wallet_index'],['guard_name' => 'api']);
+		Permission::firstOrCreate(['name' => 'wallet_edit'],['guard_name' => 'api']);
 		
 		// NOTA(RECKER): Permisos de Transacciones
 		Permission::firstOrCreate(['name' => 'transaction_index'],['guard_name' => 'api']);
