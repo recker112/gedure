@@ -5,6 +5,7 @@ import { reducersGetLotesDeudasUsers } from "./async_trunk/lotes_deudas/TableLot
 import { reducersGetMonedero } from "./async_trunk/monedero/TableMonedero";
 import { reducersGetPendingPayments } from "./async_trunk/monedero/TablePendingPayments";
 import { reducersGetTransactions } from "./async_trunk/transacciones/TableTransactions";
+import { reducersGetWallets } from "./async_trunk/wallets/TableWallets";
 
 const initialState = {
   lotes_deudas: {
@@ -36,6 +37,20 @@ const initialState = {
     },
   },
   transacciones: {
+    filterBox: false,
+    filters: {},
+    countFilters: 0,
+    tableData: {
+      loading: true,
+      page: 1,
+      data: [],
+      pageSize: 5,
+      search: "",
+      totalRows: 0,
+      pageCount: 0,
+    },
+  },
+  wallets: {
     filterBox: false,
     filters: {},
     countFilters: 0,
@@ -150,6 +165,7 @@ export const tablesWalletSlices = createSlice({
     ...reducersGetMonedero,
     ...reducersGetPendingPayments,
     ...reducersGetDeudas,
+    ...reducersGetWallets,
   }
 });
 

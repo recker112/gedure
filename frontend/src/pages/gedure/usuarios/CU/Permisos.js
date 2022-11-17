@@ -206,17 +206,17 @@ function PermissionsNoSuper(props){
 				}
 			]
 		},
-		// {
-		// 	head: 'Monederos',
-		// 	name: 'wallet_index',
-		// 	label: 'Ver',
-		// 	nested: [
-		// 		{
-		// 			name: 'wallet_administration',
-		// 			label: 'Administrar',
-		// 		},
-		// 	]
-		// },
+		{
+			head: 'Monederos',
+			name: 'wallet_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'wallet_edit',
+					label: 'Administrar',
+				},
+			]
+		},
 		{
 			head: 'Cuentas bancaras',
 			name: 'bank_account_index',
