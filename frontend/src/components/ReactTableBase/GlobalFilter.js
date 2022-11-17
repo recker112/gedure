@@ -27,6 +27,7 @@ export function GlobalFilter({ state, setGlobalFilter, gotoPage, dataTourGlobal 
       value={value || ""}
       placeholder="Buscar..."
       variant='standard'
+      autoComplete="off"
       onChange={(event) => {
         onDebounce(event.target.value);
         setValue(event.target.value);
