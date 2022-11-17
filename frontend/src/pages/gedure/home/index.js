@@ -14,6 +14,9 @@ import SingleBox from './SingleBox';
 import useNotifier from '../../../hooks/useNotifier';
 import TourHome from './TourHome';
 
+// SNOW
+import Snowfall from 'react-snowfall';
+
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getInfoBox } from '../../../store/slices/requestStatus/async_trunk/home/getInfoBox';
@@ -27,12 +30,18 @@ const classes = {
   header: (theme) => ({
 		background: theme.palette.primary.main,
 		height: 400,
-		borderRadius: '0px 0px 15px 15px'
+		borderRadius: '0px 0px 15px 15px',
+    position: 'relative',
 	}),
   content: {
 		position: 'relative',
 		top: -80,
-	}
+	},
+  snow: {
+    position: 'absolute',
+    height: 1/1,
+    width: 1/1,
+  }
 };
 
 function Header() {
@@ -59,10 +68,11 @@ export default function Home() {
     messageTo200: false,
   });
   
-  const { infoBox: { loading, data }, privilegio, count_notify } = useSelector(state => ({
+  const { infoBox: { loading, data }, privilegio, count_notify, balance } = useSelector(state => ({
     infoBox: state.requestStatus.infoBox,
     privilegio: state.auth.user.privilegio,
     count_notify: state.auth.notify.count,
+    balance: state.auth.user.wallet.balance,
   }));
   const dispatch = useDispatch();
 
@@ -89,6 +99,11 @@ export default function Home() {
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
         <Box sx={classes.header}>
+          <Box sx={classes.snow}>
+            <Snowfall
+              snowflakeCount={40}
+            />
+          </Box>
           <Header />
         </Box>
       </Slide>
