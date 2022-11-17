@@ -68,11 +68,10 @@ export default function Home() {
     messageTo200: false,
   });
   
-  const { infoBox: { loading, data }, privilegio, count_notify, balance } = useSelector(state => ({
+  const { infoBox: { loading, data }, privilegio, count_notify } = useSelector(state => ({
     infoBox: state.requestStatus.infoBox,
     privilegio: state.auth.user.privilegio,
     count_notify: state.auth.notify.count,
-    balance: state.auth.user.wallet.balance,
   }));
   const dispatch = useDispatch();
 
