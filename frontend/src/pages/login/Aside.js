@@ -18,6 +18,8 @@ const classes = {
     py: 2,
     color: 'primary.contrastText',
     height: '100%',
+    position: 'relative',
+    zIndex: 10,
   },
   footerText: {
     display: 'inline-block', 

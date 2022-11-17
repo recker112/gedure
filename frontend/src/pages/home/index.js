@@ -55,7 +55,7 @@ export default function Home() {
                   snowflakeCount={40}
                 />
               </Box>
-              <Typography sx={{color: 'primary.contrastText'}} align="center" variant="h3" className="text__bold--big">
+              <Typography sx={{color: 'primary.contrastText', position: 'relative', zIndex: 10}} align="center" variant="h3" className="text__bold--big">
                 Enfocados en el Estudio y la Fe
               </Typography>
             </Stack>

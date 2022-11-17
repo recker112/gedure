@@ -43,6 +43,10 @@ export default function NavTabs() {
     <LinkTabs
       value={location.pathname}
       aria-label="Tabs"
+      sx={{
+        position: 'relative',
+        zIndex: 10,
+      }}
       variant="scrollable"
       scrollButtons
       allowScrollButtonsMobile

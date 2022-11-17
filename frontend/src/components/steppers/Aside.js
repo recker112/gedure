@@ -46,6 +46,8 @@ const classes = {
   container: {
     marginTop: 2,
     userSelect: 'none',
+    position: 'relative',
+    zIndex: 10,
   },
   title: theme => ({
     color: theme.palette.primary.contrastText,

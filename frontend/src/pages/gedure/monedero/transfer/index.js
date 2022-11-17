@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // MUI
-import { Grid, Slide } from '@mui/material';
+import { Grid, Slide, Box } from '@mui/material';
 
 // Components
 import useNotifier from '../../../../hooks/useNotifier';
 import Aside from '../../../../components/steppers/Aside';
 import Forms from './Forms';
+
+// SNOW
+import Snowfall from 'react-snowfall';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -17,8 +20,14 @@ import TourTransfer from './TourTransfer';
 
 const classes = {
   aside: theme => ({
-    backgroundColor: theme.palette.primary.main + 'c7',
+    backgroundColor: theme.palette.primary.main,
+    position: 'relative',
   }),
+  snow: {
+    position: 'absolute',
+    height: 1/1,
+    width: 1/1,
+  }
 }
 
 const steps = [
@@ -73,6 +82,11 @@ export default function TransfeririSaldo() {
     <Grid sx={{ flexGrow: 1 }} container>
       <Slide direction="right" in={true} mountOnEnter unmountOnExit>
         <Grid sx={classes.aside} item xs={12} sm={12} md={4} lg={3}>
+          <Box sx={classes.snow}>
+            <Snowfall
+              snowflakeCount={40}
+            />
+          </Box>
           <Aside
             steps={steps}
             handleReturn={handleReturn}
