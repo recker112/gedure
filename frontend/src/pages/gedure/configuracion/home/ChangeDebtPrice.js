@@ -29,6 +29,8 @@ export default function ChangeDebtPrice() {
         setValue(item.name, item.value);
       });
     }
+  
+  // eslint-disable-next-line
   }, [getData]);
 
   const onSubmit = submitData => {

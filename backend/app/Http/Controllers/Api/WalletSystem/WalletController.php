@@ -13,12 +13,39 @@ use App\Models\WalletSystem\Wallet;
 // Request
 use App\Http\Requests\WalletSystem\Wallet\VerifyTransferRequest;
 use App\Http\Requests\WalletSystem\Wallet\ConfirmTransferRequest;
+use App\Http\Requests\TableRequest;
 
 // Notifications
 use App\Notifications\WalletSystem\TransferCompletedNotification;
 
 class WalletController extends Controller
 {
+  public function index(TableRequest $request)
+  {
+    // Variables
+		$search = urldecode($request->search);
+		$perPage = $request->per_page;
+
+    $wallets = User::select(['id','username','privilegio'])
+      ->with('wallet')
+			->has('wallet')
+			->where('username', 'like', '%'.$search.'%')
+			->orderBy('id', 'desc')
+			->paginate($perPage);
+
+    // Ocultar datos innecesarios
+		$data = $wallets->getCollection();
+		$data->each(function ($item) {
+			$item->makeHidden(['email', 'name', 'avatar', 'actived_at']);
+		});
+		$wallets->setCollection($data);
+
+    return response()->json([
+			'data' => $wallets->items(),
+			'totalRows' => $wallets->total(),
+		], 200);
+  }
+
   public function verifyTransfer(VerifyTransferRequest $request)
   {
     $this->authorize('verifyWallet', Wallet::class);

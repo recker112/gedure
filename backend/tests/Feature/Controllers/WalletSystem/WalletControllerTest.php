@@ -83,4 +83,40 @@ class WalletControllerTest extends TestCase
 			'amount' => 12.43,
     ]);
 	}
+
+	public function testIndex()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->wallet()->create();
+		
+		$response = $this->getJson('/api/v1/wallet?per_page=5&page=1');
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'data' => [
+					'*' => [
+						'username',
+						'privilegio',
+						'wallet' => [
+							'id',
+							'balance',
+							'created_at',
+							'updated_at',
+						]
+					]
+				],
+				'totalRows'
+			])
+			->assertJsonFragment([
+				'totalRows' => 2
+			]);
+	}
 }
