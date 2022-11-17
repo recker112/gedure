@@ -102,6 +102,9 @@ const VerMonederoPage = lazy(() => import('./pages/gedure/monedero/ver'));
 const VerifyPagosPage = lazy(() => import('./pages/gedure/monedero/verify'));
 const TransferirSaldoPage = lazy(() => import('./pages/gedure/monedero/transfer'));
 
+// Monedero Admin
+const AMonederoPage = lazy(() => import('./pages/gedure/monedero_admin'));
+
 // Deudas
 const DeudasPage = lazy(() => import('./pages/gedure/deudas'));
 
@@ -141,7 +144,7 @@ export default function Routers() {
     bank_transaction_index, 
     users_disabled_index
    } = permissions.gedure;
-  const { debt_lote_index, transaction_index } = permissions.administrar_transac;
+  const { debt_lote_index, transaction_index, wallet_index } = permissions.administrar_transac;
 
   return (
     <Suspense fallback={<Loader />}>
@@ -435,6 +438,54 @@ export default function Routers() {
                   </AuthProtect>
                 } />
               </Route>
+
+              <Route path='monedero/*'>
+                <Route path='' element={
+                  <AuthProtect>
+                    <MonederoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='transacciones/ver/:id' element={
+                  <AuthProtect>
+                    <VerMonederoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='verificar-pagos' element={
+                  <AuthProtect>
+                    <VerifyPagosPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='transferir-saldo' element={
+                  <AuthProtect>
+                    <TransferirSaldoPage />
+                  </AuthProtect>
+                } />
+
+                <Route path='*' element={
+                  <AuthProtect>
+                    <NotFound/>
+                  </AuthProtect>
+                } />
+              </Route>
+
+              {wallet_index && (
+                <Route path='monedero-admin/*'>
+                  <Route path='' element={
+                    <AuthProtect>
+                      <AMonederoPage />
+                    </AuthProtect>
+                  } />
+
+                  <Route path='*' element={
+                    <AuthProtect>
+                      <NotFound/>
+                    </AuthProtect>
+                  } />
+                </Route>
+              )}
 
               <Route path='deudas/*'>
                 <Route index element={

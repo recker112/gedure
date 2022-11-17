@@ -216,6 +216,8 @@ class LoginController extends Controller
 				'debt_delete',
 				'debt_refund',
 				'transaction_index',
+				'wallet_index',
+				'wallet_edit',
 			],
 			'V-' => [
 				//

@@ -15,6 +15,7 @@ import {
 	HammerWrench as HammerWrenchIcon,
   PiggyBank as PiggyBankIcon,
   Post as PostIcon,
+  CreditCardEdit as CreditCardEditIcon
 } from 'mdi-material-ui';
 
 // Components
@@ -40,7 +41,7 @@ export default function AdminList({
   const { permissions } = useSelector(state => state.auth);
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
-  const { debt_lote_index, transaction_index } = permissions.administrar_transac;
+  const { debt_lote_index, transaction_index, wallet_index } = permissions.administrar_transac;
 
   return (
     <>
@@ -121,6 +122,14 @@ export default function AdminList({
                       <AccountBalanceIcon />
                     </ListItemIcon>
                     <ListItemText primary="Transacciones" />
+                  </ListDrawerNav>
+                )}
+                {wallet_index && (
+                  <ListDrawerNav nested to='/gedure/monedero-admin'>
+                    <ListItemIcon>
+                      <CreditCardEditIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Monederos" />
                   </ListDrawerNav>
                 )}
               </Collapse>
