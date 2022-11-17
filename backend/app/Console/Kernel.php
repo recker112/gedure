@@ -65,7 +65,7 @@ class Kernel extends ConsoleKernel
 			// Procesar pagos pendientes
 		$schedule->command('pending:payments')
 			->timezone('America/Caracas')
-			->dailyAt('9:00')
+			->dailyAt('12:00')
 			->appendOutputTo(storage_path('logs/debt_automatize.log'));
 	}
 
