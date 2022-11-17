@@ -56,7 +56,7 @@ class WalletController extends Controller
 		}
 
     $payload = [
-			'data' => $request->data,
+			'actions' => $request->data,
 		];
 
     // NOTA(RECKER): Verificar balance negativo
@@ -68,7 +68,7 @@ class WalletController extends Controller
 
     $transaction = $user->transactions()->create([
 			'type' => 'manual',
-			'payload' => json_encode($payload),
+			'payload' => $payload,
 			'amount' => $total_amount,
 			'previous_balance' => $user->wallet->balance,
 			'payment_method' => 'otros',
@@ -77,6 +77,9 @@ class WalletController extends Controller
 		// NOTA(RECKER): Agregar saldo
 		$user->wallet->balance += $total_amount;
 		$user->wallet->save();
+
+    // Notificar a otro usuario
+    $user->notify(new TransferCompletedNotification($total_amount,$user->wallet->balance, 1));
 		
 		return response()->json([
 			'msg' => 'Transacción realizada'

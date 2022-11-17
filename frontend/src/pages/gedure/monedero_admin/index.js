@@ -5,6 +5,7 @@ import { Box, Container } from '@mui/material';
 
 // Components
 import Table from './Table';
+import EditWallets from './EditWallets';
 import useNotifier from '../../../hooks/useNotifier';
 
 // Redux
@@ -21,8 +22,7 @@ const classes = {
 export default function MonederoAdmin() {
   useNotifier();
 
-  const { administrar: { posts_create }, count_notify } = useSelector((state) => ({
-    administrar: state.auth.permissions.administrar,
+  const { count_notify } = useSelector((state) => ({
     count_notify: state.auth.notify.count,
   }));
 
@@ -36,6 +36,7 @@ export default function MonederoAdmin() {
           Monederos
         </Box>
         <Table />
+        <EditWallets />
       </Container>
     </Box>
   )

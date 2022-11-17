@@ -6,12 +6,13 @@ import { CurrencyUsd as CurrencyUsdIcon } from 'mdi-material-ui';
 
 // Components
 import ReactTableBase from '../../../components/ReactTableBase';
+import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { parseFloatToMoneyString } from '../../../components/Utils/ParseString';
 import { getWallets } from '../../../store/slices/tablesWallet/async_trunk/wallets/TableWallets';
 import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../store/slices/tablesWallet';
+import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 
 export default function Table() {
   const { dataR, loading, pageSize, pageCount, permissions } = useSelector((state) => ({
@@ -52,14 +53,14 @@ export default function Table() {
         accessor: "options",
         Cell: ({
           cell: {
-            row: { original: { id, slug, title } },
+            row: { original },
           },
         }) => (
           <>
             <Tooltip title='Administrar' arrow>
               <IconButton
                 onClick={() => {
-                  //dispatch(setRequestStatus({open: true, data: original, select: 'payDebts'}));
+                  dispatch(setRequestStatus({open: true, data: original, select: 'editWallets'}));
                 }}
                 disabled={!wallet_edit}
               >

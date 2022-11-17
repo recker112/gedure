@@ -83,7 +83,7 @@ export default function TransactionPDF({
 						</Typography>
 					</Grid>
 				)}
-        {type === 'deuda pagada' && (
+        {(type === 'deuda pagada') && (
 					<Grid item xs={12} sm={6}>
 						<Typography align='right' className='text__bold--semi'>
 							Pago realizado a:
@@ -100,6 +100,16 @@ export default function TransactionPDF({
 						</Typography>
 						<Typography align='right'>
 							{payload.extra_data.name} ({payload.extra_data.username})
+						</Typography>
+					</Grid>
+				)}
+				{type === 'manual' && (
+					<Grid item xs={12} sm={6}>
+						<Typography align='right' className='text__bold--semi'>
+							{amount <= 0 ? 'Pago realizado a:' : 'Pago recibido de:'}
+						</Typography>
+						<Typography align='right'>
+							Plataforma
 						</Typography>
 					</Grid>
 				)}
