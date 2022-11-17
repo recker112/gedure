@@ -1,10 +1,14 @@
 import { Typography, Box, Stack, Container, Paper, Divider } from "@mui/material";
 import Footer from "../../components/Footer";
 
+// Components
 import institutoLogo from '../../img/instituto.jpg';
 import SectionEtapas from "./SectionEtapas";
 import SectionExpand from "./SectionExpand";
 import SectionInfo from "./SectionInfo";
+
+// SNOW
+import Snowfall from 'react-snowfall';
 
 const classes = {
   container: {
@@ -13,6 +17,7 @@ const classes = {
   header: (theme) => ({
 		bgcolor: theme.palette.primary.main + 'c7',
 		height: 500,
+    position: 'relative',
 	}),
   headerImg: {
 		background: `url(${institutoLogo})`,
@@ -25,6 +30,11 @@ const classes = {
 		position: 'relative',
 		top: -70,
 	},
+  snow: {
+    position: 'absolute',
+    height: 1/1,
+    width: 1/1,
+  }
 }
 
 export default function Home() {
@@ -40,6 +50,11 @@ export default function Home() {
               alignItems="center"
               height='100%'
             >
+              <Box sx={classes.snow}>
+                <Snowfall
+                  snowflakeCount={40}
+                />
+              </Box>
               <Typography sx={{color: 'primary.contrastText'}} align="center" variant="h3" className="text__bold--big">
                 Enfocados en el Estudio y la Fe
               </Typography>

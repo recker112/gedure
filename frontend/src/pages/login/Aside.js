@@ -1,29 +1,44 @@
 import { Box, Container, Grid, Link, Typography } from '@mui/material';
 
+// Components
 import GedureLogo from '../../img/gedure-logo-recto.svg';
 import institutoLogo from '../../img/Farvicon_no_fondo_white.png';
+
+// SNOW
+import Snowfall from 'react-snowfall';
 
 const classes = {
   aside: (theme) => ({
     background: theme.palette.primary.main + 'c7',
     width: '100%',
-    userSelect: 'none'
+    userSelect: 'none',
+    position: 'relative'
   }),
   container: {
     py: 2,
     color: 'primary.contrastText',
-    height: '100%'
+    height: '100%',
   },
   footerText: {
     display: 'inline-block', 
     color: 'primary.contrastText', 
     mr: 1
-  }
+  },
+  snow: {
+    position: 'absolute',
+    height: 1/1,
+    width: 1/1,
+  },
 };
 
 export default function Aside() {
   return (
     <Box sx={classes.aside}>
+      <Box sx={classes.snow}>
+        <Snowfall
+          snowflakeCount={40}
+        />
+      </Box>
       <Container sx={classes.container}>
         <Grid container direction='column' justifyContent='space-between' sx={{ height: '100%' }}>
           <Grid item>
