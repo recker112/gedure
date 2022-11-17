@@ -119,4 +119,53 @@ class WalletControllerTest extends TestCase
 				'totalRows' => 2
 			]);
 	}
+
+	public function testEdit()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		$user = User::factory()->create([
+			'privilegio' => 'V-'
+		]);
+		$user->wallet()->create();
+		
+		$response = $this->postJson('/api/v1/wallet/'.$user->wallet->id, [
+			'data' => [
+				[
+					'reason' => 'Pago en efectivo',
+					'amount' => 400.00,
+				],
+				[
+					'reason' => 'Intereses por la movida de dinero',
+					'amount' => -200.00,
+				]
+			]
+		]);
+
+		$response->assertOk()
+			->assertJsonStructure([
+				'msg'
+			]);
+		
+		// Error balance negativo
+		$user->wallet->balance = 0.00;
+		$user->wallet->save();
+		$response = $this->postJson('/api/v1/wallet/'.$user->wallet->id, [
+			'data' => [
+				[
+					'reason' => 'Intereses por la movida de dinero',
+					'amount' => -900.00,
+				]
+			],
+		]);
+		
+		$response->assertStatus(400)
+			->assertJsonStructure([
+				'msg'
+			]);
+	}
 }
