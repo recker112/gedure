@@ -32,6 +32,6 @@ Route::middleware(['auth:api'])
 Route::middleware(['auth:api'])
 	->post('deuda/pay/{debt}', [DebtController::class, 'pay']);
 
-// Pay debt of users
-Route::middleware(['auth:api'])
+// Show Solvencia
+Route::middleware(['auth:api', 'scopes:admin',  'can:debt_lote_index'])
 	->get('deuda/solvencia', [DebtController::class, 'solvencia']);

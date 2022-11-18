@@ -196,9 +196,10 @@ class DebtController extends Controller
 			])
 			->with([
 				'debts' => function ($query) {
-					$query->select('id','user_id','status', 'debt_lote_id')
+					$query->select('debts.id','debts.user_id','debts.status', 'debts.debt_lote_id')
 						->where('status', '=', 'no pagada')
-						->orderBy('debts.id','desc');
+						->join('debt_lotes', 'debts.debt_lote_id', '=', 'debt_lotes.id')
+						->orderBy('debt_lotes.id', 'desc');
 				},
 				'debts.debt_lote' => function ($query) {
 					$query->select('id','reason','amount_to_pay');
