@@ -152,7 +152,7 @@ class User extends Authenticatable
 	protected function isSolvente(): Attribute
 	{
 		return Attribute::make(
-			get: function ($q) {
+			get: function () {
 				$date =  now();
 				$solvente = $this->debts()->where('status', 'no pagada')
 					->whereHas('debt_lote', function ($query) use ($date) {

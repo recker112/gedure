@@ -163,17 +163,20 @@ class BoletaController extends Controller
 				'msg' => 'La boleta ya no existe',
 			],404);
 		}
-		
-		// Verificar permisos para descargar
-		if ($user->privilegio === 'V-' && $user->can('boleta_download') && $user->id === intVal($boleta->user_id)) {
-			return Storage::download($boleta->boleta);
-		}else if ($user->privilegio === 'A-' && $user->can('boletas_index')) {
-			return Storage::download($boleta->boleta);
+
+		if ($user->privilegio === 'A-' && !$user->can('boletas_index')) {
+			return response()->json([
+				'msg' => 'No puedes descargar esta boleta'
+			], 403);
 		}
-		
-		return response()->json([
-			'msg' => 'No puedes descargar esto'
-		], 403);
+
+		if ($user->privilegio === 'V-' && (!$user->can('boleta_download') || $user->id !== intVal($boleta->user_id) || !$user->verifySolvente($boleta->created_at))) {
+			return response()->json([
+				'msg' => 'No puedes descargar esta boleta',
+			], 403);
+		}
+
+		return Storage::download($boleta->boleta);
 	}
 	
   public function upload(BoletaRequest $request)
