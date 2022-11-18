@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
 		Commands\SendNotification::class,
 		Commands\ClearNotifications::class,
 		Commands\DebtAutomatize::class,
+		Commands\DebtUpdate::class,
 	];
 
 	/**
@@ -61,8 +62,14 @@ class Kernel extends ConsoleKernel
 			->timezone('America/Caracas')
 			->monthlyOn(1, '00:00')
 			->appendOutputTo(storage_path('logs/debt_automatize.log'));
+
+		// Actualizar precios de deudas en precio extranjero
+		$schedule->command('debt:update')
+			->timezone('America/Caracas')
+			->weeklyOn(7, '12:00')
+			->appendOutputTo(storage_path('logs/debt_automatize.log'));
 		
-			// Procesar pagos pendientes
+		// Procesar pagos pendientes
 		$schedule->command('pending:payments')
 			->timezone('America/Caracas')
 			->dailyAt('12:00')

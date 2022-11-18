@@ -23,8 +23,8 @@ class CreateDebtLotesTable extends Migration
 				->nullable()
 				->constrained()
 				->onUpdate('cascade')
-				->onDelete('set null');
-			$table->timestamp('available_on');
+				->onDelete('set null');	
+			$table->datetime('available_on');
 			$table->timestamps();
 		});
 	}

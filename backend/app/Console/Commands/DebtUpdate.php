@@ -33,7 +33,7 @@ class DebtUpdate extends Command
      */
     public function handle()
     {
-        $loteDebts = DebtLote::with('exchange_rate')->where('exchange_amount', '>', 0)->get();
+        $loteDebts = DebtLote::with('exchange_rate')->has('exchange_rate')->get();
 
         $i = 0;
         foreach ($loteDebts as $loteDebt) {
