@@ -23,8 +23,8 @@ class CreateDebtsTable extends Migration
 			$table->foreignId('debt_lote_id')
 				->nullable()
 				->constrained()
-				->onUpdate('set null')
-				->onDelete('set null');
+				->onUpdate('cascade')
+				->onDelete('cascade');
 			
 			$table->enum('status', ['pagada', 'no pagada', 'futura', 'exonerada'])->default('no pagada');
 			$table->timestamps();
