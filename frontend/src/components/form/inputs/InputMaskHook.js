@@ -25,7 +25,7 @@ export function InputMaskHook({
 		<NumberFormat
 			{...rest}
 			{...inputProps}
-			value={Number(value) || ''}
+			value={value || ''}
 			customInput={TextField}
 			error={invalid}
 			onValueChange={(values) => {
