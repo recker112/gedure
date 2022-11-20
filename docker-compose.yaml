@@ -13,7 +13,7 @@ services:
     command: npm install --legacy-peer-deps
   init-server:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "init"
       - "init-server"
@@ -32,7 +32,7 @@ services:
         php artisan storage:link
   update-server:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "update"
       - "update-server"
@@ -43,7 +43,7 @@ services:
 ## Servidor de testing
   test-server:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "test"
     volumes:
@@ -88,7 +88,7 @@ services:
     command: npm start
   server:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "server"
     volumes:
@@ -100,7 +100,7 @@ services:
     command: php artisan serve --host=0.0.0.0
   websockets:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "server"
     volumes:
@@ -112,7 +112,7 @@ services:
     command: php artisan websockets:serve
   schedule:
     working_dir: "/app"
-    image: "php-gedure:1.0.1"
+    image: "php-gedure:1.0.0"
     profiles: 
       - "server"
     volumes:
