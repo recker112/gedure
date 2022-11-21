@@ -84,7 +84,7 @@ class BankTransactionControllerTest extends TestCase
 			->assertJsonStructure([
 				'message',
 			])
-			->assertJsonPath('message', 'Undefined array key "concepto"');
+			->assertJsonPath('message', 'Undefined array key "codigo"');
 	}
 	
 	public function testIndexTransaction()

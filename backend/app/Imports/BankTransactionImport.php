@@ -9,9 +9,11 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\ImportFailed;
+use Illuminate\Support\Facades\Notification;
 
 // Models
 use App\Models\User;
+use App\Models\Gedure\Log;
 use App\Models\WalletSystem\BankTransaction;
 use App\Models\WalletSystem\BankAccount;
 
@@ -30,7 +32,7 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	protected int $bank_id;
 	protected User $importedBy;
 
-	public function __construct(int $bank_id, User $importedBy)
+	public function __construct(int $bank_id, User $importedBy = new User)
 	{
 		$this->bank_id = $bank_id;
 		$this->importedBy = $importedBy;
@@ -39,35 +41,34 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	public function model(array $row)
 	{
 		$bank_account = BankAccount::find($this->bank_id);
+
+		// NOTA(RECKER): Verificar si el código es el deseado
+		if ($row['codigo'] !== 'NC') {
+			return null;
+		}
+
+		if (floatval($row['credito']) <= 0) {
+			return null;
+		}
 		
 		// NOTA(RECKER): Dividir string
 		$conceptoParse = trim($row['concepto']);
-		$conceptoParse = explode('.', $conceptoParse);
+		$conceptoParse = explode(' ', $conceptoParse);
 		
 		// NOTA(RECKER): Verificar si es una transferencia desde el mismo banco
 		$bypass = $row['concepto'] == 'TRANSFERENCIA A TERCEROS' ? true : false;
-
-		// NOTA(RECKER): Verificar que exista algo válido en la fila concepto
-		if ($row['concepto'] != 'TRANSFERENCIA A TERCEROS' && count($conceptoParse) < 4) {
-			return null;
-		}
-		
-		// NOTA(RECKER): Verificar no null
-		if ($row['abono'] === null || $row['referencia'] === null) {
-			return null;
-		}
 		
 		// NOTA(RECKER): Acomobar textos
-		$concepto = $bypass ? $row['referencia'] : explode(' ', $conceptoParse[2])[0];
-		$code = $bypass ? $bank_account->code : str_replace(['(', ')'], "", $conceptoParse[3]);
-		$date = explode('/', trim($row['fecha']));
-		$date = "$date[2]-$date[1]-$date[0]";
+		$concepto = $bypass ? $row['referencia'] : $conceptoParse[2];
+		$code = $bypass ? $bank_account->code : $conceptoParse[1];
+		$date = now()->parse($row['fecha']." GMT-4");
+		$amount = round(floatval($row['credito']), 2);
 		
 		// NOTA(RECKER): Buscar si ya existe una transferencia similar
 		$find = BankTransaction::where('date', $date)
 			->where('concepto', $concepto)
 			->where('reference', $row['referencia'])
-			->where('amount', $row['abono'])
+			->where('amount', $amount)
 			->first();
 			
 		if($find) {
@@ -78,7 +79,7 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 			'bank_account_id' => $this->bank_id,
 			'reference' => $row['referencia'],
 			'concepto' => $concepto,
-			'amount' => round($row['abono'], 2),
+			'amount' => $amount,
 			'date' => $date,
 			'code' => $code,
 		]);
@@ -86,7 +87,7 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
 	
 	public function headingRow(): int
 	{
-		return 11;
+		return 3;
 	}
 	
 	public function chunkSize(): int
@@ -98,11 +99,19 @@ class BankTransactionImport implements ToModel, WithHeadingRow, ShouldQueue, Wit
     {
 			return [
 				ImportFailed::class => function(ImportFailed $event) {
-					$this->importedBy->notify(new SocketsNotification(
-						'Carga de transacciones bancarias fallida', 
-						'El sistema no pudo procesar el archivo, es posible que haya alguna falla en el formato del archivo excel.',
-						['error' => $event->getException()->getMessage()]
-					));
+					if ($this->importedBy->id) {
+						$this->importedBy->notify(new SocketsNotification(
+							'Carga de transacciones bancarias fallida', 
+							'El sistema no pudo procesar el archivo, es posible que haya alguna falla en el formato del archivo excel.',
+							['error' => $event->getException()->getMessage()]
+						));
+					} else {
+						Log::create([
+							'action' => 'Carga de transacciones fallida',
+							'user_id' => null,
+							'type' => 'gedure',
+            ]);
+					}
 				},
 			];
     }

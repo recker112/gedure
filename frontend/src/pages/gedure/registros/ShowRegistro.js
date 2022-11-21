@@ -431,7 +431,7 @@ export default function ShowRegistro() {
 		} else {
 			return (
 				<DialogContentText>
-					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) realizó esta acción.
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name || 'Gedure'}</strong> ({data.username || 'A-gedure'}) realizó esta acción.
 				</DialogContentText>
 			);
 		}

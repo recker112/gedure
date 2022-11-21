@@ -26,8 +26,8 @@ class CreateBankTransactionsTable extends Migration
 				->onUpdate('cascade')
 				->onDelete('cascade');
 			
-			$table->integer('reference');
-			$table->integer('concepto');
+			$table->bigInteger('reference');
+			$table->bigInteger('concepto');
 			$table->decimal('amount', 18, 2);
 			$table->date('date');
 			$table->char('code', 4);
