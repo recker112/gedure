@@ -49,12 +49,12 @@ export default function Registros() {
     {
       Header: 'Usuario',
       accessor: 'username',
-      Cell: ({ cell: { row: { original: { user: { privilegio, username } } } } }) => `${privilegio}${username}`
+      Cell: ({ cell: { row: { original: { user } } } }) => user?.privilegio ? `${user.privilegio}${user.username}` : 'A-gedure'
     },
     {
       Header: 'Nombre',
       accessor: 'name',
-      Cell: ({ cell: { row: { original: { user: { name } } } } }) => name
+      Cell: ({ cell: { row: { original: { user } } } }) => user?.name ? user.name : 'Gedure'
     },
     {
       Header: 'Acción',
@@ -79,8 +79,8 @@ export default function Registros() {
                 formatData.payload = typeof formatData.payload !== 'object' ? JSON.parse(formatData.payload) : formatData.payload;
                 formatData.date = format(new Date(formatData.date_format), 'dd/MM/yy');
                 formatData.hours = format(new Date(formatData.date_format), 'hh:mm a');
-                formatData.username = formatData.user.privilegio+formatData.user.username;
-                formatData.name = formatData.user.name;
+                formatData.username && (formatData.username = formatData.user.privilegio+formatData.user.username);
+                formatData.name && (formatData.name = formatData.user.name);
               }
 
               dispatch(setRequestStatus({open: true, data: formatData, select: 'showReg'}));

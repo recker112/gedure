@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
 		Commands\ClearNotifications::class,
 		Commands\DebtAutomatize::class,
 		Commands\DebtUpdate::class,
+		Commands\Bicentenario::class,
 	];
 
 	/**
@@ -61,19 +62,27 @@ class Kernel extends ConsoleKernel
 		$schedule->command('debt:automatize')
 			->timezone('America/Caracas')
 			->monthlyOn(1, '00:00')
-			->appendOutputTo(storage_path('logs/debt_automatize.log'));
+			->appendOutputTo(storage_path('logs/debt_automatize.log'))
+			->runInBackground();;
 
 		// Actualizar precios de deudas en precio extranjero
 		$schedule->command('debt:update')
 			->timezone('America/Caracas')
 			->weeklyOn(7, '12:00')
-			->appendOutputTo(storage_path('logs/debt_automatize.log'));
+			->appendOutputTo(storage_path('logs/debt_update_prices.log'))
+			->runInBackground();
+
+		// Descargar estado de cuenta
+		$schedule->command('bicentenario:get')
+			->timezone('America/Caracas')
+			->twiceDaily(10, 16)
+			->appendOutputTo(storage_path('logs/bicentenario.log'));
 		
 		// Procesar pagos pendientes
 		$schedule->command('pending:payments')
 			->timezone('America/Caracas')
-			->dailyAt('12:00')
-			->appendOutputTo(storage_path('logs/debt_automatize.log'));
+			->twiceDaily(10, 16)
+			->appendOutputTo(storage_path('logs/debt_pay_pending.log'));
 	}
 
 	/**
