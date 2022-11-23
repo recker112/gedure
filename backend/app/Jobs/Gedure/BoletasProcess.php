@@ -155,7 +155,7 @@ class BoletasProcess implements ShouldQueue
 		$this->uploadBy->logs()->create([
 			'action' => "Boletas cargadas",
 			'payload' => $payload,
-			'type' => 'gedure'
+			'type' => 'boleta'
 		]);
     }
 

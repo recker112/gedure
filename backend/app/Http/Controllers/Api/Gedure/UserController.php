@@ -170,7 +170,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuario creado',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
@@ -283,7 +283,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuario editado',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		// NOTA(RECKER): Ocultar datos innecesarios
@@ -355,7 +355,7 @@ class UserController extends Controller
 		// NOTA(RECKER): Log
 		$request->user()->logs()->create([
 			'action' => 'Actualización de datos',
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		// NOTA(RECKER): Necesario para refrescar las tablas polimorficas
@@ -392,7 +392,7 @@ class UserController extends Controller
 			request()->user()->logs()->create([
 				'action' => 'Usuario desactivado',
 				'payload' => $payload,
-				'type' => 'user',
+				'type' => 'user-manager',
 			]);
 		}
 		
@@ -428,7 +428,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuarios desactivados masivamente',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
@@ -483,7 +483,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Actualización de sección masiva',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
@@ -543,7 +543,7 @@ class UserController extends Controller
 			request()->user()->logs()->create([
 				'action' => 'Usuario restaurado',
 				'payload' => $payload,
-				'type' => 'user',
+				'type' => 'user-manager',
 			]);
 		}
 		
@@ -575,7 +575,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuarios restaurados masivamente',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
@@ -600,7 +600,7 @@ class UserController extends Controller
 			request()->user()->logs()->create([
 				'action' => 'Usuario eliminado',
 				'payload' => $payload,
-				'type' => 'user',
+				'type' => 'user-manager',
 			]);
 		}
 		
@@ -637,7 +637,7 @@ class UserController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuarios eliminados masivamente',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([

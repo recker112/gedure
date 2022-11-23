@@ -189,7 +189,7 @@ class PostController extends Controller
 		$user->logs()->create([
 			'action' => 'Publicación creada',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'post',
 		]);
 		
 		return response()->json([
@@ -287,7 +287,7 @@ class PostController extends Controller
 		$user->logs()->create([
 			'action' => 'Publicación editada',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'post',
 		]);
 		
 		return response()->json([
@@ -319,7 +319,7 @@ class PostController extends Controller
 		$user->logs()->create([
 			'action' => 'Publicación eliminada',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'post',
 		]);
 		
 		$post->delete();

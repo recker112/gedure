@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+// Models
 use App\Models\WalletSystem\ExchangeRate;
+use App\Models\Gedure\Log;
 
 use Carbon\Carbon;
 
@@ -68,6 +70,13 @@ class Exchanges extends Command
     
     if ($i) {
       $this->info('ExchangeRate: Tasas de cambio actualizadas');
+
+      Log::create([
+        'action' => 'Precio del Dolar actualizado',
+        'user_id' => null,
+        'payload' => null,
+        'type' => 'gedure',
+      ]);
     } else {
       $this->info('ExchangeRate: No hay actualizaciones que realizar');
     }

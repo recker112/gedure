@@ -23,7 +23,16 @@ class CreateLogsTable extends Migration
 			
 			$table->string("action");
 			$table->json("payload")->nullable();
-			$table->enum("type", ["session", "gedure", "user", "class", "transaction"]);
+			$table->enum("type", [
+				"session", 
+				"user-manager", 
+				"post",
+				"boleta", 
+				"soli-contact",
+				"debt-lote",
+				"wallet",
+				"gedure",
+			]);
 			$table->timestamp('created_at', 0);
 		});
 	}

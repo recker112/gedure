@@ -85,21 +85,37 @@ export default function Filtrador({ gotoPage }) {
                         label: 'Todos'
                       },
                       {
-                        value: 'gedure',
-                        label: 'Gedure'
-                      },
-                      {
-                        value: 'transaction',
-                        label: 'Transacciones'
-                      },
-                      {
                         value: 'session',
                         label: 'Sesión'
                       },
                       {
-                        value: 'user',
-                        label: 'Usuario'
-                      }
+                        value: 'user-manager',
+                        label: 'Gestión de usuario'
+                      },
+                      {
+                        value: 'post',
+                        label: 'Publicaciones'
+                      },
+                      {
+                        value: 'boleta',
+                        label: 'Boletas'
+                      },
+                      {
+                        value: 'soli-contact',
+                        label: 'Solicitudes de contacto'
+                      },
+                      {
+                        value: 'debt-lote',
+                        label: 'Lote de deudas'
+                      },
+                      {
+                        value: 'wallet',
+                        label: 'Monedero'
+                      },
+                      {
+                        value: 'gedure',
+                        label: 'Gedure'
+                      },
                     ]}
                     control={control}
                   />

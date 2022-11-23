@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 
 // Models
 use App\Models\User;
+use App\Models\Gedure\Log;
 use App\Models\GedureConfig;
 use App\Models\WalletSystem\DebtLote;
 use App\Models\WalletSystem\Debt;
@@ -262,6 +263,13 @@ class DebtAutomatize extends Command
         $this->info('Total de deudas actualizadas: '.count($d));
         $notifys = $i ? $studiends->count() : 0;
         $this->info("Total de notificaciones enviadas: {$notifys}");
+
+		Log::create([
+			'action' => 'Deudas del año generadas',
+			'user_id' => null,
+			'payload' => null,
+			'type' => 'gedure',
+		]);
         return 0;
     }
 }

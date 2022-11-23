@@ -80,6 +80,18 @@ class WalletController extends Controller
 
     // Notificar a otro usuario
     $user->notify(new TransferCompletedNotification($total_amount,$user->wallet->balance, 1));
+
+    // NOTA(RECKER): Log
+		$payload = [
+			'username' => $user->privilegio.$user->username,
+			'name' => $user->name,
+      'actions' => $request->data,
+		];
+		$request->user()->logs()->create([
+			'action' => "Monedero editado",
+			'payload' => $payload,
+			'type' => 'wallet'
+		]);
 		
 		return response()->json([
 			'msg' => 'Transacción realizada'
@@ -166,6 +178,18 @@ class WalletController extends Controller
 
     // Notificar a otro usuario
     $userTransfer->notify(new TransferCompletedNotification($reqAmount,$userTransfer->wallet->balance));
+
+    // NOTA(RECKER): Log
+		$payload = [
+			'username' => $user->privilegio.$user->username,
+			'name' => $user->name,
+      'amount' => $reqAmount,
+		];
+		$request->user()->logs()->create([
+			'action' => "Transferencia de saldo",
+			'payload' => $payload,
+			'type' => 'wallet'
+		]);
 
     return response()->json([
       'msg' => 'Transferencia realizada',
