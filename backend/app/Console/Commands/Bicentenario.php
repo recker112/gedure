@@ -184,6 +184,8 @@ class Bicentenario extends Command
             ]);
         }
 
+        $this->info(' ');
+
         return Command::SUCCESS;
     }
 }
