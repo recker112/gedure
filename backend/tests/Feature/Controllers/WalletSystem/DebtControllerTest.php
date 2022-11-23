@@ -134,7 +134,7 @@ class DebtControllerTest extends TestCase
 
 	public function testVerifySolvencia()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$this->createDebts();
 		Passport::actingAs(
 			User::find(1),
@@ -156,8 +156,8 @@ class DebtControllerTest extends TestCase
 				]
 			])
 			->assertJsonFragment([
-				'debts_no_pagadas_count' => "1",
-				'debts_count' => "1",
+				'debts_no_pagadas_count' => 1,
+				'debts_count' => 1,
 				'is_solvente' => false,
 				'reason' => 'Test',
 			]);;

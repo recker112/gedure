@@ -72,7 +72,7 @@ class RecoveryPasswordController extends Controller
 		// NOTA(RECKER): LOG
 		$user->logs()->create([
 			'action' => 'Correo de recuperación',
-			'type' => 'user'
+			'type' => 'user-manager'
 		]);
 		
 		return response()->json([
@@ -119,7 +119,7 @@ class RecoveryPasswordController extends Controller
 		$user->logs()->create([
 			'user_id' => $user->id,
 			'action' => 'Contraseña cambiada via correo',
-			'type' => 'user'
+			'type' => 'user-manager'
 		]);
 		
 		return response()->json([

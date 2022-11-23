@@ -84,7 +84,7 @@ class InvitationController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Usuario invitado',
 			'payload' => $payload,
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
@@ -147,7 +147,7 @@ class InvitationController extends Controller
 		
 		$user->logs()->create([
 			'action' => 'Contraseña creada por invitación',
-			'type' => 'user',
+			'type' => 'user-manager',
 		]);
 		
 		return response()->json([
