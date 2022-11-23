@@ -44,6 +44,8 @@ class Payments extends Command
 	 */
 	public function handle()
 	{
+		$this->info('Procesando pagos pendientes...');
+
 		$pending_to_delete = PendingPayment::where('status', '!=', 'pendiente')
 			->get();
 		
@@ -145,5 +147,7 @@ class Payments extends Command
 		$this->info('Pagos pendientes procesados correctamente: '.$success);
 		$this->info('Pagos pendientes no encontrados: '.$notFound);
 		$this->info('Pagos pendientes eliminados: '.$pending_to_delete->count());
+		$this->info('Fecha de actualización: '. now()->format('d-m-Y'));
+		$this->info(' ');
 	}
 }

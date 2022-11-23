@@ -68,20 +68,20 @@ class Kernel extends ConsoleKernel
 		// Actualizar precios de deudas en precio extranjero
 		$schedule->command('debt:update')
 			->timezone('America/Caracas')
-			->weeklyOn(7, '12:00')
+			->weeklyOn(7, '11:00')
 			->appendOutputTo(storage_path('logs/debt_update_prices.log'))
 			->runInBackground();
 
 		// Descargar estado de cuenta
 		$schedule->command('bicentenario:get')
 			->timezone('America/Caracas')
-			->twiceDaily(10, 16)
+			->twiceDaily(11, 16)
 			->appendOutputTo(storage_path('logs/bicentenario.log'));
 		
 		// Procesar pagos pendientes
 		$schedule->command('pending:payments')
 			->timezone('America/Caracas')
-			->twiceDaily(10, 16)
+			->twiceDaily(11, 16)
 			->appendOutputTo(storage_path('logs/debt_pay_pending.log'));
 	}
 
