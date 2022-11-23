@@ -120,7 +120,7 @@ class Bicentenario extends Command
 
             $this->info('Login: PASS');
 
-            $date = now()->timezone('GMT-4')->sub(2,'day')->format('d-m-Y');
+            $date = now()->timezone('GMT-4')->format('d-m-Y');
 
             // Download Excel
             $response = HTTP::withoutVerifying()
