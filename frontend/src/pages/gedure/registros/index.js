@@ -79,8 +79,8 @@ export default function Registros() {
                 formatData.payload = typeof formatData.payload !== 'object' ? JSON.parse(formatData.payload) : formatData.payload;
                 formatData.date = format(new Date(formatData.date_format), 'dd/MM/yy');
                 formatData.hours = format(new Date(formatData.date_format), 'hh:mm a');
-                formatData.username && (formatData.username = formatData.user.privilegio+formatData.user.username);
-                formatData.name && (formatData.name = formatData.user.name);
+                formatData.username = formatData.user?.privilegio+formatData.user?.username;
+                formatData.name = formatData.user?.name;
               }
 
               dispatch(setRequestStatus({open: true, data: formatData, select: 'showReg'}));
