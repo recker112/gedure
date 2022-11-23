@@ -115,7 +115,7 @@ class PendingPaymentController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Transacción bancaria reclamada',
 			'payload' => $payload,
-			'type' => 'transaction',
+			'type' => 'wallet',
 		]);
 		
 		return response()->json([

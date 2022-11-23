@@ -428,6 +428,38 @@ export default function ShowRegistro() {
 					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó el lote de deudas <strong>#{data.payload.id}</strong>.
 				</DialogContentText>
 			);
+		} else if (data.action === 'Deuda eliminada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) eliminó la deuda del usuario <strong>{data.payload.name}</strong> ({data.payload.username}), la cuál correspondía al lote de deudas <strong>"{data.payload.lote_reason}"</strong> con un coste total de <strong>{parseFloatToMoneyString(data.payload.lote_amount)}</strong>.
+				</DialogContentText>
+			);
+		} else if (data.action === 'Monedero editado') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) editó el monedero del usuario <strong>{data.payload.name}</strong> ({data.payload.username}) agregando lo siguiente:
+					{data.payload.actions.map((item, i) => (
+						<div key={i}>
+							<br />
+							<strong>Descripción:</strong> {item.reason}
+							<br />
+							<strong>Importe:</strong> {parseFloatToMoneyString(item.amount)}
+						</div>
+					))}
+				</DialogContentText>
+			);
+		} else if (data.action === 'Transferencia de saldo') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) transfirió una cantidad de <strong>{parseFloatToMoneyString(data.payload.amount)}</strong> al usuario <strong>{data.payload.name}</strong> ({data.payload.username}).
+				</DialogContentText>
+			);
+		} else if (data.action === 'Deuda pagada') {
+			return (
+				<DialogContentText>
+					El día <strong>{data.date}</strong> a las <strong>{data.hours}</strong> el usuario <strong>{data.name}</strong> ({data.username}) pagó la deuda <strong>"{data.payload.lote_reason}"</strong> la cuál tenía un precio de <strong>{parseFloatToMoneyString(data.payload.lote_amount)}</strong>.
+				</DialogContentText>
+			);
 		} else {
 			return (
 				<DialogContentText>

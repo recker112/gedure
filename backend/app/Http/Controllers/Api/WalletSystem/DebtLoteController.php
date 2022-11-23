@@ -179,7 +179,7 @@ class DebtLoteController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Lote de deudas creado',
 			'payload' => $payload,
-			'type' => 'gedure'
+			'type' => 'debt-lote'
 		]);
 		
 		return response()->json([
@@ -277,7 +277,7 @@ class DebtLoteController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Lote de deudas editado',
 			'payload' => $payload,
-			'type' => 'gedure'
+			'type' => 'debt-lote'
 		]);
 		
 		if ($debts_created) {
@@ -318,7 +318,7 @@ class DebtLoteController extends Controller
 		request()->user()->logs()->create([
 			'action' => 'Lote de deudas eliminado',
 			'payload' => $payload,
-			'type' => 'gedure'
+			'type' => 'debt-lote'
 		]);
 		
 		return response()->json([

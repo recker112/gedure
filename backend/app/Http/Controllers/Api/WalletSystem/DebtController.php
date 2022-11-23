@@ -151,6 +151,17 @@ class DebtController extends Controller
 		// Cambiar estado de deuda y colocar monto pagado
 		$debt->status = 'pagada';
 		$debt->save();
+
+		// NOTA(RECKER): Log
+		$payload = [
+			'lote_reason' => $debt->debt_lote->reason,
+			'lote_amount' => $debt->debt_lote->amount_to_pay,
+		];
+		$request->user()->logs()->create([
+			'action' => "Deuda pagada",
+			'payload' => $payload,
+			'type' => 'debt-lote'
+		]);
 		
 		return response()->json([
 			'msg' => 'Pago procesado correctamente',
@@ -158,7 +169,7 @@ class DebtController extends Controller
 		], 200);
 	}
 
-	public function destroy(Debt $debt) {
+	public function destroy(Request $request, Debt $debt) {
 		// Verificar estado
 		if ($debt->status !== 'no pagada') {
 			return response()->json([
@@ -172,6 +183,19 @@ class DebtController extends Controller
 				'msg' => 'No se pudo borrar la deuda',
 			], 400);
 		}
+
+		// NOTA(RECKER): Log
+		$payload = [
+			'username' => $debt->user->privilegio.$debt->user->username,
+			'name' => $debt->user->name,
+			'lote_reason' => $debt->debt_lote->reason,
+			'lote_amount' => $debt->debt_lote->amount_to_pay,
+		];
+		$request->user()->logs()->create([
+			'action' => "Deuda eliminada",
+			'payload' => $payload,
+			'type' => 'debt-lote'
+		]);
 		
 		return response()->json([
 			'msg' => 'Deuda eliminada',

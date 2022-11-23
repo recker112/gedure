@@ -91,7 +91,7 @@ export default function EditWallets() {
 									rules={{
 										required: '* Campo requerido',
 										minLength: { value: 3, message: 'Error: Demaciado corto' },
-										maxLength: { value: 30, message: 'Error: Demaciado largo' },
+										maxLength: { value: 60, message: 'Error: Demaciado largo' },
 									}}
 									autoComplete='off'
 									name={`data.${i}.reason`}

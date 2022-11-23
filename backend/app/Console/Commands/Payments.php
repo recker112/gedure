@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+// Models
+use App\Models\Gedure\Log;
 use App\Models\WalletSystem\PendingPayment;
 use App\Models\WalletSystem\BankTransaction;
 
@@ -149,5 +151,17 @@ class Payments extends Command
 		$this->info('Pagos pendientes eliminados: '.$pending_to_delete->count());
 		$this->info('Fecha de actualización: '. now()->format('d-m-Y'));
 		$this->info(' ');
+
+		$payload = [
+			'encontrados' => $success,
+			'no_encontrados' => $notFound,
+			'eliminados' => $pending_to_delete->count(),
+		];
+		Log::create([
+			'action' => 'Pagos pendientes procesados',
+			'user_id' => null,
+			'payload' => $payload,
+			'type' => 'gedure',
+		]);
 	}
 }

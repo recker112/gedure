@@ -30,6 +30,12 @@ class GedureConfigController extends Controller
             
             $i++;
         }
+
+        // NOTA(RECKER): Log
+		$request->user()->logs()->create([
+			'action' => "Configs generales actualizadas",
+			'type' => 'gedure',
+		]);
         
         return response()->json([
             'msg' => $i > 0 ? 'Configuración actualizada' : 'Sin cambios'

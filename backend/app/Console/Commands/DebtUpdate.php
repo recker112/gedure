@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 // Models
 use App\Models\User;
+use App\Models\Gedure\Log;
 use App\Models\WalletSystem\DebtLote;
 use App\Models\WalletSystem\Debt;
 use App\Models\WalletSystem\ExchangeRate;
@@ -51,6 +52,13 @@ class DebtUpdate extends Command
         }
 
         $this->info('Total de deudas actualizadas: '.$i);
+        
+		Log::create([
+			'action' => 'Precios actualizados',
+			'user_id' => null,
+			'payload' => null,
+			'type' => 'gedure',
+		]);
         return Command::SUCCESS;
     }
 }

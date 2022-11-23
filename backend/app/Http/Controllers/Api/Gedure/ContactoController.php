@@ -46,7 +46,7 @@ class ContactoController extends Controller
 		$request->user()->logs()->create([
 			'action' => "Solicitud de contácto eliminada",
 			'payload' => $payload,
-			'type' => 'gedure'
+			'type' => 'soli-contact'
 		]);
 		
 		$contacto->delete();
