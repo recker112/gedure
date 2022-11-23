@@ -119,7 +119,7 @@ class BankTransactionController extends Controller
 		$request->user()->logs()->create([
 			'action' => 'Transacción bancaria asignada manualmente',
 			'payload' => $payload,
-			'type' => 'transaction',
+			'type' => 'wallet',
 		]);
 		
 		return response()->json([

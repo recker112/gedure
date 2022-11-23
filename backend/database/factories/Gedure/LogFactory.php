@@ -23,7 +23,7 @@ class LogFactory extends Factory
 	{
 		return [
 			'user_id' => rand(1,5),
-			'type' => $this->faker->randomElement(['session', 'gedure', 'user', 'class']),
+			'type' => $this->faker->randomElement(['session', 'gedure']),
 			'action' => $this->faker->text,
 		];
 	}
