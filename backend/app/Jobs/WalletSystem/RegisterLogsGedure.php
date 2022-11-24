@@ -24,7 +24,7 @@ class RegisterLogsGedure implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $title, array $payload = [])
+    public function __construct(string $title, array $payload = null)
     {
         $this->title = $title;
         $this->payload = $payload;

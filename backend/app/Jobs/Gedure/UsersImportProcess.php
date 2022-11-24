@@ -50,7 +50,7 @@ class UsersImportProcess implements ShouldQueue
         // NOTA(RECKER): crear logs
         $this->user->logs()->create([
 			'action' => 'Carga de matricula',
-			'type' => 'gedure',
+			'type' => 'user-manager',
 		]);
     }
 }
