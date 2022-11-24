@@ -171,7 +171,7 @@ class DebtController extends Controller
 
 	public function destroy(Request $request, Debt $debt) {
 		// Verificar estado
-		if ($debt->status !== 'no pagada') {
+		if ($debt->status !== 'no pagada' && $debt->status !== 'futura') {
 			return response()->json([
 				'msg' => 'No puede borrar deudas ya pagadas',
 			], 400);

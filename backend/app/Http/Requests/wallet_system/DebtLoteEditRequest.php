@@ -28,8 +28,11 @@ class DebtLoteEditRequest extends FormRequest
 			'amount_to_pay' => 'required|numeric|min:1',
 			'exchange_rate_type' => 'required|in:Bs.,$',
 			'important' => 'nullable|boolean',
+			'type' => 'nullable|string',
 			'selected_users' => 'nullable|array',
 			'selected_users.*' => 'numeric',
+			'cursos' => 'nullable|array',
+			'cursos.*' => 'numeric',
 		];
 	}
 }
