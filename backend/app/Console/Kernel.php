@@ -53,8 +53,7 @@ class Kernel extends ConsoleKernel
 		// Actualizar precio del dolar
 		$schedule->command('exchanges:prices')
 			->timezone('America/Caracas')
-			->hourlyAt(5)
-			->between('13:00','18:00')
+			->weeklyOn(7, '10:00')
 			->appendOutputTo(storage_path('logs/exchanges_price.log'))
 			->runInBackground();
 		
@@ -63,7 +62,7 @@ class Kernel extends ConsoleKernel
 			->timezone('America/Caracas')
 			->monthlyOn(1, '00:00')
 			->appendOutputTo(storage_path('logs/debt_automatize.log'))
-			->runInBackground();;
+			->runInBackground();
 
 		// Actualizar precios de deudas en precio extranjero
 		$schedule->command('debt:update')
@@ -72,16 +71,17 @@ class Kernel extends ConsoleKernel
 			->appendOutputTo(storage_path('logs/debt_update_prices.log'))
 			->runInBackground();
 
-		// Descargar estado de cuenta
-		$schedule->command('bicentenario:get')
-			->timezone('America/Caracas')
-			->twiceDaily(11, 16)
-			->appendOutputTo(storage_path('logs/bicentenario.log'));
+		// // Descargar estado de cuenta ONLY server Venezuela
+		// $schedule->command('bicentenario:get')
+		// 	->timezone('America/Caracas')
+		// 	->dailyAt('11:00')
+		// 	->appendOutputTo(storage_path('logs/bicentenario.log'));
 		
 		// Procesar pagos pendientes
 		$schedule->command('pending:payments')
 			->timezone('America/Caracas')
-			->twiceDaily(11, 16)
+			->weekdays()
+			->dailyAt('11:00')
 			->appendOutputTo(storage_path('logs/debt_pay_pending.log'));
 	}
 
