@@ -22,13 +22,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRequestStatus } from '../../../store/slices/requestStatusWallet';
 import { getUserSelectedWithoutDebt } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/getUserSelectedWithoutDebt';
 import { editLoteDebts } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/editLoteDebts';
+import { getCursos } from '../../../store/slices/requestStatusWallet/async_trunk/lotes_deudas/getCursos';
 
 export default function EditLoteDeuda() {
-  const { loading, open, data, dataSelected, administrar_transac } = useSelector(state => ({
+  const { loading, open, data, dataSelected, dataCursos, administrar_transac } = useSelector(state => ({
     loading: state.requestStatusWallet.editLoteDeuda.loading,
     open: state.requestStatusWallet.editLoteDeuda.open,
     data: state.requestStatusWallet.editLoteDeuda.data,
     dataSelected: state.requestStatusWallet.editLoteDeuda.dataSelected,
+    dataCursos: state.requestStatusWallet.editLoteDeuda.dataCursos,
     administrar_transac: state.auth.permissions.administrar_transac,
   }));
   const dispatch = useDispatch();
@@ -44,15 +46,22 @@ export default function EditLoteDeuda() {
     await dispatch(getUserSelectedWithoutDebt({ search, id: data.id }));
   }
 
+  const handleGetCurso = async (valueInput) => {
+    await dispatch(getCursos(valueInput));
+  }
+
   const handleClose = () => {
     dispatch(setRequestStatus({ select: 'editLoteDeuda', open: false }));
   }
 
   const onSubmit = submitData => {
-    // NOTA(RECKER): Fix array users
+    // NOTA(RECKER): Acomodar arrays
 		if (submitData.selected_users) {
 			const users = submitData.selected_users.map(obj => obj.id);
 			submitData.selected_users = users;
+		}else if (submitData.cursos) {
+			const cursos = submitData.cursos.map(obj => obj.id);
+			submitData.cursos = cursos;
 		}
 
     submitData._method = 'PUT';
@@ -116,7 +125,7 @@ export default function EditLoteDeuda() {
                 Datos de la deuda
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
 							<InputHook
 								control={control}
 								rules={{
@@ -133,7 +142,7 @@ export default function EditLoteDeuda() {
                 size='small'
 							/>
 						</Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={administrar_transac.debt_create ? 6 : 12}>
 							<InputMaskHook
 								control={control}
 								rules={{
@@ -155,22 +164,71 @@ export default function EditLoteDeuda() {
 							/>
 						</Grid>
             {administrar_transac.debt_create && (
-							<Grid item xs={12}>
-                <AutoCompleteAsyncHook
-                  data={dataSelected}
-                  multiple
-                  name='selected_users'
-                  label='Agregar estudiantes'
-                  helperText='Ingrese a los estudiantes que desea agregar a esta deuda'
-                  placeholder="Cédula"
-                  control={control}
-                  disabled={loading}
-                  getOptionLabel={(option) => (`${option.privilegio}${option.username} - ${option.name}`) || ''}
-                  isOptionEqualToValue={(option, value) => option.id === value.id}
-                  limitTags={2}
-                  handleRequest={handleGetSelectedWithoutDebt}
-                />
-              </Grid>
+              <>
+                <Grid item xs={12} sm={6}>
+                  <SelectHook
+                    name='type'
+                    label='Deuda para'
+                    control={control}
+                    disabled={loading}
+                    helperText='Seleccione a los estudiantes que recibirán esta deuda'
+                    size='small'
+                    fullWidth
+                  >
+                    <MenuItem value=''><em>Ninguno</em></MenuItem>
+                    <MenuItem value='all_studiends'>Todos los estudiantes</MenuItem>
+                    <MenuItem value='selected'>Estudiantes seleccionados</MenuItem>
+                    <MenuItem value='cursos'>Cursos</MenuItem>
+                  </SelectHook>
+                </Grid>
+                
+                {watch('type') === 'selected' && (
+                  <Grid item xs={12}>
+                    <Grid item xs={12}>
+                      <AutoCompleteAsyncHook
+                        data={dataSelected}
+                        multiple
+                        name='selected_users'
+                        label='Agregar estudiantes'
+                        helperText='Ingrese a los estudiantes que desea agregar a esta deuda'
+                        placeholder="Cédula"
+                        control={control}
+                        disabled={loading}
+                        getOptionLabel={(option) => (`${option.privilegio}${option.username} - ${option.name}`) || ''}
+                        isOptionEqualToValue={(option, value) => option.id === value.id}
+                        limitTags={2}
+                        handleRequest={handleGetSelectedWithoutDebt}
+                        rules={{
+                          required: { value: true, message: '* Campo requerido' },
+                          validate: value => value.length > 0 || 'Error: Debe de seleccionar al menos a 1 usuario',
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                )}
+
+                {watch('type') === 'cursos' && (
+                  <Grid item xs={12}>
+                    <AutoCompleteAsyncHook
+                      data={dataCursos}
+                      multiple
+                      label='Buscar cursos'
+                      name='cursos'
+                      handleRequest={handleGetCurso}
+                      getOptionLabel={(option) => option.code}
+                      isOptionEqualToValue={(option, value) => option.code === value.code}
+                      limitTags={2}
+                      placeholder='Código'
+                      control={control}
+                      disabled={loading}
+                      rules={{
+                        required: { value: true, message: '* Campo requerido' },
+                        validate: value => value.length > 0 || 'Error: Debe de seleccionar al menos a 1 usuario',
+                      }}
+                    />
+                  </Grid>
+                )}
+              </>
 						)}
           </Grid>
           <input type='submit' hidden />
