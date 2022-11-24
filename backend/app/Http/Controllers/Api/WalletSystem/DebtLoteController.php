@@ -217,19 +217,29 @@ class DebtLoteController extends Controller
 		$debt_lote->save();
 		
 		$debts_created=0;
-		if ($user->can('debt_create') && $request->selected_users) {
-			// NOTA(RECKER): Asignar deudas a cada usuario seleccionado
-			$users = User::where('privilegio', 'V-')
-				->whereDoesntHave('debts', function (Builder $query) use ($debt_lote) {
-					$query->where('debt_lote_id', '==', $debt_lote->id);
-				})
-				->whereIn('id', $request->selected_users)
-				->get();
-
-			if (count($users) === 0) {
-				return response()->json([
-					'msg' => 'No hay usuarios seleccionados',
-				], 400);
+		if ($user->can('debt_create')) {
+			$users = [];
+			if ($request->type === 'cursos') {
+				// NOTA(RECKER): Obtener estudiantes por curso seleccionado
+				$users = User::where('privilegio', 'V-')
+					->whereHas('alumno', function (Builder $query) {
+						$query->whereHas('curso', function (Builder $query) {
+							$query->whereIn('id', request()->cursos);
+						});
+					})
+					->whereDoesntHave('debts', fn(Builder $query) => $query->where('debt_lote_id', $debt_lote->id))
+					->get();
+			}else if ($request->type === 'selected' && $request->selected_users && count($request->selected_users) > 0) {
+				// NOTA(RECKER): Obtener estudiantes seleccionados
+				$users = User::where('privilegio', 'V-')
+					->whereIn('id', $request->selected_users)
+					->whereDoesntHave('debts', fn(Builder $query) => $query->where('debt_lote_id', $debt_lote->id))
+					->get();
+			}else if ($request->type === 'all_studiends') {
+				// NOTA(RECKER): Obtener todos los estudiantes
+				$users = User::where('privilegio', 'V-')
+					->whereDoesntHave('debts', fn(Builder $query) => $query->where('debt_lote_id', $debt_lote->id))
+					->get();
 			}
 			
 			// Generar deudas
