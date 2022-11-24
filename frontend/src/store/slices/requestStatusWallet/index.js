@@ -20,6 +20,7 @@ import { reducersPaydebs } from "./async_trunk/deudas/payDebts";
 import { reducersDestroyDebt } from "./async_trunk/lotes_deudas/destroyDebt";
 import { reducersGetSolvencia } from "./async_trunk/lotes_deudas/getSolvencia";
 import { reducersEditWallets } from "./async_trunk/wallets/editWallets";
+import { reducersGetCurso } from "./async_trunk/lotes_deudas/getCursos";
 
 const initialState = {
   createLoteDeuda: {
@@ -32,6 +33,7 @@ const initialState = {
     loading: false,
     data: {},
     dataSelected: [],
+    dataCursos: [],
   },
   deleteLoteDeuda: {
     open: false,
@@ -149,6 +151,7 @@ export const requestStatusWalletSlices = createSlice({
     ...reducersPaydebs,
     ...reducersDestroyDebt,
     ...reducersEditWallets,
+    ...reducersGetCurso,
   }
 });
 
