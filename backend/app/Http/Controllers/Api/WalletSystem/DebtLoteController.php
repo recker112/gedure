@@ -235,9 +235,11 @@ class DebtLoteController extends Controller
 			// Generar deudas
 			foreach($users as $user) {
 				$exonerado = $user->can('account_exonerada');
+				$status = $debt_lote->available_on <= now() ? 'no pagada' : 'futura';
+
 				$debt = $user->debts()->create([
 					'debt_lote_id' => $debt_lote->id,
-					'status' => $exonerado ? 'exonerada' : 'no pagada',
+					'status' => $exonerado ? 'exonerada' : $status,
 				]);
 
 				if ($exonerado) {
