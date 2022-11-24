@@ -290,6 +290,7 @@ class DebtLoteControllerTest extends TestCase
 			'reason' => 'Nuevo motivo',
 			'amount_to_pay' => 700.30,
 			'exchange_rate_type' => 'Bs.',
+			'type' => 'selected',
 			'selected_users' => [$users[0]->id,$users[1]->id,$users[2]->id]
 		]);
 
