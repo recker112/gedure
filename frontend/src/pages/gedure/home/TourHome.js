@@ -26,7 +26,7 @@ export default function TourHome() {
 						Gedure
 					</Typography>
 					<Typography variant='body1'>
-						Bienvenido a Gedure, durante estas guias podrá enterarse de las funcionalidades las cuales tiene disponible. Si lo desea puede saltarse esta guia usando el boton.
+						Bienvenido a Gedure, durante estas guias podrá conocer las funcionalidades que tiene disponible. Si lo desea puede saltarse esta guia usando el boton.
 					</Typography>
 					<Button size='small' color='primary' onClick={()=>{goTo(6)}}>
 						Saltar tour

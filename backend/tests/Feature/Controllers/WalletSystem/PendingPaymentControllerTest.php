@@ -67,9 +67,9 @@ class PendingPaymentControllerTest extends TestCase
 		);
 		$bank_account = BankAccount::factory()->create();
 		$bank_transaction = BankTransaction::factory()->create([
-			'bank_account_id' => $bank_account,
+			'bank_account_id' => $bank_account->id,
 		]);
-		
+
 		$response = $this->postJson("/api/v1/bank-account/$bank_account->id/payment", [
 			'reference' => $bank_transaction->reference,
 			'amount' => $bank_transaction->amount,

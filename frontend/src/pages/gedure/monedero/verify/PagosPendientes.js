@@ -29,7 +29,7 @@ export default function PagosPendientes() {
 				<ul>
 					<li>
 						<Typography variant='subtitle2'>
-							Los pagos pendientes son procesados todos los días a las 12:00 PM.
+							Los pagos pendientes son procesados todos los días de Lunes a Viernes a las 11:00 AM. Se sugiere no hacer transferencias los días viernes antes de las 8:00 AM, debido a que si lo hace, su transacción será cargada al sistema el día Lunes de la semana que viene.
 						</Typography>
 					</li>
 					<li>
@@ -39,7 +39,7 @@ export default function PagosPendientes() {
 					</li>
 					<li>
 						<Typography variant='subtitle2'>
-							Todos los precios dentro del sistema se actualizan los domingos a las 12:00 PM, intente no hacer transferencias los viernes.
+							Todos los precios dentro del sistema se actualizan los domingos a las 11:00 AM.
 						</Typography>
 					</li>
 				</ul>

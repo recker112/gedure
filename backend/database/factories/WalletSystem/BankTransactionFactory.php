@@ -24,8 +24,8 @@ class BankTransactionFactory extends Factory
 		return [
 			'bank_account_id' => 1,
 			'user_id' => null,
-			'reference' => $this->faker->numerify('########'),
-			'concepto' => $this->faker->numerify('########'),
+			'reference' => $this->faker->numerify('######'),
+			'concepto' => $this->faker->numerify('######'),
 			'amount' => $this->faker->numerify('#######.##'),
 			'date' => $this->faker->date(),
 			'code' => $this->faker->randomElement(['0102', '0104', '0105']),

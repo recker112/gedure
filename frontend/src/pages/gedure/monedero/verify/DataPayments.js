@@ -58,16 +58,16 @@ export default function DataPayments() {
           control={control}
           rules={{
             required: '* Campo requerido',
-            minLength: { value: 8, message: 'Error: No válido' },
+            minLength: { value: 6, message: 'Error: No válido' },
           }}
           data-tour="reference"
           name='reference'
 					label='Referencia'
           variant='filled'
           size='small'
-          format="########"
+          format="######"
           disabled={loading}
-					helperText='Ingrese los últimos 8 dígitos de la referencia'
+					helperText='Ingrese los últimos 6 dígitos de la referencia'
           fullWidth
         />
       </Grid>

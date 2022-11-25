@@ -24,7 +24,6 @@ class PendingPaymentVerifyRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'reference' => 'required|digits:8',
 			'amount' => 'required|numeric',
 			'code' => 'required|digits:4',
 			'date' => 'required|date',
