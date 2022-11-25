@@ -17,7 +17,7 @@ import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../.
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
 
 export default function TableAccounts() {
-  const { dataR, loading, pageSize, pageCount, gedure: { bank_transaction_assign, bank_transaction_delete } } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, gedure: { bank_account_edit, bank_account_destroy } } = useSelector(state => ({
     dataR: state.tables.bankAccounts.tableData.data,
     loading: state.tables.bankAccounts.tableData.loading,
     pageSize: state.tables.bankAccounts.tableData.pageSize,
@@ -58,7 +58,7 @@ export default function TableAccounts() {
           <Tooltip title='Editar' arrow>
             <IconButton
               component='span'
-              disabled={!bank_transaction_assign}
+              disabled={!bank_account_edit}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: { id, n_account, rif, name, email, type, code }, select: 'editBankAccount'}));
               }}
@@ -69,7 +69,7 @@ export default function TableAccounts() {
           <Tooltip title='Eliminar' arrow>
             <IconButton
               component='span'
-              disabled={!bank_transaction_delete}
+              disabled={!bank_account_destroy}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: { id, n_account}, select: 'deleteBankAccount'}));
               }}
@@ -138,7 +138,7 @@ export default function TableAccounts() {
           <Tooltip title="Eliminar" arrow>
             <IconButton
               component='span'
-              disabled={!bank_transaction_delete}
+              disabled={!bank_account_destroy}
               onClick={() => {
                 let i = 0;
 								let idsArray = [];

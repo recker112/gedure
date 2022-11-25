@@ -73,5 +73,5 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_destroy'])
 	->delete('user-disabled', [UserController::class, 'destroyMassive']);
 
 // Find Like Users
-Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create'])
+Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create|bank_transaction_assign'])
 	->get('find/users', [UserController::class, 'findLike']);

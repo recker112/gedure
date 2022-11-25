@@ -17,7 +17,7 @@ import { setRequestStatus } from '../../../../store/slices/requestStatus';
 import { getBankTransactions } from '../../../../store/slices/tables/async_trunk/configuracion/TableBankTransactions';
 
 export default function TableTransactions() {
-  const { dataR, loading, pageSize, pageCount, gedure: { bank_account_edit, bank_account_destroy } } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, gedure: { bank_transaction_assign, bank_transaction_delete } } = useSelector(state => ({
     dataR: state.tables.bankTransactions.tableData.data,
     loading: state.tables.bankTransactions.tableData.loading,
     pageSize: state.tables.bankTransactions.tableData.pageSize,
@@ -67,7 +67,7 @@ export default function TableTransactions() {
           <Tooltip title='Asignar' arrow>
             <IconButton
               component='span'
-              disabled={!bank_account_edit}
+              disabled={!bank_transaction_assign}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: { id, amount }, select: 'assignTransaction'}));
               }}
@@ -78,7 +78,7 @@ export default function TableTransactions() {
           <Tooltip title='Eliminar' arrow>
             <IconButton
               component='span'
-              disabled={!bank_account_destroy}
+              disabled={!bank_transaction_delete}
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: { id }, select: 'deleteTransaction'}));
               }}
@@ -149,7 +149,7 @@ export default function TableTransactions() {
           <Tooltip title="Eliminar" arrow>
             <IconButton
               component='span'
-              disabled={!bank_account_destroy}
+              disabled={!bank_transaction_delete}
               onClick={() => {
                 let i = 0;
 								let idsArray = [];

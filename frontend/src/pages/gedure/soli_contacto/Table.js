@@ -15,11 +15,12 @@ import { refresh, resetTableConfig, setConfigTable, setSearch } from '../../../s
 import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function Table() {
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, contact_destroy } = useSelector(state => ({
     dataR: state.tables.soliContacto.tableData.data,
     loading: state.tables.soliContacto.tableData.loading,
     pageSize: state.tables.soliContacto.tableData.pageSize,
     pageCount: state.tables.soliContacto.tableData.pageCount,
+    contact_destroy: state.auth.permissions.administrar.contact_destroy,
   }));
   const dispatch = useDispatch();
 
@@ -60,6 +61,7 @@ export default function Table() {
               onClick={() => {
                 dispatch(setRequestStatus({open: true, data: original, select: 'deleteSoliContacto'}));
               }}
+              disabled={!contact_destroy}
             >
               <DeleteForeverIcon />
             </IconButton>

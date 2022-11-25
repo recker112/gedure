@@ -26,7 +26,7 @@ const colorChip = {
 export default function Table() {
   const { id } = useParams();
 
-  const { dataR, loading, pageSize, pageCount } = useSelector(state => ({
+  const { dataR, loading, pageSize, pageCount, administrar_transac: { debt_delete } } = useSelector(state => ({
     dataR: state.tablesWallet.lotesDeudasUsers.tableData.data,
     loading: state.tablesWallet.lotesDeudasUsers.tableData.loading,
     pageSize: state.tablesWallet.lotesDeudasUsers.tableData.pageSize,
@@ -103,6 +103,7 @@ export default function Table() {
                 onClick={() => {
                   dispatch(setRequestStatus({open: true, data: original, select: 'deleteDeuda'}));
                 }}
+                disabled={!debt_delete}
               >
                 <DeleteForeverIcon />
               </IconButton>

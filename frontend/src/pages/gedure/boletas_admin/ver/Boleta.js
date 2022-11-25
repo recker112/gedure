@@ -43,8 +43,9 @@ export default function Boleta({
   const [random] = useState(getRandomInt(listColors.length - 1));
   const [loading, setLoading] = useState(false);
 
-  const { progress } = useSelector(state => ({
+  const { progress, administrar: { boletas_edit, boletas_destroy } } = useSelector(state => ({
     progress: state.requestStatus.verBoletas.progress,
+    administrar: state.auth.permissions.administrar,
   }));
   const dispatch = useDispatch();
   
@@ -91,12 +92,12 @@ export default function Boleta({
           </Grid>
           <Grid container justifyContent='flex-end' alignItems='center' item xs={12}>
             <Tooltip title='Eliminar' arrow>
-              <LoadingButton onClick={handleDelete} color='inherit'>
+              <LoadingButton onClick={handleDelete} disabled={!boletas_destroy} color='inherit'>
                 <DeleteForeverIcon />
               </LoadingButton>
             </Tooltip>
             <Tooltip title='Reemplazar' arrow>
-              <LoadingButton onClick={handleReplace} color='inherit'>
+              <LoadingButton onClick={handleReplace} disabled={!boletas_edit} color='inherit'>
                 <FileReplace />
               </LoadingButton>
             </Tooltip>
