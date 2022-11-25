@@ -52,12 +52,13 @@ export default function SectionAdmin() {
   }
 
   return (
-    <PDUsuarioForm
-      user={user}
-      control={control}
-      loading={loading}
-      handleSubmit={handleSubmit(onSubmit)}
-      buttonText='Activar cuenta'
-    />
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+      <PDUsuarioForm
+        user={user}
+        control={control}
+        loading={loading}
+        buttonText='Activar cuenta'
+      />
+    </form>
   )
 }
