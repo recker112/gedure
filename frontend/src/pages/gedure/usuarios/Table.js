@@ -122,6 +122,7 @@ export default function Table() {
                 onClick={() => {
                   idU === id ? navigate('/gedure/cuenta') : navigate(`ver/${id}`);
                 }}
+                component='span'
                 disabled={!users_edit}
                 data-tour="gdUser__show"
               >
@@ -133,6 +134,7 @@ export default function Table() {
                 onClick={() => {
                   dispatch(setRequestStatus({open: true, data: { id, username: privilegio+username }, select: 'disableUser'}));
                 }}
+                component='span'
                 disabled={!users_delete}
                 data-tour="gdUser__delete"
               >

@@ -173,6 +173,7 @@ export default function EditLoteDeuda() {
                     disabled={loading}
                     helperText='Seleccione a los estudiantes que recibirán esta deuda'
                     size='small'
+                    rules={{}}
                     fullWidth
                   >
                     <MenuItem value=''><em>Ninguno</em></MenuItem>

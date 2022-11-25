@@ -181,6 +181,49 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
+			head: 'Lotes de deudas',
+			name: 'debt_lote_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'debt_lote_create',
+					label: 'Crear',
+				},
+				{
+					name: 'debt_lote_edit',
+					label: 'Editar',
+				},
+				{
+					name: 'debt_lote_delete',
+					label: 'Eliminar',
+				},
+				{
+					name: 'debt_create',
+					label: 'Asignar deuda individualmente',
+				},
+				{
+					name: 'debt_delete',
+					label: 'Eliminar deuda individualmente',
+				},
+			]
+		},
+		{
+			head: 'Transacciones',
+			name: 'transaction_index',
+			label: 'Ver',
+		},
+		{
+			head: 'Monederos',
+			name: 'wallet_index',
+			label: 'Ver',
+			nested: [
+				{
+					name: 'wallet_edit',
+					label: 'Administrar',
+				},
+			]
+		},
+		{
 			head: 'Config general',
 			name: 'gc_index',
 			label: 'Ver',
@@ -204,17 +247,6 @@ function PermissionsNoSuper(props){
 					name: 'cursos_destroy',
 					label: 'Eliminar',
 				}
-			]
-		},
-		{
-			head: 'Monederos',
-			name: 'wallet_index',
-			label: 'Ver',
-			nested: [
-				{
-					name: 'wallet_edit',
-					label: 'Administrar',
-				},
 			]
 		},
 		{
@@ -269,38 +301,6 @@ function PermissionsNoSuper(props){
 					label: 'Eliminar',
 				}
 			]
-		},
-		{
-			head: 'Lotes de deudas',
-			name: 'debt_lote_index',
-			label: 'Ver',
-			nested: [
-				{
-					name: 'debt_lote_create',
-					label: 'Crear',
-				},
-				{
-					name: 'debt_lote_edit',
-					label: 'Editar',
-				},
-				{
-					name: 'debt_lote_delete',
-					label: 'Eliminar',
-				},
-				{
-					name: 'debt_create',
-					label: 'Asignar deuda individualmente',
-				},
-				{
-					name: 'debt_delete',
-					label: 'Eliminar deuda individualmente',
-				},
-			]
-		},
-		{
-			head: 'Transacciones',
-			name: 'transaction_index',
-			label: 'Ver',
 		},
 	];
 	

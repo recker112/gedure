@@ -65,8 +65,9 @@ export default function Table() {
             <Tooltip title="Ver" arrow>
               <IconButton
                 onClick={() => {
-                  navigate(`/noticias/${slug}`);
+                  navigate(`/noticias/${slug}`, { state: { backPanel: true } });
                 }}
+                component="span"
               >
                 <VisibilityIcon />
               </IconButton>
@@ -76,6 +77,7 @@ export default function Table() {
                 onClick={() => {
                   navigate(`editar/${slug}`);
                 }}
+                component="span"
                 disabled={!posts_edit}
               >
                 <EditIcon />
@@ -86,6 +88,7 @@ export default function Table() {
                 onClick={() => {
                   dispatch(setRequestStatus({open: true, data: { slug, title }, select: 'deletePost'}));
                 }}
+                component="span"
                 disabled={!posts_destroy}
               >
                 <DeleteForeverIcon />

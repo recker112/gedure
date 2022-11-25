@@ -42,6 +42,7 @@ export default function AdminList({
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
   const { debt_lote_index, transaction_index, wallet_index } = permissions.administrar_transac;
+  console.log(Object.keys(permissions.gedure).length);
 
   return (
     <>
@@ -97,62 +98,62 @@ export default function AdminList({
               </ListDrawerNav>
             )}
           </Collapse>
-
-          {Object.keys(permissions.administrar_transac).length !== 0 && (
-            <>
-              <ListDrawerNav noNav onClick={handleExpand2}>
-                <ListItemIcon>
-                  <CashIcon />
-                </ListItemIcon>
-                <ListItemText primary='Sistema de pagos' /> 
-                {expand2 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </ListDrawerNav>
-              <Collapse in={expand2} timeout="auto" unmountOnExit>
-                {debt_lote_index && (
-                  <ListDrawerNav nested to='/gedure/lotes-deudas'>
-                    <ListItemIcon>
-                      <PiggyBankIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Lotes de deudas" />
-                  </ListDrawerNav>
-                )}
-                {transaction_index && (
-                  <ListDrawerNav nested to='/gedure/transacciones'>
-                    <ListItemIcon>
-                      <AccountBalanceIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Transacciones" />
-                  </ListDrawerNav>
-                )}
-                {wallet_index && (
-                  <ListDrawerNav nested to='/gedure/monedero-admin'>
-                    <ListItemIcon>
-                      <CreditCardEditIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Monederos" />
-                  </ListDrawerNav>
-                )}
-              </Collapse>
-            </>
-          )}
-
-          <ListDrawerNav to='/gedure/monedero'>
-            <ListItemIcon>
-              <AccountBalanceWalletIcon />
-            </ListItemIcon>
-            <ListItemText primary='Monedero' />
-          </ListDrawerNav>
-          
-          {Object.keys(permissions.gedure).length !== 0 && (
-            <ListDrawerNav to='/gedure/config'>
-              <ListItemIcon>
-                <GedureIcon />
-              </ListItemIcon>
-              <ListItemText primary='Configurar Gedure' /> 
-            </ListDrawerNav>
-          )}
         </>
       )}
+
+      {Object.keys(permissions.administrar_transac).length !== 0 && (
+        <>
+          <ListDrawerNav noNav onClick={handleExpand2}>
+            <ListItemIcon>
+              <CashIcon />
+            </ListItemIcon>
+            <ListItemText primary='Sistema de pagos' /> 
+            {expand2 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListDrawerNav>
+          <Collapse in={expand2} timeout="auto" unmountOnExit>
+            {debt_lote_index && (
+              <ListDrawerNav nested to='/gedure/lotes-deudas'>
+                <ListItemIcon>
+                  <PiggyBankIcon />
+                </ListItemIcon>
+                <ListItemText primary="Lotes de deudas" />
+              </ListDrawerNav>
+            )}
+            {transaction_index && (
+              <ListDrawerNav nested to='/gedure/transacciones'>
+                <ListItemIcon>
+                  <AccountBalanceIcon />
+                </ListItemIcon>
+                <ListItemText primary="Transacciones" />
+              </ListDrawerNav>
+            )}
+            {wallet_index && (
+              <ListDrawerNav nested to='/gedure/monedero-admin'>
+                <ListItemIcon>
+                  <CreditCardEditIcon />
+                </ListItemIcon>
+                <ListItemText primary="Monederos" />
+              </ListDrawerNav>
+            )}
+          </Collapse>
+        </>
+      )}
+
+      {Object.keys(permissions.gedure).length !== 0 && (
+        <ListDrawerNav to='/gedure/config'>
+          <ListItemIcon>
+            <GedureIcon />
+          </ListItemIcon>
+          <ListItemText primary='Configurar Gedure' /> 
+        </ListDrawerNav>
+      )}
+
+      <ListDrawerNav to='/gedure/monedero'>
+        <ListItemIcon>
+          <AccountBalanceWalletIcon />
+        </ListItemIcon>
+        <ListItemText primary='Monedero' />
+      </ListDrawerNav>
     </>
   )
 }

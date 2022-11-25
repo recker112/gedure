@@ -46,11 +46,7 @@ export default function VerBoleta() {
   let navigate = useNavigate();
 
   const handleReturn = () => {
-    if (window.history.state && window.history.state.idx > 0) {
-      navigate(-1);
-    } else {
-      navigate("/gedure/publicaciones");
-    }
+    navigate("/gedure/boletas");
   };
 
   const handleRefresh = () => {

@@ -57,7 +57,7 @@ export default function UpdateSeccion() {
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DialogContentText>Ha <strong>seleccionado data.length estudiante(s)</strong>, seleccione la sección a la que los desea cambiar.</DialogContentText>
+            <DialogContentText>Ha <strong>seleccionado {data.length} estudiante(s)</strong>, seleccione la sección a la que los desea cambiar.</DialogContentText>
           </Grid>
           <Grid item xs={12} sm={6}>
             <SelectHook
