@@ -60,7 +60,7 @@ class Kernel extends ConsoleKernel
 		// Automatizar proceso de deudas
 		$schedule->command('debt:automatize')
 			->timezone('America/Caracas')
-			->monthlyOn(1, '00:00')
+			->monthlyOn(1, '06:00')
 			->appendOutputTo(storage_path('logs/debt_automatize.log'))
 			->runInBackground();
 

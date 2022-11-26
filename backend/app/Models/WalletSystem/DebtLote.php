@@ -22,6 +22,7 @@ class DebtLote extends Model
 	 * @var array
 	 */
 	protected $fillable = [
+		'type',
 		'reason',
 		'amount_to_pay',
 		'exchange_rate_id',

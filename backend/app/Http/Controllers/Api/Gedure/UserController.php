@@ -13,7 +13,6 @@ use App\Http\Requests\MatriculaRequest;
 use App\Http\Requests\MassiveUsersRequest;
 use App\Http\Requests\MassiveUsersUpdateRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\Gedure\CursoController;
 
 // Intervention
 use Intervention\Image\Facades\Image;
@@ -26,6 +25,10 @@ use App\Models\User;
 use App\Models\Gedure\Curso;
 use App\Models\Gedure\PersonalDataAdmin;
 use App\Models\Gedure\PersonalDataUser;
+
+// Controllers
+use App\Http\Controllers\Api\Gedure\CursoController;
+use App\Http\Controllers\Api\WalletSystem\DebtLoteController;
 
 // Notifications
 use App\Jobs\Gedure\UsersImportProcess;
@@ -158,6 +161,11 @@ class UserController extends Controller
 					$user->givePermissionTo($clave);
 				}
 			}
+		}
+
+		// NOTA(RECKER): Agregar deudas a estudiantes
+		if ($user->privilegio === 'V-') {
+			DebtLoteController::autoAssign($user);
 		}
 		
 		// NOTA(RECKER): Log

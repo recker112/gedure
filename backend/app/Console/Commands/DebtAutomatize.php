@@ -47,7 +47,7 @@ class DebtAutomatize extends Command
                 $query->where('available_on', '<=', now());
             })
             ->get();
-        $initDate = now()->parse('September 01');
+        $initDate = now()->parse('September 01 04:00');
 
         // Exchange rate
         $exrate = ExchangeRate::where('type', 'USD')->latest()->first();
@@ -95,7 +95,7 @@ class DebtAutomatize extends Command
         // Recorrer 12 meses
         $i = 0;
         $exo = [];
-        while ($initDate <= now()->parse('August 01')->add(1,'year') && $lastDebtLote?->available_on <= now()) {
+        while ($initDate <= now()->parse('August 01 04:00')->add(1,'year') && $lastDebtLote?->available_on <= now()) {
             // Variables
             $year = now()->year .'-'. now()->year+1;
             $reason = "Mensualidad ".ucwords($initDate->monthName).' '.$year;
@@ -270,6 +270,7 @@ class DebtAutomatize extends Command
 			'payload' => null,
 			'type' => 'gedure',
 		]);
-        return 0;
+
+        return COMMAND::SUCCESS;
     }
 }

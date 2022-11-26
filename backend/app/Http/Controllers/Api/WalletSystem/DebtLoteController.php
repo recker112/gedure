@@ -112,6 +112,7 @@ class DebtLoteController extends Controller
 		// NOTA(RECKER): Creacion del lote de deudas
 		$debt_lote = new DebtLote;
 		$debt_lote->reason = $request->reason;
+		$debt_lote->type = 'M';
 
 		// NOTA(RECKER): ExchangeRate
 		$amount = $request->amount_to_pay;
@@ -336,5 +337,63 @@ class DebtLoteController extends Controller
 		return response()->json([
 			'msg' => 'Lote de deuda eliminada',
 		], 200);
+	}
+
+	public static function autoAssign(User $user) {
+		// Obtener debt de la última inscripción
+		$debtInscrip = DebtLote::where('type','A')
+			->where('reason', 'like', 'Inscripción%')
+			->orderBy('id', 'desc');
+
+		// Cuenta exonerada
+		$exonerado = $user->can('account_exonerada');
+
+		// Date
+		$dateNow = now()->parse('first day of '.now()->locale('en')->monthName);
+		$registerDebts = in_array($dateNow->month,[8,7,6,5,4]);
+
+		// Obtener Debts pendientes
+		$debtLotes = DebtLote::where('available_on', '>=', $dateNow)
+			// No regresar debts del año escolar actual si ya nos encontramos entre Abril y Agosto del nuevo año escolar
+			->when($registerDebts, fn($query) => $query->whereNot('reason', 'like', '%-'.now()->year))
+			->union($debtInscrip)
+			->get();
+
+		// Agregar debts al estudiante
+		foreach ($debtLotes as $debt_lote) {
+			$status = $debt_lote->available_on <= now() ? 'no pagada' : 'futura';
+
+			$debt = $user->debts()->create([
+				'debt_lote_id' => $debt_lote->id,
+				'status' => $exonerado ? 'exonerada' : $status,
+			]);
+
+			if ($exonerado) {
+				// Generar transacciones
+				$id = $debt_lote->id;
+				$payload = [
+					'actions' => [
+						[
+							'reason' => $debt_lote->reason." (#$id)",
+							'amount' => $debt_lote->amount_to_pay,
+						]
+					],
+				];
+
+				$transaction = $user->transactions()->create([
+					'type' => 'deuda pagada',
+					'payload' => $payload,
+					'amount' => $debt_lote->amount_to_pay,
+					'previous_balance' => $user->wallet->balance,
+					'payment_method' => 'otros',
+					'exonerado' => 1,
+				]);
+		
+				// Relación polimórfica
+				$debt->transaction()->save($transaction);
+			}
+		}
+
+		return true;
 	}
 }
