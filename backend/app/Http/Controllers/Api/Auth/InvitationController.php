@@ -140,7 +140,7 @@ class InvitationController extends Controller
 		$key = Invitation::where('invitation_key', $request->key)->firstOrFail();
 		$user = $key->user;
 		
-		$user->password = bcrypt($request->password);
+		$user->password = $request->password;
 		$user->save();
 		
 		$key->delete();
