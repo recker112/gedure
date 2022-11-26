@@ -111,7 +111,7 @@ class RecoveryPasswordController extends Controller
 			], 400);
 		}
 		
-		$user->password = bcrypt($request->password);
+		$user->password = $request->password;
 		$user->save();
 		$user->recoveryPassword->delete();
 		
