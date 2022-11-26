@@ -55,6 +55,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'backups' => [
+            'driver' => 'local',
+            'root' => storage_path(env('BACKUP_DIR')),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

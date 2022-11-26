@@ -83,6 +83,18 @@ class Kernel extends ConsoleKernel
 			->weekdays()
 			->dailyAt('11:00')
 			->appendOutputTo(storage_path('logs/debt_pay_pending.log'));
+
+
+		// Backups
+		$schedule->command('backup:run --only-db')
+			->timezone('America/Caracas')
+			->daily()
+			->appendOutputTo(storage_path('logs/backup_database.log'));
+
+		$schedule->command('backup:run --only-files')
+			->timezone('America/Caracas')
+			->weeklyOn(7, '00:00')
+			->appendOutputTo(storage_path('logs/backup_database.log'));
 	}
 
 	/**
