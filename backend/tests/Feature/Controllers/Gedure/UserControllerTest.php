@@ -118,6 +118,8 @@ class UserControllerTest extends TestCase
 			'curso' => '5',
 			'seccion' => 'A',
 		]);
+
+		$this->artisan('debt:automatize')->assertSuccessful();
 		
 		$response = $this->postJson('/api/v1/user', [
 			'username' => 'luis',

@@ -15,6 +15,7 @@ class CreateDebtLotesTable extends Migration
 	{
 		Schema::create('debt_lotes', function (Blueprint $table) {
 			$table->id();
+			$table->enum("type", ["A", "M"])->default('A');
 			$table->text('reason');
 			$table->decimal('amount_to_pay', 18, 2);
 			$table->decimal('exchange_amount', 18, 2)->nullable();
@@ -23,7 +24,7 @@ class CreateDebtLotesTable extends Migration
 				->nullable()
 				->constrained()
 				->onUpdate('cascade')
-				->onDelete('set null');	
+				->onDelete('set null');
 			$table->datetime('available_on');
 			$table->timestamps();
 		});

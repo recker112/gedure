@@ -28,6 +28,7 @@ use App\Models\Gedure\PersonalDataUser;
 
 // Controllers
 use App\Http\Controllers\Api\Gedure\CursoController;
+use App\Http\Controllers\Api\WalletSystem\DebtLoteController;
 
 // Notifications
 use App\Notifications\Gedure\StudiendsUploadCompletedNotification;
@@ -144,6 +145,9 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsE
 						$message = (new MailInvitation($user, $user->invitation->invitation_key))->onQueue('emails');
 						Mail::to($user)->queue($message);
 					}
+
+					// NOTA(RECKER): Agregar deudas
+					DebtLoteController::autoAssign($user);
 
 					$this->inserts++;
 				}
