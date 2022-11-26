@@ -34,12 +34,15 @@ class FixDiskUrl extends Command
         // NOTA(RECKER): Mini fix
         $fixNames = User::latest()->get();
 
+        $u=0;
         foreach($fixNames as $user) {
             $nombre = str_replace(',', '', $user->name);
 			$nombre = ucwords(strtolower($nombre));
             
             $user->name = $nombre;
             $user->save();
+
+            $u++;
         }
 
         // NOTA(RECKER): Arreglar tabla users
@@ -92,6 +95,7 @@ class FixDiskUrl extends Command
         }
 
 
+        $this->info("Nombre de usuarios arreglados: $u");
         $this->info("Avatars arreglados: $usersUpdateds");
         $this->info("Portadas arregladas: $portadasUpdateds");
         $this->info("Galerys arregladas: $galerysUpdateds");
