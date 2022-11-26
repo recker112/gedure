@@ -42,7 +42,6 @@ export default function AdminList({
   const { registros_index } = permissions.sin_asignar;
   const { users_index, posts_index, boletas_index, contact_index } = permissions.administrar;
   const { debt_lote_index, transaction_index, wallet_index } = permissions.administrar_transac;
-  console.log(Object.keys(permissions.gedure).length);
 
   return (
     <>
