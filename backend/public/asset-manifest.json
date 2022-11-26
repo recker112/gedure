@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.0da15641.css",
-    "main.js": "/static/js/main.4ab5cc97.js",
+    "main.js": "/static/js/main.521f94e8.js",
     "static/js/3114.dd0355c3.chunk.js": "/static/js/3114.dd0355c3.chunk.js",
     "static/js/7308.0ce2b172.chunk.js": "/static/js/7308.0ce2b172.chunk.js",
     "static/js/7078.ea203710.chunk.js": "/static/js/7078.ea203710.chunk.js",
     "static/js/393.5264e887.chunk.js": "/static/js/393.5264e887.chunk.js",
     "static/js/7229.27a9e729.chunk.js": "/static/js/7229.27a9e729.chunk.js",
-    "static/js/318.68bd8a98.chunk.js": "/static/js/318.68bd8a98.chunk.js",
+    "static/js/318.01eb145b.chunk.js": "/static/js/318.01eb145b.chunk.js",
     "static/js/347.b3c7f6e3.chunk.js": "/static/js/347.b3c7f6e3.chunk.js",
     "static/js/9942.2ca6dc15.chunk.js": "/static/js/9942.2ca6dc15.chunk.js",
     "static/js/317.7eaca7f4.chunk.js": "/static/js/317.7eaca7f4.chunk.js",
@@ -113,13 +113,13 @@
     "static/media/gedure-logo-recto.svg": "/static/media/gedure-logo-recto.110ae6fa48ac9a0199bd2780de01d266.svg",
     "index.html": "/index.html",
     "main.0da15641.css.map": "/static/css/main.0da15641.css.map",
-    "main.4ab5cc97.js.map": "/static/js/main.4ab5cc97.js.map",
+    "main.521f94e8.js.map": "/static/js/main.521f94e8.js.map",
     "3114.dd0355c3.chunk.js.map": "/static/js/3114.dd0355c3.chunk.js.map",
     "7308.0ce2b172.chunk.js.map": "/static/js/7308.0ce2b172.chunk.js.map",
     "7078.ea203710.chunk.js.map": "/static/js/7078.ea203710.chunk.js.map",
     "393.5264e887.chunk.js.map": "/static/js/393.5264e887.chunk.js.map",
     "7229.27a9e729.chunk.js.map": "/static/js/7229.27a9e729.chunk.js.map",
-    "318.68bd8a98.chunk.js.map": "/static/js/318.68bd8a98.chunk.js.map",
+    "318.01eb145b.chunk.js.map": "/static/js/318.01eb145b.chunk.js.map",
     "347.b3c7f6e3.chunk.js.map": "/static/js/347.b3c7f6e3.chunk.js.map",
     "9942.2ca6dc15.chunk.js.map": "/static/js/9942.2ca6dc15.chunk.js.map",
     "317.7eaca7f4.chunk.js.map": "/static/js/317.7eaca7f4.chunk.js.map",
@@ -215,6 +215,6 @@
   },
   "entrypoints": [
     "static/css/main.0da15641.css",
-    "static/js/main.4ab5cc97.js"
+    "static/js/main.521f94e8.js"
   ]
 }
