@@ -10,8 +10,8 @@ import { Box, CircularProgress, Container, Fade, Grid, Slide } from '@mui/materi
 import NavTabs from './NavTabs';
 import useNotifier from '../../../hooks/useNotifier';
 
-// SNOW
-import Snowfall from 'react-snowfall';
+// // SNOW
+// import Snowfall from 'react-snowfall';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -31,11 +31,11 @@ const classes = {
   content: {
 		marginTop: 2
 	},
-  snow: {
-    position: 'absolute',
-    height: 1/1,
-    width: 1/1,
-  },
+  // snow: {
+  //   position: 'absolute',
+  //   height: 1/1,
+  //   width: 1/1,
+  // },
 };
 
 function Loading() {
@@ -75,11 +75,11 @@ export default function GDConfig() {
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
         <Box sx={classes.header}>
-          <Box sx={classes.snow}>
+          {/* <Box sx={classes.snow}>
             <Snowfall
               snowflakeCount={40}
             />
-          </Box>
+          </Box> */}
           <Header />
           <NavTabs />
         </Box>

@@ -7,8 +7,8 @@ import { Box, Container, Fade, Grid, Slide } from '@mui/material';
 import AccordionAdmin from './AccordionAdmin';
 import AccordionUser from './AccordionUser';
 
-// SNOW
-import Snowfall from 'react-snowfall';
+// // SNOW
+// import Snowfall from 'react-snowfall';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -37,11 +37,11 @@ const classes = {
 		fontSize: theme.typography.pxToRem(15),
 		color: theme.palette.text.secondary,
 	}),
-  snow: {
-    position: 'absolute',
-    height: 1/1,
-    width: 1/1,
-  }
+  // snow: {
+  //   position: 'absolute',
+  //   height: 1/1,
+  //   width: 1/1,
+  // }
 }
 
 function Header() {
@@ -80,11 +80,11 @@ export default function FAQ() {
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
         <Box sx={classes.header}>
-          <Box sx={classes.snow}>
+          {/* <Box sx={classes.snow}>
             <Snowfall
               snowflakeCount={40}
             />
-          </Box>
+          </Box> */}
           <Header />
         </Box>
       </Slide>

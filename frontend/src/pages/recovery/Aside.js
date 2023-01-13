@@ -4,8 +4,8 @@ import { Box, Container, Grid, Link, Typography } from '@mui/material';
 import GedureLogo from '../../img/gedure-logo-recto.svg';
 import institutoLogo from '../../img/Farvicon_no_fondo_white.png';
 
-// SNOW
-import Snowfall from 'react-snowfall';
+// // SNOW
+// import Snowfall from 'react-snowfall';
 
 const classes = {
   aside: (theme) => ({
@@ -26,21 +26,21 @@ const classes = {
     color: 'primary.contrastText', 
     mr: 1
   },
-  snow: {
-    position: 'absolute',
-    height: 1/1,
-    width: 1/1,
-  },
+  // snow: {
+  //   position: 'absolute',
+  //   height: 1/1,
+  //   width: 1/1,
+  // },
 };
 
 export default function Aside({ step }) {
   return (
     <Box sx={classes.aside}>
-      <Box sx={classes.snow}>
+      {/* <Box sx={classes.snow}>
         <Snowfall
           snowflakeCount={40}
         />
-      </Box>
+      </Box> */}
       <Container sx={classes.container}>
         <Grid container direction='column' justifyContent='space-between' sx={{ height: '100%' }}>
           <Grid item>

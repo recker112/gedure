@@ -14,8 +14,8 @@ import SingleBox from './SingleBox';
 import useNotifier from '../../../hooks/useNotifier';
 import TourHome from './TourHome';
 
-// SNOW
-import Snowfall from 'react-snowfall';
+// // SNOW
+// import Snowfall from 'react-snowfall';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,11 +37,11 @@ const classes = {
 		position: 'relative',
 		top: -80,
 	},
-  snow: {
-    position: 'absolute',
-    height: 1/1,
-    width: 1/1,
-  }
+  // snow: {
+  //   position: 'absolute',
+  //   height: 1/1,
+  //   width: 1/1,
+  // }
 };
 
 function Header() {
@@ -98,11 +98,11 @@ export default function Home() {
     <Box component='main' sx={classes.container}>
       <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
         <Box sx={classes.header}>
-          <Box sx={classes.snow}>
+          {/* <Box sx={classes.snow}>
             <Snowfall
               snowflakeCount={40}
             />
-          </Box>
+          </Box> */}
           <Header />
         </Box>
       </Slide>

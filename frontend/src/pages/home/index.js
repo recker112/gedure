@@ -7,8 +7,8 @@ import SectionEtapas from "./SectionEtapas";
 import SectionExpand from "./SectionExpand";
 import SectionInfo from "./SectionInfo";
 
-// SNOW
-import Snowfall from 'react-snowfall';
+// // SNOW
+// import Snowfall from 'react-snowfall';
 
 const classes = {
   container: {
@@ -30,11 +30,11 @@ const classes = {
 		position: 'relative',
 		top: -70,
 	},
-  snow: {
-    position: 'absolute',
-    height: 1/1,
-    width: 1/1,
-  }
+  // snow: {
+  //   position: 'absolute',
+  //   height: 1/1,
+  //   width: 1/1,
+  // }
 }
 
 export default function Home() {
@@ -50,11 +50,11 @@ export default function Home() {
               alignItems="center"
               height='100%'
             >
-              <Box sx={classes.snow}>
+              {/* <Box sx={classes.snow}>
                 <Snowfall
                   snowflakeCount={40}
                 />
-              </Box>
+              </Box> */}
               <Typography sx={{color: 'primary.contrastText', position: 'relative', zIndex: 10}} align="center" variant="h3" className="text__bold--big">
                 Enfocados en el Estudio y la Fe
               </Typography>
