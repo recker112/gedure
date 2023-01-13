@@ -1,6 +1,6 @@
 {
   "name": "frontend-la-candelaria",
-  "version": "5.2.0",
+  "version": "5.2.2",
   "private": true,
   "dependencies": {
     "@egjs/react-imready": "^1.3.1",
