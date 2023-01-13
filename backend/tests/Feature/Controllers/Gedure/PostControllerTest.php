@@ -36,6 +36,7 @@ class PostControllerTest extends TestCase
 						'slug',
 						'user',
 						'fecha_humano',
+						'created_at',
 						'user',
 						'url_portada',
 					]
@@ -66,6 +67,7 @@ class PostControllerTest extends TestCase
 						'slug',
 						'user',
 						'fecha_humano',
+						'created_at',
 						'user',
 						'url_portada',
 					]

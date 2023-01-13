@@ -26,6 +26,7 @@ export default function PreviewNews({ data }) {
 		title,
 		slug,
 		fecha_humano,
+    created_at,
 		url_portada,
 	} = data;
 
@@ -38,7 +39,7 @@ export default function PreviewNews({ data }) {
 							{title.length > 100 ? `${title.substring(0, 100)}...` : title}
 						</Typography>
             <Typography className='text__opacity--semi'>
-              Publicado {fecha_humano.search("-") === -1 ? fecha_humano : `el ${fecha_humano}`}
+              Publicado {fecha_humano ? fecha_humano : `el ${created_at}`}
             </Typography>
           </Grid>
           <Grid container justifyContent='flex-end' alignItems='flex-end' item xs={12}>
