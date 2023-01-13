@@ -32,8 +32,7 @@ class PostController extends Controller
 			->makeHidden([
 				'portada', 
 				'galery', 
-				'content', 
-				'created_at', 
+				'content',
 				'fecha_humano_modify', 
 				'only_users',
 				'updated_at',
@@ -78,8 +77,7 @@ class PostController extends Controller
 			->makeHidden([
 				'portada', 
 				'galery', 
-				'content', 
-				'created_at', 
+				'content',
 				'fecha_humano_modify', 
 				'only_users',
 				'updated_at',
