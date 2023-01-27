@@ -75,3 +75,7 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:users_disabled_destroy'])
 // Find Like Users
 Route::middleware(['auth:api', 'scopes:admin', 'permission:debt_lote_create|bank_transaction_assign'])
 	->get('find/users', [UserController::class, 'findLike']);
+
+// Download data users
+Route::middleware(['auth:api', 'scopes:admin', 'can:users_download_data'])
+	->get('download/students', [UserController::class, 'exportData']);

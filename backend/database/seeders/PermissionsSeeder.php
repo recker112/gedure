@@ -31,6 +31,7 @@ class PermissionsSeeder extends Seeder
 		Permission::firstOrCreate(['name' => 'users_edit_admins'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'users_delete'],['guard_name' => 'api']);
 		// NOTA(RECKER): Permisos de gedure config
+		Permission::firstOrCreate(['name' => 'users_download_data'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'users_disabled_index'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'users_disabled_restore'],['guard_name' => 'api']);
 		Permission::firstOrCreate(['name' => 'users_disabled_destroy'],['guard_name' => 'api']);

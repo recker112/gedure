@@ -66,7 +66,7 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsE
 		foreach ($rows as $row) 
 		{
 			// NOTA(RECKER): Parse texto
-			$nombre = str_replace(',', '', trim($row['nomalum'])). ' ' .str_replace(',', '', trim($row['apelalum']));
+			$nombre = str_replace(',', '', trim($row['nomalum'])). ' ' .str_replace(',', '', trim($row['apelalum'] ?? ''));
 			$cedula = trim($row['nced']);
 			$email = filter_var($row['email'], FILTER_VALIDATE_EMAIL) ? trim($row['email']) : null;
 			
@@ -165,15 +165,18 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsE
 		return [
 			'nced' => [
 				'required',
-				'integer',
 			],
 			'nomalum' => [
 				'required',
 				'string',
 			],
 			'apelalum' => [
-				'required',
+				'nullable',
 				'string',
+			],
+			'email' => [
+				'nullable',
+				'email',
 			],
 		];
 	}

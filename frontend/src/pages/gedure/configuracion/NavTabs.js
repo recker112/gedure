@@ -37,6 +37,7 @@ export default function NavTabs() {
     users_disabled_index, 
     bank_account_index, 
     bank_transaction_index,
+    users_download_data,
   } = gedure;
 
   return (
@@ -74,7 +75,7 @@ export default function NavTabs() {
           {...a11yProps(1)}
         />
       )}
-      {users_disabled_index && (
+      {(users_disabled_index || users_download_data) && (
         <LinkTab
           label='Usuarios' 
           value={'/gedure/config/usuarios'}

@@ -94,7 +94,7 @@ class BoletaController extends Controller
 			->select('boletas.*')
 			->with('curso')
 			->join('cursos', 'cursos.id', '=', 'boletas.curso_id')
-			->orderBy('cursos.code', 'desc')
+			->orderBy('created_at', 'desc')
 			->get()
 			->toArray();
 		

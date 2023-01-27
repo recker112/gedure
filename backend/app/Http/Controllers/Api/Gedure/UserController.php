@@ -19,6 +19,7 @@ use Intervention\Image\Facades\Image;
 
 // Excel
 use App\Imports\StudiendImport;
+use App\Exports\StudentsFullExport;
 
 // Models
 use App\Models\User;
@@ -652,6 +653,11 @@ class UserController extends Controller
 			'msg' => "$i usuario(s) eliminado(s)",
 			'users_destroy' => $i,
 		],200);
+	}
+
+	public function exportData(Request $request)
+	{
+		return (new StudentsFullExport())->download('students.xlsx');
 	}
 	
 	public function formatPermissions($user)
