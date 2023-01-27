@@ -76,8 +76,8 @@ export default function NavTabs() {
       )}
       {users_disabled_index && (
         <LinkTab
-          label='Usuarios desactivados' 
-          value={'/gedure/config/usuarios-desactivados'}
+          label='Usuarios' 
+          value={'/gedure/config/usuarios'}
           {...a11yProps(2)}
         />
       )}
