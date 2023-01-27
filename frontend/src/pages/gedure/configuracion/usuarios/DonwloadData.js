@@ -19,7 +19,7 @@ export default function DonwloadData() {
   }
 
   return (
-    <Paper className='paper--padding'>
+    <Paper className='paper--padding' data-tour='students-download'>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant='h6' className='text__bold--semi'>

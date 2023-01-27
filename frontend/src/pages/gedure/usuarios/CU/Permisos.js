@@ -235,7 +235,7 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
-			head: 'Cursos',
+			head: 'Config cursos',
 			name: 'cursos_index',
 			label: 'Ver',
 			nested: [
@@ -250,7 +250,7 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
-			head: 'Cuentas bancaras',
+			head: 'Config cuentas bancaras',
 			name: 'bank_account_index',
 			label: 'Ver',
 			nested: [
@@ -269,7 +269,7 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
-			head: 'Transacciones bancarias',
+			head: 'Config transacciones bancarias',
 			name: 'bank_transaction_index',
 			label: 'Ver',
 			nested: [
@@ -288,7 +288,12 @@ function PermissionsNoSuper(props){
 			]
 		},
 		{
-			head: 'Usuarios desactivados',
+			head: 'Config Usuarios',
+			name: 'users_download_data',
+			label: 'Descargar data',
+		},
+		{
+			head: 'Config Usuarios desactivados',
 			name: 'users_disabled_index',
 			label: 'Ver',
 			nested: [

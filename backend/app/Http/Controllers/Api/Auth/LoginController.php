@@ -231,6 +231,7 @@ class LoginController extends Controller
 		
 		$listG = [
 			'A-' => [
+				'users_download_data',
 				'users_disabled_index',
 				'users_disabled_restore',
 				'users_disabled_destroy',

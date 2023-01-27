@@ -18,12 +18,12 @@ export default function TourDisabled() {
 			content: ({goTo}) => (
 				<div>
 					<Typography color='primary' className='text__bold--big' variant='h5'>
-						Usuarios desactivados
+						Usuarios
 					</Typography>
 					<Typography variant='body1'>
-						En esta sección podrá visualizar a los estudiantes desactivados del sistema.
+						En esta sección podrá visualizar a los estudiantes desactivados del sistema, también podrá descargar toda la data de los estudiantes registrados dentro del sistema.
 					</Typography>
-					<Button size='small' color='primary' onClick={() => goTo(4)}>
+					<Button size='small' color='primary' onClick={() => goTo(5)}>
 						Saltar tour
 					</Button>
 				</div>
@@ -31,6 +31,17 @@ export default function TourDisabled() {
 			style: {
 				backgroundColor: theme.palette.background.paper
 			}
+		},
+		{
+			selector: '[data-tour="students-download"]',
+			content: () => (
+				<Typography variant='body1'>
+					Aquí podrá <strong>descargar la data</strong> de todos los estudiantes dentro del sistema. Aquí aparecerán desde los <strong>estudiantes en cursos</strong> hasta los <strong>estudiantes sin curso</strong>. Tenga en cuenta que los <strong>estudiantes desactivados no se tomarán en cuenta</strong> al generar esta data.
+				</Typography>
+			),
+			style: {
+				backgroundColor: theme.palette.background.paper
+			},
 		},
     {
 			selector: '[data-tour="table-disabled"]',
