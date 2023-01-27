@@ -42,10 +42,10 @@ import { reducersDownloadBoletasUser } from "./async_trunk/boleta/downloadBoleta
 import { reducersCreateCurso } from "./async_trunk/configuracion/cursos/createCurso";
 import { reducersDeleteCurso } from "./async_trunk/configuracion/cursos/deleteCurso";
 import { reducersDeleteMassiveCursos } from "./async_trunk/configuracion/cursos/deleteMassiveCursos";
-import { reducersRestoreUser } from "./async_trunk/configuracion/users_disabled/restoreUser";
-import { reducersRestoreMassiveUser } from "./async_trunk/configuracion/users_disabled/restoreMassiveUsers";
-import { reducersDestroyUser } from "./async_trunk/configuracion/users_disabled/destroyUser";
-import { reducersDestroyMassiveUser } from "./async_trunk/configuracion/users_disabled/destroyMassiveUser";
+import { reducersRestoreUser } from "./async_trunk/configuracion/users/restoreUser";
+import { reducersRestoreMassiveUser } from "./async_trunk/configuracion/users/restoreMassiveUsers";
+import { reducersDestroyUser } from "./async_trunk/configuracion/users/destroyUser";
+import { reducersDestroyMassiveUser } from "./async_trunk/configuracion/users/destroyMassiveUser";
 import { reducersGetUserInvitation } from "./async_trunk/invitacion/getUserInvitacion";
 import { reducersAcceptInvitation } from "./async_trunk/invitacion/acceptInvitation";
 import { reducersDeleteMassiveBankAccount } from "./async_trunk/configuracion/pagos/deleteMassiveBankAccount";
@@ -53,7 +53,7 @@ import { reducersDeleteMassiveBankTransaction } from "./async_trunk/configuracio
 import { reducersReplaceBoleta } from "./async_trunk/boletas_admin/replaceBoleta";
 import { reducersGetConfigs } from "./async_trunk/configuracion/general/getConfigs";
 import { reducersSetConfigs } from "./async_trunk/configuracion/general/setConfigs";
-
+import { reducersDownloadDataUser } from "./async_trunk/configuracion/users/downloadDataUser";
 
 const initialState = {
   login: {
@@ -289,6 +289,10 @@ const initialState = {
   setConfigs: {
     loading: false,
   },
+  downloadDataUsers: {
+    loading: false,
+    progress: 0,
+  }
 };
 
 export const requestStatusSlices = createSlice({
@@ -381,6 +385,7 @@ export const requestStatusSlices = createSlice({
     ...reducersDestroyMassiveUser,
     ...reducersGetConfigs,
     ...reducersSetConfigs,
+    ...reducersDownloadDataUser,
   }
 });
 

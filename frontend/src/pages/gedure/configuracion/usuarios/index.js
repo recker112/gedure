@@ -1,24 +1,30 @@
 import React from 'react'
 
 // MUI
-import { Box } from '@mui/material';
+import { Grid } from '@mui/material';
 
 // Components
+import DonwloadData from './DonwloadData';
 import TourDisabled from '../TourDisabled';
 import Table from './Table';
 import DialogConfirmation from '../../../../components/DialogConfirmation';
 
 // Redux
 import { setRequestStatus } from '../../../../store/slices/requestStatus';
-import { restoreUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/restoreUser';
-import { restoreMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/restoreMassiveUsers';
-import { destroyUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/destroyUser';
-import { destroyMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users_disabled/destroyMassiveUser';
+import { restoreUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users/restoreUser';
+import { restoreMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users/restoreMassiveUsers';
+import { destroyUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users/destroyUser';
+import { destroyMassiveUser } from '../../../../store/slices/requestStatus/async_trunk/configuracion/users/destroyMassiveUser';
 
 export default function GDUserDis() {
   return (
-    <Box sx={{paddingBottom: 6}}>
-      <Table />
+    <Grid container spacing={2} sx={{paddingBottom: 6}}>
+      <Grid item xs={12}>
+        <DonwloadData />
+      </Grid>
+      <Grid item xs={12}>
+        <Table />
+      </Grid>
       <DialogConfirmation
         rdx1='requestStatus' 
         rdx2='restoreUser'
@@ -68,6 +74,6 @@ export default function GDUserDis() {
         {(data) => (<span>Está a punto de eliminar permanentemente <strong>{data?.length}</strong> usuario(s). Esta acción es irreversible, una vez fuera del sistema no podrá recuperar los datos.</span>)}
       </DialogConfirmation>
       <TourDisabled />
-    </Box>
+    </Grid>
   )
 }

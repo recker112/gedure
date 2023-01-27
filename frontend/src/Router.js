@@ -85,7 +85,7 @@ const UBoletasPage = lazy(() => import('./pages/gedure/boletas'));
 const GDHeaders = lazy(() => import('./pages/gedure/configuracion'));
 const GDHomePage = lazy(() => import('./pages/gedure/configuracion/home'));
 const GDCursosPage = lazy(() => import('./pages/gedure/configuracion/cursos'));
-const GDUserDisPage = lazy(() => import('./pages/gedure/configuracion/usuarios_desactivados'));
+const GDUserDisPage = lazy(() => import('./pages/gedure/configuracion/usuarios'));
 const GDPagosPage = lazy(() => import('./pages/gedure/configuracion/pagos'));
 
 // Lotes deudas
@@ -350,7 +350,7 @@ export default function Routers() {
                       )}
 
                       {users_disabled_index && (
-                        <Route path='usuarios-desactivados' element={<GDUserDisPage />} />
+                        <Route path='usuarios' element={<GDUserDisPage />} />
                       )}
 
                       <Route path='*' element={
