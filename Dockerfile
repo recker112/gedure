@@ -1,7 +1,7 @@
 FROM php:8.1-rc-fpm-alpine
 
 # Install dependencies system
-RUN apk add --no-cache libzip-dev gd libpng-dev jpeg-dev freetype-dev
+RUN apk add --no-cache libzip-dev gd libpng-dev jpeg-dev freetype-dev mysql-client
 
 # ## Install dependencies PHP
 RUN docker-php-ext-configure gd --enable-gd --with-jpeg \
