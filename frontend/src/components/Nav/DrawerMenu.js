@@ -130,7 +130,7 @@ export default function DrawerMenu() {
 					fontSize='body2.fontSize' 
 					textAlign='center'
 				>
-					Ver. 5.3.0
+					Ver. 5.3.1
 				</Box>
       </Box>
     </Drawer>
