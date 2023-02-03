@@ -55,7 +55,7 @@ export default function DataTransfer() {
           data-tour="amount"
           name='amount_to_transfer'
           label='Monto a transferir'
-          helperText='Monto que desea transferir'
+          helperText={`Saldo actual: ${balance}`}
           disabled={loading}
           fullWidth
           variant='filled'
