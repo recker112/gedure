@@ -53,7 +53,7 @@ const papers = [
   },
   {
     title: 'Educación Media Técnica Administración en Financias',
-    subtitle: '6° grado',
+    subtitle: 'Desde 4° hasta 6° Año',
     classes: {
       backgroundColor: '#9055A2',
       height: 150,
