@@ -89,12 +89,12 @@ class Kernel extends ConsoleKernel
 		$schedule->command('backup:run --only-db')
 			->timezone('America/Caracas')
 			->daily()
-			->appendOutputTo(storage_path('logs/backup_database.log'));
+			->appendOutputTo(storage_path('logs/backup.log'));
 
 		$schedule->command('backup:run --only-files')
 			->timezone('America/Caracas')
 			->weeklyOn(7, '00:00')
-			->appendOutputTo(storage_path('logs/backup_database.log'));
+			->appendOutputTo(storage_path('logs/backup.log'));
 	}
 
 	/**
