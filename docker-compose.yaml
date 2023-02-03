@@ -39,7 +39,7 @@ services:
     profiles:
       - "server"
     volumes:
-      - ./backend:/var/www/html
+      - ./backend:/app
     depends_on:
       - "mysql"
   nginx:
@@ -50,7 +50,7 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/server.conf:/etc/nginx/conf.d/server.conf
       - ./docker/nginx/cert:/etc/ssl
-      - ./backend:/var/www/html
+      - ./backend:/app
     ports:
       - "80:80"
       - "443:443"
