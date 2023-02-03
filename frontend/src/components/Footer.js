@@ -9,7 +9,7 @@ export default function Footer() {
       <Container>
         <Grid container alignItems="center">
           <Grid item xs={12} sm>
-            <Typography>&copy; U.E.P A.P.E.P "La Candelaria" | 2022</Typography>
+            <Typography>&copy; U.E.P A.P.E.P "La Candelaria" | 2021-2023</Typography>
           </Grid>
           <Grid container direction='column' item xs={12} sm alignItems='flex-end'>
             <Typography variant="h6" className="text__opacity--semi text__bold--semi">
