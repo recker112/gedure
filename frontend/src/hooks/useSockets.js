@@ -18,15 +18,17 @@ export default function useSockets() {
   const config = {
     broadcaster: 'pusher',
     key: 'LAC4ANDE47',
-    authEndpoint : `${window.location.protocol}//${window.location.hostname}/broadcasting/auth`,
+    authEndpoint : `${window.location.protocol}//${
+      process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_BACKEND : window.location.hostname
+    }/broadcasting/auth`,
     auth:{
       headers: {
         Authorization: `Bearer ${access_key}`
       },
     },
-    wsHost: window.location.hostname,
-    wsPort: 6001,
-    wssPort: 6001,
+    wsHost: process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_BACKEND : window.location.hostname,
+    wsPort: 80,
+    wssPort: 443,
     transports: ['websocket'],
     enabledTransports: ['ws', 'wss'],
     forceTLS: false,
