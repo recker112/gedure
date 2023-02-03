@@ -25,7 +25,8 @@ class StudentsExport implements FromQuery, WithHeadings, WithMapping, WithTitle
             'n_lista',
             'nced',
             'nomalum',
-            'email'
+            'email',
+            'estado',
         ];
     }
 
@@ -51,6 +52,7 @@ class StudentsExport implements FromQuery, WithHeadings, WithMapping, WithTitle
             $students->username,
             $students->name,
             $students->email,
+            $students->actived_at ? 'Activo' : 'Inactivo',
         ];
     }
 
