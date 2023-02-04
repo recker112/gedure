@@ -171,8 +171,7 @@ class User extends Authenticatable
 		$date = $date ? $date : now();
 		$solvente = $this->debts()->where('status', 'no pagada')
 			->whereHas('debt_lote', function ($query) use ($date) {
-					$query->where('available_on', '<=', $date)
-						->where('created_at', '<=', $date);
+					$query->where('available_on', '<=', $date);
 			})
 			->count();
 

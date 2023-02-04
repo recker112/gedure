@@ -22,10 +22,12 @@ class Boleta extends Model
 	];
 	
 	protected $hidden = [
-		'curso_id', 'user_id', 'deleted_at', 'boleta'
+		'curso_id', 'user_id', 'deleted_at', 'boleta', 'created_at', 'updated_at'
 	];
 	
 	protected $appends = [
+		'fecha',
+		'fecha_modify',
 		'fecha_humano',
 		'fecha_humano_modify',
 	];
@@ -46,19 +48,19 @@ class Boleta extends Model
 	/*
 	 Attributos
 	*/
-	protected function createdAt(): Attribute
+	protected function fecha(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => Carbon::parse($value)
+			get: fn () => Carbon::parse($this->attributes['created_at'])
 			->timezone(config('app.timezone_parse'))
 			->format('Y-m-d h:i A'),
 		);
 	}
 
-	protected function updatedAt(): Attribute
+	protected function fechaModify(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => Carbon::parse($value)
+			get: fn () => Carbon::parse($this->attributes['updated_at'])
 			->timezone(config('app.timezone_parse'))
 			->format('Y-m-d h:i A'),
 		);
