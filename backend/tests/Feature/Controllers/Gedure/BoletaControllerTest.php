@@ -198,8 +198,8 @@ class BoletaControllerTest extends TestCase
 					'*' => [
 						'id',
 						'lapso',
-						'created_at',
-						'updated_at',
+						'fecha',
+						'fecha_modify',
 						'fecha_humano',
 						'fecha_humano_modify',
 						'curso' => [
@@ -214,7 +214,7 @@ class BoletaControllerTest extends TestCase
 	
 	public function testGetBoletaUser()
 	{
-		//$this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$this->testBoletasUpload();
 		
 		Passport::actingAs(
@@ -229,8 +229,8 @@ class BoletaControllerTest extends TestCase
 				'*' => [
 					'id',
 					'lapso',
-					'created_at',
-					'updated_at',
+					'fecha',
+					'fecha_modify',
 					'fecha_humano',
 					'fecha_humano_modify',
 					'curso' => [
@@ -344,7 +344,7 @@ class BoletaControllerTest extends TestCase
 	
 	public function testDeleteBoletaMassive()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']

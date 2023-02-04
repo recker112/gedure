@@ -10,6 +10,7 @@ export default function useNotifier({
   messageTo200 = true,
   messageTo400 = true,
   message400 = false,
+  message403 = "No tienes permisos para esta acción",
   messageTo404 = true,
   message404 = 'Ruta URL no encontrada',
   messageTo422 = true,
@@ -38,7 +39,7 @@ export default function useNotifier({
 
       dispatch(logoutApp());
     } else if (notiStatus === 403) {
-      enqueueSnackbar("No tienes permisos para esta acción", {
+      enqueueSnackbar(message403, {
         variant: "error",
       });
     } else if (notiStatus === 404) {
