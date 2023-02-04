@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\WalletSystem;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 // Passport
@@ -11,6 +12,9 @@ use Laravel\Passport\Passport;
 // Models
 use App\Models\User;
 use App\Models\WalletSystem\Transaction;
+
+// Notifications
+use App\Notifications\WalletSystem\TransferCompletedNotification;
 
 class WalletControllerTest extends TestCase
 {
@@ -56,6 +60,8 @@ class WalletControllerTest extends TestCase
 			['admin']
 		);
 
+		Notification::fake();
+
 		// Agregar saldo
 		$user->wallet->balance = 99;
 		$user->wallet->save();
@@ -74,6 +80,10 @@ class WalletControllerTest extends TestCase
 				'msg',
 				'balance'
 			]);
+
+		Notification::assertSentTo(
+			[$otherUser], TransferCompletedNotification::class
+		);
 
 		$this->assertDatabaseHas('wallets', [
 			'balance' => 99 - 12.43,
@@ -127,6 +137,8 @@ class WalletControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Notification::fake();
 		
 		$user = User::factory()->create([
 			'privilegio' => 'V-'
@@ -150,6 +162,10 @@ class WalletControllerTest extends TestCase
 			->assertJsonStructure([
 				'msg'
 			]);
+
+		Notification::assertSentTo(
+			[$user], TransferCompletedNotification::class
+		);
 		
 		// Error balance negativo
 		$user->wallet->balance = 0.00;
