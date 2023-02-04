@@ -214,7 +214,7 @@ class BoletaControllerTest extends TestCase
 	
 	public function testGetBoletaUser()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$this->testBoletasUpload();
 		
 		Passport::actingAs(
