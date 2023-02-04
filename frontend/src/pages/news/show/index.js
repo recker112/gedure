@@ -47,7 +47,7 @@ export default function Show() {
 
   const handleReturn = () => {
     if (window.history.state && window.history.state.usr?.backPanel) {
-      navigate('/gedure/publicaciones');
+      navigate(-1);
     } else {
       navigate('/noticias');
     }

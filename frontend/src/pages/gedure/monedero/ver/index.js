@@ -46,7 +46,7 @@ export default function VerMonedero() {
   const navigate = useNavigate();
 
   const handleReturn = () => {
-    if (window.history.state && window.history.state.idx > 0) {
+    if (window.history.state && window.history.state.usr?.backPanel) {
       navigate(-1);
     } else {
       navigate('/gedure/monedero');
