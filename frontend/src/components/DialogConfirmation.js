@@ -4,13 +4,13 @@ import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 // Components
 import AnimationDialog from './AnimationDialog';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function DialogConfirmation({ rdx1, rdx2, close, request, children }) {
   const { open, loading, data } = useSelector(state => state[rdx1][rdx2]);

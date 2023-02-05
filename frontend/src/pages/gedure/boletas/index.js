@@ -22,7 +22,9 @@ const classes = {
 };
 
 export default function Boletas() {
-  useNotifier();
+  useNotifier({
+    message403: 'No puedes descargar esta boleta',
+  });
 
   const { loading, data, count_notify } = useSelector(state => ({
     loading: state.requestStatus.verBoletasUser.loading,

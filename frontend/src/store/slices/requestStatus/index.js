@@ -292,7 +292,12 @@ const initialState = {
   downloadDataUsers: {
     loading: false,
     progress: 0,
-  }
+  },
+  showFAQ: {
+    loading: false,
+    open: false,
+    data: {}
+  },
 };
 
 export const requestStatusSlices = createSlice({
