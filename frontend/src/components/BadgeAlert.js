@@ -1,10 +1,12 @@
 import { Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const BadgeAlert = styled(Badge)(({ theme }) => ({
+export const BadgeAlert = styled(Badge, {
+  shouldForwardProp: (prop) => prop !== "color",
+})(({ theme, color }) => ({
   '& .MuiBadge-badge': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.main,
+    backgroundColor: color ?? theme.palette.primary.main,
+    color: color ?? theme.palette.primary.main,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',
