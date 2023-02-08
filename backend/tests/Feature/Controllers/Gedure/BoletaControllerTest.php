@@ -31,6 +31,64 @@ class BoletaControllerTest extends TestCase
 	 *
 	 * @return void
 	 */
+	public function testBoletasUploadWithPagesPdf()
+	{
+		//$this->withoutExceptionHandling();
+		Passport::actingAs(
+			User::find(1),
+			['admin']
+		);
+		
+		Storage::fake('local');
+		Notification::fake();
+		
+		$curso = Curso::create([
+			'code' => '1-A',
+			'curso' => '1',
+			'seccion' => 'A',
+		]);
+		
+		$users = User::factory(4)->create([
+			'privilegio' => 'V-',
+		]);
+
+		$i = 0;
+		foreach($users as $user) {
+			$personal_data = PersonalDataUser::create();
+			$personal_data->user()->save($user);
+
+			$user->alumno()->create([
+				'curso_id' => $curso->id,
+				'n_lista' => 10,
+			]);
+
+			$user->username = "4000000$i";
+			$user->save();
+
+			$i++;
+		}
+		
+		$file = new File(base_path('tests/files_required/test_boleta_3.zip'));
+		$fileUpload = new UploadedFile($file->getPathName(), $file->getFileName(), $file->getMimeType(), null, true);
+		
+		$response = $this->postJson('/api/v1/boleta', [
+			'boletas' => $fileUpload,
+			'lapso' => '1',
+		]);
+
+		$response->assertStatus(200)
+			->assertJsonStructure([
+				'msg',
+			]);
+
+		Notification::assertSentTo(
+				[User::find(1)], ProcessBoletasCompletedNotification::class
+		);
+
+		$this->assertDatabaseHas('boletas', [
+				'id' => 3,
+		]);
+	}
 
 	public function testBoletasUploadWithMassiveStudiends()
 	{
