@@ -95,7 +95,9 @@ export default function FAQ() {
     count_notify: state.auth.notify.count,
   }));
 
-  // NOTA(RECKER): Title
+  /**
+   * Title
+   */
   document.title =
     count_notify > 0
       ? `(${count_notify}) Preguntas Frecuentes - La Candelaria`
