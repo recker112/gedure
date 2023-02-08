@@ -40,6 +40,7 @@ services:
       - "server"
     volumes:
       - ./backend:/app
+      - ./docker/php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
       - "mysql"
   nginx:
@@ -56,6 +57,7 @@ services:
       - "443:443"
     depends_on:
       - "php-fpm"
+      - "websockets"
   websockets:
     working_dir: "/app"
     image: "php-gedure:2.0.0"
@@ -63,8 +65,9 @@ services:
       - "server"
     volumes:
       - "./backend:/app"
+      - ./docker/php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
-      - "nginx"
+      - "php-fpm"
     command: php artisan websockets:serve
   schedule:
     working_dir: "/app"
@@ -73,6 +76,7 @@ services:
       - "server"
     volumes:
       - "./backend:/app"
+      - ./docker/php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     depends_on:
       - "nginx"
     command: 
