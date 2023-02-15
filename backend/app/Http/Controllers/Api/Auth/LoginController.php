@@ -27,7 +27,7 @@ class LoginController extends Controller
 		
 		$credenciales = $request->only(['username', 'password']);
 		
-		$verifyAuth = Auth::guard('web')->attempt($credenciales);
+		$verifyAuth = Auth::attempt($credenciales);
 		
 		if (!$verifyAuth) {
 			$jsonMessage = Block::checkAttemps($request->username);
@@ -35,7 +35,7 @@ class LoginController extends Controller
 		}
 		
 		$user = User::with(['personal_data', 'alumno', 'alumno.curso', 'wallet'])
-			->find(Auth::guard('web')->id());
+			->find(Auth::id());
 		
 		// Verificar bloqueos
 		$block = Block::firstWhere('user_id', $user->id);
@@ -46,11 +46,11 @@ class LoginController extends Controller
 		
 		// Token
 		if ($user->privilegio === 'A-') {
-			$tokenResult = $user->createToken($user->cedula.' access', ['*']);
+			$tokenResult = $user->createToken($user->username.' access', ['*']);
 		}else if ($user->privilegio === 'P-') {
-			$tokenResult = $user->createToken($user->cedula.' access', ['profesor']);
+			$tokenResult = $user->createToken($user->username.' access', ['profesor']);
 		}else {
-			$tokenResult = $user->createToken($user->cedula.' access', ['user']);
+			$tokenResult = $user->createToken($user->username.' access', ['user']);
 		}
     $token = $tokenResult->token;
 		

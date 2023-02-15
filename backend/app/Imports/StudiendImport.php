@@ -195,9 +195,6 @@ class StudiendImport implements ToCollection, WithHeadingRow, WithEvents, SkipsE
 		$this->errors = $errors;
 	}
 	
-	/**
-	* @return array
-	*/
 	public function registerEvents(): array
 	{
 		return [
