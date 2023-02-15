@@ -495,7 +495,7 @@ class UserControllerTest extends TestCase
 	
 	public function testUploadMassiveStudiends()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		Passport::actingAs(
 			User::find(1),
 			['admin']
