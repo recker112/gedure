@@ -138,7 +138,7 @@ class User extends Authenticatable
 	protected function email(): Attribute
 	{
 		return Attribute::make(
-			set: fn ($value) => strtolower(trim($value)),
+			set: fn ($value) => $value ? strtolower(trim($value)) : null,
 		);
 	}
 
