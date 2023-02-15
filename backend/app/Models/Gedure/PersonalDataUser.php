@@ -86,8 +86,8 @@ class PersonalDataUser extends Model
 	protected function repreNombre(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => ucwords($value),
-			set: fn ($value) => strtolower(trim($value)),
+			get: fn ($value) => mb_convert_case($value, MB_CASE_TITLE, "UTF-8"),
+			set: fn ($value) => mb_convert_case(trim($value), MB_CASE_LOWER, "UTF-8"),
 		);
 	}
 
@@ -97,8 +97,8 @@ class PersonalDataUser extends Model
 	protected function madreNombre(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => ucwords($value),
-			set: fn ($value) => strtolower(trim($value)),
+			get: fn ($value) => mb_convert_case($value, MB_CASE_TITLE, "UTF-8"),
+			set: fn ($value) => mb_convert_case(trim($value), MB_CASE_LOWER, "UTF-8"),
 		);
 	}
 
@@ -108,8 +108,8 @@ class PersonalDataUser extends Model
 	protected function padreNombre(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => ucwords($value),
-			set: fn ($value) => strtolower(trim($value)),
+			get: fn ($value) => mb_convert_case($value, MB_CASE_TITLE, "UTF-8"),
+			set: fn ($value) => mb_convert_case(trim($value), MB_CASE_LOWER, "UTF-8"),
 		);
 	}
 }

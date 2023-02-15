@@ -130,15 +130,15 @@ class User extends Authenticatable
 	protected function name(): Attribute
 	{
 		return Attribute::make(
-			get: fn ($value) => ucwords($value),
-			set: fn ($value) => strtolower(trim($value)),
+			get: fn ($value) => mb_convert_case($value, MB_CASE_TITLE, "UTF-8"),
+			set: fn ($value) => mb_convert_case(trim($value), MB_CASE_LOWER, "UTF-8"),
 		);
 	}
 
 	protected function email(): Attribute
 	{
 		return Attribute::make(
-			set: fn ($value) => $value ? strtolower(trim($value)) : null,
+			set: fn ($value) => $value ? mb_convert_case(trim($value), MB_CASE_LOWER, "UTF-8") : null,
 		);
 	}
 
