@@ -166,7 +166,7 @@ export default function RenderNotify({
               {data.map((notify, i) => {
                 if (!notify.read_at) {
                   return (
-                    <BadgeAlert key={i} color='primary' variant='dot'>
+                    <BadgeAlert key={i} variant='dot'>
                       <Notify {...notify} />
                     </BadgeAlert>
                   )

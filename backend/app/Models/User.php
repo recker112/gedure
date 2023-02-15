@@ -17,6 +17,13 @@ class User extends Authenticatable
 	use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasRoles;
 
 	/**
+	 * Esta parte arregla cambia el guard name default del usuario
+	 * para que no de problemas al utilizar procesos en segundo
+	 * plano que den permisos a usuarios.
+	 */
+	protected $guard_name = 'api';
+
+	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
@@ -178,8 +185,7 @@ class User extends Authenticatable
 		$date = $date ? $date : now();
 		$solvente = $this->debts()->where('status', 'no pagada')
 			->whereHas('debt_lote', function ($query) use ($date) {
-					$query->where('available_on', '<=', $date)
-						->where('created_at', '<=', $date);
+					$query->where('available_on', '<=', $date);
 			})
 			->count();
 

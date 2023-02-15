@@ -571,6 +571,8 @@ class UserControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Storage::fake('local');
 		
 		$curso = Curso::create([
 			'code' => '1-A',
@@ -610,6 +612,8 @@ class UserControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Storage::fake('local');
 		
 		$users = User::factory(3)->create([
 			'privilegio' => 'A-'
@@ -641,6 +645,8 @@ class UserControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Storage::fake('local');
 		
 		$curso = Curso::create([
 			'code' => '1-A',
@@ -680,6 +686,8 @@ class UserControllerTest extends TestCase
 			User::find(1),
 			['admin']
 		);
+
+		Storage::fake('local');
 		
 		$users = User::factory(3)->create([
 			'privilegio' => 'A-'

@@ -42,7 +42,7 @@ export default function NotiBox({ data, loading, title, icon }) {
               </Grid>
               {item.url && (
                 <Grid container justifyContent='flex-end' item xs>
-                  <IconButton component={NavLink} to={`/noticias/${item.url}`}>
+                  <IconButton component={NavLink} to={`/noticias/${item.url}`} state={{ backPanel: true }}>
                     <ArrowForwardIcon />
                   </IconButton>
                 </Grid>

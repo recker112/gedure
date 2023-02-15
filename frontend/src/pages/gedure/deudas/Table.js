@@ -68,7 +68,7 @@ export default function Table() {
             <Tooltip title='Ver' arrow>
               <IconButton
                 onClick={() => {
-                  navigate(`/gedure/monedero/transacciones/ver/${original.transaction?.id}`);
+                  navigate(`/gedure/monedero/transacciones/ver/${original.transaction?.id}`, { state: { backPanel: true } });
                 }}
               >
                 <VisibilityIcon />
