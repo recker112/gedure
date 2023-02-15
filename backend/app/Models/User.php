@@ -128,6 +128,13 @@ class User extends Authenticatable
 		);
 	}
 
+	protected function email(): Attribute
+	{
+		return Attribute::make(
+			set: fn ($value) => strtolower(trim($value)),
+		);
+	}
+
 	protected function password(): Attribute
 	{
 		return Attribute::make(
