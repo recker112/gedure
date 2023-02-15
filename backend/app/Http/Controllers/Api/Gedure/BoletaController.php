@@ -118,7 +118,6 @@ class BoletaController extends Controller
 		$path = $request->boleta->storeAs($filePath, $fileName);
 		
 		$boleta->boleta = $path;
-		$boleta->updated_at = now();
 		$boleta->save();
 
 		// NOTA(RECKER): Notificaciones

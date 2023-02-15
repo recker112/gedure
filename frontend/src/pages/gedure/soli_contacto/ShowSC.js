@@ -14,14 +14,14 @@ import { setRequestStatus } from '../../../store/slices/requestStatus';
 
 export default function ShowSC() {
   const { open, data } = useSelector(state => state.requestStatus.verSoliContacto);
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	 const theme = useTheme();
+	const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-   const handleClose = () => {
-    dispatch(setRequestStatus({open: false, select: 'verSoliContacto'}));
-   }
+	const handleClose = () => {
+		dispatch(setRequestStatus({open: false, select: 'verSoliContacto'}));
+	}
 
   return (
     <Dialog 

@@ -581,7 +581,7 @@ export default function Routers() {
             } />
 
             <Route path='logout' element={
-              <AuthProtect returnBack activedAtPass>
+              <AuthProtect stateNull activedAtPass>
                 <LogoutPage />
               </AuthProtect>
             } />

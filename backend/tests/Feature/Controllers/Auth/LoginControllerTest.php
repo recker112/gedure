@@ -5,8 +5,10 @@ namespace Tests\Feature\Controllers\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 // Passport
 use Laravel\Passport\Passport;
+
 // Models
 use App\Models\User;
 
@@ -32,7 +34,7 @@ class LoginControllerTest extends TestCase
 	
 	public function testLogin()
 	{
-		$this->withoutExceptionHandling();
+		//$this->withoutExceptionHandling();
 		$admin = User::find(1);
 		$response = $this->postJson('/api/v1/auth/login', [
 			'username' => $admin->username, 
@@ -101,11 +103,18 @@ class LoginControllerTest extends TestCase
 	
 	public function testLogout()
 	{
-		$this->withoutExceptionHandling();
-		Passport::actingAs(
-			User::factory()->create(),
-			['admin']
-		);
+		//$this->withoutExceptionHandling();
+		$user = User::factory()->create();
+
+		$response = $this->postJson('/api/v1/auth/login', [
+			'username' => $user->username, 
+			'password' => 'password'
+		]);
+
+		$response->assertOk();
+
+		$token = $response->json()['access_key'];
+		$this->withHeaders(['Authorization' => 'Bearer ' . $token]);
 		
 		$response = $this->getJson('/api/v1/auth/logout');
 
@@ -118,8 +127,17 @@ class LoginControllerTest extends TestCase
 	public function testLogoutAll()
 	{
 		//$this->withoutExceptionHandling();
+		$user = User::factory()->create();
+
+		$response = $this->postJson('/api/v1/auth/login', [
+			'username' => $user->username, 
+			'password' => 'password'
+		]);
+
+		$response->assertOk();
+
 		Passport::actingAs(
-			User::factory()->create(),
+			$user,
 			['admin']
 		);
 		
