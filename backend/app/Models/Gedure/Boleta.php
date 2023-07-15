@@ -22,7 +22,7 @@ class Boleta extends Model
 	];
 	
 	protected $hidden = [
-		'curso_id', 'user_id', 'deleted_at', 'boleta', 'created_at', 'updated_at'
+		'curso_id', 'user_id', 'deleted_at', 'boleta'
 	];
 	
 	protected $appends = [
