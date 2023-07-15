@@ -39,6 +39,8 @@ export default function Boleta({
   curso,
   created_at,
   updated_at,
+  fecha,
+  fecha_modify,
 }) {
   const [random] = useState(getRandomInt(listColors.length - 1));
   const [loading, setLoading] = useState(false);
@@ -86,7 +88,7 @@ export default function Boleta({
                 color='text.disabled'
                 fontWeight={600}
               >
-                {(created_at === updated_at) ? `Subido ${!fecha_humano ? 'el' : ''} ${fecha_humano || created_at}` : `Modificado ${!fecha_humano_modify ? 'el' : ''} ${fecha_humano_modify || updated_at}`}
+                {(created_at === updated_at) ? `Subido ${!fecha_humano ? 'el' : ''} ${fecha_humano || fecha}` : `Modificado ${!fecha_humano_modify ? 'el' : ''} ${fecha_humano_modify || fecha_modify}`}
               </Box>
             </Grid>
           </Grid>

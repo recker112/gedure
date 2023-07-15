@@ -19,7 +19,7 @@ export const downloadBoleta = createAsyncThunk(
 
     // NOTA(RECKER): Enviar estado de la petición al notistack
     try {
-      const res = await axios.get(url, {
+      const res = await axios.post(url, {}, {
         responseType: 'blob',
         onDownloadProgress,
         signal, // NOTA(RECKER): Señal para cancelar petición
