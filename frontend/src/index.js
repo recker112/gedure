@@ -12,11 +12,14 @@ import { SnackbarProvider } from 'notistack';
 import { Provider } from 'react-redux';
 import store from './store';
 
+// Axios
+import axios from 'axios';
+
 // SCSS
 import './scss/app.scss';
 
 // Axios
-window.axios = require('axios');
+window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 if (process.env.NODE_ENV !== 'production') {

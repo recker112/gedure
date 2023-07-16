@@ -1,4 +1,4 @@
-FROM php:8.1-rc-fpm-alpine
+FROM php:8.2-rc-fpm-alpine
 
 # Install dependencies system
 RUN apk add --no-cache libzip-dev gd libpng-dev jpeg-dev freetype-dev mysql-client

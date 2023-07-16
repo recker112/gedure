@@ -26,7 +26,7 @@ services:
 ## Contenedor de testing
   tests:
     working_dir: "/app"
-    image: "php-gedure:2.0.0"
+    image: "php-gedure:2.1.0"
     profiles: 
       - "test"
     volumes:
@@ -35,7 +35,7 @@ services:
 
 ## Contenedores de desarrollo
   php-fpm:
-    image: "php-gedure:2.0.0"
+    image: "php-gedure:2.1.0"
     profiles:
       - "server"
     volumes:
@@ -44,7 +44,7 @@ services:
     depends_on:
       - "mysql"
   nginx:
-    image: "nginx:1.23.3"
+    image: "nginx:1.18.0"
     profiles: 
       - "server"
     volumes:
@@ -60,7 +60,7 @@ services:
       - "websockets"
   websockets:
     working_dir: "/app"
-    image: "php-gedure:2.0.0"
+    image: "php-gedure:2.1.0"
     profiles: 
       - "server"
     volumes:
@@ -71,7 +71,7 @@ services:
     command: php artisan websockets:serve
   schedule:
     working_dir: "/app"
-    image: "php-gedure:2.0.0"
+    image: "php-gedure:2.1.0"
     profiles: 
       - "server"
     volumes:
