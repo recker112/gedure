@@ -38,7 +38,7 @@ Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_edit'])
 
 // Download boleta
 Route::middleware(['auth:api'])
-	->post('download/boleta/{boleta}', [BoletaController::class, 'download']);
+	->get('download/boleta/{boleta}', [BoletaController::class, 'download']);
 
 // Eliminar boleta
 Route::middleware(['auth:api', 'scopes:admin', 'can:boletas_destroy'])
