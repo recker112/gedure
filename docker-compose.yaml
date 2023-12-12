@@ -22,6 +22,7 @@ services:
       - "mysql"
     environment:
       - PMA_HOST=mysql
+      - UPLOAD_LIMIT=25M
 
 ## Contenedor de testing
   tests:
@@ -36,6 +37,7 @@ services:
 ## Contenedores de desarrollo
   php-fpm:
     image: "php-gedure:2.1.0"
+    user: "1000:1000"
     profiles:
       - "server"
     volumes:
@@ -61,6 +63,7 @@ services:
   websockets:
     working_dir: "/app"
     image: "php-gedure:2.1.0"
+    user: "1000:1000"
     profiles: 
       - "server"
     volumes:
@@ -71,6 +74,7 @@ services:
     command: php artisan websockets:serve
   schedule:
     working_dir: "/app"
+    user: "1000:1000"
     image: "php-gedure:2.1.0"
     profiles: 
       - "server"
