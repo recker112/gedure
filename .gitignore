@@ -1,1 +1,9 @@
 .env
+# Dependencias y builds
+node_modules/
+vendor/
+!backend/resources/lang/vendor/
+*.map
+
+# Claves
+*.key
