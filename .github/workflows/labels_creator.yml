@@ -1,0 +1,52 @@
+name: Crear labels automáticamente
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  crear-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear labels en el repositorio
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const labels = [
+              { name: 'bug', color: 'd73a4a', description: 'Algo no funciona' },
+              { name: 'dudas', color: 'd876e3', description: 'Se necesita información adicional' },
+              { name: 'duplicado', color: 'cfd3d7', description: 'La issue o pull ya existe' },
+              { name: 'feature', color: 'a2eeef', description: 'Nueva feature o request' },
+              { name: 'negativo', color: 'ffffff', description: 'No se trabajará en esto' },
+              { name: 'skip-changelog', color: 'da890f', description: 'Saltar en el changelog' },
+              { name: 'type: breaking', color: '7c5207', description: 'Pull de cambios Incompatibles' },
+              { name: 'type: chore', color: 'cca5b5', description: 'Pull de mantenimiento y dependencias' },
+              { name: 'type: ci', color: '082e41', description: 'Pull de automatizaciones e integración continua' },
+              { name: 'type: docs', color: '3d56b1', description: 'Pull de documentación' },
+              { name: 'type: feat', color: 'abeeff', description: 'Pull de nueva funcionalidad' },
+              { name: 'type: fix', color: '0d96c9', description: 'Pull de fix' },
+              { name: 'type: perf', color: '5f416a', description: 'Pull de mejora en rendimiento' },
+              { name: 'type: security', color: '705135', description: 'Pull de seguridad' },
+              { name: 'type: test', color: '853591', description: 'Pull de tests' }
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                console.log(`Label '${label.name}' creado.`);
+              } catch (error) {
+                if (error.status === 422) {
+                  console.log(`Label '${label.name}' ya existe.`);
+                } else {
+                  throw error;
+                }
+              }
+            }
