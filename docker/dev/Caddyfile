@@ -1,0 +1,33 @@
+{
+	frankenphp
+	# Sin redirección automática a HTTPS: en dev el puerto HTTP sigue sirviendo
+	# (curl, healthcheck, clientes que no confían en la CA).
+	# OJO: no usar `auto_https off`, porque inhabilita `tls internal`.
+	auto_https disable_redirects
+	admin off
+}
+
+(app) {
+	root * /var/www/public
+	encode zstd gzip
+
+	# WebSockets (beyondcode/laravel-websockets, protocolo Pusher). El frontend
+	# conecta a <host>:80|443/app/<key>. Solo se expone /app y /app/*; la API
+	# HTTP del servidor (/apps/<id>/events) va por la red interna.
+	@websockets path /app /app/*
+	reverse_proxy @websockets {$WEBSOCKETS_UPSTREAM:websockets:6001}
+
+	php_server
+}
+
+# HTTP (publicado como APP_PORT, 80 por defecto)
+:8000 {
+	import app
+}
+
+# HTTPS con certificado de la CA local de Caddy (publicado como APP_SSL_PORT).
+# `tls internal` exige un sitio con nombre: en un bloque solo-puerto falla.
+localhost:8443 {
+	tls internal
+	import app
+}
