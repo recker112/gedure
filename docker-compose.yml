@@ -4,8 +4,8 @@
 # El código se monta por bind-mount.
 #
 # Con los puertos por defecto: app en http(s)://localhost y Adminer en
-# http://localhost:8080. El frontend (React) NO está aquí: se corre con npm en
-# el host (ver README), en http://localhost:3000.
+# http://localhost:8080. El frontend (Vite + React) NO está aquí: se corre con
+# npm en el host (ver README), en http://localhost:5173.
 # Todo el estado persistente vive en ./docker/<servicio>.
 
 x-app: &app

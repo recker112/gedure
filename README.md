@@ -1,4 +1,4 @@
-# <img src='./frontend/src/img/gedure-logo-recto.svg' alt='Gedure Logo' width='300' />
+# Gedure
 Gedure es una App web de gestión educativa enfocado en los grados de primaria y bachillerato, utilizando un diseño moderno y simple para la comodidad de los usuarios.
 
 ## Funcionalidades de la versión 5.3.0
@@ -46,21 +46,25 @@ docker compose exec app php artisan db:seed      # opcional: datos de prueba
 
 (`RUN_COMMANDS=true` en `.env` ejecuta `migrate` en cada arranque.)
 
-### Frontend (React, fuera de Docker)
+### Frontend (Vite + React, fuera de Docker)
 
-El SPA no forma parte del compose: se corre con npm en el host, contra la app de Docker.
+El SPA (`frontend/`: Vite 8, React 19 y React Compiler, JavaScript, linter Oxlint) no forma parte del compose: se corre con npm en el host (Node.js 22), contra la app de Docker.
 
 ```bash
 cd frontend
-npm ci --legacy-peer-deps                 # solo la primera vez o al cambiar package-lock.json
-REACT_APP_BACKEND=localhost npm start     # http://localhost:3000
+cp .env.example .env     # solo la primera vez
+npm ci                   # solo la primera vez o al cambiar package-lock.json
+npm run dev              # https://localhost:5173 (HTTPS con mkcert; --host: accesible desde la red local)
+npm run lint
+npm test                 # vitest (una pasada) + Testing Library; `npm run test:watch` para modo watch
+npm run build            # compila a backend/public y backend/resources/views/app.blade.php
 ```
 
-- `--legacy-peer-deps`: conflicto de peer deps preexistente (reactour pide React 16/17; el proyecto usa 18).
-- `REACT_APP_BACKEND` es el host del backend: el SPA llama a `http(s)://REACT_APP_BACKEND/api` (`src/index.js`) y conecta los WebSockets a ese host en 80/443 (`src/hooks/useSockets.js`). Por eso `APP_PORT`/`APP_SSL_PORT` deben seguir en 80/443 para usar el frontend; si esos puertos están ocupados, la API sigue accesible en el puerto elegido pero el SPA de `:3000` no la encontrará.
-- En Windows (PowerShell) la variable se define con `$env:REACT_APP_BACKEND="localhost"; npm start`.
-- **Pendiente de migrar:** `src/hooks/useSockets.js` usa protocolo Pusher con la key fija `LAC4ANDE47`, compatible con Reverb mientras `REVERB_APP_KEY=LAC4ANDE47` (es el valor de `backend/.env.example`). Pero autentica los canales privados con un token Bearer de **Passport**, que ya no existe: hay que pasarlo a tokens de Sanctum (y registrar `/broadcasting/auth` con `auth:sanctum`). Lo mismo para el login y el resto de llamadas a la API: el backend nuevo es un esqueleto vacío.
-- El esqueleto de Laravel solo tiene `/` → `welcome`. En producción el `index.html` compilado de React se instala como `resources/views/app.blade.php`; para servir el SPA hay que añadir en `routes/web.php` una ruta catch-all hacia `view('app')`.
+- **HTTPS en dev (mkcert):** `npm run dev` usa `vite-plugin-mkcert`. La primera vez descarga el binario de mkcert, crea una CA local e intenta instalarla en el almacén de confianza del sistema (y de los navegadores), por lo que puede pedir tu contraseña (`sudo`) o una confirmación; después el navegador acepta `https://localhost:5173` sin avisos (reinicia el navegador si no lo reconoce). Todo se guarda en `frontend/certs/` (ignorado por git y Docker; contiene la clave de la CA, no la compartas). Solo afecta a `npm run dev`: `npm run build` y `npm test` no generan certificados. Es una CA distinta de la de Caddy de `https://localhost` (ver más abajo).
+- Variables `VITE_*` (`frontend/.env.example`): son públicas, Vite las incrusta en el JS al compilar. `VITE_REVERB_APP_KEY` debe coincidir con `REVERB_APP_KEY` del backend (`LAC4ANDE47` por defecto); `VITE_REVERB_HOST`/`PORT`/`SCHEME` apuntan a Caddy (`/app` en `localhost:80`). Para el build de producción la key se pasa como `--build-arg VITE_REVERB_APP_KEY=...`.
+- El cliente de WebSockets y el consumo de la API aún no están implementados (plantilla limpia de Vite).
+- `npm run build` escribe los assets en `backend/public/assets` y mueve `index.html` a `backend/resources/views/app.blade.php` (ambos ignorados por git). No vacía `backend/public`: `index.php`, `.htaccess`, `robots.txt` y `favicon.ico` son del esqueleto de Laravel y siguen versionados ahí. En dev no hace falta compilar: el contenedor crea una vista `app` de marcador.
+- `routes/web.php` tiene un catch-all hacia la vista `app` (excluye `api`, `up`, `app`, `broadcasting` y `assets/`), así que cualquier ruta del SPA responde 200 en el backend una vez compilado.
 
 ### Notas
 

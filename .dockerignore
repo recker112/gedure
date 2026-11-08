@@ -19,17 +19,20 @@ docker/caddy
 # Dependencias: se instalan dentro del build. `vendor` a secas solo
 # coincidiría con ./vendor; con ** cubre backend/vendor.
 **/node_modules
+
+# Certificados locales de mkcert (frontend/certs incluye la clave privada de la CA)
+**/certs
 **/vendor
 
 # Builds locales: el del frontend se hace en la etapa de Node y sus artefactos
 # en backend/ (si alguien los copió a mano) no deben pisar los del build.
-frontend/build
 backend/public/build
 backend/public/hot
 backend/public/storage
-backend/public/static
-backend/public/asset-manifest.json
-backend/public/manifest.json
+backend/public/assets
+backend/public/index.html
+backend/public/favicon.svg
+backend/public/icons.svg
 backend/resources/views/app.blade.php
 
 # Estado runtime y uploads locales de Laravel
@@ -53,8 +56,6 @@ backend/.phpunit.result.cache
 # Tests y herramientas de desarrollo
 backend/tests
 backend/phpunit.xml
-frontend/src/**/*.test.js
-frontend/src/setupTests.js
 
 # Basura de sistema/editor
 **/.DS_Store

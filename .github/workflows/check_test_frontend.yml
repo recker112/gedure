@@ -1,0 +1,42 @@
+name: Test Frontend
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - next
+    paths:
+      - "frontend/**"
+      - ".github/workflows/check_test_frontend.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    name: Lint y vitest del frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Lint (oxlint)
+        working-directory: ./frontend
+        run: npm run lint
+
+      # Una sola pasada; no depende de backend/ ni de secretos, y mkcert
+      # no se ejecuta (solo aplica al dev server).
+      - name: Pruebas (vitest)
+        working-directory: ./frontend
+        run: npm test

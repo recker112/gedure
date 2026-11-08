@@ -8,43 +8,43 @@
 # runtime con el argumento del entrypoint (ver docker/prod/entrypoint.sh):
 #   web (por defecto) | reverb | worker | schedule
 #
-# Backend: Laravel 13 + Sanctum + Reverb. Frontend: React CRA (frontend/).
+# Backend: Laravel 13 + Sanctum + Reverb. Frontend: Vite + React (frontend/).
 #
 # Contexto de build = raíz del repo (monorepo: backend/ + frontend/).
 
 # ═══════════════════════════════════════════════════════════════════════
-# ETAPA 1: build del frontend (React CRA, react-scripts 5)
+# ETAPA 1: build del frontend (Vite + React con React Compiler)
 # ═══════════════════════════════════════════════════════════════════════
 FROM node:22-alpine AS frontend
+
+# Variables públicas de cliente que Vite incrusta EN TIEMPO DE BUILD (no se
+# leen en runtime). Nunca deben ir aquí secretos de servidor. Sin valor, el
+# build compila igual (import.meta.env.VITE_* queda undefined).
+ARG VITE_REVERB_APP_KEY
+ENV VITE_REVERB_APP_KEY=${VITE_REVERB_APP_KEY}
 
 WORKDIR /app
 
 # Dependencias en su propia capa: solo se invalida al cambiar el lockfile.
-# --legacy-peer-deps: el árbol del proyecto tiene un conflicto de peer deps
-# preexistente (reactour 1.18 declara react ^16||^17 y el proyecto usa
-# React 18). npm 7+ lo rechaza; con esta opción se instala exactamente lo
-# que fija package-lock.json, sin actualizar nada.
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci --no-audit --no-fund --legacy-peer-deps
+COPY frontend/package.json frontend/package-lock.json ./frontend/
+RUN cd frontend && npm ci --no-audit --no-fund
 
-COPY frontend/ ./
+# frontend/vite.config.js fija `build.outDir: '../backend/public'`, fuera de
+# frontend/: el build escribe en /app/backend/public (assets e index.html) y
+# mueve index.html a /app/backend/resources/views/app.blade.php, que debe
+# existir de antemano como directorio. No se copia el PHP a esta etapa: así un
+# cambio solo de backend no invalida la caché del build del frontend.
+COPY frontend/ ./frontend/
+RUN mkdir -p backend/public backend/resources/views \
+ && cd frontend && npm run build
 
-# Sin sourcemaps: no se publican y engordan la imagen.
-# CI sin definir a propósito: con CI=true CRA convierte los warnings de
-# ESLint en errores y el build fallaría por avisos que en local no rompen.
-ENV GENERATE_SOURCEMAP=false
-RUN npm run build
-
-# frontend/public/index.html ya trae sintaxis Blade (csrf_token, config...):
-# el index.html compilado ES la vista `app` de Laravel. Se separa aquí para que
-# public/ no sirva el HTML crudo con las etiquetas Blade sin renderizar.
-# OJO: el esqueleto de Laravel 13 solo tiene `/` -> welcome; para servir el SPA
-# hace falta añadir en routes/web.php una ruta catch-all hacia view('app').
-RUN mkdir -p /out \
- && mv build/index.html /out/app.blade.php \
- && test -f /out/app.blade.php \
- && mv build /out/public \
- && test -n "$(ls /out/public/static/js/main.*.js 2>/dev/null)"
+# El movimiento lo hace vite.config.js de forma síncrona; aquí se garantiza de
+# forma determinista (idempotente) y se verifica el resultado.
+RUN if [ -f backend/public/index.html ]; then \
+      mv backend/public/index.html backend/resources/views/app.blade.php; \
+    fi \
+ && test -f backend/resources/views/app.blade.php \
+ && test -n "$(ls backend/public/assets/*.js 2>/dev/null)"
 
 # ═══════════════════════════════════════════════════════════════════════
 # Base PHP: runtime + extensiones, compartida por vendor y producción
@@ -118,8 +118,10 @@ COPY docker/prod/Caddyfile /etc/frankenphp/Caddyfile
 COPY backend/ ./
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=vendor /app/bootstrap/cache ./bootstrap/cache
-COPY --from=frontend /out/public/ ./public/
-COPY --from=frontend /out/app.blade.php ./resources/views/app.blade.php
+# backend/public conserva index.php/.htaccess/robots.txt (esqueleto de Laravel);
+# el build de Vite (assets/, favicon.svg, icons.svg) se superpone encima.
+COPY --from=frontend /app/backend/public/ ./public/
+COPY --from=frontend /app/backend/resources/views/app.blade.php ./resources/views/app.blade.php
 
 COPY docker/prod/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY docker/prod/wait-for-db.php /usr/local/bin/wait-for-db.php

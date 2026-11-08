@@ -26,9 +26,13 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# Artefactos del build del frontend React (frontend/), los genera Dockerfile.prod
-/public/static
+# Artefactos del build del frontend (frontend/, Vite): `npm run build` escribe
+# en public/ y mueve index.html a la vista app. Lo que viene de frontend/public
+# (favicon.svg, icons.svg) también se copia. index.php, .htaccess, robots.txt
+# y favicon.ico son del esqueleto de Laravel y siguen versionados.
 *.map
-/public/asset-manifest.json
-/public/manifest.json
+/public/assets
+/public/index.html
+/public/favicon.svg
+/public/icons.svg
 /resources/views/app.blade.php
