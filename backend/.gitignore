@@ -34,3 +34,7 @@ yarn-error.log*
 # Build del frontend (se genera en el deploy)
 /public/static
 *.map
+# Artefactos del build del frontend (los genera Dockerfile.prod)
+/resources/views/app.blade.php
+/public/asset-manifest.json
+/public/manifest.json
