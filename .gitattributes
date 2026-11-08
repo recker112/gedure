@@ -1,0 +1,25 @@
+# Finales de línea LF en todo el repo. backend/.gitattributes solo cubre
+# backend/; este cubre la raíz (Dockerfile.prod, docker/, workflows).
+* text=auto eol=lf
+
+# Sin margen de error: si esto llega con CRLF la imagen no arranca
+# (`exec /usr/local/bin/entrypoint.sh: no such file or directory`).
+*.sh            text eol=lf
+Dockerfile*     text eol=lf
+docker/**       text eol=lf
+Caddyfile       text eol=lf
+*.ini           text eol=lf
+
+# Binarios
+*.ico   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.pdf   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+*.eot   binary
+*.zip   binary
