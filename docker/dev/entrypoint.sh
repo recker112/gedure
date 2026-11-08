@@ -40,7 +40,7 @@ bootstrap() {
   fi
 
   # En producción esta vista es el index.html compilado de React. En dev el SPA
-  # lo sirve el dev server de CRA en el host (:3000); aquí solo un marcador por
+  # lo sirve el dev server de Vite en el host (:5173); aquí solo un marcador por
   # si routes/web.php apunta a view('app') (catch-all del SPA). Está en
   # .gitignore.
   if [ ! -f resources/views/app.blade.php ]; then
@@ -54,7 +54,7 @@ bootstrap() {
   <title>{{ config('app.name', 'Laravel') }} (dev)</title>
 </head>
 <body>
-  <p>API de desarrollo. El SPA de React se corre aparte con <code>npm start</code> (http://localhost:3000).</p>
+  <p>API de desarrollo. El SPA de React se corre aparte con <code>npm run dev</code> (http://localhost:5173).</p>
 </body>
 </html>
 HTML
