@@ -1,2 +1,61 @@
-# Ignorar todos los archivos y solo crear la imágen
-*
+# Contexto de build = raíz del repo (monorepo backend/ + frontend/).
+# Lo usan Dockerfile.prod y Dockerfile.dev (este último solo copia docker/dev/).
+
+# Control de versiones y CI
+.git
+.github
+**/.gitignore
+**/.gitattributes
+README.md
+**/README.md
+
+# Stack de desarrollo y archivos Docker (no entran en la imagen)
+Dockerfile*
+docker-compose*
+.dockerignore
+docker/dbdata
+docker/caddy
+
+# Dependencias: se instalan dentro del build. `vendor` a secas solo
+# coincidiría con ./vendor; con ** cubre backend/vendor.
+**/node_modules
+**/vendor
+# ...pero las traducciones de paquetes sí son código de la app.
+!backend/resources/lang/vendor
+
+# Builds del frontend copiados a mano con el flujo antiguo: el build real se
+# hace en la etapa de Node. De public/ solo se conserva el index.php.
+frontend/build
+backend/public/*
+!backend/public/index.php
+backend/resources/views/app.blade.php
+
+# Estado runtime y uploads locales de Laravel
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/framework/testing
+backend/storage/app/*
+backend/storage/*.key
+backend/bootstrap/cache/*.php
+backend/.phpunit.result.cache
+
+# Secretos
+**/.env
+**/.env.*
+!**/.env.example
+
+# Tests y herramientas de desarrollo
+backend/tests
+backend/phpunit.xml
+frontend/src/**/*.test.js
+frontend/src/setupTests.js
+
+# Basura de sistema/editor
+**/.DS_Store
+**/*.log
+**/*.map
+.vscode
+.idea
+*.swp
