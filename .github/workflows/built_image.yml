@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: build-image
-      cancel-in-progress: true
+      # false a propósito: cada tag es una versión que debe quedar publicada.
+      # Cancelar un build a medias por otro tag dejaría esa versión sin imagen.
+      cancel-in-progress: false
     permissions:
       contents: read
       packages: write
@@ -36,7 +38,12 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest
-            type=sha,format=short
+            # El tag de la imagen replica el tag de git tal cual (v5.5.0), para
+            # que la versión que se fija en vps-candelaria coincida con la
+            # release de GitHub. `type=ref` y no `type=semver`: si un tag no
+            # parsea como semver, `type=semver` lo omite y la imagen quedaría
+            # publicada solo como `latest`, sin versión fijable para rollback.
+            type=ref,event=tag
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v7
