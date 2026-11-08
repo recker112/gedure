@@ -6,7 +6,9 @@
 #
 # Una sola imagen sirve TODOS los procesos de la app; el rol se elige en
 # runtime con el argumento del entrypoint (ver docker/prod/entrypoint.sh):
-#   web (por defecto) | websockets | worker | schedule
+#   web (por defecto) | reverb | worker | schedule
+#
+# Backend: Laravel 13 + Sanctum + Reverb. Frontend: React CRA (frontend/).
 #
 # Contexto de build = raíz del repo (monorepo: backend/ + frontend/).
 
@@ -34,9 +36,10 @@ ENV GENERATE_SOURCEMAP=false
 RUN npm run build
 
 # frontend/public/index.html ya trae sintaxis Blade (csrf_token, config...):
-# el index.html compilado ES la vista `app` de Laravel (routes/web.php hace
-# catch-all hacia ella). Se separa aquí para que public/ no sirva el HTML
-# crudo con las etiquetas Blade sin renderizar.
+# el index.html compilado ES la vista `app` de Laravel. Se separa aquí para que
+# public/ no sirva el HTML crudo con las etiquetas Blade sin renderizar.
+# OJO: el esqueleto de Laravel 13 solo tiene `/` -> welcome; para servir el SPA
+# hace falta añadir en routes/web.php una ruta catch-all hacia view('app').
 RUN mkdir -p /out \
  && mv build/index.html /out/app.blade.php \
  && test -f /out/app.blade.php \
@@ -46,39 +49,24 @@ RUN mkdir -p /out \
 # ═══════════════════════════════════════════════════════════════════════
 # Base PHP: runtime + extensiones, compartida por vendor y producción
 # ═══════════════════════════════════════════════════════════════════════
-# PHP 8.5 (FrankenPHP 1.x). Para instalar en 8.5 se actualizaron en
-# composer.lock solo los paquetes que capaban la versión de PHP (nette/utils
-# <8.4, nette/schema 7.1-8.3, cocur/slugify, ezyang/htmlpurifier y lcobucci/*
-# ~8.3); el resto del lock (Laravel 10 incluido) no cambió.
-# Laravel 10 y varias dependencias emiten deprecations de 8.4/8.5 (parámetros
-# nullable implícitos, etc.): no afectan al funcionamiento y se reducen en
-# docker/prod/php.ini (error_reporting sin E_DEPRECATED; ver allí qué queda).
+# PHP 8.5 (FrankenPHP 1.x).
 FROM dunglas/frankenphp:1-php8.5-alpine AS php-base
 
 # - su-exec: bajar de root al usuario de la app en el entrypoint.
-# - mariadb-client: aporta `mysqldump`, que spatie/laravel-backup ejecuta en
-#   `backup:run --only-db` (programado a diario). Aquí sí se justifica; el
-#   ping de arranque NO lo usa (va por PDO, docker/prod/wait-for-db.php).
-RUN apk add --no-cache \
-      su-exec \
-      mariadb-client
+# Sin cliente de base de datos: el ping de arranque va por PDO
+# (docker/prod/wait-for-db.php) y ya no hay backups con mysqldump.
+RUN apk add --no-cache su-exec
 
-# Extensiones que exige el código y composer.lock:
-#   - pdo_mysql: Eloquent contra MariaDB.
-#   - gd: intervention/image 2.x (driver gd), phpspreadsheet (maatwebsite/excel),
-#     setasign/fpdf (pdf-merger) y dompdf.
-#   - zip: maatwebsite/excel, spatie/laravel-backup, vipsoft/unzip.
-#   - pcntl: señales de queue:work (--max-time, apagado limpio).
-# opcache no se instala: desde PHP 8.5 es parte obligatoria del núcleo y ya
-# viene cargado (install-php-extensions solo avisaría "already installed").
-# Su configuración está en docker/prod/php.ini.
-# No hacen falta bcmath, exif, intl ni redis (comprobado con grep en app/ y
-# config/; colas y caché van por base de datos/archivos). sodium, mbstring,
-# dom, xml*, iconv, fileinfo, curl, ctype y tokenizer ya vienen en la base.
+# Extensiones que no trae la base:
+#   - pdo_mysql: Eloquent contra MariaDB (drivers mysql/mariadb).
+#   - pcntl: señales de queue:work (--max-time, apagado limpio) y de
+#     reverb:start (parada/reinicio limpios).
+# Todo lo que exige composer.lock (ctype, curl, dom, fileinfo, filter, hash,
+# iconv, json, mbstring, openssl, pcre, session, tokenizer) ya viene en la base
+# (`composer check-platform-reqs --no-dev` en la etapa vendor lo comprueba).
+# opcache no se instala: desde PHP 8.5 es parte del núcleo y ya viene cargado.
 RUN install-php-extensions \
       pdo_mysql \
-      gd \
-      zip \
       pcntl
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -123,6 +111,10 @@ COPY docker/prod/Caddyfile /etc/frankenphp/Caddyfile
 # El código queda de root y de solo lectura para la app; solo storage/,
 # bootstrap/cache y el propio directorio public/ (para el symlink de
 # storage:link) pasan a www-data más abajo.
+# Los assets Vite de Laravel (resources/js, resources/css) NO se compilan: la
+# vista welcome solo los carga si existe public/build/manifest.json, y el
+# frontend real es el build de React. Si algún día se usan vistas con @vite,
+# añadir una etapa `npm ci && npm run build` sobre backend/.
 COPY backend/ ./
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=vendor /app/bootstrap/cache ./bootstrap/cache
@@ -147,7 +139,7 @@ EXPOSE 80
 
 # La imagen base sondea el admin API de Caddy (:2019), que aquí está
 # deshabilitado (`admin off`). El script decide según el rol del contenedor:
-# web -> GET / ; websockets -> puerto 6001 ; worker/schedule -> siempre ok
+# web -> GET /up ; reverb -> puerto 8080 ; worker/schedule -> siempre ok
 # (si el proceso muere, el contenedor sale y Docker lo reinicia).
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD ["/usr/local/bin/healthcheck.sh"]
