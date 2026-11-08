@@ -1,0 +1,7 @@
+# Estado de desarrollo (bind-mounts del compose). Ver docker-compose.yml.
+# dbdata lo crea y gestiona MariaDB (arranca como root y hace su propio chown).
+dbdata
+# caddy lo escribe el contenedor de la app con el UID del host: el directorio
+# tiene que existir ya en el clon con el dueño correcto, de ahí el .gitkeep.
+caddy/*
+!caddy/.gitkeep

@@ -1,0 +1,46 @@
+{
+	frankenphp
+
+	# TLS lo termina Nginx Proxy Manager en el VPS; aquí solo HTTP en :80.
+	# Sin esto Caddy intentaría emitir certificados o redirigir a 443.
+	auto_https off
+
+	# El healthcheck no usa el admin API (ver docker/prod/healthcheck.sh).
+	admin off
+
+	servers {
+		# Caddy confía en el proxy (rangos privados de la red docker `proxy`)
+		# para X-Forwarded-*. OJO: esto solo afecta a Caddy; Laravel tiene su
+		# propia lista en app/Http/Middleware/TrustProxies.php.
+		trusted_proxies static private_ranges
+	}
+}
+
+:80 {
+	root * /var/www/public
+	encode zstd br gzip
+
+	# Por encima de post_max_size (64M en docker/prod/php.ini): entre 64 y
+	# 80 MB responde Laravel (413 de ValidatePostSize); por encima corta Caddy.
+	request_body {
+		max_size 80MB
+	}
+
+	header {
+		-Server
+		-X-Powered-By
+	}
+
+	# WebSockets (beyondcode/laravel-websockets, protocolo Pusher). El
+	# frontend (frontend/src/hooks/useSockets.js) conecta a
+	# <dominio>:443/app/<key>. Solo se expone /app y /app/*: la API HTTP del
+	# servidor (/apps/<id>/events, la que usa Laravel para publicar) va por la
+	# red interna directo a websockets:6001 y no se publica.
+	# reverse_proxy gestiona el upgrade de WebSocket por sí solo.
+	# Ninguna ruta del SPA ni de Laravel empieza por /app.
+	@websockets path /app /app/*
+	reverse_proxy @websockets {$WEBSOCKETS_UPSTREAM:websockets:6001}
+
+	# Todo lo demás: estáticos del build de React y Laravel (API + vista SPA).
+	php_server
+}

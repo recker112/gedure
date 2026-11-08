@@ -1,0 +1,97 @@
+name: GHCR Cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      keep_versions:
+        description: "How many tagged versions to keep"
+        required: false
+        default: "4"
+  schedule:
+    - cron: "20 3 * * 0"
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
+      - name: Delete old GHCR versions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const ownerType = context.payload.repository.owner.type;
+            const packageName = context.repo.repo.toLowerCase();
+            const keepCountInput = context.payload.inputs?.keep_versions || '4';
+            const keepCount = Number.parseInt(keepCountInput, 10) || 4;
+
+            const listEndpoint = ownerType === 'Organization'
+              ? 'GET /orgs/{org}/packages/{package_type}/{package_name}/versions'
+              : 'GET /users/{username}/packages/{package_type}/{package_name}/versions';
+
+            const deleteEndpoint = ownerType === 'Organization'
+              ? 'DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}'
+              : 'DELETE /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}';
+
+            const routeBase = {
+              package_type: 'container',
+              package_name: packageName,
+              per_page: 100,
+            };
+
+            const listParams = ownerType === 'Organization'
+              ? { ...routeBase, org: owner }
+              : { ...routeBase, username: owner };
+
+            const { data: versions } = await github.request(listEndpoint, listParams);
+            if (!versions.length) {
+              core.info(`No versions found for ghcr.io/${owner}/${packageName}`);
+              return;
+            }
+
+            const hasLatestTag = (version) =>
+              (version.metadata?.container?.tags || []).includes('latest');
+
+            const tagged = versions
+              .filter((v) => (v.metadata?.container?.tags || []).length > 0)
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            const untagged = versions.filter(
+              (v) => (v.metadata?.container?.tags || []).length === 0
+            );
+
+            const keepIds = new Set(tagged.slice(0, keepCount).map((v) => v.id));
+            for (const version of versions) {
+              if (hasLatestTag(version)) {
+                keepIds.add(version.id);
+              }
+            }
+
+            // Seguridad GHCR: no borrar untagged, porque pueden ser manifiestos
+            // internos referenciados por tags vigentes (ej. latest).
+            const toDelete = tagged.filter((v) => !keepIds.has(v.id));
+            core.info(
+              `Found ${versions.length} versions (${tagged.length} tagged, ${untagged.length} untagged). Keeping ${keepIds.size} tagged versions and deleting ${toDelete.length} old tagged versions.`
+            );
+            core.info('Untagged versions are skipped to prevent broken manifests.');
+
+            for (const version of toDelete) {
+              const deleteParams = ownerType === 'Organization'
+                ? {
+                    org: owner,
+                    package_type: 'container',
+                    package_name: packageName,
+                    package_version_id: version.id,
+                  }
+                : {
+                    username: owner,
+                    package_type: 'container',
+                    package_name: packageName,
+                    package_version_id: version.id,
+                  };
+
+              await github.request(deleteEndpoint, deleteParams);
+              core.info(`Deleted version ${version.id}`);
+            }

@@ -12,7 +12,10 @@ class TrustProxies extends Middleware
      *
      * @var array|string|null
      */
-    protected $proxies;
+    // '*': al contenedor solo llega tráfico de la red docker interna (Nginx
+    // Proxy Manager termina TLS y reenvía con X-Forwarded-Proto: https). Sin
+    // esto Laravel genera URLs http:// detrás del proxy.
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
