@@ -1,0 +1,109 @@
+# Compose de DESARROLLO local de Gedure. Misma base que producción
+# (FrankenPHP + PHP 8.5, Dockerfile.dev vs Dockerfile.prod) y mismos roles
+# (web | websockets | schedule). El código se monta por bind-mount.
+#
+# Con los puertos por defecto: app en http(s)://localhost y Adminer en
+# http://localhost:8080. El frontend (React) NO está aquí: se corre con npm en
+# el host (ver README), en http://localhost:3000.
+# Todo el estado persistente vive en ./docker/<servicio>.
+
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  image: gedure-dev
+  restart: unless-stopped
+  user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+  networks:
+    - app-network
+  environment:
+    APP_ENV: local
+    APP_DEBUG: "true"
+    DB_CONNECTION: mysql
+    DB_HOST: db
+    DB_PORT: "3306"
+    DB_DATABASE: ${DB_DATABASE:-gedure}
+    DB_USERNAME: root
+    DB_PASSWORD: ${DB_PASSWORD:-secret}
+    PUSHER_HOST: websockets
+    PUSHER_SCHEME: http
+    RUN_COMMANDS: ${RUN_COMMANDS:-false}
+  volumes:
+    - ./backend:/var/www
+    # PKI de Caddy (la CA local). Bind-mount para sacar root.crt con un cp.
+    - ./docker/caddy:/tmp/caddy/data
+
+services:
+  app:
+    <<: *app
+    command: web
+    ports:
+      - "${BIND_ADDR:-127.0.0.1}:${APP_PORT:-80}:8000"
+      - "${BIND_ADDR:-127.0.0.1}:${APP_SSL_PORT:-443}:8443"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  websockets:
+    <<: *app
+    command: websockets
+    # Sin puerto publicado: el navegador entra por /app de la app (Caddy).
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 6001, $$e, $$s, 3) ? 0 : 1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    # Espera a que la app haya instalado vendor/ en el primer arranque.
+    depends_on:
+      app:
+        condition: service_healthy
+
+  schedule:
+    <<: *app
+    command: schedule
+    healthcheck:
+      disable: true
+    depends_on:
+      app:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE:-gedure}
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+    networks:
+      - app-network
+    # Sin puerto publicado: app y adminer llegan como "db". Para un cliente GUI
+    # en el host, descomentar (solo localhost, nunca 0.0.0.0).
+    # ports:
+    #   - "127.0.0.1:3306:3306"
+    volumes:
+      # En WSL2/Linux/macOS. Si el repo está en C:\ (Windows), el bind-mount no
+      # soporta el ownership que exige el datadir: usar un volumen con nombre.
+      - ./docker/dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "${BIND_ADDR:-127.0.0.1}:${ADMINER_PORT:-8080}:8080"
+    networks:
+      - app-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  app-network:
+    driver: bridge

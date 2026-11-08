@@ -1,0 +1,156 @@
+# syntax=docker/dockerfile:1
+#
+# Imagen única de producción de Gedure: ghcr.io/<owner>/gedure
+# (el nombre sale de `ghcr.io/${{ github.repository }}` en
+# .github/workflows/built_image.yml).
+#
+# Una sola imagen sirve TODOS los procesos de la app; el rol se elige en
+# runtime con el argumento del entrypoint (ver docker/prod/entrypoint.sh):
+#   web (por defecto) | websockets | worker | schedule
+#
+# Contexto de build = raíz del repo (monorepo: backend/ + frontend/).
+
+# ═══════════════════════════════════════════════════════════════════════
+# ETAPA 1: build del frontend (React CRA, react-scripts 5)
+# ═══════════════════════════════════════════════════════════════════════
+FROM node:22-alpine AS frontend
+
+WORKDIR /app
+
+# Dependencias en su propia capa: solo se invalida al cambiar el lockfile.
+# --legacy-peer-deps: el árbol del proyecto tiene un conflicto de peer deps
+# preexistente (reactour 1.18 declara react ^16||^17 y el proyecto usa
+# React 18). npm 7+ lo rechaza; con esta opción se instala exactamente lo
+# que fija package-lock.json, sin actualizar nada.
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --no-audit --no-fund --legacy-peer-deps
+
+COPY frontend/ ./
+
+# Sin sourcemaps: no se publican y engordan la imagen.
+# CI sin definir a propósito: con CI=true CRA convierte los warnings de
+# ESLint en errores y el build fallaría por avisos que en local no rompen.
+ENV GENERATE_SOURCEMAP=false
+RUN npm run build
+
+# frontend/public/index.html ya trae sintaxis Blade (csrf_token, config...):
+# el index.html compilado ES la vista `app` de Laravel (routes/web.php hace
+# catch-all hacia ella). Se separa aquí para que public/ no sirva el HTML
+# crudo con las etiquetas Blade sin renderizar.
+RUN mkdir -p /out \
+ && mv build/index.html /out/app.blade.php \
+ && test -f /out/app.blade.php \
+ && mv build /out/public \
+ && test -n "$(ls /out/public/static/js/main.*.js 2>/dev/null)"
+
+# ═══════════════════════════════════════════════════════════════════════
+# Base PHP: runtime + extensiones, compartida por vendor y producción
+# ═══════════════════════════════════════════════════════════════════════
+# PHP 8.5 (FrankenPHP 1.x). Para instalar en 8.5 se actualizaron en
+# composer.lock solo los paquetes que capaban la versión de PHP (nette/utils
+# <8.4, nette/schema 7.1-8.3, cocur/slugify, ezyang/htmlpurifier y lcobucci/*
+# ~8.3); el resto del lock (Laravel 10 incluido) no cambió.
+# Laravel 10 y varias dependencias emiten deprecations de 8.4/8.5 (parámetros
+# nullable implícitos, etc.): no afectan al funcionamiento y se reducen en
+# docker/prod/php.ini (error_reporting sin E_DEPRECATED; ver allí qué queda).
+FROM dunglas/frankenphp:1-php8.5-alpine AS php-base
+
+# - su-exec: bajar de root al usuario de la app en el entrypoint.
+# - mariadb-client: aporta `mysqldump`, que spatie/laravel-backup ejecuta en
+#   `backup:run --only-db` (programado a diario). Aquí sí se justifica; el
+#   ping de arranque NO lo usa (va por PDO, docker/prod/wait-for-db.php).
+RUN apk add --no-cache \
+      su-exec \
+      mariadb-client
+
+# Extensiones que exige el código y composer.lock:
+#   - pdo_mysql: Eloquent contra MariaDB.
+#   - gd: intervention/image 2.x (driver gd), phpspreadsheet (maatwebsite/excel),
+#     setasign/fpdf (pdf-merger) y dompdf.
+#   - zip: maatwebsite/excel, spatie/laravel-backup, vipsoft/unzip.
+#   - pcntl: señales de queue:work (--max-time, apagado limpio).
+# opcache no se instala: desde PHP 8.5 es parte obligatoria del núcleo y ya
+# viene cargado (install-php-extensions solo avisaría "already installed").
+# Su configuración está en docker/prod/php.ini.
+# No hacen falta bcmath, exif, intl ni redis (comprobado con grep en app/ y
+# config/; colas y caché van por base de datos/archivos). sodium, mbstring,
+# dom, xml*, iconv, fileinfo, curl, ctype y tokenizer ya vienen en la base.
+RUN install-php-extensions \
+      pdo_mysql \
+      gd \
+      zip \
+      pcntl
+
+# ═══════════════════════════════════════════════════════════════════════
+# ETAPA 2: dependencias PHP (Composer solo vive aquí)
+# ═══════════════════════════════════════════════════════════════════════
+FROM php-base AS vendor
+
+WORKDIR /app
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY backend/composer.json backend/composer.lock ./
+RUN composer install \
+      --no-dev --no-scripts --no-autoloader \
+      --prefer-dist --no-interaction --no-progress
+
+COPY backend/ ./
+# Con scripts: post-autoload-dump ejecuta `package:discover`, que genera
+# bootstrap/cache/{packages,services}.php (se copian a la imagen final).
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative \
+ && composer check-platform-reqs --no-dev \
+ && test -f bootstrap/cache/packages.php
+
+# ═══════════════════════════════════════════════════════════════════════
+# ETAPA 3: imagen final
+# ═══════════════════════════════════════════════════════════════════════
+FROM php-base AS production
+
+# Versión desplegada (tag de git), la pasa el CI.
+ARG APP_VERSION=dev
+ENV APP_VERSION=${APP_VERSION}
+
+# Caddy (embebido en FrankenPHP) guarda config/estado en XDG_*; la imagen base
+# ya apunta a /config y /data. Deben ser escribibles por el usuario de la app.
+ENV XDG_CONFIG_HOME=/config \
+    XDG_DATA_HOME=/data
+
+WORKDIR /var/www
+
+COPY docker/prod/php.ini "$PHP_INI_DIR/conf.d/zz-gedure.ini"
+COPY docker/prod/Caddyfile /etc/frankenphp/Caddyfile
+
+# El código queda de root y de solo lectura para la app; solo storage/,
+# bootstrap/cache y el propio directorio public/ (para el symlink de
+# storage:link) pasan a www-data más abajo.
+COPY backend/ ./
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=vendor /app/bootstrap/cache ./bootstrap/cache
+COPY --from=frontend /out/public/ ./public/
+COPY --from=frontend /out/app.blade.php ./resources/views/app.blade.php
+
+COPY docker/prod/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/prod/wait-for-db.php /usr/local/bin/wait-for-db.php
+COPY docker/prod/healthcheck.sh /usr/local/bin/healthcheck.sh
+
+# chmod +x aquí y no en el host: en un checkout de Windows el bit se pierde.
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/healthcheck.sh \
+ && test -f resources/views/app.blade.php \
+ && mkdir -p /config/caddy /data/caddy \
+ && chown -R www-data:www-data /config /data storage bootstrap/cache \
+ && chown www-data:www-data public \
+ # Copia de referencia: si el volumen de storage/ llega vacío (primer
+ # despliegue) el entrypoint restaura la estructura desde aquí.
+ && cp -a /var/www/storage /var/www/storage_defaults
+
+EXPOSE 80
+
+# La imagen base sondea el admin API de Caddy (:2019), que aquí está
+# deshabilitado (`admin off`). El script decide según el rol del contenedor:
+# web -> GET / ; websockets -> puerto 6001 ; worker/schedule -> siempre ok
+# (si el proceso muere, el contenedor sale y Docker lo reinicia).
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD ["/usr/local/bin/healthcheck.sh"]
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["web"]
