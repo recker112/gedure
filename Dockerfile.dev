@@ -7,13 +7,13 @@
 # Contexto de build = raíz del repo.
 FROM dunglas/frankenphp:1-php8.5-alpine
 
-# mariadb-client: mysqldump para spatie/laravel-backup (igual que producción);
-# en dev además da el cliente `mariadb` para depurar.
+# mariadb-client: solo comodidad de dev (cliente `mariadb` para depurar desde
+# el contenedor); producción no lo lleva. git/unzip: los usa composer.
 RUN apk add --no-cache git unzip bash mariadb-client
 
 # Mismas extensiones que Dockerfile.prod (ver los motivos allí). opcache ya
 # viene en el núcleo de PHP 8.5.
-RUN install-php-extensions pdo_mysql gd zip pcntl
+RUN install-php-extensions pdo_mysql pcntl
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -40,7 +40,7 @@ EXPOSE 8000 8443
 
 # La base sondea el admin API de Caddy (:2019), que aquí está off.
 HEALTHCHECK --interval=10s --timeout=5s --start-period=600s --retries=5 \
-  CMD wget -q -O /dev/null -T 4 http://127.0.0.1:8000/ || exit 1
+  CMD wget -q -O /dev/null -T 4 http://127.0.0.1:8000/up || exit 1
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["web"]

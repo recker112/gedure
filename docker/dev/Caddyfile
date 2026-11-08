@@ -11,11 +11,11 @@
 	root * /var/www/public
 	encode zstd gzip
 
-	# WebSockets (beyondcode/laravel-websockets, protocolo Pusher). El frontend
-	# conecta a <host>:80|443/app/<key>. Solo se expone /app y /app/*; la API
-	# HTTP del servidor (/apps/<id>/events) va por la red interna.
-	@websockets path /app /app/*
-	reverse_proxy @websockets {$WEBSOCKETS_UPSTREAM:websockets:6001}
+	# WebSockets: Laravel Reverb (protocolo Pusher). El cliente conecta a
+	# <host>:80|443/app/<key>. Solo se expone /app y /app/*; la API HTTP de
+	# Reverb (/apps/<id>/events) la usa Laravel por la red interna.
+	@reverb path /app /app/*
+	reverse_proxy @reverb {$REVERB_UPSTREAM:reverb:8080}
 
 	php_server
 }

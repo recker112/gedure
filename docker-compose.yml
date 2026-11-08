@@ -1,6 +1,7 @@
 # Compose de DESARROLLO local de Gedure. Misma base que producción
 # (FrankenPHP + PHP 8.5, Dockerfile.dev vs Dockerfile.prod) y mismos roles
-# (web | websockets | schedule). El código se monta por bind-mount.
+# (web | reverb | worker | schedule). Backend: Laravel 13 + Sanctum + Reverb.
+# El código se monta por bind-mount.
 #
 # Con los puertos por defecto: app en http(s)://localhost y Adminer en
 # http://localhost:8080. El frontend (React) NO está aquí: se corre con npm en
@@ -19,14 +20,17 @@ x-app: &app
   environment:
     APP_ENV: local
     APP_DEBUG: "true"
-    DB_CONNECTION: mysql
+    DB_CONNECTION: mariadb
     DB_HOST: db
     DB_PORT: "3306"
     DB_DATABASE: ${DB_DATABASE:-gedure}
     DB_USERNAME: root
     DB_PASSWORD: ${DB_PASSWORD:-secret}
-    PUSHER_HOST: websockets
-    PUSHER_SCHEME: http
+    # Laravel publica los eventos a Reverb por la red interna.
+    BROADCAST_CONNECTION: reverb
+    REVERB_HOST: reverb
+    REVERB_PORT: "8080"
+    REVERB_SCHEME: http
     RUN_COMMANDS: ${RUN_COMMANDS:-false}
   volumes:
     - ./backend:/var/www
@@ -45,17 +49,26 @@ services:
         condition: service_healthy
         restart: true
 
-  websockets:
+  reverb:
     <<: *app
-    command: websockets
+    command: reverb
     # Sin puerto publicado: el navegador entra por /app de la app (Caddy).
     healthcheck:
-      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 6001, $$e, $$s, 3) ? 0 : 1);"]
+      test: ["CMD", "php", "-r", "exit(@fsockopen('127.0.0.1', 8080, $$e, $$s, 3) ? 0 : 1);"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
     # Espera a que la app haya instalado vendor/ en el primer arranque.
+    depends_on:
+      app:
+        condition: service_healthy
+
+  worker:
+    <<: *app
+    command: worker
+    healthcheck:
+      disable: true
     depends_on:
       app:
         condition: service_healthy

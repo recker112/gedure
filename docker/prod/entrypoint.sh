@@ -3,10 +3,10 @@
 #
 # La misma imagen sirve todos los procesos; el ROL llega como primer
 # argumento (el `command:` de cada servicio en el compose del VPS):
-#   web         FrankenPHP/Caddy en :80 (SPA + API + proxy de /app)
-#   websockets  beyondcode/laravel-websockets en :6001
-#   worker      queue:work (colas high,commands,default,emails)
-#   schedule    schedule:work
+#   web       FrankenPHP/Caddy en :80 (Laravel + build de React + proxy de /app)
+#   reverb    Laravel Reverb (reverb:start) en :8080
+#   worker    queue:work (cola por defecto)
+#   schedule  schedule:work
 # Cualquier otro argumento se ejecuta tal cual como el usuario de la app, p. ej.
 #   docker run --rm <imagen> php artisan tinker
 set -eu
@@ -24,7 +24,7 @@ as_app() {
 cd /var/www
 
 case "${ROLE}" in
-  web|websockets|worker|schedule) IS_ROLE=true ;;
+  web|reverb|worker|schedule) IS_ROLE=true ;;
   *) IS_ROLE=false ;;
 esac
 
@@ -63,8 +63,6 @@ mkdir -p \
 
 chown -R "${APP_UID}:${APP_GID}" /var/www/storage /var/www/bootstrap/cache
 chmod -R ug+rwX /var/www/storage /var/www/bootstrap/cache
-# La clave privada de Passport no debe ser legible por otros usuarios.
-chmod 600 /var/www/storage/oauth-*.key 2>/dev/null || true
 
 # ── Espera a la base de datos ────────────────────────────────────────────
 wait_for_db() {
@@ -91,19 +89,10 @@ fi
 
 # ── Tareas de arranque del rol web ───────────────────────────────────────
 if [ "${ROLE}" = "web" ]; then
-  # config/filesystems.php enlaza public/resources -> storage/app/public.
+  # public/storage -> storage/app/public (config/filesystems.php).
   # public/ vive en la imagen, así que el enlace se recrea en cada arranque.
-  rm -rf /var/www/public/resources
+  rm -rf /var/www/public/storage
   as_app php artisan storage:link
-
-  # Claves de Passport: viven en storage/ (volumen) y deben persistir entre
-  # despliegues; si se regeneran, todos los tokens emitidos dejan de valer.
-  # Sin --force: solo se crean si no existen.
-  if [ ! -f /var/www/storage/oauth-private.key ] || [ ! -f /var/www/storage/oauth-public.key ]; then
-    echo "==> Generando claves de Passport (primer arranque)"
-    as_app php artisan passport:keys
-    chmod 600 /var/www/storage/oauth-*.key
-  fi
 
   if [ "${RUN_COMMANDS:-false}" = "true" ]; then
     echo "==> Ejecutando migraciones"
@@ -130,16 +119,16 @@ case "${ROLE}" in
     echo "==> Iniciando FrankenPHP (versión ${APP_VERSION:-dev})"
     exec su-exec "${APP_UID}:${APP_GID}" frankenphp run --config /etc/frankenphp/Caddyfile
     ;;
-  websockets)
-    echo "==> Iniciando servidor de WebSockets en :6001"
-    exec su-exec "${APP_UID}:${APP_GID}" php artisan websockets:serve --host=0.0.0.0 --port=6001
+  reverb)
+    echo "==> Iniciando Laravel Reverb en :8080"
+    exec su-exec "${APP_UID}:${APP_GID}" php artisan reverb:start --host=0.0.0.0 --port=8080
     ;;
   worker)
     echo "==> Iniciando worker de colas"
-    # El scheduler lanza `queue:restart` a diario: el worker sale limpio y
-    # la política restart del compose lo vuelve a levantar.
+    # --max-time: el worker sale limpio cada hora (libera memoria y recoge
+    # código nuevo) y la política restart del compose lo vuelve a levantar.
     exec su-exec "${APP_UID}:${APP_GID}" php artisan queue:work \
-      --queue=high,commands,default,emails --tries=3 --backoff=5 --max-time=3600
+      --tries=3 --max-time=3600
     ;;
   schedule)
     echo "==> Iniciando scheduler"

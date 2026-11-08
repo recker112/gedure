@@ -20,14 +20,16 @@ docker/caddy
 # coincidiría con ./vendor; con ** cubre backend/vendor.
 **/node_modules
 **/vendor
-# ...pero las traducciones de paquetes sí son código de la app.
-!backend/resources/lang/vendor
 
-# Builds del frontend copiados a mano con el flujo antiguo: el build real se
-# hace en la etapa de Node. De public/ solo se conserva el index.php.
+# Builds locales: el del frontend se hace en la etapa de Node y sus artefactos
+# en backend/ (si alguien los copió a mano) no deben pisar los del build.
 frontend/build
-backend/public/*
-!backend/public/index.php
+backend/public/build
+backend/public/hot
+backend/public/storage
+backend/public/static
+backend/public/asset-manifest.json
+backend/public/manifest.json
 backend/resources/views/app.blade.php
 
 # Estado runtime y uploads locales de Laravel
@@ -38,6 +40,8 @@ backend/storage/framework/views/*
 backend/storage/framework/testing
 backend/storage/app/*
 backend/storage/*.key
+backend/storage/pail
+backend/database/*.sqlite*
 backend/bootstrap/cache/*.php
 backend/.phpunit.result.cache
 

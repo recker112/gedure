@@ -1,6 +1,6 @@
 #!/bin/sh
 # Entrypoint de DESARROLLO. Mismo contrato de roles que docker/prod/entrypoint.sh
-#   web (por defecto) | websockets | schedule | <cualquier comando>
+#   web (por defecto) | reverb | worker | schedule | <cualquier comando>
 # Corre con el UID del host (compose `user:`), sin root ni su-exec.
 set -eu
 
@@ -34,19 +34,15 @@ bootstrap() {
     php artisan key:generate --no-interaction
   fi
 
-  if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
-    echo "==> Generando claves de Passport"
-    php artisan passport:keys --no-interaction
-  fi
-
-  # public/resources -> storage/app/public (config/filesystems.php).
-  if [ ! -e public/resources ] && [ ! -L public/resources ]; then
+  # public/storage -> storage/app/public (config/filesystems.php).
+  if [ ! -e public/storage ] && [ ! -L public/storage ]; then
     php artisan storage:link --no-interaction || true
   fi
 
   # En producción esta vista es el index.html compilado de React. En dev el SPA
-  # lo sirve el dev server de CRA en el host (:3000); aquí solo un marcador para que
-  # GET / de Laravel responda 200. Está en .gitignore.
+  # lo sirve el dev server de CRA en el host (:3000); aquí solo un marcador por
+  # si routes/web.php apunta a view('app') (catch-all del SPA). Está en
+  # .gitignore.
   if [ ! -f resources/views/app.blade.php ]; then
     echo "==> Creando resources/views/app.blade.php de desarrollo"
     cat > resources/views/app.blade.php <<'HTML'
@@ -78,13 +74,17 @@ case "${ROLE}" in
     echo "==> Iniciando FrankenPHP (dev)"
     exec frankenphp run --config /etc/caddy/Caddyfile
     ;;
-  websockets)
-    echo "==> Iniciando servidor de WebSockets en :6001"
-    exec php artisan websockets:serve --host=0.0.0.0 --port=6001
+  reverb)
+    echo "==> Iniciando Laravel Reverb en :8080"
+    exec php artisan reverb:start --host=0.0.0.0 --port=8080
+    ;;
+  worker)
+    # queue:listen y no queue:work: recarga el código en cada job, así los
+    # cambios en backend/ se ven sin reiniciar el contenedor.
+    echo "==> Iniciando worker de colas (queue:listen)"
+    exec php artisan queue:listen --tries=3
     ;;
   schedule)
-    # En APP_ENV=local el Kernel lanza `queue:listen` desde el scheduler:
-    # no hace falta un worker aparte.
     echo "==> Iniciando scheduler"
     exec php artisan schedule:work
     ;;

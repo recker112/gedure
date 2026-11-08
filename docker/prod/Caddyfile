@@ -11,7 +11,7 @@
 	servers {
 		# Caddy confía en el proxy (rangos privados de la red docker `proxy`)
 		# para X-Forwarded-*. OJO: esto solo afecta a Caddy; Laravel tiene su
-		# propia lista en app/Http/Middleware/TrustProxies.php.
+		# propia lista: trustProxies() en backend/bootstrap/app.php.
 		trusted_proxies static private_ranges
 	}
 }
@@ -31,16 +31,16 @@
 		-X-Powered-By
 	}
 
-	# WebSockets (beyondcode/laravel-websockets, protocolo Pusher). El
-	# frontend (frontend/src/hooks/useSockets.js) conecta a
-	# <dominio>:443/app/<key>. Solo se expone /app y /app/*: la API HTTP del
-	# servidor (/apps/<id>/events, la que usa Laravel para publicar) va por la
-	# red interna directo a websockets:6001 y no se publica.
+	# WebSockets: Laravel Reverb (protocolo Pusher). El cliente conecta a
+	# <dominio>:443/app/<key>. Solo se expone /app y /app/*: la API HTTP de
+	# Reverb (/apps/<id>/events, la que usa Laravel para publicar) va por la
+	# red interna directo a reverb:8080 y no se publica (/apps/* cae en
+	# php_server y responde Laravel con 404).
 	# reverse_proxy gestiona el upgrade de WebSocket por sí solo.
-	# Ninguna ruta del SPA ni de Laravel empieza por /app.
-	@websockets path /app /app/*
-	reverse_proxy @websockets {$WEBSOCKETS_UPSTREAM:websockets:6001}
+	# Ninguna ruta del SPA ni de Laravel debe empezar por /app.
+	@reverb path /app /app/*
+	reverse_proxy @reverb {$REVERB_UPSTREAM:reverb:8080}
 
-	# Todo lo demás: estáticos del build de React y Laravel (API + vista SPA).
+	# Todo lo demás: estáticos del build de React y Laravel.
 	php_server
 }
