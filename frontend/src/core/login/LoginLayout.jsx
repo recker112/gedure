@@ -92,7 +92,7 @@ export default function LoginLayout() {
             </Typography>
             <Typography
               component="p"
-              sx={{ fontFamily: "Lora, Georgia, serif", fontWeight: 700, fontSize: { xs: 16, lg: 30 }, lineHeight: 1.15 }}
+              sx={{ fontWeight: 800, fontSize: { xs: 16, lg: 30 }, lineHeight: 1.15 }}
             >
               {SCHOOL.name}
             </Typography>

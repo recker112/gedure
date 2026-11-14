@@ -43,11 +43,14 @@ export function NewsCover({ category, height = 160 }) {
   );
 }
 
-/** Tarjeta de noticia para el listado y la portada. */
-export default function NewsCard({ item, headingLevel = "h3" }) {
+/**
+ * Tarjeta de noticia para el listado y la portada. `basePath`: dónde vive el
+ * detalle (`/noticias` en la web, `/gedure/noticias` dentro del panel).
+ */
+export default function NewsCard({ item, headingLevel = "h3", basePath = "/noticias" }) {
   return (
     <Card component="article" sx={{ height: "100%" }}>
-      <CardActionArea component={Link} to={`/noticias/${item.slug}`} sx={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+      <CardActionArea component={Link} to={`${basePath}/${item.slug}`} sx={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "stretch" }}>
         <NewsCover category={item.category} />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography variant="caption" color="textSecondary" component="time" dateTime={item.date}>

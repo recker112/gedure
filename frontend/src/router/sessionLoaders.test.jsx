@@ -1,5 +1,6 @@
-import { afterEach, describe, expect, test } from "vitest";
-import { act, screen, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { toast } from "sonner";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import store from "../store";
@@ -8,6 +9,7 @@ import { FULL_KEY, TEMP_KEY, resetAuth, serveAuth } from "../test/authBackend";
 import { writeStorage } from "../components/utils/storage";
 import { updateUserData } from "../store/reducers/auth/authReducer";
 import { resetSitePreference } from "./sessionLoaders";
+import { news as NEWS } from "../core/news/newsData";
 
 const TIMEOUT = { timeout: 8000 };
 const findH1 = (name) => screen.findByRole("heading", { level: 1, name }, TIMEOUT);
@@ -311,7 +313,9 @@ describe("portada: redirección al panel con sesión", () => {
     const { router } = renderRoute("/gedure");
     await findH1(/Hola, Administrador/);
 
-    await user.click(screen.getByRole("link", { name: "Ver sitio web" }));
+    // «Ver sitio web» está en el menú de cuenta del panel.
+    await user.click(screen.getByRole("button", { name: "Cuenta de Administrador" }));
+    await user.click(await screen.findByRole("menuitem", { name: "Ver sitio web" }));
     await findH1(HERO);
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -327,7 +331,9 @@ describe("portada: redirección al panel con sesión", () => {
     storedKey(FULL_KEY);
     const { router } = renderRoute("/gedure");
     await findH1(/Hola, Administrador/);
-    await user.click(screen.getByRole("link", { name: "Ver sitio web" }));
+    // «Ver sitio web» está en el menú de cuenta del panel.
+    await user.click(screen.getByRole("button", { name: "Cuenta de Administrador" }));
+    await user.click(await screen.findByRole("menuitem", { name: "Ver sitio web" }));
     await findH1(HERO);
 
     await user.click(screen.getAllByRole("link", { name: "Nosotros" })[0]);
@@ -352,8 +358,6 @@ describe("portada: redirección al panel con sesión", () => {
     await screen.findByRole("heading", { level: 2, name: "Nuestra historia" }, TIMEOUT);
     expect(router.state.location.pathname).toBe("/nosotros");
 
-    await act(() => router.navigate("/contactanos"));
-    expect(router.state.location.pathname).toBe("/contactanos");
     await act(() => router.navigate("/ruta-inexistente"));
     expect(router.state.location.pathname).toBe("/ruta-inexistente");
     expect(window.sessionStorage.getItem("gd.web.publica")).toBeNull();
@@ -407,5 +411,109 @@ describe("portada: redirección al panel con sesión", () => {
       await findH1(/Hola, Administrador/);
       expect(router.state.location.pathname).toBe("/gedure");
     });
+  });
+});
+
+describe("con sesión, Noticias y Contacto van a su versión del panel", () => {
+  afterEach(resetAuth);
+  // Sonner guarda los avisos en un estado global: que no se cuele el de otro test.
+  beforeEach(() => toast.dismiss());
+
+  /** true si el texto aparece en algún momento del DOM (un MutationObserver lo vigila). */
+  function watchText(text) {
+    let seen = false;
+    const check = () => {
+      if (document.body.textContent.includes(text)) seen = true;
+    };
+    const observer = new MutationObserver(check);
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    return { seen: () => (check(), seen), stop: () => observer.disconnect() };
+  }
+
+  test.each([
+    ["/contactanos", "/gedure/ayuda", "Ayuda", "¿Tienes dudas sobre inscripciones"],
+    ["/noticias", "/gedure/noticias", "Noticias del colegio", "Avisos, actividades y celebraciones"],
+  ])("%s con apiKey completa -> %s sin pintar la página pública y con un solo relogin", async (from, to, h1, publicText) => {
+    const backend = serveAuth();
+    storedKey(FULL_KEY);
+    const watcher = watchText(publicText);
+    const { router } = renderRoute(from);
+
+    await findH1(h1);
+    expect(router.state.location.pathname).toBe(to);
+    expect(watcher.seen()).toBe(false);
+    watcher.stop();
+    expect(screen.queryByRole("form", { name: "Formulario de contacto" })).not.toBeInTheDocument();
+    expect(reloginCalls(backend)).toHaveLength(1);
+  });
+
+  test("/contactanos con sesión llega a la sección de soporte de Ayuda (#soporte)", async () => {
+    serveAuth();
+    storedKey(FULL_KEY);
+    const { router } = renderRoute("/contactanos");
+    await findH1("Ayuda");
+    expect(router.state.location.hash).toBe("#soporte");
+  });
+
+  test("/noticias/:slug con sesión abre el detalle dentro del panel (enlaces compartidos)", async () => {
+    const backend = serveAuth();
+    storedKey(FULL_KEY);
+    const { router } = renderRoute(`/noticias/${NEWS[0].slug}`);
+    await findH1(NEWS[0].title);
+    expect(router.state.location.pathname).toBe(`/gedure/noticias/${NEWS[0].slug}`);
+    expect(screen.getByRole("navigation", { name: "Migas de pan" })).toHaveTextContent("Noticias del colegio");
+    expect(reloginCalls(backend)).toHaveLength(1);
+  });
+
+  test.each(["/contactanos", "/noticias"])("%s sin sesión sigue siendo la página pública, sin relogin", async (path) => {
+    const backend = serveAuth();
+    const { router } = renderRoute(path);
+    await findH1(path === "/noticias" ? "Noticias" : "Contacto");
+    expect(router.state.location.pathname).toBe(path);
+    expect(reloginCalls(backend)).toHaveLength(0);
+  });
+
+  test("/noticias/:slug sin sesión muestra la noticia pública", async () => {
+    serveAuth();
+    const { router } = renderRoute(`/noticias/${NEWS[0].slug}`);
+    await findH1(NEWS[0].title);
+    expect(router.state.location.pathname).toBe(`/noticias/${NEWS[0].slug}`);
+  });
+
+  test("con token caducado (401) se queda en la página pública en silencio", async () => {
+    serveAuth({ "POST /auth/relogin": { status: 401, body: { message: "Unauthenticated." } } });
+    storedKey(FULL_KEY);
+    const { router } = renderRoute("/contactanos");
+    await findH1("Contacto");
+    expect(router.state.location.pathname).toBe("/contactanos");
+    expect(store.getState().auth.apiKey).toBeNull();
+    expect(screen.queryByText(/Tu sesión expiró/)).not.toBeInTheDocument();
+  });
+
+  test("con token temporal se queda en la página pública", async () => {
+    serveAuth();
+    storedKey(TEMP_KEY);
+    const { router } = renderRoute("/noticias");
+    await findH1("Noticias");
+    expect(router.state.location.pathname).toBe("/noticias");
+  });
+
+  test("con la sesión confirmada, Noticias y Contacto de la barra apuntan al panel", async () => {
+    serveAuth();
+    storedKey(FULL_KEY);
+    renderRoute("/nosotros");
+    await screen.findByRole("heading", { level: 2, name: "Nuestra historia" }, TIMEOUT);
+    const nav = screen.getByRole("navigation", { name: "Principal" });
+    await waitFor(() => expect(within(nav).getByRole("link", { name: "Noticias" })).toHaveAttribute("href", "/gedure/noticias"));
+    expect(within(nav).getByRole("link", { name: "Contacto" })).toHaveAttribute("href", "/gedure/ayuda");
+  });
+
+  test("sin sesión, la barra enlaza a las páginas públicas", async () => {
+    serveAuth();
+    renderRoute("/nosotros");
+    await screen.findByRole("heading", { level: 2, name: "Nuestra historia" }, TIMEOUT);
+    const nav = screen.getByRole("navigation", { name: "Principal" });
+    expect(within(nav).getByRole("link", { name: "Noticias" })).toHaveAttribute("href", "/noticias");
+    expect(within(nav).getByRole("link", { name: "Contacto" })).toHaveAttribute("href", "/contactanos");
   });
 });

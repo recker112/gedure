@@ -24,7 +24,7 @@ import BrandLink from "./BrandLink";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./ThemeToggle";
 import SessionButton from "./SessionButton";
-import { navItems } from "./navItems";
+import { usePublicNavItems } from "../../hooks/auth/useSessionNav";
 
 /**
  * Barra superior pública. Desde `md` muestra los enlaces; por debajo, un
@@ -32,6 +32,7 @@ import { navItems } from "./navItems";
  * useMediaQuery) para que el primer pintado ya sea el correcto.
  */
 export default function PublicAppBar() {
+  const items = usePublicNavItems();
   const [open, setOpen] = useState(false);
   const scrolled = useScrollTrigger({ disableHysteresis: true, threshold: 8 });
 
@@ -57,7 +58,7 @@ export default function PublicAppBar() {
             aria-label="Principal"
             sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, mx: "auto" }}
           >
-            {navItems.map(({ label, to, end }) => (
+            {items.map(({ label, to, end }) => (
               <Button
                 key={to}
                 component={NavLink}

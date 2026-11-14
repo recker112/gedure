@@ -9,15 +9,15 @@ import { Navigate } from "react-router-dom";
 import RootLayout from "../components/routers/RootLayout";
 import RootFallback from "../components/routers/RootFallback";
 import ErrorFallback from "../components/routers/ErrorFallback";
-import AuthLayout from "../components/routers/AuthLayout";
 import { AuthProtect, NoSeeAuth } from "../components/routers/Routers";
 
 /**
  * Router
  */
 import lazyPage from "./lazyPage";
-import { guestLoader, homeLoader, protectLoader, publicLoader } from "./sessionLoaders";
+import { guestLoader, homeLoader, memberRedirectLoader, protectLoader, publicLoader } from "./sessionLoaders";
 import logoutLoader from "./logoutLoader";
+import { panelRoutes } from "./panelRoutes";
 
 /**
  * Árbol de rutas. Ojo con el catch-all de Laravel (backend/routes/web.php):
@@ -56,14 +56,19 @@ export const routes = [
           },
           {
             path: "noticias",
+            // Con sesión completa, a su versión del panel (sessionLoaders.js).
+            loader: memberRedirectLoader(() => "/gedure/noticias"),
             lazy: lazyPage(() => import("../core/news/NewsPage")),
           },
           {
             path: "noticias/:slug",
+            loader: memberRedirectLoader(({ slug }) => `/gedure/noticias/${encodeURIComponent(slug)}`),
             lazy: lazyPage(() => import("../core/news/NewsShowPage")),
           },
           {
             path: "contactanos",
+            // Con sesión, el soporte va por Ayuda (sin volver a pedir los datos).
+            loader: memberRedirectLoader(() => "/gedure/ayuda#soporte"),
             lazy: lazyPage(() => import("../core/contact/ContactPage")),
           },
           /* 404 dentro del layout: el visitante conserva la navegación. */
@@ -119,7 +124,8 @@ export const routes = [
       },
       /**
        * Rama privada (2FA superado). Primero el guard y dentro el layout:
-       * AuthLayout es donde se abrirá el socket (Echo) en el futuro.
+       * AuthLayout pinta el panel (barra lateral + AppBar) y es donde se
+       * abrirá el socket (Echo) en el futuro.
        */
       {
         path: "gedure",
@@ -128,13 +134,10 @@ export const routes = [
         errorElement: <ErrorFallback />,
         children: [
           {
-            element: <AuthLayout />,
-            children: [
-              {
-                index: true,
-                lazy: lazyPage(() => import("../core/panel/PanelPage")),
-              },
-            ],
+            // Lazy: el panel (barra lateral, menús) no pesa en la web pública.
+            lazy: lazyPage(() => import("../components/routers/AuthLayout")),
+            // Secciones del panel (maqueta): router/panelRoutes.js
+            children: panelRoutes,
           },
         ],
       },

@@ -22,10 +22,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import BrandLink from "./BrandLink";
 import ThemeToggle from "./ThemeToggle";
 import SessionButton from "./SessionButton";
-import { navItems } from "./navItems";
+import { usePublicNavItems } from "../../hooks/auth/useSessionNav";
 
 /** Menú lateral de móvil/tablet (por debajo de `md`). */
 export default function MobileMenu({ open, onClose }) {
+  const items = usePublicNavItems();
   return (
     <Drawer anchor="right" open={open} onClose={onClose} slotProps={{ paper: { sx: { width: 300, maxWidth: "85vw" } } }}>
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", p: 2 }}>
@@ -37,7 +38,7 @@ export default function MobileMenu({ open, onClose }) {
       <Divider />
       <Box component="nav" aria-label="Menú">
         <List sx={{ px: 1 }}>
-          {navItems.map(({ label, to, end, Icon }) => (
+          {items.map(({ label, to, end, Icon }) => (
             <ListItemButton
               key={to}
               component={NavLink}

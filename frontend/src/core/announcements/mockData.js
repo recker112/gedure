@@ -1,0 +1,81 @@
+/**
+ * MAQUETA. Comunicados privados (publicación con audiencia por rol/curso).
+ * `roles`: vistas que lo reciben; `read`: estado inicial de leído en la
+ * maqueta. En la API serán `posts` con `audience` y un pivote de lecturas.
+ */
+export const ANNOUNCEMENTS = [
+  {
+    id: 1,
+    title: "Reunión de representantes de 2.º año",
+    excerpt: "Entrega de boletas del 1.er lapso y orientaciones para el 2.º lapso.",
+    body: "Se convoca a los representantes de 2.º año A a la reunión del jueves 19 de noviembre a las 7:30 a. m. en el salón de usos múltiples. Se entregarán las boletas del 1.er lapso y se conversará sobre el plan de recuperación de Matemática.",
+    author: "Coordinación de Media General",
+    date: "13/11/2026",
+    audience: "Representantes · 2.º año A",
+    roles: ["representante", "admin"],
+    read: { representante: false, admin: true },
+    important: true,
+  },
+  {
+    id: 2,
+    title: "Mensualidad de diciembre y aguinaldos",
+    excerpt: "Fecha límite de pago y tasa de referencia para diciembre.",
+    body: "La mensualidad de diciembre vence el 5/12/2026. Los pagos en bolívares se calculan a la tasa BCV del día del pago. Recuerda reportar tu pago móvil o transferencia desde el Monedero de Gedure.",
+    author: "Administración",
+    date: "11/11/2026",
+    audience: "Todos los representantes",
+    roles: ["representante", "admin"],
+    read: { representante: false, admin: true },
+    important: false,
+  },
+  {
+    id: 3,
+    title: "Consejo de docentes del viernes 20",
+    excerpt: "Revisión de rendimiento del 1.er lapso por sección.",
+    body: "El consejo de docentes se realizará el viernes 20 de noviembre a la 1:00 p. m. Cada profesor guía debe traer el resumen de su sección y las boletas pendientes cargadas en Gedure.",
+    author: "Dirección",
+    date: "10/11/2026",
+    audience: "Docentes",
+    roles: ["profesor", "admin"],
+    read: { profesor: false, admin: false },
+    important: true,
+  },
+  {
+    id: 4,
+    title: "Carga de boletas del 1.er lapso",
+    excerpt: "Plazo hasta el 18 de noviembre para subir las boletas en PDF.",
+    body: "Las boletas del 1.er lapso deben subirse en PDF desde «Subir boletas» antes del 18/11/2026. Los archivos se nombran con la cédula del estudiante.",
+    author: "Control de estudios",
+    date: "06/11/2026",
+    audience: "Docentes · Media General",
+    roles: ["profesor", "admin"],
+    read: { profesor: false, admin: true },
+    important: false,
+  },
+  {
+    id: 5,
+    title: "Uniforme para la misa de la Candelaria",
+    excerpt: "Uniforme de gala para todos los estudiantes el 2 de febrero.",
+    body: "Para la celebración de la Virgen de la Candelaria los estudiantes asistirán con uniforme de gala. La misa será a las 8:00 a. m. en la Iglesia de Turmero.",
+    author: "Pastoral",
+    date: "02/11/2026",
+    audience: "Toda la comunidad",
+    roles: ["representante", "profesor", "admin"],
+    read: { representante: true, profesor: true, admin: true },
+    important: false,
+  },
+  {
+    id: 6,
+    title: "Jornada de vacunación en el colegio",
+    excerpt: "Autorización firmada antes del 25 de octubre.",
+    body: "El ambulatorio de Turmero realizará una jornada de vacunación. Los representantes deben enviar la autorización firmada con su representado.",
+    author: "Coordinación de Primaria",
+    date: "20/10/2026",
+    audience: "Representantes · Primaria",
+    roles: ["representante", "admin"],
+    read: { representante: true, admin: true },
+    important: false,
+  },
+];
+
+export const announcementsFor = (role) => ANNOUNCEMENTS.filter((a) => a.roles.includes(role));

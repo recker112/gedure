@@ -3,6 +3,7 @@
  */
 import { useSelector } from "react-redux";
 import { needs2FA } from "../../store/reducers/auth/authReducer";
+import { resolveNavItems } from "../../components/menu/navItems";
 
 /**
  * Iniciales para el avatar: primera letra de las dos primeras palabras.
@@ -43,3 +44,13 @@ export function useSessionNav() {
 /** Texto del botón de la barra/menú según el estado. */
 export const sessionLabel = (status) =>
   status === "member" ? "Ir a Gedure" : status === "verifying" ? "Continuar verificación" : "Iniciar sesión";
+
+/**
+ * Enlaces de la web pública. Con la sesión completa ya confirmada (relogin
+ * hecho y sin 2FA pendiente), Noticias y Contacto apuntan directamente a su
+ * versión del panel: sin pasar por la redirección.
+ */
+export function usePublicNavItems() {
+  const inPanel = useSelector((state) => state.auth.auth && !needs2FA(state.auth.token_can));
+  return resolveNavItems(inPanel);
+}

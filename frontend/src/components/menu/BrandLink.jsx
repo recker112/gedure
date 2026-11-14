@@ -29,7 +29,7 @@ export default function BrandLink({ onClick }) {
       <Box sx={{ minWidth: 0 }}>
         <Typography
           component="span"
-          sx={{ display: "block", fontFamily: "Lora, Georgia, serif", fontWeight: 700, fontSize: 18, lineHeight: 1.1 }}
+          sx={{ display: "block", fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}
         >
           {SCHOOL.shortName}
         </Typography>

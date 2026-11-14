@@ -121,6 +121,32 @@ export function homeLoader({ request }) {
 }
 
 /**
+ * Páginas públicas que con sesión completa tienen su versión en el panel
+ * (`/noticias` -> `/gedure/noticias`, `/contactanos` -> `/gedure/ayuda`): el
+ * representante no vuelve a escribir sus datos ni lee las noticias fuera.
+ *
+ * Redirige ANTES de pintar. Sin `apiKey` no espera a nada (visitante). Con
+ * `apiKey` espera el relogin (el mismo que lanza publicLoader: una sola
+ * petición) y solo redirige con sesión completa; con token temporal, 401
+ * (token caducado, se limpia en silencio) o sin conexión se queda en la
+ * página pública, como la portada.
+ *
+ * `toPanel(params)` devuelve la URL del panel (p. ej. con el `slug`).
+ */
+export const memberRedirectLoader = (toPanel) =>
+  async function memberRedirect({ params }) {
+    if (!store.getState().auth.apiKey) return null;
+    try {
+      await ensureSession({ silent: true });
+    } catch {
+      return null;
+    }
+    const { auth, token_can } = store.getState().auth;
+    if (!auth || needs2FA(token_can)) return null;
+    return redirect(toPanel(params));
+  };
+
+/**
  * /auth y /auth/forgot-password (solo sin sesión). Con sesión redirige ANTES
  * de pintar: token temporal -> 2FA; completa -> panel.
  */

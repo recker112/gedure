@@ -27,7 +27,8 @@ import MailOutlineIcon from "@mui/icons-material/MailOutlined";
  */
 import Crest from "../brand/Crest";
 import GedureLogo from "../brand/GedureLogo";
-import { loginItem, navItems } from "../menu/navItems";
+import { loginItem } from "../menu/navItems";
+import { usePublicNavItems } from "../../hooks/auth/useSessionNav";
 import { MAPS_URL, SCHOOL } from "../../school";
 
 const SOCIAL_ICONS = { instagram: InstagramIcon, facebook: FacebookIcon, youtube: YouTubeIcon };
@@ -58,6 +59,7 @@ function ContactLine({ Icon, children }) {
 
 /** Pie de la web pública: identidad, enlaces, contacto, redes y créditos. */
 export default function Footer() {
+  const items = usePublicNavItems();
   const { address, contact } = SCHOOL;
 
   return (
@@ -78,7 +80,7 @@ export default function Footer() {
             <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 2 }}>
               <Crest height={56} inverted decorative />
               <Box>
-                <Typography sx={{ fontFamily: "Lora, Georgia, serif", fontWeight: 700, fontSize: 20 }}>
+                <Typography sx={{ fontWeight: 800, fontSize: 20 }}>
                   {SCHOOL.shortName}
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -94,7 +96,7 @@ export default function Footer() {
           <Grid size={{ xs: 6, md: 2 }}>
             <FooterHeading>Navegación</FooterHeading>
             <Stack component="nav" aria-label="Enlaces del pie" spacing={1}>
-              {navItems.map(({ label, to }) => (
+              {items.map(({ label, to }) => (
                 <Link key={to} component={RouterLink} to={to} sx={linkSx}>
                   {label}
                 </Link>

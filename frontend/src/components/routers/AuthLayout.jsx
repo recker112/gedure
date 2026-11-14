@@ -1,12 +1,13 @@
 /**
- * React Router
+ * Components
  */
-import { Outlet } from "react-router-dom";
+import AppShell from "../ui/panel/AppShell";
 
 /**
  * Layout de la rama privada. Va SIEMPRE dentro de <AuthProtect /> (ver
  * router/routes.jsx), así que solo se monta con una sesión que ya superó el
- * 2FA.
+ * 2FA. Pinta el esqueleto del panel (AppShell: barra lateral, AppBar y
+ * <main> con el <Outlet /> de las secciones).
  *
  * Aquí irá el <EchoProvider> (Laravel Echo + Reverb) cuando haya canales que
  * escuchar, como en BluLabel: el backend ya autoriza POST
@@ -14,5 +15,5 @@ import { Outlet } from "react-router-dom";
  * por eso el socket debe abrirse aquí y no antes. Todavía no se monta.
  */
 export default function AuthLayout() {
-  return <Outlet />;
+  return <AppShell />;
 }
