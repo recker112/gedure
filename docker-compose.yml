@@ -26,6 +26,13 @@ x-app: &app
     DB_DATABASE: ${DB_DATABASE:-gedure}
     DB_USERNAME: root
     DB_PASSWORD: ${DB_PASSWORD:-secret}
+    # app, worker y schedule deben usar la MISMA cola que consume el worker
+    # (jobs en la tabla `jobs`, incl. los correos del 2FA); si un backend/.env
+    # viejo dejara `sync`, los correos se enviarían en la petición. El resto
+    # de variables (MAIL_*, SANCTUM_*, REVERB_APP_*, LOG_*, SESSION_*, CACHE_*)
+    # se leen de backend/.env (bind-mount) y sus defaults coinciden con
+    # backend/.env.example; no se duplican aquí.
+    QUEUE_CONNECTION: database
     # Laravel publica los eventos a Reverb por la red interna.
     BROADCAST_CONNECTION: reverb
     REVERB_HOST: reverb

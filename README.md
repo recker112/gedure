@@ -25,7 +25,7 @@ El backend es **Laravel 13** (esqueleto base) con **Sanctum** (API por tokens, `
 |---|---|---|
 | `app` | Laravel 13 (FrankenPHP); healthcheck en `/up` | http://localhost y https://localhost |
 | `reverb` | Laravel Reverb en :8080 (el navegador entra por `/app` de la app) | sin puerto publicado |
-| `worker` | `queue:listen` (cola `default`, conexión `database`) | - |
+| `worker` | `queue:listen --queue=high,events,default,emails` (conexión `database`) | - |
 | `schedule` | `schedule:work` | - |
 | `db` | MariaDB 11.4 (datos en `docker/dbdata`) | sin puerto publicado |
 | `adminer` | cliente web de la base de datos (servidor `db`, usuario `root`) | http://localhost:8080 |
@@ -90,8 +90,20 @@ La imagen se construye con `Dockerfile.prod` al subir un tag `vX.Y.Z` (workflow 
 |---|---|---|
 | `web` (por defecto) | FrankenPHP en :80: Laravel + build de React; proxy de `/app` y `/app/*` a Reverb (`REVERB_UPSTREAM`, por defecto `reverb:8080`) | `GET /up` |
 | `reverb` | `php artisan reverb:start --host=0.0.0.0 --port=8080` | puerto 8080 |
-| `worker` | `php artisan queue:work --tries=3 --max-time=3600` | proceso vivo |
+| `worker` | `php artisan queue:work --queue=high,events,default,emails --tries=3 --max-time=3600 --sleep=3` | proceso vivo |
 | `schedule` | `php artisan schedule:work` | proceso vivo |
 
-Variables mínimas: `APP_KEY` (obligatoria, el contenedor no arranca sin ella), `APP_URL`, `DB_*` (`DB_CONNECTION=mariadb`), `BROADCAST_CONNECTION=reverb`, `REVERB_APP_ID`/`REVERB_APP_KEY`/`REVERB_APP_SECRET` (las mismas en web, reverb y worker), `REVERB_HOST=<servicio reverb>`, `REVERB_PORT=8080`, `REVERB_SCHEME=http` (Laravel publica por la red interna). `RUN_COMMANDS=true` en el rol `web` ejecuta migraciones y cachés al arrancar; `RUN_SEEDERS=true` además los seeders. La API REST de Reverb (`/apps/*`) no se expone por Caddy.
+Variables por rol (en prod no hay `backend/.env`: todas llegan como variables de entorno del stack; define las **mismas** en web, worker y schedule, y en reverb al menos las de Reverb y BD):
+
+| Grupo | Variables | web | reverb | worker | schedule |
+|---|---|---|---|---|---|
+| App | `APP_KEY` (obligatoria, estable), `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, `APP_NAME`, `LOG_LEVEL` | sí | sí | sí | sí |
+| Base de datos | `DB_CONNECTION=mariadb`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | sí | sí | sí | sí |
+| Colas | `QUEUE_CONNECTION=database` (o `redis`; el mismo valor en todos los roles) | sí | - | sí | sí |
+| Sanctum | `SANCTUM_EXPIRATION`, `SANCTUM_IDLE_REMEMBER`, `SANCTUM_IDLE_SESSION`, `SANCTUM_TOKEN_PREFIX` | sí | - | - | - |
+| Correo (SMTP) | `MAIL_MAILER=smtp`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_SCHEME` (`smtps` para 465; vacío/`null` para 587 con STARTTLS), `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` | sí | - | sí (envía los correos) | sí |
+| Broadcasting | `BROADCAST_CONNECTION=reverb`, `REVERB_APP_ID`, `REVERB_APP_KEY`, `REVERB_APP_SECRET` (idénticas en todos), `REVERB_HOST=<servicio reverb>`, `REVERB_PORT=8080`, `REVERB_SCHEME=http` | sí | sí | sí | sí |
+| Arranque | `RUN_COMMANDS=true`, `RUN_SEEDERS` (solo `web`) | sí | - | - | - |
+
+Notas: si defines las `SANCTUM_*` en el compose, ponles valor por defecto (`${SANCTUM_EXPIRATION:-43200}`): una variable vacía llega como `''`, `env()` no aplica su default y `SANCTUM_EXPIRATION=''` equivale a 0, que desactiva la caducidad de los tokens. Valores por defecto: 43200 / 10080 / 1440 minutos y prefijo `gedure_`. En prod `MAIL_MAILER=log` no entrega nada: hace falta SMTP real y el worker corriendo (los correos van por la cola `emails`). `MAIL_FROM_ADDRESS` debe ser una dirección real autorizada en el proveedor. `RUN_COMMANDS=true` en el rol `web` ejecuta migraciones y cachés al arrancar; `RUN_SEEDERS=true` además los seeders. La API REST de Reverb (`/apps/*`) no se expone por Caddy.
 
