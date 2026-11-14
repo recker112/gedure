@@ -82,7 +82,8 @@ case "${ROLE}" in
     # queue:listen y no queue:work: recarga el código en cada job, así los
     # cambios en backend/ se ven sin reiniciar el contenedor.
     echo "==> Iniciando worker de colas (queue:listen)"
-    exec php artisan queue:listen --tries=3
+    # --queue: misma lista y orden que producción (QueueName::workerList()).
+    exec php artisan queue:listen --queue=high,events,default,emails --tries=3 --sleep=3
     ;;
   schedule)
     echo "==> Iniciando scheduler"
