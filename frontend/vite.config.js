@@ -1,5 +1,4 @@
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import mkcert from 'vite-plugin-mkcert'
 import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs'
@@ -58,8 +57,10 @@ export default defineConfig(({ command }) => ({
     emptyOutDir: false,
   },
   plugins: [
-    react(),
-    babel({ presets: [reactCompilerPreset()] }),
+    // React Compiler por la vía nativa en Rust (oxc-transform-react).
+    // La alternativa con babel-plugin-react-compiler y @rolldown/plugin-babel
+    // duplica el tiempo de build; ésta memoiza lo mismo sin Babel.
+    react({ compiler: true }),
     laravelOutput(),
     themeBackground(),
     // HTTPS del dev server con un certificado local de mkcert (se guarda en
