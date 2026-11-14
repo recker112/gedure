@@ -17,8 +17,12 @@ import { useThemeSelection } from "./useThemeSelection";
 import { readLocal, STORAGE_PREFIX } from "../../components/utils/storage";
 import { updateUserConfig } from "../../store/reducers/user/configReducer";
 
-const HEADING_FONT = ["Lora", "Georgia", "serif"].join(",");
-const BODY_FONT = [
+/**
+ * Nunito en toda la web (pública, acceso y Gedure); se carga en index.html
+ * (Google Fonts, pesos 400-800). Las pilas de respaldo son del sistema.
+ */
+const FONT = [
+  '"Nunito"',
   "system-ui",
   "-apple-system",
   '"Segoe UI"',
@@ -40,13 +44,14 @@ export const createAppTheme = (variant, mode) =>
       },
       shape: { borderRadius: 12 },
       typography: {
-        fontFamily: BODY_FONT,
-        h1: { fontFamily: HEADING_FONT, fontWeight: 700 },
-        h2: { fontFamily: HEADING_FONT, fontWeight: 700 },
-        h3: { fontFamily: HEADING_FONT, fontWeight: 700 },
-        h4: { fontFamily: HEADING_FONT, fontWeight: 600 },
-        h5: { fontFamily: HEADING_FONT, fontWeight: 600 },
-        h6: { fontWeight: 600 },
+        fontFamily: FONT,
+        fontWeightMedium: 600,
+        h1: { fontWeight: 800, letterSpacing: "-0.01em" },
+        h2: { fontWeight: 800, letterSpacing: "-0.01em" },
+        h3: { fontWeight: 800 },
+        h4: { fontWeight: 800 },
+        h5: { fontWeight: 700 },
+        h6: { fontWeight: 700 },
         overline: { fontWeight: 700, letterSpacing: ".14em" },
       },
       components: {
