@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import mkcert from 'vite-plugin-mkcert'
+import oxlintPlugin from 'vite-plugin-oxlint'
 import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
@@ -61,6 +62,11 @@ export default defineConfig(({ command }) => ({
     // La alternativa con babel-plugin-react-compiler y @rolldown/plugin-babel
     // duplica el tiempo de build; ésta memoiza lo mismo sin Babel.
     react({ compiler: true }),
+    // Oxlint dentro de Vite (usa el oxlint instalado y frontend/.oxlintrc.json).
+    // En dev (`vite`) solo informa al arrancar y en cada HMR, sin bloquear; en
+    // `vite build` falla con errores de lint (los warnings no). Vitest carga
+    // esta misma config, por eso se excluye con process.env.VITEST.
+    !process.env.VITEST && oxlintPlugin({ failOnError: command === 'build' }),
     laravelOutput(),
     themeBackground(),
     // HTTPS del dev server con un certificado local de mkcert (se guarda en
