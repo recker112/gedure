@@ -1,0 +1,40 @@
+/*
+ * CssBaseline pone esto mismo, pero llega con el JS. Sin repetirlo aquí, el
+ * primer pintado tiene el margen por defecto del body.
+ */
+html, body {
+  margin: 0;
+}
+
+/*
+ * Columna flex de, como mínimo, el alto visible: el footer queda abajo aunque
+ * la página sea corta. Cada pantalla ocupa el alto sobrante con `flexGrow: 1`.
+ */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* El AppBar es sticky: los anclajes no deben quedar tapados por él. */
+html {
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #9aa3b2a3;
+  background-clip: padding-box;
+  border-radius: 30px;
+  border: 2px solid transparent;
+}

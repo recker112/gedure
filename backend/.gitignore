@@ -28,11 +28,11 @@ Thumbs.db
 
 # Artefactos del build del frontend (frontend/, Vite): `npm run build` escribe
 # en public/ y mueve index.html a la vista app. Lo que viene de frontend/public
-# (favicon.svg, icons.svg) también se copia. index.php, .htaccess, robots.txt
+# (favicon.png, apple-touch-icon.png) también se copia. index.php, .htaccess, robots.txt
 # y favicon.ico son del esqueleto de Laravel y siguen versionados.
 *.map
 /public/assets
 /public/index.html
-/public/favicon.svg
-/public/icons.svg
+/public/favicon.png
+/public/apple-touch-icon.png
 /resources/views/app.blade.php
