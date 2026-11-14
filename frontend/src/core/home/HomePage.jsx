@@ -25,6 +25,7 @@ import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
  */
 import Section from "../../components/ui/Section";
 import GedureLogo from "../../components/brand/GedureLogo";
+import { useSessionNav } from "../../hooks/auth/useSessionNav";
 import useTitleHook from "../../hooks/utils/useTitleHook";
 import HomeHero from "./HomeHero";
 import NewsCard from "../news/NewsCard";
@@ -52,6 +53,7 @@ function IconBadge({ Icon }) {
 
 export default function HomePage() {
   useTitleHook(null);
+  const session = useSessionNav();
 
   return (
     <>
@@ -177,13 +179,14 @@ export default function HomePage() {
                 <Stack direction={{ xs: "column", sm: "row", md: "column" }} spacing={1.5} sx={{ alignItems: { md: "flex-end" } }}>
                   <Button
                     component={Link}
-                    to="/login"
+                    to={session.status === "guest" ? "/auth" : session.to}
                     variant="contained"
                     size="large"
                     startIcon={<GedureLogo size={18} />}
                     sx={{ bgcolor: "#FFFFFF", color: "#0F2A52", "&:hover": { bgcolor: "#E8EFFA" } }}
                   >
-                    Entrar a Gedure
+                    {session.status === "guest" ? "Entrar a Gedure" : session.status === "member" ? "Ir a Gedure" : "Continuar verificación"}
+                    {session.status === "member" && session.name ? ` · ${session.name}` : ""}
                   </Button>
                   <Button component={Link} to="/contactanos" size="large" sx={{ color: "#FFFFFF" }}>
                     Escríbenos

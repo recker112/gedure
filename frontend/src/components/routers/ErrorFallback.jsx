@@ -13,11 +13,12 @@ import Typography from "@mui/material/Typography";
  * Components
  */
 import Fallback from "./Fallback";
-import { isChunkLoadError } from "../utils/networkError";
+import { isChunkLoadError, isOfflineError } from "../utils/networkError";
 
 /**
  * Error de una ruta. Un chunk que ya no existe (nueva versión desplegada)
- * pide recargar; cualquier otro error muestra un aviso genérico.
+ * pide recargar; sin conexión al comprobar la sesión (OfflineError de
+ * ensureSession), reintentar; cualquier otro error muestra un aviso genérico.
  */
 export default function ErrorFallback() {
   const error = useRouteError();
@@ -27,6 +28,16 @@ export default function ErrorFallback() {
       <Fallback text="Hay una nueva versión de la página.">
         <Button variant="contained" onClick={() => window.location.reload()}>
           Recargar
+        </Button>
+      </Fallback>
+    );
+  }
+
+  if (isOfflineError(error)) {
+    return (
+      <Fallback text="No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.">
+        <Button variant="contained" onClick={() => window.location.reload()}>
+          Reintentar
         </Button>
       </Fallback>
     );

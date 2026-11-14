@@ -17,5 +17,5 @@ export const navItems = [
   { label: "Contacto", to: "/contactanos", Icon: MailOutlineIcon },
 ];
 
-/** Acceso a la plataforma (login real con Sanctum: pendiente). */
-export const loginItem = { label: "Entrar a Gedure", to: "/login" };
+/** Acceso a la plataforma sin sesión (login de Gedure: /auth). Con sesión: SessionButton. */
+export const loginItem = { label: "Iniciar sesión", to: "/auth" };

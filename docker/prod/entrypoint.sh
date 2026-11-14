@@ -125,10 +125,12 @@ case "${ROLE}" in
     ;;
   worker)
     echo "==> Iniciando worker de colas"
+    # --queue: lista por prioridad estricta, igual que QueueName::workerList()
+    # (backend/app/Enums/QueueName.php); si se añade una cola, tocar ambos.
     # --max-time: el worker sale limpio cada hora (libera memoria y recoge
     # código nuevo) y la política restart del compose lo vuelve a levantar.
     exec su-exec "${APP_UID}:${APP_GID}" php artisan queue:work \
-      --tries=3 --max-time=3600
+      --queue=high,events,default,emails --tries=3 --max-time=3600 --sleep=3
     ;;
   schedule)
     echo "==> Iniciando scheduler"
