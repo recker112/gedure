@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            // Cédula o usuario con el que se inicia sesión (nunca lleva `@`; ver
+            // AuthService::findByLogin). `unique` ya crea el índice.
+            $table->string('username', 50)->unique();
+            // Obligatorio: recibe los códigos del 2FA y del restablecimiento.
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->timestamp('password_changed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
