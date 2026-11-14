@@ -14,6 +14,6 @@ describe("navItems", () => {
   test("rutas y etiquetas sin duplicados", () => {
     const paths = navItems.map((item) => item.to);
     expect(new Set(paths).size).toBe(paths.length);
-    expect(loginItem.to).toBe("/login");
+    expect(loginItem.to).toBe("/auth");
   });
 });

@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import mkcert from 'vite-plugin-mkcert'
 import oxlintPlugin from 'vite-plugin-oxlint'
 import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs'
@@ -51,34 +51,62 @@ const laravelOutput = () => ({
   },
 })
 
+// Backend al que el dev server reenvía la API. La SPA llama siempre a la
+// ruta relativa `/api/v1` (store/services/ReduxDefault.js): en producción
+// Laravel sirve SPA y API en el mismo origen, y en desarrollo este proxy hace
+// lo mismo desde https://localhost:5173, sin CORS. Por defecto el puerto HTTP
+// del contenedor `app` (docker-compose.yml); se cambia con API_PROXY_TARGET en
+// frontend/.env o en el entorno (p. ej. https://localhost si se prefiere el
+// 443 de Caddy: su CA local no la conoce Node, de ahí `secure: false`).
+const DEFAULT_API_PROXY_TARGET = 'http://localhost:80'
+
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  build: {
-    outDir: '../backend/public',
-    emptyOutDir: false,
-  },
-  plugins: [
-    // React Compiler por la vía nativa en Rust (oxc-transform-react).
-    // La alternativa con babel-plugin-react-compiler y @rolldown/plugin-babel
-    // duplica el tiempo de build; ésta memoiza lo mismo sin Babel.
-    react({ compiler: true }),
-    // Oxlint dentro de Vite (usa el oxlint instalado y frontend/.oxlintrc.json).
-    // En dev (`vite`) solo informa al arrancar y en cada HMR, sin bloquear; en
-    // `vite build` falla con errores de lint (los warnings no). Vitest carga
-    // esta misma config, por eso se excluye con process.env.VITEST.
-    !process.env.VITEST && oxlintPlugin({ failOnError: command === 'build' }),
-    laravelOutput(),
-    themeBackground(),
-    // HTTPS del dev server con un certificado local de mkcert (se guarda en
-    // frontend/certs, ignorado por git y por Docker; incluye la clave de la CA).
-    // Solo `vite`/`vite dev`: vitest también usa command 'serve', por eso se
-    // excluye con process.env.VITEST; `vite build` queda fuera por command.
-    command === 'serve' && !process.env.VITEST && mkcert({ savePath: './certs' }),
-  ],
-  test: {
-    environment: 'jsdom',
-    globals: true,
-    setupFiles: './src/setupTests.js',
-    css: false,
-  },
-}))
+export default defineConfig(({ command, mode }) => {
+  // Prefijo '' para leer también variables sin VITE_ (no llegan al cliente).
+  const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env }
+  const apiProxyTarget = env.API_PROXY_TARGET || DEFAULT_API_PROXY_TARGET
+
+  return {
+    build: {
+      outDir: '../backend/public',
+      emptyOutDir: false,
+    },
+    plugins: [
+      // React Compiler por la vía nativa en Rust (oxc-transform-react).
+      // La alternativa con babel-plugin-react-compiler y @rolldown/plugin-babel
+      // duplica el tiempo de build; ésta memoiza lo mismo sin Babel.
+      react({ compiler: true }),
+      // Oxlint dentro de Vite (usa el oxlint instalado y frontend/.oxlintrc.json).
+      // En dev (`vite`) solo informa al arrancar y en cada HMR, sin bloquear; en
+      // `vite build` falla con errores de lint (los warnings no). Vitest carga
+      // esta misma config, por eso se excluye con process.env.VITEST.
+      !process.env.VITEST && oxlintPlugin({ failOnError: command === 'build' }),
+      laravelOutput(),
+      themeBackground(),
+      // HTTPS del dev server con un certificado local de mkcert (se guarda en
+      // frontend/certs, ignorado por git y por Docker; incluye la clave de la CA).
+      // Solo `vite`/`vite dev`: vitest también usa command 'serve', por eso se
+      // excluye con process.env.VITEST; `vite build` queda fuera por command.
+      command === 'serve' && !process.env.VITEST && mkcert({ savePath: './certs' }),
+    ],
+    server: {
+      proxy: {
+        // /api/v1/* y /api/broadcasting/auth. El WebSocket de Reverb (/app) se
+        // añadirá aquí cuando se monte Echo.
+        '/api': {
+          target: apiProxyTarget,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: './src/setupTests.js',
+      css: false,
+      // Las pruebas de rutas esperan la descarga de chunks lazy (findBy* con 8 s).
+      testTimeout: 15000,
+    },
+  }
+})

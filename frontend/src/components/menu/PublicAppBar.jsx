@@ -2,7 +2,7 @@
  * React
  */
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 /**
  * MUI
@@ -21,10 +21,10 @@ import MenuIcon from "@mui/icons-material/Menu";
  * Components
  */
 import BrandLink from "./BrandLink";
-import GedureLogo from "../brand/GedureLogo";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./ThemeToggle";
-import { loginItem, navItems } from "./navItems";
+import SessionButton from "./SessionButton";
+import { navItems } from "./navItems";
 
 /**
  * Barra superior pública. Desde `md` muestra los enlaces; por debajo, un
@@ -78,15 +78,7 @@ export default function PublicAppBar() {
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: { xs: "auto", md: 0 } }}>
             <ThemeToggle sx={{ display: { xs: "none", sm: "inline-flex" }, color: "text.secondary" }} />
-            <Button
-              component={Link}
-              to={loginItem.to}
-              variant="contained"
-              startIcon={<GedureLogo size={18} />}
-              sx={{ display: { xs: "none", sm: "inline-flex" } }}
-            >
-              {loginItem.label}
-            </Button>
+            <SessionButton sx={{ display: { xs: "none", sm: "inline-flex" } }} />
             <IconButton
               aria-label="Abrir menú"
               aria-haspopup="dialog"

@@ -11,6 +11,11 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 /**
+ * Sonner (avisos: components/notify/notify.jsx)
+ */
+import { Toaster } from "sonner";
+
+/**
  * Components
  */
 import { useThemeConfig } from "./hooks/theme/useThemeConfig";
@@ -18,6 +23,7 @@ import Router from "./Router";
 
 /**
  * El tema sale del store, así que tiene que renderizarse dentro del Provider.
+ * El <Toaster /> va aquí para que los avisos (MUI Alert) usen el tema.
  */
 function ThemedApp({ children }) {
   const themeConfig = useThemeConfig();
@@ -25,6 +31,7 @@ function ThemedApp({ children }) {
   return (
     <ThemeProvider theme={themeConfig}>
       <CssBaseline enableColorScheme />
+      <Toaster position="bottom-right" visibleToasts={3} duration={5000} containerAriaLabel="Avisos" />
       {children}
     </ThemeProvider>
   );

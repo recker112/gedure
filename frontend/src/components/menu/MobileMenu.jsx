@@ -1,13 +1,12 @@
 /**
  * React
  */
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 /**
  * MUI
  */
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -21,9 +20,9 @@ import CloseIcon from "@mui/icons-material/Close";
  * Components
  */
 import BrandLink from "./BrandLink";
-import GedureLogo from "../brand/GedureLogo";
 import ThemeToggle from "./ThemeToggle";
-import { loginItem, navItems } from "./navItems";
+import SessionButton from "./SessionButton";
+import { navItems } from "./navItems";
 
 /** Menú lateral de móvil/tablet (por debajo de `md`). */
 export default function MobileMenu({ open, onClose }) {
@@ -60,16 +59,7 @@ export default function MobileMenu({ open, onClose }) {
         </List>
       </Box>
       <Box sx={{ mt: "auto", p: 2, display: "flex", flexDirection: "column", gap: 1.5 }}>
-        <Button
-          component={Link}
-          to={loginItem.to}
-          onClick={onClose}
-          variant="contained"
-          size="large"
-          startIcon={<GedureLogo size={18} />}
-        >
-          {loginItem.label}
-        </Button>
+        <SessionButton onClick={onClose} size="large" />
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1, color: "text.secondary" }}>
           <ThemeToggle />
         </Box>
