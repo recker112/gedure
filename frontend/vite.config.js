@@ -5,6 +5,25 @@ import mkcert from 'vite-plugin-mkcert'
 import { existsSync, mkdirSync, renameSync, rmSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+// Temas: módulos de datos puros (sin MUI ni navegador), así que se pueden
+// importar aquí para inyectar los fondos en el script inline de index.html.
+import themes from './src/themes/index.js'
+
+// { variante: { light, dark } } con el background.default de cada tema.
+const themeBackgrounds = Object.fromEntries(
+  Object.entries(themes).map(([key, theme]) => [
+    key,
+    { light: theme.light.background.default, dark: theme.dark.background.default },
+  ]),
+)
+
+// Pinta el fondo del tema guardado antes de que cargue React (sin destello
+// blanco en modo oscuro). Ver el script inline de index.html.
+const themeBackground = () => ({
+  name: 'theme-background',
+  transformIndexHtml: (html) => html.replace('__THEME_BG__', JSON.stringify(themeBackgrounds)),
+})
+
 // El build se escribe DENTRO del backend: Laravel sirve los assets desde
 // backend/public y el index.html compilado se instala como la vista Blade
 // `app` (backend/resources/views/app.blade.php).
@@ -42,6 +61,7 @@ export default defineConfig(({ command }) => ({
     react(),
     babel({ presets: [reactCompilerPreset()] }),
     laravelOutput(),
+    themeBackground(),
     // HTTPS del dev server con un certificado local de mkcert (se guarda en
     // frontend/certs, ignorado por git y por Docker; incluye la clave de la CA).
     // Solo `vite`/`vite dev`: vitest también usa command 'serve', por eso se

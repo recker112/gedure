@@ -119,7 +119,7 @@ COPY backend/ ./
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=vendor /app/bootstrap/cache ./bootstrap/cache
 # backend/public conserva index.php/.htaccess/robots.txt (esqueleto de Laravel);
-# el build de Vite (assets/, favicon.svg, icons.svg) se superpone encima.
+# el build de Vite (assets/, favicon.png, apple-touch-icon.png) se superpone encima.
 COPY --from=frontend /app/backend/public/ ./public/
 COPY --from=frontend /app/backend/resources/views/app.blade.php ./resources/views/app.blade.php
 

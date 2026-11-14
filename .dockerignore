@@ -31,8 +31,8 @@ backend/public/hot
 backend/public/storage
 backend/public/assets
 backend/public/index.html
-backend/public/favicon.svg
-backend/public/icons.svg
+backend/public/favicon.png
+backend/public/apple-touch-icon.png
 backend/resources/views/app.blade.php
 
 # Estado runtime y uploads locales de Laravel

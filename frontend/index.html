@@ -2,11 +2,42 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gedure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Página web oficial de la U.E.P. A.P.E.P. «La Candelaria» de Turmero: noticias, información institucional y contacto."
+    />
+    <meta name="theme-color" content="#1B4F9C" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@500..700&display=swap"
+      rel="stylesheet"
+    />
+    <title>La Candelaria</title>
+    <!--
+      Pinta el fondo del tema guardado antes de que cargue React. Sin esto, en
+      modo oscuro se ve un destello blanco mientras baja el JS.
+      BG (variante -> modo -> background.default) lo inyecta el plugin
+      theme-background de vite.config.js a partir de src/themes/index.js; no
+      se edita a mano. Sin preferencia guardada sigue la del sistema, igual
+      que store/reducers/user/configReducer.js.
+    -->
+    <script>
+      try {
+        var BG = __THEME_BG__;
+        var saved = JSON.parse(localStorage.getItem("gd.userConfig.theme"));
+        var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var mode = dark ? "dark" : "light";
+        document.documentElement.style.colorScheme = mode;
+        document.documentElement.style.backgroundColor = BG.default[mode];
+      } catch (e) {}
+    </script>
   </head>
   <body>
+    <noscript>Necesitas activar JavaScript para ver esta página.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
