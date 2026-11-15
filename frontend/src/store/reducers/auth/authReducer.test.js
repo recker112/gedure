@@ -20,7 +20,7 @@ describe("authReducer", () => {
   });
 
   test("updateUserData guarda solo lo que llega", () => {
-    const user = { id: 1, name: "Admin", username: "12345678", email: "admin@lacandelaria.test" };
+    const user = { id: 1, name: "Admin", username: "12345678", email: "owner@example.com" };
     let state = reducer(initial(), updateUserData({ user, apiKey: "1|x", token_can: ["2fa_required"], roles: [], permissions: {} }));
     expect(state).toMatchObject({ user, apiKey: "1|x", token_can: ["2fa_required"] });
 

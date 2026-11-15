@@ -41,7 +41,7 @@ En el primer arranque el contenedor `app` crea `backend/.env` desde `backend/.en
 
 ```bash
 docker compose exec app php artisan migrate      # incluye personal_access_tokens (Sanctum) y jobs (colas)
-docker compose exec app php artisan db:seed      # opcional: datos de prueba
+docker compose exec app php artisan db:seed      # opcional: datos de prueba (4 usuarios, uno por rol; ver frontend/README.md)
 ```
 
 (`RUN_COMMANDS=true` en `.env` ejecuta `migrate` en cada arranque.)
