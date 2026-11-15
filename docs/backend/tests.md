@@ -36,15 +36,29 @@ Tokens **reales** (Bearer), no `Sanctum::actingAs`, para recorrer el mismo camin
 | `conToken($token)` | Olvida el guard y prepara la petición con ese Bearer. |
 | `rutaPrivadaDePrueba($token)` | Ruta `auth.full` de prueba (se retirará cuando haya rutas privadas reales). |
 
-Propuestos para la fase 0 (como BluLabel):
-
 | Helper | Uso |
 |---|---|
 | `usuarioCon(Role\|Permission ...$cosas)` | Crea un usuario con esos roles/permisos. |
 | `comoUsuario(User $user)` | `conToken(tokenDefinitivo($user))`. |
+
+Propuesto (aún no existe):
+
+| Helper | Uso |
+|---|---|
 | Dataset `RutasPrivadas` | Cada ruta privada (método, URI): un test recorre todas y comprueba 401 sin token y 403 con el temporal. Una ruta nueva que no esté hace fallar la cobertura. |
 
-Y `TestCase::$seed = true` con `PermissionsSeeder` + usuarios fijos por rol (`owner@`, `admin@`, `profesor@`, `representante@` `lacandelaria.test`; los estudiantes no son usuarios, se crean con su factory), que los tests **no** vuelven a crear.
+`TestCase::$seed = true` siembra solo el catálogo (`PermissionsSeeder`). **Los tests construyen sus propios usuarios** con `usuarioCon()` (y la factory para los estudiantes, que no son usuarios); no dependen del `DatabaseSeeder`.
+
+### Usuarios de desarrollo (seed)
+
+`php artisan db:seed` crea cuatro usuarios, uno por rol, contraseña `password` (los comprueba `tests/Feature/SeederTest.php`):
+
+| Usuario | Correo | Rol |
+|---|---|---|
+| `12345678` | `owner@example.com` | owner |
+| `11111111` | `admin@example.com` | admin |
+| `22222222` | `profesor@example.com` | profesor |
+| `33333333` | `representante@example.com` | representante |
 
 ## Qué probar en cada endpoint
 

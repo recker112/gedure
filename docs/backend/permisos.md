@@ -1,6 +1,6 @@
 # Permisos y roles
 
-**Convención de Gedure**, tomada del sistema de BluLabel (`blulablel/docs/backend/permisos.md`) y adaptada a un colegio. Todavía **no está implementada**: `spatie/laravel-permission` no está instalado y el payload de sesión trae `permissions: {}` y `roles: []` reservados (`AuthService::sendLoginResponse`). Se implementa en la **fase 0** ([roadmap](../roadmap.md)). La pantalla de administración está en [../frontend/permisos.md](../frontend/permisos.md).
+**Convención de Gedure**, tomada del sistema de BluLabel (`blulablel/docs/backend/permisos.md`) y adaptada a un colegio. **Fase 0 (hecha):** paquete, catálogo, roles, `permissions:sync`, `Gate::before`, payload de sesión y evento en tiempo real. **Fase 1** ([roadmap](../roadmap.md)): endpoints de administración y reglas de owner (ver más abajo). La pantalla de administración está en [../frontend/permisos.md](../frontend/permisos.md).
 
 **Aprobado:** owner por `Gate::before` (solo un owner da el rol y siempre queda uno), `admin` como rol editable con todo el catálogo, nombres `modulo.recurso.accion` y administración en `modules/usuarios/`.
 
@@ -85,7 +85,19 @@ Orden resultante: **middleware 403 → 404 → Policy 403 → `rules()` 422 → 
 
 `GrantGuard::missing($actor, $roles, $permissions)` junta los permisos **actuales en BD** de cada rol que se añade y los directos que se añaden, y descarta los que pasan `$actor->can(...)`. Si falta algo: 403 `{status, msg: "No puedes conceder permisos que no tienes"}` antes de escribir. Quitar no se restringe. Es la regla única de: asignar roles, asignar permisos directos, asignación en bloque y (si llega) invitaciones. Así alguien con solo `usuarios.rol.update` (p. ej. una secretaria que asigna el rol `representante`) no puede hacerse ni hacer a nadie `admin`.
 
-## Endpoints de administración (fase 0-1)
+## Lo que existe en la fase 0
+
+- **Catálogo:** solo 3 permisos, `usuarios.usuario.show`, `usuarios.rol.update` y `usuarios.permiso.update`. Los demás del ejemplo de arriba llegan con sus módulos.
+- **Roles:** `admin` recibe todo el catálogo; `profesor` y `representante` quedan **vacíos** hasta que existan sus módulos; `owner` pasa todo por `Gate::before`.
+- **`permissions:sync`** lo ejecutan los entrypoints (`docker/dev` y `docker/prod`) tras `migrate`.
+- **Aviso en tiempo real:** `PermissionsUpdated` por el canal **privado** `App.Models.User.{id}` (no presence como BluLabel).
+- **`GrantGuard`** existe y está probado, pero no lo usa ningún endpoint hasta la fase 1.
+- Middleware `permission`, `role` y `role_or_permission` registrados; el 403 sale en español.
+- Seed de desarrollo: un usuario por rol ([tests.md](tests.md)).
+
+## Endpoints de administración y reglas de owner (fase 1, aún no implementados)
+
+Lo que sigue es el diseño aprobado, **no** código existente: los endpoints, el solo-owner-da-owner, el mínimo de un owner y que nadie edite sus propios roles se implementan en la fase 1.
 
 En `routes/api/usuarios/`, todos con `auth.full` y su `permission:`; controller `Usuarios\UserAccessController` + `Services\Usuarios\UserAccessService` (transacción + `lockForUpdate`).
 
