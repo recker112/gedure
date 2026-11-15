@@ -13,19 +13,22 @@ frontend/src/
 ├── core/                   # SOLO lo esencial (ver abajo)
 │   ├── login/ 2fa/ forgot/ logout/        # acceso
 │   ├── home/ about/ news/ contact/ notfound/   # web pública
-│   ├── panel/              # carcasa del panel: layout, menú lateral, AppBar, inicio del panel, /no-perm
+│   ├── panel/              # carcasa del panel: layout, drawer, AppBar, cuenta, inicio, /no-perm, 404
 │   └── account/            # (futuro) cuenta propia: perfil, contraseña, sesiones, "Mis permisos"
-├── modules/                # UNA carpeta por funcionalidad (ver modulos.md)
+├── apps/                   # infraestructura de módulos (ver modulos.md)
 │   ├── registry.js         # configs de todos los módulos (menú)
 │   ├── routes.js           # rutas de todos los módulos
 │   ├── moduleRoute.js      # moduleRoute(key, hijas): path + AuthProtect desde el config
+│   ├── moduleUrl.js        # moduleUrl(key, entrada, padres), moduleKeyOf(pathname)
+│   └── *.test.js           # registry, moduleRoute, moduleUrl, plantilla
+├── modules/                # SOLO módulos, una carpeta por funcionalidad (ver modulos.md)
 │   ├── _plantilla/         # plantilla comentada, no registrada
 │   ├── usuarios/  academico/  notas/  documentos/  finanzas/  pagos/  comunicacion/  preseleccion/
 ├── components/             # piezas reutilizables sin dominio: brand, form, menu, notify, routers, ui, utils
 ├── hooks/                  # por dominio transversal: auth/, theme/, utils/ (genéricos)
 ├── store/
 │   ├── reducers/           # slices globales: auth, user (userConfig)
-│   └── services/           # ReduxDefault.js (baseQuery, handleQueryError) y auth/ (AuthApi)
+│   └── services/           # baseApi.js, ReduxDefault.js (baseQuery, handleQueryError) y auth/ (AuthApi)
 ├── test/                   # mockFetch, fetchGuard, renderRoute, authBackend (fixtures)
 ├── themes/                 # Candelaria.js, index.js (datos puros, los importa vite.config.js)
 ├── assets/  scss/
@@ -33,13 +36,13 @@ frontend/src/
 
 ### Qué es `core/`
 
-Solo: autenticación (login, 2FA, recuperar contraseña, logout), web pública (landing, nosotros, noticias públicas, contacto, 404), la **carcasa** del panel (layout, menú, inicio, sin permiso) y la cuenta propia. Si una pantalla pertenece a un área de negocio (usuarios, notas, pagos...), va en `modules/`, **incluida la administración de usuarios y permisos** (en BluLabel `/users` está en `core/`; en Gedure va en `modules/usuarios/`).
+Solo: autenticación (login, 2FA, recuperar contraseña, logout), web pública (landing, nosotros, noticias públicas, contacto, 404), la **carcasa** del panel (layout, menú, inicio, sin permiso, 404) y, en el futuro, la cuenta propia. Si una pantalla pertenece a un área de negocio (usuarios, notas, pagos...), va en `modules/`, **incluida la administración de usuarios y permisos** (en BluLabel `/users` está en `core/`; en Gedure va en `modules/usuarios/`).
 
 ### Dirección de las dependencias
 
 ```
 modules/<m>  →  components/, hooks/, store/services/ReduxDefault, core/panel (solo exports públicos)
-core/        →  components/, hooks/, store/, modules/registry.js y modules/routes.js (nunca un módulo concreto)
+core/        →  components/, hooks/, store/, apps/registry.js y apps/routes.js (nunca un módulo concreto)
 modules/<a>  ✗→ modules/<b>   (salvo su API pública: modules/<b>/api/*, para invalidar o leer un catálogo)
 ```
 
@@ -60,17 +63,17 @@ Lo que dos módulos necesitan sube a `components/` o `hooks/`.
 - **Toasts** solo vía `components/notify/notify.jsx` (nadie más importa `sonner`, salvo el `Toaster` de `App.jsx`).
 - **Autorización solo por permisos** (`useCanAccess`), nunca por roles ([permisos.md](permisos.md)).
 
-## Migración pendiente (no se mueve código en la fase 0 de documentación)
+## Migración (fase 0)
 
-| Hoy | Debe quedar | Nota |
+| Elemento | Estado | Nota |
 |---|---|---|
-| `core/panel/PanelPage.jsx` (placeholder con AppBar propio) | `core/panel/PanelLayout.jsx` (ruta layout con AppBar + menú lateral desde `modules/registry.js` + `<main>`) y `core/panel/PanelHome.jsx` | Fase 0: carcasa limpia. |
-| `core/logs/` (`LogsPage`, `mockData.js`) | `modules/usuarios/bitacora/` o eliminar | No está en el router e importa `components/ui/panel/*`, que no existe: es código huérfano de un prototipo. |
-| `core/news/newsData.js` (datos fijos) | Datos de la API pública de `modules/comunicacion` (fase 7) | La pantalla pública puede quedarse en `core/news`; ver la decisión aprobada en [modulos.md](modulos.md#rutas-públicas-de-un-módulo). |
-| `store.js` con `sessionScopedApis = [authApi]` y `authApi` como `createApi` propio | Una `baseApi` (`store/services/baseApi.js`); `authApi` y los módulos usan `injectEndpoints` | Ver [estado-y-api.md](estado-y-api.md). |
-| No hay `useCanAccess`, `permission` en `AuthProtect` ni `/no-perm` | Fase 0 | [permisos.md](permisos.md). |
-| `AuthLayout` sin Echo | `EchoProvider` cuando haya canales (permisos en caliente, notificaciones) | `vite.config.js` deberá reenviar también `/app` (WebSocket). |
-| No existe `modules/` | `modules/registry.js`, `routes.js`, `moduleRoute.js`, `_plantilla/` | Fase 0. |
+| `core/panel` (placeholder) → `ContainerGedure`, `PanelHome`, `PanelDrawer`, `PanelAppBar`, `AccountMenu`, `NoPermPage`, `PanelNotFoundPage` | Hecho | Carcasa limpia. |
+| `baseApi` única; `authApi` con `injectEndpoints`; sin `sessionScopedApis` | Hecho | [estado-y-api.md](estado-y-api.md). |
+| `useCanAccess`, `permission`/`allPermissions` en `AuthProtect`, `/gedure/no-perm` | Hecho | [permisos.md](permisos.md). |
+| `apps/` (`registry.js`, `routes.js`, `moduleRoute.js`, `moduleUrl.js`) y `modules/_plantilla/` | Hecho | [modulos.md](modulos.md). |
+| `core/news/newsData.js` (datos fijos) | Pendiente (fase 7) | Pasará a la API pública de `modules/comunicacion`; ver [modulos.md](modulos.md#rutas-públicas-de-un-módulo). |
+| `AuthLayout` sin Echo | Pendiente | `EchoProvider` cuando haya canales (permisos en caliente, notificaciones); `vite.config.js` deberá reenviar también `/app` (WebSocket). |
+| `core/account` (perfil, contraseña, sesiones, "Mis permisos") | Pendiente (futuro) | La ruta `cuenta` está reservada. |
 
 ## Diferencias con BluLabel a tener presentes
 
@@ -78,4 +81,5 @@ Lo que dos módulos necesitan sube a `components/` o `hooks/`.
 - El panel vive en **`/gedure`** porque `/` es la web pública del colegio (BluLabel pone su hub en `/`).
 - `build.emptyOutDir` es `false` (el plugin `laravel-output` limpia solo `assets/` e `index.html`); BluLabel vacía `backend/public`.
 - Gedure ya usa `@testing-library/user-event`; BluLabel no.
+- La infraestructura está en `src/apps/` como en BluLabel, pero conserva los nombres Gedure: `moduleRoute`/`moduleUrl` en lugar de `appRoute`/`appUrl`.
 - **Una sola API de RTK Query** (`baseApi` con `injectEndpoints` por módulo, tags compartidos); BluLabel crea un `createApi` por app/módulo y no existe `modules/apis.js`.
