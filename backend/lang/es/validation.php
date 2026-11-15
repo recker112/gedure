@@ -35,6 +35,7 @@ return [
     ],
     'boolean' => 'El campo :attribute debe ser verdadero o falso.',
     'can' => 'El campo :attribute contiene un valor no autorizado.',
+    'cedula' => 'El campo :attribute debe ser una cédula: solo dígitos (hasta :max), con E delante si es extranjera.',
     'confirmed' => 'La confirmación del campo :attribute no coincide.',
     'contains' => 'Al campo :attribute le falta un valor obligatorio.',
     'current_password' => 'La contraseña es incorrecta.',
@@ -224,6 +225,11 @@ return [
         'add.*' => 'rol',
         'remove' => 'roles que quitar',
         'remove.*' => 'rol',
+        'telefono' => 'teléfono',
+        'direccion' => 'dirección',
+        'sexo' => 'sexo',
+        'enviar_activacion' => 'enviar el enlace de activación',
+        'motivo' => 'motivo',
     ],
 
 ];

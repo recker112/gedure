@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\PasswordChange;
 use App\Services\Auth\SecurityCodeService;
+use App\Services\Usuarios\ActivacionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -55,8 +56,13 @@ class SecurityCodeController extends Controller
     /**
      * Cambia la contraseña con el código. Una cuenta inexistente recibe la
      * misma respuesta que un código inválido.
+     *
+     * Una cuenta **pendiente** (creada por administración, sin activar) queda
+     * además activada: el código llegó a su correo, así que el correo es suyo
+     * (docs/fases/fase-1-usuarios.md §6). Es su primera contraseña: sin aviso de
+     * cambio.
      */
-    public function passwordUpdate(UpdatePasswordRequest $request, AuthService $authService, SecurityCodeService $securityCodeService, PasswordChange $passwordChange): JsonResponse
+    public function passwordUpdate(UpdatePasswordRequest $request, AuthService $authService, SecurityCodeService $securityCodeService, PasswordChange $passwordChange, ActivacionService $activaciones): JsonResponse
     {
         $user = $authService->findByLogin((string) $request->input('login'));
 
@@ -79,10 +85,12 @@ class SecurityCodeController extends Controller
 
         // Contraseña, cierre de todas las sesiones y aviso juntos. El bloqueo del
         // usuario lo comparte con el 2FA (AuthController::loginWith2FA).
-        DB::transaction(function () use ($user, $request, $passwordChange) {
+        DB::transaction(function () use ($user, $request, $passwordChange, $activaciones) {
             $locked = User::query()->whereKey($user->getKey())->lockForUpdate()->firstOrFail();
 
-            $passwordChange->changed($locked, $request->new_password);
+            $locked->isActivated()
+                ? $passwordChange->changed($locked, $request->new_password)
+                : $activaciones->activarConRestablecimiento($locked, $request->new_password);
         });
 
         return response()->json([

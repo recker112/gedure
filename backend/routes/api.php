@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\Route;
  */
 Route::prefix('v1')->group(function () {
     /**
-     * Auth API (login, 2FA, sesión y códigos de seguridad). Define su propio
+     * Auth API (login, 2FA, sesión, códigos de seguridad y activación de cuentas). Define su propio
      * middleware ruta a ruta porque mezcla rutas públicas, rutas del token
      * temporal del 2FA y rutas de acceso completo.
      */
     Route::prefix('auth')->group(function () {
         require __DIR__.'/api/auth/auth.api.php';
         require __DIR__.'/api/auth/security_code.api.php';
+        require __DIR__.'/api/auth/activacion.api.php';
     });
 
     /**

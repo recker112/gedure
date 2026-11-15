@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Auth\SecurityCode;
+use App\Models\Usuarios\Activacion;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -14,5 +15,6 @@ Artisan::command('inspire', function () {
 // `sanctum:prune-expired`. Lo ejecuta el contenedor `schedule` (schedule:work).
 Schedule::command('auth:prune-idle-tokens')->daily();
 
-// Códigos de seguridad (2FA y restablecimiento) usados o caducados.
-Schedule::command('model:prune', ['--model' => [SecurityCode::class]])->daily();
+// Códigos de seguridad (2FA y restablecimiento) usados o caducados y
+// activaciones de cuentas usadas o caducadas hace más de 30 días.
+Schedule::command('model:prune', ['--model' => [SecurityCode::class, Activacion::class]])->daily();

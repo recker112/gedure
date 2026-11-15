@@ -56,6 +56,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Frontend URL
+    |--------------------------------------------------------------------------
+    |
+    | Origen de la SPA, para los enlaces de los correos (activación de cuentas:
+    | `<FRONTEND_URL>/auth/activar/<token>`). En producción Laravel sirve la SPA
+    | en el mismo origen, así que basta APP_URL; en desarrollo la SPA corre en
+    | el dev server de Vite (https://localhost:5173).
+    |
+    */
+
+    'frontend_url' => env('FRONTEND_URL', env('APP_URL', 'http://localhost')),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

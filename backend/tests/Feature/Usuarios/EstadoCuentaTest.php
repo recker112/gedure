@@ -1,17 +1,25 @@
 <?php
 
+use App\Enums\Permission;
+use App\Enums\Role;
 use App\Enums\Usuarios\EstadoCuenta;
+use App\Enums\Usuarios\TipoActividad;
 use App\Mail\Auth\TfaCodeMail;
 use App\Models\Auth\PersonalAccessToken;
 use App\Models\Auth\SecurityCode;
 use App\Models\User;
+use App\Services\Usuarios\EstadoCuentaService;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Mail;
 
 /**
  * Estado de la cuenta (docs/fases/fase-1-usuarios.md §2.1 y §6): estado derivado,
  * login de una suspendida (403, nunca 401) o dada de baja (credenciales
- * incorrectas) y el middleware `account.active` en las rutas privadas.
+ * incorrectas), el middleware `account.active` en las rutas privadas y las
+ * acciones de la administración (§4.2): suspender, reactivar, baja, restaurar y
+ * cerrar todas sus sesiones. `lockForUpdate` no bloquea en SQLite: la carrera
+ * del último owner se simula con dos llamadas seguidas al Service.
  */
 const CUENTA_SUSPENDIDA = ['status' => 403, 'msg' => 'Tu cuenta está suspendida'];
 
@@ -198,5 +206,338 @@ describe('account.active', function () {
         conToken($token)->postJson(route('auth.logout'))->assertOk();
 
         expect($user->tokens()->count())->toBe(0);
+    });
+});
+
+/*
+| Acciones de la administración sobre el estado (PR #4, §4.2 y decisiones 4 y 8):
+| suspender, reactivar, baja, restaurar y cerrar todas sus sesiones.
+*/
+
+/** Una persona con un token definitivo y uno temporal (dos sesiones). */
+function conDosSesiones(?User $user = null): User
+{
+    $user ??= User::factory()->create();
+    tokenDefinitivo($user);
+    tokenTemporal($user);
+
+    return $user;
+}
+
+describe('suspender', function () {
+    test('suspende con motivo, revoca sus sesiones y no envía correo', function () {
+        $this->freezeSecond();
+        $admin = usuarioCon(Role::Admin);
+        $user = conDosSesiones(usuarioCon(Role::Representante));
+
+        comoUsuario($admin)
+            ->postJson(route('usuarios.usuarios.suspender', $user->id), ['motivo' => 'Deuda pendiente'])
+            ->assertOk()
+            ->assertJsonPath('status', 200)
+            ->assertJsonPath('msg', 'Cuenta suspendida')
+            ->assertJsonPath('data.estado', 'suspendido')
+            ->assertJsonPath('data.suspended_reason', 'Deuda pendiente')
+            ->assertJsonPath('data.suspended_by', ['id' => $admin->id, 'name' => $admin->name])
+            // Conserva sus roles (y, desde el PR #8, sus vínculos)
+            ->assertJsonPath('data.roles', ['representante']);
+
+        expect($user->tokens()->count())->toBe(0);
+
+        $evento = $user->actividades()->sole();
+        expect($evento->tipo)->toBe(TipoActividad::Suspension)
+            ->and($evento->actor_id)->toBe($admin->id)
+            ->and($evento->meta)->toBe(['motivo' => 'Deuda pendiente']);
+
+        Mail::assertNothingQueued();
+    });
+
+    test('sin motivo también', function () {
+        $user = User::factory()->create();
+
+        comoUsuario(usuarioCon(Role::Admin))
+            ->postJson(route('usuarios.usuarios.suspender', $user->id))
+            ->assertOk()
+            ->assertJsonPath('data.suspended_reason', null);
+
+        expect($user->actividades()->sole()->meta)->toBeNull();
+    });
+
+    test('la suspendida ya no entra: su token deja de servir y el login da 403', function () {
+        $user = User::factory()->create();
+        $token = tokenDefinitivo($user);
+
+        comoUsuario(usuarioCon(Role::Admin))->postJson(route('usuarios.usuarios.suspender', $user->id))->assertOk();
+
+        rutaPrivadaDePrueba($token)->assertUnauthorized();
+        $this->postJson(route('auth.login'), ['login' => $user->username, 'password' => 'password'])
+            ->assertForbidden()
+            ->assertExactJson(CUENTA_SUSPENDIDA);
+    });
+
+    test('422: uno mismo, ya suspendida, de baja', function (Closure $destino, string $msg) {
+        $admin = usuarioCon(Role::Admin);
+        $user = $destino($admin);
+
+        comoUsuario($admin)
+            ->postJson(route('usuarios.usuarios.suspender', $user->id))
+            ->assertUnprocessable()
+            ->assertExactJson(['status' => 422, 'msg' => $msg]);
+    })->with([
+        'uno mismo' => [fn (User $admin) => $admin, 'No puedes suspender tu propia cuenta'],
+        'ya suspendida' => [fn () => User::factory()->suspendido()->create(), 'La cuenta ya está suspendida'],
+        'de baja' => [fn () => User::factory()->deBaja()->create(), 'La cuenta está dada de baja: restáurala antes de editarla'],
+    ]);
+
+    test('un owner tampoco se suspende a sí mismo', function () {
+        $owner = usuarioCon(Role::Owner);
+
+        comoUsuario($owner)->postJson(route('usuarios.usuarios.suspender', $owner->id))->assertUnprocessable();
+    });
+
+    test('motivo de 120 caracteres como mucho', function () {
+        $user = User::factory()->create();
+
+        comoUsuario(usuarioCon(Role::Admin))
+            ->postJson(route('usuarios.usuarios.suspender', $user->id), ['motivo' => str_repeat('a', 121)])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['motivo']);
+    });
+});
+
+describe('reactivar', function () {
+    test('quita la suspensión y lo registra', function () {
+        $admin = usuarioCon(Role::Admin);
+        $user = User::factory()->suspendido($admin, 'Motivo')->create();
+
+        comoUsuario($admin)
+            ->postJson(route('usuarios.usuarios.reactivar', $user->id))
+            ->assertOk()
+            ->assertJsonPath('msg', 'Cuenta reactivada')
+            ->assertJsonPath('data.estado', 'activo')
+            ->assertJsonPath('data.suspended_at', null)
+            ->assertJsonPath('data.suspended_reason', null)
+            ->assertJsonPath('data.suspended_by', null);
+
+        expect($user->actividades()->sole())->tipo->toBe(TipoActividad::Reactivacion)->actor_id->toBe($admin->id);
+
+        $this->postJson(route('auth.login'), ['login' => $user->username, 'password' => 'password'])->assertOk();
+    });
+
+    test('una pendiente suspendida vuelve a pendiente', function () {
+        $user = User::factory()->pendiente()->suspendido()->create();
+
+        comoUsuario(usuarioCon(Role::Admin))
+            ->postJson(route('usuarios.usuarios.reactivar', $user->id))
+            ->assertJsonPath('data.estado', 'pendiente');
+    });
+
+    test('422: no suspendida, de baja', function (Closure $crear, string $msg) {
+        comoUsuario(usuarioCon(Role::Admin))
+            ->postJson(route('usuarios.usuarios.reactivar', $crear()->id))
+            ->assertUnprocessable()
+            ->assertExactJson(['status' => 422, 'msg' => $msg]);
+    })->with([
+        'activa' => [fn () => User::factory()->create(), 'La cuenta no está suspendida'],
+        'de baja y suspendida' => [fn () => User::factory()->suspendido()->deBaja()->create(), 'La cuenta está dada de baja: restáurala antes de editarla'],
+    ]);
+});
+
+describe('baja', function () {
+    test('da de baja sin borrar, revoca sus sesiones y lo registra', function () {
+        $admin = usuarioCon(Role::Admin);
+        $user = conDosSesiones();
+
+        comoUsuario($admin)
+            ->deleteJson(route('usuarios.usuarios.destroy', $user->id))
+            ->assertOk()
+            ->assertJsonPath('msg', 'Cuenta dada de baja')
+            ->assertJsonPath('data.estado', 'baja')
+            ->assertJsonPath('data.deleted_by', ['id' => $admin->id, 'name' => $admin->name]);
+
+        expect(User::find($user->id))->toBeNull()
+            ->and(User::withTrashed()->find($user->id))->not->toBeNull()
+            ->and($user->tokens()->count())->toBe(0)
+            ->and(User::withTrashed()->find($user->id)->actividades()->sole())->tipo->toBe(TipoActividad::Baja)->actor_id->toBe($admin->id);
+
+        $this->postJson(route('auth.login'), ['login' => $user->username, 'password' => 'password'])->assertStatus(400);
+    });
+
+    test('422: uno mismo, ya de baja', function (Closure $destino, string $msg) {
+        $admin = usuarioCon(Role::Admin);
+
+        comoUsuario($admin)
+            ->deleteJson(route('usuarios.usuarios.destroy', $destino($admin)->id))
+            ->assertUnprocessable()
+            ->assertExactJson(['status' => 422, 'msg' => $msg]);
+    })->with([
+        'uno mismo' => [fn (User $admin) => $admin, 'No puedes dar de baja tu propia cuenta'],
+        'ya de baja' => [fn () => User::factory()->deBaja()->create(), 'La cuenta ya está dada de baja'],
+    ]);
+
+    test('un owner da de baja a otro owner, pero no al último', function () {
+        $owner = usuarioCon(Role::Owner);
+        $otro = usuarioCon(Role::Owner);
+
+        comoUsuario($owner)->deleteJson(route('usuarios.usuarios.destroy', $otro->id))->assertOk();
+
+        // Queda solo $owner; a sí mismo no puede (uno mismo), y otro owner no hay.
+        // El último owner se comprueba también por el Service, sin la regla de uno mismo:
+        $ultimo = fn () => app(EstadoCuentaService::class)->baja($owner, usuarioCon(Role::Admin));
+        expect($ultimo)->toThrow(HttpResponseException::class);
+        expect($owner->fresh()->trashed())->toBeFalse();
+    });
+
+    test('el último owner: 422 aunque haya owners de baja; los suspendidos cuentan', function () {
+        $owner = usuarioCon(Role::Owner);
+        $deBaja = usuarioCon(Role::Owner);
+        $deBaja->delete();
+        $actor = usuarioCon(Role::Owner);
+        $actor->forceFill(['suspended_at' => now()])->save();
+
+        // Con $actor suspendido aún quedan dos: se puede
+        $servicio = app(EstadoCuentaService::class);
+        $servicio->baja($owner, $actor);
+
+        try {
+            $servicio->baja($actor, usuarioCon(Role::Admin));
+            $this->fail('Debía fallar: es el último owner');
+        } catch (HttpResponseException $e) {
+            expect($e->getResponse()->getData(true))->toBe(['status' => 422, 'msg' => 'Debe quedar al menos un owner']);
+        }
+    });
+
+    test('un no-owner no da de baja a un owner (403)', function () {
+        $owner = usuarioCon(Role::Owner);
+        usuarioCon(Role::Owner);
+
+        comoUsuario(usuarioCon(Role::Admin))
+            ->deleteJson(route('usuarios.usuarios.destroy', $owner->id))
+            ->assertForbidden()
+            ->assertExactJson(['status' => 403, 'msg' => 'Solo un owner puede gestionar a otro owner']);
+    });
+});
+
+describe('restaurar', function () {
+    test('restaura la baja y limpia también la suspensión', function () {
+        $admin = usuarioCon(Role::Admin);
+        $user = User::factory()->suspendido($admin, 'x')->deBaja($admin)->create();
+
+        comoUsuario($admin)
+            ->postJson(route('usuarios.usuarios.restaurar', $user->id))
+            ->assertOk()
+            ->assertJsonPath('msg', 'Cuenta restaurada')
+            ->assertJsonPath('data.estado', 'activo')
+            ->assertJsonPath('data.deleted_at', null)
+            ->assertJsonPath('data.deleted_by', null)
+            ->assertJsonPath('data.suspended_at', null);
+
+        expect($user->actividades()->sole())->tipo->toBe(TipoActividad::Restauracion)->actor_id->toBe($admin->id);
+        $this->postJson(route('auth.login'), ['login' => $user->username, 'password' => 'password'])->assertOk();
+    });
+
+    test('422 si no está de baja', function () {
+        comoUsuario(usuarioCon(Role::Admin))
+            ->postJson(route('usuarios.usuarios.restaurar', User::factory()->create()->id))
+            ->assertUnprocessable()
+            ->assertExactJson(['status' => 422, 'msg' => 'La cuenta no está dada de baja']);
+    });
+});
+
+describe('cerrar todas sus sesiones', function () {
+    test('revoca todos sus tokens y lo registra con cuántos', function () {
+        $admin = usuarioCon(Role::Admin);
+        $user = conDosSesiones();
+        $otro = User::factory()->create();
+        tokenDefinitivo($otro);
+
+        comoUsuario($admin)
+            ->deleteJson(route('usuarios.sesiones.destroy', $user->id))
+            ->assertOk()
+            ->assertExactJson(['status' => 200, 'msg' => 'Se cerraron 2 sesiones']);
+
+        expect($user->tokens()->count())->toBe(0)
+            ->and($otro->tokens()->count())->toBe(1)
+            ->and($user->fresh()->estado())->toBe(EstadoCuenta::Activo);
+
+        $evento = $user->actividades()->sole();
+        expect($evento->tipo)->toBe(TipoActividad::SesionesCerradas)
+            ->and($evento->actor_id)->toBe($admin->id)
+            ->and($evento->meta)->toBe(['tokens' => 2]);
+    });
+
+    test('sin sesiones abiertas también responde 200', function () {
+        comoUsuario(usuarioCon(Role::Admin))
+            ->deleteJson(route('usuarios.sesiones.destroy', User::factory()->create()->id))
+            ->assertOk()
+            ->assertJsonPath('msg', 'No tenía sesiones abiertas');
+    });
+
+    test('una suspendida también', function () {
+        $user = User::factory()->suspendido()->create();
+        tokenTemporal($user);
+
+        comoUsuario(usuarioCon(Role::Admin))
+            ->deleteJson(route('usuarios.sesiones.destroy', $user->id))
+            ->assertOk()
+            ->assertJsonPath('msg', 'Se cerró 1 sesión');
+    });
+
+    test('422: uno mismo, de baja', function (Closure $destino, string $msg) {
+        $admin = usuarioCon(Role::Admin);
+
+        comoUsuario($admin)
+            ->deleteJson(route('usuarios.sesiones.destroy', $destino($admin)->id))
+            ->assertUnprocessable()
+            ->assertExactJson(['status' => 422, 'msg' => $msg]);
+    })->with([
+        'uno mismo' => [fn (User $admin) => $admin, 'Tus propias sesiones se cierran desde tu cuenta'],
+        'de baja' => [fn () => User::factory()->deBaja()->create(), 'La cuenta está dada de baja: restáurala antes de editarla'],
+    ]);
+});
+
+describe('permisos de las acciones de estado', function () {
+    dataset('acciones de estado', [
+        'suspender' => ['POST', 'usuarios.usuarios.suspender', Permission::UsuariosUsuarioUpdate],
+        'reactivar' => ['POST', 'usuarios.usuarios.reactivar', Permission::UsuariosUsuarioUpdate],
+        'cerrar sesiones' => ['DELETE', 'usuarios.sesiones.destroy', Permission::UsuariosUsuarioUpdate],
+        'baja' => ['DELETE', 'usuarios.usuarios.destroy', Permission::UsuariosUsuarioDestroy],
+        'restaurar' => ['POST', 'usuarios.usuarios.restaurar', Permission::UsuariosUsuarioDestroy],
+    ]);
+
+    test('sin el permiso de la acción es 403 aunque la persona no exista', function (string $metodo, string $ruta, Permission $permiso) {
+        // Todos los permisos de usuarios menos el de la acción
+        $otros = array_filter(Permission::cases(), fn (Permission $p) => $p !== $permiso);
+
+        comoUsuario(usuarioCon(...$otros))
+            ->json($metodo, route($ruta, 999999))
+            ->assertForbidden()
+            ->assertExactJson(['status' => 403, 'msg' => 'No tienes permiso para realizar esta acción']);
+    })->with('acciones de estado');
+
+    test('con el permiso, 404 si no existe', function (string $metodo, string $ruta, Permission $permiso) {
+        comoUsuario(usuarioCon($permiso))
+            ->json($metodo, route($ruta, 999999))
+            ->assertNotFound()
+            ->assertExactJson(['status' => 404, 'msg' => 'La persona no existe']);
+    })->with('acciones de estado');
+
+    test('un no-owner no actúa sobre un owner (403 antes que el 422)', function (string $metodo, string $ruta, Permission $permiso) {
+        $owner = usuarioCon(Role::Owner);
+
+        comoUsuario(usuarioCon($permiso))
+            ->json($metodo, route($ruta, $owner->id))
+            ->assertForbidden()
+            ->assertExactJson(['status' => 403, 'msg' => 'Solo un owner puede gestionar a otro owner']);
+    })->with('acciones de estado');
+
+    test('con solo el permiso de la acción basta', function () {
+        $user = User::factory()->create();
+
+        comoUsuario(usuarioCon(Permission::UsuariosUsuarioUpdate))
+            ->postJson(route('usuarios.usuarios.suspender', $user->id))
+            ->assertOk();
+        comoUsuario(usuarioCon(Permission::UsuariosUsuarioDestroy))
+            ->deleteJson(route('usuarios.usuarios.destroy', $user->id))
+            ->assertOk();
     });
 });

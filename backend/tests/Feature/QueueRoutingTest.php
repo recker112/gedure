@@ -4,6 +4,8 @@ use App\Enums\QueueName;
 use App\Mail\Account\PasswordChangedMail;
 use App\Mail\Auth\SecurityCodeMail;
 use App\Mail\Auth\TfaCodeMail;
+use App\Mail\Usuarios\ActivacionCuentaMail;
+use App\Mail\Usuarios\CorreoCambiadoMail;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -16,6 +18,8 @@ dataset('mailables', [
     'TfaCodeMail' => [fn () => new TfaCodeMail('ABC123', 'en 15 minutos'), QueueName::High],
     'SecurityCodeMail' => [fn () => new SecurityCodeMail('ABC123', 'en 15 minutos'), QueueName::High],
     'PasswordChangedMail' => [fn () => new PasswordChangedMail('Ana', 'hoy', true), QueueName::Emails],
+    'ActivacionCuentaMail' => [fn () => new ActivacionCuentaMail('https://x.test/auth/activar/abc', 'Ana', '12345678', 'Luis', 'dentro de 7 días'), QueueName::High],
+    'CorreoCambiadoMail' => [fn () => new CorreoCambiadoMail('Ana', 'a***@example.com'), QueueName::Emails],
 ]);
 
 it('encola cada Mailable en su cola', function (Closure $make, QueueName $cola) {

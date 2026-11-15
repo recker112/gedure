@@ -97,7 +97,7 @@ Variables por rol (en prod no hay `backend/.env`: todas llegan como variables de
 
 | Grupo | Variables | web | reverb | worker | schedule |
 |---|---|---|---|---|---|
-| App | `APP_KEY` (obligatoria, estable), `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, `APP_NAME`, `LOG_LEVEL` | sí | sí | sí | sí |
+| App | `APP_KEY` (obligatoria, estable), `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, `FRONTEND_URL` (opcional: origen de la SPA en los enlaces de los correos; por defecto `APP_URL`), `APP_NAME`, `LOG_LEVEL` | sí | sí | sí | sí |
 | Base de datos | `DB_CONNECTION=mariadb`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | sí | sí | sí | sí |
 | Colas | `QUEUE_CONNECTION=database` (o `redis`; el mismo valor en todos los roles) | sí | - | sí | sí |
 | Sanctum | `SANCTUM_EXPIRATION`, `SANCTUM_IDLE_REMEMBER`, `SANCTUM_IDLE_SESSION`, `SANCTUM_TOKEN_PREFIX` | sí | - | - | - |

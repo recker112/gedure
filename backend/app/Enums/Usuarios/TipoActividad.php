@@ -13,6 +13,7 @@ use App\Enums\Role;
  *
  * `meta` por tipo (docs/fases/fase-1-usuarios.md §2.5):
  * - `datos_actualizados`: `{campos: string[]}`.
+ * - `correo_cambiado`: `{anterior (enmascarado), nuevo, tokens}`.
  * - `rol_cambiado`: `{rol, cambio: agregado|quitado}`.
  * - `permiso_agregado` / `permiso_quitado`: `{permiso}`.
  * - `suspension`: `{motivo?}`.
@@ -20,8 +21,10 @@ use App\Enums\Role;
  * - `estudiante_vinculado` / `estudiante_desvinculado`: `{estudiante_id, nombre, parentesco}`.
  * - `importado`: `{importacion_id}`.
  *
- * Hoy solo se escribe `login` (canje del 2FA, `AuthController`); el resto llega
- * con los Services de usuarios de la fase 1.
+ * Se escriben hoy: `login` (canje del 2FA, `AuthController`), los de roles y
+ * permisos (`UserAccessService`), alta y datos (`UsuarioService`), activación
+ * (`ActivacionService`) y estado de la cuenta (`EstadoCuentaService`). Los de
+ * estudiantes e importación llegan con sus PRs.
  */
 enum TipoActividad: string
 {

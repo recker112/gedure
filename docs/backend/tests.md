@@ -17,7 +17,7 @@ docker compose exec app php artisan test --filter="token temporal"
 - `tests/Feature/<Modulo>/` (HTTP, BD) y `tests/Unit/<Modulo>/` (lógica pura: cálculo de promedios, conversión de literales, emparejado de pagos).
 - Un archivo por recurso o flujo: `tests/Feature/Academico/LapsosTest.php`, `tests/Feature/Notas/CargaDeNotasTest.php`.
 - Datasets en `tests/Datasets/` (ya existe `CodigosNoValidos.php`).
-- Helpers usados por **más de un archivo** en `tests/Helpers/<Modulo>.php` (funciones globales); si se definen dentro de un test, rompen `--parallel`. Los genéricos de sesión siguen en `tests/Pest.php`.
+- Helpers usados por **más de un archivo** en `tests/Helpers/<Modulo>.php` (funciones globales; la carpeta aún no existe: se crea con el primer helper compartido); si se definen dentro de un test, rompen `--parallel`. Los genéricos de sesión siguen en `tests/Pest.php`.
 
 ## Entorno
 
