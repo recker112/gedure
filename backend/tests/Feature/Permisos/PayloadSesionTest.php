@@ -62,6 +62,7 @@ test('el relogin con el token definitivo junta permisos directos y por rol, orde
 
     expect($response->json('roles'))->toEqualCanonicalizing([Role::Profesor->value, Role::Representante->value])
         ->and(array_keys($response->json('permissions')))->toBe([
+            Permission::MisEstudiantesEstudianteShow->value, // por el rol representante
             Permission::UsuariosRolUpdate->value,
             Permission::UsuariosUsuarioShow->value,
         ]);

@@ -113,8 +113,9 @@ Route::post('/lapsos/{id}/cerrar', [LapsoController::class, 'cerrar'])
 | `POST /auth/logout` | `auth:sanctum` | Borra el token actual. |
 | `POST /auth/security/email/send` | throttle por IP | Código de restablecimiento (respuesta idéntica exista o no la cuenta). |
 | `POST /auth/security/password/update` | throttle por IP | Cambia la contraseña con el código. |
+| `GET /usuarios`, `GET /usuarios/{id}`, `GET /usuarios/{id}/actividad`, `GET /roles`, `GET /permisos` | `auth.full`, `permission:usuarios.usuario.show` | Personas (listado paginado con filtros, ficha, bitácora por cursor) y catálogo de roles y permisos. Detalle en [fase 1 §4.2-4.3](../fases/fase-1-usuarios.md#42-personas). |
 
-Payload de sesión: `{status, msg, user: {id, name, username, email}, token_can, permissions: {"modulo.recurso.accion": true}, roles: ["admin"], is_owner: false, apiKey?}`. `permissions` es siempre un objeto (directos y por rol; el owner trae `{}` porque pasa por `Gate::before`, así que el cliente usa `is_owner`). Con el token temporal del 2FA el acceso va vacío: `permissions: {}`, `roles: []`, `is_owner: false`. Ver [permisos.md](permisos.md).
+Payload de sesión: `{status, msg, user: {id, name, username, email}, token_can, permissions: {"modulo.recurso.accion": true}, roles: ["admin"], is_owner: false, apiKey?}`. `permissions` es siempre un objeto (directos y por rol; el owner trae `{}` porque pasa por `Gate::before`, así que el cliente usa `is_owner`). Con el token temporal del 2FA el acceso va vacío: `permissions: {}`, `roles: []`, `is_owner: false`. Ver [permisos.md](permisos.md). El PR #9 de la fase 1 añade `user.tiene_estudiantes: boolean` (¿tiene estudiantes vinculados?) para decidir el menú "Mis estudiantes".
 
 ## Idioma
 

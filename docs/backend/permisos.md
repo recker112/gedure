@@ -87,17 +87,18 @@ Orden resultante: **middleware 403 → 404 → Policy 403 → `rules()` 422 → 
 
 ## Lo que existe en la fase 0
 
-- **Catálogo:** solo 3 permisos, `usuarios.usuario.show`, `usuarios.rol.update` y `usuarios.permiso.update`. Los demás del ejemplo de arriba llegan con sus módulos.
-- **Roles:** `admin` recibe todo el catálogo; `profesor` y `representante` quedan **vacíos** hasta que existan sus módulos; `owner` pasa todo por `Gate::before`.
+- **Catálogo (desde el PR #2 de la fase 1):** 13 permisos en dos módulos. `usuarios` (12): `usuario.{show,create,update,destroy,importar}`, `rol.update`, `permiso.update`, `estudiante.{show,create,update,destroy,exportar}`. `mis-estudiantes` (1): `estudiante.show` (solo los propios, por pertenencia → 404). Los demás del ejemplo de arriba llegan con sus módulos.
+- **Roles:** `owner` ninguno (pasa todo por `Gate::before`); `admin` **todo el catálogo** (`P::cases()`, incluido `mis-estudiantes.estudiante.show`, necesario para que `GrantGuard` le deje conceder el rol representante); `representante` solo `mis-estudiantes.estudiante.show`; `profesor` ninguno hasta que existan sus módulos. Que el menú "Mis estudiantes" aparezca solo con estudiantes vinculados se decide en el cliente, no con permisos ([fase 1](../fases/fase-1-usuarios.md#9-decisiones-aprobadas), decisión 14).
+- **Implementados en el PR #2:** `GET /roles` y `GET /permisos` (`usuarios.usuario.show`).
 - **`permissions:sync`** lo ejecutan los entrypoints (`docker/dev` y `docker/prod`) tras `migrate`.
 - **Aviso en tiempo real:** `PermissionsUpdated` por el canal **privado** `App.Models.User.{id}` (no presence como BluLabel).
 - **`GrantGuard`** existe y está probado, pero no lo usa ningún endpoint hasta la fase 1.
 - Middleware `permission`, `role` y `role_or_permission` registrados; el 403 sale en español.
 - Seed de desarrollo: un usuario por rol ([tests.md](tests.md)).
 
-## Endpoints de administración y reglas de owner (fase 1, aún no implementados)
+## Endpoints de administración y reglas de owner (fase 1)
 
-Lo que sigue es el diseño aprobado, **no** código existente: los endpoints, el solo-owner-da-owner, el mínimo de un owner y que nadie edite sus propios roles se implementan en la fase 1.
+`GET /roles` y `GET /permisos` ya existen (PR #2); el resto es diseño aprobado, **aún no** código: los endpoints, el solo-owner-da-owner, el mínimo de un owner y que nadie edite sus propios roles se implementan en la fase 1.
 
 En `routes/api/usuarios/`, todos con `auth.full` y su `permission:`; controller `Usuarios\UserAccessController` + `Services\Usuarios\UserAccessService` (transacción + `lockForUpdate`).
 

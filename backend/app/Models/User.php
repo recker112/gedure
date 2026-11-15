@@ -6,9 +6,13 @@ use App\Enums\Usuarios\EstadoCuenta;
 use App\Enums\Usuarios\Sexo;
 use App\Models\Auth\SecurityCode;
 use App\Models\Usuarios\Actividad;
+use App\Policies\Usuarios\UserPolicy;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +33,9 @@ use Spatie\Permission\Traits\HasRoles;
  * pregunta con `can()`, nunca con `hasPermissionTo()`, para que el owner pase
  * por `Gate::before`. Ver docs/backend/permisos.md.
  *
+ * Autorización sobre una cuenta concreta (a un owner solo lo gestiona otro
+ * owner): `App\Policies\Usuarios\UserPolicy`.
+ *
  * Estado de la cuenta (docs/fases/fase-1-usuarios.md §2.1), derivado de las
  * fechas en `estado()`: la baja (`SoftDeletes`) manda, luego la suspensión
  * (`suspended_*`) y luego la activación pendiente (`activated_at` null). Las
@@ -38,6 +45,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 #[Fillable(['name', 'username', 'email', 'password', 'telefono', 'direccion', 'sexo'])]
 #[Hidden(['password', 'remember_token'])]
+#[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -81,6 +89,30 @@ class User extends Authenticatable
     public function isActivated(): bool
     {
         return $this->activated_at !== null;
+    }
+
+    /** Valores del filtro `estado` del listado (`GET /usuarios`), para `conEstado()`. */
+    public const FILTROS_ESTADO = ['actuales', 'activos', 'pendientes', 'suspendidos', 'bajas', 'todos'];
+
+    /**
+     * Filtro por estado de la cuenta, con la misma prioridad que `estado()`: una
+     * baja solo sale en `bajas` y `todos`, y una suspendida pendiente cuenta como
+     * suspendida. `actuales` = todas menos las bajas (lo que hace el global scope
+     * de SoftDeletes).
+     *
+     * @param  Builder<User>  $query
+     */
+    #[Scope]
+    protected function conEstado(Builder $query, string $estado): void
+    {
+        match ($estado) {
+            'actuales' => null,
+            'activos' => $query->whereNull('suspended_at')->whereNotNull('activated_at'),
+            'pendientes' => $query->whereNull('suspended_at')->whereNull('activated_at'),
+            'suspendidos' => $query->whereNotNull('suspended_at'),
+            'bajas' => $query->onlyTrashed(),
+            'todos' => $query->withTrashed(),
+        };
     }
 
     /**

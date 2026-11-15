@@ -7,10 +7,10 @@ use App\Enums\Role;
  * Catálogo de permisos y roles (App\Enums). Sin base de datos: lo que llega a
  * ella lo prueba Feature/Permisos/SyncPermissionsTest.
  */
-const MODULOS = ['usuarios', 'academico', 'notas', 'documentos', 'finanzas', 'pagos', 'comunicacion', 'preseleccion'];
+const MODULOS = ['usuarios', 'mis-estudiantes', 'academico', 'notas', 'documentos', 'finanzas', 'pagos', 'comunicacion', 'preseleccion'];
 
 test('todos los permisos siguen modulo.recurso.accion', function (Permission $permiso) {
-    expect($permiso->value)->toMatch('/^[a-z]+\.[a-z]+\.(show|create|update|destroy|[a-z]+(_[a-z]+)*)$/')
+    expect($permiso->value)->toMatch('/^[a-z]+(-[a-z]+)*\.[a-z]+\.(show|create|update|destroy|[a-z]+(_[a-z]+)*)$/')
         ->and(MODULOS)->toContain($permiso->modulo());
 })->with(Permission::cases());
 

@@ -38,6 +38,8 @@ return [
     'confirmed' => 'La confirmación del campo :attribute no coincide.',
     'contains' => 'Al campo :attribute le falta un valor obligatorio.',
     'current_password' => 'La contraseña es incorrecta.',
+    // Propia: cursor de paginación que no se puede leer (manipulado o de otro listado)
+    'cursor' => 'El :attribute no es válido.',
     'date' => 'El campo :attribute debe ser una fecha válida.',
     'date_equals' => 'El campo :attribute debe ser una fecha igual a :date.',
     'date_format' => 'El campo :attribute debe coincidir con el formato :format.',
@@ -204,6 +206,14 @@ return [
         'new_password_confirmation' => 'confirmación de la nueva contraseña',
         'remember' => 'recordarme',
         'otp' => 'código',
+        'q' => 'búsqueda',
+        'rol' => 'rol',
+        'estado' => 'estado',
+        'orden' => 'orden',
+        'page' => 'página',
+        'per_page' => 'resultados por página',
+        'tipo' => 'tipo',
+        'cursor' => 'cursor',
     ],
 
 ];

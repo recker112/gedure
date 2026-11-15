@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Permission;
 use App\Models\User;
 
 /**
@@ -22,7 +23,21 @@ function rutasPrivadas(): array
         'socket_id' => '1234.5678',
     ];
 
+    // Sin datos de petición: solo da el permiso de la ruta (`{id}` = 1, la propia persona)
+    $con = fn (Permission $permiso) => function (User $user) use ($permiso) {
+        $user->givePermissionTo($permiso);
+
+        return [];
+    };
+
     return [
+        // Usuarios (routes/api/usuarios/)
+        'GET /usuarios' => ['GET', '/api/v1/usuarios', $con(Permission::UsuariosUsuarioShow)],
+        'GET /usuarios/{id}' => ['GET', '/api/v1/usuarios/1', $con(Permission::UsuariosUsuarioShow)],
+        'GET /usuarios/{id}/actividad' => ['GET', '/api/v1/usuarios/1/actividad', $con(Permission::UsuariosUsuarioShow)],
+        'GET /roles' => ['GET', '/api/v1/roles', $con(Permission::UsuariosUsuarioShow)],
+        'GET /permisos' => ['GET', '/api/v1/permisos', $con(Permission::UsuariosUsuarioShow)],
+
         // `Broadcast::routes()` registra la autorización de canales con GET y POST
         'GET /broadcasting/auth' => ['GET', '/api/broadcasting/auth', $canalPropio],
         'POST /broadcasting/auth' => ['POST', '/api/broadcasting/auth', $canalPropio],
