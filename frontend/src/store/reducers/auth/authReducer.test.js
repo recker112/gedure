@@ -12,7 +12,7 @@ describe("authReducer", () => {
   });
 
   test("estado inicial sin sesión", () => {
-    expect(initial()).toMatchObject({ auth: false, token_can: [], user: {}, permissions: {}, roles: [] });
+    expect(initial()).toMatchObject({ auth: false, token_can: [], user: {}, permissions: {}, roles: [], isOwner: false });
   });
 
   test("updateAuth", () => {
@@ -28,6 +28,25 @@ describe("authReducer", () => {
     state = reducer(state, updateUserData({ user, token_can: [] }));
     expect(state.apiKey).toBe("1|x");
     expect(state.token_can).toEqual([]);
+  });
+
+  test("updateUserData guarda el acceso (permissions, roles, is_owner -> isOwner)", () => {
+    const permissions = { "usuarios.usuario.show": true };
+    let state = reducer(initial(), updateUserData({ permissions, roles: ["admin"], is_owner: false }));
+    expect(state).toMatchObject({ permissions, roles: ["admin"], isOwner: false });
+
+    state = reducer(state, updateUserData({ permissions: {}, roles: ["owner"], is_owner: true }));
+    expect(state).toMatchObject({ permissions: {}, roles: ["owner"], isOwner: true });
+
+    // Sin is_owner (p. ej. un payload parcial) se conserva el valor anterior.
+    state = reducer(state, updateUserData({ user: { id: 1 } }));
+    expect(state.isOwner).toBe(true);
+  });
+
+  test("logoutApp quita los permisos y la condición de owner", () => {
+    let state = reducer(initial(), updateUserData({ permissions: { "a.b.c": true }, roles: ["owner"], is_owner: true }));
+    state = reducer(state, logoutApp());
+    expect(state).toMatchObject({ permissions: {}, roles: [], isOwner: false });
   });
 
   test.each([

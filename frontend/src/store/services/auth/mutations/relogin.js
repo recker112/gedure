@@ -17,9 +17,9 @@ export const relogin = (builder) =>
         const res = await queryFulfilled;
         // Un logout ocurrido mientras viajaba la petición no se deshace.
         if (!getState().auth.apiKey) return;
-        const { user, permissions, roles, token_can } = res.data;
+        const { user, permissions, roles, is_owner, token_can } = res.data;
 
-        dispatch(updateUserData({ user, permissions, roles, token_can }));
+        dispatch(updateUserData({ user, permissions, roles, is_owner, token_can }));
         dispatch(updateAuth(true));
       } catch (err) {
         // Web pública (`silent`): un 401 limpia la sesión sin toast; el resto se ignora.
