@@ -78,7 +78,7 @@ export default function Footer() {
             <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 2 }}>
               <Crest height={56} inverted decorative />
               <Box>
-                <Typography sx={{ fontFamily: "Lora, Georgia, serif", fontWeight: 700, fontSize: 20 }}>
+                <Typography sx={{ fontWeight: 700, fontSize: 20 }}>
                   {SCHOOL.shortName}
                 </Typography>
                 <Typography variant="body2" sx={{ opacity: 0.8 }}>
