@@ -7,7 +7,7 @@ import { resetSitePreference } from "../router/sessionLoaders";
 import { mockRoutes } from "./mockFetch";
 
 /** Usuario de prueba (el del DatabaseSeeder del backend). */
-export const USER = { id: 1, name: "Administrador", username: "12345678", email: "admin@lacandelaria.test" };
+export const USER = { id: 1, name: "Administrador", username: "12345678", email: "owner@example.com" };
 
 export const TEMP_KEY = "1|gedure_temporal";
 export const FULL_KEY = "2|gedure_definitivo";

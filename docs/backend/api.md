@@ -114,7 +114,7 @@ Route::post('/lapsos/{id}/cerrar', [LapsoController::class, 'cerrar'])
 | `POST /auth/security/email/send` | throttle por IP | Código de restablecimiento (respuesta idéntica exista o no la cuenta). |
 | `POST /auth/security/password/update` | throttle por IP | Cambia la contraseña con el código. |
 
-Payload de sesión: `{status, msg, user: {id, name, username, email}, token_can, permissions: {}, roles: [], apiKey?}`. `permissions` y `roles` ya están reservados para la fase 0.
+Payload de sesión: `{status, msg, user: {id, name, username, email}, token_can, permissions: {"modulo.recurso.accion": true}, roles: ["admin"], is_owner: false, apiKey?}`. `permissions` es siempre un objeto (directos y por rol; el owner trae `{}` porque pasa por `Gate::before`, así que el cliente usa `is_owner`). Con el token temporal del 2FA el acceso va vacío: `permissions: {}`, `roles: []`, `is_owner: false`. Ver [permisos.md](permisos.md).
 
 ## Idioma
 

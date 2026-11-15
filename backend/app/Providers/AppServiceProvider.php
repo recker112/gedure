@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Enums\Role;
 use App\Models\Auth\PersonalAccessToken;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
@@ -27,6 +29,18 @@ class AppServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
         $this->configureTokenExpiration();
+        $this->configureOwner();
+    }
+
+    /**
+     * El owner pasa cualquier comprobación de autorización (`can()`, políticas,
+     * middleware `permission:` de spatie, que usa `canAny()`) sin tener permisos
+     * asignados. Devolver null deja decidir al resto (permisos, políticas).
+     * Ojo: `hasPermissionTo()` / `hasRole()` no pasan por la Gate.
+     */
+    protected function configureOwner(): void
+    {
+        Gate::before(fn ($user) => method_exists($user, 'hasRole') && $user->hasRole(Role::Owner) ? true : null);
     }
 
     /**

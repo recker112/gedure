@@ -30,7 +30,15 @@ Si apunta a `https://` con la CA de Caddy, el proxy no verifica el certificado (
 
 Con el backend migrado y sembrado (`php artisan migrate --seed` en el contenedor `app`):
 
-- Usuario o cédula `12345678`, o correo `admin@lacandelaria.test`. Contraseña: `password`.
+- Contraseña `password` para todos. Se entra con el usuario/cédula o con el correo:
+
+  | Usuario | Correo | Rol |
+  | --- | --- | --- |
+  | `12345678` | `owner@example.com` | owner |
+  | `11111111` | `admin@example.com` | admin |
+  | `22222222` | `profesor@example.com` | profesor |
+  | `33333333` | `representante@example.com` | representante |
+
 - Con `MAIL_MAILER=log`, los códigos del 2FA y de recuperación aparecen en `backend/storage/logs/laravel.log`. Los procesa el `worker`, porque los correos van a la cola.
 
 ## Rutas

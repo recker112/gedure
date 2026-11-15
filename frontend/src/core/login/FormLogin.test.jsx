@@ -59,7 +59,7 @@ describe("FormLogin (/auth)", () => {
     expect(store.getState().auth).toMatchObject({ auth: true, apiKey: TEMP_KEY, token_can: ["2fa_required"] });
     expect(window.sessionStorage.getItem("gd.auth.apiKey")).toBe(JSON.stringify(TEMP_KEY));
     expect(window.localStorage.getItem("gd.auth.apiKey")).toBeNull();
-    expect(screen.getByText(/admin@lacandelaria.test/)).toBeInTheDocument();
+    expect(screen.getByText(/owner@example.com/)).toBeInTheDocument();
   });
 
   test("con «Mantener sesión iniciada» envía remember y guarda también en localStorage", async () => {
@@ -67,12 +67,12 @@ describe("FormLogin (/auth)", () => {
     const user = userEvent.setup();
     await openLogin();
 
-    await fill(user, { login: "admin@lacandelaria.test" });
+    await fill(user, { login: "owner@example.com" });
     await user.click(screen.getByRole("checkbox", { name: "Mantener sesión iniciada" }));
     await user.click(screen.getByRole("button", { name: "Entrar" }));
 
     await screen.findByRole("heading", { level: 1, name: "Verificación en dos pasos" }, TIMEOUT);
-    expect(backend.calls[0].body).toEqual({ login: "admin@lacandelaria.test", password: "password", remember: true });
+    expect(backend.calls[0].body).toEqual({ login: "owner@example.com", password: "password", remember: true });
     expect(window.localStorage.getItem("gd.auth.apiKey")).toBe(JSON.stringify(TEMP_KEY));
   });
 

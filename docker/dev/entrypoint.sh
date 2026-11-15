@@ -65,6 +65,8 @@ HTML
   if [ "${RUN_COMMANDS:-false}" = "true" ]; then
     echo "==> Ejecutando migraciones"
     php artisan migrate --force --no-interaction
+    echo "==> Sincronizando permisos"
+    php artisan permissions:sync --force --no-interaction
   fi
 }
 

@@ -13,7 +13,7 @@ use Illuminate\Testing\TestResponse;
  * token temporal (`2fa_required`, 15 min) → código por correo → token
  * definitivo. Además, relogin y logout.
  */
-const RESPUESTA_LOGIN = ['status', 'msg', 'apiKey', 'token_can', 'user', 'permissions', 'roles'];
+const RESPUESTA_LOGIN = ['status', 'msg', 'apiKey', 'token_can', 'user', 'permissions', 'roles', 'is_owner'];
 
 const CREDENCIALES_INCORRECTAS = ['status' => 400, 'msg' => 'Usuario o contraseña incorrectos'];
 
@@ -23,8 +23,9 @@ function afirmaUsuarioMinimo(TestResponse $response, User $user): void
     expect($response->json('user'))->toBe([
         'id' => $user->id, 'name' => $user->name, 'username' => $user->username, 'email' => $user->email,
     ]);
-    // Preparado para roles y permisos: objeto y array vacíos
-    expect($response->getContent())->toContain('"permissions":{}')->toContain('"roles":[]');
+    // Sin roles ni permisos (o con el token temporal): objeto y array vacíos.
+    // El payload con roles lo prueba Feature/Permisos/PayloadSesionTest.
+    expect($response->getContent())->toContain('"permissions":{}')->toContain('"roles":[]')->toContain('"is_owner":false');
 }
 
 beforeEach(function () {
