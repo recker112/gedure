@@ -50,4 +50,4 @@ Componentes que usan `useNavigation` o loaders necesitan router de datos (`creat
 
 ## CI
 
-Hoy no hay workflow de tests (solo la imagen al etiquetar). Propuesta de la fase 0: en cada PR a `next`, `npm ci`, `npx vitest run` y `npm run build`.
+En cada PR a `master` que toque `frontend/**`: `check_test_frontend.yml` (`npm ci`, lint con oxlint y `npm test`) y `check_build_frontend.yml` (`npm ci` y `npm run build`; el checkout incluye `backend/`, donde el plugin `laravel-output` escribe el build, y mkcert solo corre en el dev server).

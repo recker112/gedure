@@ -23,7 +23,7 @@ Plan acordado para la reescritura. Gedure **arranca de cero el próximo año esc
 - Roles y permisos: `spatie/laravel-permission`, `Permission`/`Role` enums, `permissions:sync`, `Gate::before` para owner, `permissions`/`roles`/`is_owner` en la sesión, render 403 de spatie.
 - Frontend (hecho): `useCanAccess`, `AuthProtect` con permisos, `/gedure/no-perm`, registro de módulos (`apps/registry.js`, `apps/routes.js`, `moduleRoute`, `modules/_plantilla`) y **una sola API base de RTK Query** (`baseApi`) a la que cada módulo inyecta sus endpoints.
 - Carcasa del panel (hecho): `ContainerGedure` con AppBar, Drawer desde el registro de módulos y menú de cuenta; el placeholder se retiró.
-- CI de tests en PR (Pest, Vitest, build): pendiente.
+- CI de tests en PR (Pest, Vitest, build): hecho (`.github/workflows/check_*.yml`; hoy filtran PR a `master`).
 
 ### Fase 1 · Usuarios
 
