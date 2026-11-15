@@ -8,6 +8,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
  */
 import { useSelector } from "react-redux";
 import { needs2FA } from "../../store/reducers/auth/authReducer";
+import { useCanAccess } from "../../hooks/auth/useCanAccess";
 
 /**
  * Components
@@ -19,6 +20,8 @@ export const LOGIN_PATH = "/auth";
 export const TFA_PATH = "/auth/2fa";
 export const LOGOUT_PATH = "/auth/logout";
 export const PANEL_PATH = "/gedure";
+/** Destino de AuthProtect cuando faltan permisos (core/panel/NoPermPage). */
+export const NO_PERM_PATH = "/gedure/no-perm";
 
 /**
  * Los guards son rutas layout: envuelven a sus hijos vía <Outlet />. Son
@@ -61,10 +64,18 @@ export function NoSeeAuth() {
 /**
  * Exige sesión. Con el token temporal (`2fa_required`) solo deja ver
  * /auth/2fa y /auth/logout; con el definitivo, /auth/2fa manda al panel.
+ *
+ * Permisos (opcionales; si vienen los dos se exigen ambos, ver
+ * hooks/auth/useCanAccess.js): `permission` (`string | string[]`, basta uno)
+ * y `allPermissions` (`string[]`, todos). Sin cumplirlos redirige a
+ * /gedure/no-perm. El owner pasa siempre. Un AuthProtect con permisos debe
+ * ser HERMANO de /gedure/no-perm, nunca su ancestro (bucle de redirección):
+ * en la práctica solo los pone apps/moduleRoute.js.
  */
-export function AuthProtect() {
+export function AuthProtect({ permission, allPermissions }) {
   const auth = useSelector((state) => state.auth.auth);
   const tokenCan = useSelector((state) => state.auth.token_can);
+  const can = useCanAccess();
   const { pathname } = useLocation();
   const path = pathname.replace(/\/+$/, "");
 
@@ -78,6 +89,10 @@ export function AuthProtect() {
 
   if (!needs2FA(tokenCan) && path === TFA_PATH) {
     return <Redirecting to={PANEL_PATH} text="Verificación correcta, entrando…" />;
+  }
+
+  if (!can({ permission, allPermissions })) {
+    return <Redirecting to={NO_PERM_PATH} />;
   }
 
   return <Outlet />;
