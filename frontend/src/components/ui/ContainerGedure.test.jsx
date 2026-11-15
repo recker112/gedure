@@ -10,12 +10,12 @@ import { resetAuth, serveAuth, signIn } from "../../test/authBackend";
  * (modules/_plantilla) para probar la carcasa con un módulo de verdad
  * (registro → menú, moduleRoute → guards, rutas montadas en el panel).
  */
-vi.mock("../../modules/registry", async (importOriginal) => {
+vi.mock("../../apps/registry", async (importOriginal) => {
   const original = await importOriginal();
   const { default: plantilla } = await import("../../modules/_plantilla/config");
   return { ...original, modules: original.createRegistry([plantilla]) };
 });
-vi.mock("../../modules/routes", async () => {
+vi.mock("../../apps/routes", async () => {
   const plantilla = await import("../../modules/_plantilla/routes");
   return { moduleRoutes: [plantilla.default], publicModuleRoutes: [] };
 });
