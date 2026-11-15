@@ -1,5 +1,4 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQuery } from "../ReduxDefault";
+import { baseApi } from "../baseApi";
 import { login } from "./mutations/login";
 import { tfa } from "./mutations/tfa";
 import { resendCode2FA } from "./mutations/resendCode2FA";
@@ -10,14 +9,12 @@ import { resendCode } from "./mutations/resendCode";
 import { changePassword } from "./mutations/changePassword";
 
 /**
- * Auth API (`/api/v1/auth/*`). Las mutaciones actualizan el slice `auth` en
- * su `onQueryStarted`; las pantallas no navegan tras el login o el 2FA: son
- * los guards (components/routers/Routers.jsx) los que redirigen al cambiar
- * el estado.
+ * Auth API (`/api/v1/auth/*`), inyectada en la API base (store/services/baseApi.js).
+ * Las mutaciones actualizan el slice `auth` en su `onQueryStarted`; las
+ * pantallas no navegan tras el login o el 2FA: son los guards
+ * (components/routers/Routers.jsx) los que redirigen al cambiar el estado.
  */
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery,
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: login(builder),
     tfa: tfa(builder),

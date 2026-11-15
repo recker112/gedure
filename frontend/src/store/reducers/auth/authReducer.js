@@ -8,8 +8,13 @@ export const API_KEY_STORAGE = "auth.apiKey";
  * Sesión. `auth` pasa a true tras un login o un relogin correctos, aunque el
  * token sea todavía el temporal del 2FA: lo que distingue los dos es
  * `token_can` (`2fa_required` en el temporal; `remember_me` si se pidió
- * mantener la sesión). `permissions` y `roles` llegan del backend y se
- * guardan para el futuro; aún no hay UI que los use.
+ * mantener la sesión).
+ *
+ * Acceso (login, 2FA y relogin; ver docs/backend/api.md): `permissions` es un
+ * mapa `{"modulo.recurso.accion": true}`, `roles` los nombres (solo
+ * informativos: no autorizan) e `isOwner` (`is_owner` del backend: el owner
+ * pasa toda comprobación y trae `permissions: {}`). Con el token temporal del
+ * 2FA llegan vacíos. Se leen con hooks/auth/useCanAccess.js.
  */
 const initialState = {
   auth: false,
@@ -18,6 +23,7 @@ const initialState = {
   user: {},
   permissions: {},
   roles: [],
+  isOwner: false,
 };
 
 export const authSlice = createSlice({
@@ -28,11 +34,12 @@ export const authSlice = createSlice({
       state.auth = action.payload;
     },
     updateUserData: (state, action) => {
-      const { user, permissions, apiKey, roles, token_can } = action.payload;
+      const { user, permissions, apiKey, roles, is_owner, token_can } = action.payload;
 
       if (user) state.user = user;
       if (permissions) state.permissions = permissions;
       if (roles) state.roles = roles;
+      if (typeof is_owner === "boolean") state.isOwner = is_owner;
       if (apiKey) state.apiKey = apiKey;
       if (token_can) state.token_can = token_can;
     },

@@ -20,6 +20,11 @@ import { guestLoader, homeLoader, protectLoader, publicLoader } from "./sessionL
 import logoutLoader from "./logoutLoader";
 
 /**
+ * Modules
+ */
+import { moduleRoutes, publicModuleRoutes } from "../apps/routes";
+
+/**
  * Árbol de rutas. Ojo con el catch-all de Laravel (backend/routes/web.php):
  * no sirve el SPA para `api`, `up`, `app`, `broadcasting` ni `assets/`, así
  * que ninguna ruta puede empezar por esos segmentos.
@@ -66,6 +71,8 @@ export const routes = [
             path: "contactanos",
             lazy: lazyPage(() => import("../core/contact/ContactPage")),
           },
+          /* Pantallas públicas de los módulos (`publicRoutes` de su routes.js). */
+          ...publicModuleRoutes,
           /* 404 dentro del layout: el visitante conserva la navegación. */
           {
             path: "*",
@@ -120,6 +127,10 @@ export const routes = [
       /**
        * Rama privada (2FA superado). Primero el guard y dentro el layout:
        * AuthLayout es donde se abrirá el socket (Echo) en el futuro.
+       *
+       * Este AuthProtect NO lleva permisos: es ancestro de /gedure/no-perm.
+       * Los guards con permisos los pone moduleRoute en cada módulo, como
+       * HERMANOS de no-perm (si fueran ancestros, bucle de redirección).
        */
       {
         path: "gedure",
@@ -131,8 +142,25 @@ export const routes = [
             element: <AuthLayout />,
             children: [
               {
-                index: true,
-                lazy: lazyPage(() => import("../core/panel/PanelPage")),
+                // Carcasa: AppBar + menú (desde apps/registry.js) + <main>.
+                lazy: lazyPage(() => import("../components/ui/ContainerGedure")),
+                children: [
+                  {
+                    index: true,
+                    lazy: lazyPage(() => import("../core/panel/PanelHome")),
+                  },
+                  {
+                    path: "no-perm",
+                    lazy: lazyPage(() => import("../core/panel/NoPermPage")),
+                  },
+                  // Un módulo por entrada (apps/routes.js): /gedure/<key>/...
+                  ...moduleRoutes,
+                  /* 404 dentro del panel: conserva el AppBar y el menú. */
+                  {
+                    path: "*",
+                    lazy: lazyPage(() => import("../core/panel/PanelNotFoundPage")),
+                  },
+                ],
               },
             ],
           },

@@ -311,7 +311,8 @@ describe("portada: redirección al panel con sesión", () => {
     const { router } = renderRoute("/gedure");
     await findH1(/Hola, Administrador/);
 
-    await user.click(screen.getByRole("link", { name: "Ver sitio web" }));
+    await user.click(screen.getByRole("button", { name: /Cuenta de Administrador/ }));
+    await user.click(await screen.findByRole("menuitem", { name: "Ver sitio web" }));
     await findH1(HERO);
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -327,7 +328,8 @@ describe("portada: redirección al panel con sesión", () => {
     storedKey(FULL_KEY);
     const { router } = renderRoute("/gedure");
     await findH1(/Hola, Administrador/);
-    await user.click(screen.getByRole("link", { name: "Ver sitio web" }));
+    await user.click(screen.getByRole("button", { name: /Cuenta de Administrador/ }));
+    await user.click(await screen.findByRole("menuitem", { name: "Ver sitio web" }));
     await findH1(HERO);
 
     await user.click(screen.getAllByRole("link", { name: "Nosotros" })[0]);

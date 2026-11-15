@@ -202,9 +202,12 @@ describe("sesión y guards", () => {
     const user = userEvent.setup();
     const { router } = renderRoute("/gedure");
     await findH1(/Hola, Administrador/);
-    expect(screen.getByText("12345678")).toBeInTheDocument();
 
-    await user.click(screen.getAllByRole("link", { name: "Cerrar sesión" })[0]);
+    await user.click(screen.getByRole("button", { name: /Cuenta de Administrador/ }));
+    const menu = await screen.findByRole("menu");
+    expect(within(menu).getByText("12345678")).toBeInTheDocument();
+    expect(within(menu).getByText("owner@example.com")).toBeInTheDocument();
+    await user.click(within(menu).getByRole("menuitem", { name: "Cerrar sesión" }));
 
     await findH1("Entrar a Gedure");
     expect(router.state.location.pathname).toBe("/auth");

@@ -1,6 +1,6 @@
 # Módulos (`src/modules/<modulo>/`)
 
-Cada funcionalidad vive entera en su módulo: pantallas, componentes, API de RTK Query, rutas, entradas de menú y tests. Adapta el sistema de "apps" de BluLabel (`apps/registry.js` + `modules/<app>/{config,routes}.js` + `appRoute`) a un único panel con módulos. **Nada de esto existe todavía**; se crea en la fase 0.
+Cada funcionalidad vive entera en su módulo: pantallas, componentes, API de RTK Query, rutas, entradas de menú y tests. Adapta el sistema de "apps" de BluLabel (`apps/registry.js` + `modules/<app>/{config,routes}.js` + `appRoute`) a un único panel con módulos. Como en BluLabel, `src/modules/` contiene SOLO módulos y la infraestructura vive en `src/apps/` (`registry.js`, `routes.js`, `moduleRoute.js`, `moduleUrl.js`; los nombres siguen siendo `moduleRoute`/`moduleUrl`, no `appRoute`/`appUrl`). Existe desde la fase 0; aún no hay módulos reales (`apps/registry.js` y `apps/routes.js` están vacíos) y `modules/_plantilla/` sirve de modelo.
 
 ## Anatomía
 
@@ -57,7 +57,7 @@ export default academico;
 ## `routes.js`
 
 ```js
-import moduleRoute from "../moduleRoute";
+import moduleRoute from "../../apps/moduleRoute";
 import lazyPage from "../../router/lazyPage";
 import academico from "./config";
 
@@ -72,19 +72,23 @@ export default moduleRoute(academico.key, [
 
 ## Registro
 
-1. `modules/registry.js`: importa cada `config.js` en el **orden del menú**.
-2. `modules/routes.js`: importa cada `routes.js` habilitado y exporta `moduleRoutes`, que `router/routes.jsx` esparce **una sola vez** como hijas del layout del panel (hermanas de `/gedure/no-perm`). `routes.jsx` no se toca al añadir módulos.
-3. `modules/registry.test.js`: cada módulo habilitado tiene ruta y cada ruta tiene módulo, claves únicas, la plantilla no está registrada.
+1. `apps/registry.js`: importa cada `config.js` en el **orden del menú** y los pasa a `createRegistry`.
+2. `apps/routes.js`: importa cada `routes.js` habilitado y exporta `moduleRoutes`, que `router/routes.jsx` esparce **una sola vez** como hijas del layout del panel (hermanas de `/gedure/no-perm`). `routes.jsx` no se toca al añadir módulos.
+3. `apps/registry.test.js`, `moduleRoute.test.js`, `moduleUrl.test.js` y `plantilla.test.js` (todos en `src/apps/`): validaciones, guards, URL derivadas, y que la plantilla es válida pero no está registrada. `moduleUrl.js` deriva las URL (`moduleUrl(key, entry, parents)`, `moduleKeyOf(pathname)`).
+
+### Validaciones de `createRegistry`
+
+Lanza un error si: la `key` no cumple `^[a-z][a-z0-9-]*$`; se repite; es una **clave reservada** (`RESERVED_KEYS`: `no-perm`, `cuenta`, segmentos que ya usa el panel); hay `permission`/`allPermissions` como array vacío (en el módulo o en una entrada); una entrada usa `to`, no tiene `index` ni `path`, o su `path` empieza por `/`; un grupo (`children`) lleva `index`, no lleva `path` o no tiene hijas.
 
 `registry.js` **no importa rutas** (`moduleRoute` importa el registro: sería un ciclo).
 
 ## Añadir un módulo
 
-1. Copia `modules/_plantilla/` a `modules/<key>/`.
+1. Copia `modules/_plantilla/` (`config.js`, `routes.js`, `PlantillaPage.jsx`, comentados; no registrada) a `modules/<key>/`.
 2. Rellena `config.js` (permisos del catálogo del backend, [../backend/permisos.md](../backend/permisos.md)).
 3. Crea las pantallas y su `routes.js` (hijas con el mismo `path` que su entrada de menú).
 4. Crea `<key>Api.js` con `baseApi.injectEndpoints(...)` y añade sus `tagTypes` a `store/services/baseApi.js`. No hay que registrar nada en `store.js`.
-5. Registra config y rutas (`registry.js`, `routes.js`).
+5. Registra config (`apps/registry.js`, `import ../modules/<key>/config` + lista `registro`) y rutas (`apps/routes.js`, `import * as <key> from "../modules/<key>/routes"` + lista `enabled`).
 6. `npm test` (falla el test del registro si falta algo).
 
 ## Rutas públicas de un módulo

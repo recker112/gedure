@@ -67,7 +67,7 @@ function Timeline() {
             },
           }}
         >
-          <Typography sx={{ fontFamily: "Lora, Georgia, serif", fontWeight: 700, fontSize: 22, color: "primary.main", textAlign: { sm: "right" }, pr: { sm: 3 } }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 22, color: "primary.main", textAlign: { sm: "right" }, pr: { sm: 3 } }}>
             {year}
           </Typography>
           <Box sx={{ pl: { sm: 3 } }}>

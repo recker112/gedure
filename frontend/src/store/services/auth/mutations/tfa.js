@@ -17,12 +17,12 @@ export const tfa = (builder) =>
     onQueryStarted: async ({ setError }, { queryFulfilled, dispatch }) => {
       try {
         const res = await queryFulfilled;
-        const { user, permissions, apiKey, roles, token_can } = res.data;
+        const { user, permissions, apiKey, roles, is_owner, token_can } = res.data;
 
         const remember = token_can?.includes("remember_me") ?? false;
         writeStorage(API_KEY_STORAGE, apiKey, remember);
 
-        dispatch(updateUserData({ user, permissions, apiKey, roles, token_can }));
+        dispatch(updateUserData({ user, permissions, apiKey, roles, is_owner, token_can }));
       } catch (err) {
         handleQueryError(err, dispatch, setError);
       }

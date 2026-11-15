@@ -28,9 +28,9 @@ La estructura sigue la de BluLabel (`oplaics-proyects/blulablel/docs/`) como **r
 
 | Documento | Contenido |
 |---|---|
-| [frontend/arquitectura.md](frontend/arquitectura.md) | Estructura de `src/`, regla `core/` (solo lo esencial) frente a `modules/`, convenciones, migración pendiente. |
-| [frontend/modulos.md](frontend/modulos.md) | Anatomía de un módulo, `config.js` (menú y permisos), `routes.js`, registro, cómo añadir uno. |
-| [frontend/rutas.md](frontend/rutas.md) | Árbol de rutas, loaders de sesión frente a guards, árbol objetivo del panel. |
+| [frontend/arquitectura.md](frontend/arquitectura.md) | Estructura de `src/`, regla `core/` (solo lo esencial) frente a `apps/` y `modules/`, convenciones, migración pendiente. |
+| [frontend/modulos.md](frontend/modulos.md) | Anatomía de un módulo, `config.js` (menú y permisos), `routes.js`, registro (`src/apps/`), cómo añadir uno. |
+| [frontend/rutas.md](frontend/rutas.md) | Árbol de rutas, loaders de sesión frente a guards, rama privada del panel. |
 | [frontend/estado-y-api.md](frontend/estado-y-api.md) | Store, `baseQuery`, `handleQueryError`, patrón de la API de un módulo, invalidación. |
 | [frontend/permisos.md](frontend/permisos.md) | `useCanAccess`, guards, y el flujo de la pantalla de administración de roles y permisos. |
 | [frontend/ui.md](frontend/ui.md) | Tema MUI de La Candelaria, carcasa del panel, estados de pantalla, formularios. |
@@ -39,4 +39,4 @@ La estructura sigue la de BluLabel (`oplaics-proyects/blulablel/docs/`) como **r
 
 ## Estado
 
-Implementado: autenticación completa (login con usuario/cédula o correo, 2FA por correo, recordar sesión, recuperar contraseña, logout), web pública y un panel provisional. Todo lo marcado como "propuesta" o "fase N" en estos documentos aún no existe.
+Implementado: autenticación completa (login con usuario/cédula o correo, 2FA por correo, recordar sesión, recuperar contraseña, logout), web pública y la carcasa del panel (`ContainerGedure`, menú Drawer desde el registro de módulos, 404 y `/gedure/no-perm`) con registro de módulos (`modules/`, plantilla incluida), `useCanAccess` y `AuthProtect` con permisos, sobre una única `baseApi` de RTK Query. Aún no hay módulos de negocio. Todo lo marcado como "propuesta" o "fase N" en estos documentos aún no existe.

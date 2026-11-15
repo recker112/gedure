@@ -1,6 +1,6 @@
 # Permisos en el frontend y administración de roles
 
-**Convención de Gedure**, tomada del flujo de BluLabel (`/users`, `PermissionEditor`, `useCanAccess`, `usePermissionsSocket`). Aquí se describen **el comportamiento y la estructura**; el aspecto visual es propio de Gedure (tema La Candelaria, ver [ui.md](ui.md)) y no se copia de BluLabel. Contrato del backend en [../backend/permisos.md](../backend/permisos.md). Se implementa en las fases 0 (autorización en el cliente) y 1 (pantalla de administración).
+**Convención de Gedure**, tomada del flujo de BluLabel (`/users`, `PermissionEditor`, `useCanAccess`, `usePermissionsSocket`). Aquí se describen **el comportamiento y la estructura**; el aspecto visual es propio de Gedure (tema La Candelaria, ver [ui.md](ui.md)) y no se copia de BluLabel. Contrato del backend en [../backend/permisos.md](../backend/permisos.md). La autorización en el cliente **ya existe** (fase 0); la pantalla de administración es de la fase 1.
 
 ## Autorización en el cliente
 
@@ -14,6 +14,7 @@
   can({ allPermissions: ["usuarios.rol.update", "usuarios.permiso.update"] });
   ```
 
+- `hasPermission`, `hasAllPermissions` y `canAccess` son funciones puras exportadas por el mismo archivo; `auth` (Redux) guarda `permissions`, `roles` e `isOwner`.
 - `AuthProtect permission=… allPermissions=…` en rutas (vía `moduleRoute`, [modulos.md](modulos.md)); sin permiso → `/gedure/no-perm`.
 - El menú filtra cada entrada con la misma regla (`config.js` del módulo).
 - **Cada componente pregunta sus propios permisos** (`useCanAccess` o un hook del módulo, p. ej. `useUserPermissions(user)`); la página no pasa `perms` por props. Lo que no se puede hacer se oculta o se deshabilita con una explicación ("No tienes permiso para cerrar el lapso").
@@ -48,7 +49,7 @@ Refleja el modelo de spatie (efectivos = permisos de los roles ∪ directos):
 | Directo y además por rol | "Directo (redundante)", se puede limpiar. |
 | No concedido | Conmutable (si la delegación lo permite). |
 
-- Agrupado por **módulo** (nombre e icono del `config.js` del módulo; `modules/registry.js` es la única fuente) y por **recurso**, con búsqueda y filtro "Solo concedidos". Textos de recurso y acción en `modules/usuarios/permissionLabels.js`; un permiso sin traducción muestra su nombre técnico.
+- Agrupado por **módulo** (nombre e icono del `config.js` del módulo; `apps/registry.js` es la única fuente) y por **recurso**, con búsqueda y filtro "Solo concedidos". Textos de recurso y acción en `modules/usuarios/permissionLabels.js`; un permiso sin traducción muestra su nombre técnico.
 - Owner: sin editor, aviso de acceso total.
 - Componente **puro** respecto a las mutations: recibe `readOnly`, `grantLock`, `onToggleDirect`; lee el catálogo con `useAccessCatalog()`.
 
@@ -82,4 +83,4 @@ Lógica pura compartida en `modules/usuarios/permissions.js`: `effectivePermissi
 - `userRules.test.js` y `permissions.test.js`: reglas puras.
 - `PermissionEditor.test.jsx`: estados (por rol, directo, redundante), bloqueo por delegación, `readOnly`.
 - `UsuariosPage.test.jsx`: listado, ficha, guardar roles (cuerpo enviado con `mockRoutes`), bloque con fallos parciales, 403 deshace el optimista.
-- `useCanAccess.test.js` y `AuthProtect` con permisos (owner pasa, sin permiso → `/gedure/no-perm`).
+- `useCanAccess.test.jsx` (funciones puras `hasPermission`/`hasAllPermissions`/`canAccess` y el hook) y `components/routers/Routers.test.jsx` (`AuthProtect` con permisos: owner pasa, sin permiso → `/gedure/no-perm`). Ya existen.

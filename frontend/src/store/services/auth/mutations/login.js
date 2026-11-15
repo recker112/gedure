@@ -17,11 +17,11 @@ export const login = (builder) =>
     onQueryStarted: async ({ body, setError }, { queryFulfilled, dispatch }) => {
       try {
         const res = await queryFulfilled;
-        const { user, permissions, apiKey, roles, token_can } = res.data;
+        const { user, permissions, apiKey, roles, is_owner, token_can } = res.data;
 
         writeStorage(API_KEY_STORAGE, apiKey, Boolean(body?.remember));
 
-        dispatch(updateUserData({ user, permissions, apiKey, roles, token_can }));
+        dispatch(updateUserData({ user, permissions, apiKey, roles, is_owner, token_can }));
         dispatch(updateAuth(true));
       } catch (err) {
         handleQueryError(err, dispatch, setError);

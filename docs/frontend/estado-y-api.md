@@ -11,7 +11,7 @@
 Un `listenerMiddleware` escucha `logoutApp` y hace `baseApi.util.resetApiState()`: al ser una sola API, **todo** su caché se descarta al cerrar sesión (incluidos los endpoints públicos, que simplemente se vuelven a pedir).
 
 ```js
-// store.js (objetivo)
+// store.js
 // reducer: { ..., [baseApi.reducerPath]: baseApi.reducer }
 // middleware: .concat(baseApi.middleware)
 ```
@@ -77,7 +77,7 @@ export const cerrarLapso = (builder) =>
   });
 ```
 
-**Migración:** `authApi` (hoy un `createApi` propio en `store/services/auth/AuthApi.js`, con `sessionScopedApis` en `store.js`) pasa a `baseApi.injectEndpoints`; se retira `sessionScopedApis`.
+`authApi` (`store/services/auth/AuthApi.js`) ya usa `baseApi.injectEndpoints`. Hoy `tagTypes` está vacío (auth no cachea queries): **crece con los módulos**, cada uno añade los suyos a `baseApi.js` al crear su API.
 
 Reglas:
 

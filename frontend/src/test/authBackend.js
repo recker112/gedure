@@ -12,14 +12,18 @@ export const USER = { id: 1, name: "Administrador", username: "12345678", email:
 export const TEMP_KEY = "1|gedure_temporal";
 export const FULL_KEY = "2|gedure_definitivo";
 
-/** Payload de sesión del backend (login, 2fa y relogin). */
-export const sessionPayload = ({ token_can = [], apiKey } = {}) => ({
+/**
+ * Payload de sesión del backend (login, 2fa y relogin). Con el token temporal
+ * del 2FA el acceso llega vacío (`permissions: {}`, `roles: []`, `is_owner: false`).
+ */
+export const sessionPayload = ({ token_can = [], apiKey, permissions = {}, roles = [], is_owner = false } = {}) => ({
   status: 200,
   msg: "Inicio de sesión",
   user: USER,
   token_can,
-  permissions: {},
-  roles: [],
+  permissions,
+  roles,
+  is_owner,
   ...(apiKey ? { apiKey } : {}),
 });
 
@@ -47,11 +51,15 @@ export function serveAuth(overrides = {}) {
   });
 }
 
-/** Sesión ya iniciada en el store (como tras el login o el relogin). */
-export function signIn({ apiKey = FULL_KEY, token_can = [], remember = false } = {}) {
+/**
+ * Sesión ya iniciada en el store (como tras el login o el relogin). Acepta el
+ * acceso: `signIn({ permissions: { "usuarios.usuario.show": true } })`,
+ * `signIn({ is_owner: true })`.
+ */
+export function signIn({ apiKey = FULL_KEY, token_can = [], remember = false, permissions = {}, roles = [], is_owner = false } = {}) {
   act(() => {
     writeStorage("auth.apiKey", apiKey, remember);
-    store.dispatch(updateUserData({ user: USER, apiKey, token_can, permissions: {}, roles: [] }));
+    store.dispatch(updateUserData({ user: USER, apiKey, token_can, permissions, roles, is_owner }));
     store.dispatch(updateAuth(true));
   });
 }
