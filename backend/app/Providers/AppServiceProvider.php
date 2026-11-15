@@ -109,6 +109,14 @@ class AppServiceProvider extends ServiceProvider
             $this->limit(Limit::perMinute(10)->by($request->ip())),
             $this->limit(Limit::perHour(40)->by('hora|'.$request->ip())),
         ]);
+
+        // Activación de cuentas (pública): ver el enlace y elegir la contraseña.
+        // El token tiene 64 caracteres aleatorios, así que el límite solo frena
+        // el abuso; una persona usa unas pocas peticiones
+        RateLimiter::for('auth.activacion', fn (Request $request) => [
+            $this->limit(Limit::perMinute(10)->by($request->ip())),
+            $this->limit(Limit::perHour(60)->by('hora|'.$request->ip())),
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Usuarios\EstadoCuenta;
 use App\Enums\Usuarios\Sexo;
 use App\Models\Auth\SecurityCode;
+use App\Models\Usuarios\Activacion;
 use App\Models\Usuarios\Actividad;
 use App\Policies\Usuarios\UserPolicy;
 use Database\Factories\UserFactory;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -144,6 +146,17 @@ class User extends Authenticatable
     public function actividades(): HasMany
     {
         return $this->hasMany(Actividad::class);
+    }
+
+    /**
+     * Enlace de activación (uno por persona; reenviar rota su token). Ver
+     * `App\Services\Usuarios\ActivacionService`.
+     *
+     * @return HasOne<Activacion, $this>
+     */
+    public function activacion(): HasOne
+    {
+        return $this->hasOne(Activacion::class);
     }
 
     /**

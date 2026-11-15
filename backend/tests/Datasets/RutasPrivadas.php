@@ -40,6 +40,14 @@ function rutasPrivadas(): array
         'PUT /usuarios/{id}/roles' => ['PUT', '/api/v1/usuarios/1/roles', $con(Permission::UsuariosRolUpdate)],
         'PUT /usuarios/{id}/permisos' => ['PUT', '/api/v1/usuarios/1/permisos', $con(Permission::UsuariosPermisoUpdate)],
         'POST /usuarios/roles/bloque' => ['POST', '/api/v1/usuarios/roles/bloque', $con(Permission::UsuariosRolUpdate)],
+        'POST /usuarios' => ['POST', '/api/v1/usuarios', $con(Permission::UsuariosUsuarioCreate)],
+        'POST /usuarios/{id}/activacion' => ['POST', '/api/v1/usuarios/1/activacion', $con(Permission::UsuariosUsuarioCreate)],
+        'PATCH /usuarios/{id}' => ['PATCH', '/api/v1/usuarios/1', $con(Permission::UsuariosUsuarioUpdate)],
+        'POST /usuarios/{id}/suspender' => ['POST', '/api/v1/usuarios/1/suspender', $con(Permission::UsuariosUsuarioUpdate)],
+        'POST /usuarios/{id}/reactivar' => ['POST', '/api/v1/usuarios/1/reactivar', $con(Permission::UsuariosUsuarioUpdate)],
+        'DELETE /usuarios/{id}/sesiones' => ['DELETE', '/api/v1/usuarios/1/sesiones', $con(Permission::UsuariosUsuarioUpdate)],
+        'DELETE /usuarios/{id}' => ['DELETE', '/api/v1/usuarios/1', $con(Permission::UsuariosUsuarioDestroy)],
+        'POST /usuarios/{id}/restaurar' => ['POST', '/api/v1/usuarios/1/restaurar', $con(Permission::UsuariosUsuarioDestroy)],
 
         // `Broadcast::routes()` registra la autorización de canales con GET y POST
         'GET /broadcasting/auth' => ['GET', '/api/broadcasting/auth', $canalPropio],
