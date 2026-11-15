@@ -98,6 +98,10 @@ if [ "${ROLE}" = "web" ]; then
     echo "==> Ejecutando migraciones"
     as_app php artisan migrate --force --no-interaction
 
+    # Catálogo de permisos y roles (App\Enums): idempotente, en cada arranque
+    echo "==> Sincronizando permisos"
+    as_app php artisan permissions:sync --force --no-interaction
+
     # Los seeders crean datos/usuarios iniciales: nunca por defecto.
     if [ "${RUN_SEEDERS:-false}" = "true" ]; then
       echo "==> Ejecutando seeders"
