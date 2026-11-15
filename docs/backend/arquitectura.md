@@ -80,12 +80,12 @@ Lo transversal (usuario, roles, notificaciones base) no se duplica: `App\Models\
 - `withRouting`: `routes/api.php` (prefijo `api` y, dentro, `Route::prefix('v1')`), `routes/web.php` (catch-all de la SPA), `routes/console.php` (scheduler), `health: '/up'`.
 - `withBroadcasting`: `POST /api/broadcasting/auth` con `auth.full`; canales en `routes/channels.php`.
 - `trustProxies` solo con rangos privados (Nginx Proxy Manager → Caddy). **Nunca `'*'`**: anularía el rate limiting por IP.
-- Un solo `$middleware->alias([...])` (cada llamada reemplaza la anterior): `abilities`, `ability`, `tfa.completed`. Los de spatie (`permission`, `role`, `role_or_permission`) ya están en esa misma llamada (`bootstrap/app.php`).
-- Grupo `auth.full` = `auth:sanctum` + `tfa.completed`. Es el middleware de **toda** ruta privada.
+- Un solo `$middleware->alias([...])` (cada llamada reemplaza la anterior): `abilities`, `ability`, `tfa.completed`, `account.active` (`app/Http/Middleware/EnsureAccountActive.php`). Los de spatie (`permission`, `role`, `role_or_permission`) ya están en esa misma llamada (`bootstrap/app.php`).
+- Grupo `auth.full` = `auth:sanctum` + `tfa.completed` + `account.active`. Es el middleware de **toda** ruta privada.
 - `redirectGuestsTo`: `null` en `api/*` (401 JSON aunque no llegue `Accept`).
 - Excepciones: JSON en `api/*`; `AccessDeniedHttpException` → 403 `{status, msg}` (nunca 401).
 
-Pendiente respecto a BluLabel (decidir en fase 0/1): middleware `account.active` (cuentas suspendidas), `touch.last_seen`, cabecera `X-App-Version`.
+Pendiente respecto a BluLabel (decidir en fase 0/1): `touch.last_seen`, cabecera `X-App-Version`.
 
 ## Modelos
 
