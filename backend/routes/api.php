@@ -27,11 +27,12 @@ Route::prefix('v1')->group(function () {
      */
     Route::middleware('auth.full')->group(function () {
         /**
-         * Usuarios: personas, bitácora y catálogo de acceso. Sin prefijo de
+         * Usuarios: personas, bitácora, catálogo de acceso y roles/permisos. Sin prefijo de
          * módulo en la URL (`/usuarios`, `/roles`, `/permisos`), ver
          * docs/fases/fase-1-usuarios.md §4.
          */
         require __DIR__.'/api/usuarios/usuarios.api.php';
         require __DIR__.'/api/usuarios/catalogo.api.php';
+        require __DIR__.'/api/usuarios/acceso.api.php';
     });
 });

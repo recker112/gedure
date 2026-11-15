@@ -214,6 +214,16 @@ return [
         'per_page' => 'resultados por página',
         'tipo' => 'tipo',
         'cursor' => 'cursor',
+        'roles' => 'roles',
+        'roles.*' => 'rol',
+        'permissions' => 'permisos',
+        'permissions.*' => 'permiso',
+        'user_ids' => 'personas',
+        'user_ids.*' => 'persona',
+        'add' => 'roles que añadir',
+        'add.*' => 'rol',
+        'remove' => 'roles que quitar',
+        'remove.*' => 'rol',
     ],
 
 ];
