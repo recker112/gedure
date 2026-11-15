@@ -84,4 +84,4 @@ test('un profesor no puede cargar notas en un lapso cerrado', function () {
 
 ## CI
 
-Hoy `.github/workflows/` solo publica la imagen al etiquetar. Propuesta (fase 0): workflows en cada PR a `next` con `php artisan test`, `npx vitest run` y `npm run build`, como BluLabel.
+`.github/workflows/check_test_laravel.yml` ejecuta `php artisan test` en cada PR a `master` que toque `backend/**` (PHP 8.5, caché de Composer). No usa MariaDB: la base es la SQLite en memoria de `phpunit.xml`, así que la trampa de `<env>`/`<server>` también protege al CI. El frontend tiene `check_test_frontend.yml` (lint y vitest) y `check_build_frontend.yml` (`npm run build`).

@@ -1,0 +1,58 @@
+name: Test Laravel
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+    paths:
+      - "backend/**"
+      - ".github/workflows/check_test_laravel.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Pruebas del backend (Pest)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP 8.5
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: mbstring, pdo_sqlite, pdo_mysql, pcntl
+          coverage: none
+
+      - name: Obtener directorio de caché de Composer
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cachear dependencias de Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Instalar dependencias
+        working-directory: ./backend
+        run: composer install --no-ansi --no-interaction --no-progress --prefer-dist
+
+      - name: Preparar entorno
+        working-directory: ./backend
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+
+      # La base de datos de pruebas es SQLite en memoria y la fija
+      # phpunit.xml (bloques <env force> y <server>, ver docs/backend/tests.md);
+      # por eso no hace falta MariaDB ni DB_* en el workflow. Si se añade una
+      # variable nueva a phpunit.xml, va en los dos bloques.
+      # `php artisan test` ejecuta la suite con Pest (tests/Pest.php).
+      - name: Ejecutar pruebas con php artisan test
+        working-directory: ./backend
+        run: php artisan test
