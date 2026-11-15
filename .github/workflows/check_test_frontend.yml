@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - next
+      - master
     paths:
       - "frontend/**"
       - ".github/workflows/check_test_frontend.yml"
