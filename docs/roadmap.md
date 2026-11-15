@@ -4,7 +4,7 @@ Plan acordado para la reescritura. Gedure **arranca de cero el próximo año esc
 
 ## Método de trabajo por fase
 
-1. **Documento de diseño corto** (`docs/diseno/fase-N-<nombre>.md`): modelo de datos, endpoints y pantallas. **Lo aprueba el usuario** antes de escribir código.
+1. **Documento de diseño corto** (`docs/fases/fase-N-<nombre>.md`; la fase 1 en [fases/fase-1-usuarios.md](fases/fase-1-usuarios.md)): modelo de datos, endpoints y pantallas. **Lo aprueba el usuario** antes de escribir código.
 2. **Backend con tests** (Pest), siguiendo [backend/](backend/arquitectura.md).
 3. **Frontend** (módulo en `src/modules/<m>/`, con tests), siguiendo [frontend/](frontend/arquitectura.md).
 4. **PRs pequeños y revisables** (un recurso o un flujo por PR) contra `next`.
@@ -23,7 +23,7 @@ Plan acordado para la reescritura. Gedure **arranca de cero el próximo año esc
 - Roles y permisos: `spatie/laravel-permission`, `Permission`/`Role` enums, `permissions:sync`, `Gate::before` para owner, `permissions`/`roles`/`is_owner` en la sesión, render 403 de spatie.
 - Frontend (hecho): `useCanAccess`, `AuthProtect` con permisos, `/gedure/no-perm`, registro de módulos (`apps/registry.js`, `apps/routes.js`, `moduleRoute`, `modules/_plantilla`) y **una sola API base de RTK Query** (`baseApi`) a la que cada módulo inyecta sus endpoints.
 - Carcasa del panel (hecho): `ContainerGedure` con AppBar, Drawer desde el registro de módulos y menú de cuenta; el placeholder se retiró.
-- CI de tests en PR (Pest, Vitest, build): hecho (`.github/workflows/check_*.yml`; hoy filtran PR a `master`).
+- CI de tests en PR (Pest, Vitest, build): hecho (`.github/workflows/check_*.yml`; corren solo en PR a `master`: `next` es rama de integración pura, decidido).
 
 ### Fase 1 · Usuarios
 

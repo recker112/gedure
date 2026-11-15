@@ -12,6 +12,12 @@ La estructura sigue la de BluLabel (`oplaics-proyects/blulablel/docs/`) como **r
 4. Antes de añadir una pantalla: [módulos](frontend/modulos.md) y [estado y API](frontend/estado-y-api.md).
 5. Antes de abrir un PR: [tests del backend](backend/tests.md) y [del frontend](frontend/tests.md).
 
+## Diseño por fase
+
+| Documento | Contenido |
+|---|---|
+| [fases/fase-1-usuarios.md](fases/fase-1-usuarios.md) | **Propuesta con decisiones aprobadas, pendiente de aprobación final.** Fase 1: modelo de datos (cuenta, estudiantes con los campos del Gedure anterior, vínculo, bitácora, plantilla e importación), permisos, endpoints, pantallas de `modules/usuarios/` y `modules/mis-estudiantes/`, correos, tests, plan de PRs y decisiones. |
+
 ## Backend
 
 | Documento | Contenido |
