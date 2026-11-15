@@ -278,7 +278,7 @@ Reglas (todas como en BluLabel `UserAccessService`):
 - `UserPolicy::manage` (403): un owner solo lo gestiona otro owner. `changeOwnerRole` (403): dar o quitar `owner` solo un owner.
 - 422: uno mismo no cambia sus roles ni permisos; cuenta de baja; quitar `owner` al último owner activo (las suspendidas cuentan).
 - `GrantGuard::missing($actor, rolesAñadidos, permisosAñadidos)` → 403 "No puedes conceder permisos que no tienes". Quitar no se restringe.
-- **Propio de Gedure:** quitar `representante` a quien tiene estudiantes vinculados → 422 ("Desvincula antes sus estudiantes"). Evita estudiantes con un representante sin acceso por accidente.
+- **Propio de Gedure:** quitar `representante` a quien tiene estudiantes vinculados → 422 ("Desvincula antes sus estudiantes"). Evita estudiantes con un representante sin acceso por accidente. **Se implementa en el PR #8**, cuando llegan las tablas de vínculos; hasta entonces `PUT /usuarios/{id}/roles` no lo comprueba.
 - **Bloque:** una transacción por persona; la que falla va a `failed` con el `status`/`msg` que habría recibido sola. `msg` resumido ("Asignado a 18; 2 no se pudieron actualizar").
 - Solo si hay diferencia: `syncRoles`/`syncPermissions` con `PermissionEvents::withoutEvents`, una entrada de bitácora por rol/permiso y un único `PermissionsUpdated` tras el commit (ya existe en la fase 0).
 
@@ -520,7 +520,7 @@ Se sigue BluLabel: **la persona elige su contraseña con un enlace**, nunca una 
 | 5 | `feat(front-usuarios): listado y ficha de lectura` | Módulo registrado, `usuariosApi`, tags, listado paginado con filtros, ficha con Historial y Seguridad de solo lectura. |
 | 6 | `feat(front-usuarios): editar acceso y datos` | `PermissionEditor`, borrador + `SaveBar`, `userRules`, `useGrantLock`, bloque. |
 | 7 | `feat(front-usuarios): alta, estado y activación` | `NuevoUsuarioPanel`, acciones de Seguridad, `core/activar`. |
-| 8 | `feat(usuarios): estudiantes y vínculos` | Tablas §2.3-2.4, endpoints §4.5, exportación (OpenSpout). |
+| 8 | `feat(usuarios): estudiantes y vínculos` | Tablas §2.3-2.4, endpoints §4.5, exportación (OpenSpout), y el 422 de §4.3 al quitar `representante` a quien tiene estudiantes vinculados (en `UserAccessService`). |
 | 9 | `feat(mis-estudiantes): vista del representante` | Endpoints §4.6, `tiene_estudiantes` en el payload de sesión (`AuthService::accessPayload`/`user`), condición del menú (permiso + `tiene_estudiantes`), módulo `modules/mis-estudiantes/` (§5.5). El permiso ya existe desde el PR #2. |
 | 10 | `feat(front-usuarios): estudiantes` | Pantallas §5.4, pestaña Estudiantes de la ficha. |
 | 11 | `feat(usuarios): plantilla e importación` | `PlantillaImportacion` + `GET /importaciones/plantilla`, tablas §2.6, jobs, endpoints §4.7, prune. |
