@@ -4,7 +4,6 @@ use App\Enums\QueueName;
 use App\Mail\Account\PasswordChangedMail;
 use App\Mail\Auth\SecurityCodeMail;
 use App\Mail\Auth\TfaCodeMail;
-use App\Models\User;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -25,7 +24,7 @@ it('encola cada Mailable en su cola', function (Closure $make, QueueName $cola) 
     $mailable = $make();
     Mail::to('prueba@example.test')->queue($mailable);
 
-    Queue::assertPushedOn($cola->value, SendQueuedMailable::class, fn ($job) => $job->mailable::class === $mailable::class);
+    Queue::assertPushedOn($cola->value, SendQueuedMailable::class, fn ($job) => $mailable::class === $job->mailable::class);
 })->with('mailables');
 
 it('el worker escucha todas las colas por prioridad', function () {

@@ -40,12 +40,7 @@ Tokens **reales** (Bearer), no `Sanctum::actingAs`, para recorrer el mismo camin
 |---|---|
 | `usuarioCon(Role\|Permission ...$cosas)` | Crea un usuario con esos roles/permisos. |
 | `comoUsuario(User $user)` | `conToken(tokenDefinitivo($user))`. |
-
-Propuesto (aún no existe):
-
-| Helper | Uso |
-|---|---|
-| Dataset `RutasPrivadas` | Cada ruta privada (método, URI): un test recorre todas y comprueba 401 sin token y 403 con el temporal. Una ruta nueva que no esté hace fallar la cobertura. |
+| Dataset `'rutas privadas'` (`tests/Datasets/RutasPrivadas.php`) | Cada ruta privada (método, URI): se comprueba 401 sin token y 403 con el temporal. `tests/Feature/Auth/CoberturaRutasPrivadasTest.php` falla si una ruta `auth.full` no está en el dataset. |
 
 `TestCase::$seed = true` siembra solo el catálogo (`PermissionsSeeder`). **Los tests construyen sus propios usuarios** con `usuarioCon()` (y la factory para los estudiantes, que no son usuarios); no dependen del `DatabaseSeeder`.
 

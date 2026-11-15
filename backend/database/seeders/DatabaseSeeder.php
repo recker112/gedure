@@ -47,6 +47,12 @@ class DatabaseSeeder extends Seeder
                 ],
             );
 
+            // Nacen activados (no pasan por el enlace de activación); un nuevo
+            // seed no cambia la fecha de activación de una cuenta que ya existía
+            if ($user->activated_at === null) {
+                $user->forceFill(['activated_at' => now()])->save();
+            }
+
             // Sin eventos de spatie: un seeder no avisa en tiempo real a nadie
             PermissionEvents::withoutEvents(fn () => $user->syncRoles($data['role']));
         }

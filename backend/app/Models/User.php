@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\Usuarios\EstadoCuenta;
+use App\Enums\Usuarios\Sexo;
 use App\Models\Auth\SecurityCode;
+use App\Models\Usuarios\Actividad;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,13 +28,20 @@ use Spatie\Permission\Traits\HasRoles;
  * Roles y permisos con spatie/laravel-permission (guard `web`): en código se
  * pregunta con `can()`, nunca con `hasPermissionTo()`, para que el owner pase
  * por `Gate::before`. Ver docs/backend/permisos.md.
+ *
+ * Estado de la cuenta (docs/fases/fase-1-usuarios.md §2.1), derivado de las
+ * fechas en `estado()`: la baja (`SoftDeletes`) manda, luego la suspensión
+ * (`suspended_*`) y luego la activación pendiente (`activated_at` null). Las
+ * columnas de estado no son asignables en masa: las escriben los Services con
+ * `forceFill`. El global scope de SoftDeletes deja a las bajas fuera del login y
+ * de Sanctum (401); `withTrashed()` donde deban verse (gestión, bitácora).
  */
-#[Fillable(['name', 'username', 'email', 'password'])]
+#[Fillable(['name', 'username', 'email', 'password', 'telefono', 'direccion', 'sexo'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -42,7 +54,64 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password_changed_at' => 'datetime',
             'password' => 'hashed',
+            'sexo' => Sexo::class,
+            'activated_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'suspended_at' => 'datetime',
         ];
+    }
+
+    /** Estado derivado: baja → suspendido → pendiente → activo. */
+    public function estado(): EstadoCuenta
+    {
+        return match (true) {
+            $this->trashed() => EstadoCuenta::Baja,
+            $this->isSuspended() => EstadoCuenta::Suspendido,
+            ! $this->isActivated() => EstadoCuenta::Pendiente,
+            default => EstadoCuenta::Activo,
+        };
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspended_at !== null;
+    }
+
+    /** Si ya eligió su contraseña (las cuentas creadas por administración nacen pendientes). */
+    public function isActivated(): bool
+    {
+        return $this->activated_at !== null;
+    }
+
+    /**
+     * Quien la suspendió (`null` si no está suspendida o esa cuenta ya no existe),
+     * también dado de baja.
+     *
+     * @return BelongsTo<User, $this>
+     */
+    public function suspendedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'suspended_by')->withTrashed();
+    }
+
+    /**
+     * Quien la dio de baja, también dado de baja.
+     *
+     * @return BelongsTo<User, $this>
+     */
+    public function deletedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'deleted_by')->withTrashed();
+    }
+
+    /**
+     * Bitácora de la persona (`App\Services\Usuarios\Bitacora`).
+     *
+     * @return HasMany<Actividad, $this>
+     */
+    public function actividades(): HasMany
+    {
+        return $this->hasMany(Actividad::class);
     }
 
     /**
