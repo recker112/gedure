@@ -1,0 +1,73 @@
+# Tests del backend (Pest)
+
+## Ejecutar
+
+No hay PHP en el host:
+
+```bash
+docker compose exec app php artisan test                                   # toda la suite
+docker compose exec app php artisan test tests/Feature/Auth/AuthControllerTest.php
+docker compose exec app php artisan test --filter="token temporal"
+```
+
+## Reglas
+
+- **`test()`, nunca `it()`**: `it()` antepone "it " y los títulos van en español.
+- `describe()` para agrupar dentro de un archivo.
+- `tests/Feature/<Modulo>/` (HTTP, BD) y `tests/Unit/<Modulo>/` (lógica pura: cálculo de promedios, conversión de literales, emparejado de pagos).
+- Un archivo por recurso o flujo: `tests/Feature/Academico/LapsosTest.php`, `tests/Feature/Notas/CargaDeNotasTest.php`.
+- Datasets en `tests/Datasets/` (ya existe `CodigosNoValidos.php`).
+- Helpers usados por **más de un archivo** en `tests/Helpers/<Modulo>.php` (funciones globales); si se definen dentro de un test, rompen `--parallel`. Los genéricos de sesión siguen en `tests/Pest.php`.
+
+## Entorno
+
+- SQLite en memoria, `RefreshDatabase` para todo `Feature/` (`tests/Pest.php`), cola `sync`, correo `array`, caché `array`, broadcasting `null`, `BCRYPT_ROUNDS=4`.
+- **Trampa de `phpunit.xml`:** el contenedor `app` carga `backend/.env` como variables reales, así que cada variable va **dos veces**: `<env ... force="true"/>` y `<server .../>`. Sin el bloque `<server>`, los tests correrían contra MariaDB de desarrollo y `RefreshDatabase` la vaciaría. Una variable nueva va en los dos bloques.
+- Ojo con SQLite frente a MariaDB: intercalación (acentos y mayúsculas), `lockForUpdate` (no bloquea en SQLite) y tipos JSON. Lo que dependa de eso se comenta en el test.
+
+## Helpers de sesión (`tests/Pest.php`)
+
+Tokens **reales** (Bearer), no `Sanctum::actingAs`, para recorrer el mismo camino que el frontend:
+
+| Helper | Uso |
+|---|---|
+| `tokenTemporal($user)` | Token del login, pendiente del 2FA. |
+| `tokenDefinitivo($user)` | Token tras el 2FA. |
+| `conToken($token)` | Olvida el guard y prepara la petición con ese Bearer. |
+| `rutaPrivadaDePrueba($token)` | Ruta `auth.full` de prueba (se retirará cuando haya rutas privadas reales). |
+
+Propuestos para la fase 0 (como BluLabel):
+
+| Helper | Uso |
+|---|---|
+| `usuarioCon(Role\|Permission ...$cosas)` | Crea un usuario con esos roles/permisos. |
+| `comoUsuario(User $user)` | `conToken(tokenDefinitivo($user))`. |
+| Dataset `RutasPrivadas` | Cada ruta privada (método, URI): un test recorre todas y comprueba 401 sin token y 403 con el temporal. Una ruta nueva que no esté hace fallar la cobertura. |
+
+Y `TestCase::$seed = true` con `PermissionsSeeder` + usuarios fijos por rol (`owner@`, `admin@`, `profesor@`, `representante@` `lacandelaria.test`; los estudiantes no son usuarios, se crean con su factory), que los tests **no** vuelven a crear.
+
+## Qué probar en cada endpoint
+
+1. Caso feliz: estado, forma de la respuesta (`{status, msg, data}`) y efecto en BD.
+2. 401 sin token y 403 con el token temporal (vía dataset).
+3. 403 sin el permiso; 403 de Policy si aplica.
+4. 404 de un id inexistente **y** de un registro ajeno (pertenencia).
+5. 422 de cada regla de `rules()` relevante y de cada regla de dominio del Service.
+6. Efectos laterales: `Mail::fake()` / `Queue::fake()` / `Event::fake()` con la cola esperada.
+7. Número de consultas constante en listados (sin N+1) cuando la lista pueda crecer.
+
+```php
+test('un profesor no puede cargar notas en un lapso cerrado', function () {
+    $profesor = usuarioCon(Role::Profesor);
+    $asignacion = asignacionDe($profesor, lapso: lapsoCerrado());
+
+    comoUsuario($profesor)
+        ->putJson(route('notas.cargas.update', $asignacion), ['notas' => [/* ... */]])
+        ->assertStatus(422)
+        ->assertJson(['status' => 422, 'msg' => __('notas.lapso_cerrado')]);
+});
+```
+
+## CI
+
+Hoy `.github/workflows/` solo publica la imagen al etiquetar. Propuesta (fase 0): workflows en cada PR a `next` con `php artisan test`, `npx vitest run` y `npm run build`, como BluLabel.

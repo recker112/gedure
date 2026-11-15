@@ -1,3 +1,5 @@
+> **Gedure:** las convenciones del proyecto están en [`../docs/README.md`](../docs/README.md) (backend en `../docs/backend/`) y mandan sobre este bloque genérico. No hay PHP ni Composer en el host: los comandos van dentro del contenedor (`docker compose exec app php artisan ...`, `docker compose exec app composer ...`); no instales Laravel Boost sin pedirlo.
+
 <laravel-boost-guidelines>
 # Laravel Application
 
