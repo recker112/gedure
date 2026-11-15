@@ -197,7 +197,7 @@ No se migran datos (el sistema arranca de cero, [roadmap](../roadmap.md)); solo 
 
 ## 3. Permisos (catálogo `App\Enums\Permission`)
 
-Módulos `usuarios` y `mis-estudiantes` (el prefijo del permiso es la clave del módulo, la misma que la carpeta de rutas y el módulo del frontend). Los tres primeros ya existen.
+Módulos `usuarios` y `mis-estudiantes` (el prefijo del permiso es la clave del módulo, la misma que la carpeta de rutas y el módulo del frontend). Los 13 están en el catálogo desde el PR #2.
 
 | Permiso | Para qué | admin | profesor | representante |
 |---|---|---|---|---|
@@ -213,9 +213,9 @@ Módulos `usuarios` y `mis-estudiantes` (el prefijo del permiso es la clave del 
 | `usuarios.estudiante.update` | Editar estudiante y sus vínculos con representantes | ✔ | | |
 | `usuarios.estudiante.destroy` | Borrar un alta errónea | ✔ | | |
 | `usuarios.estudiante.exportar` | Excel de estudiantes | ✔ | | |
-| `mis-estudiantes.estudiante.show` | Módulo "Mis estudiantes" (solo los propios, por pertenencia → 404) | | | ✔ |
+| `mis-estudiantes.estudiante.show` | Módulo "Mis estudiantes" (solo los propios, por pertenencia → 404) | ✔ | | ✔ |
 
-- `owner` no recibe nada (pasa por `Gate::before`). `admin` = `P::cases()`, así que `permissions:sync` le añade los nuevos a un `admin` ya existente.
+- `owner` no recibe nada (pasa por `Gate::before`). `admin` = `P::cases()` (todo el catálogo, **incluido** `mis-estudiantes.estudiante.show`: sin él `GrantGuard` no le dejaría conceder el rol `representante`), así que `permissions:sync` le añade los nuevos a un `admin` ya existente. Que el admin no vea el menú "Mis estudiantes" lo resuelve la decisión 14 (§9), no el permiso.
 - `profesor` sigue vacío en fase 1 (sus permisos llegan en las fases 2-3).
 - Una secretaria puede ser una persona sin rol `admin` con, p. ej., `usuarios.usuario.{show,create}`, `usuarios.rol.update` y `usuarios.estudiante.*`: por `GrantGuard` solo podrá dar el rol `representante` (si tiene `mis-estudiantes.estudiante.show`) y nunca `admin`.
 
@@ -246,7 +246,7 @@ Todos los Services de escritura: `DB::transaction` + fila releída con `lockForU
 
 | Método y ruta | Permiso | Cuerpo / query | Respuesta | Errores y reglas |
 |---|---|---|---|---|
-| `GET /usuarios` | `usuario.show` | `q` (nombre, cédula, correo), `rol` (`none` = sin rol), `estado` (`actuales` por defecto = sin bajas; `activos`, `pendientes`, `suspendidos`, `bajas`, `todos`), `orden` (`nombre`, `-last_login_at`), `page`, `per_page` (25, máx. 100) | `{status, data: Usuario[], meta}` (`paginate`) | Con eager loading fijo (sin N+1). |
+| `GET /usuarios` | `usuario.show` | `q` (nombre, cédula, correo), `rol` (`none` = sin rol), `estado` (`actuales` por defecto = sin bajas; `activos`, `pendientes`, `suspendidos`, `bajas`, `todos`), `orden` (`nombre` por defecto, `-last_login_at`), `page`, `per_page` (25, máx. 100); implementado en el PR #2 (`IndexUsuariosRequest`) | `{status, data: Usuario[], meta}` (`paginate`) | Con eager loading fijo (sin N+1). |
 | `GET /usuarios/{id}` | `usuario.show` | — | `{status, data: Usuario}` (también bajas) | 404 |
 | `POST /usuarios` | `usuario.create` | `{name, username, email, telefono?, direccion?, sexo?, roles: string[], permissions?: string[], enviar_activacion: bool}` | 201 `{status, msg, data}` | 422 campo (únicos, `Cedula` si tiene rol profesor/representante); 403 `GrantGuard` sobre roles + permisos; 403 si incluye `owner` y quien actúa no es owner. Crea con contraseña aleatoria, `activated_at = null`; bitácora `cuenta_creada`. |
 | `PATCH /usuarios/{id}` | `usuario.update` | Solo lo enviado: `name, username, email, telefono, direccion, sexo` | `{status, msg, data}` | 404 → Policy → 422; 422 dominio: baja, el propio correo (se cambiará en `core/account`). Cambiar el correo revoca sus sesiones, avisa al anterior (`emails`) y, si estaba pendiente, invalida su activación. |
@@ -256,10 +256,12 @@ Todos los Services de escritura: `DB::transaction` + fila releída con `lockForU
 | `DELETE /usuarios/{id}/sesiones` | `usuario.update` | — | `{status, msg}` | **Cerrar todas sus sesiones** (sin listado de dispositivos). 404 → Policy → 422: uno mismo, baja. Revoca todos sus tokens de Sanctum y, cuando existan (fase 7), sus suscripciones push; bitácora `sesiones_cerradas` (`meta.tokens`). |
 | `DELETE /usuarios/{id}` | `usuario.destroy` | — | `{status, msg, data}` | **Baja** (SoftDeletes + `deleted_by`), revoca tokens. 422: uno mismo, ya de baja, **último owner** (bloqueando antes las filas de los owners, como BluLabel). |
 | `POST /usuarios/{id}/restaurar` | `usuario.destroy` | — | idem | 422 si no está de baja. Limpia también la suspensión. |
-| `GET /usuarios/{id}/actividad` | `usuario.show` | `tipo?`, `cursor` | `{status, data: Actividad[], next_cursor}` (20 por página, `created_at desc, id desc`) | 404 |
+| `GET /usuarios/{id}/actividad` | `usuario.show` | `tipo?`, `cursor` | `{status, data: Actividad[], next_cursor}` (`cursorPaginate`, 20 por página, `created_at desc, id desc`; también de bajas). `Actividad`: `{id, tipo, titulo, actor: {id,name}|null, meta, created_at}`; `titulo` se calcula desde `tipo` + `meta` | 404 |
 | `GET /usuarios/{id}/estudiantes` | `usuario.show` | — | `{status, data: [{estudiante, parentesco, principal}]}` | 404 |
 
 `Usuario` (Resource): `id, name, username, email, telefono, direccion, sexo, estado, roles: string[], direct_permissions: string[], estudiantes_count, last_login_at, activated_at, created_at, suspended_at, suspended_reason, suspended_by: {id,name}|null, deleted_at, deleted_by: {id,name}|null`.
+
+> `estudiantes_count` **llega en el PR #8** (`withCount('estudiantes')`, cuando exista la tabla de vínculos); el `UsuarioResource` del PR #2 aún no lo incluye.
 
 ### 4.3 Roles y permisos (ya diseñado en [permisos.md](../backend/permisos.md#endpoints-de-administración-y-reglas-de-owner-fase-1-aún-no-implementados))
 
@@ -309,6 +311,8 @@ Reglas (todas como en BluLabel `UserAccessService`):
 |---|---|---|
 | `GET /mis-estudiantes` | `mis-estudiantes.estudiante.show` | `{status, data: MiEstudiante[]}` (sin paginar: pocos por familia), consulta acotada `$user->estudiantes()` |
 | `GET /mis-estudiantes/{id}` | `mis-estudiantes.estudiante.show` | `{status, data}`; **404** si no es suyo ([api.md](../backend/api.md#significado-de-los-códigos)) |
+
+El menú "Mis estudiantes" se muestra solo si la persona tiene **al menos un estudiante vinculado** además del permiso (decisión 14). El cliente lo sabe por el campo `tiene_estudiantes: boolean` del payload de sesión (`user.tiene_estudiantes`, `exists()` sobre `$user->estudiantes()`), que añade el PR #9 en login, 2FA y relogin ([api.md](../backend/api.md#endpoints-existentes)); un vínculo nuevo se refleja en el siguiente relogin. El endpoint no cambia: el permiso basta para llamarlo y devuelve `[]` si no hay vínculos.
 
 `MiEstudianteResource` reducido (sin `observaciones` internas ni otros representantes salvo nombre y parentesco).
 
@@ -393,7 +397,7 @@ modules/mis-estudiantes/
 
 ### 5.2 Menú y rutas (`config.js`)
 
-`permission` del módulo `usuarios`: `["usuarios.usuario.show", "usuarios.estudiante.show", "usuarios.usuario.importar"]`. Módulo `mis-estudiantes`: `["mis-estudiantes.estudiante.show"]` (entrada propia en el menú, solo la ve el representante).
+`permission` del módulo `usuarios`: `["usuarios.usuario.show", "usuarios.estudiante.show", "usuarios.usuario.importar"]`. Módulo `mis-estudiantes`: `["mis-estudiantes.estudiante.show"]` (entrada propia en el menú: se muestra si tiene el permiso **y** `user.tiene_estudiantes`, decisión 14; un admin con todo el catálogo no la ve salvo que también sea representante, y un profesor o admin que es representante la ve de forma natural). La ruta sigue protegida solo por permiso.
 
 | Entrada | Ruta | Permiso | Pantalla |
 |---|---|---|---|
@@ -427,7 +431,7 @@ Activación (pública, sin sesión): `core/activar/ActivarPage` en `/auth/activa
 
 ### 5.5 Módulo `mis-estudiantes`
 
-Tarjetas con los estudiantes del representante y una ficha de solo lectura con sus datos. En fases siguientes, los módulos `notas`, `documentos` y `finanzas` enlazan desde aquí a sus pantallas (por permiso, sin depender del módulo).
+Visible solo con permiso y al menos un estudiante vinculado (`user.tiene_estudiantes`, decisión 14). Tarjetas con los estudiantes del representante y una ficha de solo lectura con sus datos. En fases siguientes, los módulos `notas`, `documentos` y `finanzas` enlazan desde aquí a sus pantallas (por permiso, sin depender del módulo).
 
 ### 5.6 Importar (asistente)
 
@@ -510,14 +514,14 @@ Se sigue BluLabel: **la persona elige su contraseña con un enlace**, nunca una 
 |---|---|---|
 | 0 | `docs: diseño de la fase 1` | Este documento (+ ajustes que pida la revisión). |
 | 1 | `feat(usuarios): estado de cuenta y bitácora` | Migración de `users` (§2.1), `SoftDeletes`, `actividades` + `Bitacora` + `TipoActividad`, `account.active`, login de suspendida (403) y `login` en la bitácora, factory states, dataset `RutasPrivadas`. |
-| 2 | `feat(usuarios): listado, ficha y catálogo` | `GET /usuarios`, `/usuarios/{id}`, `/roles`, `/permisos`, `/usuarios/{id}/actividad`, `UsuarioResource`, `UserPolicy`, `UsuarioTargetRequest`, permisos nuevos del catálogo. |
+| 2 | `feat(usuarios): listado, ficha y catálogo` | `GET /usuarios`, `/usuarios/{id}`, `/roles`, `/permisos`, `/usuarios/{id}/actividad`, `UsuarioResource`, `UserPolicy`, `UsuarioTargetRequest`, los 13 permisos del catálogo (admin = todos). `estudiantes_count` llega en el PR #8. |
 | 3 | `feat(usuarios): roles y permisos` | `PUT roles`, `PUT permisos`, `POST roles/bloque` con `GrantGuard` y reglas de owner. |
 | 4 | `feat(usuarios): alta, activación y estado` | `POST /usuarios`, `activaciones` + mail + rutas públicas, `PATCH`, suspender/reactivar/baja/restaurar/cerrar todas sus sesiones/reenviar. |
 | 5 | `feat(front-usuarios): listado y ficha de lectura` | Módulo registrado, `usuariosApi`, tags, listado paginado con filtros, ficha con Historial y Seguridad de solo lectura. |
 | 6 | `feat(front-usuarios): editar acceso y datos` | `PermissionEditor`, borrador + `SaveBar`, `userRules`, `useGrantLock`, bloque. |
 | 7 | `feat(front-usuarios): alta, estado y activación` | `NuevoUsuarioPanel`, acciones de Seguridad, `core/activar`. |
 | 8 | `feat(usuarios): estudiantes y vínculos` | Tablas §2.3-2.4, endpoints §4.5, exportación (OpenSpout). |
-| 9 | `feat(mis-estudiantes): vista del representante` | Endpoints §4.6, permiso `mis-estudiantes.estudiante.show`, módulo `modules/mis-estudiantes/` (§5.5). |
+| 9 | `feat(mis-estudiantes): vista del representante` | Endpoints §4.6, `tiene_estudiantes` en el payload de sesión (`AuthService::accessPayload`/`user`), condición del menú (permiso + `tiene_estudiantes`), módulo `modules/mis-estudiantes/` (§5.5). El permiso ya existe desde el PR #2. |
 | 10 | `feat(front-usuarios): estudiantes` | Pantallas §5.4, pestaña Estudiantes de la ficha. |
 | 11 | `feat(usuarios): plantilla e importación` | `PlantillaImportacion` + `GET /importaciones/plantilla`, tablas §2.6, jobs, endpoints §4.7, prune. |
 | 12 | `feat(front-usuarios): asistente de importación` | §5.6, `FileDropField`, descarga de plantilla. |
@@ -538,5 +542,6 @@ Se sigue BluLabel: **la persona elige su contraseña con un enlace**, nunca una 
 11. **"Mis estudiantes"** es un módulo propio (`mis-estudiantes`), no parte de `usuarios`.
 12. **CI:** los workflows corren solo en PR a `master`; `next` es rama de integración pura (sin PR de CI en esta fase).
 13. **Bitácora solo por usuario:** cada entrada pertenece a la persona afectada (con el actor); se consulta en el Historial de su ficha (`GET /usuarios/{id}/actividad`). No hay vista ni endpoint de bitácora general.
+14. **Menú "Mis estudiantes":** solo se muestra a quien tiene al menos un estudiante vinculado (además del permiso). Así el admin, que tiene todo el catálogo, no lo ve salvo que también sea representante, y un profesor/admin que es representante lo ve de forma natural.
 
 No quedan preguntas abiertas.
