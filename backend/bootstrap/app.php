@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureAccountActive;
 use App\Http\Middleware\EnsureTwoFactorCompleted;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Application;
@@ -57,12 +58,17 @@ return Application::configure(basePath: dirname(__DIR__))
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
             'tfa.completed' => EnsureTwoFactorCompleted::class,
+
+            // Cuenta no suspendida (403 `{status, msg}`), dentro de `auth.full`
+            'account.active' => EnsureAccountActive::class,
         ]);
 
-        // Acceso completo: autenticado y con el 2FA superado. Es el middleware por
-        // defecto de cualquier ruta privada; el token temporal del login solo pasa
-        // por las rutas que usan `auth:sanctum` a secas (ver routes/api/auth/auth.api.php).
-        $middleware->group('auth.full', ['auth:sanctum', 'tfa.completed']);
+        // Acceso completo: autenticado, con el 2FA superado y la cuenta no suspendida.
+        // Es el middleware por defecto de cualquier ruta privada; el token temporal
+        // del login solo pasa por las rutas que usan `auth:sanctum` a secas (ver
+        // routes/api/auth/auth.api.php). Las bajas no llegan: Sanctum no las
+        // encuentra (SoftDeletes) y responde 401.
+        $middleware->group('auth.full', ['auth:sanctum', 'tfa.completed', 'account.active']);
 
         // Sin `Accept: application/json`, `Authenticate` llama a esta redirección y,
         // por defecto, a `route('login')`, que no existe (500). En `api/*` se devuelve

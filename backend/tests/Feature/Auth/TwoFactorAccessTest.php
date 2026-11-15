@@ -38,6 +38,27 @@ test('un token inventado responde 401', function () {
     rutaPrivadaDePrueba('1|gedure_inventado')->assertUnauthorized();
 });
 
+// Rutas privadas reales (tests/Datasets/RutasPrivadas.php)
+describe('rutas privadas', function () {
+    test('sin token responden 401', function (string $metodo, string $uri, Closure $datos) {
+        $user = User::factory()->create();
+
+        $this->json($metodo, $uri, $datos($user))->assertUnauthorized();
+    })->with('rutas privadas');
+
+    test('con el token temporal responden 403', function (string $metodo, string $uri, Closure $datos) {
+        $user = User::factory()->create();
+
+        conToken(tokenTemporal($user))
+            ->json($metodo, $uri, $datos($user))
+            ->assertForbidden()
+            ->assertExactJson([
+                'status' => 403,
+                'msg' => 'Completa la verificación en dos pasos para continuar',
+            ]);
+    })->with('rutas privadas');
+});
+
 test('el token definitivo recibe 403 en las rutas del 2FA', function (string $uri) {
     Mail::fake();
     $user = User::factory()->create();

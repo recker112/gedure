@@ -32,7 +32,41 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'activated_at' => now(),
         ];
+    }
+
+    /**
+     * Cuenta creada por administración que aún no eligió su contraseña.
+     */
+    public function pendiente(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'activated_at' => null,
+        ]);
+    }
+
+    /**
+     * Cuenta suspendida, opcionalmente por `$por` y con motivo.
+     */
+    public function suspendido(?User $por = null, ?string $motivo = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'suspended_at' => now(),
+            'suspended_reason' => $motivo,
+            'suspended_by' => $por?->getKey(),
+        ]);
+    }
+
+    /**
+     * Cuenta dada de baja (SoftDeletes), opcionalmente por `$por`.
+     */
+    public function deBaja(?User $por = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => now(),
+            'deleted_by' => $por?->getKey(),
+        ]);
     }
 
     /**

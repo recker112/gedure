@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Enums\Auth\SecurityCodeResult;
+use App\Enums\Usuarios\TipoActividad;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login2FARequest;
 use App\Http\Requests\Auth\LoginRequest;
@@ -11,6 +12,7 @@ use App\Models\Auth\SecurityCode;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\SecurityCodeService;
+use App\Services\Usuarios\Bitacora;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -31,7 +33,8 @@ class AuthController extends Controller
     {
         // API sin estado: se validan las credenciales sin abrir sesión. Usuario
         // inexistente y contraseña incorrecta dan la misma respuesta (y tardan
-        // lo mismo): no se revela si el usuario o el correo existen.
+        // lo mismo): no se revela si el usuario o el correo existen. Una cuenta
+        // dada de baja no existe para el login (global scope de SoftDeletes).
         $user = $authService->checkCredentials((string) $request->input('login'), (string) $request->input('password'));
 
         if ($user === null) {
@@ -39,6 +42,12 @@ class AuthController extends Controller
                 'status' => 400,
                 'msg' => 'Usuario o contraseña incorrectos',
             ], 400);
+        }
+
+        // Solo tras la contraseña correcta: con una incorrecta sigue siendo 400 y
+        // no se revela nada. Sin token (ni el temporal) ni código.
+        if ($user->isSuspended()) {
+            return $this->suspended();
         }
 
         $securityCode = $securityCodeService->createCode($user, SecurityCode::TYPE_TWO_FACTOR);
@@ -80,10 +89,18 @@ class AuthController extends Controller
         ]);
     }
 
-    public function loginWith2FA(Login2FARequest $request, AuthService $authService, SecurityCodeService $securityCodeService): JsonResponse
+    public function loginWith2FA(Login2FARequest $request, AuthService $authService, SecurityCodeService $securityCodeService, Bitacora $bitacora): JsonResponse
     {
         $user = $request->user();
         $apiKey = $user->currentAccessToken();
+
+        // Suspender revoca los tokens, así que esto solo salta si se suspendió
+        // sin pasar por el Service: el token temporal deja de servir
+        if ($user->isSuspended()) {
+            $apiKey->delete();
+
+            return $this->suspended();
+        }
 
         // Si es correcto, verifyCode lo consume; cada fallo cuenta como intento
         $result = $securityCodeService->verifyCode($user, $request->otp, SecurityCode::TYPE_TWO_FACTOR);
@@ -102,15 +119,22 @@ class AuthController extends Controller
 
         $abilities = $authService->getTokenAbilities($apiKey, tfa: false);
 
-        // Token definitivo y baja del temporal van juntos. Se bloquea la fila del
-        // usuario (lo mismo hace el restablecimiento de contraseña): si un
-        // restablecimiento revocó los tokens entre la autenticación y este punto,
-        // el temporal ya no existe y no se emite el definitivo.
-        $token = DB::transaction(function () use ($user, $apiKey, $abilities) {
-            User::query()->whereKey($user->getKey())->lockForUpdate()->first();
+        // Token definitivo, baja del temporal, `last_login_at` y bitácora van juntos.
+        // Se relee la fila del usuario bloqueada (lo mismo hace el restablecimiento
+        // de contraseña): si un restablecimiento revocó los tokens entre la
+        // autenticación y este punto, el temporal ya no existe y no se emite el
+        // definitivo; si una suspensión o una baja hizo commit, se ve aquí.
+        $resultado = DB::transaction(function () use ($user, $apiKey, $abilities, $bitacora) {
+            $locked = User::withTrashed()->whereKey($user->getKey())->lockForUpdate()->first();
 
             if (! PersonalAccessToken::query()->whereKey($apiKey->getKey())->exists()) {
                 return null;
+            }
+
+            if ($locked === null || $locked->trashed() || $locked->isSuspended()) {
+                $apiKey->delete();
+
+                return $locked !== null && ! $locked->trashed() ? 'suspendida' : null;
             }
 
             // Sin expires_at: lo limitan el tope absoluto (sanctum.expiration) y la
@@ -120,12 +144,22 @@ class AuthController extends Controller
             // El token temporal del login (2fa_required) deja de servir
             $apiKey->delete();
 
+            // Solo aquí se completa el inicio de sesión. Actor null: evento propio
+            $user->forceFill(['last_login_at' => now()])->save();
+            $bitacora->registrar($user, TipoActividad::Login);
+
             return $token;
         });
 
-        if ($token === null) {
+        if ($resultado === 'suspendida') {
+            return $this->suspended();
+        }
+
+        if ($resultado === null) {
             return response()->json(['message' => 'Unauthenticated.'], 401);
         }
+
+        $token = $resultado;
 
         return $authService->sendLoginResponse($user, $token->plainTextToken, $token->accessToken->abilities);
     }
@@ -145,6 +179,15 @@ class AuthController extends Controller
             'status' => 200,
             'msg' => 'Sesión cerrada',
         ], 200);
+    }
+
+    /** 403 (nunca 401: el frontend cerraría la sesión) para una cuenta suspendida. */
+    private function suspended(): JsonResponse
+    {
+        return response()->json([
+            'status' => 403,
+            'msg' => __('auth.suspended'),
+        ], 403);
     }
 
     private function resendCooldownKey(User $user): string
