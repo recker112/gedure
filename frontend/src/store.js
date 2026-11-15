@@ -13,22 +13,19 @@ import authReducer, { logoutApp } from "./store/reducers/auth/authReducer";
 /**
  * API
  */
-import { authApi } from "./store/services/auth/AuthApi";
+import { baseApi } from "./store/services/baseApi";
 
 /**
- * APIs cuya caché pertenece al usuario con sesión: se vacían al cerrarla
- * (logout, 401, cambio de contraseña...) para que el siguiente usuario no vea
- * datos del anterior. authApi entra porque sus resultados guardan el payload
- * de sesión (usuario, token). Las APIs privadas futuras
- * (store/services/<dominio>/) se añaden aquí.
+ * Al cerrar la sesión (logout, 401, cambio de contraseña...) se descarta TODA
+ * la caché de la API base para que el siguiente usuario no vea datos del
+ * anterior. Al ser una sola API, incluye los endpoints públicos, que
+ * simplemente se vuelven a pedir.
  */
-const sessionScopedApis = [authApi];
-
 const listener = createListenerMiddleware();
 listener.startListening({
   actionCreator: logoutApp,
   effect: (_, { dispatch }) => {
-    sessionScopedApis.forEach((api) => dispatch(api.util.resetApiState()));
+    dispatch(baseApi.util.resetApiState());
   },
 });
 
@@ -47,12 +44,12 @@ const store = configureStore({
     /**
      * Services
      */
-    [authApi.reducerPath]: authApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .prepend(listener.middleware)
-      .concat(...sessionScopedApis.map((api) => api.middleware)),
+      .concat(baseApi.middleware),
 });
 
 export default store;
