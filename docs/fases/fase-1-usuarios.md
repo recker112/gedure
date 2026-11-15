@@ -248,9 +248,9 @@ Todos los Services de escritura: `DB::transaction` + fila releída con `lockForU
 |---|---|---|---|---|
 | `GET /usuarios` | `usuario.show` | `q` (nombre, cédula, correo), `rol` (`none` = sin rol), `estado` (`actuales` por defecto = sin bajas; `activos`, `pendientes`, `suspendidos`, `bajas`, `todos`), `orden` (`nombre` por defecto, `-last_login_at`), `page`, `per_page` (25, máx. 100); implementado en el PR #2 (`IndexUsuariosRequest`) | `{status, data: Usuario[], meta}` (`paginate`) | Con eager loading fijo (sin N+1). |
 | `GET /usuarios/{id}` | `usuario.show` | — | `{status, data: Usuario}` (también bajas) | 404 |
-| `POST /usuarios` | `usuario.create` | `{name, username, email, telefono?, direccion?, sexo?, roles: string[], permissions?: string[], enviar_activacion: bool}` | 201 `{status, msg, data}` | 422 campo (únicos, `Cedula` si tiene rol profesor/representante); 403 `GrantGuard` sobre roles + permisos; 403 si incluye `owner` y quien actúa no es owner. Crea con contraseña aleatoria, `activated_at = null`; bitácora `cuenta_creada`. |
-| `PATCH /usuarios/{id}` | `usuario.update` | Solo lo enviado: `name, username, email, telefono, direccion, sexo` | `{status, msg, data}` | 404 → Policy → 422; 422 dominio: baja, el propio correo (se cambiará en `core/account`). Cambiar el correo revoca sus sesiones, avisa al anterior (`emails`) y, si estaba pendiente, invalida su activación. |
-| `POST /usuarios/{id}/activacion` | `usuario.create` | — | `{status, msg}` | 422 si ya está activada o de baja. Rota el token; correo en `high`. |
+| `POST /usuarios` | `usuario.create` | `{name, username, email, telefono?, direccion?, sexo?, roles: string[], permissions?: string[], enviar_activacion: bool}` | 201 `{status, msg, data}` | 422 campo (únicos; `username` = `Cedula` (5-10 dígitos, `E` opcional) si tiene rol profesor/representante y, si no, `[A-Za-z0-9._-]{3,50}`; cédula y teléfono se normalizan antes de validar, también en `PATCH`); 403 `GrantGuard` sobre roles + permisos; 403 si incluye `owner` y quien actúa no es owner. Crea con contraseña aleatoria, `activated_at = null`; bitácora `cuenta_creada` (sin `meta`). |
+| `PATCH /usuarios/{id}` | `usuario.update` | Solo lo enviado: `name, username, email, telefono, direccion, sexo` | `{status, msg, data}` | 404 → Policy → 422; 422 dominio: baja, el propio correo (se cambiará en `core/account`). Cambiar el correo revoca sus sesiones, avisa al anterior (`emails`) y, si estaba pendiente, **borra** su activación (el enlace anterior pasa a 404; hay que reenviarlo). Bitácora `correo_cambiado` con `meta {anterior (enmascarado), nuevo, tokens}`. |
+| `POST /usuarios/{id}/activacion` | `usuario.create` | — | `{status, msg}` | 422 si ya está activada, de baja o **suspendida** (`usuarios.activacion_suspendida`). Rota el token; correo en `high`; bitácora `activacion_enviada` con quien la (re)envió. |
 | `POST /usuarios/{id}/suspender` | `usuario.update` | `{motivo?: string(120)}` | `{status, msg, data}` | 422: uno mismo, ya suspendida, baja. Revoca todos sus tokens. |
 | `POST /usuarios/{id}/reactivar` | `usuario.update` | — | idem | 422: no suspendida, baja. |
 | `DELETE /usuarios/{id}/sesiones` | `usuario.update` | — | `{status, msg}` | **Cerrar todas sus sesiones** (sin listado de dispositivos). 404 → Policy → 422: uno mismo, baja. Revoca todos sus tokens de Sanctum y, cuando existan (fase 7), sus suscripciones push; bitácora `sesiones_cerradas` (`meta.tokens`). |
@@ -286,10 +286,10 @@ Reglas (todas como en BluLabel `UserAccessService`):
 
 | Método y ruta | Middleware | Cuerpo | Respuesta |
 |---|---|---|---|
-| `GET /auth/activacion/{token}` | `throttle:auth.activacion` (por IP) | — | `{status, data: {name, email (enmascarado)}}`; 404 token desconocido; 410 `{status, msg}` usado, caducado o cuenta de baja/suspendida. |
+| `GET /auth/activacion/{token}` | `throttle:auth.activacion` (por IP) | — | `{status, data: {name, email (enmascarado)}}`; 404 token desconocido; 410 `{status, msg}` usado (o cuenta ya activada por otra vía, p. ej. restablecimiento de contraseña), de baja/suspendida o caducado (en ese orden). |
 | `POST /auth/activacion/{token}` | idem | `{password, password_confirmation}` (mismas reglas que el cambio de contraseña) | `{status, msg}`. Guarda la contraseña, `activated_at`, `email_verified_at`, `password_changed_at`, marca `used_at`; bitácora `cuenta_activada`. **No abre sesión**: el frontend lleva a `/auth`. |
 
-`{token}`: `[A-Za-z0-9]{64}`. Con la fila de la activación bloqueada: dos envíos no activan dos veces.
+`{token}`: `[A-Za-z0-9]{64}` (otra forma: 404 sin llegar al controlador). Los enlaces de los correos usan `FRONTEND_URL` (`config('app.frontend_url')`, por defecto `APP_URL`): `{FRONTEND_URL}/auth/activar/{token}`. Con la fila de la activación bloqueada: dos envíos no activan dos veces.
 
 ### 4.5 Estudiantes y vínculos
 
@@ -463,17 +463,17 @@ Se sigue BluLabel: **la persona elige su contraseña con un enlace**, nunca una 
 
 | Correo (`app/Mail/Usuarios/`) | Cola | Cuándo |
 |---|---|---|
-| `ActivacionCuentaMail` (enlace `/auth/activar/{token}`, caduca en 7 días, nombre del colegio y quién la creó) | `high` si la pide alguien en pantalla (alta, reenviar); `emails` desde la importación | Alta con `enviar_activacion`, reenviar, importación con `enviar_activacion` |
-| `CorreoCambiadoMail` (al correo anterior) | `emails` | Cambio de correo por administración |
+| `ActivacionCuentaMail` (enlace `/auth/activar/{token}`, caduca en 7 días, nombre del colegio y quién envió o reenvió el enlace) | `high` si la pide alguien en pantalla (alta, reenviar); `emails` desde la importación (variante o subclase: la cola va en la clase, ver [colas.md](../backend/colas.md)) | Alta con `enviar_activacion`, reenviar, importación con `enviar_activacion` |
+| `CorreoCambiadoMail` (al correo anterior; muestra el nuevo enmascarado, sin enlaces) | `emails` | Cambio de correo por administración |
 | `PasswordChangedMail` (ya existe) | `emails` | Al activar no se envía (es la primera contraseña) |
 
 - Todos con `Mail::to()->queue()` y `afterCommit()`. Suspender **no** envía correo (§9, decisión 4).
-- Login de una cuenta **pendiente**: la contraseña aleatoria nunca se comunica, así que nadie entra; "¿Olvidaste tu contraseña?" sí funciona y además activa la cuenta (si el código llega a su correo, el correo es suyo). Login de una **suspendida**: 403 `{status, msg: "Tu cuenta está suspendida"}` tras validar la contraseña (como BluLabel), nunca 401. Baja: credenciales incorrectas (no existe para Sanctum).
+- Login de una cuenta **pendiente**: la contraseña aleatoria nunca se comunica, así que nadie entra; "¿Olvidaste tu contraseña?" sí funciona y además activa la cuenta con la contraseña nueva (si el código llega a su correo, el correo es suyo): `activated_at`, `email_verified_at`, activación pendiente dada por usada, tokens revocados, bitácora `cuenta_activada`, sin `PasswordChangedMail`. Login de una **suspendida**: 403 `{status, msg: "Tu cuenta está suspendida"}` tras validar la contraseña (como BluLabel), nunca 401. Baja: credenciales incorrectas (no existe para Sanctum).
 - `PermissionsUpdated` en tiempo real ya sale (fase 0); el cliente lo escuchará cuando haya Echo (fase 7 o antes, pregunta 10 del roadmap). Sin Echo, los permisos nuevos se ven al siguiente relogin.
 
 ## 7. Tests
 
-**Backend (Pest)** — `tests/Feature/Usuarios/`, helpers en `tests/Helpers/Usuarios.php` (`estudianteDe($representante)`, `representanteCon(...$estudiantes)`, `archivoImportacion(array $filas, 'xlsx'|'csv')`), factories `Usuarios\EstudianteFactory` y estados de `UserFactory` (`pendiente()`, `suspendido()`, `deBaja()`).
+**Backend (Pest)** — `tests/Feature/Usuarios/`, helpers en `tests/Helpers/Usuarios.php` (carpeta por crear con el primer helper compartido; `estudianteDe($representante)`, `representanteCon(...$estudiantes)`, `archivoImportacion(array $filas, 'xlsx'|'csv')`), factories `Usuarios\EstudianteFactory` y estados de `UserFactory` (`pendiente()`, `suspendido()`, `deBaja()`).
 
 | Archivo | Cubre |
 |---|---|
@@ -516,14 +516,14 @@ Se sigue BluLabel: **la persona elige su contraseña con un enlace**, nunca una 
 | 1 | `feat(usuarios): estado de cuenta y bitácora` | Migración de `users` (§2.1), `SoftDeletes`, `actividades` + `Bitacora` + `TipoActividad`, `account.active`, login de suspendida (403) y `login` en la bitácora, factory states, dataset `RutasPrivadas`. |
 | 2 | `feat(usuarios): listado, ficha y catálogo` | `GET /usuarios`, `/usuarios/{id}`, `/roles`, `/permisos`, `/usuarios/{id}/actividad`, `UsuarioResource`, `UserPolicy`, `UsuarioTargetRequest`, los 13 permisos del catálogo (admin = todos). `estudiantes_count` llega en el PR #8. |
 | 3 | `feat(usuarios): roles y permisos` | `PUT roles`, `PUT permisos`, `POST roles/bloque` con `GrantGuard` y reglas de owner. |
-| 4 | `feat(usuarios): alta, activación y estado` | `POST /usuarios`, `activaciones` + mail + rutas públicas, `PATCH`, suspender/reactivar/baja/restaurar/cerrar todas sus sesiones/reenviar. |
+| 4 | `feat(usuarios): alta, activación y estado` | `POST /usuarios`, `activaciones` + mail + rutas públicas, `PATCH`, suspender/reactivar/baja/restaurar/cerrar todas sus sesiones/reenviar, `FRONTEND_URL`, restablecimiento que activa cuentas pendientes. |
 | 5 | `feat(front-usuarios): listado y ficha de lectura` | Módulo registrado, `usuariosApi`, tags, listado paginado con filtros, ficha con Historial y Seguridad de solo lectura. |
 | 6 | `feat(front-usuarios): editar acceso y datos` | `PermissionEditor`, borrador + `SaveBar`, `userRules`, `useGrantLock`, bloque. |
 | 7 | `feat(front-usuarios): alta, estado y activación` | `NuevoUsuarioPanel`, acciones de Seguridad, `core/activar`. |
 | 8 | `feat(usuarios): estudiantes y vínculos` | Tablas §2.3-2.4, endpoints §4.5, exportación (OpenSpout), y el 422 de §4.3 al quitar `representante` a quien tiene estudiantes vinculados (en `UserAccessService`). |
 | 9 | `feat(mis-estudiantes): vista del representante` | Endpoints §4.6, `tiene_estudiantes` en el payload de sesión (`AuthService::accessPayload`/`user`), condición del menú (permiso + `tiene_estudiantes`), módulo `modules/mis-estudiantes/` (§5.5). El permiso ya existe desde el PR #2. |
 | 10 | `feat(front-usuarios): estudiantes` | Pantallas §5.4, pestaña Estudiantes de la ficha. |
-| 11 | `feat(usuarios): plantilla e importación` | `PlantillaImportacion` + `GET /importaciones/plantilla`, tablas §2.6, jobs, endpoints §4.7, prune. |
+| 11 | `feat(usuarios): plantilla e importación` | `PlantillaImportacion` + `GET /importaciones/plantilla`, tablas §2.6, jobs, endpoints §4.7, prune. Las activaciones de la importación van en `emails` (variante o subclase de `ActivacionCuentaMail`; la cola se fija en la clase). |
 | 12 | `feat(front-usuarios): asistente de importación` | §5.6, `FileDropField`, descarga de plantilla. |
 | 13 | `docs: fase 1 implementada` | Actualizar `backend/permisos.md`, `api.md`, `frontend/permisos.md`, `README.md` (Estado) y el roadmap. |
 
