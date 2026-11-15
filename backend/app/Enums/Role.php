@@ -48,9 +48,12 @@ enum Role: string
     /**
      * Permisos iniciales del rol.
      *
-     * Profesor y representante aún no tienen ninguno: sus permisos
-     * (`notas.nota.update`, `academico.seccion.show`, ver notas, boletas y
-     * deudas, reportar pagos) llegan al catálogo con sus módulos.
+     * Profesor aún no tiene ninguno: sus permisos (`notas.nota.update`,
+     * `academico.seccion.show`) llegan con sus módulos. Representante ve sus
+     * estudiantes (`mis-estudiantes`); ver notas, boletas y deudas y reportar
+     * pagos llegan con sus módulos. Admin recibe todo el catálogo, también
+     * `mis-estudiantes.estudiante.show`: sin él no podría conceder el rol
+     * representante (GrantGuard).
      *
      * @return list<P>
      */
@@ -60,7 +63,7 @@ enum Role: string
             self::Owner => [],
             self::Admin => P::cases(),
             self::Profesor => [],
-            self::Representante => [],
+            self::Representante => [P::MisEstudiantesEstudianteShow],
         };
     }
 
