@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Persona con acceso a Gedure. Inicia sesión con `username` (cédula o usuario)
@@ -18,13 +19,17 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * `username` nunca debe contener `@`: así el login distingue sin ambigüedad un
  * correo de un usuario.
+ *
+ * Roles y permisos con spatie/laravel-permission (guard `web`): en código se
+ * pregunta con `can()`, nunca con `hasPermissionTo()`, para que el owner pase
+ * por `Gate::before`. Ver docs/backend/permisos.md.
  */
 #[Fillable(['name', 'username', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * Get the attributes that should be cast.

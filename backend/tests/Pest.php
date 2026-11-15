@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Permission;
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +69,40 @@ function rutaPrivadaDePrueba(?string $token = null)
     $peticion = $token === null ? test() : conToken($token);
 
     return $peticion->postJson('/api/v1/__test/privada');
+}
+
+/**
+ * Usuario nuevo con esos roles y permisos directos. El catálogo ya está
+ * sembrado (`TestCase::$seeder`).
+ */
+function usuarioCon(Role|Permission ...$accesos): User
+{
+    $user = User::factory()->create();
+
+    foreach ($accesos as $acceso) {
+        $acceso instanceof Role ? $user->assignRole($acceso) : $user->givePermissionTo($acceso);
+    }
+
+    return $user->fresh();
+}
+
+/** Prepara la siguiente petición con un token definitivo de `$user`. */
+function comoUsuario(User $user)
+{
+    return conToken(tokenDefinitivo($user));
+}
+
+/**
+ * Registra `GET /api/v1/__test/autorizacion` detrás de `auth.full` y del
+ * middleware dado (`permission:...`, `role:...`, `can:...`) y la pide con un
+ * token definitivo de `$user`. Responde 200 `{status, msg}` si pasa.
+ */
+function rutaProtegidaDePrueba(User $user, string $middleware)
+{
+    Route::middleware(['api', 'auth.full', $middleware])
+        ->get('/api/v1/__test/autorizacion', fn () => response()->json(['status' => 200, 'msg' => 'ok']));
+
+    return comoUsuario($user)->getJson('/api/v1/__test/autorizacion');
 }
 
 /** Un código de 6 caracteres distinto del dado. */

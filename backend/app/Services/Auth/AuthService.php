@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Enums\Role;
 use App\Http\Resources\SessionUserResource;
 use App\Mail\Auth\TfaCodeMail;
 use App\Models\Auth\SecurityCode;
@@ -84,19 +85,20 @@ class AuthService
     /**
      * Respuesta común de login, 2FA y relogin.
      *
-     * `permissions` (siempre objeto JSON, `{}`) y `roles` (siempre `[]`) están
-     * reservados para cuando haya roles y permisos: el frontend ya puede leerlos.
-     * Con el token temporal del 2FA seguirán vacíos.
+     * Con el token temporal del 2FA (`2fa_required`) no se exponen permisos ni
+     * roles: `permissions` es `{}`, `roles` `[]` e `is_owner` false. Llegan con
+     * el token definitivo (2FA y relogin), con la forma de `accessPayload()`.
      */
     public function sendLoginResponse(User $user, ?string $token = null, ?array $abilities = null): JsonResponse
     {
+        $pending2FA = in_array('2fa_required', $abilities ?? [], true);
+
         $response = [
             'status' => 200,
             'msg' => 'Inicio de sesión',
             'user' => SessionUserResource::make($user)->resolve(),
             'token_can' => $abilities ?? [],
-            'permissions' => new \stdClass,
-            'roles' => [],
+            ...($pending2FA ? $this->emptyAccessPayload() : $this->accessPayload($user)),
         ];
 
         if ($token) {
@@ -104,6 +106,42 @@ class AuthService
         }
 
         return response()->json($response, 200);
+    }
+
+    /**
+     * Permisos, roles y condición de owner del usuario. Es la forma que reciben
+     * el 2FA y el relogin con el token definitivo, y el payload del evento
+     * `permissions.updated` (App\Events\Auth\PermissionsUpdated).
+     *
+     * - `permissions`: permisos efectivos (directos y heredados de los roles)
+     *   como `{nombre: true}`, ordenados por nombre. Siempre objeto JSON (`{}`
+     *   sin permisos, nunca `[]`). Al owner no se le asignan permisos: los pasa
+     *   todos por `Gate::before`, y el frontend lo sabe por `is_owner`.
+     * - `roles`: nombres de sus roles reales.
+     *
+     * @return array{permissions: \stdClass, roles: list<string>, is_owner: bool}
+     */
+    public function accessPayload(User $user): array
+    {
+        return [
+            'permissions' => (object) $user->getAllPermissions()
+                ->pluck('name')
+                ->sort()
+                ->mapWithKeys(fn (string $name) => [$name => true])
+                ->all(),
+            'roles' => $user->getRoleNames()->values()->all(),
+            'is_owner' => $user->hasRole(Role::Owner),
+        ];
+    }
+
+    /**
+     * Payload de acceso vacío (token temporal del 2FA).
+     *
+     * @return array{permissions: \stdClass, roles: list<string>, is_owner: bool}
+     */
+    private function emptyAccessPayload(): array
+    {
+        return ['permissions' => new \stdClass, 'roles' => [], 'is_owner' => false];
     }
 
     /**

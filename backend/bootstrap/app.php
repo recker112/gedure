@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -44,6 +48,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Un solo alias(): cada llamada REEMPLAZA los alias de la anterior.
         $middleware->alias([
+            // Spatie Permission (docs/backend/permisos.md)
+            'role' => RoleMiddleware::class,
+            'permission' => PermissionMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+
             // Sanctum: abilities de los tokens y token con el 2FA completado
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
@@ -96,5 +105,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             return response()->json(['status' => 403, 'msg' => $msg], 403);
+        });
+
+        // Middleware `permission:`, `role:` y `role_or_permission:` de spatie. El
+        // mensaje del paquete (en inglés y con los permisos que faltan) no se expone.
+        $exceptions->render(function (UnauthorizedException $e, Request $request) {
+            if (! ($request->is('api/*') || $request->expectsJson())) {
+                return null;
+            }
+
+            return response()->json(['status' => 403, 'msg' => __('permission.forbidden')], 403);
         });
     })->create();
