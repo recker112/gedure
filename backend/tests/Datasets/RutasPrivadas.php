@@ -37,6 +37,9 @@ function rutasPrivadas(): array
         'GET /usuarios/{id}/actividad' => ['GET', '/api/v1/usuarios/1/actividad', $con(Permission::UsuariosUsuarioShow)],
         'GET /roles' => ['GET', '/api/v1/roles', $con(Permission::UsuariosUsuarioShow)],
         'GET /permisos' => ['GET', '/api/v1/permisos', $con(Permission::UsuariosUsuarioShow)],
+        'PUT /usuarios/{id}/roles' => ['PUT', '/api/v1/usuarios/1/roles', $con(Permission::UsuariosRolUpdate)],
+        'PUT /usuarios/{id}/permisos' => ['PUT', '/api/v1/usuarios/1/permisos', $con(Permission::UsuariosPermisoUpdate)],
+        'POST /usuarios/roles/bloque' => ['POST', '/api/v1/usuarios/roles/bloque', $con(Permission::UsuariosRolUpdate)],
 
         // `Broadcast::routes()` registra la autorización de canales con GET y POST
         'GET /broadcasting/auth' => ['GET', '/api/broadcasting/auth', $canalPropio],

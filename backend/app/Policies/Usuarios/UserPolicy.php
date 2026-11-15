@@ -30,4 +30,18 @@ class UserPolicy
             ? Response::deny(__('usuarios.owner_solo_owner'))
             : Response::allow();
     }
+
+    /**
+     * Dar o quitar el rol `owner` solo lo hace un owner (que no llega aquí: pasa
+     * por `Gate::before`). `$roles` es la lista completa que pide la petición: hay
+     * cambio de owner si `owner` está en ella y la persona no lo tiene, o al revés.
+     *
+     * @param  array<int, string>  $roles
+     */
+    public function changeOwnerRole(User $actor, User $target, array $roles): Response
+    {
+        return in_array(Role::Owner->value, $roles, true) !== $target->hasRole(Role::Owner)
+            ? Response::deny(__('usuarios.owner_rol_solo_owner'))
+            : Response::allow();
+    }
 }

@@ -92,13 +92,13 @@ Orden resultante: **middleware 403 → 404 → Policy 403 → `rules()` 422 → 
 - **Implementados en el PR #2:** `GET /roles` y `GET /permisos` (`usuarios.usuario.show`).
 - **`permissions:sync`** lo ejecutan los entrypoints (`docker/dev` y `docker/prod`) tras `migrate`.
 - **Aviso en tiempo real:** `PermissionsUpdated` por el canal **privado** `App.Models.User.{id}` (no presence como BluLabel).
-- **`GrantGuard`** existe y está probado, pero no lo usa ningún endpoint hasta la fase 1.
+- **`GrantGuard`** lo usan desde el PR #3 los endpoints de roles, permisos y bloque.
 - Middleware `permission`, `role` y `role_or_permission` registrados; el 403 sale en español.
 - Seed de desarrollo: un usuario por rol ([tests.md](tests.md)).
 
 ## Endpoints de administración y reglas de owner (fase 1)
 
-`GET /roles` y `GET /permisos` ya existen (PR #2); el resto es diseño aprobado, **aún no** código: los endpoints, el solo-owner-da-owner, el mínimo de un owner y que nadie edite sus propios roles se implementan en la fase 1.
+`GET /roles` y `GET /permisos` ya existen (PR #2); `PUT /usuarios/{id}/roles`, `PUT /usuarios/{id}/permisos` y `POST /usuarios/roles/bloque` están implementados (PR #3). Falta, para el PR #8, el 422 al quitar `representante` a quien tiene estudiantes vinculados.
 
 En `routes/api/usuarios/`, todos con `auth.full` y su `permission:`; controller `Usuarios\UserAccessController` + `Services\Usuarios\UserAccessService` (transacción + `lockForUpdate`).
 
@@ -110,16 +110,22 @@ En `routes/api/usuarios/`, todos con `auth.full` y su `permission:`; controller 
 | `PUT /usuarios/{id}/permisos` | `usuarios.permiso.update` | `{permissions: string[]}` (solo **directos**, `syncPermissions`) | `{status, msg, data: Usuario}` | igual |
 | `POST /usuarios/roles/bloque` | `usuarios.rol.update` | `{user_ids, add?, remove?}` (nunca `owner`, tope 200) | 200 `{status, msg, data: {updated, failed: [{id, status, msg}]}}` | 403, 422; por persona en `failed` |
 
-Reglas:
+Reglas, tal como están implementadas:
 
-- **Uno mismo** no cambia sus roles ni sus permisos (422).
-- **En bloque no es todo o nada:** una transacción por persona; las que fallan van a `failed` con el `status` y `msg` que habrían recibido solas.
-- **Solo si hay diferencia:** sync con `PermissionEvents::withoutEvents`, una entrada de bitácora por rol/permiso añadido o quitado (con actor) y un único `PermissionEvents::notifyUsers([$id], notify: true)`.
+- **Orden de errores:** middleware 403 → 404 (también las cuentas dadas de baja existen para esto) → Policy 403 (`manage`, y `changeOwnerRole` en `/roles`) → 422 de campo → 422 de dominio (Service) → `GrantGuard` 403.
+- **Owner:** solo un owner da o quita `owner`, y un no-owner no toca la cuenta de un owner (Policy, 403). El bloque nunca acepta `owner` en `add` ni `remove` (422 de campo).
+- **Uno mismo** no cambia sus roles ni sus permisos (422), tampoco un owner.
+- **Último owner:** quitar `owner` a quien sea el último da 422. Se calcula con `lockForUpdate` sobre las filas de los owners y la del destino, en una transacción; las bajas no cuentan, las suspendidas sí.
+- **Cuenta dada de baja:** 422. La suspendida se puede editar.
+- **`GrantGuard`** revisa solo lo que se **añade**; quitar no se restringe.
+- **Sin cambios (no-op):** 200 sin bitácora ni evento.
+- **En bloque no es todo o nada:** una transacción por persona con las mismas reglas; las que fallan van a `failed` con el `status` y `msg` que habrían recibido solas, y las que ya estaban así cuentan como `updated`. Un solo `PermissionsUpdated` por persona que cambió.
+- **Solo si hay diferencia:** sync con `PermissionEvents::withoutEvents`, una entrada de bitácora por **cada** rol o permiso añadido o quitado (con actor) y un único `PermissionEvents::notifyUsers([$id])`, sin `notify:`: la notificación persistente llega en la fase 7.
 - El recurso `Usuario` incluye `roles` (nombres) y `direct_permissions` (solo directos); el cliente calcula los efectivos con el catálogo de `/roles`.
 
 ## Payload de sesión y tiempo real
 
-Login, 2FA y relogin añaden: `permissions` (mapa `{"modulo.recurso.accion": true}`, directos y por rol; siempre objeto, `{}` con el token temporal), `roles` (nombres) e `is_owner`. Cuando cambian los permisos efectivos de alguien, `PermissionsUpdated` sale por el canal personal (`App.Models.User.{id}`, ya definido en `routes/channels.php`) con el mismo payload, en la cola `events` y tras el commit; las ediciones hechas por personas dejan además una notificación persistente. Requiere Echo en el frontend (fase 7, o antes si se adelanta).
+Login, 2FA y relogin añaden: `permissions` (mapa `{"modulo.recurso.accion": true}`, directos y por rol; siempre objeto, `{}` con el token temporal), `roles` (nombres) e `is_owner`. Cuando cambian los permisos efectivos de alguien, `PermissionsUpdated` sale por el canal personal (`App.Models.User.{id}`, ya definido en `routes/channels.php`) con el mismo payload, en la cola `events` y tras el commit; la notificación persistente de las ediciones hechas por personas llega en la fase 7. Requiere Echo en el frontend (fase 7, o antes si se adelanta).
 
 ## Tests
 
